@@ -4,9 +4,24 @@ using AWS.AWSServices: compute_optimizer
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "instance_arns" => "instanceArns",
+    "job_ids" => "jobIds",
+    "next_token" => "nextToken",
+    "volume_arns" => "volumeArns",
+    "account_ids" => "accountIds",
+    "max_results" => "maxResults",
+    "function_arns" => "functionArns",
+    "auto_scaling_group_arns" => "autoScalingGroupArns",
+    "fields_to_export" => "fieldsToExport",
+    "recommendation_preferences" => "recommendationPreferences",
+    "file_format" => "fileFormat",
+    "filters" => "filters",
+    "include_member_accounts" => "includeMemberAccounts",
+)
+
 """
-    describe_recommendation_export_jobs()
-    describe_recommendation_export_jobs(params::Dict{String,<:Any})
+    describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes recommendation export jobs created in the last seven days. Use the
 ExportAutoScalingGroupRecommendations or ExportEC2InstanceRecommendations actions to
@@ -14,29 +29,21 @@ request an export of your recommendations. Then use the DescribeRecommendationEx
 action to view your export jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   export jobs.
-- `"jobIds"`: The identification numbers of the export jobs to return. An export job ID is
+- `"job_ids"`: The identification numbers of the export jobs to return. An export job ID is
   returned when you create an export using the ExportAutoScalingGroupRecommendations or
   ExportEC2InstanceRecommendations actions. All export jobs created in the last seven days
   are returned if this parameter is omitted.
-- `"maxResults"`: The maximum number of export jobs to return with a single request. To
+- `"max_results"`: The maximum number of export jobs to return with a single request. To
   retrieve the remaining results, make another request with the returned nextToken value.
-- `"nextToken"`: The token to advance to the next page of export jobs.
+- `"next_token"`: The token to advance to the next page of export jobs.
 """
 function describe_recommendation_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "DescribeRecommendationExportJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_recommendation_export_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "DescribeRecommendationExportJobs",
         params;
@@ -46,8 +53,7 @@ function describe_recommendation_export_jobs(
 end
 
 """
-    export_auto_scaling_group_recommendations(s3_destination_config)
-    export_auto_scaling_group_recommendations(s3_destination_config, params::Dict{String,<:Any})
+    export_auto_scaling_group_recommendations(s3_destination_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports optimization recommendations for Auto Scaling groups. Recommendations are exported
 in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
@@ -68,23 +74,23 @@ Services Region.
   Optimizer User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export Auto
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The IDs of the Amazon Web Services accounts for which to export Auto
   Scaling group recommendations. If your account is the management account of an
   organization, use this parameter to specify the member account for which you want to export
   recommendations. This parameter cannot be specified together with the include member
   accounts parameter. The parameters are mutually exclusive. Recommendations for member
   accounts are not included in the export if this parameter, or the include member accounts
   parameter, is omitted. You can specify multiple account IDs per request.
-- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+- `"fields_to_export"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see Exported files in the Compute
   Optimizer User Guide.
-- `"fileFormat"`: The format of the export file. The only export file format currently
+- `"file_format"`: The format of the export file. The only export file format currently
   supported is Csv.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Auto Scaling group recommendations.
-- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
-  all member accounts of the organization if your account is the management account of an
+- `"include_member_accounts"`: Indicates whether to include recommendations for resources
+  in all member accounts of the organization if your account is the management account of an
   organization. The member accounts must also be opted in to Compute Optimizer, and trusted
   access for Compute Optimizer must be enabled in the organization account. For more
   information, see Compute Optimizer and Amazon Web Services Organizations trusted access in
@@ -93,24 +99,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified together with the account IDs parameter. The parameters are mutually exclusive.
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
-- `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
+- `"recommendation_preferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to export.
 """
 function export_auto_scaling_group_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "ExportAutoScalingGroupRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_auto_scaling_group_recommendations(
-    s3DestinationConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "ExportAutoScalingGroupRecommendations",
         Dict{String,Any}(
@@ -126,8 +121,7 @@ function export_auto_scaling_group_recommendations(
 end
 
 """
-    export_ebsvolume_recommendations(s3_destination_config)
-    export_ebsvolume_recommendations(s3_destination_config, params::Dict{String,<:Any})
+    export_ebsvolume_recommendations(s3_destination_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports optimization recommendations for Amazon EBS volumes. Recommendations are exported
 in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
@@ -140,23 +134,23 @@ Services Region.
 - `s3_destination_config`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The IDs of the Amazon Web Services accounts for which to export Amazon
   EBS volume recommendations. If your account is the management account of an organization,
   use this parameter to specify the member account for which you want to export
   recommendations. This parameter cannot be specified together with the include member
   accounts parameter. The parameters are mutually exclusive. Recommendations for member
   accounts are not included in the export if this parameter, or the include member accounts
   parameter, is omitted. You can specify multiple account IDs per request.
-- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+- `"fields_to_export"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see Exported files in the Compute
   Optimizer User Guide.
-- `"fileFormat"`: The format of the export file. The only export file format currently
+- `"file_format"`: The format of the export file. The only export file format currently
   supported is Csv.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Amazon EBS volume recommendations.
-- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
-  all member accounts of the organization if your account is the management account of an
+- `"include_member_accounts"`: Indicates whether to include recommendations for resources
+  in all member accounts of the organization if your account is the management account of an
   organization. The member accounts must also be opted in to Compute Optimizer, and trusted
   access for Compute Optimizer must be enabled in the organization account. For more
   information, see Compute Optimizer and Amazon Web Services Organizations trusted access in
@@ -167,20 +161,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the account IDs parameter, is omitted.
 """
 function export_ebsvolume_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "ExportEBSVolumeRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_ebsvolume_recommendations(
-    s3DestinationConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "ExportEBSVolumeRecommendations",
         Dict{String,Any}(
@@ -196,8 +179,7 @@ function export_ebsvolume_recommendations(
 end
 
 """
-    export_ec2_instance_recommendations(s3_destination_config)
-    export_ec2_instance_recommendations(s3_destination_config, params::Dict{String,<:Any})
+    export_ec2_instance_recommendations(s3_destination_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports optimization recommendations for Amazon EC2 instances. Recommendations are exported
 in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
@@ -218,23 +200,23 @@ Services Region.
   Compute Optimizer User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export instance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The IDs of the Amazon Web Services accounts for which to export instance
   recommendations. If your account is the management account of an organization, use this
   parameter to specify the member account for which you want to export recommendations. This
   parameter cannot be specified together with the include member accounts parameter. The
   parameters are mutually exclusive. Recommendations for member accounts are not included in
   the export if this parameter, or the include member accounts parameter, is omitted. You can
   specify multiple account IDs per request.
-- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+- `"fields_to_export"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see Exported files in the Compute
   Optimizer User Guide.
-- `"fileFormat"`: The format of the export file. The only export file format currently
+- `"file_format"`: The format of the export file. The only export file format currently
   supported is Csv.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   instance recommendations.
-- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
-  all member accounts of the organization if your account is the management account of an
+- `"include_member_accounts"`: Indicates whether to include recommendations for resources
+  in all member accounts of the organization if your account is the management account of an
   organization. The member accounts must also be opted in to Compute Optimizer, and trusted
   access for Compute Optimizer must be enabled in the organization account. For more
   information, see Compute Optimizer and Amazon Web Services Organizations trusted access in
@@ -242,24 +224,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are not included in the export file if this parameter is omitted. Recommendations for
   member accounts are not included in the export if this parameter, or the account IDs
   parameter, is omitted.
-- `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
+- `"recommendation_preferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to export.
 """
 function export_ec2_instance_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "ExportEC2InstanceRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_ec2_instance_recommendations(
-    s3DestinationConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "ExportEC2InstanceRecommendations",
         Dict{String,Any}(
@@ -275,8 +246,7 @@ function export_ec2_instance_recommendations(
 end
 
 """
-    export_lambda_function_recommendations(s3_destination_config)
-    export_lambda_function_recommendations(s3_destination_config, params::Dict{String,<:Any})
+    export_lambda_function_recommendations(s3_destination_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports optimization recommendations for Lambda functions. Recommendations are exported in
 a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation
@@ -289,23 +259,23 @@ Services Region.
 - `s3_destination_config`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export Lambda
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The IDs of the Amazon Web Services accounts for which to export Lambda
   function recommendations. If your account is the management account of an organization, use
   this parameter to specify the member account for which you want to export recommendations.
   This parameter cannot be specified together with the include member accounts parameter. The
   parameters are mutually exclusive. Recommendations for member accounts are not included in
   the export if this parameter, or the include member accounts parameter, is omitted. You can
   specify multiple account IDs per request.
-- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+- `"fields_to_export"`: The recommendations data to include in the export file. For more
   information about the fields that can be exported, see Exported files in the Compute
   Optimizer User Guide.
-- `"fileFormat"`: The format of the export file. The only export file format currently
+- `"file_format"`: The format of the export file. The only export file format currently
   supported is Csv.
 - `"filters"`: An array of objects to specify a filter that exports a more specific set of
   Lambda function recommendations.
-- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
-  all member accounts of the organization if your account is the management account of an
+- `"include_member_accounts"`: Indicates whether to include recommendations for resources
+  in all member accounts of the organization if your account is the management account of an
   organization. The member accounts must also be opted in to Compute Optimizer, and trusted
   access for Compute Optimizer must be enabled in the organization account. For more
   information, see Compute Optimizer and Amazon Web Services Organizations trusted access in
@@ -316,20 +286,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the account IDs parameter, is omitted.
 """
 function export_lambda_function_recommendations(
-    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "ExportLambdaFunctionRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_lambda_function_recommendations(
-    s3DestinationConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "ExportLambdaFunctionRecommendations",
         Dict{String,Any}(
@@ -345,8 +304,7 @@ function export_lambda_function_recommendations(
 end
 
 """
-    get_auto_scaling_group_recommendations()
-    get_auto_scaling_group_recommendations(params::Dict{String,<:Any})
+    get_auto_scaling_group_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for
 Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more
@@ -354,35 +312,27 @@ information, see the Supported resources and requirements in the Compute Optimiz
 Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return Auto
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The ID of the Amazon Web Services account for which to return Auto
   Scaling group recommendations. If your account is the management account of an
   organization, use this parameter to specify the member account for which you want to return
   Auto Scaling group recommendations. Only one account ID can be specified per request.
-- `"autoScalingGroupArns"`: The Amazon Resource Name (ARN) of the Auto Scaling groups for
-  which to return recommendations.
+- `"auto_scaling_group_arns"`: The Amazon Resource Name (ARN) of the Auto Scaling groups
+  for which to return recommendations.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   Auto Scaling group recommendations.
-- `"maxResults"`: The maximum number of Auto Scaling group recommendations to return with a
-  single request. To retrieve the remaining results, make another request with the returned
+- `"max_results"`: The maximum number of Auto Scaling group recommendations to return with
+  a single request. To retrieve the remaining results, make another request with the returned
   nextToken value.
-- `"nextToken"`: The token to advance to the next page of Auto Scaling group
+- `"next_token"`: The token to advance to the next page of Auto Scaling group
   recommendations.
-- `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
+- `"recommendation_preferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to return in the response.
 """
 function get_auto_scaling_group_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "GetAutoScalingGroupRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_auto_scaling_group_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetAutoScalingGroupRecommendations",
         params;
@@ -392,8 +342,7 @@ function get_auto_scaling_group_recommendations(
 end
 
 """
-    get_ebsvolume_recommendations()
-    get_ebsvolume_recommendations(params::Dict{String,<:Any})
+    get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns Amazon Elastic Block Store (Amazon EBS) volume recommendations. Compute Optimizer
 generates recommendations for Amazon EBS volumes that meet a specific set of requirements.
@@ -401,30 +350,24 @@ For more information, see the Supported resources and requirements in the Comput
 User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return volume
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The ID of the Amazon Web Services account for which to return volume
   recommendations. If your account is the management account of an organization, use this
   parameter to specify the member account for which you want to return volume
   recommendations. Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   volume recommendations.
-- `"maxResults"`: The maximum number of volume recommendations to return with a single
+- `"max_results"`: The maximum number of volume recommendations to return with a single
   request. To retrieve the remaining results, make another request with the returned
   nextToken value.
-- `"nextToken"`: The token to advance to the next page of volume recommendations.
-- `"volumeArns"`: The Amazon Resource Name (ARN) of the volumes for which to return
+- `"next_token"`: The token to advance to the next page of volume recommendations.
+- `"volume_arns"`: The Amazon Resource Name (ARN) of the volumes for which to return
   recommendations.
 """
-function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
-        "GetEBSVolumeRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ebsvolume_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_ebsvolume_recommendations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetEBSVolumeRecommendations",
         params;
@@ -434,8 +377,7 @@ function get_ebsvolume_recommendations(
 end
 
 """
-    get_ec2_instance_recommendations()
-    get_ec2_instance_recommendations(params::Dict{String,<:Any})
+    get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns Amazon EC2 instance recommendations. Compute Optimizer generates recommendations
 for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of
@@ -443,34 +385,26 @@ requirements. For more information, see the Supported resources and requirements
 Compute Optimizer User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return instance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The ID of the Amazon Web Services account for which to return instance
   recommendations. If your account is the management account of an organization, use this
   parameter to specify the member account for which you want to return instance
   recommendations. Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   instance recommendations.
-- `"instanceArns"`: The Amazon Resource Name (ARN) of the instances for which to return
+- `"instance_arns"`: The Amazon Resource Name (ARN) of the instances for which to return
   recommendations.
-- `"maxResults"`: The maximum number of instance recommendations to return with a single
+- `"max_results"`: The maximum number of instance recommendations to return with a single
   request. To retrieve the remaining results, make another request with the returned
   nextToken value.
-- `"nextToken"`: The token to advance to the next page of instance recommendations.
-- `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
+- `"next_token"`: The token to advance to the next page of instance recommendations.
+- `"recommendation_preferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to return in the response.
 """
 function get_ec2_instance_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "GetEC2InstanceRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ec2_instance_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetEC2InstanceRecommendations",
         params;
@@ -480,8 +414,7 @@ function get_ec2_instance_recommendations(
 end
 
 """
-    get_ec2_recommendation_projected_metrics(end_time, instance_arn, period, start_time, stat)
-    get_ec2_recommendation_projected_metrics(end_time, instance_arn, period, start_time, stat, params::Dict{String,<:Any})
+    get_ec2_recommendation_projected_metrics(end_time, instance_arn, period, start_time, stat; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the projected utilization metrics of Amazon EC2 instance recommendations.  The Cpu
 and Memory metrics are the only projected utilization metrics returned when you run this
@@ -498,8 +431,8 @@ Utilization with the CloudWatch Agent.
 - `stat`: The statistic of the projected metrics.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"recommendation_preferences"`: An object to specify the preferences for the Amazon EC2
   recommendation projected metrics to return in the response.
 """
 function get_ec2_recommendation_projected_metrics(
@@ -509,29 +442,9 @@ function get_ec2_recommendation_projected_metrics(
     startTime,
     stat;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return compute_optimizer(
-        "GetEC2RecommendationProjectedMetrics",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "instanceArn" => instanceArn,
-            "period" => period,
-            "startTime" => startTime,
-            "stat" => stat,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ec2_recommendation_projected_metrics(
-    endTime,
-    instanceArn,
-    period,
-    startTime,
-    stat,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetEC2RecommendationProjectedMetrics",
         Dict{String,Any}(
@@ -553,8 +466,7 @@ function get_ec2_recommendation_projected_metrics(
 end
 
 """
-    get_enrollment_status()
-    get_enrollment_status(params::Dict{String,<:Any})
+    get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the enrollment (opt in) status of an account to the Compute Optimizer service. If
 the account is the management account of an organization, this action also confirms the
@@ -563,14 +475,10 @@ GetEnrollmentStatusesForOrganization action to get detailed information about th
 enrollment status of member accounts of an organization.
 
 """
-function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
-        "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_enrollment_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_enrollment_status(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetEnrollmentStatus",
         params;
@@ -580,34 +488,25 @@ function get_enrollment_status(
 end
 
 """
-    get_enrollment_statuses_for_organization()
-    get_enrollment_statuses_for_organization(params::Dict{String,<:Any})
+    get_enrollment_statuses_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the Compute Optimizer enrollment (opt-in) status of organization member accounts,
 if your account is an organization management account. To get the enrollment status of
 standalone accounts, use the GetEnrollmentStatus action.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   account enrollment statuses.
-- `"maxResults"`: The maximum number of account enrollment statuses to return with a single
-  request. You can specify up to 100 statuses to return with each request. To retrieve the
-  remaining results, make another request with the returned nextToken value.
-- `"nextToken"`: The token to advance to the next page of account enrollment statuses.
+- `"max_results"`: The maximum number of account enrollment statuses to return with a
+  single request. You can specify up to 100 statuses to return with each request. To retrieve
+  the remaining results, make another request with the returned nextToken value.
+- `"next_token"`: The token to advance to the next page of account enrollment statuses.
 """
 function get_enrollment_statuses_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "GetEnrollmentStatusesForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_enrollment_statuses_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetEnrollmentStatusesForOrganization",
         params;
@@ -617,45 +516,36 @@ function get_enrollment_statuses_for_organization(
 end
 
 """
-    get_lambda_function_recommendations()
-    get_lambda_function_recommendations(params::Dict{String,<:Any})
+    get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns Lambda function recommendations. Compute Optimizer generates recommendations for
 functions that meet a specific set of requirements. For more information, see the Supported
 resources and requirements in the Compute Optimizer User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return function
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The ID of the Amazon Web Services account for which to return function
   recommendations. If your account is the management account of an organization, use this
   parameter to specify the member account for which you want to return function
   recommendations. Only one account ID can be specified per request.
 - `"filters"`: An array of objects to specify a filter that returns a more specific list of
   function recommendations.
-- `"functionArns"`: The Amazon Resource Name (ARN) of the functions for which to return
+- `"function_arns"`: The Amazon Resource Name (ARN) of the functions for which to return
   recommendations. You can specify a qualified or unqualified ARN. If you specify an
   unqualified ARN without a function version suffix, Compute Optimizer will return
   recommendations for the latest (LATEST) version of the function. If you specify a qualified
   ARN with a version suffix, Compute Optimizer will return recommendations for the specified
   function version. For more information about using function versions, see Using versions in
   the Lambda Developer Guide.
-- `"maxResults"`: The maximum number of function recommendations to return with a single
+- `"max_results"`: The maximum number of function recommendations to return with a single
   request. To retrieve the remaining results, make another request with the returned
   nextToken value.
-- `"nextToken"`: The token to advance to the next page of function recommendations.
+- `"next_token"`: The token to advance to the next page of function recommendations.
 """
 function get_lambda_function_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return compute_optimizer(
-        "GetLambdaFunctionRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lambda_function_recommendations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetLambdaFunctionRecommendations",
         params;
@@ -665,8 +555,7 @@ function get_lambda_function_recommendations(
 end
 
 """
-    get_recommendation_summaries()
-    get_recommendation_summaries(params::Dict{String,<:Any})
+    get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the optimization findings for an account. It returns the number of:   Amazon EC2
 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   Auto
@@ -675,24 +564,20 @@ an account that are NotOptimized, or Optimized.   Lambda functions in an account
 NotOptimized, or Optimized.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`: The ID of the Amazon Web Services account for which to return
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`: The ID of the Amazon Web Services account for which to return
   recommendation summaries. If your account is the management account of an organization, use
   this parameter to specify the member account for which you want to return recommendation
   summaries. Only one account ID can be specified per request.
-- `"maxResults"`: The maximum number of recommendation summaries to return with a single
+- `"max_results"`: The maximum number of recommendation summaries to return with a single
   request. To retrieve the remaining results, make another request with the returned
   nextToken value.
-- `"nextToken"`: The token to advance to the next page of recommendation summaries.
+- `"next_token"`: The token to advance to the next page of recommendation summaries.
 """
-function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
-        "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_recommendation_summaries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_recommendation_summaries(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "GetRecommendationSummaries",
         params;
@@ -702,8 +587,7 @@ function get_recommendation_summaries(
 end
 
 """
-    update_enrollment_status(status)
-    update_enrollment_status(status, params::Dict{String,<:Any})
+    update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the enrollment (opt in and opt out) status of an account to the Compute Optimizer
 service. If the account is a management account of an organization, this action can also be
@@ -727,21 +611,14 @@ User Guide.
   a request to update the enrollment status of an account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_member_accounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account of an organization.
 """
-function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
-        "UpdateEnrollmentStatus",
-        Dict{String,Any}("status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_enrollment_status(
-    status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return compute_optimizer(
         "UpdateEnrollmentStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("status" => status), params));

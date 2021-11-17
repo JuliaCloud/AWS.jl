@@ -4,9 +4,42 @@ using AWS.AWSServices: eks
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "disk_size" => "diskSize",
+    "kubernetes_network_config" => "kubernetesNetworkConfig",
+    "kubernetes_version" => "kubernetesVersion",
+    "encryption_config" => "encryptionConfig",
+    "next_token" => "nextToken",
+    "client_request_token" => "clientRequestToken",
+    "release_version" => "releaseVersion",
+    "update_config" => "updateConfig",
+    "nodegroup_name" => "nodegroupName",
+    "service_account_role_arn" => "serviceAccountRoleArn",
+    "force" => "force",
+    "version" => "version",
+    "max_results" => "maxResults",
+    "ami_type" => "amiType",
+    "remote_access" => "remoteAccess",
+    "resolve_conflicts" => "resolveConflicts",
+    "include" => "include",
+    "subnets" => "subnets",
+    "scaling_config" => "scalingConfig",
+    "taints" => "taints",
+    "addon_version" => "addonVersion",
+    "launch_template" => "launchTemplate",
+    "logging" => "logging",
+    "capacity_type" => "capacityType",
+    "addon_name" => "addonName",
+    "resources_vpc_config" => "resourcesVpcConfig",
+    "selectors" => "selectors",
+    "labels" => "labels",
+    "instance_types" => "instanceTypes",
+    "tags" => "tags",
+    "preserve" => "preserve",
+)
+
 """
-    associate_encryption_config(encryption_config, name)
-    associate_encryption_config(encryption_config, name, params::Dict{String,<:Any})
+    associate_encryption_config(encryption_config, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associate encryption configuration to an existing cluster. You can use this API to enable
 encryption on existing clusters which do not have encryption already enabled. This allows
@@ -18,29 +51,14 @@ Amazon EKS clusters.
 - `name`: The name of the cluster that you are associating with encryption configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: The client request token you are using with the encryption
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: The client request token you are using with the encryption
   configuration.
 """
 function associate_encryption_config(
-    encryptionConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    encryptionConfig, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/encryption-config/associate",
-        Dict{String,Any}(
-            "encryptionConfig" => encryptionConfig, "clientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_encryption_config(
-    encryptionConfig,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/encryption-config/associate",
@@ -49,7 +67,7 @@ function associate_encryption_config(
                 _merge,
                 Dict{String,Any}(
                     "encryptionConfig" => encryptionConfig,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -60,8 +78,7 @@ function associate_encryption_config(
 end
 
 """
-    associate_identity_provider_config(name, oidc)
-    associate_identity_provider_config(name, oidc, params::Dict{String,<:Any})
+    associate_identity_provider_config(name, oidc; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associate an identity provider configuration to a cluster. If you want to authenticate
 identities using an identity provider, you can create an identity provider configuration
@@ -76,36 +93,23 @@ information see Using RBAC Authorization in the Kubernetes documentation.
   configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"tags"`: The metadata to apply to the configuration to assist with categorization and
   organization. Each tag consists of a key and an optional value, both of which you define.
 """
 function associate_identity_provider_config(
-    name, oidc; aws_config::AbstractAWSConfig=global_aws_config()
+    name, oidc; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/identity-provider-configs/associate",
-        Dict{String,Any}("oidc" => oidc, "clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_identity_provider_config(
-    name,
-    oidc,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/identity-provider-configs/associate",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("oidc" => oidc, "clientRequestToken" => string(uuid4())),
+                Dict{String,Any}("oidc" => oidc, "client_request_token" => string(uuid4())),
                 params,
             ),
         );
@@ -115,14 +119,13 @@ function associate_identity_provider_config(
 end
 
 """
-    create_addon(addon_name, name)
-    create_addon(addon_name, name, params::Dict{String,<:Any})
+    create_addon(addon_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and
 lifecycle management of common operational software for Amazon EKS clusters. Amazon EKS
-add-ons can only be used with Amazon EKS clusters running version 1.18 with platform
-version eks.3 or later because add-ons rely on the Server-side Apply Kubernetes feature,
-which is only available in Kubernetes 1.18 and later.
+add-ons require clusters running version 1.18 or later because Amazon EKS add-ons rely on
+the Server-side Apply Kubernetes feature, which is only available in Kubernetes 1.18 and
+later. For more information, see Amazon EKS add-ons in the Amazon EKS User Guide.
 
 # Arguments
 - `addon_name`: The name of the add-on. The name must match one of the names returned by
@@ -130,38 +133,27 @@ which is only available in Kubernetes 1.18 and later.
 - `name`: The name of the cluster to create the add-on for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addonVersion"`: The version of the add-on. The version must match one of the versions
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"addon_version"`: The version of the add-on. The version must match one of the versions
   returned by  DescribeAddonVersions .
-- `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
+- `"client_request_token"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
-- `"resolveConflicts"`: How to resolve parameter value conflicts when migrating an existing
-  add-on to an Amazon EKS add-on.
-- `"serviceAccountRoleArn"`: The Amazon Resource Name (ARN) of an existing IAM role to bind
-  to the add-on's service account. The role must be assigned the IAM permissions required by
-  the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions
-  assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the
-  Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID
-  Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM
-  roles for service accounts on your cluster in the Amazon EKS User Guide.
+- `"resolve_conflicts"`: How to resolve parameter value conflicts when migrating an
+  existing add-on to an Amazon EKS add-on.
+- `"service_account_role_arn"`: The Amazon Resource Name (ARN) of an existing IAM role to
+  bind to the add-on's service account. The role must be assigned the IAM permissions
+  required by the add-on. If you don't specify an existing IAM role, then the add-on uses the
+  permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM
+  role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM
+  OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling
+  IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
 - `"tags"`: The metadata to apply to the cluster to assist with categorization and
   organization. Each tag consists of a key and an optional value, both of which you define.
 """
-function create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "POST",
-        "/clusters/$(name)/addons",
-        Dict{String,Any}("addonName" => addonName, "clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_addon(
-    addonName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    addonName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/addons",
@@ -169,7 +161,7 @@ function create_addon(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "addonName" => addonName, "clientRequestToken" => string(uuid4())
+                    "addonName" => addonName, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -180,8 +172,7 @@ function create_addon(
 end
 
 """
-    create_cluster(name, resources_vpc_config, role_arn)
-    create_cluster(name, resources_vpc_config, role_arn, params::Dict{String,<:Any})
+    create_cluster(name, resources_vpc_config, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of control
 plane instances that run the Kubernetes software, such as etcd and the API server. The
@@ -213,11 +204,11 @@ Launching Amazon EKS nodes in the Amazon EKS User Guide.
   .
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `"encryptionConfig"`: The encryption configuration for the cluster.
-- `"kubernetesNetworkConfig"`: The Kubernetes network configuration for the cluster.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
+- `"encryption_config"`: The encryption configuration for the cluster.
+- `"kubernetes_network_config"`: The Kubernetes network configuration for the cluster.
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
   CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the
@@ -229,28 +220,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value here, the latest version available in Amazon EKS is used.
 """
 function create_cluster(
-    name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return eks(
-        "POST",
-        "/clusters",
-        Dict{String,Any}(
-            "name" => name,
-            "resourcesVpcConfig" => resourcesVpcConfig,
-            "roleArn" => roleArn,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cluster(
     name,
     resourcesVpcConfig,
-    roleArn,
-    params::AbstractDict{String};
+    roleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters",
@@ -261,7 +237,7 @@ function create_cluster(
                     "name" => name,
                     "resourcesVpcConfig" => resourcesVpcConfig,
                     "roleArn" => roleArn,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -272,8 +248,7 @@ function create_cluster(
 end
 
 """
-    create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn)
-    create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn, params::Dict{String,<:Any})
+    create_fargate_profile(fargate_profile_name, name, pod_execution_role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate
 profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an
@@ -306,9 +281,9 @@ information, see Fargate Profile in the Amazon EKS User Guide.
   Amazon EKS User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"selectors"`: The selectors to match for pods to use this Fargate profile. Each selector
   must have an associated namespace. Optionally, you can also specify labels for a namespace.
   You may specify up to five selectors in a Fargate profile.
@@ -325,26 +300,9 @@ function create_fargate_profile(
     name,
     podExecutionRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/fargate-profiles",
-        Dict{String,Any}(
-            "fargateProfileName" => fargateProfileName,
-            "podExecutionRoleArn" => podExecutionRoleArn,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_fargate_profile(
-    fargateProfileName,
-    name,
-    podExecutionRoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/fargate-profiles",
@@ -354,7 +312,7 @@ function create_fargate_profile(
                 Dict{String,Any}(
                     "fargateProfileName" => fargateProfileName,
                     "podExecutionRoleArn" => podExecutionRoleArn,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -365,8 +323,7 @@ function create_fargate_profile(
 end
 
 """
-    create_nodegroup(name, node_role, nodegroup_name, subnets)
-    create_nodegroup(name, node_role, nodegroup_name, subnets, params::Dict{String,<:Any})
+    create_nodegroup(name, node_role, nodegroup_name, subnets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a managed node group for an Amazon EKS cluster. You can only create a node group
 for your cluster that is equal to the current Kubernetes version for the cluster. All node
@@ -396,22 +353,22 @@ Node Groups in the Amazon EKS User Guide.
   templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"amiType"`: The AMI type for your node group. GPU instance types should use the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ami_type"`: The AMI type for your node group. GPU instance types should use the
   AL2_x86_64_GPU AMI type. Non-GPU instances should use the AL2_x86_64 AMI type. Arm
   instances should use the AL2_ARM_64 AMI type. All types use the Amazon EKS optimized Amazon
   Linux 2 AMI. If you specify launchTemplate, and your launch template uses a custom AMI,
   then don't specify amiType, or the node group deployment will fail. For more information
   about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS
   User Guide.
-- `"capacityType"`: The capacity type for your node group.
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `"diskSize"`: The root device disk size (in GiB) for your node group instances. The
+- `"capacity_type"`: The capacity type for your node group.
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
+- `"disk_size"`: The root device disk size (in GiB) for your node group instances. The
   default disk size is 20 GiB. If you specify launchTemplate, then don't specify diskSize, or
   the node group deployment will fail. For more information about using launch templates with
   Amazon EKS, see Launch template support in the Amazon EKS User Guide.
-- `"instanceTypes"`: Specify the instance types for a node group. If you specify a GPU
+- `"instance_types"`: Specify the instance types for a node group. If you specify a GPU
   instance type, be sure to specify AL2_x86_64_GPU with the amiType parameter. If you specify
   launchTemplate, then you can specify zero or one instance type in your launch template or
   you can specify 0-20 instance types for instanceTypes. If however, you specify an instance
@@ -422,28 +379,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity types and Launch template support in the Amazon EKS User Guide.
 - `"labels"`: The Kubernetes labels to be applied to the nodes in the node group when they
   are created.
-- `"launchTemplate"`: An object representing a node group's launch template specification.
+- `"launch_template"`: An object representing a node group's launch template specification.
   If specified, then do not specify instanceTypes, diskSize, or remoteAccess and make sure
   that the launch template meets the requirements in launchTemplateSpecification.
-- `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use with your node
-  group. By default, the latest available AMI version for the node group's current Kubernetes
-  version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions
-  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses
-  a custom AMI, then don't specify releaseVersion, or the node group deployment will fail.
-  For more information about using launch templates with Amazon EKS, see Launch template
-  support in the Amazon EKS User Guide.
-- `"remoteAccess"`: The remote access (SSH) configuration to use with your node group. If
+- `"release_version"`: The AMI version of the Amazon EKS optimized AMI to use with your
+  node group. By default, the latest available AMI version for the node group's current
+  Kubernetes version is used. For more information, see Amazon EKS optimized Amazon Linux 2
+  AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch
+  template uses a custom AMI, then don't specify releaseVersion, or the node group deployment
+  will fail. For more information about using launch templates with Amazon EKS, see Launch
+  template support in the Amazon EKS User Guide.
+- `"remote_access"`: The remote access (SSH) configuration to use with your node group. If
   you specify launchTemplate, then don't specify remoteAccess, or the node group deployment
   will fail. For more information about using launch templates with Amazon EKS, see Launch
   template support in the Amazon EKS User Guide.
-- `"scalingConfig"`: The scaling configuration details for the Auto Scaling group that is
+- `"scaling_config"`: The scaling configuration details for the Auto Scaling group that is
   created for your node group.
 - `"tags"`: The metadata to apply to the node group to assist with categorization and
   organization. Each tag consists of a key and an optional value, both of which you define.
   Node group tags do not propagate to any other resources associated with the node group,
   such as the Amazon EC2 instances or subnets.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group.
-- `"updateConfig"`: The node group update configuration.
+- `"update_config"`: The node group update configuration.
 - `"version"`: The Kubernetes version to use for your managed nodes. By default, the
   Kubernetes version of the cluster is used, and this is the only accepted specified value.
   If you specify launchTemplate, and your launch template uses a custom AMI, then don't
@@ -456,28 +413,9 @@ function create_nodegroup(
     nodegroupName,
     subnets;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/node-groups",
-        Dict{String,Any}(
-            "nodeRole" => nodeRole,
-            "nodegroupName" => nodegroupName,
-            "subnets" => subnets,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_nodegroup(
-    name,
-    nodeRole,
-    nodegroupName,
-    subnets,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/node-groups",
@@ -488,7 +426,7 @@ function create_nodegroup(
                     "nodeRole" => nodeRole,
                     "nodegroupName" => nodegroupName,
                     "subnets" => subnets,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -499,8 +437,7 @@ function create_nodegroup(
 end
 
 """
-    delete_addon(addon_name, name)
-    delete_addon(addon_name, name, params::Dict{String,<:Any})
+    delete_addon(addon_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an Amazon EKS add-on. When you remove the add-on, it will also be deleted from the
 cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
@@ -511,25 +448,15 @@ cluster. You can always manually start an add-on on the cluster using the Kubern
 - `name`: The name of the cluster to delete the add-on from.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"preserve"`: Specifying this option preserves the add-on software on your cluster but
   Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with
   the add-on, it is not removed.
 """
-function delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "DELETE",
-        "/clusters/$(name)/addons/$(addonName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_addon(
-    addonName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    addonName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/clusters/$(name)/addons/$(addonName)",
@@ -540,8 +467,7 @@ function delete_addon(
 end
 
 """
-    delete_cluster(name)
-    delete_cluster(name, params::Dict{String,<:Any})
+    delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the Amazon EKS cluster control plane. If you have active services in your cluster
 that are associated with a load balancer, you must delete those services before deleting
@@ -555,17 +481,8 @@ information, see DeleteNodegroup and DeleteFargateProfile.
 - `name`: The name of the cluster to delete.
 
 """
-function delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "DELETE",
-        "/clusters/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/clusters/$(name)",
@@ -576,8 +493,7 @@ function delete_cluster(
 end
 
 """
-    delete_fargate_profile(fargate_profile_name, name)
-    delete_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
+    delete_fargate_profile(fargate_profile_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Fargate profile. When you delete a Fargate profile, any pods running on Fargate
 that were created with the profile are deleted. If those pods match another Fargate
@@ -593,21 +509,9 @@ in that cluster.
 
 """
 function delete_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()
+    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "DELETE",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fargate_profile(
-    fargateProfileName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
@@ -618,8 +522,7 @@ function delete_fargate_profile(
 end
 
 """
-    delete_nodegroup(name, nodegroup_name)
-    delete_nodegroup(name, nodegroup_name, params::Dict{String,<:Any})
+    delete_nodegroup(name, nodegroup_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon EKS node group for a cluster.
 
@@ -629,21 +532,9 @@ Deletes an Amazon EKS node group for a cluster.
 
 """
 function delete_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "DELETE",
-        "/clusters/$(name)/node-groups/$(nodegroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_nodegroup(
-    name,
-    nodegroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/clusters/$(name)/node-groups/$(nodegroupName)",
@@ -654,8 +545,7 @@ function delete_nodegroup(
 end
 
 """
-    deregister_cluster(name)
-    deregister_cluster(name, params::Dict{String,<:Any})
+    deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deregisters a connected cluster to remove it from the Amazon EKS control plane.
 
@@ -663,17 +553,10 @@ Deregisters a connected cluster to remove it from the Amazon EKS control plane.
 - `name`: The name of the connected cluster to deregister.
 
 """
-function deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "DELETE",
-        "/cluster-registrations/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/cluster-registrations/$(name)",
@@ -684,8 +567,7 @@ function deregister_cluster(
 end
 
 """
-    describe_addon(addon_name, name)
-    describe_addon(addon_name, name, params::Dict{String,<:Any})
+    describe_addon(addon_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an Amazon EKS add-on.
 
@@ -695,20 +577,10 @@ Describes an Amazon EKS add-on.
 - `name`: The name of the cluster.
 
 """
-function describe_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/addons/$(addonName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_addon(
-    addonName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    addonName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/addons/$(addonName)",
@@ -719,34 +591,26 @@ function describe_addon(
 end
 
 """
-    describe_addon_versions()
-    describe_addon_versions(params::Dict{String,<:Any})
+    describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the Kubernetes versions that the add-on can be used with.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addonName"`: The name of the add-on. The name must match one of the names returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"addon_name"`: The name of the add-on. The name must match one of the names returned by
   ListAddons .
-- `"kubernetesVersion"`: The Kubernetes versions that the add-on can be used with.
-- `"maxResults"`: The maximum number of results to return.
-- `"nextToken"`: The nextToken value returned from a previous paginated
+- `"kubernetes_version"`: The Kubernetes versions that the add-on can be used with.
+- `"max_results"`: The maximum number of results to return.
+- `"next_token"`: The nextToken value returned from a previous paginated
   DescribeAddonVersionsRequest where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
   the nextToken value.  This token should be treated as an opaque identifier that is used
   only to retrieve the next items in a list and not for other programmatic purposes.
 """
-function describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/addons/supported-versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_addon_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_addon_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/addons/supported-versions",
@@ -757,8 +621,7 @@ function describe_addon_versions(
 end
 
 """
-    describe_cluster(name)
-    describe_cluster(name, params::Dict{String,<:Any})
+    describe_cluster(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns descriptive information about an Amazon EKS cluster. The API server endpoint and
 certificate authority data returned by this operation are required for kubelet and kubectl
@@ -770,14 +633,10 @@ available until the cluster reaches the ACTIVE state.
 - `name`: The name of the cluster to describe.
 
 """
-function describe_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)",
@@ -788,8 +647,7 @@ function describe_cluster(
 end
 
 """
-    describe_fargate_profile(fargate_profile_name, name)
-    describe_fargate_profile(fargate_profile_name, name, params::Dict{String,<:Any})
+    describe_fargate_profile(fargate_profile_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns descriptive information about an Fargate profile.
 
@@ -799,21 +657,9 @@ Returns descriptive information about an Fargate profile.
 
 """
 function describe_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()
+    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "GET",
-        "/clusters/$(name)/fargate-profiles/$(fargateProfileName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fargate_profile(
-    fargateProfileName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/fargate-profiles/$(fargateProfileName)",
@@ -824,8 +670,7 @@ function describe_fargate_profile(
 end
 
 """
-    describe_identity_provider_config(identity_provider_config, name)
-    describe_identity_provider_config(identity_provider_config, name, params::Dict{String,<:Any})
+    describe_identity_provider_config(identity_provider_config, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns descriptive information about an identity provider configuration.
 
@@ -835,22 +680,12 @@ Returns descriptive information about an identity provider configuration.
 
 """
 function describe_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return eks(
-        "POST",
-        "/clusters/$(name)/identity-provider-configs/describe",
-        Dict{String,Any}("identityProviderConfig" => identityProviderConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_identity_provider_config(
     identityProviderConfig,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/identity-provider-configs/describe",
@@ -867,8 +702,7 @@ function describe_identity_provider_config(
 end
 
 """
-    describe_nodegroup(name, nodegroup_name)
-    describe_nodegroup(name, nodegroup_name, params::Dict{String,<:Any})
+    describe_nodegroup(name, nodegroup_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns descriptive information about an Amazon EKS node group.
 
@@ -878,21 +712,9 @@ Returns descriptive information about an Amazon EKS node group.
 
 """
 function describe_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "GET",
-        "/clusters/$(name)/node-groups/$(nodegroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_nodegroup(
-    name,
-    nodegroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/node-groups/$(nodegroupName)",
@@ -903,8 +725,7 @@ function describe_nodegroup(
 end
 
 """
-    describe_update(name, update_id)
-    describe_update(name, update_id, params::Dict{String,<:Any})
+    describe_update(name, update_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns descriptive information about an update against your Amazon EKS cluster or
 associated managed node group. When the status of the update is Succeeded, the update is
@@ -916,25 +737,15 @@ for the failure.
 - `update_id`: The ID of the update to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addonName"`: The name of the add-on. The name must match one of the names returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"addon_name"`: The name of the add-on. The name must match one of the names returned by
   ListAddons .
-- `"nodegroupName"`: The name of the Amazon EKS node group associated with the update.
+- `"nodegroup_name"`: The name of the Amazon EKS node group associated with the update.
 """
-function describe_update(name, updateId; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/updates/$(updateId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_update(
-    name,
-    updateId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    name, updateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/updates/$(updateId)",
@@ -945,8 +756,7 @@ function describe_update(
 end
 
 """
-    disassociate_identity_provider_config(identity_provider_config, name)
-    disassociate_identity_provider_config(identity_provider_config, name, params::Dict{String,<:Any})
+    disassociate_identity_provider_config(identity_provider_config, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates an identity provider configuration from a cluster. If you disassociate an
 identity provider from your cluster, users included in the provider can no longer access
@@ -957,30 +767,17 @@ the cluster. However, you can still access the cluster with Amazon Web Services 
 - `name`: The name of the cluster to disassociate an identity provider from.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 """
 function disassociate_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return eks(
-        "POST",
-        "/clusters/$(name)/identity-provider-configs/disassociate",
-        Dict{String,Any}(
-            "identityProviderConfig" => identityProviderConfig,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_identity_provider_config(
     identityProviderConfig,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/identity-provider-configs/disassociate",
@@ -989,7 +786,7 @@ function disassociate_identity_provider_config(
                 _merge,
                 Dict{String,Any}(
                     "identityProviderConfig" => identityProviderConfig,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1000,8 +797,7 @@ function disassociate_identity_provider_config(
 end
 
 """
-    list_addons(name)
-    list_addons(name, params::Dict{String,<:Any})
+    list_addons(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the available add-ons.
 
@@ -1009,30 +805,21 @@ Lists the available add-ons.
 - `name`: The name of the cluster.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of add-on results returned by ListAddonsRequest in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of add-on results returned by ListAddonsRequest in
   paginated output. When you use this parameter, ListAddonsRequest returns only maxResults
   results in a single page along with a nextToken response element. You can see the remaining
   results of the initial request by sending another ListAddonsRequest request with the
   returned nextToken value. This value can be between 1 and 100. If you don't use this
   parameter, ListAddonsRequest returns up to 100 results and a nextToken value, if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated ListAddonsRequest
+- `"next_token"`: The nextToken value returned from a previous paginated ListAddonsRequest
   where maxResults was used and the results exceeded the value of that parameter. Pagination
   continues from the end of the previous results that returned the nextToken value.  This
   token should be treated as an opaque identifier that is used only to retrieve the next
   items in a list and not for other programmatic purposes.
 """
-function list_addons(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/addons";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_addons(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_addons(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/addons",
@@ -1043,41 +830,35 @@ function list_addons(
 end
 
 """
-    list_clusters()
-    list_clusters(params::Dict{String,<:Any})
+    list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"include"`: Indicates whether connected clusters are included in the returned list.
   Default value is 'ALL'.
-- `"maxResults"`: The maximum number of cluster results returned by ListClusters in
+- `"max_results"`: The maximum number of cluster results returned by ListClusters in
   paginated output. When you use this parameter, ListClusters returns only maxResults results
   in a single page along with a nextToken response element. You can see the remaining results
   of the initial request by sending another ListClusters request with the returned nextToken
   value. This value can be between 1 and 100. If you don't use this parameter, ListClusters
   returns up to 100 results and a nextToken value if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated ListClusters
+- `"next_token"`: The nextToken value returned from a previous paginated ListClusters
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken
   value.  This token should be treated as an opaque identifier that is used only to retrieve
   the next items in a list and not for other programmatic purposes.
 """
-function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_fargate_profiles(name)
-    list_fargate_profiles(name, params::Dict{String,<:Any})
+    list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Fargate profiles associated with the specified cluster in your Amazon Web
 Services account in the specified Region.
@@ -1087,29 +868,23 @@ Services account in the specified Region.
   in.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of Fargate profile results returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of Fargate profile results returned by
   ListFargateProfiles in paginated output. When you use this parameter, ListFargateProfiles
   returns only maxResults results in a single page along with a nextToken response element.
   You can see the remaining results of the initial request by sending another
   ListFargateProfiles request with the returned nextToken value. This value can be between 1
   and 100. If you don't use this parameter, ListFargateProfiles returns up to 100 results and
   a nextToken value if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated ListFargateProfiles
-  request where maxResults was used and the results exceeded the value of that parameter.
-  Pagination continues from the end of the previous results that returned the nextToken value.
+- `"next_token"`: The nextToken value returned from a previous paginated
+  ListFargateProfiles request where maxResults was used and the results exceeded the value of
+  that parameter. Pagination continues from the end of the previous results that returned the
+  nextToken value.
 """
-function list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/fargate-profiles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_fargate_profiles(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/fargate-profiles",
@@ -1120,8 +895,7 @@ function list_fargate_profiles(
 end
 
 """
-    list_identity_provider_configs(name)
-    list_identity_provider_configs(name, params::Dict{String,<:Any})
+    list_identity_provider_configs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A list of identity provider configurations.
 
@@ -1129,32 +903,23 @@ A list of identity provider configurations.
 - `name`: The cluster name that you want to list identity provider configurations for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of identity provider configurations returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of identity provider configurations returned by
   ListIdentityProviderConfigs in paginated output. When you use this parameter,
   ListIdentityProviderConfigs returns only maxResults results in a single page along with a
   nextToken response element. You can see the remaining results of the initial request by
   sending another ListIdentityProviderConfigs request with the returned nextToken value. This
   value can be between 1 and 100. If you don't use this parameter,
   ListIdentityProviderConfigs returns up to 100 results and a nextToken value, if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated
+- `"next_token"`: The nextToken value returned from a previous paginated
   IdentityProviderConfigsRequest where maxResults was used and the results exceeded the value
   of that parameter. Pagination continues from the end of the previous results that returned
   the nextToken value.
 """
 function list_identity_provider_configs(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "GET",
-        "/clusters/$(name)/identity-provider-configs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_identity_provider_configs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/identity-provider-configs",
@@ -1165,8 +930,7 @@ function list_identity_provider_configs(
 end
 
 """
-    list_nodegroups(name)
-    list_nodegroups(name, params::Dict{String,<:Any})
+    list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Amazon EKS managed node groups associated with the specified cluster in your
 Amazon Web Services account in the specified Region. Self-managed node groups are not
@@ -1176,28 +940,19 @@ listed.
 - `name`: The name of the Amazon EKS cluster that you would like to list node groups in.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of node group results returned by ListNodegroups in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of node group results returned by ListNodegroups in
   paginated output. When you use this parameter, ListNodegroups returns only maxResults
   results in a single page along with a nextToken response element. You can see the remaining
   results of the initial request by sending another ListNodegroups request with the returned
   nextToken value. This value can be between 1 and 100. If you don't use this parameter,
   ListNodegroups returns up to 100 results and a nextToken value if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated ListNodegroups
+- `"next_token"`: The nextToken value returned from a previous paginated ListNodegroups
   request where maxResults was used and the results exceeded the value of that parameter.
   Pagination continues from the end of the previous results that returned the nextToken value.
 """
-function list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/node-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_nodegroups(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/node-groups",
@@ -1208,8 +963,7 @@ function list_nodegroups(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the tags for an Amazon EKS resource.
 
@@ -1220,20 +974,9 @@ List the tags for an Amazon EKS resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/tags/$(resourceArn)",
@@ -1244,8 +987,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_updates(name)
-    list_updates(name, params::Dict{String,<:Any})
+    list_updates(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the updates associated with an Amazon EKS cluster or managed node group in your
 Amazon Web Services account, in the specified Region.
@@ -1254,30 +996,21 @@ Amazon Web Services account, in the specified Region.
 - `name`: The name of the Amazon EKS cluster to list updates for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addonName"`: The names of the installed add-ons that have available updates.
-- `"maxResults"`: The maximum number of update results returned by ListUpdates in paginated
-  output. When you use this parameter, ListUpdates returns only maxResults results in a
-  single page along with a nextToken response element. You can see the remaining results of
-  the initial request by sending another ListUpdates request with the returned nextToken
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"addon_name"`: The names of the installed add-ons that have available updates.
+- `"max_results"`: The maximum number of update results returned by ListUpdates in
+  paginated output. When you use this parameter, ListUpdates returns only maxResults results
+  in a single page along with a nextToken response element. You can see the remaining results
+  of the initial request by sending another ListUpdates request with the returned nextToken
   value. This value can be between 1 and 100. If you don't use this parameter, ListUpdates
   returns up to 100 results and a nextToken value if applicable.
-- `"nextToken"`: The nextToken value returned from a previous paginated ListUpdates request
-  where maxResults was used and the results exceeded the value of that parameter. Pagination
-  continues from the end of the previous results that returned the nextToken value.
-- `"nodegroupName"`: The name of the Amazon EKS managed node group to list updates for.
+- `"next_token"`: The nextToken value returned from a previous paginated ListUpdates
+  request where maxResults was used and the results exceeded the value of that parameter.
+  Pagination continues from the end of the previous results that returned the nextToken value.
+- `"nodegroup_name"`: The name of the Amazon EKS managed node group to list updates for.
 """
-function list_updates(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "GET",
-        "/clusters/$(name)/updates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_updates(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_updates(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "GET",
         "/clusters/$(name)/updates",
@@ -1288,8 +1021,7 @@ function list_updates(
 end
 
 """
-    register_cluster(connector_config, name)
-    register_cluster(connector_config, name, params::Dict{String,<:Any})
+    register_cluster(connector_config, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Connects a Kubernetes cluster to the Amazon EKS control plane.  Any Kubernetes cluster can
 be connected to the Amazon EKS control plane to view current information about the cluster
@@ -1298,40 +1030,26 @@ RegisterClusterRequest  to add it to the Amazon EKS control plane. Second, a Man
 containing the activationID and activationCode must be applied to the Kubernetes cluster
 through it's native provider to provide visibility. After the Manifest is updated and
 applied, then the connected cluster is visible to the Amazon EKS control plane. If the
-Manifest is not applied within a set amount of time, then the connected cluster will no
-longer be visible and must be deregistered. See DeregisterCluster.
+Manifest is not applied within three days, then the connected cluster will no longer be
+visible and must be deregistered. See DeregisterCluster.
 
 # Arguments
 - `connector_config`: The configuration settings required to connect the Kubernetes cluster
   to the Amazon EKS control plane.
-- `name`: Define a unique name for this cluster within your AWS account.
+- `name`: Define a unique name for this cluster for your Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
+- `"tags"`: The metadata that you apply to the cluster to assist with categorization and
+  organization. Each tag consists of a key and an optional value, both of which you define.
+  Cluster tags do not propagate to any other resources associated with the cluster.
 """
 function register_cluster(
-    connectorConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorConfig, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/cluster-registrations",
-        Dict{String,Any}(
-            "connectorConfig" => connectorConfig,
-            "name" => name,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_cluster(
-    connectorConfig,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/cluster-registrations",
@@ -1341,7 +1059,7 @@ function register_cluster(
                 Dict{String,Any}(
                     "connectorConfig" => connectorConfig,
                     "name" => name,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1352,8 +1070,7 @@ function register_cluster(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates the specified tags to a resource with the specified resourceArn. If existing
 tags on a resource are not specified in the request parameters, they are not changed. When
@@ -1368,21 +1085,10 @@ automatically propagate to the subnets and nodes associated with the cluster.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/tags/$(resourceArn)",
@@ -1393,8 +1099,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes specified tags from a resource.
 
@@ -1405,22 +1110,9 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -1431,8 +1123,7 @@ function untag_resource(
 end
 
 """
-    update_addon(addon_name, name)
-    update_addon(addon_name, name, params::Dict{String,<:Any})
+    update_addon(addon_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon EKS add-on.
 
@@ -1442,42 +1133,31 @@ Updates an Amazon EKS add-on.
 - `name`: The name of the cluster.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addonVersion"`: The version of the add-on. The version must match one of the versions
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"addon_version"`: The version of the add-on. The version must match one of the versions
   returned by  DescribeAddonVersions .
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
-- `"resolveConflicts"`: How to resolve parameter value conflicts when applying the new
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
+- `"resolve_conflicts"`: How to resolve parameter value conflicts when applying the new
   version of the add-on to the cluster.
-- `"serviceAccountRoleArn"`: The Amazon Resource Name (ARN) of an existing IAM role to bind
-  to the add-on's service account. The role must be assigned the IAM permissions required by
-  the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions
-  assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the
-  Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID
-  Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM
-  roles for service accounts on your cluster in the Amazon EKS User Guide.
+- `"service_account_role_arn"`: The Amazon Resource Name (ARN) of an existing IAM role to
+  bind to the add-on's service account. The role must be assigned the IAM permissions
+  required by the add-on. If you don't specify an existing IAM role, then the add-on uses the
+  permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM
+  role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM
+  OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling
+  IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
 """
-function update_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "POST",
-        "/clusters/$(name)/addons/$(addonName)/update",
-        Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_addon(
-    addonName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    addonName, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/addons/$(addonName)/update",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,
@@ -1486,8 +1166,7 @@ function update_addon(
 end
 
 """
-    update_cluster_config(name)
-    update_cluster_config(name, params::Dict{String,<:Any})
+    update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon EKS cluster configuration. Your cluster continues to function during the
 update. The response output includes an update ID that you can use to track the status of
@@ -1510,34 +1189,26 @@ cluster status moves to Active.
 - `name`: The name of the Amazon EKS cluster to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"logging"`: Enable or disable exporting the Kubernetes control plane logs for your
   cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to
   CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
-- `"resourcesVpcConfig"`:
+- `"resources_vpc_config"`:
 """
-function update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return eks(
-        "POST",
-        "/clusters/$(name)/update-config",
-        Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_cluster_config(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/update-config",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,
@@ -1546,8 +1217,7 @@ function update_cluster_config(
 end
 
 """
-    update_cluster_version(name, version)
-    update_cluster_version(name, version, params::Dict{String,<:Any})
+    update_cluster_version(name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues
 to function during the update. The response output includes an update ID that you can use
@@ -1564,27 +1234,14 @@ cluster to a new Kubernetes version.
 - `version`: The desired Kubernetes version following a successful update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 """
 function update_cluster_version(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config()
+    name, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/updates",
-        Dict{String,Any}("version" => version, "clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_cluster_version(
-    name,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/updates",
@@ -1592,7 +1249,7 @@ function update_cluster_version(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "version" => version, "clientRequestToken" => string(uuid4())
+                    "version" => version, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -1603,8 +1260,7 @@ function update_cluster_version(
 end
 
 """
-    update_nodegroup_config(name, nodegroup_name)
-    update_nodegroup_config(name, nodegroup_name, params::Dict{String,<:Any})
+    update_nodegroup_config(name, nodegroup_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon EKS managed node group configuration. Your node group continues to
 function during the update. The response output includes an update ID that you can use to
@@ -1616,40 +1272,27 @@ you can update the Kubernetes labels for a node group or the scaling configurati
 - `nodegroup_name`: The name of the managed node group to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"labels"`: The Kubernetes labels to be applied to the nodes in the node group after the
   update.
-- `"scalingConfig"`: The scaling configuration details for the Auto Scaling group after the
-  update.
+- `"scaling_config"`: The scaling configuration details for the Auto Scaling group after
+  the update.
 - `"taints"`: The Kubernetes taints to be applied to the nodes in the node group after the
   update.
-- `"updateConfig"`: The node group update configuration.
+- `"update_config"`: The node group update configuration.
 """
 function update_nodegroup_config(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-config",
-        Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_nodegroup_config(
-    name,
-    nodegroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/node-groups/$(nodegroupName)/update-config",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,
@@ -1658,8 +1301,7 @@ function update_nodegroup_config(
 end
 
 """
-    update_nodegroup_version(name, nodegroup_name)
-    update_nodegroup_version(name, nodegroup_name, params::Dict{String,<:Any})
+    update_nodegroup_version(name, nodegroup_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can
 update a node group using a launch template only if the node group was originally deployed
@@ -1683,17 +1325,17 @@ is unable to drain the nodes as a result of a pod disruption budget issue.
 - `nodegroup_name`: The name of the managed node group to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"force"`: Force the update if the existing node group's pods are unable to be drained
   due to a pod disruption budget issue. If an update fails because pods could not be drained,
   you can force the update after it fails to terminate the old node whether or not any pods
   are running on the node.
-- `"launchTemplate"`: An object representing a node group's launch template specification.
+- `"launch_template"`: An object representing a node group's launch template specification.
   You can only update a node group using a launch template if the node group was originally
   deployed with a launch template.
-- `"releaseVersion"`: The AMI version of the Amazon EKS optimized AMI to use for the
+- `"release_version"`: The AMI version of the Amazon EKS optimized AMI to use for the
   update. By default, the latest available AMI version for the node group's Kubernetes
   version is used. For more information, see Amazon EKS optimized Amazon Linux 2 AMI versions
    in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses
@@ -1709,28 +1351,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Guide.
 """
 function update_nodegroup_version(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return eks(
-        "POST",
-        "/clusters/$(name)/node-groups/$(nodegroupName)/update-version",
-        Dict{String,Any}("clientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_nodegroup_version(
-    name,
-    nodegroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return eks(
         "POST",
         "/clusters/$(name)/node-groups/$(nodegroupName)/update-version",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("client_request_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,

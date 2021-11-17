@@ -4,9 +4,20 @@ using AWS.AWSServices: pinpoint
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "start_time" => "start-time",
+    "end_time" => "end-time",
+    "token" => "token",
+    "create_new_version" => "create-new-version",
+    "page_size" => "page-size",
+    "template_type" => "template-type",
+    "next_token" => "next-token",
+    "version" => "version",
+    "prefix" => "prefix",
+)
+
 """
-    create_app(create_application_request)
-    create_app(create_application_request, params::Dict{String,<:Any})
+    create_app(create_application_request; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates an application.
 
@@ -15,21 +26,9 @@ using AWS.UUIDs
 
 """
 function create_app(
-    CreateApplicationRequest; aws_config::AbstractAWSConfig=global_aws_config()
+    CreateApplicationRequest; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "POST",
-        "/v1/apps",
-        Dict{String,Any}("CreateApplicationRequest" => CreateApplicationRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_app(
-    CreateApplicationRequest,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps",
@@ -46,8 +45,7 @@ function create_app(
 end
 
 """
-    create_campaign(write_campaign_request, application-id)
-    create_campaign(write_campaign_request, application-id, params::Dict{String,<:Any})
+    create_campaign(write_campaign_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new campaign for an application or updates the settings of an existing campaign
 for an application.
@@ -59,22 +57,12 @@ for an application.
 
 """
 function create_campaign(
-    WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/campaigns",
-        Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_campaign(
     WriteCampaignRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/campaigns",
@@ -91,8 +79,7 @@ function create_campaign(
 end
 
 """
-    create_email_template(email_template_request, template-name)
-    create_email_template(email_template_request, template-name, params::Dict{String,<:Any})
+    create_email_template(email_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a message template for messages that are sent through the email channel.
 
@@ -104,22 +91,12 @@ Creates a message template for messages that are sent through the email channel.
 
 """
 function create_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_email_template(
     EmailTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/templates/$(template-name)/email",
@@ -136,8 +113,7 @@ function create_email_template(
 end
 
 """
-    create_export_job(export_job_request, application-id)
-    create_export_job(export_job_request, application-id, params::Dict{String,<:Any})
+    create_export_job(export_job_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an export job for an application.
 
@@ -148,22 +124,12 @@ Creates an export job for an application.
 
 """
 function create_export_job(
-    ExportJobRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/export",
-        Dict{String,Any}("ExportJobRequest" => ExportJobRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_export_job(
     ExportJobRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/jobs/export",
@@ -178,8 +144,7 @@ function create_export_job(
 end
 
 """
-    create_import_job(import_job_request, application-id)
-    create_import_job(import_job_request, application-id, params::Dict{String,<:Any})
+    create_import_job(import_job_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an import job for an application.
 
@@ -190,22 +155,12 @@ Creates an import job for an application.
 
 """
 function create_import_job(
-    ImportJobRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/jobs/import",
-        Dict{String,Any}("ImportJobRequest" => ImportJobRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_import_job(
     ImportJobRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/jobs/import",
@@ -220,8 +175,7 @@ function create_import_job(
 end
 
 """
-    create_in_app_template(in_app_template_request, template-name)
-    create_in_app_template(in_app_template_request, template-name, params::Dict{String,<:Any})
+    create_in_app_template(in_app_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new message template for messages using the in-app message channel.
 
@@ -233,22 +187,12 @@ Creates a new message template for messages using the in-app message channel.
 
 """
 function create_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_in_app_template(
     InAppTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/templates/$(template-name)/inapp",
@@ -265,8 +209,7 @@ function create_in_app_template(
 end
 
 """
-    create_journey(write_journey_request, application-id)
-    create_journey(write_journey_request, application-id, params::Dict{String,<:Any})
+    create_journey(write_journey_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a journey for an application.
 
@@ -277,22 +220,12 @@ Creates a journey for an application.
 
 """
 function create_journey(
-    WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/journeys",
-        Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_journey(
     WriteJourneyRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/journeys",
@@ -309,8 +242,7 @@ function create_journey(
 end
 
 """
-    create_push_template(push_notification_template_request, template-name)
-    create_push_template(push_notification_template_request, template-name, params::Dict{String,<:Any})
+    create_push_template(push_notification_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a message template for messages that are sent through a push notification channel.
 
@@ -325,23 +257,9 @@ function create_push_template(
     PushNotificationTemplateRequest,
     template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_push_template(
-    PushNotificationTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/templates/$(template-name)/push",
@@ -360,8 +278,7 @@ function create_push_template(
 end
 
 """
-    create_recommender_configuration(create_recommender_configuration)
-    create_recommender_configuration(create_recommender_configuration, params::Dict{String,<:Any})
+    create_recommender_configuration(create_recommender_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Pinpoint configuration for a recommender model.
 
@@ -370,23 +287,11 @@ Creates an Amazon Pinpoint configuration for a recommender model.
 
 """
 function create_recommender_configuration(
-    CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/recommenders",
-        Dict{String,Any}(
-            "CreateRecommenderConfiguration" => CreateRecommenderConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_recommender_configuration(
-    CreateRecommenderConfiguration,
-    params::AbstractDict{String};
+    CreateRecommenderConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/recommenders",
@@ -405,8 +310,7 @@ function create_recommender_configuration(
 end
 
 """
-    create_segment(write_segment_request, application-id)
-    create_segment(write_segment_request, application-id, params::Dict{String,<:Any})
+    create_segment(write_segment_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new segment for an application or updates the configuration, dimension, and other
 settings for an existing segment that's associated with an application.
@@ -418,22 +322,12 @@ settings for an existing segment that's associated with an application.
 
 """
 function create_segment(
-    WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/segments",
-        Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_segment(
     WriteSegmentRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/segments",
@@ -450,8 +344,7 @@ function create_segment(
 end
 
 """
-    create_sms_template(smstemplate_request, template-name)
-    create_sms_template(smstemplate_request, template-name, params::Dict{String,<:Any})
+    create_sms_template(smstemplate_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a message template for messages that are sent through the SMS channel.
 
@@ -463,22 +356,12 @@ Creates a message template for messages that are sent through the SMS channel.
 
 """
 function create_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_sms_template(
     SMSTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/templates/$(template-name)/sms",
@@ -493,8 +376,7 @@ function create_sms_template(
 end
 
 """
-    create_voice_template(voice_template_request, template-name)
-    create_voice_template(voice_template_request, template-name, params::Dict{String,<:Any})
+    create_voice_template(voice_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a message template for messages that are sent through the voice channel.
 
@@ -506,22 +388,12 @@ Creates a message template for messages that are sent through the voice channel.
 
 """
 function create_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_voice_template(
     VoiceTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/templates/$(template-name)/voice",
@@ -538,8 +410,7 @@ function create_voice_template(
 end
 
 """
-    delete_adm_channel(application-id)
-    delete_adm_channel(application-id, params::Dict{String,<:Any})
+    delete_adm_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the ADM channel for an application and deletes any existing settings for the
 channel.
@@ -550,20 +421,9 @@ channel.
 
 """
 function delete_adm_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/adm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_adm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/adm",
@@ -574,8 +434,7 @@ function delete_adm_channel(
 end
 
 """
-    delete_apns_channel(application-id)
-    delete_apns_channel(application-id, params::Dict{String,<:Any})
+    delete_apns_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the APNs channel for an application and deletes any existing settings for the
 channel.
@@ -586,20 +445,9 @@ channel.
 
 """
 function delete_apns_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns",
@@ -610,8 +458,7 @@ function delete_apns_channel(
 end
 
 """
-    delete_apns_sandbox_channel(application-id)
-    delete_apns_sandbox_channel(application-id, params::Dict{String,<:Any})
+    delete_apns_sandbox_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the APNs sandbox channel for an application and deletes any existing settings for
 the channel.
@@ -622,20 +469,9 @@ the channel.
 
 """
 function delete_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_sandbox",
@@ -646,8 +482,7 @@ function delete_apns_sandbox_channel(
 end
 
 """
-    delete_apns_voip_channel(application-id)
-    delete_apns_voip_channel(application-id, params::Dict{String,<:Any})
+    delete_apns_voip_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the APNs VoIP channel for an application and deletes any existing settings for the
 channel.
@@ -658,20 +493,9 @@ channel.
 
 """
 function delete_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_voip_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_voip",
@@ -682,8 +506,7 @@ function delete_apns_voip_channel(
 end
 
 """
-    delete_apns_voip_sandbox_channel(application-id)
-    delete_apns_voip_sandbox_channel(application-id, params::Dict{String,<:Any})
+    delete_apns_voip_sandbox_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the APNs VoIP sandbox channel for an application and deletes any existing settings
 for the channel.
@@ -694,20 +517,9 @@ for the channel.
 
 """
 function delete_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_apns_voip_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
@@ -718,8 +530,7 @@ function delete_apns_voip_sandbox_channel(
 end
 
 """
-    delete_app(application-id)
-    delete_app(application-id, params::Dict{String,<:Any})
+    delete_app(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an application.
 
@@ -728,19 +539,10 @@ Deletes an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function delete_app(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)",
@@ -751,8 +553,7 @@ function delete_app(
 end
 
 """
-    delete_baidu_channel(application-id)
-    delete_baidu_channel(application-id, params::Dict{String,<:Any})
+    delete_baidu_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the Baidu channel for an application and deletes any existing settings for the
 channel.
@@ -763,20 +564,9 @@ channel.
 
 """
 function delete_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/baidu";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_baidu_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/baidu",
@@ -787,8 +577,7 @@ function delete_baidu_channel(
 end
 
 """
-    delete_campaign(application-id, campaign-id)
-    delete_campaign(application-id, campaign-id, params::Dict{String,<:Any})
+    delete_campaign(application-id, campaign-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a campaign from an application.
 
@@ -799,21 +588,12 @@ Deletes a campaign from an application.
 
 """
 function delete_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_campaign(
     application_id,
-    campaign_id,
-    params::AbstractDict{String};
+    campaign_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
@@ -824,8 +604,7 @@ function delete_campaign(
 end
 
 """
-    delete_email_channel(application-id)
-    delete_email_channel(application-id, params::Dict{String,<:Any})
+    delete_email_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the email channel for an application and deletes any existing settings for the
 channel.
@@ -836,20 +615,9 @@ channel.
 
 """
 function delete_email_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_email_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/email",
@@ -860,8 +628,7 @@ function delete_email_channel(
 end
 
 """
-    delete_email_template(template-name)
-    delete_email_template(template-name, params::Dict{String,<:Any})
+    delete_email_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a message template for messages that were sent through the email channel.
 
@@ -871,7 +638,7 @@ Deletes a message template for messages that were sent through the email channel
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -885,20 +652,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_email_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_email_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/templates/$(template-name)/email",
@@ -909,8 +665,7 @@ function delete_email_template(
 end
 
 """
-    delete_endpoint(application-id, endpoint-id)
-    delete_endpoint(application-id, endpoint-id, params::Dict{String,<:Any})
+    delete_endpoint(application-id, endpoint-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an endpoint from an application.
 
@@ -921,21 +676,12 @@ Deletes an endpoint from an application.
 
 """
 function delete_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_endpoint(
     application_id,
-    endpoint_id,
-    params::AbstractDict{String};
+    endpoint_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
@@ -946,8 +692,7 @@ function delete_endpoint(
 end
 
 """
-    delete_event_stream(application-id)
-    delete_event_stream(application-id, params::Dict{String,<:Any})
+    delete_event_stream(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the event stream for an application.
 
@@ -957,20 +702,9 @@ Deletes the event stream for an application.
 
 """
 function delete_event_stream(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/eventstream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_event_stream(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/eventstream",
@@ -981,8 +715,7 @@ function delete_event_stream(
 end
 
 """
-    delete_gcm_channel(application-id)
-    delete_gcm_channel(application-id, params::Dict{String,<:Any})
+    delete_gcm_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the GCM channel for an application and deletes any existing settings for the
 channel.
@@ -993,20 +726,9 @@ channel.
 
 """
 function delete_gcm_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/gcm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_gcm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/gcm",
@@ -1017,8 +739,7 @@ function delete_gcm_channel(
 end
 
 """
-    delete_in_app_template(template-name)
-    delete_in_app_template(template-name, params::Dict{String,<:Any})
+    delete_in_app_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a message template for messages sent using the in-app message channel.
 
@@ -1028,7 +749,7 @@ Deletes a message template for messages sent using the in-app message channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -1042,20 +763,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/inapp";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_in_app_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/templates/$(template-name)/inapp",
@@ -1066,8 +776,7 @@ function delete_in_app_template(
 end
 
 """
-    delete_journey(application-id, journey-id)
-    delete_journey(application-id, journey-id, params::Dict{String,<:Any})
+    delete_journey(application-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a journey from an application.
 
@@ -1078,21 +787,9 @@ Deletes a journey from an application.
 
 """
 function delete_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_journey(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
@@ -1103,8 +800,7 @@ function delete_journey(
 end
 
 """
-    delete_push_template(template-name)
-    delete_push_template(template-name, params::Dict{String,<:Any})
+    delete_push_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a message template for messages that were sent through a push notification channel.
 
@@ -1114,7 +810,7 @@ Deletes a message template for messages that were sent through a push notificati
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -1128,20 +824,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_push_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/push";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_push_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/templates/$(template-name)/push",
@@ -1152,8 +837,7 @@ function delete_push_template(
 end
 
 """
-    delete_recommender_configuration(recommender-id)
-    delete_recommender_configuration(recommender-id, params::Dict{String,<:Any})
+    delete_recommender_configuration(recommender-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon Pinpoint configuration for a recommender model.
 
@@ -1163,20 +847,9 @@ Deletes an Amazon Pinpoint configuration for a recommender model.
 
 """
 function delete_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=global_aws_config()
+    recommender_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/recommenders/$(recommender-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recommender_configuration(
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/recommenders/$(recommender-id)",
@@ -1187,8 +860,7 @@ function delete_recommender_configuration(
 end
 
 """
-    delete_segment(application-id, segment-id)
-    delete_segment(application-id, segment-id, params::Dict{String,<:Any})
+    delete_segment(application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a segment from an application.
 
@@ -1199,21 +871,9 @@ Deletes a segment from an application.
 
 """
 function delete_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/segments/$(segment-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_segment(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/segments/$(segment-id)",
@@ -1224,8 +884,7 @@ function delete_segment(
 end
 
 """
-    delete_sms_channel(application-id)
-    delete_sms_channel(application-id, params::Dict{String,<:Any})
+    delete_sms_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the SMS channel for an application and deletes any existing settings for the
 channel.
@@ -1236,20 +895,9 @@ channel.
 
 """
 function delete_sms_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sms_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/sms",
@@ -1260,8 +908,7 @@ function delete_sms_channel(
 end
 
 """
-    delete_sms_template(template-name)
-    delete_sms_template(template-name, params::Dict{String,<:Any})
+    delete_sms_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a message template for messages that were sent through the SMS channel.
 
@@ -1271,7 +918,7 @@ Deletes a message template for messages that were sent through the SMS channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -1285,20 +932,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_sms_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_sms_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/templates/$(template-name)/sms",
@@ -1309,8 +945,7 @@ function delete_sms_template(
 end
 
 """
-    delete_user_endpoints(application-id, user-id)
-    delete_user_endpoints(application-id, user-id, params::Dict{String,<:Any})
+    delete_user_endpoints(application-id, user-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes all the endpoints that are associated with a specific user ID.
 
@@ -1321,21 +956,9 @@ Deletes all the endpoints that are associated with a specific user ID.
 
 """
 function delete_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/users/$(user-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_user_endpoints(
-    application_id,
-    user_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/users/$(user-id)",
@@ -1346,8 +969,7 @@ function delete_user_endpoints(
 end
 
 """
-    delete_voice_channel(application-id)
-    delete_voice_channel(application-id, params::Dict{String,<:Any})
+    delete_voice_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the voice channel for an application and deletes any existing settings for the
 channel.
@@ -1358,20 +980,9 @@ channel.
 
 """
 function delete_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/apps/$(application-id)/channels/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_voice_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)/channels/voice",
@@ -1382,8 +993,7 @@ function delete_voice_channel(
 end
 
 """
-    delete_voice_template(template-name)
-    delete_voice_template(template-name, params::Dict{String,<:Any})
+    delete_voice_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a message template for messages that were sent through the voice channel.
 
@@ -1393,7 +1003,7 @@ Deletes a message template for messages that were sent through the voice channel
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -1407,20 +1017,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_voice_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/templates/$(template-name)/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_voice_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/templates/$(template-name)/voice",
@@ -1431,8 +1030,7 @@ function delete_voice_template(
 end
 
 """
-    get_adm_channel(application-id)
-    get_adm_channel(application-id, params::Dict{String,<:Any})
+    get_adm_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the ADM channel for an application.
 
@@ -1441,19 +1039,10 @@ Retrieves information about the status and settings of the ADM channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_adm_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/adm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_adm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/adm",
@@ -1464,8 +1053,7 @@ function get_adm_channel(
 end
 
 """
-    get_apns_channel(application-id)
-    get_apns_channel(application-id, params::Dict{String,<:Any})
+    get_apns_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the APNs channel for an application.
 
@@ -1474,19 +1062,10 @@ Retrieves information about the status and settings of the APNs channel for an a
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_apns_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_apns_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/apns",
@@ -1497,8 +1076,7 @@ function get_apns_channel(
 end
 
 """
-    get_apns_sandbox_channel(application-id)
-    get_apns_sandbox_channel(application-id, params::Dict{String,<:Any})
+    get_apns_sandbox_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the APNs sandbox channel for an
 application.
@@ -1509,20 +1087,9 @@ application.
 
 """
 function get_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_sandbox",
@@ -1533,8 +1100,7 @@ function get_apns_sandbox_channel(
 end
 
 """
-    get_apns_voip_channel(application-id)
-    get_apns_voip_channel(application-id, params::Dict{String,<:Any})
+    get_apns_voip_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the APNs VoIP channel for an
 application.
@@ -1545,20 +1111,9 @@ application.
 
 """
 function get_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_voip_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_voip",
@@ -1569,8 +1124,7 @@ function get_apns_voip_channel(
 end
 
 """
-    get_apns_voip_sandbox_channel(application-id)
-    get_apns_voip_sandbox_channel(application-id, params::Dict{String,<:Any})
+    get_apns_voip_sandbox_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the APNs VoIP sandbox channel for an
 application.
@@ -1581,20 +1135,9 @@ application.
 
 """
 function get_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_apns_voip_sandbox_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
@@ -1605,8 +1148,7 @@ function get_apns_voip_sandbox_channel(
 end
 
 """
-    get_app(application-id)
-    get_app(application-id, params::Dict{String,<:Any})
+    get_app(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an application.
 
@@ -1615,19 +1157,10 @@ Retrieves information about an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_app(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_app(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)",
@@ -1638,8 +1171,7 @@ function get_app(
 end
 
 """
-    get_application_date_range_kpi(application-id, kpi-name)
-    get_application_date_range_kpi(application-id, kpi-name, params::Dict{String,<:Any})
+    get_application_date_range_kpi(application-id, kpi-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves (queries) pre-aggregated data for a standard metric that applies to an
 application.
@@ -1654,36 +1186,24 @@ application.
   values, see the Amazon Pinpoint Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The last date and time to retrieve data for, as part of an inclusive date
   range that filters the query results. This value should be in extended ISO 8601 format and
   use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
   July 26, 2019.
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
+- `"start_time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601 format
   and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_application_date_range_kpi(
-    application_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_application_date_range_kpi(
-    application_id,
-    kpi_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)",
@@ -1694,8 +1214,7 @@ function get_application_date_range_kpi(
 end
 
 """
-    get_application_settings(application-id)
-    get_application_settings(application-id, params::Dict{String,<:Any})
+    get_application_settings(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the settings for an application.
 
@@ -1705,20 +1224,9 @@ Retrieves information about the settings for an application.
 
 """
 function get_application_settings(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_application_settings(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/settings",
@@ -1729,35 +1237,27 @@ function get_application_settings(
 end
 
 """
-    get_apps()
-    get_apps(params::Dict{String,<:Any})
+    get_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the applications that are associated with your Amazon
 Pinpoint account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_apps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_baidu_channel(application-id)
-    get_baidu_channel(application-id, params::Dict{String,<:Any})
+    get_baidu_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the Baidu channel for an application.
 
@@ -1767,20 +1267,9 @@ Retrieves information about the status and settings of the Baidu channel for an 
 
 """
 function get_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/baidu";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_baidu_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/baidu",
@@ -1791,8 +1280,7 @@ function get_baidu_channel(
 end
 
 """
-    get_campaign(application-id, campaign-id)
-    get_campaign(application-id, campaign-id, params::Dict{String,<:Any})
+    get_campaign(application-id, campaign-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for a campaign.
 
@@ -1803,21 +1291,12 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign(
     application_id,
-    campaign_id,
-    params::AbstractDict{String};
+    campaign_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
@@ -1828,8 +1307,7 @@ function get_campaign(
 end
 
 """
-    get_campaign_activities(application-id, campaign-id)
-    get_campaign_activities(application-id, campaign-id, params::Dict{String,<:Any})
+    get_campaign_activities(application-id, campaign-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the activities for a campaign.
 
@@ -1839,28 +1317,19 @@ Retrieves information about all the activities for a campaign.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
 function get_campaign_activities(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_activities(
     application_id,
-    campaign_id,
-    params::AbstractDict{String};
+    campaign_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities",
@@ -1871,8 +1340,7 @@ function get_campaign_activities(
 end
 
 """
-    get_campaign_date_range_kpi(application-id, campaign-id, kpi-name)
-    get_campaign_date_range_kpi(application-id, campaign-id, kpi-name, params::Dict{String,<:Any})
+    get_campaign_date_range_kpi(application-id, campaign-id, kpi-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves (queries) pre-aggregated data for a standard metric that applies to a campaign.
 
@@ -1887,37 +1355,28 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to a 
   values, see the Amazon Pinpoint Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The last date and time to retrieve data for, as part of an inclusive date
   range that filters the query results. This value should be in extended ISO 8601 format and
   use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
   July 26, 2019.
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
+- `"start_time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601 format
   and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_campaign_date_range_kpi(
-    application_id, campaign_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_date_range_kpi(
     application_id,
     campaign_id,
-    kpi_name,
-    params::AbstractDict{String};
+    kpi_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)",
@@ -1928,8 +1387,7 @@ function get_campaign_date_range_kpi(
 end
 
 """
-    get_campaign_version(application-id, campaign-id, version)
-    get_campaign_version(application-id, campaign-id, version, params::Dict{String,<:Any})
+    get_campaign_version(application-id, campaign-id, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for a specific
 version of a campaign.
@@ -1942,22 +1400,13 @@ version of a campaign.
 
 """
 function get_campaign_version(
-    application_id, campaign_id, version; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_version(
     application_id,
     campaign_id,
-    version,
-    params::AbstractDict{String};
+    version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)",
@@ -1968,8 +1417,7 @@ function get_campaign_version(
 end
 
 """
-    get_campaign_versions(application-id, campaign-id)
-    get_campaign_versions(application-id, campaign-id, params::Dict{String,<:Any})
+    get_campaign_versions(application-id, campaign-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for all versions
 of a campaign.
@@ -1980,28 +1428,19 @@ of a campaign.
 - `campaign-id`: The unique identifier for the campaign.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
 function get_campaign_versions(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_campaign_versions(
     application_id,
-    campaign_id,
-    params::AbstractDict{String};
+    campaign_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions",
@@ -2012,8 +1451,7 @@ function get_campaign_versions(
 end
 
 """
-    get_campaigns(application-id)
-    get_campaigns(application-id, params::Dict{String,<:Any})
+    get_campaigns(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for all the
 campaigns that are associated with an application.
@@ -2023,25 +1461,16 @@ campaigns that are associated with an application.
   as the Project ID on the Amazon Pinpoint console.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_campaigns(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/campaigns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_campaigns(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns",
@@ -2052,8 +1481,7 @@ function get_campaigns(
 end
 
 """
-    get_channels(application-id)
-    get_channels(application-id, params::Dict{String,<:Any})
+    get_channels(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the history and status of each channel for an application.
 
@@ -2062,19 +1490,10 @@ Retrieves information about the history and status of each channel for an applic
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_channels(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_channels(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels",
@@ -2085,8 +1504,7 @@ function get_channels(
 end
 
 """
-    get_email_channel(application-id)
-    get_email_channel(application-id, params::Dict{String,<:Any})
+    get_email_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the email channel for an application.
 
@@ -2096,20 +1514,9 @@ Retrieves information about the status and settings of the email channel for an 
 
 """
 function get_email_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_email_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/email",
@@ -2120,8 +1527,7 @@ function get_email_channel(
 end
 
 """
-    get_email_template(template-name)
-    get_email_template(template-name, params::Dict{String,<:Any})
+    get_email_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the content and settings of a message template for messages that are sent through
 the email channel.
@@ -2132,7 +1538,7 @@ the email channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -2146,20 +1552,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_email_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/email";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_email_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/email",
@@ -2170,8 +1565,7 @@ function get_email_template(
 end
 
 """
-    get_endpoint(application-id, endpoint-id)
-    get_endpoint(application-id, endpoint-id, params::Dict{String,<:Any})
+    get_endpoint(application-id, endpoint-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the settings and attributes of a specific endpoint for an
 application.
@@ -2183,21 +1577,12 @@ application.
 
 """
 function get_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_endpoint(
     application_id,
-    endpoint_id,
-    params::AbstractDict{String};
+    endpoint_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
@@ -2208,8 +1593,7 @@ function get_endpoint(
 end
 
 """
-    get_event_stream(application-id)
-    get_event_stream(application-id, params::Dict{String,<:Any})
+    get_event_stream(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the event stream settings for an application.
 
@@ -2218,19 +1602,10 @@ Retrieves information about the event stream settings for an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_event_stream(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/eventstream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_event_stream(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/eventstream",
@@ -2241,8 +1616,7 @@ function get_event_stream(
 end
 
 """
-    get_export_job(application-id, job-id)
-    get_export_job(application-id, job-id, params::Dict{String,<:Any})
+    get_export_job(application-id, job-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of a specific export job for an
 application.
@@ -2254,21 +1628,9 @@ application.
 
 """
 function get_export_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export/$(job-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_export_job(
-    application_id,
-    job_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/export/$(job-id)",
@@ -2279,8 +1641,7 @@ function get_export_job(
 end
 
 """
-    get_export_jobs(application-id)
-    get_export_jobs(application-id, params::Dict{String,<:Any})
+    get_export_jobs(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of all the export jobs for an
 application.
@@ -2290,25 +1651,16 @@ application.
   as the Project ID on the Amazon Pinpoint console.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_export_jobs(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/export";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_export_jobs(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/export",
@@ -2319,8 +1671,7 @@ function get_export_jobs(
 end
 
 """
-    get_gcm_channel(application-id)
-    get_gcm_channel(application-id, params::Dict{String,<:Any})
+    get_gcm_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the GCM channel for an application.
 
@@ -2329,19 +1680,10 @@ Retrieves information about the status and settings of the GCM channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/gcm";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_gcm_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/gcm",
@@ -2352,8 +1694,7 @@ function get_gcm_channel(
 end
 
 """
-    get_import_job(application-id, job-id)
-    get_import_job(application-id, job-id, params::Dict{String,<:Any})
+    get_import_job(application-id, job-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of a specific import job for an
 application.
@@ -2365,21 +1706,9 @@ application.
 
 """
 function get_import_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import/$(job-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_import_job(
-    application_id,
-    job_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/import/$(job-id)",
@@ -2390,8 +1719,7 @@ function get_import_job(
 end
 
 """
-    get_import_jobs(application-id)
-    get_import_jobs(application-id, params::Dict{String,<:Any})
+    get_import_jobs(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of all the import jobs for an
 application.
@@ -2401,25 +1729,16 @@ application.
   as the Project ID on the Amazon Pinpoint console.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_import_jobs(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/jobs/import";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_import_jobs(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/import",
@@ -2430,8 +1749,7 @@ function get_import_jobs(
 end
 
 """
-    get_in_app_messages(application-id, endpoint-id)
-    get_in_app_messages(application-id, endpoint-id, params::Dict{String,<:Any})
+    get_in_app_messages(application-id, endpoint-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the in-app messages targeted for the provided endpoint ID.
 
@@ -2442,21 +1760,12 @@ Retrieves the in-app messages targeted for the provided endpoint ID.
 
 """
 function get_in_app_messages(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_in_app_messages(
     application_id,
-    endpoint_id,
-    params::AbstractDict{String};
+    endpoint_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)/inappmessages",
@@ -2467,8 +1776,7 @@ function get_in_app_messages(
 end
 
 """
-    get_in_app_template(template-name)
-    get_in_app_template(template-name, params::Dict{String,<:Any})
+    get_in_app_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the content and settings of a message template for messages sent through the
 in-app channel.
@@ -2479,7 +1787,7 @@ in-app channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -2493,20 +1801,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/inapp";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_in_app_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/inapp",
@@ -2517,8 +1814,7 @@ function get_in_app_template(
 end
 
 """
-    get_journey(application-id, journey-id)
-    get_journey(application-id, journey-id, params::Dict{String,<:Any})
+    get_journey(application-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for a journey.
 
@@ -2529,21 +1825,9 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
@@ -2554,8 +1838,7 @@ function get_journey(
 end
 
 """
-    get_journey_date_range_kpi(application-id, journey-id, kpi-name)
-    get_journey_date_range_kpi(application-id, journey-id, kpi-name, params::Dict{String,<:Any})
+    get_journey_date_range_kpi(application-id, journey-id, kpi-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves (queries) pre-aggregated data for a standard engagement metric that applies to a
 journey.
@@ -2571,37 +1854,28 @@ journey.
   values, see the Amazon Pinpoint Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"end-time"`: The last date and time to retrieve data for, as part of an inclusive date
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The last date and time to retrieve data for, as part of an inclusive date
   range that filters the query results. This value should be in extended ISO 8601 format and
   use Coordinated Universal Time (UTC), for example: 2019-07-26T20:00:00Z for 8:00 PM UTC
   July 26, 2019.
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"start-time"`: The first date and time to retrieve data for, as part of an inclusive
+- `"start_time"`: The first date and time to retrieve data for, as part of an inclusive
   date range that filters the query results. This value should be in extended ISO 8601 format
   and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_journey_date_range_kpi(
-    application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_date_range_kpi(
     application_id,
     journey_id,
-    kpi_name,
-    params::AbstractDict{String};
+    kpi_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)",
@@ -2612,8 +1886,7 @@ function get_journey_date_range_kpi(
 end
 
 """
-    get_journey_execution_activity_metrics(application-id, journey-activity-id, journey-id)
-    get_journey_execution_activity_metrics(application-id, journey-activity-id, journey-id, params::Dict{String,<:Any})
+    get_journey_execution_activity_metrics(application-id, journey-activity-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a
 journey activity.
@@ -2625,10 +1898,10 @@ journey activity.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_execution_activity_metrics(
@@ -2636,21 +1909,9 @@ function get_journey_execution_activity_metrics(
     journey_activity_id,
     journey_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_execution_activity_metrics(
-    application_id,
-    journey_activity_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics",
@@ -2661,8 +1922,7 @@ function get_journey_execution_activity_metrics(
 end
 
 """
-    get_journey_execution_metrics(application-id, journey-id)
-    get_journey_execution_metrics(application-id, journey-id, params::Dict{String,<:Any})
+    get_journey_execution_metrics(application-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves (queries) pre-aggregated data for a standard execution metric that applies to a
 journey.
@@ -2673,28 +1933,16 @@ journey.
 - `journey-id`: The unique identifier for the journey.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_execution_metrics(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_journey_execution_metrics(
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics",
@@ -2705,8 +1953,7 @@ function get_journey_execution_metrics(
 end
 
 """
-    get_push_template(template-name)
-    get_push_template(template-name, params::Dict{String,<:Any})
+    get_push_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the content and settings of a message template for messages that are sent through
 a push notification channel.
@@ -2717,7 +1964,7 @@ a push notification channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -2730,19 +1977,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the create-new-version parameter isn't used or is set to false. For a delete operation,
   deletes the template, including all versions of the template.
 """
-function get_push_template(template_name; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/push";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_push_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/push",
@@ -2753,8 +1991,7 @@ function get_push_template(
 end
 
 """
-    get_recommender_configuration(recommender-id)
-    get_recommender_configuration(recommender-id, params::Dict{String,<:Any})
+    get_recommender_configuration(recommender-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an Amazon Pinpoint configuration for a recommender model.
 
@@ -2764,20 +2001,9 @@ Retrieves information about an Amazon Pinpoint configuration for a recommender m
 
 """
 function get_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=global_aws_config()
+    recommender_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/recommenders/$(recommender-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recommender_configuration(
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/recommenders/$(recommender-id)",
@@ -2788,27 +2014,22 @@ function get_recommender_configuration(
 end
 
 """
-    get_recommender_configurations()
-    get_recommender_configurations(params::Dict{String,<:Any})
+    get_recommender_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the recommender model configurations that are associated
 with your Amazon Pinpoint account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_recommender_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_recommender_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_recommender_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/recommenders",
@@ -2819,8 +2040,7 @@ function get_recommender_configurations(
 end
 
 """
-    get_segment(application-id, segment-id)
-    get_segment(application-id, segment-id, params::Dict{String,<:Any})
+    get_segment(application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the configuration, dimension, and other settings for a specific
 segment that's associated with an application.
@@ -2832,21 +2052,9 @@ segment that's associated with an application.
 
 """
 function get_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)",
@@ -2857,8 +2065,7 @@ function get_segment(
 end
 
 """
-    get_segment_export_jobs(application-id, segment-id)
-    get_segment_export_jobs(application-id, segment-id, params::Dict{String,<:Any})
+    get_segment_export_jobs(application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the export jobs for a segment.
 
@@ -2868,28 +2075,16 @@ Retrieves information about the status and settings of the export jobs for a seg
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
 function get_segment_export_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_export_jobs(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export",
@@ -2900,8 +2095,7 @@ function get_segment_export_jobs(
 end
 
 """
-    get_segment_import_jobs(application-id, segment-id)
-    get_segment_import_jobs(application-id, segment-id, params::Dict{String,<:Any})
+    get_segment_import_jobs(application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the import jobs for a segment.
 
@@ -2911,28 +2105,16 @@ Retrieves information about the status and settings of the import jobs for a seg
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
 function get_segment_import_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_import_jobs(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import",
@@ -2943,8 +2125,7 @@ function get_segment_import_jobs(
 end
 
 """
-    get_segment_version(application-id, segment-id, version)
-    get_segment_version(application-id, segment-id, version, params::Dict{String,<:Any})
+    get_segment_version(application-id, segment-id, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the configuration, dimension, and other settings for a specific
 version of a segment that's associated with an application.
@@ -2957,22 +2138,13 @@ version of a segment that's associated with an application.
 
 """
 function get_segment_version(
-    application_id, segment_id, version; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_version(
     application_id,
     segment_id,
-    version,
-    params::AbstractDict{String};
+    version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)",
@@ -2983,8 +2155,7 @@ function get_segment_version(
 end
 
 """
-    get_segment_versions(application-id, segment-id)
-    get_segment_versions(application-id, segment-id, params::Dict{String,<:Any})
+    get_segment_versions(application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the configuration, dimension, and other settings for all the
 versions of a specific segment that's associated with an application.
@@ -2995,28 +2166,16 @@ versions of a specific segment that's associated with an application.
 - `segment-id`: The unique identifier for the segment.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
 function get_segment_versions(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments/$(segment-id)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_segment_versions(
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments/$(segment-id)/versions",
@@ -3027,8 +2186,7 @@ function get_segment_versions(
 end
 
 """
-    get_segments(application-id)
-    get_segments(application-id, params::Dict{String,<:Any})
+    get_segments(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the configuration, dimension, and other settings for all the
 segments that are associated with an application.
@@ -3038,25 +2196,16 @@ segments that are associated with an application.
   as the Project ID on the Amazon Pinpoint console.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segments(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/segments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_segments(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments",
@@ -3067,8 +2216,7 @@ function get_segments(
 end
 
 """
-    get_sms_channel(application-id)
-    get_sms_channel(application-id, params::Dict{String,<:Any})
+    get_sms_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the SMS channel for an application.
 
@@ -3077,19 +2225,10 @@ Retrieves information about the status and settings of the SMS channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_sms_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sms_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/sms",
@@ -3100,8 +2239,7 @@ function get_sms_channel(
 end
 
 """
-    get_sms_template(template-name)
-    get_sms_template(template-name, params::Dict{String,<:Any})
+    get_sms_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the content and settings of a message template for messages that are sent through
 the SMS channel.
@@ -3112,7 +2250,7 @@ the SMS channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -3125,19 +2263,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the create-new-version parameter isn't used or is set to false. For a delete operation,
   deletes the template, including all versions of the template.
 """
-function get_sms_template(template_name; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/sms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sms_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/sms",
@@ -3148,8 +2277,7 @@ function get_sms_template(
 end
 
 """
-    get_user_endpoints(application-id, user-id)
-    get_user_endpoints(application-id, user-id, params::Dict{String,<:Any})
+    get_user_endpoints(application-id, user-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the endpoints that are associated with a specific user ID.
 
@@ -3160,21 +2288,9 @@ Retrieves information about all the endpoints that are associated with a specifi
 
 """
 function get_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/users/$(user-id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_user_endpoints(
-    application_id,
-    user_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/users/$(user-id)",
@@ -3185,8 +2301,7 @@ function get_user_endpoints(
 end
 
 """
-    get_voice_channel(application-id)
-    get_voice_channel(application-id, params::Dict{String,<:Any})
+    get_voice_channel(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status and settings of the voice channel for an application.
 
@@ -3196,20 +2311,9 @@ Retrieves information about the status and settings of the voice channel for an 
 
 """
 function get_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/channels/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_voice_channel(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/voice",
@@ -3220,8 +2324,7 @@ function get_voice_channel(
 end
 
 """
-    get_voice_template(template-name)
-    get_voice_template(template-name, params::Dict{String,<:Any})
+    get_voice_template(template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the content and settings of a message template for messages that are sent through
 the voice channel.
@@ -3232,7 +2335,7 @@ the voice channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"version"`: The unique identifier for the version of the message template to update,
   retrieve information about, or delete. To retrieve identifiers and other information for
   all the versions of a template, use the Template Versions resource. If specified, this
@@ -3246,20 +2349,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_voice_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/voice";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_voice_template(
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/voice",
@@ -3270,8 +2362,7 @@ function get_voice_template(
 end
 
 """
-    list_journeys(application-id)
-    list_journeys(application-id, params::Dict{String,<:Any})
+    list_journeys(application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the status, configuration, and other settings for all the
 journeys that are associated with an application.
@@ -3281,25 +2372,16 @@ journeys that are associated with an application.
   as the Project ID on the Amazon Pinpoint console.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_journeys(application_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET",
-        "/v1/apps/$(application-id)/journeys";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_journeys(
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys",
@@ -3310,8 +2392,7 @@ function list_journeys(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves all the tags (keys and values) that are associated with an application, campaign,
 message template, or segment.
@@ -3321,20 +2402,9 @@ message template, or segment.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "GET",
-        "/v1/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/tags/$(resource-arn)",
@@ -3345,8 +2415,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_template_versions(template-name, template-type)
-    list_template_versions(template-name, template-type, params::Dict{String,<:Any})
+    list_template_versions(template-name, template-type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the versions of a specific message template.
 
@@ -3358,28 +2427,19 @@ Retrieves information about all the versions of a specific message template.
   values are: EMAIL, PUSH, SMS, and VOICE.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function list_template_versions(
-    template_name, template_type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "GET",
-        "/v1/templates/$(template-name)/$(template-type)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_template_versions(
     template_name,
-    template_type,
-    params::AbstractDict{String};
+    template_type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/$(template-type)/versions",
@@ -3390,33 +2450,26 @@ function list_template_versions(
 end
 
 """
-    list_templates()
-    list_templates(params::Dict{String,<:Any})
+    list_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about all the message templates that are associated with your Amazon
 Pinpoint account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"next-token"`: The  string that specifies which page of results to return in a paginated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The  string that specifies which page of results to return in a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
-- `"page-size"`: The maximum number of items to include in each page of a paginated
+- `"page_size"`: The maximum number of items to include in each page of a paginated
   response. This parameter is not supported for application, campaign, and journey metrics.
 - `"prefix"`: The substring to match in the names of the message templates to include in
   the results. If you specify this value, Amazon Pinpoint returns only those templates whose
   names begin with the value that you specify.
-- `"template-type"`: The type of message template to include in the results. Valid values
+- `"template_type"`: The type of message template to include in the results. Valid values
   are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't
   include this parameter in your request.
 """
-function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pinpoint(
-        "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "GET",
         "/v1/templates",
@@ -3427,8 +2480,7 @@ function list_templates(
 end
 
 """
-    phone_number_validate(number_validate_request)
-    phone_number_validate(number_validate_request, params::Dict{String,<:Any})
+    phone_number_validate(number_validate_request; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a phone number.
 
@@ -3437,21 +2489,9 @@ Retrieves information about a phone number.
 
 """
 function phone_number_validate(
-    NumberValidateRequest; aws_config::AbstractAWSConfig=global_aws_config()
+    NumberValidateRequest; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "POST",
-        "/v1/phone/number/validate",
-        Dict{String,Any}("NumberValidateRequest" => NumberValidateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function phone_number_validate(
-    NumberValidateRequest,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/phone/number/validate",
@@ -3468,8 +2508,7 @@ function phone_number_validate(
 end
 
 """
-    put_event_stream(write_event_stream, application-id)
-    put_event_stream(write_event_stream, application-id, params::Dict{String,<:Any})
+    put_event_stream(write_event_stream, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new event stream for an application or updates the settings of an existing event
 stream for an application.
@@ -3481,22 +2520,12 @@ stream for an application.
 
 """
 function put_event_stream(
-    WriteEventStream, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/eventstream",
-        Dict{String,Any}("WriteEventStream" => WriteEventStream);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_event_stream(
     WriteEventStream,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/eventstream",
@@ -3511,8 +2540,7 @@ function put_event_stream(
 end
 
 """
-    put_events(events_request, application-id)
-    put_events(events_request, application-id, params::Dict{String,<:Any})
+    put_events(events_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new event to record for endpoints, or creates or updates endpoint data that
 existing events are associated with.
@@ -3524,22 +2552,12 @@ existing events are associated with.
 
 """
 function put_events(
-    EventsRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/events",
-        Dict{String,Any}("EventsRequest" => EventsRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_events(
     EventsRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/events",
@@ -3552,8 +2570,7 @@ function put_events(
 end
 
 """
-    remove_attributes(update_attributes_request, application-id, attribute-type)
-    remove_attributes(update_attributes_request, application-id, attribute-type, params::Dict{String,<:Any})
+    remove_attributes(update_attributes_request, application-id, attribute-type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more attributes, of the same attribute type, from all the endpoints that are
 associated with an application.
@@ -3576,22 +2593,9 @@ function remove_attributes(
     application_id,
     attribute_type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/attributes/$(attribute-type)",
-        Dict{String,Any}("UpdateAttributesRequest" => UpdateAttributesRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_attributes(
-    UpdateAttributesRequest,
-    application_id,
-    attribute_type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/attributes/$(attribute-type)",
@@ -3608,8 +2612,7 @@ function remove_attributes(
 end
 
 """
-    send_messages(message_request, application-id)
-    send_messages(message_request, application-id, params::Dict{String,<:Any})
+    send_messages(message_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and sends a direct message.
 
@@ -3620,22 +2623,12 @@ Creates and sends a direct message.
 
 """
 function send_messages(
-    MessageRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/messages",
-        Dict{String,Any}("MessageRequest" => MessageRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_messages(
     MessageRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/messages",
@@ -3648,8 +2641,7 @@ function send_messages(
 end
 
 """
-    send_users_messages(send_users_message_request, application-id)
-    send_users_messages(send_users_message_request, application-id, params::Dict{String,<:Any})
+    send_users_messages(send_users_message_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and sends a message to a list of users.
 
@@ -3663,21 +2655,9 @@ function send_users_messages(
     SendUsersMessageRequest,
     application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "POST",
-        "/v1/apps/$(application-id)/users-messages",
-        Dict{String,Any}("SendUsersMessageRequest" => SendUsersMessageRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_users_messages(
-    SendUsersMessageRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/apps/$(application-id)/users-messages",
@@ -3694,8 +2674,7 @@ function send_users_messages(
 end
 
 """
-    tag_resource(tags_model, resource-arn)
-    tag_resource(tags_model, resource-arn, params::Dict{String,<:Any})
+    tag_resource(tags_model, resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags (keys and values) to an application, campaign, message template, or
 segment.
@@ -3706,22 +2685,9 @@ segment.
 
 """
 function tag_resource(
-    TagsModel, resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    TagsModel, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "POST",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}("TagsModel" => TagsModel);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    TagsModel,
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "POST",
         "/v1/tags/$(resource-arn)",
@@ -3734,8 +2700,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags (keys and values) from an application, campaign, message template,
 or segment.
@@ -3748,22 +2713,9 @@ or segment.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return pinpoint(
-        "DELETE",
-        "/v1/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "DELETE",
         "/v1/tags/$(resource-arn)",
@@ -3774,8 +2726,7 @@ function untag_resource(
 end
 
 """
-    update_adm_channel(admchannel_request, application-id)
-    update_adm_channel(admchannel_request, application-id, params::Dict{String,<:Any})
+    update_adm_channel(admchannel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the ADM channel for an application or updates the status and settings of the ADM
 channel for an application.
@@ -3787,22 +2738,12 @@ channel for an application.
 
 """
 function update_adm_channel(
-    ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/adm",
-        Dict{String,Any}("ADMChannelRequest" => ADMChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_adm_channel(
     ADMChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/adm",
@@ -3817,8 +2758,7 @@ function update_adm_channel(
 end
 
 """
-    update_apns_channel(apnschannel_request, application-id)
-    update_apns_channel(apnschannel_request, application-id, params::Dict{String,<:Any})
+    update_apns_channel(apnschannel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the APNs channel for an application or updates the status and settings of the APNs
 channel for an application.
@@ -3830,22 +2770,12 @@ channel for an application.
 
 """
 function update_apns_channel(
-    APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns",
-        Dict{String,Any}("APNSChannelRequest" => APNSChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_channel(
     APNSChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/apns",
@@ -3860,8 +2790,7 @@ function update_apns_channel(
 end
 
 """
-    update_apns_sandbox_channel(apnssandbox_channel_request, application-id)
-    update_apns_sandbox_channel(apnssandbox_channel_request, application-id, params::Dict{String,<:Any})
+    update_apns_sandbox_channel(apnssandbox_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the APNs sandbox channel for an application or updates the status and settings of
 the APNs sandbox channel for an application.
@@ -3876,21 +2805,9 @@ function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_sandbox",
-        Dict{String,Any}("APNSSandboxChannelRequest" => APNSSandboxChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_sandbox_channel(
-    APNSSandboxChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/apns_sandbox",
@@ -3907,8 +2824,7 @@ function update_apns_sandbox_channel(
 end
 
 """
-    update_apns_voip_channel(apnsvoip_channel_request, application-id)
-    update_apns_voip_channel(apnsvoip_channel_request, application-id, params::Dict{String,<:Any})
+    update_apns_voip_channel(apnsvoip_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the APNs VoIP channel for an application or updates the status and settings of the
 APNs VoIP channel for an application.
@@ -3923,21 +2839,9 @@ function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip",
-        Dict{String,Any}("APNSVoipChannelRequest" => APNSVoipChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_voip_channel(
-    APNSVoipChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/apns_voip",
@@ -3954,8 +2858,7 @@ function update_apns_voip_channel(
 end
 
 """
-    update_apns_voip_sandbox_channel(apnsvoip_sandbox_channel_request, application-id)
-    update_apns_voip_sandbox_channel(apnsvoip_sandbox_channel_request, application-id, params::Dict{String,<:Any})
+    update_apns_voip_sandbox_channel(apnsvoip_sandbox_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the APNs VoIP sandbox channel for an application or updates the status and settings
 of the APNs VoIP sandbox channel for an application.
@@ -3970,21 +2873,9 @@ function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
-        Dict{String,Any}("APNSVoipSandboxChannelRequest" => APNSVoipSandboxChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_apns_voip_sandbox_channel(
-    APNSVoipSandboxChannelRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/apns_voip_sandbox",
@@ -4003,8 +2894,7 @@ function update_apns_voip_sandbox_channel(
 end
 
 """
-    update_application_settings(write_application_settings_request, application-id)
-    update_application_settings(write_application_settings_request, application-id, params::Dict{String,<:Any})
+    update_application_settings(write_application_settings_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the settings for an application.
 
@@ -4018,23 +2908,9 @@ function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/settings",
-        Dict{String,Any}(
-            "WriteApplicationSettingsRequest" => WriteApplicationSettingsRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application_settings(
-    WriteApplicationSettingsRequest,
-    application_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/settings",
@@ -4053,8 +2929,7 @@ function update_application_settings(
 end
 
 """
-    update_baidu_channel(baidu_channel_request, application-id)
-    update_baidu_channel(baidu_channel_request, application-id, params::Dict{String,<:Any})
+    update_baidu_channel(baidu_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the Baidu channel for an application or updates the status and settings of the
 Baidu channel for an application.
@@ -4066,22 +2941,12 @@ Baidu channel for an application.
 
 """
 function update_baidu_channel(
-    BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/baidu",
-        Dict{String,Any}("BaiduChannelRequest" => BaiduChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_baidu_channel(
     BaiduChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/baidu",
@@ -4098,8 +2963,7 @@ function update_baidu_channel(
 end
 
 """
-    update_campaign(write_campaign_request, application-id, campaign-id)
-    update_campaign(write_campaign_request, application-id, campaign-id, params::Dict{String,<:Any})
+    update_campaign(write_campaign_request, application-id, campaign-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration and other settings for a campaign.
 
@@ -4115,22 +2979,9 @@ function update_campaign(
     application_id,
     campaign_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
-        Dict{String,Any}("WriteCampaignRequest" => WriteCampaignRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_campaign(
-    WriteCampaignRequest,
-    application_id,
-    campaign_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/campaigns/$(campaign-id)",
@@ -4147,8 +2998,7 @@ function update_campaign(
 end
 
 """
-    update_email_channel(email_channel_request, application-id)
-    update_email_channel(email_channel_request, application-id, params::Dict{String,<:Any})
+    update_email_channel(email_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the email channel for an application or updates the status and settings of the
 email channel for an application.
@@ -4160,22 +3010,12 @@ email channel for an application.
 
 """
 function update_email_channel(
-    EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/email",
-        Dict{String,Any}("EmailChannelRequest" => EmailChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_email_channel(
     EmailChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/email",
@@ -4192,8 +3032,7 @@ function update_email_channel(
 end
 
 """
-    update_email_template(email_template_request, template-name)
-    update_email_template(email_template_request, template-name, params::Dict{String,<:Any})
+    update_email_template(email_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing message template for messages that are sent through the email channel.
 
@@ -4204,8 +3043,8 @@ Updates an existing message template for messages that are sent through the emai
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"create_new_version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
   save the updates to (overwrite) the latest existing version of the template. If you don't
   specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
@@ -4224,22 +3063,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/email",
-        Dict{String,Any}("EmailTemplateRequest" => EmailTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_email_template(
     EmailTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/email",
@@ -4256,8 +3085,7 @@ function update_email_template(
 end
 
 """
-    update_endpoint(endpoint_request, application-id, endpoint-id)
-    update_endpoint(endpoint_request, application-id, endpoint-id, params::Dict{String,<:Any})
+    update_endpoint(endpoint_request, application-id, endpoint-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new endpoint for an application or updates the settings and attributes of an
 existing endpoint for an application. You can also use this operation to define custom
@@ -4276,22 +3104,9 @@ function update_endpoint(
     application_id,
     endpoint_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
-        Dict{String,Any}("EndpointRequest" => EndpointRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_endpoint(
-    EndpointRequest,
-    application_id,
-    endpoint_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/endpoints/$(endpoint-id)",
@@ -4306,8 +3121,7 @@ function update_endpoint(
 end
 
 """
-    update_endpoints_batch(endpoint_batch_request, application-id)
-    update_endpoints_batch(endpoint_batch_request, application-id, params::Dict{String,<:Any})
+    update_endpoints_batch(endpoint_batch_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new batch of endpoints for an application or updates the settings and attributes
 of a batch of existing endpoints for an application. You can also use this operation to
@@ -4322,22 +3136,12 @@ new values.
 
 """
 function update_endpoints_batch(
-    EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/endpoints",
-        Dict{String,Any}("EndpointBatchRequest" => EndpointBatchRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_endpoints_batch(
     EndpointBatchRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/endpoints",
@@ -4354,8 +3158,7 @@ function update_endpoints_batch(
 end
 
 """
-    update_gcm_channel(gcmchannel_request, application-id)
-    update_gcm_channel(gcmchannel_request, application-id, params::Dict{String,<:Any})
+    update_gcm_channel(gcmchannel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the GCM channel for an application or updates the status and settings of the GCM
 channel for an application.
@@ -4367,22 +3170,12 @@ channel for an application.
 
 """
 function update_gcm_channel(
-    GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/gcm",
-        Dict{String,Any}("GCMChannelRequest" => GCMChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_gcm_channel(
     GCMChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/gcm",
@@ -4397,8 +3190,7 @@ function update_gcm_channel(
 end
 
 """
-    update_in_app_template(in_app_template_request, template-name)
-    update_in_app_template(in_app_template_request, template-name, params::Dict{String,<:Any})
+    update_in_app_template(in_app_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing message template for messages sent through the in-app message channel.
 
@@ -4409,8 +3201,8 @@ Updates an existing message template for messages sent through the in-app messag
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"create_new_version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
   save the updates to (overwrite) the latest existing version of the template. If you don't
   specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
@@ -4429,22 +3221,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/inapp",
-        Dict{String,Any}("InAppTemplateRequest" => InAppTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_in_app_template(
     InAppTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/inapp",
@@ -4461,8 +3243,7 @@ function update_in_app_template(
 end
 
 """
-    update_journey(write_journey_request, application-id, journey-id)
-    update_journey(write_journey_request, application-id, journey-id, params::Dict{String,<:Any})
+    update_journey(write_journey_request, application-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration and other settings for a journey.
 
@@ -4478,22 +3259,9 @@ function update_journey(
     application_id,
     journey_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)",
-        Dict{String,Any}("WriteJourneyRequest" => WriteJourneyRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_journey(
-    WriteJourneyRequest,
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/journeys/$(journey-id)",
@@ -4510,8 +3278,7 @@ function update_journey(
 end
 
 """
-    update_journey_state(journey_state_request, application-id, journey-id)
-    update_journey_state(journey_state_request, application-id, journey-id, params::Dict{String,<:Any})
+    update_journey_state(journey_state_request, application-id, journey-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels (stops) an active journey.
 
@@ -4527,22 +3294,9 @@ function update_journey_state(
     application_id,
     journey_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/journeys/$(journey-id)/state",
-        Dict{String,Any}("JourneyStateRequest" => JourneyStateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_journey_state(
-    JourneyStateRequest,
-    application_id,
-    journey_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/journeys/$(journey-id)/state",
@@ -4559,8 +3313,7 @@ function update_journey_state(
 end
 
 """
-    update_push_template(push_notification_template_request, template-name)
-    update_push_template(push_notification_template_request, template-name, params::Dict{String,<:Any})
+    update_push_template(push_notification_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing message template for messages that are sent through a push notification
 channel.
@@ -4572,8 +3325,8 @@ channel.
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"create_new_version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
   save the updates to (overwrite) the latest existing version of the template. If you don't
   specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
@@ -4595,23 +3348,9 @@ function update_push_template(
     PushNotificationTemplateRequest,
     template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/push",
-        Dict{String,Any}(
-            "PushNotificationTemplateRequest" => PushNotificationTemplateRequest
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_push_template(
-    PushNotificationTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/push",
@@ -4630,8 +3369,7 @@ function update_push_template(
 end
 
 """
-    update_recommender_configuration(update_recommender_configuration, recommender-id)
-    update_recommender_configuration(update_recommender_configuration, recommender-id, params::Dict{String,<:Any})
+    update_recommender_configuration(update_recommender_configuration, recommender-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon Pinpoint configuration for a recommender model.
 
@@ -4645,23 +3383,9 @@ function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/recommenders/$(recommender-id)",
-        Dict{String,Any}(
-            "UpdateRecommenderConfiguration" => UpdateRecommenderConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_recommender_configuration(
-    UpdateRecommenderConfiguration,
-    recommender_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/recommenders/$(recommender-id)",
@@ -4680,8 +3404,7 @@ function update_recommender_configuration(
 end
 
 """
-    update_segment(write_segment_request, application-id, segment-id)
-    update_segment(write_segment_request, application-id, segment-id, params::Dict{String,<:Any})
+    update_segment(write_segment_request, application-id, segment-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new segment for an application or updates the configuration, dimension, and other
 settings for an existing segment that's associated with an application.
@@ -4698,22 +3421,9 @@ function update_segment(
     application_id,
     segment_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/segments/$(segment-id)",
-        Dict{String,Any}("WriteSegmentRequest" => WriteSegmentRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_segment(
-    WriteSegmentRequest,
-    application_id,
-    segment_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/segments/$(segment-id)",
@@ -4730,8 +3440,7 @@ function update_segment(
 end
 
 """
-    update_sms_channel(smschannel_request, application-id)
-    update_sms_channel(smschannel_request, application-id, params::Dict{String,<:Any})
+    update_sms_channel(smschannel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the SMS channel for an application or updates the status and settings of the SMS
 channel for an application.
@@ -4743,22 +3452,12 @@ channel for an application.
 
 """
 function update_sms_channel(
-    SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/sms",
-        Dict{String,Any}("SMSChannelRequest" => SMSChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_sms_channel(
     SMSChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/sms",
@@ -4773,8 +3472,7 @@ function update_sms_channel(
 end
 
 """
-    update_sms_template(smstemplate_request, template-name)
-    update_sms_template(smstemplate_request, template-name, params::Dict{String,<:Any})
+    update_sms_template(smstemplate_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing message template for messages that are sent through the SMS channel.
 
@@ -4785,8 +3483,8 @@ Updates an existing message template for messages that are sent through the SMS 
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"create_new_version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
   save the updates to (overwrite) the latest existing version of the template. If you don't
   specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
@@ -4805,22 +3503,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/sms",
-        Dict{String,Any}("SMSTemplateRequest" => SMSTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_sms_template(
     SMSTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/sms",
@@ -4835,8 +3523,7 @@ function update_sms_template(
 end
 
 """
-    update_template_active_version(template_active_version_request, template-name, template-type)
-    update_template_active_version(template_active_version_request, template-name, template-type, params::Dict{String,<:Any})
+    update_template_active_version(template_active_version_request, template-name, template-type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the status of a specific version of a message template to active.
 
@@ -4854,22 +3541,9 @@ function update_template_active_version(
     template_name,
     template_type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/$(template-type)/active-version",
-        Dict{String,Any}("TemplateActiveVersionRequest" => TemplateActiveVersionRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_template_active_version(
-    TemplateActiveVersionRequest,
-    template_name,
-    template_type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/$(template-type)/active-version",
@@ -4888,8 +3562,7 @@ function update_template_active_version(
 end
 
 """
-    update_voice_channel(voice_channel_request, application-id)
-    update_voice_channel(voice_channel_request, application-id, params::Dict{String,<:Any})
+    update_voice_channel(voice_channel_request, application-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the voice channel for an application or updates the status and settings of the
 voice channel for an application.
@@ -4901,22 +3574,12 @@ voice channel for an application.
 
 """
 function update_voice_channel(
-    VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/apps/$(application-id)/channels/voice",
-        Dict{String,Any}("VoiceChannelRequest" => VoiceChannelRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_voice_channel(
     VoiceChannelRequest,
-    application_id,
-    params::AbstractDict{String};
+    application_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/apps/$(application-id)/channels/voice",
@@ -4933,8 +3596,7 @@ function update_voice_channel(
 end
 
 """
-    update_voice_template(voice_template_request, template-name)
-    update_voice_template(voice_template_request, template-name, params::Dict{String,<:Any})
+    update_voice_template(voice_template_request, template-name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing message template for messages that are sent through the voice channel.
 
@@ -4945,8 +3607,8 @@ Updates an existing message template for messages that are sent through the voic
   alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"create-new-version"`: Specifies whether to save the updates as a new version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"create_new_version"`: Specifies whether to save the updates as a new version of the
   message template. Valid values are: true, save the updates as a new version; and, false,
   save the updates to (overwrite) the latest existing version of the template. If you don't
   specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the
@@ -4965,22 +3627,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return pinpoint(
-        "PUT",
-        "/v1/templates/$(template-name)/voice",
-        Dict{String,Any}("VoiceTemplateRequest" => VoiceTemplateRequest);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_voice_template(
     VoiceTemplateRequest,
-    template_name,
-    params::AbstractDict{String};
+    template_name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return pinpoint(
         "PUT",
         "/v1/templates/$(template-name)/voice",

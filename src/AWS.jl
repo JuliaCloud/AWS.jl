@@ -15,7 +15,7 @@ using UUIDs: UUIDs
 using XMLDict
 
 export @service
-export _merge
+export _merge, amazonify
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export ec2_instance_metadata, ec2_instance_region
 export generate_service_url, global_aws_config, set_user_agent
@@ -43,6 +43,23 @@ using ..AWSExceptions: AWSException
 
 const user_agent = Ref("AWS.jl/1.0.0")
 const aws_config = Ref{AbstractAWSConfig}()
+
+function amazonify(mapping, kwargs)
+    new_kwargs = Dict{String,Any}()
+
+    for kwarg in kwargs
+        str = string(kwarg.first)
+        _key = if haskey(mapping, str)
+            mapping[str]
+        else
+            str
+        end
+
+        new_kwargs[string(_key)] = kwarg.second
+    end
+
+    return new_kwargs
+end
 
 """
     FeatureSet

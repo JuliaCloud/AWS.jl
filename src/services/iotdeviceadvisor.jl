@@ -4,26 +4,31 @@ using AWS.AWSServices: iotdeviceadvisor
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "suite_definition_version" => "suiteDefinitionVersion",
+    "suite_run_configuration" => "suiteRunConfiguration",
+    "tags" => "tags",
+    "next_token" => "nextToken",
+    "suite_definition_id" => "suiteDefinitionId",
+    "max_results" => "maxResults",
+    "suite_definition_configuration" => "suiteDefinitionConfiguration",
+)
+
 """
-    create_suite_definition()
-    create_suite_definition(params::Dict{String,<:Any})
+    create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Device Advisor test suite.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionConfiguration"`: Creates a Device Advisor test suite with suite
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"suite_definition_configuration"`: Creates a Device Advisor test suite with suite
   definition configuration.
 - `"tags"`: The tags to be attached to the suite definition.
 """
-function create_suite_definition(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "POST", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_suite_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function create_suite_definition(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions",
@@ -34,8 +39,7 @@ function create_suite_definition(
 end
 
 """
-    delete_suite_definition(suite_definition_id)
-    delete_suite_definition(suite_definition_id, params::Dict{String,<:Any})
+    delete_suite_definition(suite_definition_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Device Advisor test suite.
 
@@ -44,20 +48,9 @@ Deletes a Device Advisor test suite.
 
 """
 function delete_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "DELETE",
-        "/suiteDefinitions/$(suiteDefinitionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_suite_definition(
-    suiteDefinitionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "DELETE",
         "/suiteDefinitions/$(suiteDefinitionId)",
@@ -68,8 +61,7 @@ function delete_suite_definition(
 end
 
 """
-    get_suite_definition(suite_definition_id)
-    get_suite_definition(suite_definition_id, params::Dict{String,<:Any})
+    get_suite_definition(suite_definition_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a Device Advisor test suite.
 
@@ -77,24 +69,13 @@ Gets information about a Device Advisor test suite.
 - `suite_definition_id`: Suite definition Id of the test suite to get.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"suite_definition_version"`: Suite definition version of the test suite to get.
 """
 function get_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "GET",
-        "/suiteDefinitions/$(suiteDefinitionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_suite_definition(
-    suiteDefinitionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)",
@@ -105,8 +86,7 @@ function get_suite_definition(
 end
 
 """
-    get_suite_run(suite_definition_id, suite_run_id)
-    get_suite_run(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
+    get_suite_run(suite_definition_id, suite_run_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a Device Advisor test suite run.
 
@@ -116,21 +96,12 @@ Gets information about a Device Advisor test suite run.
 
 """
 function get_suite_run(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
-        "GET",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_suite_run(
     suiteDefinitionId,
-    suiteRunId,
-    params::AbstractDict{String};
+    suiteRunId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)",
@@ -141,8 +112,7 @@ function get_suite_run(
 end
 
 """
-    get_suite_run_report(suite_definition_id, suite_run_id)
-    get_suite_run_report(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
+    get_suite_run_report(suite_definition_id, suite_run_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a report download link for a successful Device Advisor qualifying test suite run.
 
@@ -152,21 +122,12 @@ Gets a report download link for a successful Device Advisor qualifying test suit
 
 """
 function get_suite_run_report(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
-        "GET",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_suite_run_report(
     suiteDefinitionId,
-    suiteRunId,
-    params::AbstractDict{String};
+    suiteRunId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report",
@@ -177,24 +138,19 @@ function get_suite_run_report(
 end
 
 """
-    list_suite_definitions()
-    list_suite_definitions(params::Dict{String,<:Any})
+    list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Device Advisor test suites you have created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return at once.
-- `"nextToken"`: A token used to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return at once.
+- `"next_token"`: A token used to get the next set of results.
 """
-function list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_suite_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_suite_definitions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET",
         "/suiteDefinitions",
@@ -205,37 +161,29 @@ function list_suite_definitions(
 end
 
 """
-    list_suite_runs()
-    list_suite_runs(params::Dict{String,<:Any})
+    list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the runs of the specified Device Advisor test suite. You can list all runs of the
 test suite, or the runs of a specific version of the test suite.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return at once.
-- `"nextToken"`: A token to retrieve the next set of results.
-- `"suiteDefinitionId"`: Lists the test suite runs of the specified test suite based on
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return at once.
+- `"next_token"`: A token to retrieve the next set of results.
+- `"suite_definition_id"`: Lists the test suite runs of the specified test suite based on
   suite definition Id.
-- `"suiteDefinitionVersion"`: Must be passed along with suiteDefinitionId. Lists the test
+- `"suite_definition_version"`: Must be passed along with suiteDefinitionId. Lists the test
   suite runs of the specified test suite based on suite definition version.
 """
-function list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_suite_runs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET", "/suiteRuns", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags attached to an IoT Device Advisor resource.
 
@@ -244,20 +192,9 @@ Lists the tags attached to an IoT Device Advisor resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "GET",
         "/tags/$(resourceArn)",
@@ -268,8 +205,7 @@ function list_tags_for_resource(
 end
 
 """
-    start_suite_run(suite_definition_id)
-    start_suite_run(suite_definition_id, params::Dict{String,<:Any})
+    start_suite_run(suite_definition_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a Device Advisor test suite run.
 
@@ -277,26 +213,15 @@ Starts a Device Advisor test suite run.
 - `suite_definition_id`: Suite definition Id of the test suite.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionVersion"`: Suite definition version of the test suite.
-- `"suiteRunConfiguration"`: Suite run configuration.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"suite_definition_version"`: Suite definition version of the test suite.
+- `"suite_run_configuration"`: Suite run configuration.
 - `"tags"`: The tags to be attached to the suite run.
 """
 function start_suite_run(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "POST",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_suite_run(
-    suiteDefinitionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
@@ -307,8 +232,7 @@ function start_suite_run(
 end
 
 """
-    stop_suite_run(suite_definition_id, suite_run_id)
-    stop_suite_run(suite_definition_id, suite_run_id, params::Dict{String,<:Any})
+    stop_suite_run(suite_definition_id, suite_run_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a Device Advisor test suite run that is currently running.
 
@@ -318,21 +242,12 @@ Stops a Device Advisor test suite run that is currently running.
 
 """
 function stop_suite_run(
-    suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
-        "POST",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_suite_run(
     suiteDefinitionId,
-    suiteRunId,
-    params::AbstractDict{String};
+    suiteRunId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "POST",
         "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop",
@@ -343,8 +258,7 @@ function stop_suite_run(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds to and modifies existing tags of an IoT Device Advisor resource.
 
@@ -353,21 +267,10 @@ Adds to and modifies existing tags of an IoT Device Advisor resource.
 - `tags`: The tags to be attached to the IoT Device Advisor resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "POST",
         "/tags/$(resourceArn)",
@@ -378,8 +281,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from an IoT Device Advisor resource.
 
@@ -389,22 +291,9 @@ Removes tags from an IoT Device Advisor resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -415,8 +304,7 @@ function untag_resource(
 end
 
 """
-    update_suite_definition(suite_definition_id)
-    update_suite_definition(suite_definition_id, params::Dict{String,<:Any})
+    update_suite_definition(suite_definition_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a Device Advisor test suite.
 
@@ -424,25 +312,14 @@ Updates a Device Advisor test suite.
 - `suite_definition_id`: Suite definition Id of the test suite to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"suiteDefinitionConfiguration"`: Updates a Device Advisor test suite with suite
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"suite_definition_configuration"`: Updates a Device Advisor test suite with suite
   definition configuration.
 """
 function update_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotdeviceadvisor(
-        "PATCH",
-        "/suiteDefinitions/$(suiteDefinitionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_suite_definition(
-    suiteDefinitionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotdeviceadvisor(
         "PATCH",
         "/suiteDefinitions/$(suiteDefinitionId)",

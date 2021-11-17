@@ -4,25 +4,26 @@ using AWS.AWSServices: cost_and_usage_report_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "report_name" => "ReportName",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+)
+
 """
-    delete_report_definition()
-    delete_report_definition(params::Dict{String,<:Any})
+    delete_report_definition(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified report.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ReportName"`: The name of the report that you want to delete. The name must be unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"report_name"`: The name of the report that you want to delete. The name must be unique,
   is case sensitive, and can't include spaces.
 """
-function delete_report_definition(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cost_and_usage_report_service(
-        "DeleteReportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_report_definition(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_report_definition(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cost_and_usage_report_service(
         "DeleteReportDefinition",
         params;
@@ -32,24 +33,19 @@ function delete_report_definition(
 end
 
 """
-    describe_report_definitions()
-    describe_report_definitions(params::Dict{String,<:Any})
+    describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the AWS Cost and Usage reports available to this account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"NextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cost_and_usage_report_service(
-        "DescribeReportDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_report_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_report_definitions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cost_and_usage_report_service(
         "DescribeReportDefinitions",
         params;
@@ -59,8 +55,7 @@ function describe_report_definitions(
 end
 
 """
-    modify_report_definition(report_definition, report_name)
-    modify_report_definition(report_definition, report_name, params::Dict{String,<:Any})
+    modify_report_definition(report_definition, report_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to programatically update your report preferences.
 
@@ -70,23 +65,12 @@ Allows you to programatically update your report preferences.
 
 """
 function modify_report_definition(
-    ReportDefinition, ReportName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cost_and_usage_report_service(
-        "ModifyReportDefinition",
-        Dict{String,Any}(
-            "ReportDefinition" => ReportDefinition, "ReportName" => ReportName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_report_definition(
     ReportDefinition,
-    ReportName,
-    params::AbstractDict{String};
+    ReportName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cost_and_usage_report_service(
         "ModifyReportDefinition",
         Dict{String,Any}(
@@ -104,8 +88,7 @@ function modify_report_definition(
 end
 
 """
-    put_report_definition(report_definition)
-    put_report_definition(report_definition, params::Dict{String,<:Any})
+    put_report_definition(report_definition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new report using the description that you provide.
 
@@ -115,20 +98,9 @@ Creates a new report using the description that you provide.
 
 """
 function put_report_definition(
-    ReportDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportDefinition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cost_and_usage_report_service(
-        "PutReportDefinition",
-        Dict{String,Any}("ReportDefinition" => ReportDefinition);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_report_definition(
-    ReportDefinition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cost_and_usage_report_service(
         "PutReportDefinition",
         Dict{String,Any}(

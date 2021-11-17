@@ -4,9 +4,41 @@ using AWS.AWSServices: transcribe
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "name_contains" => "NameContains",
+    "content_redaction" => "ContentRedaction",
+    "job_execution_settings" => "JobExecutionSettings",
+    "media_sample_rate_hertz" => "MediaSampleRateHertz",
+    "model_settings" => "ModelSettings",
+    "channel_definitions" => "ChannelDefinitions",
+    "next_token" => "NextToken",
+    "kmsencryption_context" => "KMSEncryptionContext",
+    "settings" => "Settings",
+    "status" => "Status",
+    "words" => "Words",
+    "output_key" => "OutputKey",
+    "max_results" => "MaxResults",
+    "job_name_contains" => "JobNameContains",
+    "output_location" => "OutputLocation",
+    "output_bucket_name" => "OutputBucketName",
+    "media_format" => "MediaFormat",
+    "language_options" => "LanguageOptions",
+    "phrases" => "Phrases",
+    "language_id_settings" => "LanguageIdSettings",
+    "subtitles" => "Subtitles",
+    "identify_language" => "IdentifyLanguage",
+    "output_encryption_kmskey_id" => "OutputEncryptionKMSKeyId",
+    "language_code" => "LanguageCode",
+    "state_equals" => "StateEquals",
+    "content_identification_type" => "ContentIdentificationType",
+    "status_equals" => "StatusEquals",
+    "tags" => "Tags",
+    "vocabulary_filter_file_uri" => "VocabularyFilterFileUri",
+    "vocabulary_file_uri" => "VocabularyFileUri",
+)
+
 """
-    create_call_analytics_category(category_name, rules)
-    create_call_analytics_category(category_name, rules, params::Dict{String,<:Any})
+    create_call_analytics_category(category_name, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an analytics category. Amazon Transcribe applies the conditions specified by your
 analytics categories to your call analytics jobs. For each analytics category, you specify
@@ -22,21 +54,9 @@ Transcribe applies the category to the analytics job that you've specified.
 
 """
 function create_call_analytics_category(
-    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "CreateCallAnalyticsCategory",
-        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_call_analytics_category(
-    CategoryName,
-    Rules,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "CreateCallAnalyticsCategory",
         Dict{String,Any}(
@@ -52,8 +72,7 @@ function create_call_analytics_category(
 end
 
 """
-    create_language_model(base_model_name, input_data_config, language_code, model_name)
-    create_language_model(base_model_name, input_data_config, language_code, model_name, params::Dict{String,<:Any})
+    create_language_model(base_model_name, input_data_config, language_code, model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new custom language model. Use Amazon S3 prefixes to provide the location of your
 input files. The time it takes to create your model depends on the size of your training
@@ -72,8 +91,8 @@ data.
 - `model_name`: The name you choose for your custom language model when you create it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new language
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: Adds one or more tags, each in the form of a key:value pair, to a new language
   model at the time you create this new model.
 """
 function create_language_model(
@@ -82,27 +101,9 @@ function create_language_model(
     LanguageCode,
     ModelName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return transcribe(
-        "CreateLanguageModel",
-        Dict{String,Any}(
-            "BaseModelName" => BaseModelName,
-            "InputDataConfig" => InputDataConfig,
-            "LanguageCode" => LanguageCode,
-            "ModelName" => ModelName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_language_model(
-    BaseModelName,
-    InputDataConfig,
-    LanguageCode,
-    ModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "CreateLanguageModel",
         Dict{String,Any}(
@@ -123,8 +124,7 @@ function create_language_model(
 end
 
 """
-    create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name)
-    create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name, params::Dict{String,<:Any})
+    create_medical_vocabulary(language_code, vocabulary_file_uri, vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new custom vocabulary that you can use to modify how Amazon Transcribe Medical
 transcribes your audio file.
@@ -148,8 +148,8 @@ transcribes your audio file.
   same name as a previous vocabulary, you get a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new medical
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: Adds one or more tags, each in the form of a key:value pair, to a new medical
   vocabulary at the time you create this new vocabulary.
 """
 function create_medical_vocabulary(
@@ -157,25 +157,9 @@ function create_medical_vocabulary(
     VocabularyFileUri,
     VocabularyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return transcribe(
-        "CreateMedicalVocabulary",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode,
-            "VocabularyFileUri" => VocabularyFileUri,
-            "VocabularyName" => VocabularyName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_medical_vocabulary(
-    LanguageCode,
-    VocabularyFileUri,
-    VocabularyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "CreateMedicalVocabulary",
         Dict{String,Any}(
@@ -195,8 +179,7 @@ function create_medical_vocabulary(
 end
 
 """
-    create_vocabulary(language_code, vocabulary_name)
-    create_vocabulary(language_code, vocabulary_name, params::Dict{String,<:Any})
+    create_vocabulary(language_code, vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new custom vocabulary that you can use to change the way Amazon Transcribe
 handles transcription of an audio file.
@@ -209,34 +192,23 @@ handles transcription of an audio file.
   the same name as a previous vocabulary you will receive a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Phrases"`: An array of strings that contains the vocabulary entries.
-- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"phrases"`: An array of strings that contains the vocabulary entries.
+- `"tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
   Transcribe vocabulary at the time you create this new vocabulary.
-- `"VocabularyFileUri"`: The S3 location of the text file that contains the definition of
+- `"vocabulary_file_uri"`: The S3 location of the text file that contains the definition of
   the custom vocabulary. The URI must be in the same region as the API endpoint that you are
   calling. The general form is: For more information about S3 object names, see Object Keys
   in the Amazon S3 Developer Guide. For more information about custom vocabularies, see
   Custom vocabularies.
 """
 function create_vocabulary(
-    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "CreateVocabulary",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_vocabulary(
     LanguageCode,
-    VocabularyName,
-    params::AbstractDict{String};
+    VocabularyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "CreateVocabulary",
         Dict{String,Any}(
@@ -254,8 +226,7 @@ function create_vocabulary(
 end
 
 """
-    create_vocabulary_filter(language_code, vocabulary_filter_name)
-    create_vocabulary_filter(language_code, vocabulary_filter_name, params::Dict{String,<:Any})
+    create_vocabulary_filter(language_code, vocabulary_filter_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new vocabulary filter that you can use to filter words, such as profane words,
 from the output of a transcription job.
@@ -269,37 +240,26 @@ from the output of a transcription job.
   another vocabulary filter, you get a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: Adds one or more tags, each in the form of a key:value pair, to a new Amazon
   Transcribe vocabulary filter at the time you create this new vocabulary filter.
-- `"VocabularyFilterFileUri"`: The Amazon S3 location of a text file used as input to
+- `"vocabulary_filter_file_uri"`: The Amazon S3 location of a text file used as input to
   create the vocabulary filter. Only use characters from the character set defined for custom
   vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The
   specified file must be less than 50 KB of UTF-8 characters. If you provide the location of
   a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
-- `"Words"`: The words to use in the vocabulary filter. Only use characters from the
+- `"words"`: The words to use in the vocabulary filter. Only use characters from the
   character set defined for custom vocabularies. For a list of character sets, see Character
   Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you
   can't use the VocabularyFilterFileUri parameter.
 """
 function create_vocabulary_filter(
-    LanguageCode, VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "CreateVocabularyFilter",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode, "VocabularyFilterName" => VocabularyFilterName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_vocabulary_filter(
     LanguageCode,
-    VocabularyFilterName,
-    params::AbstractDict{String};
+    VocabularyFilterName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "CreateVocabularyFilter",
         Dict{String,Any}(
@@ -318,8 +278,7 @@ function create_vocabulary_filter(
 end
 
 """
-    delete_call_analytics_category(category_name)
-    delete_call_analytics_category(category_name, params::Dict{String,<:Any})
+    delete_call_analytics_category(category_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a call analytics category using its name.
 
@@ -329,20 +288,9 @@ Deletes a call analytics category using its name.
 
 """
 function delete_call_analytics_category(
-    CategoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    CategoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteCallAnalyticsCategory",
-        Dict{String,Any}("CategoryName" => CategoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_call_analytics_category(
-    CategoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteCallAnalyticsCategory",
         Dict{String,Any}(
@@ -354,8 +302,7 @@ function delete_call_analytics_category(
 end
 
 """
-    delete_call_analytics_job(call_analytics_job_name)
-    delete_call_analytics_job(call_analytics_job_name, params::Dict{String,<:Any})
+    delete_call_analytics_job(call_analytics_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a call analytics job using its name.
 
@@ -364,20 +311,9 @@ Deletes a call analytics job using its name.
 
 """
 function delete_call_analytics_job(
-    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()
+    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteCallAnalyticsJob",
-        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_call_analytics_job(
-    CallAnalyticsJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteCallAnalyticsJob",
         Dict{String,Any}(
@@ -393,8 +329,7 @@ function delete_call_analytics_job(
 end
 
 """
-    delete_language_model(model_name)
-    delete_language_model(model_name, params::Dict{String,<:Any})
+    delete_language_model(model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a custom language model using its name.
 
@@ -402,19 +337,10 @@ Deletes a custom language model using its name.
 - `model_name`: The name of the model you're choosing to delete.
 
 """
-function delete_language_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "DeleteLanguageModel",
-        Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_language_model(
-    ModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteLanguageModel",
         Dict{String,Any}(
@@ -426,8 +352,7 @@ function delete_language_model(
 end
 
 """
-    delete_medical_transcription_job(medical_transcription_job_name)
-    delete_medical_transcription_job(medical_transcription_job_name, params::Dict{String,<:Any})
+    delete_medical_transcription_job(medical_transcription_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a transcription job generated by Amazon Transcribe Medical and any related
 information.
@@ -438,20 +363,11 @@ information.
 
 """
 function delete_medical_transcription_job(
-    MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "DeleteMedicalTranscriptionJob",
-        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_medical_transcription_job(
-    MedicalTranscriptionJobName,
-    params::AbstractDict{String};
+    MedicalTranscriptionJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteMedicalTranscriptionJob",
         Dict{String,Any}(
@@ -469,8 +385,7 @@ function delete_medical_transcription_job(
 end
 
 """
-    delete_medical_vocabulary(vocabulary_name)
-    delete_medical_vocabulary(vocabulary_name, params::Dict{String,<:Any})
+    delete_medical_vocabulary(vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a vocabulary from Amazon Transcribe Medical.
 
@@ -479,20 +394,9 @@ Deletes a vocabulary from Amazon Transcribe Medical.
 
 """
 function delete_medical_vocabulary(
-    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteMedicalVocabulary",
-        Dict{String,Any}("VocabularyName" => VocabularyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_medical_vocabulary(
-    VocabularyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteMedicalVocabulary",
         Dict{String,Any}(
@@ -504,8 +408,7 @@ function delete_medical_vocabulary(
 end
 
 """
-    delete_transcription_job(transcription_job_name)
-    delete_transcription_job(transcription_job_name, params::Dict{String,<:Any})
+    delete_transcription_job(transcription_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a previously submitted transcription job along with any other generated results
 such as the transcription, models, and so on.
@@ -515,20 +418,9 @@ such as the transcription, models, and so on.
 
 """
 function delete_transcription_job(
-    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteTranscriptionJob",
-        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_transcription_job(
-    TranscriptionJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteTranscriptionJob",
         Dict{String,Any}(
@@ -544,8 +436,7 @@ function delete_transcription_job(
 end
 
 """
-    delete_vocabulary(vocabulary_name)
-    delete_vocabulary(vocabulary_name, params::Dict{String,<:Any})
+    delete_vocabulary(vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a vocabulary from Amazon Transcribe.
 
@@ -554,20 +445,9 @@ Deletes a vocabulary from Amazon Transcribe.
 
 """
 function delete_vocabulary(
-    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteVocabulary",
-        Dict{String,Any}("VocabularyName" => VocabularyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_vocabulary(
-    VocabularyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteVocabulary",
         Dict{String,Any}(
@@ -579,8 +459,7 @@ function delete_vocabulary(
 end
 
 """
-    delete_vocabulary_filter(vocabulary_filter_name)
-    delete_vocabulary_filter(vocabulary_filter_name, params::Dict{String,<:Any})
+    delete_vocabulary_filter(vocabulary_filter_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a vocabulary filter.
 
@@ -589,20 +468,9 @@ Removes a vocabulary filter.
 
 """
 function delete_vocabulary_filter(
-    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DeleteVocabularyFilter",
-        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_vocabulary_filter(
-    VocabularyFilterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DeleteVocabularyFilter",
         Dict{String,Any}(
@@ -618,8 +486,7 @@ function delete_vocabulary_filter(
 end
 
 """
-    describe_language_model(model_name)
-    describe_language_model(model_name, params::Dict{String,<:Any})
+    describe_language_model(model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a single custom language model. Use this information to see details
 about the language model in your Amazon Web Services account. You can also see whether the
@@ -633,20 +500,9 @@ understand why Amazon Transcribe couldn't create it.
 
 """
 function describe_language_model(
-    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "DescribeLanguageModel",
-        Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_language_model(
-    ModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "DescribeLanguageModel",
         Dict{String,Any}(
@@ -658,8 +514,7 @@ function describe_language_model(
 end
 
 """
-    get_call_analytics_category(category_name)
-    get_call_analytics_category(category_name, params::Dict{String,<:Any})
+    get_call_analytics_category(category_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a call analytics category.
 
@@ -669,20 +524,9 @@ Retrieves information about a call analytics category.
 
 """
 function get_call_analytics_category(
-    CategoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    CategoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "GetCallAnalyticsCategory",
-        Dict{String,Any}("CategoryName" => CategoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_call_analytics_category(
-    CategoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetCallAnalyticsCategory",
         Dict{String,Any}(
@@ -694,8 +538,7 @@ function get_call_analytics_category(
 end
 
 """
-    get_call_analytics_job(call_analytics_job_name)
-    get_call_analytics_job(call_analytics_job_name, params::Dict{String,<:Any})
+    get_call_analytics_job(call_analytics_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a call analytics job. To see the status of the job, check the
 CallAnalyticsJobStatus field. If the status is COMPLETED, the job is finished and you can
@@ -709,20 +552,9 @@ RedactedTranscriptFileUri field.
 
 """
 function get_call_analytics_job(
-    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config()
+    CallAnalyticsJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "GetCallAnalyticsJob",
-        Dict{String,Any}("CallAnalyticsJobName" => CallAnalyticsJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_call_analytics_job(
-    CallAnalyticsJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetCallAnalyticsJob",
         Dict{String,Any}(
@@ -738,8 +570,7 @@ function get_call_analytics_job(
 end
 
 """
-    get_medical_transcription_job(medical_transcription_job_name)
-    get_medical_transcription_job(medical_transcription_job_name, params::Dict{String,<:Any})
+    get_medical_transcription_job(medical_transcription_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a transcription job from Amazon Transcribe Medical. To see the
 status of the job, check the TranscriptionJobStatus field. If the status is COMPLETED, the
@@ -750,20 +581,11 @@ job is finished. You find the results of the completed job in the TranscriptFile
 
 """
 function get_medical_transcription_job(
-    MedicalTranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "GetMedicalTranscriptionJob",
-        Dict{String,Any}("MedicalTranscriptionJobName" => MedicalTranscriptionJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_medical_transcription_job(
-    MedicalTranscriptionJobName,
-    params::AbstractDict{String};
+    MedicalTranscriptionJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetMedicalTranscriptionJob",
         Dict{String,Any}(
@@ -781,8 +603,7 @@ function get_medical_transcription_job(
 end
 
 """
-    get_medical_vocabulary(vocabulary_name)
-    get_medical_vocabulary(vocabulary_name, params::Dict{String,<:Any})
+    get_medical_vocabulary(vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a medical vocabulary.
 
@@ -792,20 +613,9 @@ Retrieves information about a medical vocabulary.
 
 """
 function get_medical_vocabulary(
-    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "GetMedicalVocabulary",
-        Dict{String,Any}("VocabularyName" => VocabularyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_medical_vocabulary(
-    VocabularyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetMedicalVocabulary",
         Dict{String,Any}(
@@ -817,8 +627,7 @@ function get_medical_vocabulary(
 end
 
 """
-    get_transcription_job(transcription_job_name)
-    get_transcription_job(transcription_job_name, params::Dict{String,<:Any})
+    get_transcription_job(transcription_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a transcription job. To see the status of the job, check the
 TranscriptionJobStatus field. If the status is COMPLETED, the job is finished and you can
@@ -830,20 +639,9 @@ content redaction, the redacted transcript appears in RedactedTranscriptFileUri.
 
 """
 function get_transcription_job(
-    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
+    TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "GetTranscriptionJob",
-        Dict{String,Any}("TranscriptionJobName" => TranscriptionJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_transcription_job(
-    TranscriptionJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetTranscriptionJob",
         Dict{String,Any}(
@@ -859,8 +657,7 @@ function get_transcription_job(
 end
 
 """
-    get_vocabulary(vocabulary_name)
-    get_vocabulary(vocabulary_name, params::Dict{String,<:Any})
+    get_vocabulary(vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a vocabulary.
 
@@ -869,19 +666,10 @@ Gets information about a vocabulary.
   case sensitive.
 
 """
-function get_vocabulary(VocabularyName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "GetVocabulary",
-        Dict{String,Any}("VocabularyName" => VocabularyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_vocabulary(
-    VocabularyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    VocabularyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetVocabulary",
         Dict{String,Any}(
@@ -893,8 +681,7 @@ function get_vocabulary(
 end
 
 """
-    get_vocabulary_filter(vocabulary_filter_name)
-    get_vocabulary_filter(vocabulary_filter_name, params::Dict{String,<:Any})
+    get_vocabulary_filter(vocabulary_filter_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a vocabulary filter.
 
@@ -904,20 +691,9 @@ Returns information about a vocabulary filter.
 
 """
 function get_vocabulary_filter(
-    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "GetVocabularyFilter",
-        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_vocabulary_filter(
-    VocabularyFilterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "GetVocabularyFilter",
         Dict{String,Any}(
@@ -933,31 +709,24 @@ function get_vocabulary_filter(
 end
 
 """
-    list_call_analytics_categories()
-    list_call_analytics_categories(params::Dict{String,<:Any})
+    list_call_analytics_categories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides more information about the call analytics categories that you've created. You can
 use the information in this list to find a specific category. You can then use the
 operation to get more information about it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of categories to return in each page of results. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of categories to return in each page of results. If
   there are fewer results than the value you specify, only the actual results are returned.
   If you do not specify a value, the default of 5 is used.
-- `"NextToken"`: When included, NextTokenfetches the next set of categories if the result
+- `"next_token"`: When included, NextTokenfetches the next set of categories if the result
   of the previous request was truncated.
 """
-function list_call_analytics_categories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListCallAnalyticsCategories";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_call_analytics_categories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_call_analytics_categories(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListCallAnalyticsCategories",
         params;
@@ -967,32 +736,27 @@ function list_call_analytics_categories(
 end
 
 """
-    list_call_analytics_jobs()
-    list_call_analytics_jobs(params::Dict{String,<:Any})
+    list_call_analytics_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List call analytics jobs with a specified status or substring that matches their names.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name_contains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`:  The maximum number of call analytics jobs to return in each page of
+- `"max_results"`:  The maximum number of call analytics jobs to return in each page of
   results. If there are fewer results than the value you specify, only the actual results are
   returned. If you do not specify a value, the default of 5 is used.
-- `"NextToken"`: If you receive a truncated result in the previous request of , include
+- `"next_token"`: If you receive a truncated result in the previous request of , include
   NextToken to fetch the next set of jobs.
-- `"Status"`: When specified, returns only call analytics jobs with the specified status.
+- `"status"`: When specified, returns only call analytics jobs with the specified status.
   Jobs are ordered by creation date, with the most recent jobs returned first. If you don't
   specify a status, Amazon Transcribe returns all analytics jobs ordered by creation date.
 """
-function list_call_analytics_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListCallAnalyticsJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_call_analytics_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_call_analytics_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListCallAnalyticsJobs",
         params;
@@ -1002,73 +766,59 @@ function list_call_analytics_jobs(
 end
 
 """
-    list_language_models()
-    list_language_models(params::Dict{String,<:Any})
+    list_language_models(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides more information about the custom language models you've created. You can use the
 information in this list to find a specific custom language model. You can then use the
 operation to get more information about it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  The maximum number of language models to return in each page of results.
-  If there are fewer results than the value you specify, only the actual results are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of language models to return in each page of
+  results. If there are fewer results than the value you specify, only the actual results are
   returned. If you do not specify a value, the default of 5 is used.
-- `"NameContains"`: When specified, the custom language model names returned contain the
+- `"name_contains"`: When specified, the custom language model names returned contain the
   substring you've specified.
-- `"NextToken"`: When included, fetches the next set of jobs if the result of the previous
+- `"next_token"`: When included, fetches the next set of jobs if the result of the previous
   request was truncated.
-- `"StatusEquals"`: When specified, returns only custom language models with the specified
+- `"status_equals"`: When specified, returns only custom language models with the specified
   status. Language models are ordered by creation date, with the newest models first. If you
   don't specify a status, Amazon Transcribe returns all custom language models ordered by
   date.
 """
-function list_language_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListLanguageModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_language_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_language_models(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListLanguageModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_medical_transcription_jobs()
-    list_medical_transcription_jobs(params::Dict{String,<:Any})
+    list_medical_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists medical transcription jobs with a specified status or substring that matches their
 names.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name_contains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`:  The maximum number of medical transcription jobs to return in each page
+- `"max_results"`:  The maximum number of medical transcription jobs to return in each page
   of results. If there are fewer results than the value you specify, only the actual results
   are returned. If you do not specify a value, the default of 5 is used.
-- `"NextToken"`: If you a receive a truncated result in the previous request of
+- `"next_token"`: If you a receive a truncated result in the previous request of
   ListMedicalTranscriptionJobs, include NextToken to fetch the next set of jobs.
-- `"Status"`: When specified, returns only medical transcription jobs with the specified
+- `"status"`: When specified, returns only medical transcription jobs with the specified
   status. Jobs are ordered by creation date, with the newest jobs returned first. If you
   don't specify a status, Amazon Transcribe Medical returns all transcription jobs ordered by
   creation date.
 """
 function list_medical_transcription_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "ListMedicalTranscriptionJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_medical_transcription_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListMedicalTranscriptionJobs",
         params;
@@ -1078,34 +828,29 @@ function list_medical_transcription_jobs(
 end
 
 """
-    list_medical_vocabularies()
-    list_medical_vocabularies(params::Dict{String,<:Any})
+    list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of vocabularies that match the specified criteria. If you don't enter a
 value in any of the request parameters, returns the entire list of vocabularies.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of vocabularies to return in each page of results. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of vocabularies to return in each page of results. If
   there are fewer results than the value you specify, only the actual results are returned.
   If you do not specify a value, the default of 5 is used.
-- `"NameContains"`: Returns vocabularies whose names contain the specified string. The
+- `"name_contains"`: Returns vocabularies whose names contain the specified string. The
   search is not case sensitive. ListMedicalVocabularies returns both \"vocabularyname\" and
   \"VocabularyName\".
-- `"NextToken"`: If the result of your previous request to ListMedicalVocabularies was
+- `"next_token"`: If the result of your previous request to ListMedicalVocabularies was
   truncated, include the NextToken to fetch the next set of vocabularies.
-- `"StateEquals"`: When specified, returns only vocabularies with the VocabularyState equal
-  to the specified vocabulary state. Use this field to see which vocabularies are ready for
-  your medical transcription jobs.
+- `"state_equals"`: When specified, returns only vocabularies with the VocabularyState
+  equal to the specified vocabulary state. Use this field to see which vocabularies are ready
+  for your medical transcription jobs.
 """
-function list_medical_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListMedicalVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_medical_vocabularies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_medical_vocabularies(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListMedicalVocabularies",
         params;
@@ -1115,8 +860,7 @@ function list_medical_vocabularies(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags associated with a given transcription job, vocabulary, or resource.
 
@@ -1129,20 +873,9 @@ Lists all tags associated with a given transcription job, vocabulary, or resourc
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1154,32 +887,27 @@ function list_tags_for_resource(
 end
 
 """
-    list_transcription_jobs()
-    list_transcription_jobs(params::Dict{String,<:Any})
+    list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists transcription jobs with the specified status.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobNameContains"`: When specified, the jobs returned in the list are limited to jobs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name_contains"`: When specified, the jobs returned in the list are limited to jobs
   whose name contains the specified string.
-- `"MaxResults"`: The maximum number of jobs to return in each page of results. If there
+- `"max_results"`: The maximum number of jobs to return in each page of results. If there
   are fewer results than the value you specify, only the actual results are returned. If you
   do not specify a value, the default of 5 is used.
-- `"NextToken"`: If the result of the previous request to ListTranscriptionJobs is
+- `"next_token"`: If the result of the previous request to ListTranscriptionJobs is
   truncated, include the NextToken to fetch the next set of jobs.
-- `"Status"`: When specified, returns only transcription jobs with the specified status.
+- `"status"`: When specified, returns only transcription jobs with the specified status.
   Jobs are ordered by creation date, with the newest jobs returned first. If you don’t
   specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date.
 """
-function list_transcription_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListTranscriptionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_transcription_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_transcription_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListTranscriptionJobs",
         params;
@@ -1189,63 +917,51 @@ function list_transcription_jobs(
 end
 
 """
-    list_vocabularies()
-    list_vocabularies(params::Dict{String,<:Any})
+    list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of vocabularies that match the specified criteria. If no criteria are
 specified, returns the entire list of vocabularies.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of vocabularies to return in each page of results. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of vocabularies to return in each page of results. If
   there are fewer results than the value you specify, only the actual results are returned.
   If you do not specify a value, the default of 5 is used.
-- `"NameContains"`: When specified, the vocabularies returned in the list are limited to
+- `"name_contains"`: When specified, the vocabularies returned in the list are limited to
   vocabularies whose name contains the specified string. The search is not case sensitive,
   ListVocabularies returns both \"vocabularyname\" and \"VocabularyName\" in the response
   list.
-- `"NextToken"`: If the result of the previous request to ListVocabularies was truncated,
+- `"next_token"`: If the result of the previous request to ListVocabularies was truncated,
   include the NextToken to fetch the next set of jobs.
-- `"StateEquals"`: When specified, only returns vocabularies with the VocabularyState field
-  equal to the specified state.
+- `"state_equals"`: When specified, only returns vocabularies with the VocabularyState
+  field equal to the specified state.
 """
-function list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListVocabularies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_vocabularies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_vocabularies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListVocabularies", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_vocabulary_filters()
-    list_vocabulary_filters(params::Dict{String,<:Any})
+    list_vocabulary_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about vocabulary filters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of filters to return in each page of results. If there
-  are fewer results than the value you specify, only the actual results are returned. If you
-  do not specify a value, the default of 5 is used.
-- `"NameContains"`: Filters the response so that it only contains vocabulary filters whose
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of filters to return in each page of results. If
+  there are fewer results than the value you specify, only the actual results are returned.
+  If you do not specify a value, the default of 5 is used.
+- `"name_contains"`: Filters the response so that it only contains vocabulary filters whose
   name contains the specified string.
-- `"NextToken"`: If the result of the previous request to ListVocabularyFilters was
+- `"next_token"`: If the result of the previous request to ListVocabularyFilters was
   truncated, include the NextToken to fetch the next set of collections.
 """
-function list_vocabulary_filters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "ListVocabularyFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_vocabulary_filters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_vocabulary_filters(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "ListVocabularyFilters",
         params;
@@ -1255,8 +971,7 @@ function list_vocabulary_filters(
 end
 
 """
-    start_call_analytics_job(call_analytics_job_name, data_access_role_arn, media)
-    start_call_analytics_job(call_analytics_job_name, data_access_role_arn, media, params::Dict{String,<:Any})
+    start_call_analytics_job(call_analytics_job_name, data_access_role_arn, media; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an asynchronous analytics job that not only transcribes the audio recording of a
 caller and agent, but also returns additional insights. These insights include how quickly
@@ -1277,24 +992,25 @@ call. For more information, see the operation.
 - `media`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChannelDefinitions"`: When you start a call analytics job, you must pass an array that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_definitions"`: When you start a call analytics job, you must pass an array that
   maps the agent and the customer to specific audio channels. The values you can assign to a
   channel are 0 and 1. The agent and the customer must each have their own channel. You can't
   assign more than one channel to an agent or customer.
-- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of the Amazon Web Services
-  Key Management Service key used to encrypt the output of the call analytics job. The user
-  calling the operation must have permission to use the specified KMS key. You use either of
-  the following to identify an Amazon Web Services KMS key in the current account:   KMS Key
-  ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias: \"alias/ExampleAlias\"    You
-  can use either of the following to identify a KMS key in the current account or another
-  account:   Amazon Resource Name (ARN) of a KMS key in the current account or another
-  account: \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef1234567890ab\"   ARN of
-  a KMS Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't
-  specify an encryption key, the output of the call analytics job is encrypted with the
-  default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must
-  also specify an output location in the OutputLocation parameter.
-- `"OutputLocation"`: The Amazon S3 location where the output of the call analytics job is
+- `"output_encryption_kmskey_id"`: The Amazon Resource Name (ARN) of the Amazon Web
+  Services Key Management Service key used to encrypt the output of the call analytics job.
+  The user calling the operation must have permission to use the specified KMS key. You use
+  either of the following to identify an Amazon Web Services KMS key in the current account:
+   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
+  \"alias/ExampleAlias\"    You can use either of the following to identify a KMS key in the
+  current account or another account:   Amazon Resource Name (ARN) of a KMS key in the
+  current account or another account: \"arn:aws:kms:region:account
+  ID:key/1234abcd-12ab-34cd-56ef1234567890ab\"   ARN of a KMS Key Alias:
+  \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an encryption
+  key, the output of the call analytics job is encrypted with the default Amazon S3 key
+  (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output
+  location in the OutputLocation parameter.
+- `"output_location"`: The Amazon S3 location where the output of the call analytics job is
   stored. You can provide the following location types to store the output of call analytics
   job:   s3://DOC-EXAMPLE-BUCKET1  If you specify a bucket, Amazon Transcribe saves the
   output of the analytics job as a JSON file at the root level of the bucket.
@@ -1308,32 +1024,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OutputEncryptionKMSKeyId parameter. If you don't specify a KMS key, Amazon Transcribe uses
   the default Amazon S3 key for server-side encryption of the analytics job output that is
   placed in your S3 bucket.
-- `"Settings"`: A Settings object that provides optional settings for a call analytics job.
+- `"settings"`: A Settings object that provides optional settings for a call analytics job.
 """
 function start_call_analytics_job(
     CallAnalyticsJobName,
     DataAccessRoleArn,
     Media;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return transcribe(
-        "StartCallAnalyticsJob",
-        Dict{String,Any}(
-            "CallAnalyticsJobName" => CallAnalyticsJobName,
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "Media" => Media,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_call_analytics_job(
-    CallAnalyticsJobName,
-    DataAccessRoleArn,
-    Media,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "StartCallAnalyticsJob",
         Dict{String,Any}(
@@ -1353,8 +1053,7 @@ function start_call_analytics_job(
 end
 
 """
-    start_medical_transcription_job(language_code, media, medical_transcription_job_name, output_bucket_name, specialty, type)
-    start_medical_transcription_job(language_code, media, medical_transcription_job_name, output_bucket_name, specialty, type, params::Dict{String,<:Any})
+    start_medical_transcription_job(language_code, media, medical_transcription_job_name, output_bucket_name, specialty, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a batch job to transcribe medical speech to text.
 
@@ -1384,23 +1083,23 @@ Starts a batch job to transcribe medical speech to text.
   refers to single-speaker dictated speech, such as clinical notes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ContentIdentificationType"`: You can configure Amazon Transcribe Medical to label
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"content_identification_type"`: You can configure Amazon Transcribe Medical to label
   content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels
   the personal health information (PHI) that it identifies in the transcription output.
-- `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
+- `"kmsencryption_context"`: A map of plain text, non-secret key:value pairs, known as
   encryption context pairs, that provide an added layer of security for your data.
-- `"MediaFormat"`: The audio format of the input media file.
-- `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in the input
+- `"media_format"`: The audio format of the input media file.
+- `"media_sample_rate_hertz"`: The sample rate, in Hertz, of the audio track in the input
   media file. If you do not specify the media sample rate, Amazon Transcribe Medical
   determines the sample rate. If you specify the sample rate, it must match the rate detected
   by Amazon Transcribe Medical. In most cases, you should leave the MediaSampleRateHertz
   field blank and let Amazon Transcribe Medical determine the sample rate.
-- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of the Amazon Web Services
-  Key Management Service (KMS) key used to encrypt the output of the transcription job. The
-  user calling the StartMedicalTranscriptionJob operation must have permission to use the
-  specified KMS key. You use either of the following to identify a KMS key in the current
-  account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
+- `"output_encryption_kmskey_id"`: The Amazon Resource Name (ARN) of the Amazon Web
+  Services Key Management Service (KMS) key used to encrypt the output of the transcription
+  job. The user calling the StartMedicalTranscriptionJob operation must have permission to
+  use the specified KMS key. You use either of the following to identify a KMS key in the
+  current account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
   \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the
   current account or another account:   Amazon Resource Name (ARN) of a KMS key in the
   current account or another account:
@@ -1409,7 +1108,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption key, the output of the medical transcription job is encrypted with the default
   Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also
   specify an output location in the OutputBucketName parameter.
-- `"OutputKey"`: You can specify a location in an Amazon S3 bucket to store the output of
+- `"output_key"`: You can specify a location in an Amazon S3 bucket to store the output of
   your medical transcription job. If you don't specify an output key, Amazon Transcribe
   Medical stores the output of your transcription job in the Amazon S3 bucket you specified.
   By default, the object key is \"your-transcription-job-name.json\". You can use output keys
@@ -1420,8 +1119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"my-other-job-name.json\". You can use an output key to change both the prefix and the
   file name, for example \"folder/my-other-job-name.json\". If you specify an output key, you
   must also specify an S3 bucket in the OutputBucketName parameter.
-- `"Settings"`: Optional settings for the medical transcription job.
-- `"Tags"`: Add tags to an Amazon Transcribe medical transcription job.
+- `"settings"`: Optional settings for the medical transcription job.
+- `"tags"`: Add tags to an Amazon Transcribe medical transcription job.
 """
 function start_medical_transcription_job(
     LanguageCode,
@@ -1431,31 +1130,9 @@ function start_medical_transcription_job(
     Specialty,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return transcribe(
-        "StartMedicalTranscriptionJob",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode,
-            "Media" => Media,
-            "MedicalTranscriptionJobName" => MedicalTranscriptionJobName,
-            "OutputBucketName" => OutputBucketName,
-            "Specialty" => Specialty,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_medical_transcription_job(
-    LanguageCode,
-    Media,
-    MedicalTranscriptionJobName,
-    OutputBucketName,
-    Specialty,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "StartMedicalTranscriptionJob",
         Dict{String,Any}(
@@ -1478,8 +1155,7 @@ function start_medical_transcription_job(
 end
 
 """
-    start_transcription_job(media, transcription_job_name)
-    start_transcription_job(media, transcription_job_name, params::Dict{String,<:Any})
+    start_transcription_job(media, transcription_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an asynchronous job to transcribe speech to text.
 
@@ -1491,37 +1167,38 @@ Starts an asynchronous job to transcribe speech to text.
   transcription job, you get a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ContentRedaction"`: An object that contains the request parameters for content
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"content_redaction"`: An object that contains the request parameters for content
   redaction.
-- `"IdentifyLanguage"`: Set this field to true to enable automatic language identification.
-  Automatic language identification is disabled by default. You receive a BadRequestException
-  error if you enter a value for a LanguageCode.
-- `"JobExecutionSettings"`: Provides information about how a transcription job is executed.
-  Use this field to indicate that the job can be queued for deferred execution if the
-  concurrency limit is reached and there are no slots available to immediately run the job.
-- `"KMSEncryptionContext"`: A map of plain text, non-secret key:value pairs, known as
+- `"identify_language"`: Set this field to true to enable automatic language
+  identification. Automatic language identification is disabled by default. You receive a
+  BadRequestException error if you enter a value for a LanguageCode.
+- `"job_execution_settings"`: Provides information about how a transcription job is
+  executed. Use this field to indicate that the job can be queued for deferred execution if
+  the concurrency limit is reached and there are no slots available to immediately run the
+  job.
+- `"kmsencryption_context"`: A map of plain text, non-secret key:value pairs, known as
   encryption context pairs, that provide an added layer of security for your data.
-- `"LanguageCode"`: The language code for the language used in the input media file. To
+- `"language_code"`: The language code for the language used in the input media file. To
   transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be
   encoded at a sample rate of 16,000 Hz or higher.
-- `"LanguageIdSettings"`: The language identification settings associated with your
+- `"language_id_settings"`: The language identification settings associated with your
   transcription job. These settings include VocabularyName, VocabularyFilterName, and
   LanguageModelName.
-- `"LanguageOptions"`: An object containing a list of languages that might be present in
+- `"language_options"`: An object containing a list of languages that might be present in
   your collection of audio files. Automatic language identification chooses a language that
   best matches the source audio from that list. To transcribe speech in Modern Standard
   Arabic (ar-SA), your audio or video file must be encoded at a sample rate of 16,000 Hz or
   higher.
-- `"MediaFormat"`: The format of the input media file.
-- `"MediaSampleRateHertz"`: The sample rate, in Hertz, of the audio track in the input
+- `"media_format"`: The format of the input media file.
+- `"media_sample_rate_hertz"`: The sample rate, in Hertz, of the audio track in the input
   media file.  If you do not specify the media sample rate, Amazon Transcribe determines the
   sample rate. If you specify the sample rate, it must match the sample rate detected by
   Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and
   let Amazon Transcribe determine the sample rate.
-- `"ModelSettings"`: Choose the custom language model you use for your transcription job in
-  this parameter.
-- `"OutputBucketName"`: The location where the transcription is stored. If you set the
+- `"model_settings"`: Choose the custom language model you use for your transcription job
+  in this parameter.
+- `"output_bucket_name"`: The location where the transcription is stored. If you set the
   OutputBucketName, Amazon Transcribe puts the transcript in the specified S3 bucket. When
   you call the GetTranscriptionJob operation, the operation returns this location in the
   TranscriptFileUri field. If you enable content redaction, the redacted transcript appears
@@ -1536,11 +1213,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generates a pre-signed URL, a shareable URL that provides secure access to your
   transcription, and returns it in the TranscriptFileUri field. Use this URL to download the
   transcription.
-- `"OutputEncryptionKMSKeyId"`: The Amazon Resource Name (ARN) of the Amazon Web Services
-  Key Management Service (KMS) key used to encrypt the output of the transcription job. The
-  user calling the StartTranscriptionJob operation must have permission to use the specified
-  KMS key. You can use either of the following to identify a KMS key in the current account:
-   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
+- `"output_encryption_kmskey_id"`: The Amazon Resource Name (ARN) of the Amazon Web
+  Services Key Management Service (KMS) key used to encrypt the output of the transcription
+  job. The user calling the StartTranscriptionJob operation must have permission to use the
+  specified KMS key. You can use either of the following to identify a KMS key in the current
+  account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias:
   \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the
   current account or another account:   Amazon Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS
@@ -1548,7 +1225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encryption key, the output of the transcription job is encrypted with the default Amazon S3
   key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an
   output location in the OutputBucketName parameter.
-- `"OutputKey"`: You can specify a location in an Amazon S3 bucket to store the output of
+- `"output_key"`: You can specify a location in an Amazon S3 bucket to store the output of
   your transcription job. If you don't specify an output key, Amazon Transcribe stores the
   output of your transcription job in the Amazon S3 bucket you specified. By default, the
   object key is \"your-transcription-job-name.json\". You can use output keys to specify the
@@ -1559,26 +1236,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"my-other-job-name.json\". You can use an output key to change both the prefix and the
   file name, for example \"folder/my-other-job-name.json\". If you specify an output key, you
   must also specify an S3 bucket in the OutputBucketName parameter.
-- `"Settings"`: A Settings object that provides optional settings for a transcription job.
-- `"Subtitles"`: Add subtitles to your batch transcription job.
-- `"Tags"`: Add tags to an Amazon Transcribe transcription job.
+- `"settings"`: A Settings object that provides optional settings for a transcription job.
+- `"subtitles"`: Add subtitles to your batch transcription job.
+- `"tags"`: Add tags to an Amazon Transcribe transcription job.
 """
 function start_transcription_job(
-    Media, TranscriptionJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "StartTranscriptionJob",
-        Dict{String,Any}("Media" => Media, "TranscriptionJobName" => TranscriptionJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_transcription_job(
     Media,
-    TranscriptionJobName,
-    params::AbstractDict{String};
+    TranscriptionJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "StartTranscriptionJob",
         Dict{String,Any}(
@@ -1596,8 +1264,7 @@ function start_transcription_job(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tags an Amazon Transcribe resource with the given list of tags.
 
@@ -1611,20 +1278,10 @@ Tags an Amazon Transcribe resource with the given list of tags.
 - `tags`: The tags you are assigning to a given Amazon Transcribe resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return transcribe(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "TagResource",
         Dict{String,Any}(
@@ -1640,8 +1297,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes specified tags from a specified Amazon Transcribe resource.
 
@@ -1657,21 +1313,9 @@ Removes specified tags from a specified Amazon Transcribe resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "UntagResource",
         Dict{String,Any}(
@@ -1687,8 +1331,7 @@ function untag_resource(
 end
 
 """
-    update_call_analytics_category(category_name, rules)
-    update_call_analytics_category(category_name, rules, params::Dict{String,<:Any})
+    update_call_analytics_category(category_name, rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the call analytics category with new values. The UpdateCallAnalyticsCategory
 operation overwrites all of the existing information with the values that you provide in
@@ -1703,21 +1346,9 @@ the request.
 
 """
 function update_call_analytics_category(
-    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config()
+    CategoryName, Rules; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "UpdateCallAnalyticsCategory",
-        Dict{String,Any}("CategoryName" => CategoryName, "Rules" => Rules);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_call_analytics_category(
-    CategoryName,
-    Rules,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "UpdateCallAnalyticsCategory",
         Dict{String,Any}(
@@ -1733,8 +1364,7 @@ function update_call_analytics_category(
 end
 
 """
-    update_medical_vocabulary(language_code, vocabulary_name)
-    update_medical_vocabulary(language_code, vocabulary_name, params::Dict{String,<:Any})
+    update_medical_vocabulary(language_code, vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a vocabulary with new values that you provide in a different text file from the one
 you used to create the vocabulary. The UpdateMedicalVocabulary operation overwrites all of
@@ -1748,8 +1378,8 @@ the existing information with the values that you provide in the request.
   get a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"VocabularyFileUri"`: The location in Amazon S3 of the text file that contains your
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"vocabulary_file_uri"`: The location in Amazon S3 of the text file that contains your
   custom vocabulary. The URI must be in the same Amazon Web Services Region as the resource
   that you are calling. The following is the format for a URI:
   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;object
@@ -1759,23 +1389,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Medical, see Medical Custom Vocabularies.
 """
 function update_medical_vocabulary(
-    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "UpdateMedicalVocabulary",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_medical_vocabulary(
     LanguageCode,
-    VocabularyName,
-    params::AbstractDict{String};
+    VocabularyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "UpdateMedicalVocabulary",
         Dict{String,Any}(
@@ -1793,8 +1412,7 @@ function update_medical_vocabulary(
 end
 
 """
-    update_vocabulary(language_code, vocabulary_name)
-    update_vocabulary(language_code, vocabulary_name, params::Dict{String,<:Any})
+    update_vocabulary(language_code, vocabulary_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites
 all of the existing information with the values that you provide in the request.
@@ -1807,32 +1425,21 @@ all of the existing information with the values that you provide in the request.
   a ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Phrases"`: An array of strings containing the vocabulary entries.
-- `"VocabularyFileUri"`: The S3 location of the text file that contains the definition of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"phrases"`: An array of strings containing the vocabulary entries.
+- `"vocabulary_file_uri"`: The S3 location of the text file that contains the definition of
   the custom vocabulary. The URI must be in the same region as the API endpoint that you are
   calling. The general form is  For example: For more information about S3 object names, see
   Object Keys in the Amazon S3 Developer Guide. For more information about custom
   vocabularies, see Custom Vocabularies.
 """
 function update_vocabulary(
-    LanguageCode, VocabularyName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transcribe(
-        "UpdateVocabulary",
-        Dict{String,Any}(
-            "LanguageCode" => LanguageCode, "VocabularyName" => VocabularyName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_vocabulary(
     LanguageCode,
-    VocabularyName,
-    params::AbstractDict{String};
+    VocabularyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "UpdateVocabulary",
         Dict{String,Any}(
@@ -1850,8 +1457,7 @@ function update_vocabulary(
 end
 
 """
-    update_vocabulary_filter(vocabulary_filter_name)
-    update_vocabulary_filter(vocabulary_filter_name, params::Dict{String,<:Any})
+    update_vocabulary_filter(vocabulary_filter_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a vocabulary filter with a new list of filtered words.
 
@@ -1861,32 +1467,21 @@ Updates a vocabulary filter with a new list of filtered words.
   ConflictException error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"VocabularyFilterFileUri"`: The Amazon S3 location of a text file used as input to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"vocabulary_filter_file_uri"`: The Amazon S3 location of a text file used as input to
   create the vocabulary filter. Only use characters from the character set defined for custom
   vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The
   specified file must be less than 50 KB of UTF-8 characters. If you provide the location of
   a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
-- `"Words"`: The words to use in the vocabulary filter. Only use characters from the
+- `"words"`: The words to use in the vocabulary filter. Only use characters from the
   character set defined for custom vocabularies. For a list of character sets, see Character
   Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you
   can't use the VocabularyFilterFileUri parameter.
 """
 function update_vocabulary_filter(
-    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config()
+    VocabularyFilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transcribe(
-        "UpdateVocabularyFilter",
-        Dict{String,Any}("VocabularyFilterName" => VocabularyFilterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_vocabulary_filter(
-    VocabularyFilterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transcribe(
         "UpdateVocabularyFilter",
         Dict{String,Any}(

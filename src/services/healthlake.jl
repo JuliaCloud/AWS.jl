@@ -4,9 +4,24 @@ using AWS.AWSServices: healthlake
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "job_name" => "JobName",
+    "datastore_id" => "DatastoreId",
+    "filter" => "Filter",
+    "next_token" => "NextToken",
+    "datastore_name" => "DatastoreName",
+    "sse_configuration" => "SseConfiguration",
+    "submitted_after" => "SubmittedAfter",
+    "preload_data_config" => "PreloadDataConfig",
+    "max_results" => "MaxResults",
+    "client_token" => "ClientToken",
+    "job_status" => "JobStatus",
+    "submitted_before" => "SubmittedBefore",
+    "tags" => "Tags",
+)
+
 """
-    create_fhirdatastore(datastore_type_version)
-    create_fhirdatastore(datastore_type_version, params::Dict{String,<:Any})
+    create_fhirdatastore(datastore_type_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Data Store that can ingest and export FHIR formatted data.
 
@@ -15,33 +30,20 @@ Creates a Data Store that can ingest and export FHIR formatted data.
   is R4.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Optional user provided token used for ensuring idempotency.
-- `"DatastoreName"`: The user generated name for the Data Store.
-- `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the Data
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Optional user provided token used for ensuring idempotency.
+- `"datastore_name"`: The user generated name for the Data Store.
+- `"preload_data_config"`: Optional parameter to preload data upon creation of the Data
   Store. Currently, the only supported preloaded data is synthetic data generated from
   Synthea.
-- `"SseConfiguration"`:  The server-side encryption key configuration for a customer
+- `"sse_configuration"`:  The server-side encryption key configuration for a customer
   provided encryption key specified for creating a Data Store.
-- `"Tags"`:  Resource tags that are applied to a Data Store when it is created.
+- `"tags"`:  Resource tags that are applied to a Data Store when it is created.
 """
 function create_fhirdatastore(
-    DatastoreTypeVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreTypeVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "CreateFHIRDatastore",
-        Dict{String,Any}(
-            "DatastoreTypeVersion" => DatastoreTypeVersion, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_fhirdatastore(
-    DatastoreTypeVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "CreateFHIRDatastore",
         Dict{String,Any}(
@@ -49,7 +51,7 @@ function create_fhirdatastore(
                 _merge,
                 Dict{String,Any}(
                     "DatastoreTypeVersion" => DatastoreTypeVersion,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -60,23 +62,18 @@ function create_fhirdatastore(
 end
 
 """
-    delete_fhirdatastore()
-    delete_fhirdatastore(params::Dict{String,<:Any})
+    delete_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Data Store.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatastoreId"`:  The AWS-generated ID for the Data Store to be deleted.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"datastore_id"`:  The AWS-generated ID for the Data Store to be deleted.
 """
-function delete_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "DeleteFHIRDatastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_fhirdatastore(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_fhirdatastore(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "DeleteFHIRDatastore",
         params;
@@ -86,26 +83,21 @@ function delete_fhirdatastore(
 end
 
 """
-    describe_fhirdatastore()
-    describe_fhirdatastore(params::Dict{String,<:Any})
+    describe_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data
 Store ARN, Data Store name, Data Store status, created at, Data Store type version, and
 Data Store endpoint.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatastoreId"`: The AWS-generated Data Store id. This is part of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"datastore_id"`: The AWS-generated Data Store id. This is part of the
   ‘CreateFHIRDatastore’ output.
 """
-function describe_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "DescribeFHIRDatastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_fhirdatastore(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_fhirdatastore(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "DescribeFHIRDatastore",
         params;
@@ -115,8 +107,7 @@ function describe_fhirdatastore(
 end
 
 """
-    describe_fhirexport_job(datastore_id, job_id)
-    describe_fhirexport_job(datastore_id, job_id, params::Dict{String,<:Any})
+    describe_fhirexport_job(datastore_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays the properties of a FHIR export job, including the ID, ARN, name, and the status
 of the job.
@@ -128,21 +119,9 @@ of the job.
 
 """
 function describe_fhirexport_job(
-    DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "DescribeFHIRExportJob",
-        Dict{String,Any}("DatastoreId" => DatastoreId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fhirexport_job(
-    DatastoreId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "DescribeFHIRExportJob",
         Dict{String,Any}(
@@ -158,8 +137,7 @@ function describe_fhirexport_job(
 end
 
 """
-    describe_fhirimport_job(datastore_id, job_id)
-    describe_fhirimport_job(datastore_id, job_id, params::Dict{String,<:Any})
+    describe_fhirimport_job(datastore_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays the properties of a FHIR import job, including the ID, ARN, name, and the status
 of the job.
@@ -170,21 +148,9 @@ of the job.
 
 """
 function describe_fhirimport_job(
-    DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "DescribeFHIRImportJob",
-        Dict{String,Any}("DatastoreId" => DatastoreId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fhirimport_job(
-    DatastoreId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "DescribeFHIRImportJob",
         Dict{String,Any}(
@@ -200,35 +166,27 @@ function describe_fhirimport_job(
 end
 
 """
-    list_fhirdatastores()
-    list_fhirdatastores(params::Dict{String,<:Any})
+    list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all FHIR Data Stores that are in the user’s account, regardless of Data Store
 status.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Lists all filters associated with a FHIR Data Store request.
-- `"MaxResults"`: The maximum number of Data Stores returned in a single page of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Lists all filters associated with a FHIR Data Store request.
+- `"max_results"`: The maximum number of Data Stores returned in a single page of a
   ListFHIRDatastoresRequest call.
-- `"NextToken"`: Fetches the next page of Data Stores when results are paginated.
+- `"next_token"`: Fetches the next page of Data Stores when results are paginated.
 """
-function list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "ListFHIRDatastores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_fhirdatastores(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_fhirdatastores(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "ListFHIRDatastores", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_fhirexport_jobs(datastore_id)
-    list_fhirexport_jobs(datastore_id, params::Dict{String,<:Any})
+    list_fhirexport_jobs(datastore_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists all FHIR export jobs associated with an account and their statuses.
 
@@ -237,35 +195,24 @@ end
   Data Store ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobName"`:  This parameter limits the response to the export job with the specified job
-  name.
-- `"JobStatus"`:  This parameter limits the response to the export jobs with the specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name"`:  This parameter limits the response to the export job with the specified
+  job name.
+- `"job_status"`:  This parameter limits the response to the export jobs with the specified
   job status.
-- `"MaxResults"`:  This parameter limits the number of results returned for a
+- `"max_results"`:  This parameter limits the number of results returned for a
   ListFHIRExportJobs to a maximum quantity specified by the user.
-- `"NextToken"`:  A pagination token used to identify the next page of results to return
+- `"next_token"`:  A pagination token used to identify the next page of results to return
   for a ListFHIRExportJobs query.
-- `"SubmittedAfter"`:  This parameter limits the response to FHIR export jobs submitted
+- `"submitted_after"`:  This parameter limits the response to FHIR export jobs submitted
   after a user specified date.
-- `"SubmittedBefore"`:  This parameter limits the response to FHIR export jobs submitted
+- `"submitted_before"`:  This parameter limits the response to FHIR export jobs submitted
   before a user specified date.
 """
 function list_fhirexport_jobs(
-    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "ListFHIRExportJobs",
-        Dict{String,Any}("DatastoreId" => DatastoreId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fhirexport_jobs(
-    DatastoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "ListFHIRExportJobs",
         Dict{String,Any}(
@@ -277,8 +224,7 @@ function list_fhirexport_jobs(
 end
 
 """
-    list_fhirimport_jobs(datastore_id)
-    list_fhirimport_jobs(datastore_id, params::Dict{String,<:Any})
+    list_fhirimport_jobs(datastore_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists all FHIR import jobs associated with an account and their statuses.
 
@@ -287,35 +233,24 @@ end
   Data Store ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobName"`:  This parameter limits the response to the import job with the specified job
-  name.
-- `"JobStatus"`:  This parameter limits the response to the import job with the specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name"`:  This parameter limits the response to the import job with the specified
+  job name.
+- `"job_status"`:  This parameter limits the response to the import job with the specified
   job status.
-- `"MaxResults"`:  This parameter limits the number of results returned for a
+- `"max_results"`:  This parameter limits the number of results returned for a
   ListFHIRImportJobs to a maximum quantity specified by the user.
-- `"NextToken"`:  A pagination token used to identify the next page of results to return
+- `"next_token"`:  A pagination token used to identify the next page of results to return
   for a ListFHIRImportJobs query.
-- `"SubmittedAfter"`:  This parameter limits the response to FHIR import jobs submitted
+- `"submitted_after"`:  This parameter limits the response to FHIR import jobs submitted
   after a user specified date.
-- `"SubmittedBefore"`:  This parameter limits the response to FHIR import jobs submitted
+- `"submitted_before"`:  This parameter limits the response to FHIR import jobs submitted
   before a user specified date.
 """
 function list_fhirimport_jobs(
-    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "ListFHIRImportJobs",
-        Dict{String,Any}("DatastoreId" => DatastoreId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fhirimport_jobs(
-    DatastoreId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "ListFHIRImportJobs",
         Dict{String,Any}(
@@ -327,8 +262,7 @@ function list_fhirimport_jobs(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of all existing tags associated with a Data Store.
 
@@ -338,20 +272,9 @@ end
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -363,8 +286,7 @@ function list_tags_for_resource(
 end
 
 """
-    start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config)
-    start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config, params::Dict{String,<:Any})
+    start_fhirexport_job(client_token, data_access_role_arn, datastore_id, output_data_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Begins a FHIR export job.
 
@@ -377,8 +299,8 @@ Begins a FHIR export job.
   was created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobName"`: The user generated name for an export job.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name"`: The user generated name for an export job.
 """
 function start_fhirexport_job(
     ClientToken,
@@ -386,27 +308,9 @@ function start_fhirexport_job(
     DatastoreId,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return healthlake(
-        "StartFHIRExportJob",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DatastoreId" => DatastoreId,
-            "OutputDataConfig" => OutputDataConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_fhirexport_job(
-    ClientToken,
-    DataAccessRoleArn,
-    DatastoreId,
-    OutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "StartFHIRExportJob",
         Dict{String,Any}(
@@ -427,8 +331,7 @@ function start_fhirexport_job(
 end
 
 """
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config)
-    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config, params::Dict{String,<:Any})
+    start_fhirimport_job(client_token, data_access_role_arn, datastore_id, input_data_config, job_output_data_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Begins a FHIR Import job.
 
@@ -442,8 +345,8 @@ Begins a FHIR Import job.
 - `job_output_data_config`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobName"`: The name of the FHIR Import job in the StartFHIRImport job request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name"`: The name of the FHIR Import job in the StartFHIRImport job request.
 """
 function start_fhirimport_job(
     ClientToken,
@@ -452,29 +355,9 @@ function start_fhirimport_job(
     InputDataConfig,
     JobOutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return healthlake(
-        "StartFHIRImportJob",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DatastoreId" => DatastoreId,
-            "InputDataConfig" => InputDataConfig,
-            "JobOutputDataConfig" => JobOutputDataConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_fhirimport_job(
-    ClientToken,
-    DataAccessRoleArn,
-    DatastoreId,
-    InputDataConfig,
-    JobOutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "StartFHIRImportJob",
         Dict{String,Any}(
@@ -496,8 +379,7 @@ function start_fhirimport_job(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Adds a user specifed key and value tag to a Data Store.
 
@@ -507,20 +389,10 @@ end
 - `tags`:  The user specified key and value pair tags being added to a Data Store.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "TagResource",
         Dict{String,Any}(
@@ -536,8 +408,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Removes tags from a Data Store.
 
@@ -548,21 +419,9 @@ end
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return healthlake(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return healthlake(
         "UntagResource",
         Dict{String,Any}(

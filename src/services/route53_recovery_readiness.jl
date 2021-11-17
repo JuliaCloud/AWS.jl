@@ -4,9 +4,16 @@ using AWS.AWSServices: route53_recovery_readiness
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "cells" => "cells",
+    "resource_type" => "resourceType",
+    "tags" => "tags",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    create_cell(cell_name)
-    create_cell(cell_name, params::Dict{String,<:Any})
+    create_cell(cell_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Cell.
 
@@ -14,25 +21,13 @@ Creates a new Cell.
 - `cell_name`: The name of the Cell to create
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"cells"`: A list of Cell arns contained within this Cell (for use in nested Cells, e.g.
   regions within which AZs)
 - `"tags"`:
 """
-function create_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "POST",
-        "/cells",
-        Dict{String,Any}("cellName" => cellName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cell(
-    cellName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function create_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/cells",
@@ -45,8 +40,7 @@ function create_cell(
 end
 
 """
-    create_cross_account_authorization(cross_account_authorization)
-    create_cross_account_authorization(cross_account_authorization, params::Dict{String,<:Any})
+    create_cross_account_authorization(cross_account_authorization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new cross account readiness authorization.
 
@@ -55,21 +49,9 @@ Create a new cross account readiness authorization.
 
 """
 function create_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config()
+    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "POST",
-        "/crossaccountauthorizations",
-        Dict{String,Any}("crossAccountAuthorization" => crossAccountAuthorization);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cross_account_authorization(
-    crossAccountAuthorization,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/crossaccountauthorizations",
@@ -86,8 +68,7 @@ function create_cross_account_authorization(
 end
 
 """
-    create_readiness_check(readiness_check_name, resource_set_name)
-    create_readiness_check(readiness_check_name, resource_set_name, params::Dict{String,<:Any})
+    create_readiness_check(readiness_check_name, resource_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Readiness Check.
 
@@ -96,28 +77,16 @@ Creates a new Readiness Check.
 - `resource_set_name`: The name of the ResourceSet to check
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`:
 """
 function create_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_readiness(
-        "POST",
-        "/readinesschecks",
-        Dict{String,Any}(
-            "readinessCheckName" => readinessCheckName, "resourceSetName" => resourceSetName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_readiness_check(
     readinessCheckName,
-    resourceSetName,
-    params::AbstractDict{String};
+    resourceSetName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/readinesschecks",
@@ -137,8 +106,7 @@ function create_readiness_check(
 end
 
 """
-    create_recovery_group(recovery_group_name)
-    create_recovery_group(recovery_group_name, params::Dict{String,<:Any})
+    create_recovery_group(recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Recovery Group.
 
@@ -146,26 +114,14 @@ Creates a new Recovery Group.
 - `recovery_group_name`: The name of the RecoveryGroup to create
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"cells"`: A list of Cell arns
 - `"tags"`:
 """
 function create_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "POST",
-        "/recoverygroups",
-        Dict{String,Any}("recoveryGroupName" => recoveryGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_recovery_group(
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/recoverygroups",
@@ -180,8 +136,7 @@ function create_recovery_group(
 end
 
 """
-    create_resource_set(resource_set_name, resource_set_type, resources)
-    create_resource_set(resource_set_name, resource_set_type, resources, params::Dict{String,<:Any})
+    create_resource_set(resource_set_name, resource_set_type, resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Resource Set.
 
@@ -191,7 +146,7 @@ Creates a new Resource Set.
 - `resources`: A list of Resource objects
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`:
 """
 function create_resource_set(
@@ -199,26 +154,9 @@ function create_resource_set(
     resourceSetType,
     resources;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53_recovery_readiness(
-        "POST",
-        "/resourcesets",
-        Dict{String,Any}(
-            "resourceSetName" => resourceSetName,
-            "resourceSetType" => resourceSetType,
-            "resources" => resources,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/resourcesets",
@@ -239,8 +177,7 @@ function create_resource_set(
 end
 
 """
-    delete_cell(cell_name)
-    delete_cell(cell_name, params::Dict{String,<:Any})
+    delete_cell(cell_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Cell.
 
@@ -248,19 +185,8 @@ Deletes an existing Cell.
 - `cell_name`: The Cell to delete
 
 """
-function delete_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "DELETE",
-        "/cells/$(cellName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cell(
-    cellName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function delete_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/cells/$(cellName)",
@@ -271,8 +197,7 @@ function delete_cell(
 end
 
 """
-    delete_cross_account_authorization(cross_account_authorization)
-    delete_cross_account_authorization(cross_account_authorization, params::Dict{String,<:Any})
+    delete_cross_account_authorization(cross_account_authorization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete cross account readiness authorization
 
@@ -281,20 +206,9 @@ Delete cross account readiness authorization
 
 """
 function delete_cross_account_authorization(
-    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config()
+    crossAccountAuthorization; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "DELETE",
-        "/crossaccountauthorizations/$(crossAccountAuthorization)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cross_account_authorization(
-    crossAccountAuthorization,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/crossaccountauthorizations/$(crossAccountAuthorization)",
@@ -305,8 +219,7 @@ function delete_cross_account_authorization(
 end
 
 """
-    delete_readiness_check(readiness_check_name)
-    delete_readiness_check(readiness_check_name, params::Dict{String,<:Any})
+    delete_readiness_check(readiness_check_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Readiness Check.
 
@@ -315,20 +228,9 @@ Deletes an existing Readiness Check.
 
 """
 function delete_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "DELETE",
-        "/readinesschecks/$(readinessCheckName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_readiness_check(
-    readinessCheckName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/readinesschecks/$(readinessCheckName)",
@@ -339,8 +241,7 @@ function delete_readiness_check(
 end
 
 """
-    delete_recovery_group(recovery_group_name)
-    delete_recovery_group(recovery_group_name, params::Dict{String,<:Any})
+    delete_recovery_group(recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Recovery Group.
 
@@ -349,20 +250,9 @@ Deletes an existing Recovery Group.
 
 """
 function delete_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "DELETE",
-        "/recoverygroups/$(recoveryGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recovery_group(
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/recoverygroups/$(recoveryGroupName)",
@@ -373,8 +263,7 @@ function delete_recovery_group(
 end
 
 """
-    delete_resource_set(resource_set_name)
-    delete_resource_set(resource_set_name, params::Dict{String,<:Any})
+    delete_resource_set(resource_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Resource Set.
 
@@ -383,20 +272,9 @@ Deletes an existing Resource Set.
 
 """
 function delete_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "DELETE",
-        "/resourcesets/$(resourceSetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_set(
-    resourceSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/resourcesets/$(resourceSetName)",
@@ -407,8 +285,7 @@ function delete_resource_set(
 end
 
 """
-    get_architecture_recommendations(recovery_group_name)
-    get_architecture_recommendations(recovery_group_name, params::Dict{String,<:Any})
+    get_architecture_recommendations(recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of recommendations to improve resilliance and readiness check quality
 for a Recovery Group.
@@ -417,26 +294,15 @@ for a Recovery Group.
 - `recovery_group_name`: Name of RecoveryGroup (top level resource) to be analyzed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token that can be used to resume pagination from the end of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token that can be used to resume pagination from the end of the
   collection.
 """
 function get_architecture_recommendations(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/recoverygroups/$(recoveryGroupName)/architectureRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_architecture_recommendations(
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/recoverygroups/$(recoveryGroupName)/architectureRecommendations",
@@ -447,8 +313,7 @@ function get_architecture_recommendations(
 end
 
 """
-    get_cell(cell_name)
-    get_cell(cell_name, params::Dict{String,<:Any})
+    get_cell(cell_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a Cell.
 
@@ -456,16 +321,8 @@ Returns information about a Cell.
 - `cell_name`: The Cell to get
 
 """
-function get_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/cells/$(cellName)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_cell(
-    cellName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function get_cell(cellName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/cells/$(cellName)",
@@ -476,8 +333,7 @@ function get_cell(
 end
 
 """
-    get_cell_readiness_summary(cell_name)
-    get_cell_readiness_summary(cell_name, params::Dict{String,<:Any})
+    get_cell_readiness_summary(cell_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about readiness of a Cell.
 
@@ -485,25 +341,14 @@ Returns information about readiness of a Cell.
 - `cell_name`: The name of the Cell
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
 function get_cell_readiness_summary(
-    cellName; aws_config::AbstractAWSConfig=global_aws_config()
+    cellName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/cellreadiness/$(cellName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_cell_readiness_summary(
-    cellName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/cellreadiness/$(cellName)",
@@ -514,8 +359,7 @@ function get_cell_readiness_summary(
 end
 
 """
-    get_readiness_check(readiness_check_name)
-    get_readiness_check(readiness_check_name, params::Dict{String,<:Any})
+    get_readiness_check(readiness_check_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a ReadinessCheck.
 
@@ -524,20 +368,9 @@ Returns information about a ReadinessCheck.
 
 """
 function get_readiness_check(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/readinesschecks/$(readinessCheckName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_readiness_check(
-    readinessCheckName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/readinesschecks/$(readinessCheckName)",
@@ -548,8 +381,7 @@ function get_readiness_check(
 end
 
 """
-    get_readiness_check_resource_status(readiness_check_name, resource_identifier)
-    get_readiness_check_resource_status(readiness_check_name, resource_identifier, params::Dict{String,<:Any})
+    get_readiness_check_resource_status(readiness_check_name, resource_identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about the status of an individual resource within a Readiness
 Check's Resource Set.
@@ -559,28 +391,17 @@ Check's Resource Set.
 - `resource_identifier`: The resource ARN or component Id to get
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
 function get_readiness_check_resource_status(
     readinessCheckName,
     resourceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_readiness_check_resource_status(
-    readinessCheckName,
-    resourceIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/readinesschecks/$(readinessCheckName)/resource/$(resourceIdentifier)/status",
@@ -591,8 +412,7 @@ function get_readiness_check_resource_status(
 end
 
 """
-    get_readiness_check_status(readiness_check_name)
-    get_readiness_check_status(readiness_check_name, params::Dict{String,<:Any})
+    get_readiness_check_status(readiness_check_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the status of a Readiness Check.
 
@@ -600,25 +420,14 @@ Returns information about the status of a Readiness Check.
 - `readiness_check_name`: The ReadinessCheck to get
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
 function get_readiness_check_status(
-    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config()
+    readinessCheckName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/readinesschecks/$(readinessCheckName)/status";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_readiness_check_status(
-    readinessCheckName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/readinesschecks/$(readinessCheckName)/status",
@@ -629,8 +438,7 @@ function get_readiness_check_status(
 end
 
 """
-    get_recovery_group(recovery_group_name)
-    get_recovery_group(recovery_group_name, params::Dict{String,<:Any})
+    get_recovery_group(recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a Recovery Group.
 
@@ -639,20 +447,9 @@ Returns information about a Recovery Group.
 
 """
 function get_recovery_group(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/recoverygroups/$(recoveryGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recovery_group(
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/recoverygroups/$(recoveryGroupName)",
@@ -663,8 +460,7 @@ function get_recovery_group(
 end
 
 """
-    get_recovery_group_readiness_summary(recovery_group_name)
-    get_recovery_group_readiness_summary(recovery_group_name, params::Dict{String,<:Any})
+    get_recovery_group_readiness_summary(recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a Recovery Group.
 
@@ -672,25 +468,14 @@ Returns information about a Recovery Group.
 - `recovery_group_name`: The name of the RecoveryGroup
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
 function get_recovery_group_readiness_summary(
-    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/recoverygroupreadiness/$(recoveryGroupName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recovery_group_readiness_summary(
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/recoverygroupreadiness/$(recoveryGroupName)",
@@ -701,8 +486,7 @@ function get_recovery_group_readiness_summary(
 end
 
 """
-    get_resource_set(resource_set_name)
-    get_resource_set(resource_set_name, params::Dict{String,<:Any})
+    get_resource_set(resource_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a Resource Set.
 
@@ -711,20 +495,9 @@ Returns information about a Resource Set.
 
 """
 function get_resource_set(
-    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/resourcesets/$(resourceSetName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_set(
-    resourceSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/resourcesets/$(resourceSetName)",
@@ -735,53 +508,36 @@ function get_resource_set(
 end
 
 """
-    list_cells()
-    list_cells(params::Dict{String,<:Any})
+    list_cells(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of Cells.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
-function list_cells(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/cells"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_cells(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_cells(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET", "/cells", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_cross_account_authorizations()
-    list_cross_account_authorizations(params::Dict{String,<:Any})
+    list_cross_account_authorizations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of cross account readiness authorizations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
 function list_cross_account_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/crossaccountauthorizations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_cross_account_authorizations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/crossaccountauthorizations",
@@ -792,24 +548,19 @@ function list_cross_account_authorizations(
 end
 
 """
-    list_readiness_checks()
-    list_readiness_checks(params::Dict{String,<:Any})
+    list_readiness_checks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of Readiness Checks.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
-function list_readiness_checks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/readinesschecks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_readiness_checks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_readiness_checks(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/readinesschecks",
@@ -820,24 +571,19 @@ function list_readiness_checks(
 end
 
 """
-    list_recovery_groups()
-    list_recovery_groups(params::Dict{String,<:Any})
+    list_recovery_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of Recovery Groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
-function list_recovery_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/recoverygroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_recovery_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_recovery_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/recoverygroups",
@@ -848,24 +594,17 @@ function list_recovery_groups(
 end
 
 """
-    list_resource_sets()
-    list_resource_sets(params::Dict{String,<:Any})
+    list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of Resource Sets.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
-function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/resourcesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resource_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/resourcesets",
@@ -876,34 +615,26 @@ function list_resource_sets(
 end
 
 """
-    list_rules()
-    list_rules(params::Dict{String,<:Any})
+    list_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of rules that are applied as part of Readiness Checks.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
-- `"resourceType"`: Filter parameter which specifies the rules to return given a resource
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
+- `"resource_type"`: Filter parameter which specifies the rules to return given a resource
   type.
 """
-function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "GET", "/rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET", "/rules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resources(resource-arn)
-    list_tags_for_resources(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resources(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the tags assigned to the specified resource.
 
@@ -913,20 +644,9 @@ Returns a list of the tags assigned to the specified resource.
 
 """
 function list_tags_for_resources(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "GET",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resources(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "GET",
         "/tags/$(resource-arn)",
@@ -937,8 +657,7 @@ function list_tags_for_resources(
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource-arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds tags to the specified resource. You can specify one or more tags to add.
 
@@ -948,21 +667,10 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 - `tags`:
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resource_arn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "POST",
         "/tags/$(resource-arn)",
@@ -973,8 +681,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
@@ -985,22 +692,9 @@ Removes tags from the specified resource. You can specify one or more tags to re
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "DELETE",
         "/tags/$(resource-arn)",
@@ -1011,8 +705,7 @@ function untag_resource(
 end
 
 """
-    update_cell(cell_name, cells)
-    update_cell(cell_name, cells, params::Dict{String,<:Any})
+    update_cell(cell_name, cells; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Cell.
 
@@ -1021,21 +714,10 @@ Updates an existing Cell.
 - `cells`: A list of Cell arns, completely replaces previous list
 
 """
-function update_cell(cellName, cells; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_readiness(
-        "PUT",
-        "/cells/$(cellName)",
-        Dict{String,Any}("cells" => cells);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_cell(
-    cellName,
-    cells,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    cellName, cells; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "PUT",
         "/cells/$(cellName)",
@@ -1046,8 +728,7 @@ function update_cell(
 end
 
 """
-    update_readiness_check(readiness_check_name, resource_set_name)
-    update_readiness_check(readiness_check_name, resource_set_name, params::Dict{String,<:Any})
+    update_readiness_check(readiness_check_name, resource_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an exisiting Readiness Check.
 
@@ -1057,22 +738,12 @@ Updates an exisiting Readiness Check.
 
 """
 function update_readiness_check(
-    readinessCheckName, resourceSetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_readiness(
-        "PUT",
-        "/readinesschecks/$(readinessCheckName)",
-        Dict{String,Any}("resourceSetName" => resourceSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_readiness_check(
     readinessCheckName,
-    resourceSetName,
-    params::AbstractDict{String};
+    resourceSetName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "PUT",
         "/readinesschecks/$(readinessCheckName)",
@@ -1087,8 +758,7 @@ function update_readiness_check(
 end
 
 """
-    update_recovery_group(cells, recovery_group_name)
-    update_recovery_group(cells, recovery_group_name, params::Dict{String,<:Any})
+    update_recovery_group(cells, recovery_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Recovery Group.
 
@@ -1098,22 +768,9 @@ Updates an existing Recovery Group.
 
 """
 function update_recovery_group(
-    cells, recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    cells, recoveryGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_readiness(
-        "PUT",
-        "/recoverygroups/$(recoveryGroupName)",
-        Dict{String,Any}("cells" => cells);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_recovery_group(
-    cells,
-    recoveryGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "PUT",
         "/recoverygroups/$(recoveryGroupName)",
@@ -1124,8 +781,7 @@ function update_recovery_group(
 end
 
 """
-    update_resource_set(resource_set_name, resource_set_type, resources)
-    update_resource_set(resource_set_name, resource_set_type, resources, params::Dict{String,<:Any})
+    update_resource_set(resource_set_name, resource_set_type, resources; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Resource Set.
 
@@ -1140,22 +796,9 @@ function update_resource_set(
     resourceSetType,
     resources;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53_recovery_readiness(
-        "PUT",
-        "/resourcesets/$(resourceSetName)",
-        Dict{String,Any}("resourceSetType" => resourceSetType, "resources" => resources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resource_set(
-    resourceSetName,
-    resourceSetType,
-    resources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_readiness(
         "PUT",
         "/resourcesets/$(resourceSetName)",

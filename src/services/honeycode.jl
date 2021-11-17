@@ -4,9 +4,17 @@ using AWS.AWSServices: honeycode
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "variables" => "variables",
+    "row_id" => "rowId",
+    "row_ids" => "rowIds",
+    "next_token" => "nextToken",
+    "client_request_token" => "clientRequestToken",
+    "max_results" => "maxResults",
+)
+
 """
-    batch_create_table_rows(rows_to_create, table_id, workbook_id)
-    batch_create_table_rows(rows_to_create, table_id, workbook_id, params::Dict{String,<:Any})
+    batch_create_table_rows(rows_to_create, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The BatchCreateTableRows API allows you to create one or more rows at the end of a table
 in a workbook. The API allows you to specify the values to set in some or all of the
@@ -28,8 +36,8 @@ row of the table, then that column will be left blank for the new rows.
   with the specified ID could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`:  The request token for performing the batch create operation.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  The request token for performing the batch create operation.
   Request tokens help to identify duplicate requests. If a call times out or fails due to a
   transient error like a failed network connection, you can retry the call with the same
   request token. The service ensures that if the first call using that request token is
@@ -38,23 +46,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests spanning hours or days.
 """
 function batch_create_table_rows(
-    rowsToCreate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate",
-        Dict{String,Any}("rowsToCreate" => rowsToCreate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_create_table_rows(
     rowsToCreate,
     tableId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate",
@@ -67,8 +65,7 @@ function batch_create_table_rows(
 end
 
 """
-    batch_delete_table_rows(row_ids, table_id, workbook_id)
-    batch_delete_table_rows(row_ids, table_id, workbook_id, params::Dict{String,<:Any})
+    batch_delete_table_rows(row_ids, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The BatchDeleteTableRows API allows you to delete one or more rows from a table in a
 workbook. You need to specify the ids of the rows that you want to delete from the table.
@@ -83,8 +80,8 @@ workbook. You need to specify the ids of the rows that you want to delete from t
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`:  The request token for performing the delete action. Request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  The request token for performing the delete action. Request
   tokens help to identify duplicate requests. If a call times out or fails due to a transient
   error like a failed network connection, you can retry the call with the same request token.
   The service ensures that if the first call using that request token is successfully
@@ -93,23 +90,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 function batch_delete_table_rows(
-    rowIds, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
-        Dict{String,Any}("rowIds" => rowIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_table_rows(
     rowIds,
     tableId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
@@ -120,8 +107,7 @@ function batch_delete_table_rows(
 end
 
 """
-    batch_update_table_rows(rows_to_update, table_id, workbook_id)
-    batch_update_table_rows(rows_to_update, table_id, workbook_id, params::Dict{String,<:Any})
+    batch_update_table_rows(rows_to_update, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The BatchUpdateTableRows API allows you to update one or more rows in a table in a
 workbook.   You can specify the values to set in some or all of the columns in the table
@@ -142,8 +128,8 @@ need to set the value as an empty string (\"\").
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`:  The request token for performing the update action. Request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  The request token for performing the update action. Request
   tokens help to identify duplicate requests. If a call times out or fails due to a transient
   error like a failed network connection, you can retry the call with the same request token.
   The service ensures that if the first call using that request token is successfully
@@ -152,23 +138,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 function batch_update_table_rows(
-    rowsToUpdate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate",
-        Dict{String,Any}("rowsToUpdate" => rowsToUpdate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_update_table_rows(
     rowsToUpdate,
     tableId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate",
@@ -181,8 +157,7 @@ function batch_update_table_rows(
 end
 
 """
-    batch_upsert_table_rows(rows_to_upsert, table_id, workbook_id)
-    batch_upsert_table_rows(rows_to_upsert, table_id, workbook_id, params::Dict{String,<:Any})
+    batch_upsert_table_rows(rows_to_upsert, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The BatchUpsertTableRows API allows you to upsert one or more rows in a table. The upsert
 operation takes a filter expression as input and evaluates it to find matching rows on the
@@ -208,8 +183,8 @@ in a specific cell, you need to set the value as an empty string (\"\").
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`:  The request token for performing the update action. Request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  The request token for performing the update action. Request
   tokens help to identify duplicate requests. If a call times out or fails due to a transient
   error like a failed network connection, you can retry the call with the same request token.
   The service ensures that if the first call using that request token is successfully
@@ -218,23 +193,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours or days.
 """
 function batch_upsert_table_rows(
-    rowsToUpsert, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert",
-        Dict{String,Any}("rowsToUpsert" => rowsToUpsert);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_upsert_table_rows(
     rowsToUpsert,
     tableId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert",
@@ -247,8 +212,7 @@ function batch_upsert_table_rows(
 end
 
 """
-    describe_table_data_import_job(job_id, table_id, workbook_id)
-    describe_table_data_import_job(job_id, table_id, workbook_id, params::Dict{String,<:Any})
+    describe_table_data_import_job(job_id, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The DescribeTableDataImportJob API allows you to retrieve the status and details of a
 table data import job.
@@ -263,22 +227,9 @@ table data import job.
 
 """
 function describe_table_data_import_job(
-    jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return honeycode(
-        "GET",
-        "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_table_data_import_job(
-    jobId,
-    tableId,
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "GET",
         "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)",
@@ -289,8 +240,7 @@ function describe_table_data_import_job(
 end
 
 """
-    get_screen_data(app_id, screen_id, workbook_id)
-    get_screen_data(app_id, screen_id, workbook_id, params::Dict{String,<:Any})
+    get_screen_data(app_id, screen_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The GetScreenData API allows retrieval of data from a screen in a Honeycode app. The API
 allows setting local variables in the screen to filter, sort or otherwise affect what will
@@ -302,11 +252,11 @@ be displayed on the screen.
 - `workbook_id`: The ID of the workbook that contains the screen.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The number of results to be returned on a single page. Specify a number
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The number of results to be returned on a single page. Specify a number
   between 1 and 100. The maximum value is 100.   This parameter is optional. If you don't
   specify this parameter, the default page size is 100.
-- `"nextToken"`:  This parameter is optional. If a nextToken is not specified, the API
+- `"next_token"`:  This parameter is optional. If a nextToken is not specified, the API
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 - `"variables"`:  Variables are optional and are needed only if the screen requires them to
@@ -315,25 +265,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property, rawValue, which holds the value of the variable to be passed to the screen.
 """
 function get_screen_data(
-    appId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/screendata",
-        Dict{String,Any}(
-            "appId" => appId, "screenId" => screenId, "workbookId" => workbookId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_screen_data(
     appId,
     screenId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/screendata",
@@ -352,8 +290,7 @@ function get_screen_data(
 end
 
 """
-    invoke_screen_automation(app_id, automation_id, screen_id, workbook_id)
-    invoke_screen_automation(app_id, automation_id, screen_id, workbook_id, params::Dict{String,<:Any})
+    invoke_screen_automation(app_id, automation_id, screen_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The InvokeScreenAutomation API allows invoking an action defined in a screen in a
 Honeycode app. The API allows setting local variables, which can then be used in the
@@ -367,15 +304,15 @@ update or delete data in the workbook.
 - `workbook_id`: The ID of the workbook that contains the screen automation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`:  The request token for performing the automation action. Request
-  tokens help to identify duplicate requests. If a call times out or fails due to a transient
-  error like a failed network connection, you can retry the call with the same request token.
-  The service ensures that if the first call using that request token is successfully
-  performed, the second call will return the response of the previous call rather than
-  performing the action again.   Note that request tokens are valid only for a few minutes.
-  You cannot use request tokens to dedupe requests spanning hours or days.
-- `"rowId"`:  The row ID for the automation if the automation is defined inside a block
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  The request token for performing the automation action.
+  Request tokens help to identify duplicate requests. If a call times out or fails due to a
+  transient error like a failed network connection, you can retry the call with the same
+  request token. The service ensures that if the first call using that request token is
+  successfully performed, the second call will return the response of the previous call
+  rather than performing the action again.   Note that request tokens are valid only for a
+  few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
+- `"row_id"`:  The row ID for the automation if the automation is defined inside a block
   with source or list.
 - `"variables"`:  Variables are specified as a map where the key is the name of the
   variable as defined on the screen. The value is an object which currently has only one
@@ -388,22 +325,9 @@ function invoke_screen_automation(
     screenId,
     workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function invoke_screen_automation(
-    appId,
-    automationId,
-    screenId,
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)",
@@ -414,8 +338,7 @@ function invoke_screen_automation(
 end
 
 """
-    list_table_columns(table_id, workbook_id)
-    list_table_columns(table_id, workbook_id, params::Dict{String,<:Any})
+    list_table_columns(table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The ListTableColumns API allows you to retrieve a list of all the columns in a table in a
 workbook.
@@ -428,27 +351,15 @@ workbook.
   ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`:  This parameter is optional. If a nextToken is not specified, the API
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`:  This parameter is optional. If a nextToken is not specified, the API
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function list_table_columns(
-    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return honeycode(
-        "GET",
-        "/workbooks/$(workbookId)/tables/$(tableId)/columns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_table_columns(
-    tableId,
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "GET",
         "/workbooks/$(workbookId)/tables/$(tableId)/columns",
@@ -459,8 +370,7 @@ function list_table_columns(
 end
 
 """
-    list_table_rows(table_id, workbook_id)
-    list_table_rows(table_id, workbook_id, params::Dict{String,<:Any})
+    list_table_rows(table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The ListTableRows API allows you to retrieve a list of all the rows in a table in a
 workbook.
@@ -473,31 +383,19 @@ workbook.
   ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of rows to return in each page of the results.
-- `"nextToken"`:  This parameter is optional. If a nextToken is not specified, the API
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of rows to return in each page of the results.
+- `"next_token"`:  This parameter is optional. If a nextToken is not specified, the API
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
-- `"rowIds"`:  This parameter is optional. If one or more row ids are specified in this
+- `"row_ids"`:  This parameter is optional. If one or more row ids are specified in this
   list, then only the specified row ids are returned in the result. If no row ids are
   specified here, then all the rows in the table are returned.
 """
 function list_table_rows(
-    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_table_rows(
-    tableId,
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/list",
@@ -508,8 +406,7 @@ function list_table_rows(
 end
 
 """
-    list_tables(workbook_id)
-    list_tables(workbook_id, params::Dict{String,<:Any})
+    list_tables(workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The ListTables API allows you to retrieve a list of all the tables in a workbook.
 
@@ -518,25 +415,16 @@ end
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of tables to return in each page of the results.
-- `"nextToken"`:  This parameter is optional. If a nextToken is not specified, the API
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of tables to return in each page of the results.
+- `"next_token"`:  This parameter is optional. If a nextToken is not specified, the API
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
-function list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return honeycode(
-        "GET",
-        "/workbooks/$(workbookId)/tables";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_tables(
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    workbookId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "GET",
         "/workbooks/$(workbookId)/tables",
@@ -547,8 +435,7 @@ function list_tables(
 end
 
 """
-    query_table_rows(filter_formula, table_id, workbook_id)
-    query_table_rows(filter_formula, table_id, workbook_id, params::Dict{String,<:Any})
+    query_table_rows(filter_formula, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The QueryTableRows API allows you to use a filter formula to query for specific rows in a
 table.
@@ -562,30 +449,20 @@ table.
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of rows to return in each page of the results.
-- `"nextToken"`:  This parameter is optional. If a nextToken is not specified, the API
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of rows to return in each page of the results.
+- `"next_token"`:  This parameter is optional. If a nextToken is not specified, the API
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
 function query_table_rows(
-    filterFormula, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/query",
-        Dict{String,Any}("filterFormula" => filterFormula);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query_table_rows(
     filterFormula,
     tableId,
-    workbookId,
-    params::AbstractDict{String};
+    workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/query",
@@ -598,8 +475,7 @@ function query_table_rows(
 end
 
 """
-    start_table_data_import_job(client_request_token, data_format, data_source, import_options, table_id, workbook_id)
-    start_table_data_import_job(client_request_token, data_format, data_source, import_options, table_id, workbook_id, params::Dict{String,<:Any})
+    start_table_data_import_job(client_request_token, data_format, data_source, import_options, table_id, workbook_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The StartTableDataImportJob API allows you to start an import job on a table. This API
 will only return the id of the job that was started. To find out the status of the import
@@ -633,30 +509,9 @@ function start_table_data_import_job(
     tableId,
     workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/import",
-        Dict{String,Any}(
-            "clientRequestToken" => clientRequestToken,
-            "dataFormat" => dataFormat,
-            "dataSource" => dataSource,
-            "importOptions" => importOptions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_table_data_import_job(
-    clientRequestToken,
-    dataFormat,
-    dataSource,
-    importOptions,
-    tableId,
-    workbookId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/import",

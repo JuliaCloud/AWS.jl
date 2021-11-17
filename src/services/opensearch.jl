@@ -4,9 +4,37 @@ using AWS.AWSServices: opensearch
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "cluster_config" => "ClusterConfig",
+    "advanced_options" => "AdvancedOptions",
+    "snapshot_options" => "SnapshotOptions",
+    "vpcoptions" => "VPCOptions",
+    "encryption_at_rest_options" => "EncryptionAtRestOptions",
+    "instance_count" => "InstanceCount",
+    "engine_version" => "EngineVersion",
+    "node_to_node_encryption_options" => "NodeToNodeEncryptionOptions",
+    "next_token" => "nextToken",
+    "domain_endpoint_options" => "DomainEndpointOptions",
+    "log_publishing_options" => "LogPublishingOptions",
+    "engine_type" => "engineType",
+    "domain_name" => "domainName",
+    "max_results" => "maxResults",
+    "cognito_options" => "CognitoOptions",
+    "auto_tune_options" => "AutoTuneOptions",
+    "reserved_instance_offering_id" => "offeringId",
+    "tag_list" => "TagList",
+    "advanced_security_options" => "AdvancedSecurityOptions",
+    "access_policies" => "AccessPolicies",
+    "filters" => "Filters",
+    "reserved_instance_id" => "reservationId",
+    "package_description" => "PackageDescription",
+    "perform_check_only" => "PerformCheckOnly",
+    "commit_message" => "CommitMessage",
+    "ebsoptions" => "EBSOptions",
+)
+
 """
-    accept_inbound_connection(connection_id)
-    accept_inbound_connection(connection_id, params::Dict{String,<:Any})
+    accept_inbound_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the remote domain owner to accept an inbound cross-cluster connection request.
 
@@ -15,20 +43,9 @@ Allows the remote domain owner to accept an inbound cross-cluster connection req
 
 """
 function accept_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "PUT",
-        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function accept_inbound_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "PUT",
         "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/accept",
@@ -39,8 +56,7 @@ function accept_inbound_connection(
 end
 
 """
-    add_tags(arn, tag_list)
-    add_tags(arn, tag_list, params::Dict{String,<:Any})
+    add_tags(arn, tag_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches tags to an existing domain. Tags are a set of case-sensitive key value pairs. An
 domain can have up to 10 tags. See  Tagging Amazon OpenSearch Service domains for more
@@ -51,21 +67,10 @@ information.
 - `tag_list`: List of Tag to add to the domain.
 
 """
-function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/tags",
-        Dict{String,Any}("ARN" => ARN, "TagList" => TagList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_tags(
-    ARN,
-    TagList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/tags",
@@ -78,8 +83,7 @@ function add_tags(
 end
 
 """
-    associate_package(domain_name, package_id)
-    associate_package(domain_name, package_id, params::Dict{String,<:Any})
+    associate_package(domain_name, package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a package with an Amazon OpenSearch Service domain.
 
@@ -90,21 +94,9 @@ Associates a package with an Amazon OpenSearch Service domain.
 
 """
 function associate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_package(
-    DomainName,
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/packages/associate/$(PackageID)/$(DomainName)",
@@ -115,8 +107,7 @@ function associate_package(
 end
 
 """
-    cancel_service_software_update(domain_name)
-    cancel_service_software_update(domain_name, params::Dict{String,<:Any})
+    cancel_service_software_update(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You
 can only perform this operation before the AutomatedUpdateDate and when the UpdateStatus is
@@ -128,21 +119,9 @@ in the PENDING_UPDATE state.
 
 """
 function cancel_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_service_software_update(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/serviceSoftwareUpdate/cancel",
@@ -155,8 +134,7 @@ function cancel_service_software_update(
 end
 
 """
-    create_domain(domain_name)
-    create_domain(domain_name, params::Dict{String,<:Any})
+    create_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Amazon OpenSearch Service domain. For more information, see Creating and
 managing Amazon OpenSearch Service domains  in the Amazon OpenSearch Service Developer
@@ -169,50 +147,40 @@ Guide.
   (lowercase), 0-9, and - (hyphen).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`: Option to allow references to indices in an HTTP request body. Must
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_policies"`: IAM access policy as a JSON-formatted string.
+- `"advanced_options"`: Option to allow references to indices in an HTTP request body. Must
   be false when configuring access to individual sub-resources. By default, the value is
   true. See Advanced cluster parameters  for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"ClusterConfig"`: Configuration options for a domain. Specifies the instance type and
+- `"advanced_security_options"`: Specifies advanced security options.
+- `"auto_tune_options"`: Specifies Auto-Tune options.
+- `"cluster_config"`: Configuration options for a domain. Specifies the instance type and
   number of instances in the domain.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for OpenSearch
-  Dashboards authentication. For more information, see Configuring Amazon Cognito
+- `"cognito_options"`: Options to specify the Cognito user and identity pools for
+  OpenSearch Dashboards authentication. For more information, see Configuring Amazon Cognito
   authentication for OpenSearch Dashboards.
-- `"DomainEndpointOptions"`: Options to specify configurations that will be applied to the
-  domain endpoint.
-- `"EBSOptions"`: Options to enable, disable, and specify the type and size of EBS storage
+- `"domain_endpoint_options"`: Options to specify configurations that will be applied to
+  the domain endpoint.
+- `"ebsoptions"`: Options to enable, disable, and specify the type and size of EBS storage
   volumes.
-- `"EncryptionAtRestOptions"`: Options for encryption of data at rest.
-- `"EngineVersion"`: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the
+- `"encryption_at_rest_options"`: Options for encryption of data at rest.
+- `"engine_version"`: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the
   engine version for the Amazon OpenSearch Service domain. For example, \"OpenSearch_1.0\" or
   \"Elasticsearch_7.9\". For more information, see Creating and managing Amazon OpenSearch
   Service domains .
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of OpenSearch log.
-- `"NodeToNodeEncryptionOptions"`: Node-to-node encryption options.
-- `"SnapshotOptions"`: Option to set time, in UTC format, of the daily automated snapshot.
+- `"log_publishing_options"`: Map of LogType and LogPublishingOption, each containing
+  options to publish a given type of OpenSearch log.
+- `"node_to_node_encryption_options"`: Node-to-node encryption options.
+- `"snapshot_options"`: Option to set time, in UTC format, of the daily automated snapshot.
   Default value is 0 hours.
-- `"TagList"`: A list of Tag added during domain creation.
-- `"VPCOptions"`: Options to specify the subnets and security groups for a VPC endpoint.
+- `"tag_list"`: A list of Tag added during domain creation.
+- `"vpcoptions"`: Options to specify the subnets and security groups for a VPC endpoint.
   For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
 """
-function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/domain",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain",
@@ -225,8 +193,7 @@ function create_domain(
 end
 
 """
-    create_outbound_connection(connection_alias, local_domain_info, remote_domain_info)
-    create_outbound_connection(connection_alias, local_domain_info, remote_domain_info, params::Dict{String,<:Any})
+    create_outbound_connection(connection_alias, local_domain_info, remote_domain_info; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new cross-cluster connection from a local OpenSearch domain to a remote
 OpenSearch domain.
@@ -243,26 +210,9 @@ function create_outbound_connection(
     LocalDomainInfo,
     RemoteDomainInfo;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/cc/outboundConnection",
-        Dict{String,Any}(
-            "ConnectionAlias" => ConnectionAlias,
-            "LocalDomainInfo" => LocalDomainInfo,
-            "RemoteDomainInfo" => RemoteDomainInfo,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_outbound_connection(
-    ConnectionAlias,
-    LocalDomainInfo,
-    RemoteDomainInfo,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/cc/outboundConnection",
@@ -283,8 +233,7 @@ function create_outbound_connection(
 end
 
 """
-    create_package(package_name, package_source, package_type)
-    create_package(package_name, package_source, package_type, params::Dict{String,<:Any})
+    create_package(package_name, package_source, package_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a package for use with Amazon OpenSearch Service domains.
 
@@ -294,34 +243,17 @@ Create a package for use with Amazon OpenSearch Service domains.
 - `package_type`: Type of package. Currently supports only TXT-DICTIONARY.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PackageDescription"`: Description of the package.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"package_description"`: Description of the package.
 """
 function create_package(
     PackageName,
     PackageSource,
     PackageType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/packages",
-        Dict{String,Any}(
-            "PackageName" => PackageName,
-            "PackageSource" => PackageSource,
-            "PackageType" => PackageType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_package(
-    PackageName,
-    PackageSource,
-    PackageType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/packages",
@@ -342,8 +274,7 @@ function create_package(
 end
 
 """
-    delete_domain(domain_name)
-    delete_domain(domain_name, params::Dict{String,<:Any})
+    delete_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently deletes the specified domain and all of its data. Once a domain is deleted, it
 cannot be recovered.
@@ -352,19 +283,10 @@ cannot be recovered.
 - `domain_name`: The name of the domain you want to permanently delete.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "DELETE",
-        "/2021-01-01/opensearch/domain/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/domain/$(DomainName)",
@@ -375,8 +297,7 @@ function delete_domain(
 end
 
 """
-    delete_inbound_connection(connection_id)
-    delete_inbound_connection(connection_id, params::Dict{String,<:Any})
+    delete_inbound_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the remote domain owner to delete an existing inbound cross-cluster connection.
 
@@ -385,20 +306,9 @@ Allows the remote domain owner to delete an existing inbound cross-cluster conne
 
 """
 function delete_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "DELETE",
-        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_inbound_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)",
@@ -409,8 +319,7 @@ function delete_inbound_connection(
 end
 
 """
-    delete_outbound_connection(connection_id)
-    delete_outbound_connection(connection_id, params::Dict{String,<:Any})
+    delete_outbound_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the local domain owner to delete an existing outbound cross-cluster connection.
 
@@ -419,20 +328,9 @@ Allows the local domain owner to delete an existing outbound cross-cluster conne
 
 """
 function delete_outbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "DELETE",
-        "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_outbound_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "DELETE",
         "/2021-01-01/opensearch/cc/outboundConnection/$(ConnectionId)",
@@ -443,8 +341,7 @@ function delete_outbound_connection(
 end
 
 """
-    delete_package(package_id)
-    delete_package(package_id, params::Dict{String,<:Any})
+    delete_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the package.
 
@@ -453,19 +350,10 @@ Deletes the package.
   find this value.
 
 """
-function delete_package(PackageID; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "DELETE",
-        "/2021-01-01/packages/$(PackageID)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_package(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "DELETE",
         "/2021-01-01/packages/$(PackageID)",
@@ -476,8 +364,7 @@ function delete_package(
 end
 
 """
-    describe_domain(domain_name)
-    describe_domain(domain_name, params::Dict{String,<:Any})
+    describe_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns domain configuration information about the specified domain, including the domain
 ID, domain endpoint, and domain ARN.
@@ -486,19 +373,10 @@ ID, domain endpoint, and domain ARN.
 - `domain_name`: The name of the domain for which you want information.
 
 """
-function describe_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/domain/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)",
@@ -509,8 +387,7 @@ function describe_domain(
 end
 
 """
-    describe_domain_auto_tunes(domain_name)
-    describe_domain_auto_tunes(domain_name, params::Dict{String,<:Any})
+    describe_domain_auto_tunes(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type,
 description, severity, and scheduled date.
@@ -519,27 +396,16 @@ description, severity, and scheduled date.
 - `domain_name`: The domain name for which you want Auto-Tune action details.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: NextToken is sent in case the earlier API call results contain the
   NextToken. Used for pagination.
 """
 function describe_domain_auto_tunes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain_auto_tunes(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)/autoTunes",
@@ -550,8 +416,7 @@ function describe_domain_auto_tunes(
 end
 
 """
-    describe_domain_config(domain_name)
-    describe_domain_config(domain_name, params::Dict{String,<:Any})
+    describe_domain_config(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides cluster configuration information about the specified domain, such as the state,
 creation date, update version, and update date for cluster options.
@@ -561,20 +426,9 @@ creation date, update version, and update date for cluster options.
 
 """
 function describe_domain_config(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/domain/$(DomainName)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain_config(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)/config",
@@ -585,8 +439,7 @@ function describe_domain_config(
 end
 
 """
-    describe_domains(domain_names)
-    describe_domains(domain_names, params::Dict{String,<:Any})
+    describe_domains(domain_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns domain configuration information about the specified domains, including the domain
 ID, domain endpoint, and domain ARN.
@@ -595,20 +448,10 @@ ID, domain endpoint, and domain ARN.
 - `domain_names`: The domains for which you want information.
 
 """
-function describe_domains(DomainNames; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/domain-info",
-        Dict{String,Any}("DomainNames" => DomainNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_domains(
-    DomainNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain-info",
@@ -621,32 +464,24 @@ function describe_domains(
 end
 
 """
-    describe_inbound_connections()
-    describe_inbound_connections(params::Dict{String,<:Any})
+    describe_inbound_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the inbound cross-cluster connections for a remote domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  A list of filters used to match properties for inbound cross-cluster
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`:  A list of filters used to match properties for inbound cross-cluster
   connections. Available  Filter  values are:  connection-id local-domain-info.domain-name
   local-domain-info.owner-id local-domain-info.region remote-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: If more results are available and NextToken is present, make the next
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: If more results are available and NextToken is present, make the next
   request to the same API with the received NextToken to paginate the remaining results.
 """
-function describe_inbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/cc/inboundConnection/search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_inbound_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_inbound_connections(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/cc/inboundConnection/search",
@@ -657,8 +492,7 @@ function describe_inbound_connections(
 end
 
 """
-    describe_instance_type_limits(engine_version, instance_type)
-    describe_instance_type_limits(engine_version, instance_type, params::Dict{String,<:Any})
+    describe_instance_type_limits(engine_version, instance_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Describe the limits for a given instance type and OpenSearch or Elasticsearch version.
 When modifying an existing domain, specify the  DomainName  to see which limits you can
@@ -670,26 +504,17 @@ modify.
   Limits  are needed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:  The name of the domain you want to modify. Only include this value if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`:  The name of the domain you want to modify. Only include this value if
   you're querying OpenSearch  Limits  for an existing domain.
 """
 function describe_instance_type_limits(
-    EngineVersion, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_type_limits(
     EngineVersion,
-    InstanceType,
-    params::AbstractDict{String};
+    InstanceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/instanceTypeLimits/$(EngineVersion)/$(InstanceType)",
@@ -700,33 +525,25 @@ function describe_instance_type_limits(
 end
 
 """
-    describe_outbound_connections()
-    describe_outbound_connections(params::Dict{String,<:Any})
+    describe_outbound_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the outbound cross-cluster connections for a local domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  A list of filters used to match properties for outbound cross-cluster
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`:  A list of filters used to match properties for outbound cross-cluster
   connections. Available  Filter  names for this operation are:  connection-id
   remote-domain-info.domain-name remote-domain-info.owner-id remote-domain-info.region
   local-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: NextToken is sent in case the earlier API call results contain the
   NextToken parameter. Used for pagination.
 """
-function describe_outbound_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/cc/outboundConnection/search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_outbound_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_outbound_connections(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/cc/outboundConnection/search",
@@ -737,30 +554,20 @@ function describe_outbound_connections(
 end
 
 """
-    describe_packages()
-    describe_packages(params::Dict{String,<:Any})
+    describe_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes all packages available to Amazon OpenSearch Service domains. Includes options for
 filtering, limiting the number of results, and pagination.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Only returns packages that match the DescribePackagesFilterList values.
-- `"MaxResults"`: Limits results to a maximum number of packages.
-- `"NextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Only returns packages that match the DescribePackagesFilterList values.
+- `"max_results"`: Limits results to a maximum number of packages.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
-function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/packages/describe";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_packages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/packages/describe",
@@ -771,32 +578,23 @@ function describe_packages(
 end
 
 """
-    describe_reserved_instance_offerings()
-    describe_reserved_instance_offerings(params::Dict{String,<:Any})
+    describe_reserved_instance_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists available reserved OpenSearch instance offerings.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
-- `"offeringId"`: The offering identifier filter value. Use this parameter to show only the
-  available offering that matches the specified reservation identifier.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: Provides an identifier to allow retrieval of paginated results.
+- `"reserved_instance_offering_id"`: The offering identifier filter value. Use this
+  parameter to show only the available offering that matches the specified reservation
+  identifier.
 """
 function describe_reserved_instance_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/reservedInstanceOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_instance_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/reservedInstanceOfferings",
@@ -807,30 +605,23 @@ function describe_reserved_instance_offerings(
 end
 
 """
-    describe_reserved_instances()
-    describe_reserved_instances(params::Dict{String,<:Any})
+    describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about reserved OpenSearch instances for this account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: Provides an identifier to allow retrieval of paginated results.
-- `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
-  show only the reservation that matches the specified reserved OpenSearch instance ID.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: Provides an identifier to allow retrieval of paginated results.
+- `"reserved_instance_id"`: The reserved instance identifier filter value. Use this
+  parameter to show only the reservation that matches the specified reserved OpenSearch
+  instance ID.
 """
-function describe_reserved_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/reservedInstances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_reserved_instances(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/reservedInstances",
@@ -841,8 +632,7 @@ function describe_reserved_instances(
 end
 
 """
-    dissociate_package(domain_name, package_id)
-    dissociate_package(domain_name, package_id, params::Dict{String,<:Any})
+    dissociate_package(domain_name, package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Dissociates a package from the Amazon OpenSearch Service domain.
 
@@ -853,21 +643,9 @@ Dissociates a package from the Amazon OpenSearch Service domain.
 
 """
 function dissociate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function dissociate_package(
-    DomainName,
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/packages/dissociate/$(PackageID)/$(DomainName)",
@@ -878,28 +656,20 @@ function dissociate_package(
 end
 
 """
-    get_compatible_versions()
-    get_compatible_versions(params::Dict{String,<:Any})
+    get_compatible_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of upgrade-compatible versions of OpenSearch/Elasticsearch. You can
 optionally pass a  DomainName  to get all upgrade-compatible versions of
 OpenSearch/Elasticsearch for that specific domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`:
 """
-function get_compatible_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/compatibleVersions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compatible_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_compatible_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/compatibleVersions",
@@ -910,8 +680,7 @@ function get_compatible_versions(
 end
 
 """
-    get_package_version_history(package_id)
-    get_package_version_history(package_id, params::Dict{String,<:Any})
+    get_package_version_history(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of package versions, along with their creation time and commit message.
 
@@ -919,26 +688,15 @@ Returns a list of package versions, along with their creation time and commit me
 - `package_id`: Returns an audit history of package versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of package versions.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits results to a maximum number of package versions.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function get_package_version_history(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/packages/$(PackageID)/history";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_history(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/packages/$(PackageID)/history",
@@ -949,8 +707,7 @@ function get_package_version_history(
 end
 
 """
-    get_upgrade_history(domain_name)
-    get_upgrade_history(domain_name, params::Dict{String,<:Any})
+    get_upgrade_history(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the complete history of the last 10 upgrades performed on the domain.
 
@@ -958,23 +715,14 @@ Retrieves the complete history of the last 10 upgrades performed on the domain.
 - `domain_name`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_upgrade_history(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/history",
@@ -985,8 +733,7 @@ function get_upgrade_history(
 end
 
 """
-    get_upgrade_status(domain_name)
-    get_upgrade_status(domain_name, params::Dict{String,<:Any})
+    get_upgrade_status(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the latest status of the last upgrade or upgrade eligibility check performed on
 the domain.
@@ -995,19 +742,10 @@ the domain.
 - `domain_name`:
 
 """
-function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_upgrade_status(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status",
@@ -1018,24 +756,17 @@ function get_upgrade_status(
 end
 
 """
-    list_domain_names()
-    list_domain_names(params::Dict{String,<:Any})
+    list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the names of all domains owned by the current user's account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"engineType"`:  Optional parameter to filter the output by domain engine type.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"engine_type"`:  Optional parameter to filter the output by domain engine type.
   Acceptable values are 'Elasticsearch' and 'OpenSearch'.
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET", "/2021-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/domain",
@@ -1046,8 +777,7 @@ function list_domain_names(
 end
 
 """
-    list_domains_for_package(package_id)
-    list_domains_for_package(package_id, params::Dict{String,<:Any})
+    list_domains_for_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all Amazon OpenSearch Service domains associated with the package.
 
@@ -1055,26 +785,15 @@ Lists all Amazon OpenSearch Service domains associated with the package.
 - `package_id`: The package for which to list associated domains.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits the results to a maximum number of domains.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits the results to a maximum number of domains.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function list_domains_for_package(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/packages/$(PackageID)/domains";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_domains_for_package(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/packages/$(PackageID)/domains",
@@ -1085,8 +804,7 @@ function list_domains_for_package(
 end
 
 """
-    list_instance_type_details(engine_version)
-    list_instance_type_details(engine_version, params::Dict{String,<:Any})
+    list_instance_type_details(engine_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 
 
@@ -1094,26 +812,15 @@ end
 - `engine_version`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`:
+- `"max_results"`:
+- `"next_token"`:
 """
 function list_instance_type_details(
-    EngineVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    EngineVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_instance_type_details(
-    EngineVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/instanceTypeDetails/$(EngineVersion)",
@@ -1124,8 +831,7 @@ function list_instance_type_details(
 end
 
 """
-    list_packages_for_domain(domain_name)
-    list_packages_for_domain(domain_name, params::Dict{String,<:Any})
+    list_packages_for_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all packages associated with the Amazon OpenSearch Service domain.
 
@@ -1133,26 +839,15 @@ Lists all packages associated with the Amazon OpenSearch Service domain.
 - `domain_name`: The name of the domain for which you want to list associated packages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of packages.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits results to a maximum number of packages.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function list_packages_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "GET",
-        "/2021-01-01/domain/$(DomainName)/packages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_packages_for_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/domain/$(DomainName)/packages",
@@ -1163,8 +858,7 @@ function list_packages_for_domain(
 end
 
 """
-    list_tags(arn)
-    list_tags(arn, params::Dict{String,<:Any})
+    list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all tags for the given domain.
 
@@ -1172,18 +866,8 @@ Returns all tags for the given domain.
 - `arn`: Specify the ARN of the domain that the tags you want to view are attached to.
 
 """
-function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/tags/",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/tags/",
@@ -1194,28 +878,18 @@ function list_tags(
 end
 
 """
-    list_versions()
-    list_versions(params::Dict{String,<:Any})
+    list_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all supported versions of OpenSearch and Elasticsearch.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Set this value to limit the number of results returned. Value must be
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  Set this value to limit the number of results returned. Value must be
   greater than 10 or it won't be honored.
-- `"nextToken"`:
+- `"next_token"`:
 """
-function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "GET",
-        "/2021-01-01/opensearch/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/versions",
@@ -1226,8 +900,7 @@ function list_versions(
 end
 
 """
-    purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id)
-    purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id, params::Dict{String,<:Any})
+    purchase_reserved_instance_offering(reservation_name, reserved_instance_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to purchase reserved OpenSearch instances.
 
@@ -1237,31 +910,16 @@ Allows you to purchase reserved OpenSearch instances.
   purchase.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceCount"`: The number of OpenSearch instances to reserve.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"instance_count"`: The number of OpenSearch instances to reserve.
 """
 function purchase_reserved_instance_offering(
     ReservationName,
     ReservedInstanceOfferingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
-        Dict{String,Any}(
-            "ReservationName" => ReservationName,
-            "ReservedInstanceOfferingId" => ReservedInstanceOfferingId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function purchase_reserved_instance_offering(
-    ReservationName,
-    ReservedInstanceOfferingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
@@ -1281,8 +939,7 @@ function purchase_reserved_instance_offering(
 end
 
 """
-    reject_inbound_connection(connection_id)
-    reject_inbound_connection(connection_id, params::Dict{String,<:Any})
+    reject_inbound_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the remote domain owner to reject an inbound cross-cluster connection request.
 
@@ -1291,20 +948,9 @@ Allows the remote domain owner to reject an inbound cross-cluster connection req
 
 """
 function reject_inbound_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "PUT",
-        "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reject_inbound_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "PUT",
         "/2021-01-01/opensearch/cc/inboundConnection/$(ConnectionId)/reject",
@@ -1315,8 +961,7 @@ function reject_inbound_connection(
 end
 
 """
-    remove_tags(arn, tag_keys)
-    remove_tags(arn, tag_keys, params::Dict{String,<:Any})
+    remove_tags(arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified set of tags from the given domain.
 
@@ -1325,21 +970,10 @@ Removes the specified set of tags from the given domain.
 - `tag_keys`: The TagKey list you want to remove from the domain.
 
 """
-function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/tags-removal",
-        Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_tags(
-    ARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/tags-removal",
@@ -1352,8 +986,7 @@ function remove_tags(
 end
 
 """
-    start_service_software_update(domain_name)
-    start_service_software_update(domain_name, params::Dict{String,<:Any})
+    start_service_software_update(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Schedules a service software update for an Amazon OpenSearch Service domain.
 
@@ -1363,21 +996,9 @@ Schedules a service software update for an Amazon OpenSearch Service domain.
 
 """
 function start_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/serviceSoftwareUpdate/start",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_service_software_update(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/serviceSoftwareUpdate/start",
@@ -1390,8 +1011,7 @@ function start_service_software_update(
 end
 
 """
-    update_domain_config(domain_name)
-    update_domain_config(domain_name, params::Dict{String,<:Any})
+    update_domain_config(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the cluster configuration of the specified domain, such as setting the instance
 type and the number of instances.
@@ -1400,42 +1020,34 @@ type and the number of instances.
 - `domain_name`: The name of the domain you're updating.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`: Modifies the advanced option to allow references to indices in an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_policies"`: IAM access policy as a JSON-formatted string.
+- `"advanced_options"`: Modifies the advanced option to allow references to indices in an
   HTTP request body. Must be false when configuring access to individual sub-resources. By
   default, the value is true. See Advanced options  for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"ClusterConfig"`: The type and number of instances to instantiate for the domain cluster.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for OpenSearch
-  Dashboards authentication. For more information, see Configuring Amazon Cognito
+- `"advanced_security_options"`: Specifies advanced security options.
+- `"auto_tune_options"`: Specifies Auto-Tune options.
+- `"cluster_config"`: The type and number of instances to instantiate for the domain
+  cluster.
+- `"cognito_options"`: Options to specify the Cognito user and identity pools for
+  OpenSearch Dashboards authentication. For more information, see Configuring Amazon Cognito
   authentication for OpenSearch Dashboards.
-- `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
+- `"domain_endpoint_options"`: Options to specify configuration that will be applied to the
   domain endpoint.
-- `"EBSOptions"`: Specify the type and size of the EBS volume to use.
-- `"EncryptionAtRestOptions"`: Specifies encryption of data at rest options.
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of OpenSearch log.
-- `"NodeToNodeEncryptionOptions"`: Specifies node-to-node encryption options.
-- `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
+- `"ebsoptions"`: Specify the type and size of the EBS volume to use.
+- `"encryption_at_rest_options"`: Specifies encryption of data at rest options.
+- `"log_publishing_options"`: Map of LogType and LogPublishingOption, each containing
+  options to publish a given type of OpenSearch log.
+- `"node_to_node_encryption_options"`: Specifies node-to-node encryption options.
+- `"snapshot_options"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is 0 hours.
-- `"VPCOptions"`: Options to specify the subnets and security groups for the VPC endpoint.
+- `"vpcoptions"`: Options to specify the subnets and security groups for the VPC endpoint.
   For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
 """
-function update_domain_config(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/domain/$(DomainName)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_domain_config(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/domain/$(DomainName)/config",
@@ -1446,8 +1058,7 @@ function update_domain_config(
 end
 
 """
-    update_package(package_id, package_source)
-    update_package(package_id, package_source, params::Dict{String,<:Any})
+    update_package(package_id, package_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a package for use with Amazon OpenSearch Service domains.
 
@@ -1456,28 +1067,15 @@ Updates a package for use with Amazon OpenSearch Service domains.
 - `package_source`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommitMessage"`: A commit message for the new version which is shown as part of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_message"`: A commit message for the new version which is shown as part of
   GetPackageVersionHistoryResponse.
-- `"PackageDescription"`: A new description of the package.
+- `"package_description"`: A new description of the package.
 """
 function update_package(
-    PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/packages/update",
-        Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package(
-    PackageID,
-    PackageSource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/packages/update",
@@ -1496,8 +1094,7 @@ function update_package(
 end
 
 """
-    upgrade_domain(domain_name, target_version)
-    upgrade_domain(domain_name, target_version, params::Dict{String,<:Any})
+    upgrade_domain(domain_name, target_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to either upgrade your domain or perform an upgrade eligibility check to a
 compatible version of OpenSearch or Elasticsearch.
@@ -1507,28 +1104,15 @@ compatible version of OpenSearch or Elasticsearch.
 - `target_version`: The version of OpenSearch you intend to upgrade the domain to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AdvancedOptions"`:
-- `"PerformCheckOnly"`:  When true, indicates that an upgrade eligibility check needs to be
-  performed. Does not actually perform the upgrade.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"advanced_options"`:
+- `"perform_check_only"`:  When true, indicates that an upgrade eligibility check needs to
+  be performed. Does not actually perform the upgrade.
 """
 function upgrade_domain(
-    DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return opensearch(
-        "POST",
-        "/2021-01-01/opensearch/upgradeDomain",
-        Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_domain(
-    DomainName,
-    TargetVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return opensearch(
         "POST",
         "/2021-01-01/opensearch/upgradeDomain",

@@ -4,9 +4,22 @@ using AWS.AWSServices: mediapackage_vod
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "resource_id" => "resourceId",
+    "hls_package" => "hlsPackage",
+    "next_token" => "nextToken",
+    "dash_package" => "dashPackage",
+    "authorization" => "authorization",
+    "max_results" => "maxResults",
+    "packaging_group_id" => "packagingGroupId",
+    "mss_package" => "mssPackage",
+    "egress_access_logs" => "egressAccessLogs",
+    "tags" => "tags",
+    "cmaf_package" => "cmafPackage",
+)
+
 """
-    configure_logs(id)
-    configure_logs(id, params::Dict{String,<:Any})
+    configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the packaging group's properities to configure log subscription
 
@@ -14,20 +27,11 @@ Changes the packaging group's properities to configure log subscription
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"egressAccessLogs"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"egress_access_logs"`:
 """
-function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "PUT",
-        "/packaging_groups/$(id)/configure_logs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function configure_logs(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function configure_logs(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "PUT",
         "/packaging_groups/$(id)/configure_logs",
@@ -38,8 +42,7 @@ function configure_logs(
 end
 
 """
-    create_asset(id, packaging_group_id, source_arn, source_role_arn)
-    create_asset(id, packaging_group_id, source_arn, source_role_arn, params::Dict{String,<:Any})
+    create_asset(id, packaging_group_id, source_arn, source_role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new MediaPackage VOD Asset resource.
 
@@ -50,8 +53,8 @@ Creates a new MediaPackage VOD Asset resource.
 - `source_role_arn`: The IAM role ARN used to access the source S3 bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"resourceId"`: The resource ID to include in SPEKE key requests.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resource_id"`: The resource ID to include in SPEKE key requests.
 - `"tags"`:
 """
 function create_asset(
@@ -60,28 +63,9 @@ function create_asset(
     sourceArn,
     sourceRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediapackage_vod(
-        "POST",
-        "/assets",
-        Dict{String,Any}(
-            "id" => id,
-            "packagingGroupId" => packagingGroupId,
-            "sourceArn" => sourceArn,
-            "sourceRoleArn" => sourceRoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_asset(
-    id,
-    packagingGroupId,
-    sourceArn,
-    sourceRoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "POST",
         "/assets",
@@ -103,8 +87,7 @@ function create_asset(
 end
 
 """
-    create_packaging_configuration(id, packaging_group_id)
-    create_packaging_configuration(id, packaging_group_id, params::Dict{String,<:Any})
+    create_packaging_configuration(id, packaging_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new MediaPackage VOD PackagingConfiguration resource.
 
@@ -113,30 +96,17 @@ Creates a new MediaPackage VOD PackagingConfiguration resource.
 - `packaging_group_id`: The ID of a PackagingGroup.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"cmafPackage"`:
-- `"dashPackage"`:
-- `"hlsPackage"`:
-- `"mssPackage"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cmaf_package"`:
+- `"dash_package"`:
+- `"hls_package"`:
+- `"mss_package"`:
 - `"tags"`:
 """
 function create_packaging_configuration(
-    id, packagingGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    id, packagingGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediapackage_vod(
-        "POST",
-        "/packaging_configurations",
-        Dict{String,Any}("id" => id, "packagingGroupId" => packagingGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_packaging_configuration(
-    id,
-    packagingGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "POST",
         "/packaging_configurations",
@@ -153,8 +123,7 @@ function create_packaging_configuration(
 end
 
 """
-    create_packaging_group(id)
-    create_packaging_group(id, params::Dict{String,<:Any})
+    create_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new MediaPackage VOD PackagingGroup resource.
 
@@ -162,23 +131,15 @@ Creates a new MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of the PackagingGroup.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"authorization"`:
-- `"egressAccessLogs"`:
+- `"egress_access_logs"`:
 - `"tags"`:
 """
-function create_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "POST",
-        "/packaging_groups",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "POST",
         "/packaging_groups",
@@ -189,8 +150,7 @@ function create_packaging_group(
 end
 
 """
-    delete_asset(id)
-    delete_asset(id, params::Dict{String,<:Any})
+    delete_asset(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing MediaPackage VOD Asset resource.
 
@@ -198,14 +158,8 @@ Deletes an existing MediaPackage VOD Asset resource.
 - `id`: The ID of the MediaPackage VOD Asset resource to delete.
 
 """
-function delete_asset(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "DELETE", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_asset(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_asset(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "DELETE",
         "/assets/$(id)",
@@ -216,8 +170,7 @@ function delete_asset(
 end
 
 """
-    delete_packaging_configuration(id)
-    delete_packaging_configuration(id, params::Dict{String,<:Any})
+    delete_packaging_configuration(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a MediaPackage VOD PackagingConfiguration resource.
 
@@ -226,18 +179,9 @@ Deletes a MediaPackage VOD PackagingConfiguration resource.
 
 """
 function delete_packaging_configuration(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediapackage_vod(
-        "DELETE",
-        "/packaging_configurations/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_packaging_configuration(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "DELETE",
         "/packaging_configurations/$(id)",
@@ -248,8 +192,7 @@ function delete_packaging_configuration(
 end
 
 """
-    delete_packaging_group(id)
-    delete_packaging_group(id, params::Dict{String,<:Any})
+    delete_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a MediaPackage VOD PackagingGroup resource.
 
@@ -257,17 +200,10 @@ Deletes a MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of the MediaPackage VOD PackagingGroup resource to delete.
 
 """
-function delete_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "DELETE",
-        "/packaging_groups/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "DELETE",
         "/packaging_groups/$(id)",
@@ -278,8 +214,7 @@ function delete_packaging_group(
 end
 
 """
-    describe_asset(id)
-    describe_asset(id, params::Dict{String,<:Any})
+    describe_asset(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a description of a MediaPackage VOD Asset resource.
 
@@ -287,14 +222,8 @@ Returns a description of a MediaPackage VOD Asset resource.
 - `id`: The ID of an MediaPackage VOD Asset resource.
 
 """
-function describe_asset(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "GET", "/assets/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_asset(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_asset(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/assets/$(id)",
@@ -305,8 +234,7 @@ function describe_asset(
 end
 
 """
-    describe_packaging_configuration(id)
-    describe_packaging_configuration(id, params::Dict{String,<:Any})
+    describe_packaging_configuration(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 
@@ -315,18 +243,9 @@ Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 
 """
 function describe_packaging_configuration(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediapackage_vod(
-        "GET",
-        "/packaging_configurations/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_packaging_configuration(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/packaging_configurations/$(id)",
@@ -337,8 +256,7 @@ function describe_packaging_configuration(
 end
 
 """
-    describe_packaging_group(id)
-    describe_packaging_group(id, params::Dict{String,<:Any})
+    describe_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a description of a MediaPackage VOD PackagingGroup resource.
 
@@ -346,17 +264,10 @@ Returns a description of a MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 """
-function describe_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "GET",
-        "/packaging_groups/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/packaging_groups/$(id)",
@@ -367,54 +278,39 @@ function describe_packaging_group(
 end
 
 """
-    list_assets()
-    list_assets(params::Dict{String,<:Any})
+    list_assets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of MediaPackage VOD Asset resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
-- `"packagingGroupId"`: Returns Assets associated with the specified PackagingGroup.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
+- `"packaging_group_id"`: Returns Assets associated with the specified PackagingGroup.
 """
-function list_assets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "GET", "/assets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_assets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_assets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET", "/assets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_packaging_configurations()
-    list_packaging_configurations(params::Dict{String,<:Any})
+    list_packaging_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
-- `"packagingGroupId"`: Returns MediaPackage VOD PackagingConfigurations associated with
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
+- `"packaging_group_id"`: Returns MediaPackage VOD PackagingConfigurations associated with
   the specified PackagingGroup.
 """
-function list_packaging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "GET",
-        "/packaging_configurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_packaging_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_packaging_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/packaging_configurations",
@@ -425,24 +321,19 @@ function list_packaging_configurations(
 end
 
 """
-    list_packaging_groups()
-    list_packaging_groups(params::Dict{String,<:Any})
+    list_packaging_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a collection of MediaPackage VOD PackagingGroup resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return.
-- `"nextToken"`: A token used to resume pagination from the end of a previous request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return.
+- `"next_token"`: A token used to resume pagination from the end of a previous request.
 """
-function list_packaging_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "GET", "/packaging_groups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_packaging_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_packaging_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/packaging_groups",
@@ -453,8 +344,7 @@ function list_packaging_groups(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the tags assigned to the specified resource.
 
@@ -464,20 +354,9 @@ Returns a list of the tags assigned to the specified resource.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediapackage_vod(
-        "GET",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "GET",
         "/tags/$(resource-arn)",
@@ -488,8 +367,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource-arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds tags to the specified resource. You can specify one or more tags to add.
 
@@ -499,21 +377,10 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 - `tags`: A collection of tags associated with a resource
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resource_arn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "POST",
         "/tags/$(resource-arn)",
@@ -524,8 +391,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified resource. You can specify one or more tags to remove.
 
@@ -536,22 +402,9 @@ Removes tags from the specified resource. You can specify one or more tags to re
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediapackage_vod(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "DELETE",
         "/tags/$(resource-arn)",
@@ -562,8 +415,7 @@ function untag_resource(
 end
 
 """
-    update_packaging_group(id)
-    update_packaging_group(id, params::Dict{String,<:Any})
+    update_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a specific packaging group. You can't change the id attribute or any other
 system-generated attributes.
@@ -572,20 +424,13 @@ system-generated attributes.
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"authorization"`:
 """
-function update_packaging_group(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediapackage_vod(
-        "PUT",
-        "/packaging_groups/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_packaging_group(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediapackage_vod(
         "PUT",
         "/packaging_groups/$(id)",

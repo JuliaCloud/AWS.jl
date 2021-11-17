@@ -4,9 +4,18 @@ using AWS.AWSServices: cloudcontrol
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "type_version_id" => "TypeVersionId",
+    "client_token" => "ClientToken",
+    "resource_model" => "ResourceModel",
+    "next_token" => "NextToken",
+    "resource_request_status_filter" => "ResourceRequestStatusFilter",
+    "max_results" => "MaxResults",
+    "role_arn" => "RoleArn",
+)
+
 """
-    cancel_resource_request(request_token)
-    cancel_resource_request(request_token, params::Dict{String,<:Any})
+    cancel_resource_request(request_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the specified resource operation request. For more information, see Canceling
 resource operation requests in the Amazon Web Services Cloud Control API User Guide. Only
@@ -18,20 +27,9 @@ resource operations requests with a status of PENDING or IN_PROGRESS can be canc
 
 """
 function cancel_resource_request(
-    RequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+    RequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudcontrol(
-        "CancelResourceRequest",
-        Dict{String,Any}("RequestToken" => RequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_resource_request(
-    RequestToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "CancelResourceRequest",
         Dict{String,Any}(
@@ -43,8 +41,7 @@ function cancel_resource_request(
 end
 
 """
-    create_resource(desired_state, type_name)
-    create_resource(desired_state, type_name, params::Dict{String,<:Any})
+    create_resource(desired_state, type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates the specified resource. For more information, see Creating a resource in the Amazon
 Web Services Cloud Control API User Guide. After you have initiated a resource creation
@@ -63,8 +60,8 @@ using the RequestToken of the ProgressEvent type returned by CreateResource.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique identifier to ensure the idempotency of the resource request.
   As a best practice, specify this token to ensure idempotency, so that Amazon Web Services
   Cloud Control API can accurately distinguish between request retries and new resource
   requests. You might retry a resource request to ensure that it was successfully received. A
@@ -72,37 +69,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client token is treated as a new request. If you do not specify a client token, one is
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+- `"role_arn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   for Cloud Control API to use when performing this resource operation. The role specified
   must have the permissions required for this operation. The necessary permissions for each
   event handler are defined in the  handlers  section of the resource type definition schema.
   If you do not specify a role, Cloud Control API uses a temporary session created using your
   Amazon Web Services user credentials. For more information, see Specifying credentials in
   the Amazon Web Services Cloud Control API User Guide.
-- `"TypeVersionId"`: For private resource types, the type version to use in this resource
+- `"type_version_id"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
 function create_resource(
-    DesiredState, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    DesiredState, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudcontrol(
-        "CreateResource",
-        Dict{String,Any}(
-            "DesiredState" => DesiredState,
-            "TypeName" => TypeName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resource(
-    DesiredState,
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "CreateResource",
         Dict{String,Any}(
@@ -111,7 +92,7 @@ function create_resource(
                 Dict{String,Any}(
                     "DesiredState" => DesiredState,
                     "TypeName" => TypeName,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -122,8 +103,7 @@ function create_resource(
 end
 
 """
-    delete_resource(identifier, type_name)
-    delete_resource(identifier, type_name, params::Dict{String,<:Any})
+    delete_resource(identifier, type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified resource. For details, see Deleting a resource in the Amazon Web
 Services Cloud Control API User Guide. After you have initiated a resource deletion
@@ -142,8 +122,8 @@ using the RequestToken of the ProgressEvent returned by DeleteResource.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique identifier to ensure the idempotency of the resource request.
   As a best practice, specify this token to ensure idempotency, so that Amazon Web Services
   Cloud Control API can accurately distinguish between request retries and new resource
   requests. You might retry a resource request to ensure that it was successfully received. A
@@ -151,37 +131,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client token is treated as a new request. If you do not specify a client token, one is
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+- `"role_arn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   for Cloud Control API to use when performing this resource operation. The role specified
   must have the permissions required for this operation. The necessary permissions for each
   event handler are defined in the  handlers  section of the resource type definition schema.
   If you do not specify a role, Cloud Control API uses a temporary session created using your
   Amazon Web Services user credentials. For more information, see Specifying credentials in
   the Amazon Web Services Cloud Control API User Guide.
-- `"TypeVersionId"`: For private resource types, the type version to use in this resource
+- `"type_version_id"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
 function delete_resource(
-    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudcontrol(
-        "DeleteResource",
-        Dict{String,Any}(
-            "Identifier" => Identifier,
-            "TypeName" => TypeName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource(
-    Identifier,
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "DeleteResource",
         Dict{String,Any}(
@@ -190,7 +154,7 @@ function delete_resource(
                 Dict{String,Any}(
                     "Identifier" => Identifier,
                     "TypeName" => TypeName,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -201,8 +165,7 @@ function delete_resource(
 end
 
 """
-    get_resource(identifier, type_name)
-    get_resource(identifier, type_name, params::Dict{String,<:Any})
+    get_resource(identifier, type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the current state of the specified resource. For details, see
 Reading a resource's current state. You can use this action to return information about an
@@ -221,34 +184,22 @@ resources were provisioned using Cloud Control API.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"role_arn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   for Cloud Control API to use when performing this resource operation. The role specified
   must have the permissions required for this operation. The necessary permissions for each
   event handler are defined in the  handlers  section of the resource type definition schema.
   If you do not specify a role, Cloud Control API uses a temporary session created using your
   Amazon Web Services user credentials. For more information, see Specifying credentials in
   the Amazon Web Services Cloud Control API User Guide.
-- `"TypeVersionId"`: For private resource types, the type version to use in this resource
+- `"type_version_id"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
 function get_resource(
-    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudcontrol(
-        "GetResource",
-        Dict{String,Any}("Identifier" => Identifier, "TypeName" => TypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource(
-    Identifier,
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "GetResource",
         Dict{String,Any}(
@@ -264,8 +215,7 @@ function get_resource(
 end
 
 """
-    get_resource_request_status(request_token)
-    get_resource_request_status(request_token, params::Dict{String,<:Any})
+    get_resource_request_status(request_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current status of a resource operation request. For more information, see
 Tracking the progress of resource operation requests in the Amazon Web Services Cloud
@@ -278,20 +228,9 @@ Control API User Guide.
 
 """
 function get_resource_request_status(
-    RequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+    RequestToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudcontrol(
-        "GetResourceRequestStatus",
-        Dict{String,Any}("RequestToken" => RequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_request_status(
-    RequestToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "GetResourceRequestStatus",
         Dict{String,Any}(
@@ -303,8 +242,7 @@ function get_resource_request_status(
 end
 
 """
-    list_resource_requests()
-    list_resource_requests(params::Dict{String,<:Any})
+    list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns existing resource operation requests. This includes requests of all status types.
 For more information, see Listing active resource operation requests in the Amazon Web
@@ -312,26 +250,22 @@ Services Cloud Control API User Guide.  Resource operation requests expire after
 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to be returned with a single call. If the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results. The
   default is 20.
-- `"NextToken"`: If the previous paginated request didn't return all of the remaining
+- `"next_token"`: If the previous paginated request didn't return all of the remaining
   results, the response object's NextToken parameter value is set to a token. To retrieve the
   next set of results, call this action again and assign that token to the request object's
   NextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
-- `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
+- `"resource_request_status_filter"`: The filter criteria to apply to the requests returned.
 """
-function list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudcontrol(
-        "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resource_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resource_requests(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "ListResourceRequests",
         params;
@@ -341,8 +275,7 @@ function list_resource_requests(
 end
 
 """
-    list_resources(type_name)
-    list_resources(type_name, params::Dict{String,<:Any})
+    list_resources(type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the specified resources. For more information, see Discovering
 resources in the Amazon Web Services Cloud Control API User Guide. You can use this action
@@ -353,41 +286,32 @@ Region, whether or not those resources were provisioned using Cloud Control API.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to be returned with a single call. If the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned with a single call. If the
   number of available results exceeds this maximum, the response includes a NextToken value
   that you can assign to the NextToken request parameter to get the next set of results. The
   default is 20.
-- `"NextToken"`: If the previous paginated request didn't return all of the remaining
+- `"next_token"`: If the previous paginated request didn't return all of the remaining
   results, the response object's NextToken parameter value is set to a token. To retrieve the
   next set of results, call this action again and assign that token to the request object's
   NextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
-- `"ResourceModel"`: The resource model to use to select the resources to return.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+- `"resource_model"`: The resource model to use to select the resources to return.
+- `"role_arn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   for Cloud Control API to use when performing this resource operation. The role specified
   must have the permissions required for this operation. The necessary permissions for each
   event handler are defined in the  handlers  section of the resource type definition schema.
   If you do not specify a role, Cloud Control API uses a temporary session created using your
   Amazon Web Services user credentials. For more information, see Specifying credentials in
   the Amazon Web Services Cloud Control API User Guide.
-- `"TypeVersionId"`: For private resource types, the type version to use in this resource
+- `"type_version_id"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function list_resources(TypeName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudcontrol(
-        "ListResources",
-        Dict{String,Any}("TypeName" => TypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_resources(
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "ListResources",
         Dict{String,Any}(
@@ -399,8 +323,7 @@ function list_resources(
 end
 
 """
-    update_resource(identifier, patch_document, type_name)
-    update_resource(identifier, patch_document, type_name, params::Dict{String,<:Any})
+    update_resource(identifier, patch_document, type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified property values in the resource. You specify your resource property
 updates as a list of patch operations contained in a JSON patch document that adheres to
@@ -428,8 +351,8 @@ Resource and property types reference in the Amazon Web Services CloudFormation 
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique identifier to ensure the idempotency of the resource request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique identifier to ensure the idempotency of the resource request.
   As a best practice, specify this token to ensure idempotency, so that Amazon Web Services
   Cloud Control API can accurately distinguish between request retries and new resource
   requests. You might retry a resource request to ensure that it was successfully received. A
@@ -437,39 +360,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client token is treated as a new request. If you do not specify a client token, one is
   generated for inclusion in the request. For more information, see Ensuring resource
   operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
+- `"role_arn"`: The Amazon Resource Name (ARN) of the Identity and Access Management (IAM)
   for Cloud Control API to use when performing this resource operation. The role specified
   must have the permissions required for this operation. The necessary permissions for each
   event handler are defined in the  handlers  section of the resource type definition schema.
   If you do not specify a role, Cloud Control API uses a temporary session created using your
   Amazon Web Services user credentials. For more information, see Specifying credentials in
   the Amazon Web Services Cloud Control API User Guide.
-- `"TypeVersionId"`: For private resource types, the type version to use in this resource
+- `"type_version_id"`: For private resource types, the type version to use in this resource
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
 function update_resource(
-    Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudcontrol(
-        "UpdateResource",
-        Dict{String,Any}(
-            "Identifier" => Identifier,
-            "PatchDocument" => PatchDocument,
-            "TypeName" => TypeName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resource(
     Identifier,
     PatchDocument,
-    TypeName,
-    params::AbstractDict{String};
+    TypeName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudcontrol(
         "UpdateResource",
         Dict{String,Any}(
@@ -479,7 +388,7 @@ function update_resource(
                     "Identifier" => Identifier,
                     "PatchDocument" => PatchDocument,
                     "TypeName" => TypeName,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),

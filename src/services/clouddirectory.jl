@@ -4,9 +4,31 @@ using AWS.AWSServices: clouddirectory
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "schema_arn" => "SchemaArn",
+    "include_all_links_to_each_parent" => "IncludeAllLinksToEachParent",
+    "next_token" => "NextToken",
+    "state" => "state",
+    "name" => "Name",
+    "dry_run" => "DryRun",
+    "max_results" => "MaxResults",
+    "object_type" => "ObjectType",
+    "facet_style" => "FacetStyle",
+    "filter_attribute_ranges" => "FilterAttributeRanges",
+    "object_attribute_list" => "ObjectAttributeList",
+    "consistency_level" => "x-amz-consistency-level",
+    "attribute_updates" => "AttributeUpdates",
+    "link_name" => "LinkName",
+    "parent_reference" => "ParentReference",
+    "ranges_on_indexed_values" => "RangesOnIndexedValues",
+    "facet_filter" => "FacetFilter",
+    "attributes" => "Attributes",
+    "filter_typed_link" => "FilterTypedLink",
+    "minor_version" => "MinorVersion",
+)
+
 """
-    add_facet_to_object(object_reference, schema_facet, x-amz-data-partition)
-    add_facet_to_object(object_reference, schema_facet, x-amz-data-partition, params::Dict{String,<:Any})
+    add_facet_to_object(object_reference, schema_facet, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a new Facet to an object. An object can have more than one facet applied on it.
 
@@ -18,34 +40,17 @@ Adds a new Facet to an object. An object can have more than one facet applied on
   Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ObjectAttributeList"`: Attributes on the facet that you are adding to the object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"object_attribute_list"`: Attributes on the facet that you are adding to the object.
 """
 function add_facet_to_object(
     ObjectReference,
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/facets",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "SchemaFacet" => SchemaFacet,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_facet_to_object(
-    ObjectReference,
-    SchemaFacet,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/facets",
@@ -67,8 +72,7 @@ function add_facet_to_object(
 end
 
 """
-    apply_schema(published_schema_arn, x-amz-data-partition)
-    apply_schema(published_schema_arn, x-amz-data-partition, params::Dict{String,<:Any})
+    apply_schema(published_schema_arn, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Copies the input published schema, at the specified version, into the Directory with the
 same name and version as that of the published schema.
@@ -84,24 +88,9 @@ function apply_schema(
     PublishedSchemaArn,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/apply",
-        Dict{String,Any}(
-            "PublishedSchemaArn" => PublishedSchemaArn,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function apply_schema(
-    PublishedSchemaArn,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/apply",
@@ -122,8 +111,7 @@ function apply_schema(
 end
 
 """
-    attach_object(child_reference, link_name, parent_reference, x-amz-data-partition)
-    attach_object(child_reference, link_name, parent_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    attach_object(child_reference, link_name, parent_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches an existing object to another object. An object can be accessed in two ways:
 Using the path   Using ObjectIdentifier
@@ -142,28 +130,9 @@ function attach_object(
     ParentReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/attach",
-        Dict{String,Any}(
-            "ChildReference" => ChildReference,
-            "LinkName" => LinkName,
-            "ParentReference" => ParentReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_object(
-    ChildReference,
-    LinkName,
-    ParentReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/attach",
@@ -186,8 +155,7 @@ function attach_object(
 end
 
 """
-    attach_policy(object_reference, policy_reference, x-amz-data-partition)
-    attach_policy(object_reference, policy_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    attach_policy(object_reference, policy_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches a policy object to a regular object. An object can have a limited number of
 attached policies.
@@ -205,26 +173,9 @@ function attach_policy(
     PolicyReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/policy/attach",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "PolicyReference" => PolicyReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_policy(
-    ObjectReference,
-    PolicyReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/policy/attach",
@@ -246,8 +197,7 @@ function attach_policy(
 end
 
 """
-    attach_to_index(index_reference, target_reference, x-amz-data-partition)
-    attach_to_index(index_reference, target_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    attach_to_index(index_reference, target_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches the specified object to the specified index.
 
@@ -263,26 +213,9 @@ function attach_to_index(
     TargetReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/index/attach",
-        Dict{String,Any}(
-            "IndexReference" => IndexReference,
-            "TargetReference" => TargetReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_to_index(
-    IndexReference,
-    TargetReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/index/attach",
@@ -304,8 +237,7 @@ function attach_to_index(
 end
 
 """
-    attach_typed_link(attributes, source_object_reference, target_object_reference, typed_link_facet, x-amz-data-partition)
-    attach_typed_link(attributes, source_object_reference, target_object_reference, typed_link_facet, x-amz-data-partition, params::Dict{String,<:Any})
+    attach_typed_link(attributes, source_object_reference, target_object_reference, typed_link_facet, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches a typed link to a specified source and target object. For more information, see
 Typed Links.
@@ -329,30 +261,9 @@ function attach_typed_link(
     TypedLinkFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/typedlink/attach",
-        Dict{String,Any}(
-            "Attributes" => Attributes,
-            "SourceObjectReference" => SourceObjectReference,
-            "TargetObjectReference" => TargetObjectReference,
-            "TypedLinkFacet" => TypedLinkFacet,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_typed_link(
-    Attributes,
-    SourceObjectReference,
-    TargetObjectReference,
-    TypedLinkFacet,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/typedlink/attach",
@@ -376,8 +287,7 @@ function attach_typed_link(
 end
 
 """
-    batch_read(operations, x-amz-data-partition)
-    batch_read(operations, x-amz-data-partition, params::Dict{String,<:Any})
+    batch_read(operations, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Performs all the read operations in a batch.
 
@@ -387,31 +297,17 @@ Performs all the read operations in a batch.
   Directory. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
 """
 function batch_read(
-    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/batchread",
-        Dict{String,Any}(
-            "Operations" => Operations,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_read(
     Operations,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/batchread",
@@ -432,8 +328,7 @@ function batch_read(
 end
 
 """
-    batch_write(operations, x-amz-data-partition)
-    batch_write(operations, x-amz-data-partition, params::Dict{String,<:Any})
+    batch_write(operations, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Performs all the write operations in a batch. Either all the operations succeed or none.
 
@@ -444,25 +339,12 @@ Performs all the write operations in a batch. Either all the operations succeed 
 
 """
 function batch_write(
-    Operations, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/batchwrite",
-        Dict{String,Any}(
-            "Operations" => Operations,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_write(
     Operations,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/batchwrite",
@@ -483,8 +365,7 @@ function batch_write(
 end
 
 """
-    create_directory(name, x-amz-data-partition)
-    create_directory(name, x-amz-data-partition, params::Dict{String,<:Any})
+    create_directory(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Directory by copying the published schema into the directory. A directory cannot
 be created without a schema. You can also quickly create a directory using a managed
@@ -498,25 +379,9 @@ Cloud Directory Developer Guide.
 
 """
 function create_directory(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/directory/create",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_directory(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory/create",
@@ -537,8 +402,7 @@ function create_directory(
 end
 
 """
-    create_facet(name, x-amz-data-partition)
-    create_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
+    create_facet(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Facet in a schema. Facet creation is allowed only in development or applied
 schemas.
@@ -549,37 +413,21 @@ schemas.
   information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: The attributes that are associated with the Facet.
-- `"FacetStyle"`: There are two different styles that you can define on any given facet,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes"`: The attributes that are associated with the Facet.
+- `"facet_style"`: There are two different styles that you can define on any given facet,
   Static and Dynamic. For static facets, all attributes must be defined in the schema. For
   dynamic facets, attributes can be defined during data plane operations.
-- `"ObjectType"`: Specifies whether a given object created from this facet is of type node,
-  leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf
-  node: Cannot have children but can have multiple parents.     Policy: Allows you to store a
-  policy document and policy type. For more information, see Policies.     Index: Can be
-  created with the Index API.
+- `"object_type"`: Specifies whether a given object created from this facet is of type
+  node, leaf node, policy or index.   Node: Can have multiple children but one parent.
+  Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to
+  store a policy document and policy type. For more information, see Policies.     Index: Can
+  be created with the Index API.
 """
 function create_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/facet/create",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_facet(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/facet/create",
@@ -600,8 +448,7 @@ function create_facet(
 end
 
 """
-    create_index(is_unique, ordered_indexed_attribute_list, x-amz-data-partition)
-    create_index(is_unique, ordered_indexed_attribute_list, x-amz-data-partition, params::Dict{String,<:Any})
+    create_index(is_unique, ordered_indexed_attribute_list, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an index object. See Indexing and search for more information.
 
@@ -613,35 +460,18 @@ Creates an index object. See Indexing and search for more information.
 - `x-amz-data-partition`: The ARN of the directory where the index should be created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LinkName"`: The name of the link between the parent object and the index object.
-- `"ParentReference"`: A reference to the parent object that contains the index object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"link_name"`: The name of the link between the parent object and the index object.
+- `"parent_reference"`: A reference to the parent object that contains the index object.
 """
 function create_index(
     IsUnique,
     OrderedIndexedAttributeList,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/index",
-        Dict{String,Any}(
-            "IsUnique" => IsUnique,
-            "OrderedIndexedAttributeList" => OrderedIndexedAttributeList,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_index(
-    IsUnique,
-    OrderedIndexedAttributeList,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/index",
@@ -663,8 +493,7 @@ function create_index(
 end
 
 """
-    create_object(schema_facets, x-amz-data-partition)
-    create_object(schema_facets, x-amz-data-partition, params::Dict{String,<:Any})
+    create_object(schema_facets, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an object in a Directory. Additionally attaches the object to a parent, if a parent
 reference and LinkName is specified. An object is simply a collection of Facet attributes.
@@ -678,33 +507,20 @@ create the object is a policy facet.
   Directory in which the object will be created. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LinkName"`: The name of link that is used to attach this object to a parent.
-- `"ObjectAttributeList"`: The attribute map whose attribute ARN contains the key and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"link_name"`: The name of link that is used to attach this object to a parent.
+- `"object_attribute_list"`: The attribute map whose attribute ARN contains the key and
   attribute value as the map value.
-- `"ParentReference"`: If specified, the parent reference to which this object will be
+- `"parent_reference"`: If specified, the parent reference to which this object will be
   attached.
 """
 function create_object(
-    SchemaFacets, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object",
-        Dict{String,Any}(
-            "SchemaFacets" => SchemaFacets,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_object(
     SchemaFacets,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object",
@@ -725,8 +541,7 @@ function create_object(
 end
 
 """
-    create_schema(name)
-    create_schema(name, params::Dict{String,<:Any})
+    create_schema(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new schema in a development state. A schema can exist in three phases:
 Development: This is a mutable phase of the schema. All new schemas are in the development
@@ -741,18 +556,8 @@ directories.
   in each region.
 
 """
-function create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/create",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_schema(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_schema(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/create",
@@ -763,8 +568,7 @@ function create_schema(
 end
 
 """
-    create_typed_link_facet(facet, x-amz-data-partition)
-    create_typed_link_facet(facet, x-amz-data-partition, params::Dict{String,<:Any})
+    create_typed_link_facet(facet, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a TypedLinkFacet. For more information, see Typed Links.
 
@@ -775,25 +579,12 @@ Creates a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function create_typed_link_facet(
-    Facet, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet/create",
-        Dict{String,Any}(
-            "Facet" => Facet,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_typed_link_facet(
     Facet,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/typedlink/facet/create",
@@ -814,8 +605,7 @@ function create_typed_link_facet(
 end
 
 """
-    delete_directory(x-amz-data-partition)
-    delete_directory(x-amz-data-partition, params::Dict{String,<:Any})
+    delete_directory(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a directory. Only disabled directories can be deleted. A deleted directory cannot
 be undone. Exercise extreme caution when deleting directories.
@@ -825,23 +615,9 @@ be undone. Exercise extreme caution when deleting directories.
 
 """
 function delete_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/directory",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_directory(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory",
@@ -861,8 +637,7 @@ function delete_directory(
 end
 
 """
-    delete_facet(name, x-amz-data-partition)
-    delete_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
+    delete_facet(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a given Facet. All attributes and Rules that are associated with the facet will be
 deleted. Only development schema facets are allowed deletion.
@@ -874,25 +649,9 @@ deleted. Only development schema facets are allowed deletion.
 
 """
 function delete_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/facet/delete",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_facet(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/facet/delete",
@@ -913,8 +672,7 @@ function delete_facet(
 end
 
 """
-    delete_object(object_reference, x-amz-data-partition)
-    delete_object(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    delete_object(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an object and its associated attributes. Only objects with no children and no
 parents can be deleted. The maximum number of attributes that can be deleted during an
@@ -927,25 +685,12 @@ object deletion is 30. For more information, see Amazon Cloud Directory Limits.
 
 """
 function delete_object(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/delete",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_object(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/delete",
@@ -966,8 +711,7 @@ function delete_object(
 end
 
 """
-    delete_schema(x-amz-data-partition)
-    delete_schema(x-amz-data-partition, params::Dict{String,<:Any})
+    delete_schema(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a given schema. Schemas in a development and published state can only be deleted.
 
@@ -977,23 +721,9 @@ Deletes a given schema. Schemas in a development and published state can only be
 
 """
 function delete_schema(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_schema(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema",
@@ -1013,8 +743,7 @@ function delete_schema(
 end
 
 """
-    delete_typed_link_facet(name, x-amz-data-partition)
-    delete_typed_link_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
+    delete_typed_link_facet(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a TypedLinkFacet. For more information, see Typed Links.
 
@@ -1025,25 +754,9 @@ Deletes a TypedLinkFacet. For more information, see Typed Links.
 
 """
 function delete_typed_link_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet/delete",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_typed_link_facet(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/typedlink/facet/delete",
@@ -1064,8 +777,7 @@ function delete_typed_link_facet(
 end
 
 """
-    detach_from_index(index_reference, target_reference, x-amz-data-partition)
-    detach_from_index(index_reference, target_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    detach_from_index(index_reference, target_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches the specified object from the specified index.
 
@@ -1081,26 +793,9 @@ function detach_from_index(
     TargetReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/index/detach",
-        Dict{String,Any}(
-            "IndexReference" => IndexReference,
-            "TargetReference" => TargetReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_from_index(
-    IndexReference,
-    TargetReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/index/detach",
@@ -1122,8 +817,7 @@ function detach_from_index(
 end
 
 """
-    detach_object(link_name, parent_reference, x-amz-data-partition)
-    detach_object(link_name, parent_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    detach_object(link_name, parent_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches a given object from the parent object. The object that is to be detached from the
 parent is specified by the link name.
@@ -1141,26 +835,9 @@ function detach_object(
     ParentReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/detach",
-        Dict{String,Any}(
-            "LinkName" => LinkName,
-            "ParentReference" => ParentReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_object(
-    LinkName,
-    ParentReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/detach",
@@ -1182,8 +859,7 @@ function detach_object(
 end
 
 """
-    detach_policy(object_reference, policy_reference, x-amz-data-partition)
-    detach_policy(object_reference, policy_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    detach_policy(object_reference, policy_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches a policy from an object.
 
@@ -1200,26 +876,9 @@ function detach_policy(
     PolicyReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/policy/detach",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "PolicyReference" => PolicyReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_policy(
-    ObjectReference,
-    PolicyReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/policy/detach",
@@ -1241,8 +900,7 @@ function detach_policy(
 end
 
 """
-    detach_typed_link(typed_link_specifier, x-amz-data-partition)
-    detach_typed_link(typed_link_specifier, x-amz-data-partition, params::Dict{String,<:Any})
+    detach_typed_link(typed_link_specifier, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches a typed link from a specified source and target object. For more information, see
 Typed Links.
@@ -1257,24 +915,9 @@ function detach_typed_link(
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/typedlink/detach",
-        Dict{String,Any}(
-            "TypedLinkSpecifier" => TypedLinkSpecifier,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_typed_link(
-    TypedLinkSpecifier,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/typedlink/detach",
@@ -1295,8 +938,7 @@ function detach_typed_link(
 end
 
 """
-    disable_directory(x-amz-data-partition)
-    disable_directory(x-amz-data-partition, params::Dict{String,<:Any})
+    disable_directory(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the specified directory. Disabled directories cannot be read or written to. Only
 enabled directories can be disabled. Disabled directories may be reenabled.
@@ -1306,23 +948,9 @@ enabled directories can be disabled. Disabled directories may be reenabled.
 
 """
 function disable_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/directory/disable",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_directory(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory/disable",
@@ -1342,8 +970,7 @@ function disable_directory(
 end
 
 """
-    enable_directory(x-amz-data-partition)
-    enable_directory(x-amz-data-partition, params::Dict{String,<:Any})
+    enable_directory(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the specified directory. Only disabled directories can be enabled. Once enabled,
 the directory can then be read and written to.
@@ -1353,23 +980,9 @@ the directory can then be read and written to.
 
 """
 function enable_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/directory/enable",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_directory(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/directory/enable",
@@ -1389,8 +1002,7 @@ function enable_directory(
 end
 
 """
-    get_applied_schema_version(schema_arn)
-    get_applied_schema_version(schema_arn, params::Dict{String,<:Any})
+    get_applied_schema_version(schema_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns current applied schema version ARN, including the minor version in use.
 
@@ -1399,21 +1011,9 @@ Returns current applied schema version ARN, including the minor version in use.
 
 """
 function get_applied_schema_version(
-    SchemaArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SchemaArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/getappliedschema",
-        Dict{String,Any}("SchemaArn" => SchemaArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_applied_schema_version(
-    SchemaArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/getappliedschema",
@@ -1426,8 +1026,7 @@ function get_applied_schema_version(
 end
 
 """
-    get_directory(x-amz-data-partition)
-    get_directory(x-amz-data-partition, params::Dict{String,<:Any})
+    get_directory(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves metadata about a directory.
 
@@ -1436,23 +1035,9 @@ Retrieves metadata about a directory.
 
 """
 function get_directory(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/directory/get",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_directory(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/directory/get",
@@ -1472,8 +1057,7 @@ function get_directory(
 end
 
 """
-    get_facet(name, x-amz-data-partition)
-    get_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
+    get_facet(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType. You can
 call this on all kinds of schema facets -- published, development, or applied.
@@ -1485,25 +1069,9 @@ call this on all kinds of schema facets -- published, development, or applied.
 
 """
 function get_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/facet",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_facet(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/facet",
@@ -1524,8 +1092,7 @@ function get_facet(
 end
 
 """
-    get_link_attributes(attribute_names, typed_link_specifier, x-amz-data-partition)
-    get_link_attributes(attribute_names, typed_link_specifier, x-amz-data-partition, params::Dict{String,<:Any})
+    get_link_attributes(attribute_names, typed_link_specifier, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves attributes that are associated with a typed link.
 
@@ -1536,8 +1103,8 @@ Retrieves attributes that are associated with a typed link.
   Directory where the typed link resides. For more information, see arns or Typed Links.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsistencyLevel"`: The consistency level at which to retrieve the attributes on a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level at which to retrieve the attributes on a
   typed link.
 """
 function get_link_attributes(
@@ -1545,26 +1112,9 @@ function get_link_attributes(
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/attributes/get",
-        Dict{String,Any}(
-            "AttributeNames" => AttributeNames,
-            "TypedLinkSpecifier" => TypedLinkSpecifier,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_link_attributes(
-    AttributeNames,
-    TypedLinkSpecifier,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/attributes/get",
@@ -1586,8 +1136,7 @@ function get_link_attributes(
 end
 
 """
-    get_object_attributes(attribute_names, object_reference, schema_facet, x-amz-data-partition)
-    get_object_attributes(attribute_names, object_reference, schema_facet, x-amz-data-partition, params::Dict{String,<:Any})
+    get_object_attributes(attribute_names, object_reference, schema_facet, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves attributes within a facet that are associated with an object.
 
@@ -1601,9 +1150,9 @@ Retrieves attributes within a facet that are associated with an object.
   Directory where the object resides.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-consistency-level"`: The consistency level at which to retrieve the attributes on
-  an object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level at which to retrieve the attributes on an
+  object.
 """
 function get_object_attributes(
     AttributeNames,
@@ -1611,28 +1160,9 @@ function get_object_attributes(
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/attributes/get",
-        Dict{String,Any}(
-            "AttributeNames" => AttributeNames,
-            "ObjectReference" => ObjectReference,
-            "SchemaFacet" => SchemaFacet,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_object_attributes(
-    AttributeNames,
-    ObjectReference,
-    SchemaFacet,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/attributes/get",
@@ -1655,8 +1185,7 @@ function get_object_attributes(
 end
 
 """
-    get_object_information(object_reference, x-amz-data-partition)
-    get_object_information(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    get_object_information(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves metadata about an object.
 
@@ -1665,30 +1194,16 @@ Retrieves metadata about an object.
 - `x-amz-data-partition`: The ARN of the directory being retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-consistency-level"`: The consistency level at which to retrieve the object
-  information.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level at which to retrieve the object information.
 """
 function get_object_information(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/information",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_object_information(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/information",
@@ -1709,8 +1224,7 @@ function get_object_information(
 end
 
 """
-    get_schema_as_json(x-amz-data-partition)
-    get_schema_as_json(x-amz-data-partition, params::Dict{String,<:Any})
+    get_schema_as_json(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
 
@@ -1719,23 +1233,9 @@ Retrieves a JSON representation of the schema. See JSON Schema Format for more i
 
 """
 function get_schema_as_json(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/json",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_schema_as_json(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/json",
@@ -1755,8 +1255,7 @@ function get_schema_as_json(
 end
 
 """
-    get_typed_link_facet_information(name, x-amz-data-partition)
-    get_typed_link_facet_information(name, x-amz-data-partition, params::Dict{String,<:Any})
+    get_typed_link_facet_information(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the identity attribute order for a specific TypedLinkFacet. For more information,
 see Typed Links.
@@ -1768,25 +1267,9 @@ see Typed Links.
 
 """
 function get_typed_link_facet_information(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet/get",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_typed_link_facet_information(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/facet/get",
@@ -1807,8 +1290,7 @@ function get_typed_link_facet_information(
 end
 
 """
-    list_applied_schema_arns(directory_arn)
-    list_applied_schema_arns(directory_arn, params::Dict{String,<:Any})
+    list_applied_schema_arns(directory_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists schema major versions applied to a directory. If SchemaArn is provided, lists the
 minor version.
@@ -1817,28 +1299,16 @@ minor version.
 - `directory_arn`: The ARN of the directory you are listing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
-- `"SchemaArn"`: The response for ListAppliedSchemaArns when this parameter is used will
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
+- `"schema_arn"`: The response for ListAppliedSchemaArns when this parameter is used will
   list all minor version ARNs for a major version.
 """
 function list_applied_schema_arns(
-    DirectoryArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/applied",
-        Dict{String,Any}("DirectoryArn" => DirectoryArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_applied_schema_arns(
-    DirectoryArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/applied",
@@ -1851,8 +1321,7 @@ function list_applied_schema_arns(
 end
 
 """
-    list_attached_indices(target_reference, x-amz-data-partition)
-    list_attached_indices(target_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_attached_indices(target_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists indices attached to the specified object.
 
@@ -1861,31 +1330,18 @@ Lists indices attached to the specified object.
 - `x-amz-data-partition`: The ARN of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: The consistency level to use for this operation.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level to use for this operation.
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_attached_indices(
-    TargetReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/indices",
-        Dict{String,Any}(
-            "TargetReference" => TargetReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_attached_indices(
     TargetReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/indices",
@@ -1906,27 +1362,19 @@ function list_attached_indices(
 end
 
 """
-    list_development_schema_arns()
-    list_development_schema_arns(params::Dict{String,<:Any})
+    list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
-function list_development_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/development";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_development_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_development_schema_arns(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/development",
@@ -1937,29 +1385,19 @@ function list_development_schema_arns(
 end
 
 """
-    list_directories()
-    list_directories(params::Dict{String,<:Any})
+    list_directories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists directories created within an account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 - `"state"`: The state of the directories in the list. Can be either Enabled, Disabled, or
   Deleted.
 """
-function list_directories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/directory/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_directories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_directories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/directory/list",
@@ -1970,8 +1408,7 @@ function list_directories(
 end
 
 """
-    list_facet_attributes(name, x-amz-data-partition)
-    list_facet_attributes(name, x-amz-data-partition, params::Dict{String,<:Any})
+    list_facet_attributes(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves attributes attached to the facet.
 
@@ -1980,30 +1417,14 @@ Retrieves attributes attached to the facet.
 - `x-amz-data-partition`: The ARN of the schema where the facet resides.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_facet_attributes(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/facet/attributes",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_facet_attributes(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/facet/attributes",
@@ -2024,8 +1445,7 @@ function list_facet_attributes(
 end
 
 """
-    list_facet_names(x-amz-data-partition)
-    list_facet_names(x-amz-data-partition, params::Dict{String,<:Any})
+    list_facet_names(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the names of facets that exist in a schema.
 
@@ -2033,28 +1453,14 @@ Retrieves the names of facets that exist in a schema.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) to retrieve facet names from.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_facet_names(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/facet/list",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_facet_names(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/facet/list",
@@ -2074,8 +1480,7 @@ function list_facet_names(
 end
 
 """
-    list_incoming_typed_links(object_reference, x-amz-data-partition)
-    list_incoming_typed_links(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_incoming_typed_links(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of all the incoming TypedLinkSpecifier information for an object.
 It also supports filtering by typed link facet and identity attributes. For more
@@ -2087,36 +1492,23 @@ information, see Typed Links.
   list the typed links.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsistencyLevel"`: The consistency level to execute the request at.
-- `"FilterAttributeRanges"`: Provides range filters for multiple attributes. When providing
-  ranges to typed link selection, any inexact ranges must be specified at the end. Any
-  attributes that do not have a range specified are presumed to match the entire range.
-- `"FilterTypedLink"`: Filters are interpreted in the order of the attributes on the typed
-  link facet, not the order in which they are supplied to any API calls.
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level to execute the request at.
+- `"filter_attribute_ranges"`: Provides range filters for multiple attributes. When
+  providing ranges to typed link selection, any inexact ranges must be specified at the end.
+  Any attributes that do not have a range specified are presumed to match the entire range.
+- `"filter_typed_link"`: Filters are interpreted in the order of the attributes on the
+  typed link facet, not the order in which they are supplied to any API calls.
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_incoming_typed_links(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/incoming",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_incoming_typed_links(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/incoming",
@@ -2137,8 +1529,7 @@ function list_incoming_typed_links(
 end
 
 """
-    list_index(index_reference, x-amz-data-partition)
-    list_index(index_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_index(index_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists objects attached to the specified index.
 
@@ -2147,33 +1538,21 @@ Lists objects attached to the specified index.
 - `x-amz-data-partition`: The ARN of the directory that the index exists in.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of objects in a single page to retrieve from the index
-  during a request. For more information, see Amazon Cloud Directory Limits.
-- `"NextToken"`: The pagination token.
-- `"RangesOnIndexedValues"`: Specifies the ranges of indexed values that you want to query.
-- `"x-amz-consistency-level"`: The consistency level to execute the request at.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level to execute the request at.
+- `"max_results"`: The maximum number of objects in a single page to retrieve from the
+  index during a request. For more information, see Amazon Cloud Directory Limits.
+- `"next_token"`: The pagination token.
+- `"ranges_on_indexed_values"`: Specifies the ranges of indexed values that you want to
+  query.
 """
 function list_index(
-    IndexReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/index/targets",
-        Dict{String,Any}(
-            "IndexReference" => IndexReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_index(
     IndexReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/index/targets",
@@ -2194,30 +1573,22 @@ function list_index(
 end
 
 """
-    list_managed_schema_arns()
-    list_managed_schema_arns(params::Dict{String,<:Any})
+    list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the major version families of each managed schema. If a major version ARN is provided
 as SchemaArn, the minor version revisions in that family are listed instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
-- `"SchemaArn"`: The response for ListManagedSchemaArns. When this parameter is used, all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
+- `"schema_arn"`: The response for ListManagedSchemaArns. When this parameter is used, all
   minor version ARNs for a major version are listed.
 """
-function list_managed_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/managed";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_managed_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_managed_schema_arns(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/managed",
@@ -2228,8 +1599,7 @@ function list_managed_schema_arns(
 end
 
 """
-    list_object_attributes(object_reference, x-amz-data-partition)
-    list_object_attributes(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_object_attributes(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all attributes that are associated with an object.
 
@@ -2240,36 +1610,22 @@ Lists all attributes that are associated with an object.
   Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FacetFilter"`: Used to filter the list of object attributes that are associated with a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
+- `"facet_filter"`: Used to filter the list of object attributes that are associated with a
   certain facet.
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+- `"next_token"`: The pagination token.
 """
 function list_object_attributes(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/attributes",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_object_attributes(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/attributes",
@@ -2290,8 +1646,7 @@ function list_object_attributes(
 end
 
 """
-    list_object_children(object_reference, x-amz-data-partition)
-    list_object_children(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_object_children(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of child objects that are associated with a given object.
 
@@ -2302,34 +1657,20 @@ Returns a paginated list of child objects that are associated with a given objec
   Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+- `"next_token"`: The pagination token.
 """
 function list_object_children(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/children",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_object_children(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/children",
@@ -2350,8 +1691,7 @@ function list_object_children(
 end
 
 """
-    list_object_parent_paths(object_reference, x-amz-data-partition)
-    list_object_parent_paths(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_object_parent_paths(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves all available parent paths for any object type such as node, leaf node, policy
 node, and index node objects. For more information about objects, see Directory Structure.
@@ -2368,31 +1708,18 @@ object.
 - `x-amz-data-partition`: The ARN of the directory to which the parent path applies.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
+- `"next_token"`: The pagination token.
 """
 function list_object_parent_paths(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/parentpaths",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_object_parent_paths(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/parentpaths",
@@ -2413,8 +1740,7 @@ function list_object_parent_paths(
 end
 
 """
-    list_object_parents(object_reference, x-amz-data-partition)
-    list_object_parents(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_object_parents(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists parent objects that are associated with a given object in pagination fashion.
 
@@ -2425,37 +1751,23 @@ Lists parent objects that are associated with a given object in pagination fashi
   Directory where the object resides. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeAllLinksToEachParent"`: When set to True, returns all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
+- `"include_all_links_to_each_parent"`: When set to True, returns all
   ListObjectParentsResponseParentLinks. There could be multiple links between a parent-child
   pair.
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+- `"next_token"`: The pagination token.
 """
 function list_object_parents(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/parent",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_object_parents(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/parent",
@@ -2476,8 +1788,7 @@ function list_object_parents(
 end
 
 """
-    list_object_policies(object_reference, x-amz-data-partition)
-    list_object_policies(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_object_policies(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns policies attached to an object in pagination fashion.
 
@@ -2488,34 +1799,20 @@ Returns policies attached to an object in pagination fashion.
   Directory where objects reside. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+- `"next_token"`: The pagination token.
 """
 function list_object_policies(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/object/policy",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_object_policies(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/object/policy",
@@ -2536,8 +1833,7 @@ function list_object_policies(
 end
 
 """
-    list_outgoing_typed_links(object_reference, x-amz-data-partition)
-    list_outgoing_typed_links(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_outgoing_typed_links(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of all the outgoing TypedLinkSpecifier information for an object.
 It also supports filtering by typed link facet and identity attributes. For more
@@ -2550,36 +1846,23 @@ information, see Typed Links.
   list the typed links.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsistencyLevel"`: The consistency level to execute the request at.
-- `"FilterAttributeRanges"`: Provides range filters for multiple attributes. When providing
-  ranges to typed link selection, any inexact ranges must be specified at the end. Any
-  attributes that do not have a range specified are presumed to match the entire range.
-- `"FilterTypedLink"`: Filters are interpreted in the order of the attributes defined on
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: The consistency level to execute the request at.
+- `"filter_attribute_ranges"`: Provides range filters for multiple attributes. When
+  providing ranges to typed link selection, any inexact ranges must be specified at the end.
+  Any attributes that do not have a range specified are presumed to match the entire range.
+- `"filter_typed_link"`: Filters are interpreted in the order of the attributes defined on
   the typed link facet, not the order they are supplied to any API calls.
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_outgoing_typed_links(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/outgoing",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_outgoing_typed_links(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/outgoing",
@@ -2600,8 +1883,7 @@ function list_outgoing_typed_links(
 end
 
 """
-    list_policy_attachments(policy_reference, x-amz-data-partition)
-    list_policy_attachments(policy_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    list_policy_attachments(policy_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all of the ObjectIdentifiers to which a given policy is attached.
 
@@ -2611,34 +1893,20 @@ Returns all of the ObjectIdentifiers to which a given policy is attached.
   Directory where objects reside. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistency_level"`: Represents the manner and timing in which the successful write or
+  update of an object is reflected in a subsequent read operation of that same object.
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The pagination token.
-- `"x-amz-consistency-level"`: Represents the manner and timing in which the successful
-  write or update of an object is reflected in a subsequent read operation of that same
-  object.
+- `"next_token"`: The pagination token.
 """
 function list_policy_attachments(
-    PolicyReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/policy/attachment",
-        Dict{String,Any}(
-            "PolicyReference" => PolicyReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_policy_attachments(
     PolicyReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/policy/attachment",
@@ -2659,30 +1927,22 @@ function list_policy_attachments(
 end
 
 """
-    list_published_schema_arns()
-    list_published_schema_arns(params::Dict{String,<:Any})
+    list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the major version families of each published schema. If a major version ARN is
 provided as SchemaArn, the minor version revisions in that family are listed instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
-- `"SchemaArn"`: The response for ListPublishedSchemaArns when this parameter is used will
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
+- `"schema_arn"`: The response for ListPublishedSchemaArns when this parameter is used will
   list all minor version ARNs for a major version.
 """
-function list_published_schema_arns(; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/schema/published";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_published_schema_arns(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_published_schema_arns(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/schema/published",
@@ -2693,8 +1953,7 @@ function list_published_schema_arns(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns tags for a resource. Tagging is currently supported only for directories with a
 limit of 50 tags per directory. All 50 tags are returned for a given directory with this
@@ -2705,28 +1964,16 @@ API call.
   for directories.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The MaxResults parameter sets the maximum number of results returned in a
-  single page. This is for future use and is not supported currently.
-- `"NextToken"`: The pagination token. This is for future use. Currently pagination is not
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The MaxResults parameter sets the maximum number of results returned in
+  a single page. This is for future use and is not supported currently.
+- `"next_token"`: The pagination token. This is for future use. Currently pagination is not
   supported for tagging.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/tags",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/tags",
@@ -2739,8 +1986,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_typed_link_facet_attributes(name, x-amz-data-partition)
-    list_typed_link_facet_attributes(name, x-amz-data-partition, params::Dict{String,<:Any})
+    list_typed_link_facet_attributes(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For
 more information, see Typed Links.
@@ -2751,30 +1997,14 @@ more information, see Typed Links.
   schema. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_typed_link_facet_attributes(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_typed_link_facet_attributes(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes",
@@ -2795,8 +2025,7 @@ function list_typed_link_facet_attributes(
 end
 
 """
-    list_typed_link_facet_names(x-amz-data-partition)
-    list_typed_link_facet_names(x-amz-data-partition, params::Dict{String,<:Any})
+    list_typed_link_facet_names(x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of TypedLink facet names for a particular schema. For more
 information, see Typed Links.
@@ -2806,28 +2035,14 @@ information, see Typed Links.
   schema. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve.
-- `"NextToken"`: The pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve.
+- `"next_token"`: The pagination token.
 """
 function list_typed_link_facet_names(
-    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet/list",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_typed_link_facet_names(
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/facet/list",
@@ -2847,8 +2062,7 @@ function list_typed_link_facet_names(
 end
 
 """
-    lookup_policy(object_reference, x-amz-data-partition)
-    lookup_policy(object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    lookup_policy(object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all policies from the root of the Directory to the object specified. If there are no
 policies present, an empty list is returned. If policies are present, and if some objects
@@ -2863,31 +2077,18 @@ Policies.
   Directory. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to be retrieved in a single call. This is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be retrieved in a single call. This is an
   approximate number.
-- `"NextToken"`: The token to request the next page of results.
+- `"next_token"`: The token to request the next page of results.
 """
 function lookup_policy(
-    ObjectReference, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/policy/lookup",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function lookup_policy(
     ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/policy/lookup",
@@ -2908,8 +2109,7 @@ function lookup_policy(
 end
 
 """
-    publish_schema(version, x-amz-data-partition)
-    publish_schema(version, x-amz-data-partition, params::Dict{String,<:Any})
+    publish_schema(version, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Publishes a development schema with a major version and a recommended minor version.
 
@@ -2920,32 +2120,19 @@ Publishes a development schema with a major version and a recommended minor vers
   development schema. For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MinorVersion"`: The minor version under which the schema will be published. This
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"minor_version"`: The minor version under which the schema will be published. This
   parameter is recommended. Schemas have both a major and minor version associated with them.
-- `"Name"`: The new name under which the schema will be published. If this is not provided,
+- `"name"`: The new name under which the schema will be published. If this is not provided,
   the development schema is considered.
 """
 function publish_schema(
-    Version, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/publish",
-        Dict{String,Any}(
-            "Version" => Version,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function publish_schema(
     Version,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/publish",
@@ -2966,8 +2153,7 @@ function publish_schema(
 end
 
 """
-    put_schema_from_json(document, x-amz-data-partition)
-    put_schema_from_json(document, x-amz-data-partition, params::Dict{String,<:Any})
+    put_schema_from_json(document, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows a schema to be updated using JSON upload. Only available for development schemas.
 See JSON Schema Format for more information.
@@ -2978,25 +2164,12 @@ See JSON Schema Format for more information.
 
 """
 function put_schema_from_json(
-    Document, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/json",
-        Dict{String,Any}(
-            "Document" => Document,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_schema_from_json(
     Document,
-    x_amz_data_partition,
-    params::AbstractDict{String};
+    x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/json",
@@ -3017,8 +2190,7 @@ function put_schema_from_json(
 end
 
 """
-    remove_facet_from_object(object_reference, schema_facet, x-amz-data-partition)
-    remove_facet_from_object(object_reference, schema_facet, x-amz-data-partition, params::Dict{String,<:Any})
+    remove_facet_from_object(object_reference, schema_facet, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified facet from the specified object.
 
@@ -3033,26 +2205,9 @@ function remove_facet_from_object(
     SchemaFacet,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/facets/delete",
-        Dict{String,Any}(
-            "ObjectReference" => ObjectReference,
-            "SchemaFacet" => SchemaFacet,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_facet_from_object(
-    ObjectReference,
-    SchemaFacet,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/facets/delete",
@@ -3074,8 +2229,7 @@ function remove_facet_from_object(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 An API operation for adding tags to a resource.
 
@@ -3085,21 +2239,10 @@ An API operation for adding tags to a resource.
 - `tags`: A list of tag key-value pairs.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/tags/add",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/tags/add",
@@ -3116,8 +2259,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 An API operation for removing tags from a resource.
 
@@ -3128,22 +2270,9 @@ An API operation for removing tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/tags/remove",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/tags/remove",
@@ -3160,8 +2289,7 @@ function untag_resource(
 end
 
 """
-    update_facet(name, x-amz-data-partition)
-    update_facet(name, x-amz-data-partition, params::Dict{String,<:Any})
+    update_facet(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing
 Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.
@@ -3172,33 +2300,17 @@ Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or Obje
   For more information, see arns.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributeUpdates"`: List of attributes that need to be updated in a given schema Facet.
-  Each attribute is followed by AttributeAction, which specifies the type of update operation
-  to perform.
-- `"ObjectType"`: The object type that is associated with the facet. See
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attribute_updates"`: List of attributes that need to be updated in a given schema
+  Facet. Each attribute is followed by AttributeAction, which specifies the type of update
+  operation to perform.
+- `"object_type"`: The object type that is associated with the facet. See
   CreateFacetRequestObjectType for more details.
 """
 function update_facet(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/facet",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_facet(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/facet",
@@ -3219,8 +2331,7 @@ function update_facet(
 end
 
 """
-    update_link_attributes(attribute_updates, typed_link_specifier, x-amz-data-partition)
-    update_link_attributes(attribute_updates, typed_link_specifier, x-amz-data-partition, params::Dict{String,<:Any})
+    update_link_attributes(attribute_updates, typed_link_specifier, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a given typed link’s attributes. Attributes to be updated must not contribute to
 the typed link’s identity, as defined by its IdentityAttributeOrder.
@@ -3238,26 +2349,9 @@ function update_link_attributes(
     TypedLinkSpecifier,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "POST",
-        "/amazonclouddirectory/2017-01-11/typedlink/attributes/update",
-        Dict{String,Any}(
-            "AttributeUpdates" => AttributeUpdates,
-            "TypedLinkSpecifier" => TypedLinkSpecifier,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_link_attributes(
-    AttributeUpdates,
-    TypedLinkSpecifier,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "POST",
         "/amazonclouddirectory/2017-01-11/typedlink/attributes/update",
@@ -3279,8 +2373,7 @@ function update_link_attributes(
 end
 
 """
-    update_object_attributes(attribute_updates, object_reference, x-amz-data-partition)
-    update_object_attributes(attribute_updates, object_reference, x-amz-data-partition, params::Dict{String,<:Any})
+    update_object_attributes(attribute_updates, object_reference, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a given object's attributes.
 
@@ -3296,26 +2389,9 @@ function update_object_attributes(
     ObjectReference,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/object/update",
-        Dict{String,Any}(
-            "AttributeUpdates" => AttributeUpdates,
-            "ObjectReference" => ObjectReference,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_object_attributes(
-    AttributeUpdates,
-    ObjectReference,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/object/update",
@@ -3337,8 +2413,7 @@ function update_object_attributes(
 end
 
 """
-    update_schema(name, x-amz-data-partition)
-    update_schema(name, x-amz-data-partition, params::Dict{String,<:Any})
+    update_schema(name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the schema name with a new name. Only development schema names can be updated.
 
@@ -3349,25 +2424,9 @@ Updates the schema name with a new name. Only development schema names can be up
 
 """
 function update_schema(
-    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, x_amz_data_partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/update",
-        Dict{String,Any}(
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_schema(
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/update",
@@ -3388,8 +2447,7 @@ function update_schema(
 end
 
 """
-    update_typed_link_facet(attribute_updates, identity_attribute_order, name, x-amz-data-partition)
-    update_typed_link_facet(attribute_updates, identity_attribute_order, name, x-amz-data-partition, params::Dict{String,<:Any})
+    update_typed_link_facet(attribute_updates, identity_attribute_order, name, x-amz-data-partition; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a TypedLinkFacet. For more information, see Typed Links.
 
@@ -3413,28 +2471,9 @@ function update_typed_link_facet(
     Name,
     x_amz_data_partition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/typedlink/facet",
-        Dict{String,Any}(
-            "AttributeUpdates" => AttributeUpdates,
-            "IdentityAttributeOrder" => IdentityAttributeOrder,
-            "Name" => Name,
-            "headers" => Dict{String,Any}("x-amz-data-partition" => x_amz_data_partition),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_typed_link_facet(
-    AttributeUpdates,
-    IdentityAttributeOrder,
-    Name,
-    x_amz_data_partition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/typedlink/facet",
@@ -3457,8 +2496,7 @@ function update_typed_link_facet(
 end
 
 """
-    upgrade_applied_schema(directory_arn, published_schema_arn)
-    upgrade_applied_schema(directory_arn, published_schema_arn, params::Dict{String,<:Any})
+    upgrade_applied_schema(directory_arn, published_schema_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Upgrades a single directory in-place using the PublishedSchemaArn with schema updates found
 in MinorVersion. Backwards-compatible minor version upgrades are instantaneously available
@@ -3471,30 +2509,18 @@ from one schema, you would need to call this API on each directory.
 - `published_schema_arn`: The revision of the published schema to upgrade the directory to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Used for testing whether the major version schemas are backward compatible or
-  not. If schema compatibility fails, an exception would be thrown else the call would
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Used for testing whether the major version schemas are backward compatible
+  or not. If schema compatibility fails, an exception would be thrown else the call would
   succeed but no changes will be saved. This parameter is optional.
 """
 function upgrade_applied_schema(
-    DirectoryArn, PublishedSchemaArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/upgradeapplied",
-        Dict{String,Any}(
-            "DirectoryArn" => DirectoryArn, "PublishedSchemaArn" => PublishedSchemaArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_applied_schema(
     DirectoryArn,
-    PublishedSchemaArn,
-    params::AbstractDict{String};
+    PublishedSchemaArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/upgradeapplied",
@@ -3514,8 +2540,7 @@ function upgrade_applied_schema(
 end
 
 """
-    upgrade_published_schema(development_schema_arn, minor_version, published_schema_arn)
-    upgrade_published_schema(development_schema_arn, minor_version, published_schema_arn, params::Dict{String,<:Any})
+    upgrade_published_schema(development_schema_arn, minor_version, published_schema_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Upgrades a published schema under a new minor version revision using the current contents
 of DevelopmentSchemaArn.
@@ -3528,8 +2553,8 @@ of DevelopmentSchemaArn.
 - `published_schema_arn`: The ARN of the published schema to be upgraded.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Used for testing whether the Development schema provided is backwards
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Used for testing whether the Development schema provided is backwards
   compatible, or not, with the publish schema provided by the user to be upgraded. If schema
   compatibility fails, an exception would be thrown else the call would succeed. This
   parameter is optional and defaults to false.
@@ -3539,26 +2564,9 @@ function upgrade_published_schema(
     MinorVersion,
     PublishedSchemaArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return clouddirectory(
-        "PUT",
-        "/amazonclouddirectory/2017-01-11/schema/upgradepublished",
-        Dict{String,Any}(
-            "DevelopmentSchemaArn" => DevelopmentSchemaArn,
-            "MinorVersion" => MinorVersion,
-            "PublishedSchemaArn" => PublishedSchemaArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_published_schema(
-    DevelopmentSchemaArn,
-    MinorVersion,
-    PublishedSchemaArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return clouddirectory(
         "PUT",
         "/amazonclouddirectory/2017-01-11/schema/upgradepublished",

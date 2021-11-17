@@ -4,9 +4,42 @@ using AWS.AWSServices: resiliencehub
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "tier" => "tier",
+    "next_token" => "nextToken",
+    "recommendation_template_arn" => "recommendationTemplateArn",
+    "assessment_name" => "assessmentName",
+    "data_location_constraint" => "dataLocationConstraint",
+    "name" => "name",
+    "format" => "format",
+    "compliance_status" => "complianceStatus",
+    "status" => "status",
+    "resource_names" => "resourceNames",
+    "force_delete" => "forceDelete",
+    "assessment_status" => "assessmentStatus",
+    "app_registry_app_names" => "appRegistryAppNames",
+    "resource_group_names" => "resourceGroupNames",
+    "max_results" => "maxResults",
+    "policy_name" => "policyName",
+    "app_arn" => "appArn",
+    "description" => "description",
+    "recommendation_ids" => "recommendationIds",
+    "client_token" => "clientToken",
+    "policy" => "policy",
+    "policy_arn" => "policyArn",
+    "reverse_order" => "reverseOrder",
+    "clear_resiliency_policy_arn" => "clearResiliencyPolicyArn",
+    "policy_description" => "policyDescription",
+    "logical_stack_names" => "logicalStackNames",
+    "resolution_id" => "resolutionId",
+    "tags" => "tags",
+    "invoker" => "invoker",
+    "recommendation_types" => "recommendationTypes",
+    "bucket_name" => "bucketName",
+)
+
 """
-    add_draft_app_version_resource_mappings(app_arn, resource_mappings)
-    add_draft_app_version_resource_mappings(app_arn, resource_mappings, params::Dict{String,<:Any})
+    add_draft_app_version_resource_mappings(app_arn, resource_mappings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the resource mapping for the draft application version.
 
@@ -22,22 +55,9 @@ Adds the resource mapping for the draft application version.
 
 """
 function add_draft_app_version_resource_mappings(
-    appArn, resourceMappings; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, resourceMappings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/add-draft-app-version-resource-mappings",
-        Dict{String,Any}("appArn" => appArn, "resourceMappings" => resourceMappings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_draft_app_version_resource_mappings(
-    appArn,
-    resourceMappings,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/add-draft-app-version-resource-mappings",
@@ -56,8 +76,7 @@ function add_draft_app_version_resource_mappings(
 end
 
 """
-    create_app(name)
-    create_app(name, params::Dict{String,<:Any})
+    create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Resilience Hub application. A Resilience Hub application is a collection of
 Amazon Web Services resources structured to prevent and recover Amazon Web Services
@@ -73,36 +92,26 @@ time objective (RTO) and recovery point objective (RPO).&lt;/p&gt;
 - `name`: The name for the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"description"`: The optional description for an app.
-- `"policyArn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
+- `"policy_arn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
   this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
   information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 - `"tags"`: The tags assigned to the resource. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key/value pair.
 """
-function create_app(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/create-app",
-        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_app(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_app(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/create-app",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                Dict{String,Any}("name" => name, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -112,8 +121,7 @@ function create_app(
 end
 
 """
-    create_recommendation_template(assessment_arn, name)
-    create_recommendation_template(assessment_arn, name, params::Dict{String,<:Any})
+    create_recommendation_template(assessment_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new recommendation template.
 
@@ -124,43 +132,26 @@ Creates a new recommendation template.
 - `name`: The name for the recommendation template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"bucketName"`: The name of the Amazon S3 bucket that will contain the recommendation
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bucket_name"`: The name of the Amazon S3 bucket that will contain the recommendation
   template.
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"format"`: The format for the recommendation template.  CfnJson  The template is
   CloudFormation JSON.  CfnYaml  The template is CloudFormation YAML.
-- `"recommendationIds"`: Identifiers for the recommendations used to create a
+- `"recommendation_ids"`: Identifiers for the recommendations used to create a
   recommendation template.
-- `"recommendationTypes"`: An array of strings that specify the recommendation template
+- `"recommendation_types"`: An array of strings that specify the recommendation template
   type or types.  Alarm  The template is an AlarmRecommendation template.  Sop  The template
   is a SopRecommendation template.  Test  The template is a TestRecommendation template.
 - `"tags"`: The tags assigned to the resource. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key/value pair.
 """
 function create_recommendation_template(
-    assessmentArn, name; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/create-recommendation-template",
-        Dict{String,Any}(
-            "assessmentArn" => assessmentArn,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_recommendation_template(
-    assessmentArn,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/create-recommendation-template",
@@ -170,7 +161,7 @@ function create_recommendation_template(
                 Dict{String,Any}(
                     "assessmentArn" => assessmentArn,
                     "name" => name,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -181,8 +172,7 @@ function create_recommendation_template(
 end
 
 """
-    create_resiliency_policy(policy, policy_name, tier)
-    create_resiliency_policy(policy, policy_name, tier, params::Dict{String,<:Any})
+    create_resiliency_policy(policy, policy_name, tier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a resiliency policy for an application.
 
@@ -194,39 +184,20 @@ Creates a resiliency policy for an application.
   (MissionCritical) to lowest (NonCritical).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
-- `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
+- `"data_location_constraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
-- `"policyDescription"`: The description for the policy.
+- `"policy_description"`: The description for the policy.
 - `"tags"`: The tags assigned to the resource. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key/value pair.
 """
 function create_resiliency_policy(
-    policy, policyName, tier; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, policyName, tier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/create-resiliency-policy",
-        Dict{String,Any}(
-            "policy" => policy,
-            "policyName" => policyName,
-            "tier" => tier,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resiliency_policy(
-    policy,
-    policyName,
-    tier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/create-resiliency-policy",
@@ -237,7 +208,7 @@ function create_resiliency_policy(
                     "policy" => policy,
                     "policyName" => policyName,
                     "tier" => tier,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -248,8 +219,7 @@ function create_resiliency_policy(
 end
 
 """
-    delete_app(app_arn)
-    delete_app(app_arn, params::Dict{String,<:Any})
+    delete_app(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an AWS Resilience Hub application. This is a destructive action that can't be
 undone.
@@ -260,31 +230,21 @@ undone.
   Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
-- `"forceDelete"`: A boolean option to force the deletion of a Resilience Hub application.
+- `"force_delete"`: A boolean option to force the deletion of a Resilience Hub application.
 """
-function delete_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/delete-app",
-        Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_app(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/delete-app",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("appArn" => appArn, "clientToken" => string(uuid4())),
+                Dict{String,Any}("appArn" => appArn, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -294,8 +254,7 @@ function delete_app(
 end
 
 """
-    delete_app_assessment(assessment_arn)
-    delete_app_assessment(assessment_arn, params::Dict{String,<:Any})
+    delete_app_assessment(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an AWS Resilience Hub application assessment. This is a destructive action that
 can't be undone.
@@ -306,29 +265,15 @@ can't be undone.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_app_assessment(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/delete-app-assessment",
-        Dict{String,Any}(
-            "assessmentArn" => assessmentArn, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_app_assessment(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/delete-app-assessment",
@@ -336,7 +281,7 @@ function delete_app_assessment(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "assessmentArn" => assessmentArn, "clientToken" => string(uuid4())
+                    "assessmentArn" => assessmentArn, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -347,8 +292,7 @@ function delete_app_assessment(
 end
 
 """
-    delete_recommendation_template(recommendation_template_arn)
-    delete_recommendation_template(recommendation_template_arn, params::Dict{String,<:Any})
+    delete_recommendation_template(recommendation_template_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a recommendation template. This is a destructive action that can't be undone.
 
@@ -357,30 +301,15 @@ Deletes a recommendation template. This is a destructive action that can't be un
   template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_recommendation_template(
-    recommendationTemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+    recommendationTemplateArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/delete-recommendation-template",
-        Dict{String,Any}(
-            "recommendationTemplateArn" => recommendationTemplateArn,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recommendation_template(
-    recommendationTemplateArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/delete-recommendation-template",
@@ -389,7 +318,7 @@ function delete_recommendation_template(
                 _merge,
                 Dict{String,Any}(
                     "recommendationTemplateArn" => recommendationTemplateArn,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -400,8 +329,7 @@ function delete_recommendation_template(
 end
 
 """
-    delete_resiliency_policy(policy_arn)
-    delete_resiliency_policy(policy_arn, params::Dict{String,<:Any})
+    delete_resiliency_policy(policy_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a resiliency policy. This is a destructive action that can't be undone.
 
@@ -411,27 +339,15 @@ Deletes a resiliency policy. This is a destructive action that can't be undone.
   information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 """
 function delete_resiliency_policy(
-    policyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/delete-resiliency-policy",
-        Dict{String,Any}("policyArn" => policyArn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resiliency_policy(
-    policyArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/delete-resiliency-policy",
@@ -439,7 +355,7 @@ function delete_resiliency_policy(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "policyArn" => policyArn, "clientToken" => string(uuid4())
+                    "policyArn" => policyArn, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -450,8 +366,7 @@ function delete_resiliency_policy(
 end
 
 """
-    describe_app(app_arn)
-    describe_app(app_arn, params::Dict{String,<:Any})
+    describe_app(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an AWS Resilience Hub application.
 
@@ -461,18 +376,8 @@ Describes an AWS Resilience Hub application.
   Resource Names (ARNs) in the AWS General Reference.
 
 """
-function describe_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/describe-app",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_app(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-app",
@@ -483,8 +388,7 @@ function describe_app(
 end
 
 """
-    describe_app_assessment(assessment_arn)
-    describe_app_assessment(assessment_arn, params::Dict{String,<:Any})
+    describe_app_assessment(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an assessment for an AWS Resilience Hub application.
 
@@ -495,21 +399,9 @@ Describes an assessment for an AWS Resilience Hub application.
 
 """
 function describe_app_assessment(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/describe-app-assessment",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_app_assessment(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-app-assessment",
@@ -522,8 +414,7 @@ function describe_app_assessment(
 end
 
 """
-    describe_app_version_resources_resolution_status(app_arn, app_version)
-    describe_app_version_resources_resolution_status(app_arn, app_version, params::Dict{String,<:Any})
+    describe_app_version_resources_resolution_status(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the resolution status for the specified resolution identifier for an application
 version. If resolutionId is not specified, the current resolution status is returned.
@@ -535,26 +426,13 @@ version. If resolutionId is not specified, the current resolution status is retu
 - `app_version`: The version of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"resolutionId"`: The identifier for a specific resolution.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resolution_id"`: The identifier for a specific resolution.
 """
 function describe_app_version_resources_resolution_status(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/describe-app-version-resources-resolution-status",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_app_version_resources_resolution_status(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-app-version-resources-resolution-status",
@@ -571,8 +449,7 @@ function describe_app_version_resources_resolution_status(
 end
 
 """
-    describe_app_version_template(app_arn, app_version)
-    describe_app_version_template(app_arn, app_version, params::Dict{String,<:Any})
+    describe_app_version_template(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes details about an AWS Resilience Hub
 
@@ -584,22 +461,9 @@ Describes details about an AWS Resilience Hub
 
 """
 function describe_app_version_template(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/describe-app-version-template",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_app_version_template(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-app-version-template",
@@ -616,8 +480,7 @@ function describe_app_version_template(
 end
 
 """
-    describe_draft_app_version_resources_import_status(app_arn)
-    describe_draft_app_version_resources_import_status(app_arn, params::Dict{String,<:Any})
+    describe_draft_app_version_resources_import_status(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the status of importing resources to an application version.
 
@@ -628,19 +491,9 @@ Describes the status of importing resources to an application version.
 
 """
 function describe_draft_app_version_resources_import_status(
-    appArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/describe-draft-app-version-resources-import-status",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_draft_app_version_resources_import_status(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-draft-app-version-resources-import-status",
@@ -651,8 +504,7 @@ function describe_draft_app_version_resources_import_status(
 end
 
 """
-    describe_resiliency_policy(policy_arn)
-    describe_resiliency_policy(policy_arn, params::Dict{String,<:Any})
+    describe_resiliency_policy(policy_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a specified resiliency policy for an AWS Resilience Hub application. The returned
 policy object includes creation time, data location constraints, the Amazon Resource Name
@@ -665,21 +517,9 @@ policy object includes creation time, data location constraints, the Amazon Reso
 
 """
 function describe_resiliency_policy(
-    policyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/describe-resiliency-policy",
-        Dict{String,Any}("policyArn" => policyArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_resiliency_policy(
-    policyArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/describe-resiliency-policy",
@@ -692,8 +532,7 @@ function describe_resiliency_policy(
 end
 
 """
-    import_resources_to_draft_app_version(app_arn, source_arns)
-    import_resources_to_draft_app_version(app_arn, source_arns, params::Dict{String,<:Any})
+    import_resources_to_draft_app_version(app_arn, source_arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Imports resources from sources such as a CloudFormation stack, resource-groups, or
 application registry app to a draft application version.
@@ -706,22 +545,9 @@ application registry app to a draft application version.
 
 """
 function import_resources_to_draft_app_version(
-    appArn, sourceArns; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, sourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/import-resources-to-draft-app-version",
-        Dict{String,Any}("appArn" => appArn, "sourceArns" => sourceArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_resources_to_draft_app_version(
-    appArn,
-    sourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/import-resources-to-draft-app-version",
@@ -738,8 +564,7 @@ function import_resources_to_draft_app_version(
 end
 
 """
-    list_alarm_recommendations(assessment_arn)
-    list_alarm_recommendations(assessment_arn, params::Dict{String,<:Any})
+    list_alarm_recommendations(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the alarm recommendations for a AWS Resilience Hub application.
 
@@ -749,28 +574,16 @@ Lists the alarm recommendations for a AWS Resilience Hub application.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_alarm_recommendations(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-alarm-recommendations",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_alarm_recommendations(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-alarm-recommendations",
@@ -783,40 +596,32 @@ function list_alarm_recommendations(
 end
 
 """
-    list_app_assessments()
-    list_app_assessments(params::Dict{String,<:Any})
+    list_app_assessments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the assessments for an AWS Resilience Hub application. You can use request parameters
 to refine the results for the response object.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"appArn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"app_arn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
   is: arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see
   Amazon Resource Names (ARNs) in the AWS General Reference.
-- `"assessmentName"`: The name for the assessment.
-- `"assessmentStatus"`: The current status of the assessment for the resiliency policy.
-- `"complianceStatus"`: The current status of compliance for the resiliency policy.
+- `"assessment_name"`: The name for the assessment.
+- `"assessment_status"`: The current status of the assessment for the resiliency policy.
+- `"compliance_status"`: The current status of compliance for the resiliency policy.
 - `"invoker"`: Specifies the entity that invoked a specific assessment, either a User or
   the System.
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"reverseOrder"`: The default is to sort by ascending startTime. To sort by descending
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
+- `"reverse_order"`: The default is to sort by ascending startTime. To sort by descending
   startTime, set reverseOrder to true.
 """
-function list_app_assessments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "GET",
-        "/list-app-assessments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_app_assessments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_app_assessments(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET",
         "/list-app-assessments",
@@ -827,8 +632,7 @@ function list_app_assessments(
 end
 
 """
-    list_app_component_compliances(assessment_arn)
-    list_app_component_compliances(assessment_arn, params::Dict{String,<:Any})
+    list_app_component_compliances(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the compliances for an AWS Resilience Hub component.
 
@@ -838,28 +642,16 @@ Lists the compliances for an AWS Resilience Hub component.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_compliances(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-app-component-compliances",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_app_component_compliances(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-app-component-compliances",
@@ -872,8 +664,7 @@ function list_app_component_compliances(
 end
 
 """
-    list_app_component_recommendations(assessment_arn)
-    list_app_component_recommendations(assessment_arn, params::Dict{String,<:Any})
+    list_app_component_recommendations(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the recommendations for an AWS Resilience Hub component.
 
@@ -883,28 +674,16 @@ Lists the recommendations for an AWS Resilience Hub component.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_component_recommendations(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-app-component-recommendations",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_app_component_recommendations(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-app-component-recommendations",
@@ -917,8 +696,7 @@ function list_app_component_recommendations(
 end
 
 """
-    list_app_version_resource_mappings(app_arn, app_version)
-    list_app_version_resource_mappings(app_arn, app_version, params::Dict{String,<:Any})
+    list_app_version_resource_mappings(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists how the resources in an application version are mapped/sourced from. Mappings can be
 physical resource identifiers, CloudFormation stacks, resource-groups, or an application
@@ -931,29 +709,16 @@ registry app.
 - `app_version`: The version of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_version_resource_mappings(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-app-version-resource-mappings",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_app_version_resource_mappings(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-app-version-resource-mappings",
@@ -970,8 +735,7 @@ function list_app_version_resource_mappings(
 end
 
 """
-    list_app_version_resources(app_arn, app_version)
-    list_app_version_resources(app_arn, app_version, params::Dict{String,<:Any})
+    list_app_version_resources(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the resources in an application version.
 
@@ -982,30 +746,17 @@ Lists all the resources in an application version.
 - `app_version`: The version of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"resolutionId"`: The identifier for a specific resolution.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
+- `"resolution_id"`: The identifier for a specific resolution.
 """
 function list_app_version_resources(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-app-version-resources",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_app_version_resources(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-app-version-resources",
@@ -1022,8 +773,7 @@ function list_app_version_resources(
 end
 
 """
-    list_app_versions(app_arn)
-    list_app_versions(app_arn, params::Dict{String,<:Any})
+    list_app_versions(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the different versions for the Resilience Hub applications.
 
@@ -1033,24 +783,16 @@ Lists the different versions for the Resilience Hub applications.
   Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
-function list_app_versions(appArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/list-app-versions",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_app_versions(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-app-versions",
@@ -1061,38 +803,30 @@ function list_app_versions(
 end
 
 """
-    list_apps()
-    list_apps(params::Dict{String,<:Any})
+    list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists your Resilience Hub applications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"appArn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"app_arn"`: The Amazon Resource Name (ARN) of the application. The format for this ARN
   is: arn:partition:dcps:region:account:app/app-id. For more information about ARNs, see
   Amazon Resource Names (ARNs) in the AWS General Reference.
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"name"`: The name for the one of the listed applications.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
-function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "GET", "/list-apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_apps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_apps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET", "/list-apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_recommendation_templates(assessment_arn)
-    list_recommendation_templates(assessment_arn, params::Dict{String,<:Any})
+    list_recommendation_templates(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the recommendation templates for the Resilience Hub applications.
 
@@ -1102,34 +836,22 @@ Lists the recommendation templates for the Resilience Hub applications.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
 - `"name"`: The name for one of the listed recommendation templates.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"recommendationTemplateArn"`: The Amazon Resource Name (ARN) for a recommendation
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
+- `"recommendation_template_arn"`: The Amazon Resource Name (ARN) for a recommendation
   template.
-- `"reverseOrder"`: The default is to sort by ascending startTime. To sort by descending
+- `"reverse_order"`: The default is to sort by ascending startTime. To sort by descending
   startTime, set reverseOrder to true.
 - `"status"`: The status of the action.
 """
 function list_recommendation_templates(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "GET",
-        "/list-recommendation-templates",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recommendation_templates(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET",
         "/list-recommendation-templates",
@@ -1142,30 +864,22 @@ function list_recommendation_templates(
 end
 
 """
-    list_resiliency_policies()
-    list_resiliency_policies(params::Dict{String,<:Any})
+    list_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the resiliency policies for the Resilience Hub applications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"policyName"`: The name of the policy
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
+- `"policy_name"`: The name of the policy
 """
-function list_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "GET",
-        "/list-resiliency-policies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resiliency_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resiliency_policies(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET",
         "/list-resiliency-policies",
@@ -1176,8 +890,7 @@ function list_resiliency_policies(
 end
 
 """
-    list_sop_recommendations(assessment_arn)
-    list_sop_recommendations(assessment_arn, params::Dict{String,<:Any})
+    list_sop_recommendations(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the standard operating procedure (SOP) recommendations for the Resilience Hub
 applications.
@@ -1188,28 +901,16 @@ applications.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_sop_recommendations(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-sop-recommendations",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_sop_recommendations(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-sop-recommendations",
@@ -1222,31 +923,21 @@ function list_sop_recommendations(
 end
 
 """
-    list_suggested_resiliency_policies()
-    list_suggested_resiliency_policies(params::Dict{String,<:Any})
+    list_suggested_resiliency_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the suggested resiliency policies for the Resilience Hub applications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_suggested_resiliency_policies(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "GET",
-        "/list-suggested-resiliency-policies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_suggested_resiliency_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET",
         "/list-suggested-resiliency-policies",
@@ -1257,8 +948,7 @@ function list_suggested_resiliency_policies(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for your resources in your Resilience Hub applications.
 
@@ -1268,20 +958,9 @@ Lists the tags for your resources in your Resilience Hub applications.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "GET",
         "/tags/$(resourceArn)",
@@ -1292,8 +971,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_test_recommendations(assessment_arn)
-    list_test_recommendations(assessment_arn, params::Dict{String,<:Any})
+    list_test_recommendations(assessment_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the test recommendations for the Resilience Hub application.
 
@@ -1303,28 +981,16 @@ Lists the test recommendations for the Resilience Hub application.
   ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_test_recommendations(
-    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    assessmentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-test-recommendations",
-        Dict{String,Any}("assessmentArn" => assessmentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_test_recommendations(
-    assessmentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-test-recommendations",
@@ -1337,8 +1003,7 @@ function list_test_recommendations(
 end
 
 """
-    list_unsupported_app_version_resources(app_arn, app_version)
-    list_unsupported_app_version_resources(app_arn, app_version, params::Dict{String,<:Any})
+    list_unsupported_app_version_resources(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the resources that are not currently supported in AWS Resilience Hub. An unsupported
 resource is a resource that exists in the object that was used to create an app, but is not
@@ -1351,30 +1016,17 @@ supported by Resilience Hub.
 - `app_version`: The version of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to include in the response. If more results
-  exist than the specified MaxResults value, a token is included in the response so that the
-  remaining results can be retrieved.
-- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
-- `"resolutionId"`: The identifier for a specific resolution.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in the response. If more
+  results exist than the specified MaxResults value, a token is included in the response so
+  that the remaining results can be retrieved.
+- `"next_token"`: Null, or the token from a previous call to get the next set of results.
+- `"resolution_id"`: The identifier for a specific resolution.
 """
 function list_unsupported_app_version_resources(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/list-unsupported-app-version-resources",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_unsupported_app_version_resources(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/list-unsupported-app-version-resources",
@@ -1391,8 +1043,7 @@ function list_unsupported_app_version_resources(
 end
 
 """
-    publish_app_version(app_arn)
-    publish_app_version(app_arn, params::Dict{String,<:Any})
+    publish_app_version(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Publishes a new version of a specific Resilience Hub application.
 
@@ -1402,18 +1053,10 @@ Publishes a new version of a specific Resilience Hub application.
   Resource Names (ARNs) in the AWS General Reference.
 
 """
-function publish_app_version(appArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/publish-app-version",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function publish_app_version(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/publish-app-version",
@@ -1424,8 +1067,7 @@ function publish_app_version(
 end
 
 """
-    put_draft_app_version_template(app_arn, app_template_body)
-    put_draft_app_version_template(app_arn, app_template_body, params::Dict{String,<:Any})
+    put_draft_app_version_template(app_arn, app_template_body; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates the app template for a draft version of a Resilience Hub app.
 
@@ -1437,22 +1079,9 @@ Adds or updates the app template for a draft version of a Resilience Hub app.
 
 """
 function put_draft_app_version_template(
-    appArn, appTemplateBody; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appTemplateBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/put-draft-app-version-template",
-        Dict{String,Any}("appArn" => appArn, "appTemplateBody" => appTemplateBody);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_draft_app_version_template(
-    appArn,
-    appTemplateBody,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/put-draft-app-version-template",
@@ -1469,8 +1098,7 @@ function put_draft_app_version_template(
 end
 
 """
-    remove_draft_app_version_resource_mappings(app_arn)
-    remove_draft_app_version_resource_mappings(app_arn, params::Dict{String,<:Any})
+    remove_draft_app_version_resource_mappings(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes resource mappings from a draft application version.
 
@@ -1480,29 +1108,19 @@ Removes resource mappings from a draft application version.
   Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"appRegistryAppNames"`: The names of the registered applications to remove from the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"app_registry_app_names"`: The names of the registered applications to remove from the
   resource mappings.
-- `"logicalStackNames"`: The names of the CloudFormation stacks to remove from the resource
+- `"logical_stack_names"`: The names of the CloudFormation stacks to remove from the
+  resource mappings.
+- `"resource_group_names"`: The names of the resource groups to remove from the resource
   mappings.
-- `"resourceGroupNames"`: The names of the resource groups to remove from the resource
-  mappings.
-- `"resourceNames"`: The names of the resources to remove from the resource mappings.
+- `"resource_names"`: The names of the resources to remove from the resource mappings.
 """
 function remove_draft_app_version_resource_mappings(
-    appArn; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/remove-draft-app-version-resource-mappings",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_draft_app_version_resource_mappings(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/remove-draft-app-version-resource-mappings",
@@ -1513,8 +1131,7 @@ function remove_draft_app_version_resource_mappings(
 end
 
 """
-    resolve_app_version_resources(app_arn, app_version)
-    resolve_app_version_resources(app_arn, app_version, params::Dict{String,<:Any})
+    resolve_app_version_resources(app_arn, app_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Resolves the resources for an application version.
 
@@ -1526,22 +1143,9 @@ Resolves the resources for an application version.
 
 """
 function resolve_app_version_resources(
-    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    appArn, appVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/resolve-app-version-resources",
-        Dict{String,Any}("appArn" => appArn, "appVersion" => appVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function resolve_app_version_resources(
-    appArn,
-    appVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/resolve-app-version-resources",
@@ -1558,8 +1162,7 @@ function resolve_app_version_resources(
 end
 
 """
-    start_app_assessment(app_arn, app_version, assessment_name)
-    start_app_assessment(app_arn, app_version, assessment_name, params::Dict{String,<:Any})
+    start_app_assessment(app_arn, app_version, assessment_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new application assessment for an application.
 
@@ -1571,36 +1174,21 @@ Creates a new application assessment for an application.
 - `assessment_name`: The name for the assessment.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Used for an idempotency token. A client token is a unique,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Used for an idempotency token. A client token is a unique,
   case-sensitive string of up to 64 ASCII characters. You should not reuse the same client
   token for other API requests.
 - `"tags"`: The tags assigned to the resource. A tag is a label that you assign to an
   Amazon Web Services resource. Each tag consists of a key/value pair.
 """
 function start_app_assessment(
-    appArn, appVersion, assessmentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return resiliencehub(
-        "POST",
-        "/start-app-assessment",
-        Dict{String,Any}(
-            "appArn" => appArn,
-            "appVersion" => appVersion,
-            "assessmentName" => assessmentName,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_app_assessment(
     appArn,
     appVersion,
-    assessmentName,
-    params::AbstractDict{String};
+    assessmentName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/start-app-assessment",
@@ -1611,7 +1199,7 @@ function start_app_assessment(
                     "appArn" => appArn,
                     "appVersion" => appVersion,
                     "assessmentName" => assessmentName,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1622,8 +1210,7 @@ function start_app_assessment(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies one or more tags to a resource.
 
@@ -1632,21 +1219,10 @@ Applies one or more tags to a resource.
 - `tags`: The tags to assign to the resource. Each tag consists of a key/value pair.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/tags/$(resourceArn)",
@@ -1657,8 +1233,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a resource.
 
@@ -1668,22 +1243,9 @@ Removes one or more tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -1694,8 +1256,7 @@ function untag_resource(
 end
 
 """
-    update_app(app_arn)
-    update_app(app_arn, params::Dict{String,<:Any})
+    update_app(app_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an application.
 
@@ -1705,25 +1266,15 @@ Updates an application.
   Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clearResiliencyPolicyArn"`: Specifies if the resiliency policy ARN should be cleared.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"clear_resiliency_policy_arn"`: Specifies if the resiliency policy ARN should be cleared.
 - `"description"`: The optional description for an app.
-- `"policyArn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
+- `"policy_arn"`: The Amazon Resource Name (ARN) of the resiliency policy. The format for
   this ARN is: arn:partition:dcps:region:account:resiliency-policy/policy-id. For more
   information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 """
-function update_app(appArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resiliencehub(
-        "POST",
-        "/update-app",
-        Dict{String,Any}("appArn" => appArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_app(
-    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_app(appArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/update-app",
@@ -1734,8 +1285,7 @@ function update_app(
 end
 
 """
-    update_resiliency_policy(policy_arn)
-    update_resiliency_policy(policy_arn, params::Dict{String,<:Any})
+    update_resiliency_policy(policy_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a resiliency policy.
 
@@ -1745,32 +1295,20 @@ Updates a resiliency policy.
   information about ARNs, see  Amazon Resource Names (ARNs) in the AWS General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"dataLocationConstraint"`: Specifies a high-level geographical location constraint for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_location_constraint"`: Specifies a high-level geographical location constraint for
   where your resilience policy data can be stored.
 - `"policy"`: The type of resiliency policy to be created, including the recovery time
   objective (RTO) and recovery point objective (RPO) in seconds.
-- `"policyDescription"`: The description for the policy.
-- `"policyName"`: The name of the policy
+- `"policy_description"`: The description for the policy.
+- `"policy_name"`: The name of the policy
 - `"tier"`: The tier for this resiliency policy, ranging from the highest severity
   (MissionCritical) to lowest (NonCritical).
 """
 function update_resiliency_policy(
-    policyArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policyArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return resiliencehub(
-        "POST",
-        "/update-resiliency-policy",
-        Dict{String,Any}("policyArn" => policyArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resiliency_policy(
-    policyArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return resiliencehub(
         "POST",
         "/update-resiliency-policy",

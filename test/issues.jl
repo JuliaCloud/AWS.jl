@@ -11,7 +11,7 @@ try
         file_name = "contains spaces"
 
         try
-            S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+            S3.put_object(BUCKET_NAME, file_name; body=body)
             resp = S3.get_object(BUCKET_NAME, file_name)
 
             @test String(resp) == body
@@ -60,18 +60,14 @@ try
         file_name = "streaming.bin"
 
         try
-            S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+            S3.put_object(BUCKET_NAME, file_name; body=body)
             resp = S3.get_object(BUCKET_NAME, file_name)
             @test String(resp) == body
 
             # ERROR: MethodError: no method matching iterate(::Base.BufferStream)
             #   => BUG: header `response_stream` is pushed into the query...
             io = Base.BufferStream()
-            S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => io, "return_stream" => true),
-            )
+            S3.get_object(BUCKET_NAME, file_name; response_stream=io, return_stream=true)
             if bytesavailable(io) > 0
                 @test String(readavailable(io)) == body
             else
@@ -92,7 +88,7 @@ try
             # The tests below validate the current behavior of how streams are handled.
             # Note: Avoid using `eof` for these tests can hang when using an unclosed `Base.BufferStream`
 
-            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
+            stream = S3.get_object(BUCKET_NAME, file_name; return_stream=true)
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
@@ -100,7 +96,7 @@ try
             end
 
             stream = Base.BufferStream()
-            S3.get_object(BUCKET_NAME, file_name, Dict("response_stream" => stream))
+            S3.get_object(BUCKET_NAME, file_name; response_stream=stream)
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
             else
@@ -110,9 +106,7 @@ try
 
             stream = Base.BufferStream()
             S3.get_object(
-                BUCKET_NAME,
-                file_name,
-                Dict("response_stream" => stream, "return_stream" => true),
+                BUCKET_NAME, file_name; response_stream=stream, return_stream=true
             )
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test !isopen(stream)
@@ -130,12 +124,12 @@ try
         file_name = "null.txt"
 
         try
-            S3.put_object(BUCKET_NAME, file_name, Dict("body" => body))
+            S3.put_object(BUCKET_NAME, file_name; body=body)
 
-            raw = S3.get_object(BUCKET_NAME, file_name, Dict("return_raw" => true))
+            raw = S3.get_object(BUCKET_NAME, file_name; return_raw=true)
             @test raw == expected
 
-            stream = S3.get_object(BUCKET_NAME, file_name, Dict("return_stream" => true))
+            stream = S3.get_object(BUCKET_NAME, file_name; return_stream=true)
             if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
                 @test stream isa Base.BufferStream
                 @test !isopen(stream)

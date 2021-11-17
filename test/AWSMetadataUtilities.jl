@@ -272,10 +272,16 @@ end
 
         @test isempty(required_params)
         @test optional_params == Dict(
-            "OptionalParam1" =>
-                Dict("documentation" => "Optional param 1", "idempotent" => false),
-            "OptionalParam2" =>
-                Dict("documentation" => "Optional param 2", "idempotent" => false),
+            "optional_param1" => Dict(
+                "documentation" => "Optional param 1",
+                "idempotent" => false,
+                "location_name" => "OptionalParam1",
+            ),
+            "optional_param2" => Dict(
+                "documentation" => "Optional param 2",
+                "idempotent" => false,
+                "location_name" => "OptionalParam2",
+            ),
         )
     end
 
@@ -292,8 +298,11 @@ end
         )
 
         @test optional_params == Dict(
-            "OptionalParam" =>
-                Dict("documentation" => "Optional param", "idempotent" => false),
+            "optional_param" => Dict(
+                "documentation" => "Optional param",
+                "idempotent" => false,
+                "location_name" => "OptionalParam",
+            ),
         )
     end
 
@@ -315,8 +324,7 @@ end
 
     expected_result = """
     \"\"\"
-        sample_operation(required_param1, required_param2)
-        sample_operation(required_param1, required_param2, params::Dict{String,<:Any})
+        sample_operation(required_param1, required_param2; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
     The documentation for this operation.
 
@@ -325,14 +333,16 @@ end
     - `required_param2`: Required param 2
 
     # Optional Parameters
-    Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-    - `"OptionalParam"`: Optional param
+    Optional parameters can be passed as a keyword argument. Valid keys are:
+    - `"optional_param"`: Optional param
     \"\"\"
-    sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-    sample_operation(RequiredParam1, RequiredParam2, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    function sample_operation(RequiredParam1, RequiredParam2; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+        params = amazonify(MAPPING,kwargs)
+        return sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+    end
     """
 
-    result = _generate_high_level_definitions(service_name, protocol, operations, shapes)
+    _, result = _generate_high_level_definitions(service_name, protocol, operations, shapes)
 
     @test size(result)[1] == 1
 
@@ -364,8 +374,7 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(required_param; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
             Documentation for FunctionName.
 
@@ -373,11 +382,13 @@ end
             - `required_param`: This parameter is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            Optional parameters can be passed as a keyword argument. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                params = amazonify(MAPPING, kwargs)
+                return service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            end
             """
 
             result = _generate_high_level_definition(
@@ -401,8 +412,7 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(required_param; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
             Documentation for FunctionName.
 
@@ -410,11 +420,14 @@ end
             - `required_param`: This parameter is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            Optional parameters can be passed as a keyword argument. Valid keys are:
             - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                params = amazonify(MAPPING,kwargs)
+                return service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            end
+
             """
 
             result = _generate_high_level_definition(
@@ -451,8 +464,7 @@ end
             protocol = "rest-xml"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(required_param; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
             Documentation for FunctionName.
 
@@ -460,11 +472,13 @@ end
             - `required_param`: This parameter   is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-            - `"OptionalParam"`: This parameter i  s optional.
+            Optional parameters can be passed as a keyword argument. Valid keys are:
+            - `"OptionalParam"`: This parameter is optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                params = amazonify(MAPPING, kwargs)
+                return service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            end
             """
             result = _generate_high_level_definition(
                 service_name,
@@ -487,8 +501,7 @@ end
             protocol = "ec2"
             expected_result = """
             \"\"\"
-                function_name(required_param)
-                function_name(required_param, params::Dict{String,<:Any})
+                function_name(required_param; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
             Documentation for FunctionName.
 
@@ -496,11 +509,13 @@ end
             - `required_param`: This parameter   is required.
 
             # Optional Parameters
-            Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+            Optional parameters can be passed as a keyword argument. Valid keys are:
             - `"OptionalParam"`: This parameter i  s optional.
             \"\"\"
-            function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-            function_name(RequiredParam, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()) = service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            function function_name(RequiredParam; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+                params = amazonify(MAPPING,kwargs)
+                return service_name("FunctionName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), params)); aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+            end
             """
 
             result = _generate_high_level_definition(

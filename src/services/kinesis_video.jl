@@ -4,9 +4,28 @@ using AWS.AWSServices: kinesis_video
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "current_version" => "CurrentVersion",
+    "single_master_configuration" => "SingleMasterConfiguration",
+    "media_type" => "MediaType",
+    "kms_key_id" => "KmsKeyId",
+    "channel_type" => "ChannelType",
+    "next_token" => "NextToken",
+    "stream_name_condition" => "StreamNameCondition",
+    "data_retention_in_hours" => "DataRetentionInHours",
+    "stream_arn" => "StreamARN",
+    "max_results" => "MaxResults",
+    "channel_arn" => "ChannelARN",
+    "stream_name" => "StreamName",
+    "device_name" => "DeviceName",
+    "channel_name_condition" => "ChannelNameCondition",
+    "channel_name" => "ChannelName",
+    "tags" => "Tags",
+    "single_master_channel_endpoint_configuration" => "SingleMasterChannelEndpointConfiguration",
+)
+
 """
-    create_signaling_channel(channel_name)
-    create_signaling_channel(channel_name, params::Dict{String,<:Any})
+    create_signaling_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a signaling channel.   CreateSignalingChannel is an asynchronous operation.
 
@@ -15,29 +34,17 @@ Creates a signaling channel.   CreateSignalingChannel is an asynchronous operati
   for each AWS account and AWS Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChannelType"`: A type of the signaling channel that you are creating. Currently,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_type"`: A type of the signaling channel that you are creating. Currently,
   SINGLE_MASTER is the only supported channel type.
-- `"SingleMasterConfiguration"`: A structure containing the configuration for the
+- `"single_master_configuration"`: A structure containing the configuration for the
   SINGLE_MASTER channel type.
-- `"Tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
+- `"tags"`: A set of tags (key-value pairs) that you want to associate with this channel.
 """
 function create_signaling_channel(
-    ChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/createSignalingChannel",
-        Dict{String,Any}("ChannelName" => ChannelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_signaling_channel(
-    ChannelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/createSignalingChannel",
@@ -50,8 +57,7 @@ function create_signaling_channel(
 end
 
 """
-    create_stream(stream_name)
-    create_stream(stream_name, params::Dict{String,<:Any})
+    create_stream(stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Kinesis video stream.  When you create a new stream, Kinesis Video Streams
 assigns it a version number. When you change the stream's metadata, Kinesis Video Streams
@@ -64,41 +70,31 @@ KinesisVideo:CreateStream action.
   identifier for the stream, and must be unique for each account and region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataRetentionInHours"`: The number of hours that you want to retain the data in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_retention_in_hours"`: The number of hours that you want to retain the data in the
   stream. Kinesis Video Streams retains the data in a data store that is associated with the
   stream. The default value is 0, indicating that the stream does not persist data. When the
   DataRetentionInHours value is 0, consumers can still consume the fragments that remain in
   the service host buffer, which has a retention time limit of 5 minutes and a retention
   memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
-- `"DeviceName"`: The name of the device that is writing to the stream.   In the current
+- `"device_name"`: The name of the device that is writing to the stream.   In the current
   implementation, Kinesis Video Streams does not use this name.
-- `"KmsKeyId"`: The ID of the AWS Key Management Service (AWS KMS) key that you want
+- `"kms_key_id"`: The ID of the AWS Key Management Service (AWS KMS) key that you want
   Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the
   default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see
   DescribeKey.
-- `"MediaType"`: The media type of the stream. Consumers of the stream can use this
+- `"media_type"`: The media type of the stream. Consumers of the stream can use this
   information when processing the stream. For more information about media types, see Media
   Types. If you choose to specify the MediaType, see Naming Requirements for guidelines.
   Example valid values include \"video/h264\" and \"video/h264,audio/aac\". This parameter is
   optional; the default value is null (or empty in JSON).
-- `"Tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
+- `"tags"`: A list of tags to associate with the specified stream. Each tag is a key-value
   pair (the value is optional).
 """
-function create_stream(StreamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/createStream",
-        Dict{String,Any}("StreamName" => StreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_stream(
-    StreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    StreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/createStream",
@@ -111,8 +107,7 @@ function create_stream(
 end
 
 """
-    delete_signaling_channel(channel_arn)
-    delete_signaling_channel(channel_arn, params::Dict{String,<:Any})
+    delete_signaling_channel(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specified signaling channel. DeleteSignalingChannel is an asynchronous operation.
 If you don't specify the channel's current version, the most recent version is deleted.
@@ -122,27 +117,15 @@ If you don't specify the channel's current version, the most recent version is d
   delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CurrentVersion"`: The current version of the signaling channel that you want to delete.
-  You can obtain the current version by invoking the DescribeSignalingChannel or
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_version"`: The current version of the signaling channel that you want to
+  delete. You can obtain the current version by invoking the DescribeSignalingChannel or
   ListSignalingChannels API operations.
 """
 function delete_signaling_channel(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/deleteSignalingChannel",
-        Dict{String,Any}("ChannelARN" => ChannelARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_signaling_channel(
-    ChannelARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/deleteSignalingChannel",
@@ -155,8 +138,7 @@ function delete_signaling_channel(
 end
 
 """
-    delete_stream(stream_arn)
-    delete_stream(stream_arn, params::Dict{String,<:Any})
+    delete_stream(stream_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Kinesis video stream and the data contained in the stream.  This method marks the
 stream for deletion, and makes the data in the stream inaccessible immediately.    To
@@ -170,26 +152,16 @@ KinesisVideo:DeleteStream action.
 - `stream_arn`: The Amazon Resource Name (ARN) of the stream that you want to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CurrentVersion"`: Optional: The version of the stream that you want to delete.  Specify
-  the version as a safeguard to ensure that your are deleting the correct stream. To get the
-  stream version, use the DescribeStream API. If not specified, only the CreationTime is
-  checked before deleting the stream.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_version"`: Optional: The version of the stream that you want to delete.
+  Specify the version as a safeguard to ensure that your are deleting the correct stream. To
+  get the stream version, use the DescribeStream API. If not specified, only the CreationTime
+  is checked before deleting the stream.
 """
-function delete_stream(StreamARN; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/deleteStream",
-        Dict{String,Any}("StreamARN" => StreamARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_stream(
-    StreamARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    StreamARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/deleteStream",
@@ -202,28 +174,20 @@ function delete_stream(
 end
 
 """
-    describe_signaling_channel()
-    describe_signaling_channel(params::Dict{String,<:Any})
+    describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the most current information about the signaling channel. You must specify either
 the name or the Amazon Resource Name (ARN) of the channel that you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChannelARN"`: The ARN of the signaling channel that you want to describe.
-- `"ChannelName"`: The name of the signaling channel that you want to describe.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_arn"`: The ARN of the signaling channel that you want to describe.
+- `"channel_name"`: The name of the signaling channel that you want to describe.
 """
-function describe_signaling_channel(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/describeSignalingChannel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_signaling_channel(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_signaling_channel(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/describeSignalingChannel",
@@ -234,25 +198,18 @@ function describe_signaling_channel(
 end
 
 """
-    describe_stream()
-    describe_stream(params::Dict{String,<:Any})
+    describe_stream(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the most current information about the specified stream. You must specify either
 the StreamName or the StreamARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream.
-- `"StreamName"`: The name of the stream.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream.
+- `"stream_name"`: The name of the stream.
 """
-function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST", "/describeStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_stream(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_stream(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/describeStream",
@@ -263,8 +220,7 @@ function describe_stream(
 end
 
 """
-    get_data_endpoint(apiname)
-    get_data_endpoint(apiname, params::Dict{String,<:Any})
+    get_data_endpoint(apiname; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in
 your application to read from the specified stream (using the GetMedia or
@@ -277,24 +233,16 @@ StreamARN.
 - `apiname`: The name of the API action for which to get an endpoint.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to get the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream that you want to get the
   endpoint for. You must specify either this parameter or a StreamName in the request.
-- `"StreamName"`: The name of the stream that you want to get the endpoint for. You must
+- `"stream_name"`: The name of the stream that you want to get the endpoint for. You must
   specify either this parameter or a StreamARN in the request.
 """
-function get_data_endpoint(APIName; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/getDataEndpoint",
-        Dict{String,Any}("APIName" => APIName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_endpoint(
-    APIName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    APIName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/getDataEndpoint",
@@ -305,8 +253,7 @@ function get_data_endpoint(
 end
 
 """
-    get_signaling_channel_endpoint(channel_arn)
-    get_signaling_channel_endpoint(channel_arn, params::Dict{String,<:Any})
+    get_signaling_channel_endpoint(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides an endpoint for the specified signaling channel to send and receive messages. This
 API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of
@@ -323,26 +270,14 @@ communicate only with a MASTER.
   want to get an endpoint.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SingleMasterChannelEndpointConfiguration"`: A structure containing the endpoint
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"single_master_channel_endpoint_configuration"`: A structure containing the endpoint
   configuration for the SINGLE_MASTER channel type.
 """
 function get_signaling_channel_endpoint(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/getSignalingChannelEndpoint",
-        Dict{String,Any}("ChannelARN" => ChannelARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_signaling_channel_endpoint(
-    ChannelARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/getSignalingChannelEndpoint",
@@ -355,34 +290,26 @@ function get_signaling_channel_endpoint(
 end
 
 """
-    list_signaling_channels()
-    list_signaling_channels(params::Dict{String,<:Any})
+    list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of ChannelInfo objects. Each object describes a signaling channel. To
 retrieve only those channels that satisfy a specific condition, you can specify a
 ChannelNameCondition.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChannelNameCondition"`: Optional: Returns only the channels that satisfy a specific
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_name_condition"`: Optional: Returns only the channels that satisfy a specific
   condition.
-- `"MaxResults"`: The maximum number of channels to return in the response. The default is
+- `"max_results"`: The maximum number of channels to return in the response. The default is
   500.
-- `"NextToken"`: If you specify this parameter, when the result of a ListSignalingChannels
+- `"next_token"`: If you specify this parameter, when the result of a ListSignalingChannels
   operation is truncated, the call returns the NextToken in the response. To get another
   batch of channels, provide this token in your next request.
 """
-function list_signaling_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/listSignalingChannels";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_signaling_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_signaling_channels(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/listSignalingChannels",
@@ -393,30 +320,23 @@ function list_signaling_channels(
 end
 
 """
-    list_streams()
-    list_streams(params::Dict{String,<:Any})
+    list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of StreamInfo objects. Each object describes a stream. To retrieve only
 streams that satisfy a specific condition, you can specify a StreamNameCondition.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of streams to return in the response. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of streams to return in the response. The default is
   10,000.
-- `"NextToken"`: If you specify this parameter, when the result of a ListStreams operation
+- `"next_token"`: If you specify this parameter, when the result of a ListStreams operation
   is truncated, the call returns the NextToken in the response. To get another batch of
   streams, provide this token in your next request.
-- `"StreamNameCondition"`: Optional: Returns only streams that satisfy a specific
+- `"stream_name_condition"`: Optional: Returns only streams that satisfy a specific
   condition. Currently, you can specify only the prefix of a stream name as a condition.
 """
-function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST", "/listStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/listStreams",
@@ -427,8 +347,7 @@ function list_streams(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of tags associated with the specified signaling channel.
 
@@ -437,27 +356,15 @@ Returns a list of tags associated with the specified signaling channel.
   want to list tags.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you specify this parameter and the result of a ListTagsForResource call
-  is truncated, the response includes a token that you can use in the next request to fetch
-  the next batch of tags.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: If you specify this parameter and the result of a ListTagsForResource
+  call is truncated, the response includes a token that you can use in the next request to
+  fetch the next batch of tags.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/ListTagsForResource",
@@ -470,29 +377,24 @@ function list_tags_for_resource(
 end
 
 """
-    list_tags_for_stream()
-    list_tags_for_stream(params::Dict{String,<:Any})
+    list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of tags associated with the specified stream. In the request, you must
 specify either the StreamName or the StreamARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: If you specify this parameter and the result of a ListTagsForStream call
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: If you specify this parameter and the result of a ListTagsForStream call
   is truncated, the response includes a token that you can use in the next request to fetch
   the next batch of tags.
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to list tags
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream that you want to list tags
   for.
-- `"StreamName"`: The name of the stream that you want to list tags for.
+- `"stream_name"`: The name of the stream that you want to list tags for.
 """
-function list_tags_for_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST", "/listTagsForStream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_tags_for_stream(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_tags_for_stream(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/listTagsForStream",
@@ -503,8 +405,7 @@ function list_tags_for_stream(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to a signaling channel. A tag is a key-value pair (the value is
 optional) that you can define and assign to AWS resources. If you specify a tag that
@@ -519,21 +420,10 @@ User Guide.
   key-value pair.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/TagResource",
@@ -550,8 +440,7 @@ function tag_resource(
 end
 
 """
-    tag_stream(tags)
-    tag_stream(tags, params::Dict{String,<:Any})
+    tag_stream(tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to a stream. A tag is a key-value pair (the value is optional) that
 you can define and assign to AWS resources. If you specify a tag that already exists, the
@@ -565,23 +454,13 @@ KinesisVideo:TagStream action. Kinesis video streams support up to 50 tags.
   pair (the value is optional).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the resource that you want to add the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the resource that you want to add the
   tag or tags to.
-- `"StreamName"`: The name of the stream that you want to add the tag or tags to.
+- `"stream_name"`: The name of the stream that you want to add the tag or tags to.
 """
-function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/tagStream",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_stream(
-    Tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function tag_stream(Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/tagStream",
@@ -592,8 +471,7 @@ function tag_stream(
 end
 
 """
-    untag_resource(resource_arn, tag_key_list)
-    untag_resource(resource_arn, tag_key_list, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_key_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a signaling channel. In the request, specify only a tag key
 or keys; don't specify the value. If you specify a tag key that does not exist, it's
@@ -606,22 +484,9 @@ ignored.
 
 """
 function untag_resource(
-    ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeyList" => TagKeyList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeyList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/UntagResource",
@@ -638,8 +503,7 @@ function untag_resource(
 end
 
 """
-    untag_stream(tag_key_list)
-    untag_stream(tag_key_list, params::Dict{String,<:Any})
+    untag_stream(tag_key_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a stream. In the request, specify only a tag key or keys;
 don't specify the value. If you specify a tag key that does not exist, it's ignored. In the
@@ -649,25 +513,15 @@ request, you must provide the StreamName or StreamARN.
 - `tag_key_list`: A list of the keys of the tags that you want to remove.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream that you want to remove tags
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream that you want to remove tags
   from.
-- `"StreamName"`: The name of the stream that you want to remove tags from.
+- `"stream_name"`: The name of the stream that you want to remove tags from.
 """
-function untag_stream(TagKeyList; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/untagStream",
-        Dict{String,Any}("TagKeyList" => TagKeyList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_stream(
-    TagKeyList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TagKeyList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/untagStream",
@@ -680,8 +534,7 @@ function untag_stream(
 end
 
 """
-    update_data_retention(current_version, data_retention_change_in_hours, operation)
-    update_data_retention(current_version, data_retention_change_in_hours, operation, params::Dict{String,<:Any})
+    update_data_retention(current_version, data_retention_change_in_hours, operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Increases or decreases the stream's data retention period by the value that you specify.
 To indicate whether you want to increase or decrease the data retention period, specify the
@@ -704,36 +557,19 @@ hour, and any data older than one hour is deleted immediately.
 - `operation`: Indicates whether you want to increase or decrease the retention period.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream whose retention period you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream whose retention period you
   want to change.
-- `"StreamName"`: The name of the stream whose retention period you want to change.
+- `"stream_name"`: The name of the stream whose retention period you want to change.
 """
 function update_data_retention(
     CurrentVersion,
     DataRetentionChangeInHours,
     Operation;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_video(
-        "POST",
-        "/updateDataRetention",
-        Dict{String,Any}(
-            "CurrentVersion" => CurrentVersion,
-            "DataRetentionChangeInHours" => DataRetentionChangeInHours,
-            "Operation" => Operation,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_data_retention(
-    CurrentVersion,
-    DataRetentionChangeInHours,
-    Operation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/updateDataRetention",
@@ -754,8 +590,7 @@ function update_data_retention(
 end
 
 """
-    update_signaling_channel(channel_arn, current_version)
-    update_signaling_channel(channel_arn, current_version, params::Dict{String,<:Any})
+    update_signaling_channel(channel_arn, current_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the existing signaling channel. This is an asynchronous operation and takes time to
 complete.  If the MessageTtlSeconds value is updated (either increased or reduced), it only
@@ -768,27 +603,14 @@ are still expired as per the previous MessageTtlSeconds value.
 - `current_version`: The current version of the signaling channel that you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SingleMasterConfiguration"`: The structure containing the configuration for the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"single_master_configuration"`: The structure containing the configuration for the
   SINGLE_MASTER type of the signaling channel that you want to update.
 """
 function update_signaling_channel(
-    ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN, CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video(
-        "POST",
-        "/updateSignalingChannel",
-        Dict{String,Any}("ChannelARN" => ChannelARN, "CurrentVersion" => CurrentVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_signaling_channel(
-    ChannelARN,
-    CurrentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/updateSignalingChannel",
@@ -807,8 +629,7 @@ function update_signaling_channel(
 end
 
 """
-    update_stream(current_version)
-    update_stream(current_version, params::Dict{String,<:Any})
+    update_stream(current_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates stream metadata, such as the device name and media type. You must provide the
 stream name or the Amazon Resource Name (ARN) of the stream. To make sure that you have the
@@ -821,32 +642,22 @@ DescribeStream API.   UpdateStream is an asynchronous operation, and takes time 
 - `current_version`: The version of the stream whose metadata you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeviceName"`: The name of the device that is writing to the stream.    In the current
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"device_name"`: The name of the device that is writing to the stream.    In the current
   implementation, Kinesis Video Streams does not use this name.
-- `"MediaType"`: The stream's media type. Use MediaType to specify the type of content that
-  the stream contains to the consumers of the stream. For more information about media types,
-  see Media Types. If you choose to specify the MediaType, see Naming Requirements. To play
-  video on the console, you must specify the correct video type. For example, if the video in
-  the stream is H.264, specify video/h264 as the MediaType.
-- `"StreamARN"`: The ARN of the stream whose metadata you want to update.
-- `"StreamName"`: The name of the stream whose metadata you want to update. The stream name
-  is an identifier for the stream, and must be unique for each account and region.
+- `"media_type"`: The stream's media type. Use MediaType to specify the type of content
+  that the stream contains to the consumers of the stream. For more information about media
+  types, see Media Types. If you choose to specify the MediaType, see Naming Requirements. To
+  play video on the console, you must specify the correct video type. For example, if the
+  video in the stream is H.264, specify video/h264 as the MediaType.
+- `"stream_arn"`: The ARN of the stream whose metadata you want to update.
+- `"stream_name"`: The name of the stream whose metadata you want to update. The stream
+  name is an identifier for the stream, and must be unique for each account and region.
 """
-function update_stream(CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video(
-        "POST",
-        "/updateStream",
-        Dict{String,Any}("CurrentVersion" => CurrentVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_stream(
-    CurrentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CurrentVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video(
         "POST",
         "/updateStream",

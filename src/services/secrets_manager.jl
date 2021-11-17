@@ -4,9 +4,43 @@ using AWS.AWSServices: secrets_manager
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "kms_key_id" => "KmsKeyId",
+    "force_delete_without_recovery" => "ForceDeleteWithoutRecovery",
+    "version_stage" => "VersionStage",
+    "next_token" => "NextToken",
+    "client_request_token" => "ClientRequestToken",
+    "version_stages" => "VersionStages",
+    "include_deprecated" => "IncludeDeprecated",
+    "recovery_window_in_days" => "RecoveryWindowInDays",
+    "password_length" => "PasswordLength",
+    "sort_order" => "SortOrder",
+    "exclude_punctuation" => "ExcludePunctuation",
+    "require_each_included_type" => "RequireEachIncludedType",
+    "secret_binary" => "SecretBinary",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "remove_from_version_id" => "RemoveFromVersionId",
+    "rotation_rules" => "RotationRules",
+    "move_to_version_id" => "MoveToVersionId",
+    "version_id" => "VersionId",
+    "exclude_numbers" => "ExcludeNumbers",
+    "add_replica_regions" => "AddReplicaRegions",
+    "filters" => "Filters",
+    "secret_string" => "SecretString",
+    "block_public_policy" => "BlockPublicPolicy",
+    "exclude_uppercase" => "ExcludeUppercase",
+    "rotation_lambda_arn" => "RotationLambdaARN",
+    "secret_id" => "SecretId",
+    "exclude_lowercase" => "ExcludeLowercase",
+    "exclude_characters" => "ExcludeCharacters",
+    "tags" => "Tags",
+    "force_overwrite_replica_secret" => "ForceOverwriteReplicaSecret",
+    "include_space" => "IncludeSpace",
+)
+
 """
-    cancel_rotate_secret(secret_id)
-    cancel_rotate_secret(secret_id, params::Dict{String,<:Any})
+    cancel_rotate_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables automatic scheduled rotation and cancels the rotation of a secret if currently in
 progress. To re-enable scheduled rotation, call RotateSecret with
@@ -33,19 +67,10 @@ list all of the versions currently associated with a secret, use ListSecretVersi
   that you specify a complete ARN rather than a partial ARN.
 
 """
-function cancel_rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "CancelRotateSecret",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_rotate_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "CancelRotateSecret",
         Dict{String,Any}(
@@ -57,8 +82,7 @@ function cancel_rotate_secret(
 end
 
 """
-    create_secret(name)
-    create_secret(name, params::Dict{String,<:Any})
+    create_secret(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new secret. A secret in Secrets Manager consists of both the protected secret
 data and the important information needed to manage the secret. Secrets Manager stores the
@@ -111,10 +135,10 @@ DescribeSecret and examine the SecretVersionsToStages response value.
   six random characters at the end of the ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AddReplicaRegions"`: (Optional) Add a list of regions to replicate secrets. Secrets
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"add_replica_regions"`: (Optional) Add a list of regions to replicate secrets. Secrets
   Manager replicates the KMSKeyID objects to the list of regions specified in the parameter.
-- `"ClientRequestToken"`: (Optional) If you include SecretString or SecretBinary, then an
+- `"client_request_token"`: (Optional) If you include SecretString or SecretBinary, then an
   initial version is created as part of the secret, and this parameter specifies a unique
   identifier for the new version.   If you use the Amazon Web Services CLI or one of the
   Amazon Web Services SDK to call this operation, then you can leave this parameter empty.
@@ -133,10 +157,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, then the request fails because you cannot modify an existing version. Instead, use
   PutSecretValue to create a new version.   This value becomes the VersionId of the new
   version.
-- `"Description"`: (Optional) Specifies a user-provided description of the secret.
-- `"ForceOverwriteReplicaSecret"`: (Optional) If set, the replication overwrites a secret
-  with the same name in the destination region.
-- `"KmsKeyId"`: (Optional) Specifies the ARN, Key ID, or alias of the Amazon Web Services
+- `"description"`: (Optional) Specifies a user-provided description of the secret.
+- `"force_overwrite_replica_secret"`: (Optional) If set, the replication overwrites a
+  secret with the same name in the destination region.
+- `"kms_key_id"`: (Optional) Specifies the ARN, Key ID, or alias of the Amazon Web Services
   KMS customer master key (CMK) to be used to encrypt the SecretString or SecretBinary values
   in the versions stored in this secret. You can specify any of the supported ways to
   identify a Amazon Web Services KMS key ID. If you need to reference a CMK in a different
@@ -148,14 +172,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CMK to encrypt and decrypt only if you call this operation using credentials from the same
   account that owns the secret. If the secret resides in a different account, then you must
   create a custom CMK and specify the ARN in this field.
-- `"SecretBinary"`: (Optional) Specifies binary data that you want to encrypt and store in
+- `"secret_binary"`: (Optional) Specifies binary data that you want to encrypt and store in
   the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
   for your tool to pass the contents of the file as a parameter. Either SecretString or
   SecretBinary must have a value, but not both. They cannot both be empty. This parameter is
   not available using the Secrets Manager console. It can be accessed only by using the
   Amazon Web Services CLI or one of the Amazon Web Services SDKs.
-- `"SecretString"`: (Optional) Specifies text data that you want to encrypt and store in
+- `"secret_string"`: (Optional) Specifies text data that you want to encrypt and store in
   this new version of the secret. Either SecretString or SecretBinary must have a value, but
   not both. They cannot both be empty. If you create a secret by using the Secrets Manager
   console then Secrets Manager puts the protected secret text in only the SecretString
@@ -164,7 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values, we recommend that you use a JSON text string argument and specify key/value pairs.
   For more information, see Specifying parameter values for the Amazon Web Services CLI in
   the Amazon Web Services CLI User Guide.
-- `"Tags"`: (Optional) Specifies a list of user-defined tags that are attached to the
+- `"tags"`: (Optional) Specifies a list of user-defined tags that are attached to the
   secret. Each tag is a \"Key\" and \"Value\" pair of strings. This operation only appends
   tags to the existing list of tags. To remove tags, you must use UntagResource.    Secrets
   Manager tag key names are case sensitive. A tag with the key \"ABC\" is a different tag
@@ -188,23 +212,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   restrictions on allowed characters. Generally allowed characters: letters, spaces, and
   numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.
 """
-function create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "CreateSecret",
-        Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_secret(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "CreateSecret",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4())),
+                Dict{String,Any}("Name" => Name, "client_request_token" => string(uuid4())),
                 params,
             ),
         );
@@ -214,8 +229,7 @@ function create_secret(
 end
 
 """
-    delete_resource_policy(secret_id)
-    delete_resource_policy(secret_id, params::Dict{String,<:Any})
+    delete_resource_policy(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the resource-based permission policy attached to the secret.  Minimum permissions
 To run this command, you must have the following permissions:
@@ -231,19 +245,10 @@ ListSecrets.
   ARN.
 
 """
-function delete_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "DeleteResourcePolicy",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_resource_policy(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "DeleteResourcePolicy",
         Dict{String,Any}(
@@ -255,8 +260,7 @@ function delete_resource_policy(
 end
 
 """
-    delete_secret(secret_id)
-    delete_secret(secret_id, params::Dict{String,<:Any})
+    delete_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an entire secret and all of the versions. You can optionally include a recovery
 window during which you can restore the secret. If you don't specify a recovery window
@@ -284,8 +288,8 @@ window has expired, use RestoreSecret.
   complete ARN rather than a partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForceDeleteWithoutRecovery"`: (Optional) Specifies that the secret is to be deleted
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"force_delete_without_recovery"`: (Optional) Specifies that the secret is to be deleted
   without any recovery window. You can't use both this parameter and the RecoveryWindowInDays
   parameter in the same API call. An asynchronous background process performs the actual
   deletion, so there can be a short delay before the operation completes. If you write code
@@ -297,24 +301,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have no opportunity to recover the secret. You lose the secret permanently.   If you use
   this parameter and include a previously deleted or nonexistent secret, the operation does
   not return the error ResourceNotFoundException in order to correctly handle retries.
-- `"RecoveryWindowInDays"`: (Optional) Specifies the number of days that Secrets Manager
+- `"recovery_window_in_days"`: (Optional) Specifies the number of days that Secrets Manager
   waits before Secrets Manager can delete the secret. You can't use both this parameter and
   the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7
   to 30 days with a default value of 30.
 """
-function delete_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "DeleteSecret",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "DeleteSecret",
         Dict{String,Any}(
@@ -326,8 +321,7 @@ function delete_secret(
 end
 
 """
-    describe_secret(secret_id)
-    describe_secret(secret_id, params::Dict{String,<:Any})
+    describe_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the details of a secret. It does not include the encrypted fields. Secrets
 Manager only returns fields populated with a value in the response.   Minimum permissions
@@ -343,19 +337,10 @@ the Amazon Web Services account, use ListSecrets.
   ARN, we recommend that you specify a complete ARN rather than a partial ARN.
 
 """
-function describe_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "DescribeSecret",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "DescribeSecret",
         Dict{String,Any}(
@@ -367,8 +352,7 @@ function describe_secret(
 end
 
 """
-    get_random_password()
-    get_random_password(params::Dict{String,<:Any})
+    get_random_password(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Generates a random password of the specified complexity. This operation is intended for use
 in the Lambda rotation function. Per best practice, we recommend that you specify the
@@ -377,49 +361,42 @@ password for can support.  Minimum permissions  To run this command, you must ha
 following permissions:   secretsmanager:GetRandomPassword
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExcludeCharacters"`: A string that includes characters that should not be included in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclude_characters"`: A string that includes characters that should not be included in
   the generated password. The default is that all characters from the included sets can be
   used.
-- `"ExcludeLowercase"`: Specifies that the generated password should not include lowercase
+- `"exclude_lowercase"`: Specifies that the generated password should not include lowercase
   letters. The default if you do not include this switch parameter is that lowercase letters
   can be included.
-- `"ExcludeNumbers"`: Specifies that the generated password should not include digits. The
+- `"exclude_numbers"`: Specifies that the generated password should not include digits. The
   default if you do not include this switch parameter is that digits can be included.
-- `"ExcludePunctuation"`: Specifies that the generated password should not include
+- `"exclude_punctuation"`: Specifies that the generated password should not include
   punctuation characters. The default if you do not include this switch parameter is that
   punctuation characters can be included. The following are the punctuation characters that
   can be included in the generated password if you don't explicitly exclude them with
   ExcludeCharacters or ExcludePunctuation:  ! \" #  % &amp; ' ( ) * + , - . / : ; &lt; = &gt;
   ? @ [  ] ^ _ ` { | } ~
-- `"ExcludeUppercase"`: Specifies that the generated password should not include uppercase
+- `"exclude_uppercase"`: Specifies that the generated password should not include uppercase
   letters. The default if you do not include this switch parameter is that uppercase letters
   can be included.
-- `"IncludeSpace"`: Specifies that the generated password can include the space character.
+- `"include_space"`: Specifies that the generated password can include the space character.
   The default if you do not include this switch parameter is that the space character is not
   included.
-- `"PasswordLength"`: The desired length of the generated password. The default value if
+- `"password_length"`: The desired length of the generated password. The default value if
   you do not include this parameter is 32 characters.
-- `"RequireEachIncludedType"`: A boolean value that specifies whether the generated
+- `"require_each_included_type"`: A boolean value that specifies whether the generated
   password must include at least one of every allowed character type. The default value is
   True and the operation requires at least one of every character type.
 """
-function get_random_password(; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "GetRandomPassword"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_random_password(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_random_password(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "GetRandomPassword", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_resource_policy(secret_id)
-    get_resource_policy(secret_id, params::Dict{String,<:Any})
+    get_resource_policy(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the JSON text of the resource-based policy document attached to the specified
 secret. The JSON request string input and response output displays formatted code with
@@ -437,19 +414,10 @@ ListSecrets.
   ARN.
 
 """
-function get_resource_policy(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "GetResourcePolicy",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resource_policy(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "GetResourcePolicy",
         Dict{String,Any}(
@@ -461,8 +429,7 @@ function get_resource_policy(
 end
 
 """
-    get_secret_value(secret_id)
-    get_secret_value(secret_id, params::Dict{String,<:Any})
+    get_secret_value(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the contents of the encrypted fields SecretString or SecretBinary from the
 specified version of a secret, whichever contains content.  Minimum permissions  To run
@@ -479,32 +446,23 @@ non-encrypted details for the secret, use DescribeSecret.
   an ARN, we recommend that you specify a complete ARN rather than a partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"VersionId"`: Specifies the unique identifier of the version of the secret that you want
-  to retrieve. If you specify both this parameter and VersionStage, the two parameters must
-  refer to the same secret version. If you don't specify either a VersionStage or VersionId
-  then the default is to perform the operation on the version with the VersionStage value of
-  AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
-- `"VersionStage"`: Specifies the secret version that you want to retrieve by the staging
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"version_id"`: Specifies the unique identifier of the version of the secret that you
+  want to retrieve. If you specify both this parameter and VersionStage, the two parameters
+  must refer to the same secret version. If you don't specify either a VersionStage or
+  VersionId then the default is to perform the operation on the version with the VersionStage
+  value of AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
+- `"version_stage"`: Specifies the secret version that you want to retrieve by the staging
   label attached to the version. Staging labels are used to keep track of different versions
   during the rotation process. If you specify both this parameter and VersionId, the two
   parameters must refer to the same secret version . If you don't specify either a
   VersionStage or VersionId, then the default is to perform the operation on the version with
   the VersionStage value of AWSCURRENT.
 """
-function get_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "GetSecretValue",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_secret_value(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "GetSecretValue",
         Dict{String,Any}(
@@ -516,8 +474,7 @@ function get_secret_value(
 end
 
 """
-    list_secret_version_ids(secret_id)
-    list_secret_version_ids(secret_id, params::Dict{String,<:Any})
+    list_secret_version_ids(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the versions attached to the specified secret. The output does not include the
 SecretString or SecretBinary fields. By default, the list includes only versions that have
@@ -536,11 +493,11 @@ account, use ListSecrets.
   an ARN, we recommend that you specify a complete ARN rather than a partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeDeprecated"`: (Optional) Specifies that you want the results to include versions
-  that do not have any staging labels attached to them. Such versions are considered
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_deprecated"`: (Optional) Specifies that you want the results to include
+  versions that do not have any staging labels attached to them. Such versions are considered
   deprecated and are subject to deletion by Secrets Manager as needed.
-- `"MaxResults"`: (Optional) Limits the number of results you want to include in the
+- `"max_results"`: (Optional) Limits the number of results you want to include in the
   response. If you don't include this parameter, it defaults to a value that's specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (isn't null). Include that value as the
@@ -548,26 +505,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Secrets Manager might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: (Optional) Use this parameter in a request if you receive a NextToken
+- `"next_token"`: (Optional) Use this parameter in a request if you receive a NextToken
   response in a previous request indicating there's more output available. In a subsequent
   call, set it to the value of the previous call NextToken response to indicate where the
   output should continue from.
 """
 function list_secret_version_ids(
-    SecretId; aws_config::AbstractAWSConfig=global_aws_config()
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "ListSecretVersionIds",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_secret_version_ids(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "ListSecretVersionIds",
         Dict{String,Any}(
@@ -579,8 +525,7 @@ function list_secret_version_ids(
 end
 
 """
-    list_secrets()
-    list_secrets(params::Dict{String,<:Any})
+    list_secrets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the secrets that are stored by Secrets Manager in the Amazon Web Services
 account. To list the versions currently stored for a specific secret, use
@@ -595,9 +540,9 @@ secretsmanager:ListSecrets    Related operations    To list the versions attache
 secret, use ListSecretVersionIds.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Lists the secret request filters.
-- `"MaxResults"`: (Optional) Limits the number of results you want to include in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Lists the secret request filters.
+- `"max_results"`: (Optional) Limits the number of results you want to include in the
   response. If you don't include this parameter, it defaults to a value that's specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (isn't null). Include that value as the
@@ -605,28 +550,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Secrets Manager might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: (Optional) Use this parameter in a request if you receive a NextToken
+- `"next_token"`: (Optional) Use this parameter in a request if you receive a NextToken
   response in a previous request indicating there's more output available. In a subsequent
   call, set it to the value of the previous call NextToken response to indicate where the
   output should continue from.
-- `"SortOrder"`: Lists secrets in the requested order.
+- `"sort_order"`: Lists secrets in the requested order.
 """
-function list_secrets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "ListSecrets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_secrets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_secrets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "ListSecrets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    put_resource_policy(resource_policy, secret_id)
-    put_resource_policy(resource_policy, secret_id, params::Dict{String,<:Any})
+    put_resource_policy(resource_policy, secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches the contents of the specified resource-based permission policy to a secret. A
 resource-based policy is optional. Alternatively, you can use IAM identity-based policies
@@ -653,26 +591,14 @@ use ListSecrets.
   that you specify a complete ARN rather than a partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BlockPublicPolicy"`: (Optional) If you set the parameter, BlockPublicPolicy to true,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"block_public_policy"`: (Optional) If you set the parameter, BlockPublicPolicy to true,
   then you block resource-based policies that allow broad access to the secret.
 """
 function put_resource_policy(
-    ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "PutResourcePolicy",
-        Dict{String,Any}("ResourcePolicy" => ResourcePolicy, "SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resource_policy(
-    ResourcePolicy,
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "PutResourcePolicy",
         Dict{String,Any}(
@@ -690,8 +616,7 @@ function put_resource_policy(
 end
 
 """
-    put_secret_value(secret_id)
-    put_secret_value(secret_id, params::Dict{String,<:Any})
+    put_secret_value(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stores a new encrypted secret value in the specified secret. To do this, the operation
 creates a new version and attaches it to the secret. The version can contain a new
@@ -745,8 +670,8 @@ use ListSecretVersionIds.
   partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: (Optional) Specifies a unique identifier for the new version of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: (Optional) Specifies a unique identifier for the new version of
   the secret.   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK
   to call this operation, then you can leave this parameter empty. The CLI or SDK generates a
   random UUID for you and includes that in the request. If you don't use the SDK and instead
@@ -763,13 +688,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the SecretString and SecretBinary values are different from those in the request then the
   request fails because you cannot modify an existing secret version. You can only create new
   versions to store new secret values.   This value becomes the VersionId of the new version.
-- `"SecretBinary"`: (Optional) Specifies binary data that you want to encrypt and store in
+- `"secret_binary"`: (Optional) Specifies binary data that you want to encrypt and store in
   the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
   for your tool to pass the contents of the file as a parameter. Either SecretBinary or
   SecretString must have a value, but not both. They cannot both be empty. This parameter is
   not accessible if the secret using the Secrets Manager console.
-- `"SecretString"`: (Optional) Specifies text data that you want to encrypt and store in
+- `"secret_string"`: (Optional) Specifies text data that you want to encrypt and store in
   this new version of the secret. Either SecretString or SecretBinary must have a value, but
   not both. They cannot both be empty. If you create this secret by using the Secrets Manager
   console then Secrets Manager puts the protected secret text in only the SecretString
@@ -778,7 +703,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   multiple values, we recommend that you use a JSON text string argument and specify
   key/value pairs. For more information, see Specifying parameter values for the Amazon Web
   Services CLI in the Amazon Web Services CLI User Guide.
-- `"VersionStages"`: (Optional) Specifies a list of staging labels that are attached to
+- `"version_stages"`: (Optional) Specifies a list of staging labels that are attached to
   this version of the secret. These staging labels are used to track the versions through the
   rotation process by the Lambda rotation function. A staging label must be unique to a
   single version of the secret. If you specify a staging label that's already associated with
@@ -787,26 +712,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VersionStages then Secrets Manager automatically moves the staging label AWSCURRENT to this
   new version.
 """
-function put_secret_value(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "PutSecretValue",
-        Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_secret_value(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "PutSecretValue",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "SecretId" => SecretId, "ClientRequestToken" => string(uuid4())
+                    "SecretId" => SecretId, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -817,8 +733,7 @@ function put_secret_value(
 end
 
 """
-    remove_regions_from_replication(remove_replica_regions, secret_id)
-    remove_regions_from_replication(remove_replica_regions, secret_id, params::Dict{String,<:Any})
+    remove_regions_from_replication(remove_replica_regions, secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Remove regions from replication.
 
@@ -828,23 +743,12 @@ Remove regions from replication.
 
 """
 function remove_regions_from_replication(
-    RemoveReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return secrets_manager(
-        "RemoveRegionsFromReplication",
-        Dict{String,Any}(
-            "RemoveReplicaRegions" => RemoveReplicaRegions, "SecretId" => SecretId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_regions_from_replication(
     RemoveReplicaRegions,
-    SecretId,
-    params::AbstractDict{String};
+    SecretId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "RemoveRegionsFromReplication",
         Dict{String,Any}(
@@ -862,8 +766,7 @@ function remove_regions_from_replication(
 end
 
 """
-    replicate_secret_to_regions(add_replica_regions, secret_id)
-    replicate_secret_to_regions(add_replica_regions, secret_id, params::Dict{String,<:Any})
+    replicate_secret_to_regions(add_replica_regions, secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Converts an existing secret to a multi-Region secret and begins replication the secret to a
 list of new regions.
@@ -873,26 +776,17 @@ list of new regions.
 - `secret_id`: Use the Secret Id to replicate a secret to regions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForceOverwriteReplicaSecret"`: (Optional) If set, Secrets Manager replication
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"force_overwrite_replica_secret"`: (Optional) If set, Secrets Manager replication
   overwrites a secret with the same name in the destination region.
 """
 function replicate_secret_to_regions(
-    AddReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return secrets_manager(
-        "ReplicateSecretToRegions",
-        Dict{String,Any}("AddReplicaRegions" => AddReplicaRegions, "SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function replicate_secret_to_regions(
     AddReplicaRegions,
-    SecretId,
-    params::AbstractDict{String};
+    SecretId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "ReplicateSecretToRegions",
         Dict{String,Any}(
@@ -910,8 +804,7 @@ function replicate_secret_to_regions(
 end
 
 """
-    restore_secret(secret_id)
-    restore_secret(secret_id, params::Dict{String,<:Any})
+    restore_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the scheduled deletion of a secret by removing the DeletedDate time stamp. This
 makes the secret accessible to query once again.  Minimum permissions  To run this command,
@@ -924,19 +817,10 @@ operations    To delete a secret, use DeleteSecret.
   secret. For an ARN, we recommend that you specify a complete ARN rather than a partial ARN.
 
 """
-function restore_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "RestoreSecret",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function restore_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "RestoreSecret",
         Dict{String,Any}(
@@ -948,8 +832,7 @@ function restore_secret(
 end
 
 """
-    rotate_secret(secret_id)
-    rotate_secret(secret_id, params::Dict{String,<:Any})
+    rotate_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures and starts the asynchronous process of rotating this secret. If you include the
 configuration parameters, the operation sets those values for the secret and then
@@ -987,8 +870,8 @@ staging labels from a version of a secret, use UpdateSecretVersionStage.
   that you specify a complete ARN rather than a partial ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: (Optional) Specifies a unique identifier for the new version of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: (Optional) Specifies a unique identifier for the new version of
   the secret that helps ensure idempotency.  If you use the Amazon Web Services CLI or one of
   the Amazon Web Services SDK to call this operation, then you can leave this parameter
   empty. The CLI or SDK generates a random UUID for you and includes that in the request for
@@ -1000,30 +883,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified secret.  Secrets Manager uses this value to prevent the accidental creation of
   duplicate versions if there are failures and retries during the function's processing. This
   value becomes the VersionId of the new version.
-- `"RotationLambdaARN"`: (Optional) Specifies the ARN of the Lambda function that can
+- `"rotation_lambda_arn"`: (Optional) Specifies the ARN of the Lambda function that can
   rotate the secret.
-- `"RotationRules"`: A structure that defines the rotation configuration for this secret.
+- `"rotation_rules"`: A structure that defines the rotation configuration for this secret.
 """
-function rotate_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "RotateSecret",
-        Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function rotate_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "RotateSecret",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "SecretId" => SecretId, "ClientRequestToken" => string(uuid4())
+                    "SecretId" => SecretId, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -1034,8 +908,7 @@ function rotate_secret(
 end
 
 """
-    stop_replication_to_replica(secret_id)
-    stop_replication_to_replica(secret_id, params::Dict{String,<:Any})
+    stop_replication_to_replica(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the secret from replication and promotes the secret to a regional secret in the
 replica Region.
@@ -1045,20 +918,9 @@ replica Region.
 
 """
 function stop_replication_to_replica(
-    SecretId; aws_config::AbstractAWSConfig=global_aws_config()
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "StopReplicationToReplica",
-        Dict{String,Any}("SecretId" => SecretId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_replication_to_replica(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "StopReplicationToReplica",
         Dict{String,Any}(
@@ -1070,8 +932,7 @@ function stop_replication_to_replica(
 end
 
 """
-    tag_resource(secret_id, tags)
-    tag_resource(secret_id, tags, params::Dict{String,<:Any})
+    tag_resource(secret_id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches one or more tags, each consisting of a key name and a value, to the specified
 secret. Tags are part of the secret's overall metadata, and are not associated with any
@@ -1104,20 +965,10 @@ view the list of tags attached to a secret, use DescribeSecret.
   Services CLI in the Amazon Web Services CLI User Guide.
 
 """
-function tag_resource(SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "TagResource",
-        Dict{String,Any}("SecretId" => SecretId, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    SecretId,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "TagResource",
         Dict{String,Any}(
@@ -1131,8 +982,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(secret_id, tag_keys)
-    untag_resource(secret_id, tag_keys, params::Dict{String,<:Any})
+    untag_resource(secret_id, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from the specified secret. This operation is idempotent. If a
 requested tag is not attached to the secret, no error is returned and the secret metadata
@@ -1157,21 +1007,9 @@ attached to a secret, use DescribeSecret.
 
 """
 function untag_resource(
-    SecretId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    SecretId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "UntagResource",
-        Dict{String,Any}("SecretId" => SecretId, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    SecretId,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "UntagResource",
         Dict{String,Any}(
@@ -1187,8 +1025,7 @@ function untag_resource(
 end
 
 """
-    update_secret(secret_id)
-    update_secret(secret_id, params::Dict{String,<:Any})
+    update_secret(secret_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies many of the details of the specified secret.  To change the secret value, you can
 also use PutSecretValue. To change the rotation configuration of a secret, use RotateSecret
@@ -1240,8 +1077,8 @@ ListSecretVersionIds.
   ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: (Optional) If you want to add a new version to the secret, this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: (Optional) If you want to add a new version to the secret, this
   parameter specifies a unique identifier for the new version that helps ensure idempotency.
   If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this
   operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID
@@ -1260,10 +1097,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and that version's SecretString and SecretBinary values are different from the request then
   an error occurs because you cannot modify an existing secret value.   This value becomes
   the VersionId of the new version.
-- `"Description"`: (Optional) Specifies an updated user-provided description of the secret.
-- `"KmsKeyId"`: (Optional) Specifies an updated ARN or alias of the Amazon Web Services KMS
-  customer master key (CMK) that Secrets Manager uses to encrypt the protected text in new
-  versions of this secret as well as any existing versions of this secret that have the
+- `"description"`: (Optional) Specifies an updated user-provided description of the secret.
+- `"kms_key_id"`: (Optional) Specifies an updated ARN or alias of the Amazon Web Services
+  KMS customer master key (CMK) that Secrets Manager uses to encrypt the protected text in
+  new versions of this secret as well as any existing versions of this secret that have the
   staging labels AWSCURRENT, AWSPENDING, or AWSPREVIOUS. For more information about staging
   labels, see Staging Labels in the Amazon Web Services Secrets Manager User Guide.  You can
   only use the account's default CMK to encrypt and decrypt if you call this operation using
@@ -1271,13 +1108,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account, then you must create a custom CMK and provide the ARN of that CMK in this field.
   The user making the call must have permissions to both the secret and the CMK in their
   respective accounts.
-- `"SecretBinary"`: (Optional) Specifies updated binary data that you want to encrypt and
+- `"secret_binary"`: (Optional) Specifies updated binary data that you want to encrypt and
   store in the new version of the secret. To use this parameter in the command-line tools, we
   recommend that you store your binary data in a file and then use the appropriate technique
   for your tool to pass the contents of the file as a parameter. Either SecretBinary or
   SecretString must have a value, but not both. They cannot both be empty. This parameter is
   not accessible using the Secrets Manager console.
-- `"SecretString"`: (Optional) Specifies updated text data that you want to encrypt and
+- `"secret_string"`: (Optional) Specifies updated text data that you want to encrypt and
   store in this new version of the secret. Either SecretBinary or SecretString must have a
   value, but not both. They cannot both be empty. If you create this secret by using the
   Secrets Manager console then Secrets Manager puts the protected secret text in only the
@@ -1287,26 +1124,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify key/value pairs. For more information, see Specifying parameter values for the
   Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
 """
-function update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
-    return secrets_manager(
-        "UpdateSecret",
-        Dict{String,Any}("SecretId" => SecretId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_secret(
-    SecretId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SecretId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "UpdateSecret",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "SecretId" => SecretId, "ClientRequestToken" => string(uuid4())
+                    "SecretId" => SecretId, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -1317,8 +1145,7 @@ function update_secret(
 end
 
 """
-    update_secret_version_stage(secret_id, version_stage)
-    update_secret_version_stage(secret_id, version_stage, params::Dict{String,<:Any})
+    update_secret_version_stage(secret_id, version_stage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the staging labels attached to a version of a secret. Staging labels are used to
 track a version as it progresses through the secret rotation process. You can attach a
@@ -1345,34 +1172,22 @@ examine the SecretVersionsToStages response value.
 - `version_stage`: The staging label to add to this version.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MoveToVersionId"`: (Optional) The secret version ID that you want to add the staging
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"move_to_version_id"`: (Optional) The secret version ID that you want to add the staging
   label. If you want to remove a label from a version, then do not specify this parameter. If
   the staging label is already attached to a different version of the secret, then you must
   also specify the RemoveFromVersionId parameter.
-- `"RemoveFromVersionId"`: Specifies the secret version ID of the version that the staging
-  label is to be removed from. If the staging label you are trying to attach to one version
-  is already attached to a different version, then you must include this parameter and
-  specify the version that the label is to be removed from. If the label is attached and you
-  either do not specify this parameter, or the version ID does not match, then the operation
-  fails.
+- `"remove_from_version_id"`: Specifies the secret version ID of the version that the
+  staging label is to be removed from. If the staging label you are trying to attach to one
+  version is already attached to a different version, then you must include this parameter
+  and specify the version that the label is to be removed from. If the label is attached and
+  you either do not specify this parameter, or the version ID does not match, then the
+  operation fails.
 """
 function update_secret_version_stage(
-    SecretId, VersionStage; aws_config::AbstractAWSConfig=global_aws_config()
+    SecretId, VersionStage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "UpdateSecretVersionStage",
-        Dict{String,Any}("SecretId" => SecretId, "VersionStage" => VersionStage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_secret_version_stage(
-    SecretId,
-    VersionStage,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "UpdateSecretVersionStage",
         Dict{String,Any}(
@@ -1388,8 +1203,7 @@ function update_secret_version_stage(
 end
 
 """
-    validate_resource_policy(resource_policy)
-    validate_resource_policy(resource_policy, params::Dict{String,<:Any})
+    validate_resource_policy(resource_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Validates that the resource policy does not grant a wide range of IAM principals access to
 your secret. The JSON request string input and response output displays formatted code with
@@ -1409,27 +1223,16 @@ secretsmanager:PutResourcePolicy     secretsmanager:ValidateResourcePolicy
   Parameters in the CLI User Guide.publi
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SecretId"`:  (Optional) The identifier of the secret with the resource-based policy you
-  want to validate. You can specify either the Amazon Resource Name (ARN) or the friendly
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"secret_id"`:  (Optional) The identifier of the secret with the resource-based policy
+  you want to validate. You can specify either the Amazon Resource Name (ARN) or the friendly
   name of the secret. For an ARN, we recommend that you specify a complete ARN rather than a
   partial ARN.
 """
 function validate_resource_policy(
-    ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return secrets_manager(
-        "ValidateResourcePolicy",
-        Dict{String,Any}("ResourcePolicy" => ResourcePolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function validate_resource_policy(
-    ResourcePolicy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return secrets_manager(
         "ValidateResourcePolicy",
         Dict{String,Any}(

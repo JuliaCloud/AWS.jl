@@ -4,9 +4,53 @@ using AWS.AWSServices: codecommit
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "commit_specifier" => "commitSpecifier",
+    "put_files" => "putFiles",
+    "reaction_user_arn" => "reactionUserArn",
+    "branch_name" => "branchName",
+    "before_commit_id" => "beforeCommitId",
+    "file_paths" => "filePaths",
+    "author_arn" => "authorArn",
+    "next_token" => "nextToken",
+    "client_request_token" => "clientRequestToken",
+    "existing_rule_content_sha256" => "existingRuleContentSha256",
+    "before_path" => "beforePath",
+    "name" => "name",
+    "location" => "location",
+    "sort_by" => "sortBy",
+    "before_commit_specifier" => "beforeCommitSpecifier",
+    "after_commit_id" => "afterCommitId",
+    "parent_commit_id" => "parentCommitId",
+    "author_name" => "authorName",
+    "email" => "email",
+    "max_results" => "maxResults",
+    "description" => "description",
+    "conflict_resolution" => "conflictResolution",
+    "conflict_resolution_strategy" => "conflictResolutionStrategy",
+    "target_branch" => "targetBranch",
+    "file_mode" => "fileMode",
+    "repository_description" => "repositoryDescription",
+    "after_path" => "afterPath",
+    "repository_name" => "repositoryName",
+    "set_file_modes" => "setFileModes",
+    "source_commit_id" => "sourceCommitId",
+    "pull_request_event_type" => "pullRequestEventType",
+    "conflict_detail_level" => "conflictDetailLevel",
+    "approval_rule_template_description" => "approvalRuleTemplateDescription",
+    "pull_request_status" => "pullRequestStatus",
+    "max_merge_hunks" => "maxMergeHunks",
+    "order" => "order",
+    "delete_files" => "deleteFiles",
+    "tags" => "tags",
+    "commit_message" => "commitMessage",
+    "keep_empty_folders" => "keepEmptyFolders",
+    "actor_arn" => "actorArn",
+    "max_conflict_files" => "maxConflictFiles",
+)
+
 """
-    associate_approval_rule_template_with_repository(approval_rule_template_name, repository_name)
-    associate_approval_rule_template_with_repository(approval_rule_template_name, repository_name, params::Dict{String,<:Any})
+    associate_approval_rule_template_with_repository(approval_rule_template_name, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between an approval rule template and a specified repository. Then,
 the next time a pull request is created in the repository where the destination reference
@@ -25,23 +69,9 @@ function associate_approval_rule_template_with_repository(
     approvalRuleTemplateName,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "AssociateApprovalRuleTemplateWithRepository",
-        Dict{String,Any}(
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_approval_rule_template_with_repository(
-    approvalRuleTemplateName,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "AssociateApprovalRuleTemplateWithRepository",
         Dict{String,Any}(
@@ -60,8 +90,7 @@ function associate_approval_rule_template_with_repository(
 end
 
 """
-    batch_associate_approval_rule_template_with_repositories(approval_rule_template_name, repository_names)
-    batch_associate_approval_rule_template_with_repositories(approval_rule_template_name, repository_names, params::Dict{String,<:Any})
+    batch_associate_approval_rule_template_with_repositories(approval_rule_template_name, repository_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between an approval rule template and one or more specified
 repositories.
@@ -78,23 +107,9 @@ function batch_associate_approval_rule_template_with_repositories(
     approvalRuleTemplateName,
     repositoryNames;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "BatchAssociateApprovalRuleTemplateWithRepositories",
-        Dict{String,Any}(
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-            "repositoryNames" => repositoryNames,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_associate_approval_rule_template_with_repositories(
-    approvalRuleTemplateName,
-    repositoryNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "BatchAssociateApprovalRuleTemplateWithRepositories",
         Dict{String,Any}(
@@ -113,8 +128,7 @@ function batch_associate_approval_rule_template_with_repositories(
 end
 
 """
-    batch_describe_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier)
-    batch_describe_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    batch_describe_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about one or more merge conflicts in the attempted merge of two commit
 specifiers using the squash or three-way merge strategy.
@@ -129,20 +143,20 @@ specifiers using the squash or three-way merge strategy.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
-- `"filePaths"`: The path of the target files used to describe the conflicts. If not
+- `"file_paths"`: The path of the target files used to describe the conflicts. If not
   specified, the default is all conflict files.
-- `"maxConflictFiles"`: The maximum number of files to include in the output.
-- `"maxMergeHunks"`: The maximum number of merge hunks to include in the output.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"max_conflict_files"`: The maximum number of files to include in the output.
+- `"max_merge_hunks"`: The maximum number of merge hunks to include in the output.
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function batch_describe_merge_conflicts(
@@ -151,27 +165,9 @@ function batch_describe_merge_conflicts(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "BatchDescribeMergeConflicts",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "mergeOption" => mergeOption,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_describe_merge_conflicts(
-    destinationCommitSpecifier,
-    mergeOption,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "BatchDescribeMergeConflicts",
         Dict{String,Any}(
@@ -192,8 +188,7 @@ function batch_describe_merge_conflicts(
 end
 
 """
-    batch_disassociate_approval_rule_template_from_repositories(approval_rule_template_name, repository_names)
-    batch_disassociate_approval_rule_template_from_repositories(approval_rule_template_name, repository_names, params::Dict{String,<:Any})
+    batch_disassociate_approval_rule_template_from_repositories(approval_rule_template_name, repository_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between an approval rule template and one or more specified
 repositories.
@@ -210,23 +205,9 @@ function batch_disassociate_approval_rule_template_from_repositories(
     approvalRuleTemplateName,
     repositoryNames;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "BatchDisassociateApprovalRuleTemplateFromRepositories",
-        Dict{String,Any}(
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-            "repositoryNames" => repositoryNames,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_disassociate_approval_rule_template_from_repositories(
-    approvalRuleTemplateName,
-    repositoryNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "BatchDisassociateApprovalRuleTemplateFromRepositories",
         Dict{String,Any}(
@@ -245,8 +226,7 @@ function batch_disassociate_approval_rule_template_from_repositories(
 end
 
 """
-    batch_get_commits(commit_ids, repository_name)
-    batch_get_commits(commit_ids, repository_name, params::Dict{String,<:Any})
+    batch_get_commits(commit_ids, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the contents of one or more commits in a repository.
 
@@ -257,21 +237,9 @@ Returns information about the contents of one or more commits in a repository.
 
 """
 function batch_get_commits(
-    commitIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    commitIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "BatchGetCommits",
-        Dict{String,Any}("commitIds" => commitIds, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_commits(
-    commitIds,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "BatchGetCommits",
         Dict{String,Any}(
@@ -289,8 +257,7 @@ function batch_get_commits(
 end
 
 """
-    batch_get_repositories(repository_names)
-    batch_get_repositories(repository_names, params::Dict{String,<:Any})
+    batch_get_repositories(repository_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about one or more repositories.  The description field for a repository
 accepts all HTML characters and all valid Unicode characters. Applications that do not
@@ -304,20 +271,9 @@ that uses this API to display the repository description on a webpage.
 
 """
 function batch_get_repositories(
-    repositoryNames; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "BatchGetRepositories",
-        Dict{String,Any}("repositoryNames" => repositoryNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_repositories(
-    repositoryNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "BatchGetRepositories",
         Dict{String,Any}(
@@ -331,8 +287,7 @@ function batch_get_repositories(
 end
 
 """
-    create_approval_rule_template(approval_rule_template_content, approval_rule_template_name)
-    create_approval_rule_template(approval_rule_template_content, approval_rule_template_name, params::Dict{String,<:Any})
+    create_approval_rule_template(approval_rule_template_content, approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a template for approval rules that can then be associated with one or more
 repositories in your AWS account. When you associate a template with a repository, AWS
@@ -364,8 +319,8 @@ AssociateApprovalRuleTemplateWithRepository.
   in associated repositories.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"approvalRuleTemplateDescription"`: The description of the approval rule template.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"approval_rule_template_description"`: The description of the approval rule template.
   Consider providing a description that explains what this template does and when it might be
   appropriate to associate it with repositories.
 """
@@ -373,23 +328,9 @@ function create_approval_rule_template(
     approvalRuleTemplateContent,
     approvalRuleTemplateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "CreateApprovalRuleTemplate",
-        Dict{String,Any}(
-            "approvalRuleTemplateContent" => approvalRuleTemplateContent,
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_approval_rule_template(
-    approvalRuleTemplateContent,
-    approvalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreateApprovalRuleTemplate",
         Dict{String,Any}(
@@ -408,8 +349,7 @@ function create_approval_rule_template(
 end
 
 """
-    create_branch(branch_name, commit_id, repository_name)
-    create_branch(branch_name, commit_id, repository_name, params::Dict{String,<:Any})
+    create_branch(branch_name, commit_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a branch in a repository and points the branch to a commit.  Calling the create
 branch operation does not set a repository's default branch. To do this, call the update
@@ -422,26 +362,13 @@ default branch operation.
 
 """
 function create_branch(
-    branchName, commitId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "CreateBranch",
-        Dict{String,Any}(
-            "branchName" => branchName,
-            "commitId" => commitId,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_branch(
     branchName,
     commitId,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreateBranch",
         Dict{String,Any}(
@@ -461,8 +388,7 @@ function create_branch(
 end
 
 """
-    create_commit(branch_name, repository_name)
-    create_commit(branch_name, repository_name, params::Dict{String,<:Any})
+    create_commit(branch_name, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a commit for a repository on the tip of a specified branch.
 
@@ -471,38 +397,26 @@ Creates a commit for a repository on the tip of a specified branch.
 - `repository_name`: The name of the repository where you create the commit.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the commit. This information is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the commit. This information is used
   as both the author and committer for the commit.
-- `"commitMessage"`: The commit message you want to include in the commit. Commit messages
+- `"commit_message"`: The commit message you want to include in the commit. Commit messages
   are limited to 256 KB. If no message is specified, a default message is used.
-- `"deleteFiles"`: The files to delete in this commit. These files still exist in earlier
+- `"delete_files"`: The files to delete in this commit. These files still exist in earlier
   commits.
 - `"email"`: The email address of the person who created the commit.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If true, a ..gitkeep file is
   created for empty folders. The default is false.
-- `"parentCommitId"`: The ID of the commit that is the parent of the commit you create. Not
-  required if this is an empty repository.
-- `"putFiles"`: The files to add or update in this commit.
-- `"setFileModes"`: The file modes to update for files in this commit.
+- `"parent_commit_id"`: The ID of the commit that is the parent of the commit you create.
+  Not required if this is an empty repository.
+- `"put_files"`: The files to add or update in this commit.
+- `"set_file_modes"`: The file modes to update for files in this commit.
 """
 function create_commit(
-    branchName, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    branchName, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "CreateCommit",
-        Dict{String,Any}("branchName" => branchName, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_commit(
-    branchName,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreateCommit",
         Dict{String,Any}(
@@ -520,8 +434,7 @@ function create_commit(
 end
 
 """
-    create_pull_request(targets, title)
-    create_pull_request(targets, title, params::Dict{String,<:Any})
+    create_pull_request(targets, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a pull request in the specified repository.
 
@@ -533,33 +446,19 @@ Creates a pull request in the specified repository.
   to other users in the repository.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
-  in a request, ensures the request cannot be repeated with a changed parameter. If a request
-  is received with the same parameters and a token is included, the request returns
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique, client-generated idempotency token that, when
+  provided in a request, ensures the request cannot be repeated with a changed parameter. If
+  a request is received with the same parameters and a token is included, the request returns
   information about the initial request that used that token.  The AWS SDKs prepopulate
   client request tokens. If you are using an AWS SDK, an idempotency token is created for
   you.
 - `"description"`: A description of the pull request.
 """
 function create_pull_request(
-    targets, title; aws_config::AbstractAWSConfig=global_aws_config()
+    targets, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "CreatePullRequest",
-        Dict{String,Any}(
-            "targets" => targets, "title" => title, "clientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_pull_request(
-    targets,
-    title,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreatePullRequest",
         Dict{String,Any}(
@@ -568,7 +467,7 @@ function create_pull_request(
                 Dict{String,Any}(
                     "targets" => targets,
                     "title" => title,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -579,8 +478,7 @@ function create_pull_request(
 end
 
 """
-    create_pull_request_approval_rule(approval_rule_content, approval_rule_name, pull_request_id)
-    create_pull_request_approval_rule(approval_rule_content, approval_rule_name, pull_request_id, params::Dict{String,<:Any})
+    create_pull_request_approval_rule(approval_rule_content, approval_rule_name, pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an approval rule for a pull request.
 
@@ -612,25 +510,9 @@ function create_pull_request_approval_rule(
     approvalRuleName,
     pullRequestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "CreatePullRequestApprovalRule",
-        Dict{String,Any}(
-            "approvalRuleContent" => approvalRuleContent,
-            "approvalRuleName" => approvalRuleName,
-            "pullRequestId" => pullRequestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_pull_request_approval_rule(
-    approvalRuleContent,
-    approvalRuleName,
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreatePullRequestApprovalRule",
         Dict{String,Any}(
@@ -650,8 +532,7 @@ function create_pull_request_approval_rule(
 end
 
 """
-    create_repository(repository_name)
-    create_repository(repository_name, params::Dict{String,<:Any})
+    create_repository(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new, empty repository.
 
@@ -663,8 +544,8 @@ Creates a new, empty repository.
   User Guide. The suffix .git is prohibited.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"repositoryDescription"`: A comment or description about the new repository.  The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"repository_description"`: A comment or description about the new repository.  The
   description field for a repository accepts all HTML characters and all valid Unicode
   characters. Applications that do not HTML-encode the description and display it in a
   webpage can expose users to potentially malicious code. Make sure that you HTML-encode the
@@ -673,20 +554,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: One or more tag key-value pairs to use when tagging this repository.
 """
 function create_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "CreateRepository",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_repository(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreateRepository",
         Dict{String,Any}(
@@ -698,8 +568,7 @@ function create_repository(
 end
 
 """
-    create_unreferenced_merge_commit(destination_commit_specifier, merge_option, repository_name, source_commit_specifier)
-    create_unreferenced_merge_commit(destination_commit_specifier, merge_option, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    create_unreferenced_merge_commit(destination_commit_specifier, merge_option, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an unreferenced commit that represents the result of merging two branches using a
 specified merge strategy. This can help you determine the outcome of a potential merge.
@@ -718,22 +587,22 @@ specify its commit ID or otherwise reference it.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the unreferenced commit. This
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the unreferenced commit. This
   information is used as both the author and committer for the commit.
-- `"commitMessage"`: The commit message for the unreferenced commit.
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
+- `"commit_message"`: The commit message for the unreferenced commit.
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
 - `"email"`: The email address for the person who created the unreferenced commit.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If this is specified as true, a
   .gitkeep file is created for empty folders. The default is false.
 """
@@ -743,27 +612,9 @@ function create_unreferenced_merge_commit(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "CreateUnreferencedMergeCommit",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "mergeOption" => mergeOption,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_unreferenced_merge_commit(
-    destinationCommitSpecifier,
-    mergeOption,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "CreateUnreferencedMergeCommit",
         Dict{String,Any}(
@@ -784,8 +635,7 @@ function create_unreferenced_merge_commit(
 end
 
 """
-    delete_approval_rule_template(approval_rule_template_name)
-    delete_approval_rule_template(approval_rule_template_name, params::Dict{String,<:Any})
+    delete_approval_rule_template(approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specified approval rule template. Deleting a template does not remove approval
 rules on pull requests already created with the template.
@@ -795,20 +645,9 @@ rules on pull requests already created with the template.
 
 """
 function delete_approval_rule_template(
-    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "DeleteApprovalRuleTemplate",
-        Dict{String,Any}("approvalRuleTemplateName" => approvalRuleTemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_approval_rule_template(
-    approvalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeleteApprovalRuleTemplate",
         Dict{String,Any}(
@@ -824,8 +663,7 @@ function delete_approval_rule_template(
 end
 
 """
-    delete_branch(branch_name, repository_name)
-    delete_branch(branch_name, repository_name, params::Dict{String,<:Any})
+    delete_branch(branch_name, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a branch from a repository, unless that branch is the default branch for the
 repository.
@@ -836,21 +674,9 @@ repository.
 
 """
 function delete_branch(
-    branchName, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    branchName, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "DeleteBranch",
-        Dict{String,Any}("branchName" => branchName, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_branch(
-    branchName,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeleteBranch",
         Dict{String,Any}(
@@ -868,8 +694,7 @@ function delete_branch(
 end
 
 """
-    delete_comment_content(comment_id)
-    delete_comment_content(comment_id, params::Dict{String,<:Any})
+    delete_comment_content(comment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the content of a comment made on a change, file, or commit in a repository.
 
@@ -879,20 +704,9 @@ Deletes the content of a comment made on a change, file, or commit in a reposito
 
 """
 function delete_comment_content(
-    commentId; aws_config::AbstractAWSConfig=global_aws_config()
+    commentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "DeleteCommentContent",
-        Dict{String,Any}("commentId" => commentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_comment_content(
-    commentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeleteCommentContent",
         Dict{String,Any}(
@@ -904,8 +718,7 @@ function delete_comment_content(
 end
 
 """
-    delete_file(branch_name, file_path, parent_commit_id, repository_name)
-    delete_file(branch_name, file_path, parent_commit_id, repository_name, params::Dict{String,<:Any})
+    delete_file(branch_name, file_path, parent_commit_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specified file from a specified branch. A commit is created on the branch that
 contains the revision. The file still exists in the commits earlier to the commit that
@@ -922,17 +735,17 @@ contains the deletion.
 - `repository_name`: The name of the repository that contains the file to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"commitMessage"`: The commit message you want to include as part of deleting the file.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_message"`: The commit message you want to include as part of deleting the file.
   Commit messages are limited to 256 KB. If no message is specified, a default message is
   used.
 - `"email"`: The email address for the commit that deletes the file. If no email address is
   specified, the email address is left blank.
-- `"keepEmptyFolders"`: If a file is the only object in the folder or directory, specifies
-  whether to delete the folder or directory that contains the file. By default, empty folders
-  are deleted. This includes empty folders that are part of the directory structure. For
-  example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty,
-  deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
+- `"keep_empty_folders"`: If a file is the only object in the folder or directory,
+  specifies whether to delete the folder or directory that contains the file. By default,
+  empty folders are deleted. This includes empty folders that are part of the directory
+  structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are
+  empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
 - `"name"`: The name of the author of the commit that deletes the file. If no name is
   specified, the user's ARN is used as the author name and committer name.
 """
@@ -942,27 +755,9 @@ function delete_file(
     parentCommitId,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "DeleteFile",
-        Dict{String,Any}(
-            "branchName" => branchName,
-            "filePath" => filePath,
-            "parentCommitId" => parentCommitId,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_file(
-    branchName,
-    filePath,
-    parentCommitId,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeleteFile",
         Dict{String,Any}(
@@ -983,8 +778,7 @@ function delete_file(
 end
 
 """
-    delete_pull_request_approval_rule(approval_rule_name, pull_request_id)
-    delete_pull_request_approval_rule(approval_rule_name, pull_request_id, params::Dict{String,<:Any})
+    delete_pull_request_approval_rule(approval_rule_name, pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an approval rule from a specified pull request. Approval rules can be deleted from
 a pull request only if the pull request is open, and if the approval rule was created
@@ -999,23 +793,12 @@ from a merged or closed pull request.
 
 """
 function delete_pull_request_approval_rule(
-    approvalRuleName, pullRequestId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "DeletePullRequestApprovalRule",
-        Dict{String,Any}(
-            "approvalRuleName" => approvalRuleName, "pullRequestId" => pullRequestId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_pull_request_approval_rule(
     approvalRuleName,
-    pullRequestId,
-    params::AbstractDict{String};
+    pullRequestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeletePullRequestApprovalRule",
         Dict{String,Any}(
@@ -1033,8 +816,7 @@ function delete_pull_request_approval_rule(
 end
 
 """
-    delete_repository(repository_name)
-    delete_repository(repository_name, params::Dict{String,<:Any})
+    delete_repository(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a repository. If a specified repository was already deleted, a null repository ID
 is returned.  Deleting a repository also deletes all associated objects and metadata. After
@@ -1045,20 +827,9 @@ a repository is deleted, all future push calls to the deleted repository fail.
 
 """
 function delete_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "DeleteRepository",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_repository(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DeleteRepository",
         Dict{String,Any}(
@@ -1070,8 +841,7 @@ function delete_repository(
 end
 
 """
-    describe_merge_conflicts(destination_commit_specifier, file_path, merge_option, repository_name, source_commit_specifier)
-    describe_merge_conflicts(destination_commit_specifier, file_path, merge_option, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    describe_merge_conflicts(destination_commit_specifier, file_path, merge_option, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about one or more merge conflicts in the attempted merge of two commit
 specifiers using the squash or three-way merge strategy. If the merge option for the
@@ -1088,17 +858,17 @@ attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
-- `"maxMergeHunks"`: The maximum number of merge hunks to include in the output.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"max_merge_hunks"`: The maximum number of merge hunks to include in the output.
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function describe_merge_conflicts(
@@ -1108,29 +878,9 @@ function describe_merge_conflicts(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "DescribeMergeConflicts",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "filePath" => filePath,
-            "mergeOption" => mergeOption,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_merge_conflicts(
-    destinationCommitSpecifier,
-    filePath,
-    mergeOption,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DescribeMergeConflicts",
         Dict{String,Any}(
@@ -1152,8 +902,7 @@ function describe_merge_conflicts(
 end
 
 """
-    describe_pull_request_events(pull_request_id)
-    describe_pull_request_events(pull_request_id, params::Dict{String,<:Any})
+    describe_pull_request_events(pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about one or more pull request events.
 
@@ -1162,33 +911,22 @@ Returns information about one or more pull request events.
   ListPullRequests.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"actorArn"`: The Amazon Resource Name (ARN) of the user whose actions resulted in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"actor_arn"`: The Amazon Resource Name (ARN) of the user whose actions resulted in the
   event. Examples include updating the pull request with more commits or changing the status
   of a pull request.
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results. The default is 100 events, which is also the maximum number of events that can be
   returned in a result.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
-- `"pullRequestEventType"`: Optional. The pull request event type about which you want to
-  return information.
+- `"pull_request_event_type"`: Optional. The pull request event type about which you want
+  to return information.
 """
 function describe_pull_request_events(
-    pullRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "DescribePullRequestEvents",
-        Dict{String,Any}("pullRequestId" => pullRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_pull_request_events(
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DescribePullRequestEvents",
         Dict{String,Any}(
@@ -1200,8 +938,7 @@ function describe_pull_request_events(
 end
 
 """
-    disassociate_approval_rule_template_from_repository(approval_rule_template_name, repository_name)
-    disassociate_approval_rule_template_from_repository(approval_rule_template_name, repository_name, params::Dict{String,<:Any})
+    disassociate_approval_rule_template_from_repository(approval_rule_template_name, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between a template and a repository so that approval rules based on
 the template are not automatically created when pull requests are created in the specified
@@ -1218,23 +955,9 @@ function disassociate_approval_rule_template_from_repository(
     approvalRuleTemplateName,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "DisassociateApprovalRuleTemplateFromRepository",
-        Dict{String,Any}(
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_approval_rule_template_from_repository(
-    approvalRuleTemplateName,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "DisassociateApprovalRuleTemplateFromRepository",
         Dict{String,Any}(
@@ -1253,8 +976,7 @@ function disassociate_approval_rule_template_from_repository(
 end
 
 """
-    evaluate_pull_request_approval_rules(pull_request_id, revision_id)
-    evaluate_pull_request_approval_rules(pull_request_id, revision_id, params::Dict{String,<:Any})
+    evaluate_pull_request_approval_rules(pull_request_id, revision_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Evaluates whether a pull request has met all the conditions specified in its associated
 approval rules.
@@ -1266,21 +988,9 @@ approval rules.
 
 """
 function evaluate_pull_request_approval_rules(
-    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "EvaluatePullRequestApprovalRules",
-        Dict{String,Any}("pullRequestId" => pullRequestId, "revisionId" => revisionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function evaluate_pull_request_approval_rules(
-    pullRequestId,
-    revisionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "EvaluatePullRequestApprovalRules",
         Dict{String,Any}(
@@ -1298,8 +1008,7 @@ function evaluate_pull_request_approval_rules(
 end
 
 """
-    get_approval_rule_template(approval_rule_template_name)
-    get_approval_rule_template(approval_rule_template_name, params::Dict{String,<:Any})
+    get_approval_rule_template(approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a specified approval rule template.
 
@@ -1309,20 +1018,9 @@ Returns information about a specified approval rule template.
 
 """
 function get_approval_rule_template(
-    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetApprovalRuleTemplate",
-        Dict{String,Any}("approvalRuleTemplateName" => approvalRuleTemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_approval_rule_template(
-    approvalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetApprovalRuleTemplate",
         Dict{String,Any}(
@@ -1338,8 +1036,7 @@ function get_approval_rule_template(
 end
 
 """
-    get_blob(blob_id, repository_name)
-    get_blob(blob_id, repository_name, params::Dict{String,<:Any})
+    get_blob(blob_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the base-64 encoded content of an individual blob in a repository.
 
@@ -1348,20 +1045,10 @@ Returns the base-64 encoded content of an individual blob in a repository.
 - `repository_name`: The name of the repository that contains the blob.
 
 """
-function get_blob(blobId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "GetBlob",
-        Dict{String,Any}("blobId" => blobId, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_blob(
-    blobId,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    blobId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetBlob",
         Dict{String,Any}(
@@ -1377,31 +1064,25 @@ function get_blob(
 end
 
 """
-    get_branch()
-    get_branch(params::Dict{String,<:Any})
+    get_branch(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a repository branch, including its name and the last commit ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"branchName"`: The name of the branch for which you want to retrieve information.
-- `"repositoryName"`: The name of the repository that contains the branch for which you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"branch_name"`: The name of the branch for which you want to retrieve information.
+- `"repository_name"`: The name of the repository that contains the branch for which you
   want to retrieve information.
 """
-function get_branch(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit("GetBranch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_branch(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_branch(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetBranch", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_comment(comment_id)
-    get_comment(comment_id, params::Dict{String,<:Any})
+    get_comment(comment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the content of a comment made on a change, file, or commit in a repository.
 Reaction counts might include numbers from user identities who were deleted after the
@@ -1413,19 +1094,10 @@ GetCommentReactions.
   GetCommentsForComparedCommit or GetCommentsForPullRequest.
 
 """
-function get_comment(commentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "GetComment",
-        Dict{String,Any}("commentId" => commentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_comment(
-    commentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    commentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetComment",
         Dict{String,Any}(
@@ -1437,8 +1109,7 @@ function get_comment(
 end
 
 """
-    get_comment_reactions(comment_id)
-    get_comment_reactions(comment_id, params::Dict{String,<:Any})
+    get_comment_reactions(comment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about reactions to a specified comment ID. Reactions from users who
 have been deleted will not be included in the count.
@@ -1447,27 +1118,18 @@ have been deleted will not be included in the count.
 - `comment_id`: The ID of the comment for which you want to get reactions information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results. The default is the same as the allowed maximum, 1,000.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
-- `"reactionUserArn"`: Optional. The Amazon Resource Name (ARN) of the user or identity for
-  which you want to get reaction information.
+- `"reaction_user_arn"`: Optional. The Amazon Resource Name (ARN) of the user or identity
+  for which you want to get reaction information.
 """
-function get_comment_reactions(commentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "GetCommentReactions",
-        Dict{String,Any}("commentId" => commentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_comment_reactions(
-    commentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    commentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetCommentReactions",
         Dict{String,Any}(
@@ -1479,8 +1141,7 @@ function get_comment_reactions(
 end
 
 """
-    get_comments_for_compared_commit(after_commit_id, repository_name)
-    get_comments_for_compared_commit(after_commit_id, repository_name, params::Dict{String,<:Any})
+    get_comments_for_compared_commit(after_commit_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about comments made on the comparison between two commits.  Reaction
 counts might include numbers from user identities who were deleted after the reaction was
@@ -1492,32 +1153,21 @@ made. For a count of reactions from active identities, use GetCommentReactions.
 - `repository_name`: The name of the repository where you want to compare commits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"beforeCommitId"`: To establish the directionality of the comparison, the full commit ID
-  of the before commit.
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"before_commit_id"`: To establish the directionality of the comparison, the full commit
+  ID of the before commit.
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results. The default is 100 comments, but you can configure up to 500.
-- `"nextToken"`: An enumeration token that when provided in a request, returns the next
+- `"next_token"`: An enumeration token that when provided in a request, returns the next
   batch of the results.
 """
 function get_comments_for_compared_commit(
-    afterCommitId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "GetCommentsForComparedCommit",
-        Dict{String,Any}(
-            "afterCommitId" => afterCommitId, "repositoryName" => repositoryName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_comments_for_compared_commit(
     afterCommitId,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetCommentsForComparedCommit",
         Dict{String,Any}(
@@ -1535,8 +1185,7 @@ function get_comments_for_compared_commit(
 end
 
 """
-    get_comments_for_pull_request(pull_request_id)
-    get_comments_for_pull_request(pull_request_id, params::Dict{String,<:Any})
+    get_comments_for_pull_request(pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns comments made on a pull request.  Reaction counts might include numbers from user
 identities who were deleted after the reaction was made. For a count of reactions from
@@ -1547,33 +1196,22 @@ active identities, use GetCommentReactions.
   ListPullRequests.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"afterCommitId"`: The full commit ID of the commit in the source branch that was the tip
-  of the branch at the time the comment was made.
-- `"beforeCommitId"`: The full commit ID of the commit in the destination branch that was
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after_commit_id"`: The full commit ID of the commit in the source branch that was the
+  tip of the branch at the time the comment was made.
+- `"before_commit_id"`: The full commit ID of the commit in the destination branch that was
   the tip of the branch at the time the pull request was created.
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results. The default is 100 comments. You can return up to 500 comments with a single
   request.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
-- `"repositoryName"`: The name of the repository that contains the pull request.
+- `"repository_name"`: The name of the repository that contains the pull request.
 """
 function get_comments_for_pull_request(
-    pullRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetCommentsForPullRequest",
-        Dict{String,Any}("pullRequestId" => pullRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_comments_for_pull_request(
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetCommentsForPullRequest",
         Dict{String,Any}(
@@ -1585,8 +1223,7 @@ function get_comments_for_pull_request(
 end
 
 """
-    get_commit(commit_id, repository_name)
-    get_commit(commit_id, repository_name, params::Dict{String,<:Any})
+    get_commit(commit_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a commit, including commit message and committer information.
 
@@ -1596,21 +1233,9 @@ Returns information about a commit, including commit message and committer infor
 
 """
 function get_commit(
-    commitId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    commitId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetCommit",
-        Dict{String,Any}("commitId" => commitId, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_commit(
-    commitId,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetCommit",
         Dict{String,Any}(
@@ -1628,8 +1253,7 @@ function get_commit(
 end
 
 """
-    get_differences(after_commit_specifier, repository_name)
-    get_differences(after_commit_specifier, repository_name, params::Dict{String,<:Any})
+    get_differences(after_commit_specifier, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the differences in a valid commit specifier (such as a branch,
 tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a
@@ -1641,41 +1265,29 @@ specified path.
 - `repository_name`: The name of the repository where you want to get differences.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: A non-zero, non-negative integer used to limit the number of returned
-  results.
-- `"NextToken"`: An enumeration token that, when provided in a request, returns the next
-  batch of the results.
-- `"afterPath"`: The file path in which to check differences. Limits the results to this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after_path"`: The file path in which to check differences. Limits the results to this
   path. Can also be used to specify the changed name of a directory or folder, if it has
   changed. If not specified, differences are shown for all paths.
-- `"beforeCommitSpecifier"`: The branch, tag, HEAD, or other fully qualified reference used
-  to identify a commit (for example, the full commit ID). Optional. If not specified, all
-  changes before the afterCommitSpecifier value are shown. If you do not use
+- `"before_commit_specifier"`: The branch, tag, HEAD, or other fully qualified reference
+  used to identify a commit (for example, the full commit ID). Optional. If not specified,
+  all changes before the afterCommitSpecifier value are shown. If you do not use
   beforeCommitSpecifier in your request, consider limiting the results with maxResults.
-- `"beforePath"`: The file path in which to check for differences. Limits the results to
+- `"before_path"`: The file path in which to check for differences. Limits the results to
   this path. Can also be used to specify the previous name of a directory or folder. If
   beforePath and afterPath are not specified, differences are shown for all paths.
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
+  results.
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
+  batch of the results.
 """
 function get_differences(
-    afterCommitSpecifier, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "GetDifferences",
-        Dict{String,Any}(
-            "afterCommitSpecifier" => afterCommitSpecifier,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_differences(
     afterCommitSpecifier,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetDifferences",
         Dict{String,Any}(
@@ -1694,8 +1306,7 @@ function get_differences(
 end
 
 """
-    get_file(file_path, repository_name)
-    get_file(file_path, repository_name, params::Dict{String,<:Any})
+    get_file(file_path, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the base-64 encoded contents of a specified file and its metadata.
 
@@ -1706,27 +1317,15 @@ Returns the base-64 encoded contents of a specified file and its metadata.
 - `repository_name`: The name of the repository that contains the file.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"commitSpecifier"`: The fully quaified reference that identifies the commit that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_specifier"`: The fully quaified reference that identifies the commit that
   contains the file. For example, you can specify a full commit ID, a tag, a branch name, or
   a reference such as refs/heads/master. If none is provided, the head commit is used.
 """
 function get_file(
-    filePath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    filePath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetFile",
-        Dict{String,Any}("filePath" => filePath, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_file(
-    filePath,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetFile",
         Dict{String,Any}(
@@ -1744,8 +1343,7 @@ function get_file(
 end
 
 """
-    get_folder(folder_path, repository_name)
-    get_folder(folder_path, repository_name, params::Dict{String,<:Any})
+    get_folder(folder_path, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the contents of a specified folder in a repository.
 
@@ -1756,28 +1354,16 @@ Returns the contents of a specified folder in a repository.
 - `repository_name`: The name of the repository.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"commitSpecifier"`: A fully qualified reference used to identify a commit that contains
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_specifier"`: A fully qualified reference used to identify a commit that contains
   the version of the folder's content to return. A fully qualified reference can be a commit
   ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder
   content is returned as it exists in the HEAD commit.
 """
 function get_folder(
-    folderPath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    folderPath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetFolder",
-        Dict{String,Any}("folderPath" => folderPath, "repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_folder(
-    folderPath,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetFolder",
         Dict{String,Any}(
@@ -1795,8 +1381,7 @@ function get_folder(
 end
 
 """
-    get_merge_commit(destination_commit_specifier, repository_name, source_commit_specifier)
-    get_merge_commit(destination_commit_specifier, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    get_merge_commit(destination_commit_specifier, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a specified merge commit.
 
@@ -1809,12 +1394,12 @@ Returns information about a specified merge commit.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
@@ -1824,25 +1409,9 @@ function get_merge_commit(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "GetMergeCommit",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_merge_commit(
-    destinationCommitSpecifier,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetMergeCommit",
         Dict{String,Any}(
@@ -1862,8 +1431,7 @@ function get_merge_commit(
 end
 
 """
-    get_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier)
-    get_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    get_merge_conflicts(destination_commit_specifier, merge_option, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about merge conflicts between the before and after commit IDs for a
 pull request in a repository.
@@ -1877,17 +1445,17 @@ pull request in a repository.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
-- `"maxConflictFiles"`: The maximum number of files to include in the output.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"max_conflict_files"`: The maximum number of files to include in the output.
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function get_merge_conflicts(
@@ -1896,27 +1464,9 @@ function get_merge_conflicts(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "GetMergeConflicts",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "mergeOption" => mergeOption,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_merge_conflicts(
-    destinationCommitSpecifier,
-    mergeOption,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetMergeConflicts",
         Dict{String,Any}(
@@ -1937,8 +1487,7 @@ function get_merge_conflicts(
 end
 
 """
-    get_merge_options(destination_commit_specifier, repository_name, source_commit_specifier)
-    get_merge_options(destination_commit_specifier, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    get_merge_options(destination_commit_specifier, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the merge options available for merging two specified branches.
 For details about why a merge option is not available, use GetMergeConflicts or
@@ -1953,12 +1502,12 @@ DescribeMergeConflicts.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
@@ -1968,25 +1517,9 @@ function get_merge_options(
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "GetMergeOptions",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_merge_options(
-    destinationCommitSpecifier,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetMergeOptions",
         Dict{String,Any}(
@@ -2006,8 +1539,7 @@ function get_merge_options(
 end
 
 """
-    get_pull_request(pull_request_id)
-    get_pull_request(pull_request_id, params::Dict{String,<:Any})
+    get_pull_request(pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a pull request in a specified repository.
 
@@ -2016,19 +1548,10 @@ Gets information about a pull request in a specified repository.
   ListPullRequests.
 
 """
-function get_pull_request(pullRequestId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "GetPullRequest",
-        Dict{String,Any}("pullRequestId" => pullRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_pull_request(
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    pullRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetPullRequest",
         Dict{String,Any}(
@@ -2040,8 +1563,7 @@ function get_pull_request(
 end
 
 """
-    get_pull_request_approval_states(pull_request_id, revision_id)
-    get_pull_request_approval_states(pull_request_id, revision_id, params::Dict{String,<:Any})
+    get_pull_request_approval_states(pull_request_id, revision_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the approval states for a specified pull request. Approval states
 only apply to pull requests that have one or more approval rules applied to them.
@@ -2052,21 +1574,9 @@ only apply to pull requests that have one or more approval rules applied to them
 
 """
 function get_pull_request_approval_states(
-    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetPullRequestApprovalStates",
-        Dict{String,Any}("pullRequestId" => pullRequestId, "revisionId" => revisionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_pull_request_approval_states(
-    pullRequestId,
-    revisionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetPullRequestApprovalStates",
         Dict{String,Any}(
@@ -2084,8 +1594,7 @@ function get_pull_request_approval_states(
 end
 
 """
-    get_pull_request_override_state(pull_request_id, revision_id)
-    get_pull_request_override_state(pull_request_id, revision_id, params::Dict{String,<:Any})
+    get_pull_request_override_state(pull_request_id, revision_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about whether approval rules have been set aside (overridden) for a
 pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that
@@ -2099,21 +1608,9 @@ overrode the rules and their requirements for the pull request.
 
 """
 function get_pull_request_override_state(
-    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId, revisionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetPullRequestOverrideState",
-        Dict{String,Any}("pullRequestId" => pullRequestId, "revisionId" => revisionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_pull_request_override_state(
-    pullRequestId,
-    revisionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetPullRequestOverrideState",
         Dict{String,Any}(
@@ -2131,8 +1628,7 @@ function get_pull_request_override_state(
 end
 
 """
-    get_repository(repository_name)
-    get_repository(repository_name, params::Dict{String,<:Any})
+    get_repository(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a repository.  The description field for a repository accepts all
 HTML characters and all valid Unicode characters. Applications that do not HTML-encode the
@@ -2144,19 +1640,10 @@ to display the repository description on a webpage.
 - `repository_name`: The name of the repository to get information about.
 
 """
-function get_repository(repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "GetRepository",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_repository(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetRepository",
         Dict{String,Any}(
@@ -2168,8 +1655,7 @@ function get_repository(
 end
 
 """
-    get_repository_triggers(repository_name)
-    get_repository_triggers(repository_name, params::Dict{String,<:Any})
+    get_repository_triggers(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about triggers configured for a repository.
 
@@ -2178,20 +1664,9 @@ Gets information about triggers configured for a repository.
 
 """
 function get_repository_triggers(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "GetRepositoryTriggers",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_repository_triggers(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "GetRepositoryTriggers",
         Dict{String,Any}(
@@ -2203,27 +1678,22 @@ function get_repository_triggers(
 end
 
 """
-    list_approval_rule_templates()
-    list_approval_rule_templates(params::Dict{String,<:Any})
+    list_approval_rule_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all approval rule templates in the specified AWS Region in your AWS account. If an
 AWS Region is not specified, the AWS Region where you are signed in is used.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_approval_rule_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "ListApprovalRuleTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_approval_rule_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_approval_rule_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListApprovalRuleTemplates",
         params;
@@ -2233,8 +1703,7 @@ function list_approval_rule_templates(
 end
 
 """
-    list_associated_approval_rule_templates_for_repository(repository_name)
-    list_associated_approval_rule_templates_for_repository(repository_name, params::Dict{String,<:Any})
+    list_associated_approval_rule_templates_for_repository(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all approval rule templates that are associated with a specified repository.
 
@@ -2243,27 +1712,16 @@ Lists all approval rule templates that are associated with a specified repositor
   approval rule templates.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_associated_approval_rule_templates_for_repository(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "ListAssociatedApprovalRuleTemplatesForRepository",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_associated_approval_rule_templates_for_repository(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListAssociatedApprovalRuleTemplatesForRepository",
         Dict{String,Any}(
@@ -2275,8 +1733,7 @@ function list_associated_approval_rule_templates_for_repository(
 end
 
 """
-    list_branches(repository_name)
-    list_branches(repository_name, params::Dict{String,<:Any})
+    list_branches(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about one or more branches in a repository.
 
@@ -2284,22 +1741,13 @@ Gets information about one or more branches in a repository.
 - `repository_name`: The name of the repository that contains the branches.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: An enumeration token that allows the operation to batch the results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: An enumeration token that allows the operation to batch the results.
 """
-function list_branches(repositoryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "ListBranches",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_branches(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListBranches",
         Dict{String,Any}(
@@ -2311,8 +1759,7 @@ function list_branches(
 end
 
 """
-    list_pull_requests(repository_name)
-    list_pull_requests(repository_name, params::Dict{String,<:Any})
+    list_pull_requests(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of pull requests for a specified repository. The return list can be refined
 by pull request status or pull request author ARN.
@@ -2321,31 +1768,20 @@ by pull request status or pull request author ARN.
 - `repository_name`: The name of the repository for which you want to list pull requests.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorArn"`: Optional. The Amazon Resource Name (ARN) of the user who created the pull
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_arn"`: Optional. The Amazon Resource Name (ARN) of the user who created the pull
   request. If used, this filters the results to pull requests created by that user.
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
-- `"pullRequestStatus"`: Optional. The status of the pull request. If used, this refines
+- `"pull_request_status"`: Optional. The status of the pull request. If used, this refines
   the results to the pull requests that match the specified status.
 """
 function list_pull_requests(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "ListPullRequests",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_pull_requests(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListPullRequests",
         Dict{String,Any}(
@@ -2357,35 +1793,27 @@ function list_pull_requests(
 end
 
 """
-    list_repositories()
-    list_repositories(params::Dict{String,<:Any})
+    list_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about one or more repositories.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: An enumeration token that allows the operation to batch the results of the
-  operation. Batch sizes are 1,000 for list repository operations. When the client sends the
-  token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: An enumeration token that allows the operation to batch the results of
+  the operation. Batch sizes are 1,000 for list repository operations. When the client sends
+  the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
 - `"order"`: The order in which to sort the results of a list repositories operation.
-- `"sortBy"`: The criteria used to sort the results of a list repositories operation.
+- `"sort_by"`: The criteria used to sort the results of a list repositories operation.
 """
-function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_repositories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListRepositories", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_repositories_for_approval_rule_template(approval_rule_template_name)
-    list_repositories_for_approval_rule_template(approval_rule_template_name, params::Dict{String,<:Any})
+    list_repositories_for_approval_rule_template(approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all repositories associated with the specified approval rule template.
 
@@ -2394,27 +1822,16 @@ Lists all repositories associated with the specified approval rule template.
   to list repositories that are associated with that template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: A non-zero, non-negative integer used to limit the number of returned
   results.
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_repositories_for_approval_rule_template(
-    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    approvalRuleTemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "ListRepositoriesForApprovalRuleTemplate",
-        Dict{String,Any}("approvalRuleTemplateName" => approvalRuleTemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_repositories_for_approval_rule_template(
-    approvalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListRepositoriesForApprovalRuleTemplate",
         Dict{String,Any}(
@@ -2430,8 +1847,7 @@ function list_repositories_for_approval_rule_template(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS
 CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and
@@ -2442,25 +1858,14 @@ Operations in the AWS CodeCommit User Guide.
   information about tags, if any.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: An enumeration token that, when provided in a request, returns the next
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "ListTagsForResource",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2472,8 +1877,7 @@ function list_tags_for_resource(
 end
 
 """
-    merge_branches_by_fast_forward(destination_commit_specifier, repository_name, source_commit_specifier)
-    merge_branches_by_fast_forward(destination_commit_specifier, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    merge_branches_by_fast_forward(destination_commit_specifier, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Merges two branches using the fast-forward merge strategy.
 
@@ -2485,33 +1889,17 @@ Merges two branches using the fast-forward merge strategy.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"targetBranch"`: The branch where the merge is applied.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"target_branch"`: The branch where the merge is applied.
 """
 function merge_branches_by_fast_forward(
     destinationCommitSpecifier,
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "MergeBranchesByFastForward",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_branches_by_fast_forward(
-    destinationCommitSpecifier,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergeBranchesByFastForward",
         Dict{String,Any}(
@@ -2531,8 +1919,7 @@ function merge_branches_by_fast_forward(
 end
 
 """
-    merge_branches_by_squash(destination_commit_specifier, repository_name, source_commit_specifier)
-    merge_branches_by_squash(destination_commit_specifier, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    merge_branches_by_squash(destination_commit_specifier, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Merges two branches using the squash merge strategy.
 
@@ -2544,51 +1931,35 @@ Merges two branches using the squash merge strategy.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the commit. This information is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the commit. This information is used
   as both the author and committer for the commit.
-- `"commitMessage"`: The commit message for the merge.
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
+- `"commit_message"`: The commit message for the merge.
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If this is specified as true, a
   .gitkeep file is created for empty folders. The default is false.
-- `"targetBranch"`: The branch where the merge is applied.
+- `"target_branch"`: The branch where the merge is applied.
 """
 function merge_branches_by_squash(
     destinationCommitSpecifier,
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "MergeBranchesBySquash",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_branches_by_squash(
-    destinationCommitSpecifier,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergeBranchesBySquash",
         Dict{String,Any}(
@@ -2608,8 +1979,7 @@ function merge_branches_by_squash(
 end
 
 """
-    merge_branches_by_three_way(destination_commit_specifier, repository_name, source_commit_specifier)
-    merge_branches_by_three_way(destination_commit_specifier, repository_name, source_commit_specifier, params::Dict{String,<:Any})
+    merge_branches_by_three_way(destination_commit_specifier, repository_name, source_commit_specifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Merges two specified branches using the three-way merge strategy.
 
@@ -2621,51 +1991,35 @@ Merges two specified branches using the three-way merge strategy.
   to identify a commit (for example, a branch name or a full commit ID).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the commit. This information is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the commit. This information is used
   as both the author and committer for the commit.
-- `"commitMessage"`: The commit message to include in the commit information for the merge.
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
+- `"commit_message"`: The commit message to include in the commit information for the merge.
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If true, a .gitkeep file is
   created for empty folders. The default is false.
-- `"targetBranch"`: The branch where the merge is applied.
+- `"target_branch"`: The branch where the merge is applied.
 """
 function merge_branches_by_three_way(
     destinationCommitSpecifier,
     repositoryName,
     sourceCommitSpecifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "MergeBranchesByThreeWay",
-        Dict{String,Any}(
-            "destinationCommitSpecifier" => destinationCommitSpecifier,
-            "repositoryName" => repositoryName,
-            "sourceCommitSpecifier" => sourceCommitSpecifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_branches_by_three_way(
-    destinationCommitSpecifier,
-    repositoryName,
-    sourceCommitSpecifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergeBranchesByThreeWay",
         Dict{String,Any}(
@@ -2685,8 +2039,7 @@ function merge_branches_by_three_way(
 end
 
 """
-    merge_pull_request_by_fast_forward(pull_request_id, repository_name)
-    merge_pull_request_by_fast_forward(pull_request_id, repository_name, params::Dict{String,<:Any})
+    merge_pull_request_by_fast_forward(pull_request_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attempts to merge the source commit of a pull request into the specified destination branch
 for that pull request at the specified commit using the fast-forward merge strategy. If the
@@ -2698,29 +2051,18 @@ merge is successful, it closes the pull request.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"sourceCommitId"`: The full commit ID of the original or updated commit in the pull
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"source_commit_id"`: The full commit ID of the original or updated commit in the pull
   request source branch. Pass this value if you want an exception thrown if the current
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_fast_forward(
-    pullRequestId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "MergePullRequestByFastForward",
-        Dict{String,Any}(
-            "pullRequestId" => pullRequestId, "repositoryName" => repositoryName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_pull_request_by_fast_forward(
     pullRequestId,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergePullRequestByFastForward",
         Dict{String,Any}(
@@ -2738,8 +2080,7 @@ function merge_pull_request_by_fast_forward(
 end
 
 """
-    merge_pull_request_by_squash(pull_request_id, repository_name)
-    merge_pull_request_by_squash(pull_request_id, repository_name, params::Dict{String,<:Any})
+    merge_pull_request_by_squash(pull_request_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attempts to merge the source commit of a pull request into the specified destination branch
 for that pull request at the specified commit using the squash merge strategy. If the merge
@@ -2751,47 +2092,36 @@ is successful, it closes the pull request.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the commit. This information is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the commit. This information is used
   as both the author and committer for the commit.
-- `"commitMessage"`: The commit message to include in the commit information for the merge.
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
+- `"commit_message"`: The commit message to include in the commit information for the merge.
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If true, a .gitkeep file is
   created for empty folders. The default is false.
-- `"sourceCommitId"`: The full commit ID of the original or updated commit in the pull
+- `"source_commit_id"`: The full commit ID of the original or updated commit in the pull
   request source branch. Pass this value if you want an exception thrown if the current
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_squash(
-    pullRequestId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "MergePullRequestBySquash",
-        Dict{String,Any}(
-            "pullRequestId" => pullRequestId, "repositoryName" => repositoryName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_pull_request_by_squash(
     pullRequestId,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergePullRequestBySquash",
         Dict{String,Any}(
@@ -2809,8 +2139,7 @@ function merge_pull_request_by_squash(
 end
 
 """
-    merge_pull_request_by_three_way(pull_request_id, repository_name)
-    merge_pull_request_by_three_way(pull_request_id, repository_name, params::Dict{String,<:Any})
+    merge_pull_request_by_three_way(pull_request_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attempts to merge the source commit of a pull request into the specified destination branch
 for that pull request at the specified commit using the three-way merge strategy. If the
@@ -2822,47 +2151,36 @@ merge is successful, it closes the pull request.
 - `repository_name`: The name of the repository where the pull request was created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"authorName"`: The name of the author who created the commit. This information is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"author_name"`: The name of the author who created the commit. This information is used
   as both the author and committer for the commit.
-- `"commitMessage"`: The commit message to include in the commit information for the merge.
-- `"conflictDetailLevel"`: The level of conflict detail to use. If unspecified, the default
-  FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences
-  in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the
-  same file in both branches has differences on the same line.
-- `"conflictResolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
+- `"commit_message"`: The commit message to include in the commit information for the merge.
+- `"conflict_detail_level"`: The level of conflict detail to use. If unspecified, the
+  default FILE_LEVEL is used, which returns a not-mergeable result if the same file has
+  differences in both branches. If LINE_LEVEL is specified, a conflict is considered not
+  mergeable if the same file in both branches has differences on the same line.
+- `"conflict_resolution"`: If AUTOMERGE is the conflict resolution strategy, a list of
   inputs to use when resolving conflicts during a merge.
-- `"conflictResolutionStrategy"`: Specifies which branch to use when resolving conflicts,
+- `"conflict_resolution_strategy"`: Specifies which branch to use when resolving conflicts,
   or whether to attempt automatically merging two versions of a file. The default is NONE,
   which requires any conflicts to be resolved manually before the merge operation is
   successful.
 - `"email"`: The email address of the person merging the branches. This information is used
   in the commit information for the merge.
-- `"keepEmptyFolders"`: If the commit contains deletions, whether to keep a folder or
+- `"keep_empty_folders"`: If the commit contains deletions, whether to keep a folder or
   folder structure if the changes leave the folders empty. If true, a .gitkeep file is
   created for empty folders. The default is false.
-- `"sourceCommitId"`: The full commit ID of the original or updated commit in the pull
+- `"source_commit_id"`: The full commit ID of the original or updated commit in the pull
   request source branch. Pass this value if you want an exception thrown if the current
   commit ID of the tip of the source branch does not match this commit ID.
 """
 function merge_pull_request_by_three_way(
-    pullRequestId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "MergePullRequestByThreeWay",
-        Dict{String,Any}(
-            "pullRequestId" => pullRequestId, "repositoryName" => repositoryName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function merge_pull_request_by_three_way(
     pullRequestId,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "MergePullRequestByThreeWay",
         Dict{String,Any}(
@@ -2880,8 +2198,7 @@ function merge_pull_request_by_three_way(
 end
 
 """
-    override_pull_request_approval_rules(override_status, pull_request_id, revision_id)
-    override_pull_request_approval_rules(override_status, pull_request_id, revision_id, params::Dict{String,<:Any})
+    override_pull_request_approval_rules(override_status, pull_request_id, revision_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets aside (overrides) all approval rule requirements for a specified pull request.
 
@@ -2901,25 +2218,9 @@ function override_pull_request_approval_rules(
     pullRequestId,
     revisionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "OverridePullRequestApprovalRules",
-        Dict{String,Any}(
-            "overrideStatus" => overrideStatus,
-            "pullRequestId" => pullRequestId,
-            "revisionId" => revisionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function override_pull_request_approval_rules(
-    overrideStatus,
-    pullRequestId,
-    revisionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "OverridePullRequestApprovalRules",
         Dict{String,Any}(
@@ -2939,8 +2240,7 @@ function override_pull_request_approval_rules(
 end
 
 """
-    post_comment_for_compared_commit(after_commit_id, content, repository_name)
-    post_comment_for_compared_commit(after_commit_id, content, repository_name, params::Dict{String,<:Any})
+    post_comment_for_compared_commit(after_commit_id, content, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Posts a comment on the comparison between two commits.
 
@@ -2952,13 +2252,13 @@ Posts a comment on the comparison between two commits.
   comparison between commits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"beforeCommitId"`: To establish the directionality of the comparison, the full commit ID
-  of the before commit. Required for commenting on any commit unless that commit is the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"before_commit_id"`: To establish the directionality of the comparison, the full commit
+  ID of the before commit. Required for commenting on any commit unless that commit is the
   initial commit.
-- `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
-  in a request, ensures the request cannot be repeated with a changed parameter. If a request
-  is received with the same parameters and a token is included, the request returns
+- `"client_request_token"`: A unique, client-generated idempotency token that, when
+  provided in a request, ensures the request cannot be repeated with a changed parameter. If
+  a request is received with the same parameters and a token is included, the request returns
   information about the initial request that used that token.
 - `"location"`: The location of the comparison where you want to comment.
 """
@@ -2967,26 +2267,9 @@ function post_comment_for_compared_commit(
     content,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "PostCommentForComparedCommit",
-        Dict{String,Any}(
-            "afterCommitId" => afterCommitId,
-            "content" => content,
-            "repositoryName" => repositoryName,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function post_comment_for_compared_commit(
-    afterCommitId,
-    content,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PostCommentForComparedCommit",
         Dict{String,Any}(
@@ -2996,7 +2279,7 @@ function post_comment_for_compared_commit(
                     "afterCommitId" => afterCommitId,
                     "content" => content,
                     "repositoryName" => repositoryName,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3007,8 +2290,7 @@ function post_comment_for_compared_commit(
 end
 
 """
-    post_comment_for_pull_request(after_commit_id, before_commit_id, content, pull_request_id, repository_name)
-    post_comment_for_pull_request(after_commit_id, before_commit_id, content, pull_request_id, repository_name, params::Dict{String,<:Any})
+    post_comment_for_pull_request(after_commit_id, before_commit_id, content, pull_request_id, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Posts a comment on a pull request.
 
@@ -3024,10 +2306,10 @@ Posts a comment on a pull request.
   request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
-  in a request, ensures the request cannot be repeated with a changed parameter. If a request
-  is received with the same parameters and a token is included, the request returns
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique, client-generated idempotency token that, when
+  provided in a request, ensures the request cannot be repeated with a changed parameter. If
+  a request is received with the same parameters and a token is included, the request returns
   information about the initial request that used that token.
 - `"location"`: The location of the change where you want to post your comment. If no
   location is provided, the comment is posted as a general comment on the pull request
@@ -3040,30 +2322,9 @@ function post_comment_for_pull_request(
     pullRequestId,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "PostCommentForPullRequest",
-        Dict{String,Any}(
-            "afterCommitId" => afterCommitId,
-            "beforeCommitId" => beforeCommitId,
-            "content" => content,
-            "pullRequestId" => pullRequestId,
-            "repositoryName" => repositoryName,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function post_comment_for_pull_request(
-    afterCommitId,
-    beforeCommitId,
-    content,
-    pullRequestId,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PostCommentForPullRequest",
         Dict{String,Any}(
@@ -3075,7 +2336,7 @@ function post_comment_for_pull_request(
                     "content" => content,
                     "pullRequestId" => pullRequestId,
                     "repositoryName" => repositoryName,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3086,8 +2347,7 @@ function post_comment_for_pull_request(
 end
 
 """
-    post_comment_reply(content, in_reply_to)
-    post_comment_reply(content, in_reply_to, params::Dict{String,<:Any})
+    post_comment_reply(content, in_reply_to; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Posts a comment in reply to an existing comment on a comparison between commits or a pull
 request.
@@ -3098,32 +2358,16 @@ request.
   this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
-  in a request, ensures the request cannot be repeated with a changed parameter. If a request
-  is received with the same parameters and a token is included, the request returns
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique, client-generated idempotency token that, when
+  provided in a request, ensures the request cannot be repeated with a changed parameter. If
+  a request is received with the same parameters and a token is included, the request returns
   information about the initial request that used that token.
 """
 function post_comment_reply(
-    content, inReplyTo; aws_config::AbstractAWSConfig=global_aws_config()
+    content, inReplyTo; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "PostCommentReply",
-        Dict{String,Any}(
-            "content" => content,
-            "inReplyTo" => inReplyTo,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function post_comment_reply(
-    content,
-    inReplyTo,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PostCommentReply",
         Dict{String,Any}(
@@ -3132,7 +2376,7 @@ function post_comment_reply(
                 Dict{String,Any}(
                     "content" => content,
                     "inReplyTo" => inReplyTo,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3143,8 +2387,7 @@ function post_comment_reply(
 end
 
 """
-    put_comment_reaction(comment_id, reaction_value)
-    put_comment_reaction(comment_id, reaction_value, params::Dict{String,<:Any})
+    put_comment_reaction(comment_id, reaction_value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates a reaction to a specified comment for the user whose identity is used to
 make the request. You can only add or update a reaction for yourself. You cannot add,
@@ -3158,21 +2401,9 @@ modify, or delete a reaction for another user.
 
 """
 function put_comment_reaction(
-    commentId, reactionValue; aws_config::AbstractAWSConfig=global_aws_config()
+    commentId, reactionValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "PutCommentReaction",
-        Dict{String,Any}("commentId" => commentId, "reactionValue" => reactionValue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_comment_reaction(
-    commentId,
-    reactionValue,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PutCommentReaction",
         Dict{String,Any}(
@@ -3190,8 +2421,7 @@ function put_comment_reaction(
 end
 
 """
-    put_file(branch_name, file_content, file_path, repository_name)
-    put_file(branch_name, file_content, file_path, repository_name, params::Dict{String,<:Any})
+    put_file(branch_name, file_content, file_path, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit
 for the addition in the specified branch.
@@ -3206,19 +2436,19 @@ for the addition in the specified branch.
 - `repository_name`: The name of the repository where you want to add or update the file.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"commitMessage"`: A message about why this file was added or updated. Although it is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_message"`: A message about why this file was added or updated. Although it is
   optional, a message makes the commit history for your repository more useful.
 - `"email"`: An email address for the person adding or updating the file.
-- `"fileMode"`: The file mode permissions of the blob. Valid file mode permissions are
+- `"file_mode"`: The file mode permissions of the blob. Valid file mode permissions are
   listed here.
 - `"name"`: The name of the person adding or updating the file. Although it is optional, a
   name makes the commit history for your repository more useful.
-- `"parentCommitId"`: The full commit ID of the head commit in the branch where you want to
-  add or update the file. If this is an empty repository, no commit ID is required. If this
-  is not an empty repository, a commit ID is required.  The commit ID must match the ID of
-  the head commit at the time of the operation. Otherwise, an error occurs, and the file is
-  not added or updated.
+- `"parent_commit_id"`: The full commit ID of the head commit in the branch where you want
+  to add or update the file. If this is an empty repository, no commit ID is required. If
+  this is not an empty repository, a commit ID is required.  The commit ID must match the ID
+  of the head commit at the time of the operation. Otherwise, an error occurs, and the file
+  is not added or updated.
 """
 function put_file(
     branchName,
@@ -3226,27 +2456,9 @@ function put_file(
     filePath,
     repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "PutFile",
-        Dict{String,Any}(
-            "branchName" => branchName,
-            "fileContent" => fileContent,
-            "filePath" => filePath,
-            "repositoryName" => repositoryName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_file(
-    branchName,
-    fileContent,
-    filePath,
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PutFile",
         Dict{String,Any}(
@@ -3267,8 +2479,7 @@ function put_file(
 end
 
 """
-    put_repository_triggers(repository_name, triggers)
-    put_repository_triggers(repository_name, triggers, params::Dict{String,<:Any})
+    put_repository_triggers(repository_name, triggers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces all triggers for a repository. Used to create or delete triggers.
 
@@ -3279,21 +2490,9 @@ Replaces all triggers for a repository. Used to create or delete triggers.
 
 """
 function put_repository_triggers(
-    repositoryName, triggers; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName, triggers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "PutRepositoryTriggers",
-        Dict{String,Any}("repositoryName" => repositoryName, "triggers" => triggers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_repository_triggers(
-    repositoryName,
-    triggers,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "PutRepositoryTriggers",
         Dict{String,Any}(
@@ -3311,8 +2510,7 @@ function put_repository_triggers(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS
 CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
@@ -3323,20 +2521,10 @@ CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User G
 - `tags`: The key-value pair to use when tagging this repository.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecommit(
-        "TagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "TagResource",
         Dict{String,Any}(
@@ -3352,8 +2540,7 @@ function tag_resource(
 end
 
 """
-    test_repository_triggers(repository_name, triggers)
-    test_repository_triggers(repository_name, triggers, params::Dict{String,<:Any})
+    test_repository_triggers(repository_name, triggers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tests the functionality of repository triggers by sending information to the trigger
 target. If real data is available in the repository, the test sends data from the last
@@ -3365,21 +2552,9 @@ commit. If no data is available, sample data is generated.
 
 """
 function test_repository_triggers(
-    repositoryName, triggers; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName, triggers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "TestRepositoryTriggers",
-        Dict{String,Any}("repositoryName" => repositoryName, "triggers" => triggers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function test_repository_triggers(
-    repositoryName,
-    triggers,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "TestRepositoryTriggers",
         Dict{String,Any}(
@@ -3397,8 +2572,7 @@ function test_repository_triggers(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS
 CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
@@ -3410,21 +2584,9 @@ CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User G
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UntagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UntagResource",
         Dict{String,Any}(
@@ -3440,8 +2602,7 @@ function untag_resource(
 end
 
 """
-    update_approval_rule_template_content(approval_rule_template_name, new_rule_content)
-    update_approval_rule_template_content(approval_rule_template_name, new_rule_content, params::Dict{String,<:Any})
+    update_approval_rule_template_content(approval_rule_template_name, new_rule_content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the content of an approval rule template. You can change the number of required
 approvals, the membership of the approval rule, and whether an approval pool is defined.
@@ -3453,31 +2614,17 @@ approvals, the membership of the approval rule, and whether an approval pool is 
   statements must be complete. You cannot provide only the changes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using GetPullRequest.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"existing_rule_content_sha256"`: The SHA-256 hash signature for the content of the
+  approval rule. You can retrieve this information by using GetPullRequest.
 """
 function update_approval_rule_template_content(
     approvalRuleTemplateName,
     newRuleContent;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "UpdateApprovalRuleTemplateContent",
-        Dict{String,Any}(
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-            "newRuleContent" => newRuleContent,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_approval_rule_template_content(
-    approvalRuleTemplateName,
-    newRuleContent,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateApprovalRuleTemplateContent",
         Dict{String,Any}(
@@ -3496,8 +2643,7 @@ function update_approval_rule_template_content(
 end
 
 """
-    update_approval_rule_template_description(approval_rule_template_description, approval_rule_template_name)
-    update_approval_rule_template_description(approval_rule_template_description, approval_rule_template_name, params::Dict{String,<:Any})
+    update_approval_rule_template_description(approval_rule_template_description, approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the description for a specified approval rule template.
 
@@ -3512,23 +2658,9 @@ function update_approval_rule_template_description(
     approvalRuleTemplateDescription,
     approvalRuleTemplateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "UpdateApprovalRuleTemplateDescription",
-        Dict{String,Any}(
-            "approvalRuleTemplateDescription" => approvalRuleTemplateDescription,
-            "approvalRuleTemplateName" => approvalRuleTemplateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_approval_rule_template_description(
-    approvalRuleTemplateDescription,
-    approvalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateApprovalRuleTemplateDescription",
         Dict{String,Any}(
@@ -3547,8 +2679,7 @@ function update_approval_rule_template_description(
 end
 
 """
-    update_approval_rule_template_name(new_approval_rule_template_name, old_approval_rule_template_name)
-    update_approval_rule_template_name(new_approval_rule_template_name, old_approval_rule_template_name, params::Dict{String,<:Any})
+    update_approval_rule_template_name(new_approval_rule_template_name, old_approval_rule_template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name of a specified approval rule template.
 
@@ -3562,23 +2693,9 @@ function update_approval_rule_template_name(
     newApprovalRuleTemplateName,
     oldApprovalRuleTemplateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "UpdateApprovalRuleTemplateName",
-        Dict{String,Any}(
-            "newApprovalRuleTemplateName" => newApprovalRuleTemplateName,
-            "oldApprovalRuleTemplateName" => oldApprovalRuleTemplateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_approval_rule_template_name(
-    newApprovalRuleTemplateName,
-    oldApprovalRuleTemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateApprovalRuleTemplateName",
         Dict{String,Any}(
@@ -3597,8 +2714,7 @@ function update_approval_rule_template_name(
 end
 
 """
-    update_comment(comment_id, content)
-    update_comment(comment_id, content, params::Dict{String,<:Any})
+    update_comment(comment_id, content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces the contents of a comment.
 
@@ -3609,21 +2725,9 @@ Replaces the contents of a comment.
 
 """
 function update_comment(
-    commentId, content; aws_config::AbstractAWSConfig=global_aws_config()
+    commentId, content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UpdateComment",
-        Dict{String,Any}("commentId" => commentId, "content" => content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_comment(
-    commentId,
-    content,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateComment",
         Dict{String,Any}(
@@ -3639,8 +2743,7 @@ function update_comment(
 end
 
 """
-    update_default_branch(default_branch_name, repository_name)
-    update_default_branch(default_branch_name, repository_name, params::Dict{String,<:Any})
+    update_default_branch(default_branch_name, repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets or changes the default branch name for the specified repository.  If you use this
 operation to change the default branch name to the current default branch name, a success
@@ -3652,23 +2755,12 @@ message is returned even though the default branch did not change.
 
 """
 function update_default_branch(
-    defaultBranchName, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "UpdateDefaultBranch",
-        Dict{String,Any}(
-            "defaultBranchName" => defaultBranchName, "repositoryName" => repositoryName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_default_branch(
     defaultBranchName,
-    repositoryName,
-    params::AbstractDict{String};
+    repositoryName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateDefaultBranch",
         Dict{String,Any}(
@@ -3687,8 +2779,7 @@ function update_default_branch(
 end
 
 """
-    update_pull_request_approval_rule_content(approval_rule_name, new_rule_content, pull_request_id)
-    update_pull_request_approval_rule_content(approval_rule_name, new_rule_content, pull_request_id, params::Dict{String,<:Any})
+    update_pull_request_approval_rule_content(approval_rule_name, new_rule_content, pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the structure of an approval rule created specifically for a pull request. For
 example, you can change the number of required approvers and the approval pool for
@@ -3714,34 +2805,18 @@ approvers.
 - `pull_request_id`: The system-generated ID of the pull request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"existingRuleContentSha256"`: The SHA-256 hash signature for the content of the approval
-  rule. You can retrieve this information by using GetPullRequest.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"existing_rule_content_sha256"`: The SHA-256 hash signature for the content of the
+  approval rule. You can retrieve this information by using GetPullRequest.
 """
 function update_pull_request_approval_rule_content(
     approvalRuleName,
     newRuleContent,
     pullRequestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "UpdatePullRequestApprovalRuleContent",
-        Dict{String,Any}(
-            "approvalRuleName" => approvalRuleName,
-            "newRuleContent" => newRuleContent,
-            "pullRequestId" => pullRequestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pull_request_approval_rule_content(
-    approvalRuleName,
-    newRuleContent,
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdatePullRequestApprovalRuleContent",
         Dict{String,Any}(
@@ -3761,8 +2836,7 @@ function update_pull_request_approval_rule_content(
 end
 
 """
-    update_pull_request_approval_state(approval_state, pull_request_id, revision_id)
-    update_pull_request_approval_state(approval_state, pull_request_id, revision_id, params::Dict{String,<:Any})
+    update_pull_request_approval_state(approval_state, pull_request_id, revision_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the state of a user's approval on a pull request. The user is derived from the
 signed-in account when the request is made.
@@ -3778,25 +2852,9 @@ function update_pull_request_approval_state(
     pullRequestId,
     revisionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codecommit(
-        "UpdatePullRequestApprovalState",
-        Dict{String,Any}(
-            "approvalState" => approvalState,
-            "pullRequestId" => pullRequestId,
-            "revisionId" => revisionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pull_request_approval_state(
-    approvalState,
-    pullRequestId,
-    revisionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdatePullRequestApprovalState",
         Dict{String,Any}(
@@ -3816,8 +2874,7 @@ function update_pull_request_approval_state(
 end
 
 """
-    update_pull_request_description(description, pull_request_id)
-    update_pull_request_description(description, pull_request_id, params::Dict{String,<:Any})
+    update_pull_request_description(description, pull_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces the contents of the description of a pull request.
 
@@ -3829,21 +2886,9 @@ Replaces the contents of the description of a pull request.
 
 """
 function update_pull_request_description(
-    description, pullRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    description, pullRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UpdatePullRequestDescription",
-        Dict{String,Any}("description" => description, "pullRequestId" => pullRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pull_request_description(
-    description,
-    pullRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdatePullRequestDescription",
         Dict{String,Any}(
@@ -3861,8 +2906,7 @@ function update_pull_request_description(
 end
 
 """
-    update_pull_request_status(pull_request_id, pull_request_status)
-    update_pull_request_status(pull_request_id, pull_request_status, params::Dict{String,<:Any})
+    update_pull_request_status(pull_request_id, pull_request_status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the status of a pull request.
 
@@ -3874,23 +2918,12 @@ Updates the status of a pull request.
 
 """
 function update_pull_request_status(
-    pullRequestId, pullRequestStatus; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecommit(
-        "UpdatePullRequestStatus",
-        Dict{String,Any}(
-            "pullRequestId" => pullRequestId, "pullRequestStatus" => pullRequestStatus
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pull_request_status(
     pullRequestId,
-    pullRequestStatus,
-    params::AbstractDict{String};
+    pullRequestStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdatePullRequestStatus",
         Dict{String,Any}(
@@ -3909,8 +2942,7 @@ function update_pull_request_status(
 end
 
 """
-    update_pull_request_title(pull_request_id, title)
-    update_pull_request_title(pull_request_id, title, params::Dict{String,<:Any})
+    update_pull_request_title(pull_request_id, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces the title of a pull request.
 
@@ -3921,21 +2953,9 @@ Replaces the title of a pull request.
 
 """
 function update_pull_request_title(
-    pullRequestId, title; aws_config::AbstractAWSConfig=global_aws_config()
+    pullRequestId, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UpdatePullRequestTitle",
-        Dict{String,Any}("pullRequestId" => pullRequestId, "title" => title);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_pull_request_title(
-    pullRequestId,
-    title,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdatePullRequestTitle",
         Dict{String,Any}(
@@ -3951,8 +2971,7 @@ function update_pull_request_title(
 end
 
 """
-    update_repository_description(repository_name)
-    update_repository_description(repository_name, params::Dict{String,<:Any})
+    update_repository_description(repository_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets or changes the comment or description for a repository.  The description field for a
 repository accepts all HTML characters and all valid Unicode characters. Applications that
@@ -3965,25 +2984,14 @@ application that uses this API to display the repository description on a webpag
   for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"repositoryDescription"`: The new comment or description for the specified repository.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"repository_description"`: The new comment or description for the specified repository.
   Repository descriptions are limited to 1,000 characters.
 """
 function update_repository_description(
-    repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+    repositoryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UpdateRepositoryDescription",
-        Dict{String,Any}("repositoryName" => repositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_repository_description(
-    repositoryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateRepositoryDescription",
         Dict{String,Any}(
@@ -3995,8 +3003,7 @@ function update_repository_description(
 end
 
 """
-    update_repository_name(new_name, old_name)
-    update_repository_name(new_name, old_name, params::Dict{String,<:Any})
+    update_repository_name(new_name, old_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Renames a repository. The repository name must be unique across the calling AWS account.
 Repository names are limited to 100 alphanumeric, dash, and underscore characters, and
@@ -4009,21 +3016,9 @@ about the limits on repository names, see Limits in the AWS CodeCommit User Guid
 
 """
 function update_repository_name(
-    newName, oldName; aws_config::AbstractAWSConfig=global_aws_config()
+    newName, oldName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codecommit(
-        "UpdateRepositoryName",
-        Dict{String,Any}("newName" => newName, "oldName" => oldName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_repository_name(
-    newName,
-    oldName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codecommit(
         "UpdateRepositoryName",
         Dict{String,Any}(

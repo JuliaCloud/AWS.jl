@@ -4,9 +4,34 @@ using AWS.AWSServices: mgn
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "default_large_staging_disk_type" => "defaultLargeStagingDiskType",
+    "ebs_encryption_key_arn" => "ebsEncryptionKeyArn",
+    "data_plane_routing" => "dataPlaneRouting",
+    "staging_area_tags" => "stagingAreaTags",
+    "next_token" => "nextToken",
+    "licensing" => "licensing",
+    "name" => "name",
+    "staging_area_subnet_id" => "stagingAreaSubnetId",
+    "launch_disposition" => "launchDisposition",
+    "bandwidth_throttling" => "bandwidthThrottling",
+    "associate_default_security_group" => "associateDefaultSecurityGroup",
+    "ebs_encryption" => "ebsEncryption",
+    "copy_tags" => "copyTags",
+    "max_results" => "maxResults",
+    "replication_servers_security_groups_ids" => "replicationServersSecurityGroupsIDs",
+    "arn" => "arn",
+    "replication_server_instance_type" => "replicationServerInstanceType",
+    "copy_private_ip" => "copyPrivateIp",
+    "replicated_disks" => "replicatedDisks",
+    "use_dedicated_replication_server" => "useDedicatedReplicationServer",
+    "target_instance_type_right_sizing_method" => "targetInstanceTypeRightSizingMethod",
+    "create_public_ip" => "createPublicIP",
+    "tags" => "tags",
+)
+
 """
-    change_server_life_cycle_state(life_cycle, source_server_id)
-    change_server_life_cycle_state(life_cycle, source_server_id, params::Dict{String,<:Any})
+    change_server_life_cycle_state(life_cycle, source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server
 IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works
@@ -19,22 +44,9 @@ if the Source Server is already launchable (dataReplicationInfo.lagDuration is n
 
 """
 function change_server_life_cycle_state(
-    lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/ChangeServerLifeCycleState",
-        Dict{String,Any}("lifeCycle" => lifeCycle, "sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function change_server_life_cycle_state(
-    lifeCycle,
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/ChangeServerLifeCycleState",
@@ -53,8 +65,7 @@ function change_server_life_cycle_state(
 end
 
 """
-    create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server)
-    create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server, params::Dict{String,<:Any})
+    create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new ReplicationConfigurationTemplate.
 
@@ -83,8 +94,8 @@ Creates a new ReplicationConfigurationTemplate.
   Replication Settings template creation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ebsEncryptionKeyArn"`: Request to configure an EBS enryption key during Replication
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ebs_encryption_key_arn"`: Request to configure an EBS enryption key during Replication
   Settings template creation.
 - `"tags"`: Request to configure tags during Replication Settings template creation.
 """
@@ -101,42 +112,9 @@ function create_replication_configuration_template(
     stagingAreaTags,
     useDedicatedReplicationServer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mgn(
-        "POST",
-        "/CreateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "associateDefaultSecurityGroup" => associateDefaultSecurityGroup,
-            "bandwidthThrottling" => bandwidthThrottling,
-            "createPublicIP" => createPublicIP,
-            "dataPlaneRouting" => dataPlaneRouting,
-            "defaultLargeStagingDiskType" => defaultLargeStagingDiskType,
-            "ebsEncryption" => ebsEncryption,
-            "replicationServerInstanceType" => replicationServerInstanceType,
-            "replicationServersSecurityGroupsIDs" => replicationServersSecurityGroupsIDs,
-            "stagingAreaSubnetId" => stagingAreaSubnetId,
-            "stagingAreaTags" => stagingAreaTags,
-            "useDedicatedReplicationServer" => useDedicatedReplicationServer,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_replication_configuration_template(
-    associateDefaultSecurityGroup,
-    bandwidthThrottling,
-    createPublicIP,
-    dataPlaneRouting,
-    defaultLargeStagingDiskType,
-    ebsEncryption,
-    replicationServerInstanceType,
-    replicationServersSecurityGroupsIDs,
-    stagingAreaSubnetId,
-    stagingAreaTags,
-    useDedicatedReplicationServer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/CreateReplicationConfigurationTemplate",
@@ -166,8 +144,7 @@ function create_replication_configuration_template(
 end
 
 """
-    delete_job(job_id)
-    delete_job(job_id, params::Dict{String,<:Any})
+    delete_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a single Job by ID.
 
@@ -175,18 +152,8 @@ Deletes a single Job by ID.
 - `job_id`: Request to delete Job from service by Job ID.
 
 """
-function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DeleteJob",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_job(
-    jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DeleteJob",
@@ -197,8 +164,7 @@ function delete_job(
 end
 
 """
-    delete_replication_configuration_template(replication_configuration_template_id)
-    delete_replication_configuration_template(replication_configuration_template_id, params::Dict{String,<:Any})
+    delete_replication_configuration_template(replication_configuration_template_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a single Replication Configuration Template by ID
 
@@ -208,23 +174,11 @@ Deletes a single Replication Configuration Template by ID
 
 """
 function delete_replication_configuration_template(
-    replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
-        "POST",
-        "/DeleteReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_replication_configuration_template(
-    replicationConfigurationTemplateID,
-    params::AbstractDict{String};
+    replicationConfigurationTemplateID;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DeleteReplicationConfigurationTemplate",
@@ -244,8 +198,7 @@ function delete_replication_configuration_template(
 end
 
 """
-    delete_source_server(source_server_id)
-    delete_source_server(source_server_id, params::Dict{String,<:Any})
+    delete_source_server(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a single source server by ID.
 
@@ -254,21 +207,9 @@ Deletes a single source server by ID.
 
 """
 function delete_source_server(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/DeleteSourceServer",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_source_server(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DeleteSourceServer",
@@ -281,8 +222,7 @@ function delete_source_server(
 end
 
 """
-    describe_job_log_items(job_id)
-    describe_job_log_items(job_id, params::Dict{String,<:Any})
+    describe_job_log_items(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves detailed Job log with paging.
 
@@ -290,22 +230,14 @@ Retrieves detailed Job log with paging.
 - `job_id`: Request to describe Job log job ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Request to describe Job log item maximum results.
-- `"nextToken"`: Request to describe Job log next token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Request to describe Job log item maximum results.
+- `"next_token"`: Request to describe Job log next token.
 """
-function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DescribeJobLogItems",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_job_log_items(
-    jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DescribeJobLogItems",
@@ -316,8 +248,7 @@ function describe_job_log_items(
 end
 
 """
-    describe_jobs(filters)
-    describe_jobs(filters, params::Dict{String,<:Any})
+    describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs
 are returned. The response is sorted by creationDataTime - latest date first. Jobs are
@@ -329,22 +260,14 @@ only to *Support* and only used in response to relevant support tickets.
 - `filters`: Request to describe Job log filters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Request to describe Job log by max results.
-- `"nextToken"`: Request to describe Job logby next token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Request to describe Job log by max results.
+- `"next_token"`: Request to describe Job logby next token.
 """
-function describe_jobs(filters; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DescribeJobs",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_jobs(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DescribeJobs",
@@ -355,8 +278,7 @@ function describe_jobs(
 end
 
 """
-    describe_replication_configuration_templates(replication_configuration_template_ids)
-    describe_replication_configuration_templates(replication_configuration_template_ids, params::Dict{String,<:Any})
+    describe_replication_configuration_templates(replication_configuration_template_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
 
@@ -365,28 +287,16 @@ Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
   template by template IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Request to describe Replication Configuration template by max results.
-- `"nextToken"`: Request to describe Replication Configuration template by next token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Request to describe Replication Configuration template by max results.
+- `"next_token"`: Request to describe Replication Configuration template by next token.
 """
 function describe_replication_configuration_templates(
-    replicationConfigurationTemplateIDs; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
-        "POST",
-        "/DescribeReplicationConfigurationTemplates",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateIDs" => replicationConfigurationTemplateIDs
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_replication_configuration_templates(
-    replicationConfigurationTemplateIDs,
-    params::AbstractDict{String};
+    replicationConfigurationTemplateIDs;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DescribeReplicationConfigurationTemplates",
@@ -406,8 +316,7 @@ function describe_replication_configuration_templates(
 end
 
 """
-    describe_source_servers(filters)
-    describe_source_servers(filters, params::Dict{String,<:Any})
+    describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves all SourceServers or multiple SourceServers by ID.
 
@@ -415,22 +324,14 @@ Retrieves all SourceServers or multiple SourceServers by ID.
 - `filters`: Request to filter Source Servers list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Request to filter Source Servers list by maximum results.
-- `"nextToken"`: Request to filter Source Servers list by next token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Request to filter Source Servers list by maximum results.
+- `"next_token"`: Request to filter Source Servers list by next token.
 """
-function describe_source_servers(filters; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DescribeSourceServers",
-        Dict{String,Any}("filters" => filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_source_servers(
-    filters, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DescribeSourceServers",
@@ -441,8 +342,7 @@ function describe_source_servers(
 end
 
 """
-    disconnect_from_service(source_server_id)
-    disconnect_from_service(source_server_id, params::Dict{String,<:Any})
+    disconnect_from_service(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disconnects specific Source Servers from Application Migration Service. Data replication is
 stopped immediately. All AWS resources created by Application Migration Service for
@@ -460,21 +360,9 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 
 """
 function disconnect_from_service(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/DisconnectFromService",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disconnect_from_service(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/DisconnectFromService",
@@ -487,8 +375,7 @@ function disconnect_from_service(
 end
 
 """
-    finalize_cutover(source_server_id)
-    finalize_cutover(source_server_id, params::Dict{String,<:Any})
+    finalize_cutover(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Finalizes the cutover immediately for specific Source Servers. All AWS resources created by
 Application Migration Service for enabling the replication of these source servers will be
@@ -504,20 +391,10 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nulli
 - `source_server_id`: Request to finalize Cutover by Soure Server ID.
 
 """
-function finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/FinalizeCutover",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function finalize_cutover(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/FinalizeCutover",
@@ -530,8 +407,7 @@ function finalize_cutover(
 end
 
 """
-    get_launch_configuration(source_server_id)
-    get_launch_configuration(source_server_id, params::Dict{String,<:Any})
+    get_launch_configuration(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all LaunchConfigurations available, filtered by Source Server IDs.
 
@@ -540,21 +416,9 @@ Lists all LaunchConfigurations available, filtered by Source Server IDs.
 
 """
 function get_launch_configuration(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/GetLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch_configuration(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/GetLaunchConfiguration",
@@ -567,8 +431,7 @@ function get_launch_configuration(
 end
 
 """
-    get_replication_configuration(source_server_id)
-    get_replication_configuration(source_server_id, params::Dict{String,<:Any})
+    get_replication_configuration(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all ReplicationConfigurations, filtered by Source Server ID.
 
@@ -577,21 +440,9 @@ Lists all ReplicationConfigurations, filtered by Source Server ID.
 
 """
 function get_replication_configuration(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/GetReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_replication_configuration(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/GetReplicationConfiguration",
@@ -604,20 +455,13 @@ function get_replication_configuration(
 end
 
 """
-    initialize_service()
-    initialize_service(params::Dict{String,<:Any})
+    initialize_service(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Initialize Application Migration Service.
 
 """
-function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function initialize_service(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/InitializeService",
@@ -628,8 +472,7 @@ function initialize_service(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all tags for your Application Migration Service resources.
 
@@ -638,20 +481,9 @@ List all tags for your Application Migration Service resources.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "GET",
         "/tags/$(resourceArn)",
@@ -662,8 +494,7 @@ function list_tags_for_resource(
 end
 
 """
-    mark_as_archived(source_server_id)
-    mark_as_archived(source_server_id, params::Dict{String,<:Any})
+    mark_as_archived(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Archives specific Source Servers by setting the SourceServer.isArchived property to true
 for specified SourceServers by ID. This command only works for SourceServers with a
@@ -673,20 +504,10 @@ lifecycle.state which equals DISCONNECTED or CUTOVER.
 - `source_server_id`: Mark as archived by Source Server ID.
 
 """
-function mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/MarkAsArchived",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function mark_as_archived(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/MarkAsArchived",
@@ -699,8 +520,7 @@ function mark_as_archived(
 end
 
 """
-    retry_data_replication(source_server_id)
-    retry_data_replication(source_server_id, params::Dict{String,<:Any})
+    retry_data_replication(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Causes the data replication initiation sequence to begin immediately upon next Handshake
 for specified SourceServer IDs, regardless of when the previous initiation started. This
@@ -712,21 +532,9 @@ state.
 
 """
 function retry_data_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/RetryDataReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function retry_data_replication(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/RetryDataReplication",
@@ -739,8 +547,7 @@ function retry_data_replication(
 end
 
 """
-    start_cutover(source_server_ids)
-    start_cutover(source_server_ids, params::Dict{String,<:Any})
+    start_cutover(source_server_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job
 whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state
@@ -750,23 +557,13 @@ property to CUTTING_OVER.
 - `source_server_ids`: Start Cutover by Source Server IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Start Cutover by Tags.
 """
-function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartCutover",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_cutover(
-    sourceServerIDs,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/StartCutover",
@@ -781,8 +578,7 @@ function start_cutover(
 end
 
 """
-    start_test(source_server_ids)
-    start_test(source_server_ids, params::Dict{String,<:Any})
+    start_test(source_server_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lauches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose
 initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to
@@ -792,23 +588,13 @@ TESTING.
 - `source_server_ids`: Start Test for Source Server IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Start Test by Tags.
 """
-function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartTest",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_test(
-    sourceServerIDs,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/StartTest",
@@ -823,8 +609,7 @@ function start_test(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or overwrites only the specified tags for the specified Application Migration Service
 resource or resources. When you specify an existing tag key, the value is overwritten with
@@ -836,21 +621,10 @@ optional value.
 - `tags`: Tag resource by Tags.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/tags/$(resourceArn)",
@@ -861,8 +635,7 @@ function tag_resource(
 end
 
 """
-    terminate_target_instances(source_server_ids)
-    terminate_target_instances(source_server_ids, params::Dict{String,<:Any})
+    terminate_target_instances(source_server_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a job that terminates specific launched EC2 Test and Cutover instances. This command
 will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or
@@ -872,25 +645,13 @@ CUTOVER.
 - `source_server_ids`: Terminate Target instance by Source Server IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Terminate Target instance by Tags.
 """
 function terminate_target_instances(
-    sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/TerminateTargetInstances",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function terminate_target_instances(
-    sourceServerIDs,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/TerminateTargetInstances",
@@ -905,8 +666,7 @@ function terminate_target_instances(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified set of tags from the specified set of Application Migration Service
 resources.
@@ -917,22 +677,9 @@ resources.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -943,8 +690,7 @@ function untag_resource(
 end
 
 """
-    update_launch_configuration(source_server_id)
-    update_launch_configuration(source_server_id, params::Dict{String,<:Any})
+    update_launch_configuration(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates multiple LaunchConfigurations by Source Server ID.
 
@@ -952,31 +698,19 @@ Updates multiple LaunchConfigurations by Source Server ID.
 - `source_server_id`: Update Launch configuration by Source Server ID request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"copyPrivateIp"`: Update Launch configuration copy Private IP request.
-- `"copyTags"`: Update Launch configuration copy Tags request.
-- `"launchDisposition"`: Update Launch configuration launch disposition request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"copy_private_ip"`: Update Launch configuration copy Private IP request.
+- `"copy_tags"`: Update Launch configuration copy Tags request.
+- `"launch_disposition"`: Update Launch configuration launch disposition request.
 - `"licensing"`: Update Launch configuration licensing request.
 - `"name"`: Update Launch configuration name request.
-- `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance
+- `"target_instance_type_right_sizing_method"`: Update Launch configuration Target instance
   right sizing request.
 """
 function update_launch_configuration(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/UpdateLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_launch_configuration(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/UpdateLaunchConfiguration",
@@ -989,8 +723,7 @@ function update_launch_configuration(
 end
 
 """
-    update_replication_configuration(source_server_id)
-    update_replication_configuration(source_server_id, params::Dict{String,<:Any})
+    update_replication_configuration(source_server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to update multiple ReplicationConfigurations by Source Server ID.
 
@@ -998,43 +731,32 @@ Allows you to update multiple ReplicationConfigurations by Source Server ID.
 - `source_server_id`: Update replication configuration Source Server ID request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"associateDefaultSecurityGroup"`: Update replication configuration associate default
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"associate_default_security_group"`: Update replication configuration associate default
   Application Migration Service Security group request.
-- `"bandwidthThrottling"`: Update replication configuration bandwidth throttling request.
-- `"createPublicIP"`: Update replication configuration create Public IP request.
-- `"dataPlaneRouting"`: Update replication configuration data plane routing request.
-- `"defaultLargeStagingDiskType"`: Update replication configuration use default large
+- `"bandwidth_throttling"`: Update replication configuration bandwidth throttling request.
+- `"create_public_ip"`: Update replication configuration create Public IP request.
+- `"data_plane_routing"`: Update replication configuration data plane routing request.
+- `"default_large_staging_disk_type"`: Update replication configuration use default large
   Staging Disk type request.
-- `"ebsEncryption"`: Update replication configuration EBS encryption request.
-- `"ebsEncryptionKeyArn"`: Update replication configuration EBS encryption key ARN request.
+- `"ebs_encryption"`: Update replication configuration EBS encryption request.
+- `"ebs_encryption_key_arn"`: Update replication configuration EBS encryption key ARN
+  request.
 - `"name"`: Update replication configuration name request.
-- `"replicatedDisks"`: Update replication configuration replicated disks request.
-- `"replicationServerInstanceType"`: Update replication configuration Replication Server
+- `"replicated_disks"`: Update replication configuration replicated disks request.
+- `"replication_server_instance_type"`: Update replication configuration Replication Server
   instance type request.
-- `"replicationServersSecurityGroupsIDs"`: Update replication configuration Replication
+- `"replication_servers_security_groups_ids"`: Update replication configuration Replication
   Server Security Groups IDs request.
-- `"stagingAreaSubnetId"`: Update replication configuration Staging Area subnet request.
-- `"stagingAreaTags"`: Update replication configuration Staging Area Tags request.
-- `"useDedicatedReplicationServer"`: Update replication configuration use dedicated
+- `"staging_area_subnet_id"`: Update replication configuration Staging Area subnet request.
+- `"staging_area_tags"`: Update replication configuration Staging Area Tags request.
+- `"use_dedicated_replication_server"`: Update replication configuration use dedicated
   Replication Server request.
 """
 function update_replication_configuration(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mgn(
-        "POST",
-        "/UpdateReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_replication_configuration(
-    sourceServerID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/UpdateReplicationConfiguration",
@@ -1047,8 +769,7 @@ function update_replication_configuration(
 end
 
 """
-    update_replication_configuration_template(replication_configuration_template_id)
-    update_replication_configuration_template(replication_configuration_template_id, params::Dict{String,<:Any})
+    update_replication_configuration_template(replication_configuration_template_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates multiple ReplicationConfigurationTemplates by ID.
 
@@ -1057,48 +778,37 @@ Updates multiple ReplicationConfigurationTemplates by ID.
   template ID request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"arn"`: Update replication configuration template ARN request.
-- `"associateDefaultSecurityGroup"`: Update replication configuration template associate
+- `"associate_default_security_group"`: Update replication configuration template associate
   default Application Migration Service Security group request.
-- `"bandwidthThrottling"`: Update replication configuration template bandwidth throttling
+- `"bandwidth_throttling"`: Update replication configuration template bandwidth throttling
   request.
-- `"createPublicIP"`: Update replication configuration template create Public IP request.
-- `"dataPlaneRouting"`: Update replication configuration template data plane routing
+- `"create_public_ip"`: Update replication configuration template create Public IP request.
+- `"data_plane_routing"`: Update replication configuration template data plane routing
   request.
-- `"defaultLargeStagingDiskType"`: Update replication configuration template use default
-  large Staging Disk type request.
-- `"ebsEncryption"`: Update replication configuration template EBS encryption request.
-- `"ebsEncryptionKeyArn"`: Update replication configuration template EBS encryption key ARN
-  request.
-- `"replicationServerInstanceType"`: Update replication configuration template Replication
-  Server instance type request.
-- `"replicationServersSecurityGroupsIDs"`: Update replication configuration template
+- `"default_large_staging_disk_type"`: Update replication configuration template use
+  default large Staging Disk type request.
+- `"ebs_encryption"`: Update replication configuration template EBS encryption request.
+- `"ebs_encryption_key_arn"`: Update replication configuration template EBS encryption key
+  ARN request.
+- `"replication_server_instance_type"`: Update replication configuration template
+  Replication Server instance type request.
+- `"replication_servers_security_groups_ids"`: Update replication configuration template
   Replication Server Security groups IDs request.
-- `"stagingAreaSubnetId"`: Update replication configuration template Staging Area subnet ID
+- `"staging_area_subnet_id"`: Update replication configuration template Staging Area subnet
+  ID request.
+- `"staging_area_tags"`: Update replication configuration template Staging Area Tags
   request.
-- `"stagingAreaTags"`: Update replication configuration template Staging Area Tags request.
-- `"useDedicatedReplicationServer"`: Update replication configuration template use
+- `"use_dedicated_replication_server"`: Update replication configuration template use
   dedicated Replication Server request.
 """
 function update_replication_configuration_template(
-    replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
-        "POST",
-        "/UpdateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_replication_configuration_template(
-    replicationConfigurationTemplateID,
-    params::AbstractDict{String};
+    replicationConfigurationTemplateID;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mgn(
         "POST",
         "/UpdateReplicationConfigurationTemplate",

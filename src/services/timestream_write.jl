@@ -4,9 +4,18 @@ using AWS.AWSServices: timestream_write
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "database_name" => "DatabaseName",
+    "kms_key_id" => "KmsKeyId",
+    "tags" => "Tags",
+    "next_token" => "NextToken",
+    "retention_properties" => "RetentionProperties",
+    "max_results" => "MaxResults",
+    "common_attributes" => "CommonAttributes",
+)
+
 """
-    create_database(database_name)
-    create_database(database_name, params::Dict{String,<:Any})
+    create_database(database_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Timestream database. If the KMS key is not specified, the database will be
 encrypted with a Timestream managed KMS key located in your account. Refer to AWS managed
@@ -17,25 +26,16 @@ in the Timestream Developer Guide.
 - `database_name`: The name of the Timestream database.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KmsKeyId"`: The KMS key for the database. If the KMS key is not specified, the database
-  will be encrypted with a Timestream managed KMS key located in your account. Refer to AWS
-  managed KMS keys for more info.
-- `"Tags"`:  A list of key-value pairs to label the table.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"kms_key_id"`: The KMS key for the database. If the KMS key is not specified, the
+  database will be encrypted with a Timestream managed KMS key located in your account. Refer
+  to AWS managed KMS keys for more info.
+- `"tags"`:  A list of key-value pairs to label the table.
 """
-function create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "CreateDatabase",
-        Dict{String,Any}("DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_database(
-    DatabaseName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "CreateDatabase",
         Dict{String,Any}(
@@ -47,8 +47,7 @@ function create_database(
 end
 
 """
-    create_table(database_name, table_name)
-    create_table(database_name, table_name, params::Dict{String,<:Any})
+    create_table(database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The CreateTable operation adds a new table to an existing database in your account. In an
 AWS account, table names must be at least unique within each Region if they are in the same
@@ -62,27 +61,15 @@ Management in the Timestream Developer Guide.
 - `table_name`: The name of the Timestream table.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RetentionProperties"`: The duration for which your time series data must be stored in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"retention_properties"`: The duration for which your time series data must be stored in
   the memory store and the magnetic store.
-- `"Tags"`:  A list of key-value pairs to label the table.
+- `"tags"`:  A list of key-value pairs to label the table.
 """
 function create_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "CreateTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_table(
-    DatabaseName,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "CreateTable",
         Dict{String,Any}(
@@ -98,8 +85,7 @@ function create_table(
 end
 
 """
-    delete_database(database_name)
-    delete_database(database_name, params::Dict{String,<:Any})
+    delete_database(database_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a given Timestream database. This is an irreversible operation. After a database is
 deleted, the time series data from its tables cannot be recovered.  All tables in the
@@ -111,19 +97,10 @@ ResourceNotFoundException. Clients should consider them equivalent.
 - `database_name`: The name of the Timestream database to be deleted.
 
 """
-function delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "DeleteDatabase",
-        Dict{String,Any}("DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_database(
-    DatabaseName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "DeleteDatabase",
         Dict{String,Any}(
@@ -135,8 +112,7 @@ function delete_database(
 end
 
 """
-    delete_table(database_name, table_name)
-    delete_table(database_name, table_name, params::Dict{String,<:Any})
+    delete_table(database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a given Timestream table. This is an irreversible operation. After a Timestream
 database table is deleted, the time series data stored in the table cannot be recovered.
@@ -149,21 +125,9 @@ ResourceNotFoundException. Clients should consider them equivalent.
 
 """
 function delete_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "DeleteTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_table(
-    DatabaseName,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "DeleteTable",
         Dict{String,Any}(
@@ -179,8 +143,7 @@ function delete_table(
 end
 
 """
-    describe_database(database_name)
-    describe_database(database_name, params::Dict{String,<:Any})
+    describe_database(database_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the database, including the database name, time that the database
 was created, and the total number of tables found within the database. Service quotas
@@ -190,19 +153,10 @@ apply. For more information, see Access Management in the Timestream Developer G
 - `database_name`: The name of the Timestream database.
 
 """
-function describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "DescribeDatabase",
-        Dict{String,Any}("DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_database(
-    DatabaseName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "DescribeDatabase",
         Dict{String,Any}(
@@ -214,8 +168,7 @@ function describe_database(
 end
 
 """
-    describe_endpoints()
-    describe_endpoints(params::Dict{String,<:Any})
+    describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 DescribeEndpoints returns a list of available endpoints to make Timestream API calls
 against. This API is available through both Write and Query. Because Timestream’s SDKs
@@ -227,22 +180,15 @@ information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern 
 APIs.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_table(database_name, table_name)
-    describe_table(database_name, table_name, params::Dict{String,<:Any})
+    describe_table(database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the table, including the table name, database name, retention
 duration of the memory store and the magnetic store. Service quotas apply. For more
@@ -254,21 +200,9 @@ information, see Access Management in the Timestream Developer Guide.
 
 """
 function describe_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "DescribeTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_table(
-    DatabaseName,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "DescribeTable",
         Dict{String,Any}(
@@ -284,64 +218,51 @@ function describe_table(
 end
 
 """
-    list_databases()
-    list_databases(params::Dict{String,<:Any})
+    list_databases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of your Timestream databases. Service quotas apply. For more information,
 see Access Management in the Timestream Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the output. To
-  resume pagination, provide the NextToken value as argument of a subsequent API invocation.
-- `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
-  argument of a subsequent API invocation.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of items to return in the output. If the total number
+  of items available is more than the value specified, a NextToken is provided in the output.
+  To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
+- `"next_token"`: The pagination token. To resume pagination, provide the NextToken value
+  as argument of a subsequent API invocation.
 """
-function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_databases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_databases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "ListDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tables()
-    list_tables(params::Dict{String,<:Any})
+    list_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A list of tables, along with the name, status and retention properties of each table.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatabaseName"`: The name of the Timestream database.
-- `"MaxResults"`: The total number of items to return in the output. If the total number of
-  items available is more than the value specified, a NextToken is provided in the output. To
-  resume pagination, provide the NextToken value as argument of a subsequent API invocation.
-- `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
-  argument of a subsequent API invocation.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"database_name"`: The name of the Timestream database.
+- `"max_results"`: The total number of items to return in the output. If the total number
+  of items available is more than the value specified, a NextToken is provided in the output.
+  To resume pagination, provide the NextToken value as argument of a subsequent API
+  invocation.
+- `"next_token"`: The pagination token. To resume pagination, provide the NextToken value
+  as argument of a subsequent API invocation.
 """
-function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  List all tags on a Timestream resource.
 
@@ -351,20 +272,9 @@ end
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -376,8 +286,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Associate a set of tags with a Timestream resource. You can then activate these
 user-defined tags so that they appear on the Billing and Cost Management console for cost
@@ -389,20 +298,10 @@ allocation tracking.
 - `tags`:  The tags to be assigned to the Timestream resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_write(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "TagResource",
         Dict{String,Any}(
@@ -418,8 +317,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Removes the association of tags from a Timestream resource.
 
@@ -431,21 +329,9 @@ end
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "UntagResource",
         Dict{String,Any}(
@@ -461,8 +347,7 @@ function untag_resource(
 end
 
 """
-    update_database(database_name, kms_key_id)
-    update_database(database_name, kms_key_id, params::Dict{String,<:Any})
+    update_database(database_name, kms_key_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Modifies the KMS key for an existing database. While updating the database, you must
 specify the database name and the identifier of the new KMS key to be used (KmsKeyId). If
@@ -480,21 +365,9 @@ there are any concurrent UpdateDatabase requests, first writer wins.
 
 """
 function update_database(
-    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return timestream_write(
-        "UpdateDatabase",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "KmsKeyId" => KmsKeyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_database(
-    DatabaseName,
-    KmsKeyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "UpdateDatabase",
         Dict{String,Any}(
@@ -510,8 +383,7 @@ function update_database(
 end
 
 """
-    update_table(database_name, retention_properties, table_name)
-    update_table(database_name, retention_properties, table_name, params::Dict{String,<:Any})
+    update_table(database_name, retention_properties, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the retention duration of the memory store and magnetic store for your Timestream
 table. Note that the change in retention duration takes effect immediately. For example, if
@@ -532,25 +404,9 @@ function update_table(
     RetentionProperties,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return timestream_write(
-        "UpdateTable",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "RetentionProperties" => RetentionProperties,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_table(
-    DatabaseName,
-    RetentionProperties,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "UpdateTable",
         Dict{String,Any}(
@@ -570,8 +426,7 @@ function update_table(
 end
 
 """
-    write_records(database_name, records, table_name)
-    write_records(database_name, records, table_name, params::Dict{String,<:Any})
+    write_records(database_name, records, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The WriteRecords operation enables you to write your time series data into Timestream. You
 can specify a single data point or a batch of data points to be inserted into the system.
@@ -592,31 +447,20 @@ Developer Guide.
 - `table_name`: The name of the Timesream table.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommonAttributes"`: A record containing the common measure and dimension attributes
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"common_attributes"`: A record containing the common measure and dimension attributes
   shared across all the records in the request. The measure and dimension attributes
   specified in here will be merged with the measure and dimension attributes in the records
   object when the data is written into Timestream.
 """
 function write_records(
-    DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return timestream_write(
-        "WriteRecords",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName, "Records" => Records, "TableName" => TableName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function write_records(
     DatabaseName,
     Records,
-    TableName,
-    params::AbstractDict{String};
+    TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return timestream_write(
         "WriteRecords",
         Dict{String,Any}(

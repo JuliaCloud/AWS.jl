@@ -4,9 +4,17 @@ using AWS.AWSServices: cloudsearch
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "deployed" => "Deployed",
+    "expression_names" => "ExpressionNames",
+    "analysis_scheme_names" => "AnalysisSchemeNames",
+    "domain_names" => "DomainNames",
+    "suggester_names" => "SuggesterNames",
+    "field_names" => "FieldNames",
+)
+
 """
-    build_suggesters(domain_name)
-    build_suggesters(domain_name, params::Dict{String,<:Any})
+    build_suggesters(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Indexes the search suggestions. For more information, see Configuring Suggesters in the
 Amazon CloudSearch Developer Guide.
@@ -15,19 +23,10 @@ Amazon CloudSearch Developer Guide.
 - `domain_name`:
 
 """
-function build_suggesters(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "BuildSuggesters",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function build_suggesters(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "BuildSuggesters",
         Dict{String,Any}(
@@ -39,8 +38,7 @@ function build_suggesters(
 end
 
 """
-    create_domain(domain_name)
-    create_domain(domain_name, params::Dict{String,<:Any})
+    create_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new search domain. For more information, see Creating a Search Domain in the
 Amazon CloudSearch Developer Guide.
@@ -51,19 +49,10 @@ Amazon CloudSearch Developer Guide.
   and be at least 3 and no more than 28 characters long.
 
 """
-function create_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "CreateDomain",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "CreateDomain",
         Dict{String,Any}(
@@ -75,8 +64,7 @@ function create_domain(
 end
 
 """
-    define_analysis_scheme(analysis_scheme, domain_name)
-    define_analysis_scheme(analysis_scheme, domain_name, params::Dict{String,<:Any})
+    define_analysis_scheme(analysis_scheme, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures an analysis scheme that can be applied to a text or text-array field to define
 language-specific text processing options. For more information, see Configuring Analysis
@@ -88,21 +76,9 @@ Schemes in the Amazon CloudSearch Developer Guide.
 
 """
 function define_analysis_scheme(
-    AnalysisScheme, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    AnalysisScheme, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DefineAnalysisScheme",
-        Dict{String,Any}("AnalysisScheme" => AnalysisScheme, "DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function define_analysis_scheme(
-    AnalysisScheme,
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DefineAnalysisScheme",
         Dict{String,Any}(
@@ -120,8 +96,7 @@ function define_analysis_scheme(
 end
 
 """
-    define_expression(domain_name, expression)
-    define_expression(domain_name, expression, params::Dict{String,<:Any})
+    define_expression(domain_name, expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures an Expression for the search domain. Used to create new expressions and modify
 existing ones. If the expression exists, the new configuration replaces the old one. For
@@ -133,21 +108,9 @@ more information, see Configuring Expressions in the Amazon CloudSearch Develope
 
 """
 function define_expression(
-    DomainName, Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DefineExpression",
-        Dict{String,Any}("DomainName" => DomainName, "Expression" => Expression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function define_expression(
-    DomainName,
-    Expression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DefineExpression",
         Dict{String,Any}(
@@ -163,8 +126,7 @@ function define_expression(
 end
 
 """
-    define_index_field(domain_name, index_field)
-    define_index_field(domain_name, index_field, params::Dict{String,<:Any})
+    define_index_field(domain_name, index_field; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures an IndexField for the search domain. Used to create new fields and modify
 existing ones. You must specify the name of the domain you are configuring and an index
@@ -180,21 +142,9 @@ Guide.
 
 """
 function define_index_field(
-    DomainName, IndexField; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, IndexField; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DefineIndexField",
-        Dict{String,Any}("DomainName" => DomainName, "IndexField" => IndexField);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function define_index_field(
-    DomainName,
-    IndexField,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DefineIndexField",
         Dict{String,Any}(
@@ -210,8 +160,7 @@ function define_index_field(
 end
 
 """
-    define_suggester(domain_name, suggester)
-    define_suggester(domain_name, suggester, params::Dict{String,<:Any})
+    define_suggester(domain_name, suggester; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures a suggester for a domain. A suggester enables you to display possible matches
 before users finish typing their queries. When you configure a suggester, you must specify
@@ -225,21 +174,9 @@ CloudSearch Developer Guide.
 
 """
 function define_suggester(
-    DomainName, Suggester; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, Suggester; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DefineSuggester",
-        Dict{String,Any}("DomainName" => DomainName, "Suggester" => Suggester);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function define_suggester(
-    DomainName,
-    Suggester,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DefineSuggester",
         Dict{String,Any}(
@@ -255,8 +192,7 @@ function define_suggester(
 end
 
 """
-    delete_analysis_scheme(analysis_scheme_name, domain_name)
-    delete_analysis_scheme(analysis_scheme_name, domain_name, params::Dict{String,<:Any})
+    delete_analysis_scheme(analysis_scheme_name, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the
 Amazon CloudSearch Developer Guide.
@@ -267,23 +203,12 @@ Amazon CloudSearch Developer Guide.
 
 """
 function delete_analysis_scheme(
-    AnalysisSchemeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudsearch(
-        "DeleteAnalysisScheme",
-        Dict{String,Any}(
-            "AnalysisSchemeName" => AnalysisSchemeName, "DomainName" => DomainName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_analysis_scheme(
     AnalysisSchemeName,
-    DomainName,
-    params::AbstractDict{String};
+    DomainName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DeleteAnalysisScheme",
         Dict{String,Any}(
@@ -301,8 +226,7 @@ function delete_analysis_scheme(
 end
 
 """
-    delete_domain(domain_name)
-    delete_domain(domain_name, params::Dict{String,<:Any})
+    delete_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently deletes a search domain and all of its data. Once a domain has been deleted, it
 cannot be recovered. For more information, see Deleting a Search Domain in the Amazon
@@ -312,19 +236,10 @@ CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to permanently delete.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "DeleteDomain",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DeleteDomain",
         Dict{String,Any}(
@@ -336,8 +251,7 @@ function delete_domain(
 end
 
 """
-    delete_expression(domain_name, expression_name)
-    delete_expression(domain_name, expression_name, params::Dict{String,<:Any})
+    delete_expression(domain_name, expression_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes an Expression from the search domain. For more information, see Configuring
 Expressions in the Amazon CloudSearch Developer Guide.
@@ -348,21 +262,9 @@ Expressions in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_expression(
-    DomainName, ExpressionName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ExpressionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DeleteExpression",
-        Dict{String,Any}("DomainName" => DomainName, "ExpressionName" => ExpressionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_expression(
-    DomainName,
-    ExpressionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DeleteExpression",
         Dict{String,Any}(
@@ -380,8 +282,7 @@ function delete_expression(
 end
 
 """
-    delete_index_field(domain_name, index_field_name)
-    delete_index_field(domain_name, index_field_name, params::Dict{String,<:Any})
+    delete_index_field(domain_name, index_field_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes an IndexField from the search domain. For more information, see Configuring Index
 Fields in the Amazon CloudSearch Developer Guide.
@@ -393,21 +294,9 @@ Fields in the Amazon CloudSearch Developer Guide.
 
 """
 function delete_index_field(
-    DomainName, IndexFieldName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, IndexFieldName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DeleteIndexField",
-        Dict{String,Any}("DomainName" => DomainName, "IndexFieldName" => IndexFieldName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_index_field(
-    DomainName,
-    IndexFieldName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DeleteIndexField",
         Dict{String,Any}(
@@ -425,8 +314,7 @@ function delete_index_field(
 end
 
 """
-    delete_suggester(domain_name, suggester_name)
-    delete_suggester(domain_name, suggester_name, params::Dict{String,<:Any})
+    delete_suggester(domain_name, suggester_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a suggester. For more information, see Getting Search Suggestions in the Amazon
 CloudSearch Developer Guide.
@@ -437,21 +325,9 @@ CloudSearch Developer Guide.
 
 """
 function delete_suggester(
-    DomainName, SuggesterName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, SuggesterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DeleteSuggester",
-        Dict{String,Any}("DomainName" => DomainName, "SuggesterName" => SuggesterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_suggester(
-    DomainName,
-    SuggesterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DeleteSuggester",
         Dict{String,Any}(
@@ -469,8 +345,7 @@ function delete_suggester(
 end
 
 """
-    describe_analysis_schemes(domain_name)
-    describe_analysis_schemes(domain_name, params::Dict{String,<:Any})
+    describe_analysis_schemes(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the analysis schemes configured for a domain. An analysis scheme defines
 language-specific text processing options for a text field. Can be limited to specific
@@ -483,26 +358,15 @@ Schemes in the Amazon CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AnalysisSchemeNames"`: The analysis schemes you want to describe.
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"analysis_scheme_names"`: The analysis schemes you want to describe.
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
 """
 function describe_analysis_schemes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeAnalysisSchemes",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_analysis_schemes(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeAnalysisSchemes",
         Dict{String,Any}(
@@ -514,8 +378,7 @@ function describe_analysis_schemes(
 end
 
 """
-    describe_availability_options(domain_name)
-    describe_availability_options(domain_name, params::Dict{String,<:Any})
+    describe_availability_options(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the availability options configured for a domain. By default, shows the configuration
 with any pending changes. Set the Deployed option to true to show the active configuration
@@ -526,25 +389,14 @@ the Amazon CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
 """
 function describe_availability_options(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeAvailabilityOptions",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_availability_options(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeAvailabilityOptions",
         Dict{String,Any}(
@@ -556,8 +408,7 @@ function describe_availability_options(
 end
 
 """
-    describe_domain_endpoint_options(domain_name)
-    describe_domain_endpoint_options(domain_name, params::Dict{String,<:Any})
+    describe_domain_endpoint_options(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the domain's endpoint options, specifically whether all requests to the domain must
 arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the
@@ -567,25 +418,14 @@ Amazon CloudSearch Developer Guide.
 - `domain_name`: A string that represents the name of a domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to retrieve the latest configuration (which might be in a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to retrieve the latest configuration (which might be in a
   Processing state) or the current, active configuration. Defaults to false.
 """
 function describe_domain_endpoint_options(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeDomainEndpointOptions",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain_endpoint_options(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeDomainEndpointOptions",
         Dict{String,Any}(
@@ -597,8 +437,7 @@ function describe_domain_endpoint_options(
 end
 
 """
-    describe_domains()
-    describe_domains(params::Dict{String,<:Any})
+    describe_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the search domains owned by this account. Can be limited to specific
 domains. Shows all domains by default. To get the number of searchable documents in a
@@ -607,25 +446,18 @@ q=matchall&amp;amp;q.parser=structured&amp;amp;size=0. For more information, see
 Information about a Search Domain in the Amazon CloudSearch Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DomainNames"`: The names of the domains you want to include in the response.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_names"`: The names of the domains you want to include in the response.
 """
-function describe_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "DescribeDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_expressions(domain_name)
-    describe_expressions(domain_name, params::Dict{String,<:Any})
+    describe_expressions(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the expressions configured for the search domain. Can be limited to specific
 expressions by name. By default, shows all expressions and includes any pending changes to
@@ -637,25 +469,16 @@ CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
-- `"ExpressionNames"`: Limits the DescribeExpressions response to the specified
+- `"expression_names"`: Limits the DescribeExpressions response to the specified
   expressions. If not specified, all expressions are shown.
 """
-function describe_expressions(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "DescribeExpressions",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_expressions(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeExpressions",
         Dict{String,Any}(
@@ -667,8 +490,7 @@ function describe_expressions(
 end
 
 """
-    describe_index_fields(domain_name)
-    describe_index_fields(domain_name, params::Dict{String,<:Any})
+    describe_index_fields(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the index fields configured for the search domain. Can be limited to
 specific fields by name. By default, shows all fields and includes any pending changes to
@@ -680,27 +502,16 @@ CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
-- `"FieldNames"`: A list of the index fields you want to describe. If not specified,
+- `"field_names"`: A list of the index fields you want to describe. If not specified,
   information is returned for all configured index fields.
 """
 function describe_index_fields(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeIndexFields",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_index_fields(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeIndexFields",
         Dict{String,Any}(
@@ -712,8 +523,7 @@ function describe_index_fields(
 end
 
 """
-    describe_scaling_parameters(domain_name)
-    describe_scaling_parameters(domain_name, params::Dict{String,<:Any})
+    describe_scaling_parameters(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the scaling parameters configured for a domain. A domain's scaling parameters specify
 the desired search instance type and replication count. For more information, see
@@ -724,20 +534,9 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function describe_scaling_parameters(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeScalingParameters",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scaling_parameters(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeScalingParameters",
         Dict{String,Any}(
@@ -749,8 +548,7 @@ function describe_scaling_parameters(
 end
 
 """
-    describe_service_access_policies(domain_name)
-    describe_service_access_policies(domain_name, params::Dict{String,<:Any})
+    describe_service_access_policies(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the access policies that control access to the domain's document and
 search endpoints. By default, shows the configuration with any pending changes. Set the
@@ -762,25 +560,14 @@ Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
 """
 function describe_service_access_policies(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "DescribeServiceAccessPolicies",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_service_access_policies(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeServiceAccessPolicies",
         Dict{String,Any}(
@@ -792,8 +579,7 @@ function describe_service_access_policies(
 end
 
 """
-    describe_suggesters(domain_name)
-    describe_suggesters(domain_name, params::Dict{String,<:Any})
+    describe_suggesters(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the suggesters configured for a domain. A suggester enables you to display possible
 matches before users finish typing their queries. Can be limited to specific suggesters by
@@ -806,24 +592,15 @@ CloudSearch Developer Guide.
 - `domain_name`: The name of the domain you want to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Deployed"`: Whether to display the deployed configuration (true) or include any pending
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployed"`: Whether to display the deployed configuration (true) or include any pending
   changes (false). Defaults to false.
-- `"SuggesterNames"`: The suggesters you want to describe.
+- `"suggester_names"`: The suggesters you want to describe.
 """
-function describe_suggesters(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "DescribeSuggesters",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_suggesters(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "DescribeSuggesters",
         Dict{String,Any}(
@@ -835,8 +612,7 @@ function describe_suggesters(
 end
 
 """
-    index_documents(domain_name)
-    index_documents(domain_name, params::Dict{String,<:Any})
+    index_documents(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tells the search domain to start indexing its documents using the latest indexing options.
 This operation must be invoked to activate options whose OptionStatus is
@@ -846,19 +622,10 @@ RequiresIndexDocuments.
 - `domain_name`:
 
 """
-function index_documents(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "IndexDocuments",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function index_documents(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "IndexDocuments",
         Dict{String,Any}(
@@ -870,28 +637,20 @@ function index_documents(
 end
 
 """
-    list_domain_names()
-    list_domain_names(params::Dict{String,<:Any})
+    list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all search domains owned by an account.
 
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch(
-        "ListDomainNames"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "ListDomainNames", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    update_availability_options(domain_name, multi_az)
-    update_availability_options(domain_name, multi_az, params::Dict{String,<:Any})
+    update_availability_options(domain_name, multi_az; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures the availability options for a domain. Enabling the Multi-AZ option expands an
 Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase
@@ -907,21 +666,9 @@ Availability Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_availability_options(
-    DomainName, MultiAZ; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, MultiAZ; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "UpdateAvailabilityOptions",
-        Dict{String,Any}("DomainName" => DomainName, "MultiAZ" => MultiAZ);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_availability_options(
-    DomainName,
-    MultiAZ,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "UpdateAvailabilityOptions",
         Dict{String,Any}(
@@ -937,8 +684,7 @@ function update_availability_options(
 end
 
 """
-    update_domain_endpoint_options(domain_endpoint_options, domain_name)
-    update_domain_endpoint_options(domain_endpoint_options, domain_name, params::Dict{String,<:Any})
+    update_domain_endpoint_options(domain_endpoint_options, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the domain's endpoint options, specifically whether all requests to the domain must
 arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the
@@ -952,23 +698,12 @@ Amazon CloudSearch Developer Guide.
 
 """
 function update_domain_endpoint_options(
-    DomainEndpointOptions, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudsearch(
-        "UpdateDomainEndpointOptions",
-        Dict{String,Any}(
-            "DomainEndpointOptions" => DomainEndpointOptions, "DomainName" => DomainName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_domain_endpoint_options(
     DomainEndpointOptions,
-    DomainName,
-    params::AbstractDict{String};
+    DomainName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "UpdateDomainEndpointOptions",
         Dict{String,Any}(
@@ -987,8 +722,7 @@ function update_domain_endpoint_options(
 end
 
 """
-    update_scaling_parameters(domain_name, scaling_parameters)
-    update_scaling_parameters(domain_name, scaling_parameters, params::Dict{String,<:Any})
+    update_scaling_parameters(domain_name, scaling_parameters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures scaling parameters for a domain. A domain's scaling parameters specify the
 desired search instance type and replication count. Amazon CloudSearch will still
@@ -1003,23 +737,12 @@ Configuring Scaling Options in the Amazon CloudSearch Developer Guide.
 
 """
 function update_scaling_parameters(
-    DomainName, ScalingParameters; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudsearch(
-        "UpdateScalingParameters",
-        Dict{String,Any}(
-            "DomainName" => DomainName, "ScalingParameters" => ScalingParameters
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_scaling_parameters(
     DomainName,
-    ScalingParameters,
-    params::AbstractDict{String};
+    ScalingParameters;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "UpdateScalingParameters",
         Dict{String,Any}(
@@ -1037,8 +760,7 @@ function update_scaling_parameters(
 end
 
 """
-    update_service_access_policies(access_policies, domain_name)
-    update_service_access_policies(access_policies, domain_name, params::Dict{String,<:Any})
+    update_service_access_policies(access_policies, domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures the access rules that control access to the domain's document and search
 endpoints. For more information, see  Configuring Access for an Amazon CloudSearch Domain.
@@ -1050,21 +772,9 @@ endpoints. For more information, see  Configuring Access for an Amazon CloudSear
 
 """
 function update_service_access_policies(
-    AccessPolicies, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessPolicies, DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch(
-        "UpdateServiceAccessPolicies",
-        Dict{String,Any}("AccessPolicies" => AccessPolicies, "DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_service_access_policies(
-    AccessPolicies,
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch(
         "UpdateServiceAccessPolicies",
         Dict{String,Any}(

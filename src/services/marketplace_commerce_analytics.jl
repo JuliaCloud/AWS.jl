@@ -4,9 +4,13 @@ using AWS.AWSServices: marketplace_commerce_analytics
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "customer_defined_values" => "customerDefinedValues",
+    "destination_s3_prefix" => "destinationS3Prefix",
+)
+
 """
-    generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn)
-    generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn, params::Dict{String,<:Any})
+    generate_data_set(data_set_publication_date, data_set_type, destination_s3_bucket_name, role_name_arn, sns_topic_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a data set type and data set publication date, asynchronously publishes the requested
 data set to the specified S3 bucket and notifies the specified SNS topic once the data is
@@ -71,11 +75,12 @@ sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   the data set has been published or if an error has occurred.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerDefinedValues"`: (Optional) Key-value pairs which will be returned, unmodified,
-  in the Amazon SNS notification message and the data set metadata file. These key-value
-  pairs can be used to correlated responses with tracking information from other systems.
-- `"destinationS3Prefix"`: (Optional) The desired S3 prefix for the published data set,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"customer_defined_values"`: (Optional) Key-value pairs which will be returned,
+  unmodified, in the Amazon SNS notification message and the data set metadata file. These
+  key-value pairs can be used to correlated responses with tracking information from other
+  systems.
+- `"destination_s3_prefix"`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
@@ -89,29 +94,9 @@ function generate_data_set(
     roleNameArn,
     snsTopicArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return marketplace_commerce_analytics(
-        "GenerateDataSet",
-        Dict{String,Any}(
-            "dataSetPublicationDate" => dataSetPublicationDate,
-            "dataSetType" => dataSetType,
-            "destinationS3BucketName" => destinationS3BucketName,
-            "roleNameArn" => roleNameArn,
-            "snsTopicArn" => snsTopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function generate_data_set(
-    dataSetPublicationDate,
-    dataSetType,
-    destinationS3BucketName,
-    roleNameArn,
-    snsTopicArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_commerce_analytics(
         "GenerateDataSet",
         Dict{String,Any}(
@@ -133,8 +118,7 @@ function generate_data_set(
 end
 
 """
-    start_support_data_export(data_set_type, destination_s3_bucket_name, from_date, role_name_arn, sns_topic_arn)
-    start_support_data_export(data_set_type, destination_s3_bucket_name, from_date, role_name_arn, sns_topic_arn, params::Dict{String,<:Any})
+    start_support_data_export(data_set_type, destination_s3_bucket_name, from_date, role_name_arn, sns_topic_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a data set type and a from date, asynchronously publishes the requested customer
 support data to the specified S3 bucket and notifies the specified SNS topic once the data
@@ -167,10 +151,10 @@ s3:GetBucketLocation, sns:GetTopicAttributes, sns:Publish, iam:GetRolePolicy.
   the data set has been published or if an error has occurred.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerDefinedValues"`: (Optional) Key-value pairs which will be returned, unmodified,
-  in the Amazon SNS notification message and the data set metadata file.
-- `"destinationS3Prefix"`: (Optional) The desired S3 prefix for the published data set,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"customer_defined_values"`: (Optional) Key-value pairs which will be returned,
+  unmodified, in the Amazon SNS notification message and the data set metadata file.
+- `"destination_s3_prefix"`: (Optional) The desired S3 prefix for the published data set,
   similar to a directory path in standard file systems. For example, if given the bucket name
   \"mybucket\" and the prefix \"myprefix/mydatasets\", the output file \"outputfile\" would
   be published to \"s3://mybucket/myprefix/mydatasets/outputfile\". If the prefix directory
@@ -184,29 +168,9 @@ function start_support_data_export(
     roleNameArn,
     snsTopicArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return marketplace_commerce_analytics(
-        "StartSupportDataExport",
-        Dict{String,Any}(
-            "dataSetType" => dataSetType,
-            "destinationS3BucketName" => destinationS3BucketName,
-            "fromDate" => fromDate,
-            "roleNameArn" => roleNameArn,
-            "snsTopicArn" => snsTopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_support_data_export(
-    dataSetType,
-    destinationS3BucketName,
-    fromDate,
-    roleNameArn,
-    snsTopicArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_commerce_analytics(
         "StartSupportDataExport",
         Dict{String,Any}(

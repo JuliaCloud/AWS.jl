@@ -4,9 +4,17 @@ using AWS.AWSServices: iot_1click_projects
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "placement_template" => "placementTemplate",
+    "attributes" => "attributes",
+    "tags" => "tags",
+    "next_token" => "nextToken",
+    "description" => "description",
+    "max_results" => "maxResults",
+)
+
 """
-    associate_device_with_placement(device_id, device_template_name, placement_name, project_name)
-    associate_device_with_placement(device_id, device_template_name, placement_name, project_name, params::Dict{String,<:Any})
+    associate_device_with_placement(device_id, device_template_name, placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a physical device with a placement.
 
@@ -25,23 +33,9 @@ function associate_device_with_placement(
     placementName,
     projectName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return iot_1click_projects(
-        "PUT",
-        "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)",
-        Dict{String,Any}("deviceId" => deviceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_device_with_placement(
-    deviceId,
-    deviceTemplateName,
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "PUT",
         "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)",
@@ -54,8 +48,7 @@ function associate_device_with_placement(
 end
 
 """
-    create_placement(placement_name, project_name)
-    create_placement(placement_name, project_name, params::Dict{String,<:Any})
+    create_placement(placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an empty placement.
 
@@ -64,27 +57,14 @@ Creates an empty placement.
 - `project_name`: The name of the project in which to create the placement.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"attributes"`: Optional user-defined key/value pairs providing contextual data (such as
   location or function) for the placement.
 """
 function create_placement(
-    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "POST",
-        "/projects/$(projectName)/placements",
-        Dict{String,Any}("placementName" => placementName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_placement(
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "POST",
         "/projects/$(projectName)/placements",
@@ -97,8 +77,7 @@ function create_placement(
 end
 
 """
-    create_project(project_name)
-    create_project(project_name, params::Dict{String,<:Any})
+    create_project(project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an empty project with a placement template. A project contains zero or more
 placements that adhere to the placement template defined in the project.
@@ -107,9 +86,9 @@ placements that adhere to the placement template defined in the project.
 - `project_name`: The name of the project to create.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: An optional description for the project.
-- `"placementTemplate"`: The schema defining the placement to be created. A placement
+- `"placement_template"`: The schema defining the placement to be created. A placement
   template defines placement default attributes and device templates. You cannot add or
   remove device templates after the project has been created. However, you can update
   callbackOverrides for the device templates using the UpdateProject API.
@@ -117,20 +96,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
   Tagging Strategies.
 """
-function create_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "POST",
-        "/projects",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_project(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "POST",
         "/projects",
@@ -143,8 +112,7 @@ function create_project(
 end
 
 """
-    delete_placement(placement_name, project_name)
-    delete_placement(placement_name, project_name, params::Dict{String,<:Any})
+    delete_placement(placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a placement. To delete a placement, it must not have any devices associated with
 it.  When you delete a placement, all associated data becomes irretrievable.
@@ -155,21 +123,9 @@ it.  When you delete a placement, all associated data becomes irretrievable.
 
 """
 function delete_placement(
-    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "DELETE",
-        "/projects/$(projectName)/placements/$(placementName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_placement(
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "DELETE",
         "/projects/$(projectName)/placements/$(placementName)",
@@ -180,8 +136,7 @@ function delete_placement(
 end
 
 """
-    delete_project(project_name)
-    delete_project(project_name, params::Dict{String,<:Any})
+    delete_project(project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a project. To delete a project, it must not have any placements associated with it.
  When you delete a project, all associated data becomes irretrievable.
@@ -190,19 +145,10 @@ Deletes a project. To delete a project, it must not have any placements associat
 - `project_name`: The name of the empty project to delete.
 
 """
-function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "DELETE",
-        "/projects/$(projectName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_project(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "DELETE",
         "/projects/$(projectName)",
@@ -213,8 +159,7 @@ function delete_project(
 end
 
 """
-    describe_placement(placement_name, project_name)
-    describe_placement(placement_name, project_name, params::Dict{String,<:Any})
+    describe_placement(placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a placement in a project.
 
@@ -224,21 +169,9 @@ Describes a placement in a project.
 
 """
 function describe_placement(
-    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "GET",
-        "/projects/$(projectName)/placements/$(placementName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_placement(
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET",
         "/projects/$(projectName)/placements/$(placementName)",
@@ -249,8 +182,7 @@ function describe_placement(
 end
 
 """
-    describe_project(project_name)
-    describe_project(project_name, params::Dict{String,<:Any})
+    describe_project(project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an object describing a project.
 
@@ -258,19 +190,10 @@ Returns an object describing a project.
 - `project_name`: The name of the project to be described.
 
 """
-function describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "GET",
-        "/projects/$(projectName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_project(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET",
         "/projects/$(projectName)",
@@ -281,8 +204,7 @@ function describe_project(
 end
 
 """
-    disassociate_device_from_placement(device_template_name, placement_name, project_name)
-    disassociate_device_from_placement(device_template_name, placement_name, project_name, params::Dict{String,<:Any})
+    disassociate_device_from_placement(device_template_name, placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a physical device from a placement.
 
@@ -297,21 +219,9 @@ function disassociate_device_from_placement(
     placementName,
     projectName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return iot_1click_projects(
-        "DELETE",
-        "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_device_from_placement(
-    deviceTemplateName,
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "DELETE",
         "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)",
@@ -322,8 +232,7 @@ function disassociate_device_from_placement(
 end
 
 """
-    get_devices_in_placement(placement_name, project_name)
-    get_devices_in_placement(placement_name, project_name, params::Dict{String,<:Any})
+    get_devices_in_placement(placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an object enumerating the devices in a placement.
 
@@ -333,21 +242,9 @@ Returns an object enumerating the devices in a placement.
 
 """
 function get_devices_in_placement(
-    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "GET",
-        "/projects/$(projectName)/placements/$(placementName)/devices";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_devices_in_placement(
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET",
         "/projects/$(projectName)/placements/$(placementName)/devices",
@@ -358,8 +255,7 @@ function get_devices_in_placement(
 end
 
 """
-    list_placements(project_name)
-    list_placements(project_name, params::Dict{String,<:Any})
+    list_placements(project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the placement(s) of a project.
 
@@ -367,24 +263,15 @@ Lists the placement(s) of a project.
 - `project_name`: The project containing the placements to be listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per request. If not set, a
   default value of 100 is used.
-- `"nextToken"`: The token to retrieve the next set of results.
+- `"next_token"`: The token to retrieve the next set of results.
 """
-function list_placements(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "GET",
-        "/projects/$(projectName)/placements";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_placements(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET",
         "/projects/$(projectName)/placements",
@@ -395,33 +282,25 @@ function list_placements(
 end
 
 """
-    list_projects()
-    list_projects(params::Dict{String,<:Any})
+    list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the AWS IoT 1-Click project(s) associated with your AWS account and region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per request. If not set, a
   default value of 100 is used.
-- `"nextToken"`: The token to retrieve the next set of results.
+- `"next_token"`: The token to retrieve the next set of results.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags (metadata key/value pairs) which you have assigned to the resource.
 
@@ -430,20 +309,9 @@ Lists the tags (metadata key/value pairs) which you have assigned to the resourc
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "GET",
         "/tags/$(resourceArn)",
@@ -454,8 +322,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or modifies tags for a resource. Tags are key/value pairs (metadata) that can be
 used to manage a resource. For more information, see AWS Tagging Strategies.
@@ -466,21 +333,10 @@ used to manage a resource. For more information, see AWS Tagging Strategies.
   for the maximum number of tags allowed per resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "POST",
         "/tags/$(resourceArn)",
@@ -491,8 +347,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags (metadata key/value pairs) from a resource.
 
@@ -502,22 +357,9 @@ Removes one or more tags (metadata key/value pairs) from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -528,8 +370,7 @@ function untag_resource(
 end
 
 """
-    update_placement(placement_name, project_name)
-    update_placement(placement_name, project_name, params::Dict{String,<:Any})
+    update_placement(placement_name, project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a placement with the given attributes. To clear an attribute, pass an empty value
 (i.e., \"\").
@@ -539,26 +380,14 @@ Updates a placement with the given attributes. To clear an attribute, pass an em
 - `project_name`: The name of the project containing the placement to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"attributes"`: The user-defined object of attributes used to update the placement. The
   maximum number of key/value pairs is 50.
 """
 function update_placement(
-    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    placementName, projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_projects(
-        "PUT",
-        "/projects/$(projectName)/placements/$(placementName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_placement(
-    placementName,
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "PUT",
         "/projects/$(projectName)/placements/$(placementName)",
@@ -569,8 +398,7 @@ function update_placement(
 end
 
 """
-    update_project(project_name)
-    update_project(project_name, params::Dict{String,<:Any})
+    update_project(project_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a project associated with your AWS account and region. With the exception of device
 template names, you can pass just the values that need to be updated because the update
@@ -581,26 +409,17 @@ string (i.e., \"\").
 - `project_name`: The name of the project to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: An optional user-defined description for the project.
-- `"placementTemplate"`: An object defining the project update. Once a project has been
+- `"placement_template"`: An object defining the project update. Once a project has been
   created, you cannot add device template names to the project. However, for a given
   placementTemplate, you can update the associated callbackOverrides for the device
   definition using this API.
 """
-function update_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_projects(
-        "PUT",
-        "/projects/$(projectName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_project(
-    projectName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_projects(
         "PUT",
         "/projects/$(projectName)",

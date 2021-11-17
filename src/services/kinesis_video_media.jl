@@ -4,9 +4,10 @@ using AWS.AWSServices: kinesis_video_media
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("stream_name" => "StreamName", "stream_arn" => "StreamARN")
+
 """
-    get_media(start_selector)
-    get_media(start_selector, params::Dict{String,<:Any})
+    get_media(start_selector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Use this API to retrieve media content from a Kinesis video stream. In the request, you
 identify the stream name or stream Amazon Resource Name (ARN), and the starting chunk.
@@ -34,26 +35,16 @@ topic, as well as Common Errors.
 - `start_selector`: Identifies the starting chunk to get from the specified stream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The ARN of the stream from where you want to get the media content. If you
-  don't specify the streamARN, you must specify the streamName.
-- `"StreamName"`: The Kinesis video stream name from where you want to get the media
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The ARN of the stream from where you want to get the media content. If
+  you don't specify the streamARN, you must specify the streamName.
+- `"stream_name"`: The Kinesis video stream name from where you want to get the media
   content. If you don't specify the streamName, you must specify the streamARN.
 """
-function get_media(StartSelector; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_media(
-        "POST",
-        "/getMedia",
-        Dict{String,Any}("StartSelector" => StartSelector);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_media(
-    StartSelector,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    StartSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_media(
         "POST",
         "/getMedia",

@@ -4,9 +4,20 @@ using AWS.AWSServices: codestar_connections
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "provider_type_filter" => "ProviderTypeFilter",
+    "host_arn" => "HostArn",
+    "vpc_configuration" => "VpcConfiguration",
+    "provider_type" => "ProviderType",
+    "tags" => "Tags",
+    "next_token" => "NextToken",
+    "host_arn_filter" => "HostArnFilter",
+    "max_results" => "MaxResults",
+    "provider_endpoint" => "ProviderEndpoint",
+)
+
 """
-    create_connection(connection_name)
-    create_connection(connection_name, params::Dict{String,<:Any})
+    create_connection(connection_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a connection that can then be given to other AWS services like CodePipeline so that
 it can access third-party code repositories. The connection is in pending status until the
@@ -17,28 +28,17 @@ third-party connection handshake is completed from the console.
   the calling AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HostArn"`: The Amazon Resource Name (ARN) of the host associated with the connection to
-  be created.
-- `"ProviderType"`: The name of the external provider where your third-party code
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"host_arn"`: The Amazon Resource Name (ARN) of the host associated with the connection
+  to be created.
+- `"provider_type"`: The name of the external provider where your third-party code
   repository is configured.
-- `"Tags"`: The key-value pair to use when tagging the resource.
+- `"tags"`: The key-value pair to use when tagging the resource.
 """
 function create_connection(
-    ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codestar_connections(
-        "CreateConnection",
-        Dict{String,Any}("ConnectionName" => ConnectionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_connection(
-    ConnectionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "CreateConnection",
         Dict{String,Any}(
@@ -50,8 +50,7 @@ function create_connection(
 end
 
 """
-    create_host(name, provider_endpoint, provider_type)
-    create_host(name, provider_endpoint, provider_type, params::Dict{String,<:Any})
+    create_host(name, provider_endpoint, provider_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a resource that represents the infrastructure where a third-party provider is
 installed. The host is used when you create connections to an installed third-party
@@ -69,33 +68,20 @@ default. You can make its status `AVAILABLE` by setting up the host in the conso
   installed. The valid provider type is GitHub Enterprise Server.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`:
-- `"VpcConfiguration"`: The VPC configuration to be provisioned for the host. A VPC must be
-  configured and the infrastructure to be represented by the host must already be connected
-  to the VPC.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`:
+- `"vpc_configuration"`: The VPC configuration to be provisioned for the host. A VPC must
+  be configured and the infrastructure to be represented by the host must already be
+  connected to the VPC.
 """
-function create_host(
-    Name, ProviderEndpoint, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codestar_connections(
-        "CreateHost",
-        Dict{String,Any}(
-            "Name" => Name,
-            "ProviderEndpoint" => ProviderEndpoint,
-            "ProviderType" => ProviderType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_host(
     Name,
     ProviderEndpoint,
-    ProviderType,
-    params::AbstractDict{String};
+    ProviderType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "CreateHost",
         Dict{String,Any}(
@@ -115,8 +101,7 @@ function create_host(
 end
 
 """
-    delete_connection(connection_arn)
-    delete_connection(connection_arn, params::Dict{String,<:Any})
+    delete_connection(connection_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The connection to be deleted.
 
@@ -125,19 +110,10 @@ The connection to be deleted.
   ARN is never reused if the connection is deleted.
 
 """
-function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "DeleteConnection",
-        Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connection(
-    ConnectionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "DeleteConnection",
         Dict{String,Any}(
@@ -149,8 +125,7 @@ function delete_connection(
 end
 
 """
-    delete_host(host_arn)
-    delete_host(host_arn, params::Dict{String,<:Any})
+    delete_host(host_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The host to be deleted. Before you delete a host, all connections associated to the host
 must be deleted.  A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or
@@ -160,17 +135,8 @@ VPC_CONFIG_DELETING state.
 - `host_arn`: The Amazon Resource Name (ARN) of the host to be deleted.
 
 """
-function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "DeleteHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "DeleteHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
@@ -180,8 +146,7 @@ function delete_host(
 end
 
 """
-    get_connection(connection_arn)
-    get_connection(connection_arn, params::Dict{String,<:Any})
+    get_connection(connection_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the connection ARN and details such as status, owner, and provider type.
 
@@ -189,19 +154,10 @@ Returns the connection ARN and details such as status, owner, and provider type.
 - `connection_arn`: The Amazon Resource Name (ARN) of a connection.
 
 """
-function get_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "GetConnection",
-        Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_connection(
-    ConnectionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "GetConnection",
         Dict{String,Any}(
@@ -213,8 +169,7 @@ function get_connection(
 end
 
 """
-    get_host(host_arn)
-    get_host(host_arn, params::Dict{String,<:Any})
+    get_host(host_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the host ARN and details such as status, provider type, endpoint, and, if
 applicable, the VPC configuration.
@@ -223,17 +178,8 @@ applicable, the VPC configuration.
 - `host_arn`: The Amazon Resource Name (ARN) of the requested host.
 
 """
-function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "GetHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "GetHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));
@@ -243,64 +189,49 @@ function get_host(
 end
 
 """
-    list_connections()
-    list_connections(params::Dict{String,<:Any})
+    list_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the connections associated with your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HostArnFilter"`: Filters the list of connections to those associated with a specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"host_arn_filter"`: Filters the list of connections to those associated with a specified
   host.
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value.
-- `"NextToken"`: The token that was returned from the previous ListConnections call, which
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"next_token"`: The token that was returned from the previous ListConnections call, which
   can be used to return the next set of connections in the list.
-- `"ProviderTypeFilter"`: Filters the list of connections to those associated with a
+- `"provider_type_filter"`: Filters the list of connections to those associated with a
   specified provider, such as Bitbucket.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_hosts()
-    list_hosts(params::Dict{String,<:Any})
+    list_hosts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the hosts associated with your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned nextToken value.
-- `"NextToken"`: The token that was returned from the previous ListHosts call, which can be
-  used to return the next set of hosts in the list.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"next_token"`: The token that was returned from the previous ListHosts call, which can
+  be used to return the next set of hosts in the list.
 """
-function list_hosts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "ListHosts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_hosts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_hosts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "ListHosts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
@@ -310,20 +241,9 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codestar_connections(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -335,8 +255,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds to or modifies the tags of the given resource. Tags are metadata that can be used to
 manage a resource.
@@ -347,20 +266,10 @@ manage a resource.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "TagResource",
         Dict{String,Any}(
@@ -376,8 +285,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from an AWS resource.
 
@@ -387,21 +295,9 @@ Removes tags from an AWS resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codestar_connections(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "UntagResource",
         Dict{String,Any}(
@@ -417,8 +313,7 @@ function untag_resource(
 end
 
 """
-    update_host(host_arn)
-    update_host(host_arn, params::Dict{String,<:Any})
+    update_host(host_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a specified host with the provided configurations.
 
@@ -426,23 +321,14 @@ Updates a specified host with the provided configurations.
 - `host_arn`: The Amazon Resource Name (ARN) of the host to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ProviderEndpoint"`: The URL or endpoint of the host to be updated.
-- `"VpcConfiguration"`: The VPC configuration of the host to be updated. A VPC must be
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"provider_endpoint"`: The URL or endpoint of the host to be updated.
+- `"vpc_configuration"`: The VPC configuration of the host to be updated. A VPC must be
   configured and the infrastructure to be represented by the host must already be connected
   to the VPC.
 """
-function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar_connections(
-        "UpdateHost",
-        Dict{String,Any}("HostArn" => HostArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_host(
-    HostArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_host(HostArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codestar_connections(
         "UpdateHost",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("HostArn" => HostArn), params));

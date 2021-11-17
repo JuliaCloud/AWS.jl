@@ -4,9 +4,32 @@ using AWS.AWSServices: mwaa
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "environment_class" => "EnvironmentClass",
+    "execution_role_arn" => "ExecutionRoleArn",
+    "dag_s3_path" => "DagS3Path",
+    "network_configuration" => "NetworkConfiguration",
+    "next_token" => "NextToken",
+    "plugins_s3_path" => "PluginsS3Path",
+    "logging_configuration" => "LoggingConfiguration",
+    "airflow_configuration_options" => "AirflowConfigurationOptions",
+    "webserver_access_mode" => "WebserverAccessMode",
+    "max_results" => "MaxResults",
+    "kms_key" => "KmsKey",
+    "plugins_s3_object_version" => "PluginsS3ObjectVersion",
+    "airflow_version" => "AirflowVersion",
+    "requirements_s3_path" => "RequirementsS3Path",
+    "requirements_s3_object_version" => "RequirementsS3ObjectVersion",
+    "max_workers" => "MaxWorkers",
+    "weekly_maintenance_window_start" => "WeeklyMaintenanceWindowStart",
+    "schedulers" => "Schedulers",
+    "source_bucket_arn" => "SourceBucketArn",
+    "min_workers" => "MinWorkers",
+    "tags" => "Tags",
+)
+
 """
-    create_cli_token(name)
-    create_cli_token(name, params::Dict{String,<:Any})
+    create_cli_token(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a CLI token to use Airflow CLI.
 
@@ -14,14 +37,10 @@ Create a CLI token to use Airflow CLI.
 - `name`: Create a CLI token request for a MWAA environment.
 
 """
-function create_cli_token(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "POST", "/clitoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function create_cli_token(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "POST",
         "/clitoken/$(Name)",
@@ -32,8 +51,7 @@ function create_cli_token(
 end
 
 """
-    create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn)
-    create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn, params::Dict{String,<:Any})
+    create_environment(dag_s3_path, execution_role_arn, name, network_configuration, source_bucket_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
@@ -55,47 +73,47 @@ Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
   for Amazon MWAA.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AirflowConfigurationOptions"`: A list of key-value pairs containing the Apache Airflow
-  configuration options you want to attach to your environment. To learn more, see Apache
-  Airflow configuration options.
-- `"AirflowVersion"`: The Apache Airflow version for your environment. For example,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"airflow_configuration_options"`: A list of key-value pairs containing the Apache
+  Airflow configuration options you want to attach to your environment. To learn more, see
+  Apache Airflow configuration options.
+- `"airflow_version"`: The Apache Airflow version for your environment. For example,
   v1.10.12. If no value is specified, defaults to the latest version. Valid values: v1.10.12.
-- `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
+- `"environment_class"`: The environment class type. Valid values: mw1.small, mw1.medium,
   mw1.large. To learn more, see Amazon MWAA environment class.
-- `"KmsKey"`: The AWS Key Management Service (KMS) key to encrypt the data in your
+- `"kms_key"`: The AWS Key Management Service (KMS) key to encrypt the data in your
   environment. You can use an AWS owned CMK, or a Customer managed CMK (advanced). To learn
   more, see Get started with Amazon Managed Workflows for Apache Airflow.
-- `"LoggingConfiguration"`: Defines the Apache Airflow logs to send to CloudWatch Logs:
+- `"logging_configuration"`: Defines the Apache Airflow logs to send to CloudWatch Logs:
   DagProcessingLogs, SchedulerLogs, TaskLogs, WebserverLogs, WorkerLogs.
-- `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
+- `"max_workers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the
   queue, MWAA disposes of the extra workers leaving the one worker that is included with your
   environment, or the number you specify in MinWorkers.
-- `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
+- `"min_workers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA
   disposes of the extra workers leaving the worker count you specify in the MinWorkers field.
   For example, 2.
-- `"PluginsS3ObjectVersion"`: The version of the plugins.zip file on your Amazon S3 bucket.
-  A version must be specified each time a plugins.zip file is updated. To learn more, see How
-  S3 Versioning works.
-- `"PluginsS3Path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
+- `"plugins_s3_object_version"`: The version of the plugins.zip file on your Amazon S3
+  bucket. A version must be specified each time a plugins.zip file is updated. To learn more,
+  see How S3 Versioning works.
+- `"plugins_s3_path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
   For example, plugins.zip. If specified, then the plugins.zip version is required. To learn
   more, see Installing custom plugins.
-- `"RequirementsS3ObjectVersion"`: The version of the requirements.txt file on your Amazon
-  S3 bucket. A version must be specified each time a requirements.txt file is updated. To
-  learn more, see How S3 Versioning works.
-- `"RequirementsS3Path"`: The relative path to the requirements.txt file on your Amazon S3
-  bucket. For example, requirements.txt. If specified, then a file version is required. To
+- `"requirements_s3_object_version"`: The version of the requirements.txt file on your
+  Amazon S3 bucket. A version must be specified each time a requirements.txt file is updated.
+  To learn more, see How S3 Versioning works.
+- `"requirements_s3_path"`: The relative path to the requirements.txt file on your Amazon
+  S3 bucket. For example, requirements.txt. If specified, then a file version is required. To
   learn more, see Installing Python dependencies.
-- `"Schedulers"`: The number of Apache Airflow schedulers to run in your environment.
-- `"Tags"`: The key-value tag pairs you want to associate to your environment. For example,
+- `"schedulers"`: The number of Apache Airflow schedulers to run in your environment.
+- `"tags"`: The key-value tag pairs you want to associate to your environment. For example,
   \"Environment\": \"Staging\". To learn more, see Tagging AWS resources.
-- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. To learn more, see
+- `"webserver_access_mode"`: The Apache Airflow Web server access mode. To learn more, see
   Apache Airflow access modes.
-- `"WeeklyMaintenanceWindowStart"`: The day and time of the week to start weekly
+- `"weekly_maintenance_window_start"`: The day and time of the week to start weekly
   maintenance updates of your environment in the following format: DAY:HH:MM. For example:
   TUE:03:30. You can specify a start time in 30 minute increments only. Supported input
   includes the following:   MON|TUE|WED|THU|FRI|SAT|SUN:([01]d|2[0-3]):(00|30)
@@ -107,29 +125,9 @@ function create_environment(
     NetworkConfiguration,
     SourceBucketArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mwaa(
-        "PUT",
-        "/environments/$(Name)",
-        Dict{String,Any}(
-            "DagS3Path" => DagS3Path,
-            "ExecutionRoleArn" => ExecutionRoleArn,
-            "NetworkConfiguration" => NetworkConfiguration,
-            "SourceBucketArn" => SourceBucketArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_environment(
-    DagS3Path,
-    ExecutionRoleArn,
-    Name,
-    NetworkConfiguration,
-    SourceBucketArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "PUT",
         "/environments/$(Name)",
@@ -151,8 +149,7 @@ function create_environment(
 end
 
 """
-    create_web_login_token(name)
-    create_web_login_token(name, params::Dict{String,<:Any})
+    create_web_login_token(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a JWT token to be used to login to Airflow Web UI with claims based Authentication.
 
@@ -160,14 +157,10 @@ Create a JWT token to be used to login to Airflow Web UI with claims based Authe
 - `name`: Create an Airflow Web UI login token request for a MWAA environment.
 
 """
-function create_web_login_token(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "POST", "/webtoken/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function create_web_login_token(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "POST",
         "/webtoken/$(Name)",
@@ -178,8 +171,7 @@ function create_web_login_token(
 end
 
 """
-    delete_environment(name)
-    delete_environment(name, params::Dict{String,<:Any})
+    delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
@@ -187,17 +179,10 @@ Deletes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 - `name`: The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
 
 """
-function delete_environment(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "DELETE",
-        "/environments/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_environment(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "DELETE",
         "/environments/$(Name)",
@@ -208,8 +193,7 @@ function delete_environment(
 end
 
 """
-    get_environment(name)
-    get_environment(name, params::Dict{String,<:Any})
+    get_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
@@ -217,17 +201,8 @@ Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) e
 - `name`: The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
 
 """
-function get_environment(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "GET",
-        "/environments/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_environment(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_environment(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "GET",
         "/environments/$(Name)",
@@ -238,25 +213,18 @@ function get_environment(
 end
 
 """
-    list_environments()
-    list_environments(params::Dict{String,<:Any})
+    list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Amazon Managed Workflows for Apache Airflow (MWAA) environments.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to retrieve per page. For example, 5
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to retrieve per page. For example, 5
   environments per page.
-- `"NextToken"`: Retrieves the next page of the results.
+- `"next_token"`: Retrieves the next page of the results.
 """
-function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "GET", "/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_environments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_environments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "GET",
         "/environments",
@@ -267,8 +235,7 @@ function list_environments(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apache Airflow
 (MWAA) environment. For example, \"Environment\": \"Staging\".
@@ -279,20 +246,9 @@ Lists the key-value tag pairs associated to the Amazon Managed Workflows for Apa
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mwaa(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "GET",
         "/tags/$(ResourceArn)",
@@ -303,8 +259,7 @@ function list_tags_for_resource(
 end
 
 """
-    publish_metrics(environment_name, metric_data)
-    publish_metrics(environment_name, metric_data, params::Dict{String,<:Any})
+    publish_metrics(environment_name, metric_data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 An operation for publishing metrics from the customers to the Ops plane.
 
@@ -315,22 +270,12 @@ An operation for publishing metrics from the customers to the Ops plane.
 
 """
 function publish_metrics(
-    EnvironmentName, MetricData; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mwaa(
-        "POST",
-        "/metrics/environments/$(EnvironmentName)",
-        Dict{String,Any}("MetricData" => MetricData);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function publish_metrics(
     EnvironmentName,
-    MetricData,
-    params::AbstractDict{String};
+    MetricData;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "POST",
         "/metrics/environments/$(EnvironmentName)",
@@ -343,8 +288,7 @@ function publish_metrics(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates key-value tag pairs to your Amazon Managed Workflows for Apache Airflow (MWAA)
 environment.
@@ -356,21 +300,10 @@ environment.
   \"Environment\": \"Staging\". To learn more, see Tagging AWS resources.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "POST",
         "/tags/$(ResourceArn)",
@@ -381,8 +314,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes key-value tag pairs associated to your Amazon Managed Workflows for Apache Airflow
 (MWAA) environment. For example, \"Environment\": \"Staging\".
@@ -395,22 +327,9 @@ Removes key-value tag pairs associated to your Amazon Managed Workflows for Apac
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mwaa(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "DELETE",
         "/tags/$(ResourceArn)",
@@ -421,8 +340,7 @@ function untag_resource(
 end
 
 """
-    update_environment(name)
-    update_environment(name, params::Dict{String,<:Any})
+    update_environment(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
@@ -430,71 +348,64 @@ Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 - `name`: The name of your Amazon MWAA environment. For example, MyMWAAEnvironment.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AirflowConfigurationOptions"`: A list of key-value pairs containing the Apache Airflow
-  configuration options you want to attach to your environment. To learn more, see Apache
-  Airflow configuration options.
-- `"AirflowVersion"`: The Apache Airflow version for your environment. For example,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"airflow_configuration_options"`: A list of key-value pairs containing the Apache
+  Airflow configuration options you want to attach to your environment. To learn more, see
+  Apache Airflow configuration options.
+- `"airflow_version"`: The Apache Airflow version for your environment. For example,
   v1.10.12. If no value is specified, defaults to the latest version. Valid values: v1.10.12.
-- `"DagS3Path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For
+- `"dag_s3_path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For
   example, dags. To learn more, see Adding or updating DAGs.
-- `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
+- `"environment_class"`: The environment class type. Valid values: mw1.small, mw1.medium,
   mw1.large. To learn more, see Amazon MWAA environment class.
-- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the execution role in IAM that
+- `"execution_role_arn"`: The Amazon Resource Name (ARN) of the execution role in IAM that
   allows MWAA to access AWS resources in your environment. For example,
   arn:aws:iam::123456789:role/my-execution-role. To learn more, see Amazon MWAA Execution
   role.
-- `"LoggingConfiguration"`: Defines the Apache Airflow logs to send to CloudWatch Logs:
+- `"logging_configuration"`: Defines the Apache Airflow logs to send to CloudWatch Logs:
   DagProcessingLogs, SchedulerLogs, TaskLogs, WebserverLogs, WorkerLogs.
-- `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
+- `"max_workers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the
   queue, MWAA disposes of the extra workers leaving the one worker that is included with your
   environment, or the number you specify in MinWorkers.
-- `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
+- `"min_workers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA
   disposes of the extra workers leaving the worker count you specify in the MinWorkers field.
   For example, 2.
-- `"NetworkConfiguration"`: The VPC networking components used to secure and enable network
-  traffic between the AWS resources for your environment. To learn more, see About networking
-  on Amazon MWAA.
-- `"PluginsS3ObjectVersion"`: The version of the plugins.zip file on your Amazon S3 bucket.
-  A version must be specified each time a plugins.zip file is updated. To learn more, see How
-  S3 Versioning works.
-- `"PluginsS3Path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
+- `"network_configuration"`: The VPC networking components used to secure and enable
+  network traffic between the AWS resources for your environment. To learn more, see About
+  networking on Amazon MWAA.
+- `"plugins_s3_object_version"`: The version of the plugins.zip file on your Amazon S3
+  bucket. A version must be specified each time a plugins.zip file is updated. To learn more,
+  see How S3 Versioning works.
+- `"plugins_s3_path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
   For example, plugins.zip. If specified, then the plugins.zip version is required. To learn
   more, see Installing custom plugins.
-- `"RequirementsS3ObjectVersion"`: The version of the requirements.txt file on your Amazon
-  S3 bucket. A version must be specified each time a requirements.txt file is updated. To
-  learn more, see How S3 Versioning works.
-- `"RequirementsS3Path"`: The relative path to the requirements.txt file on your Amazon S3
-  bucket. For example, requirements.txt. If specified, then a file version is required. To
+- `"requirements_s3_object_version"`: The version of the requirements.txt file on your
+  Amazon S3 bucket. A version must be specified each time a requirements.txt file is updated.
+  To learn more, see How S3 Versioning works.
+- `"requirements_s3_path"`: The relative path to the requirements.txt file on your Amazon
+  S3 bucket. For example, requirements.txt. If specified, then a file version is required. To
   learn more, see Installing Python dependencies.
-- `"Schedulers"`: The number of Apache Airflow schedulers to run in your Amazon MWAA
+- `"schedulers"`: The number of Apache Airflow schedulers to run in your Amazon MWAA
   environment.
-- `"SourceBucketArn"`: The Amazon Resource Name (ARN) of the Amazon S3 bucket where your
+- `"source_bucket_arn"`: The Amazon Resource Name (ARN) of the Amazon S3 bucket where your
   DAG code and supporting files are stored. For example,
   arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see Create an Amazon S3 bucket
   for Amazon MWAA.
-- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. To learn more, see
+- `"webserver_access_mode"`: The Apache Airflow Web server access mode. To learn more, see
   Apache Airflow access modes.
-- `"WeeklyMaintenanceWindowStart"`: The day and time of the week to start weekly
+- `"weekly_maintenance_window_start"`: The day and time of the week to start weekly
   maintenance updates of your environment in the following format: DAY:HH:MM. For example:
   TUE:03:30. You can specify a start time in 30 minute increments only. Supported input
   includes the following:   MON|TUE|WED|THU|FRI|SAT|SUN:([01]d|2[0-3]):(00|30)
 """
-function update_environment(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mwaa(
-        "PATCH",
-        "/environments/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_environment(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mwaa(
         "PATCH",
         "/environments/$(Name)",

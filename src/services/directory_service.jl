@@ -4,9 +4,40 @@ using AWS.AWSServices: directory_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "snapshot_ids" => "SnapshotIds",
+    "edition" => "Edition",
+    "trust_type" => "TrustType",
+    "share_notes" => "ShareNotes",
+    "domain_controller_ids" => "DomainControllerIds",
+    "next_token" => "NextToken",
+    "directory_id" => "DirectoryId",
+    "delete_associated_conditional_forwarder" => "DeleteAssociatedConditionalForwarder",
+    "name" => "Name",
+    "selective_auth" => "SelectiveAuth",
+    "shared_directory_ids" => "SharedDirectoryIds",
+    "user_name" => "UserName",
+    "description" => "Description",
+    "conditional_forwarder_ip_addrs" => "ConditionalForwarderIpAddrs",
+    "vpc_settings" => "VpcSettings",
+    "computer_attributes" => "ComputerAttributes",
+    "organizational_unit_distinguished_name" => "OrganizationalUnitDistinguishedName",
+    "topic_names" => "TopicNames",
+    "directory_ids" => "DirectoryIds",
+    "remote_domain_names" => "RemoteDomainNames",
+    "update_security_group_for_directory_controllers" => "UpdateSecurityGroupForDirectoryControllers",
+    "region_name" => "RegionName",
+    "short_name" => "ShortName",
+    "client_cert_auth_settings" => "ClientCertAuthSettings",
+    "password" => "Password",
+    "tags" => "Tags",
+    "type" => "Type",
+    "trust_ids" => "TrustIds",
+    "limit" => "Limit",
+)
+
 """
-    accept_shared_directory(shared_directory_id)
-    accept_shared_directory(shared_directory_id, params::Dict{String,<:Any})
+    accept_shared_directory(shared_directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a directory sharing request that was sent from the directory owner account.
 
@@ -16,20 +47,9 @@ Accepts a directory sharing request that was sent from the directory owner accou
 
 """
 function accept_shared_directory(
-    SharedDirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    SharedDirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "AcceptSharedDirectory",
-        Dict{String,Any}("SharedDirectoryId" => SharedDirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function accept_shared_directory(
-    SharedDirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "AcceptSharedDirectory",
         Dict{String,Any}(
@@ -43,8 +63,7 @@ function accept_shared_directory(
 end
 
 """
-    add_ip_routes(directory_id, ip_routes)
-    add_ip_routes(directory_id, ip_routes, params::Dict{String,<:Any})
+    add_ip_routes(directory_id, ip_routes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 If the DNS server for your self-managed domain uses a publicly addressable IP address, you
 must add a CIDR address block to correctly route traffic to and from your Microsoft AD on
@@ -61,9 +80,9 @@ Permissions: Actions, Resources, and Conditions Reference.
   the IP address block of the DNS server used for your self-managed domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"UpdateSecurityGroupForDirectoryControllers"`: If set to true, updates the inbound and
-  outbound rules of the security group that has the description: \"Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"update_security_group_for_directory_controllers"`: If set to true, updates the inbound
+  and outbound rules of the security group that has the description: \"Amazon Web Services
   created security group for directory ID directory controllers.\" Following are the new
   rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP
@@ -83,21 +102,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not exposed publicly.
 """
 function add_ip_routes(
-    DirectoryId, IpRoutes; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, IpRoutes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "AddIpRoutes",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "IpRoutes" => IpRoutes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_ip_routes(
-    DirectoryId,
-    IpRoutes,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "AddIpRoutes",
         Dict{String,Any}(
@@ -113,8 +120,7 @@ function add_ip_routes(
 end
 
 """
-    add_region(directory_id, region_name, vpcsettings)
-    add_region(directory_id, region_name, vpcsettings, params::Dict{String,<:Any})
+    add_region(directory_id, region_name, vpcsettings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds two domain controllers in the specified Region for the specified directory.
 
@@ -127,26 +133,13 @@ Adds two domain controllers in the specified Region for the specified directory.
 
 """
 function add_region(
-    DirectoryId, RegionName, VPCSettings; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "AddRegion",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "RegionName" => RegionName,
-            "VPCSettings" => VPCSettings,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_region(
     DirectoryId,
     RegionName,
-    VPCSettings,
-    params::AbstractDict{String};
+    VPCSettings;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "AddRegion",
         Dict{String,Any}(
@@ -166,8 +159,7 @@ function add_region(
 end
 
 """
-    add_tags_to_resource(resource_id, tags)
-    add_tags_to_resource(resource_id, tags, params::Dict{String,<:Any})
+    add_tags_to_resource(resource_id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or overwrites one or more tags for the specified directory. Each directory can have a
 maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique
@@ -179,21 +171,9 @@ to each resource.
 
 """
 function add_tags_to_resource(
-    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "AddTagsToResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_tags_to_resource(
-    ResourceId,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "AddTagsToResource",
         Dict{String,Any}(
@@ -207,8 +187,7 @@ function add_tags_to_resource(
 end
 
 """
-    cancel_schema_extension(directory_id, schema_extension_id)
-    cancel_schema_extension(directory_id, schema_extension_id, params::Dict{String,<:Any})
+    cancel_schema_extension(directory_id, schema_extension_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema
 extension has started replicating to all domain controllers, the task can no longer be
@@ -221,23 +200,12 @@ Initializing, CreatingSnapshot, and UpdatingSchema.
 
 """
 function cancel_schema_extension(
-    DirectoryId, SchemaExtensionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "CancelSchemaExtension",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId, "SchemaExtensionId" => SchemaExtensionId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_schema_extension(
     DirectoryId,
-    SchemaExtensionId,
-    params::AbstractDict{String};
+    SchemaExtensionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CancelSchemaExtension",
         Dict{String,Any}(
@@ -255,8 +223,7 @@ function cancel_schema_extension(
 end
 
 """
-    connect_directory(connect_settings, name, password, size)
-    connect_directory(connect_settings, name, password, size, params::Dict{String,<:Any})
+    connect_directory(connect_settings, name, password, size; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an AD Connector to connect to a self-managed directory. Before you call
 ConnectDirectory, ensure that all of the required permissions have been explicitly granted
@@ -272,34 +239,20 @@ Conditions Reference.
 - `size`: The size of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the directory.
-- `"ShortName"`: The NetBIOS name of your self-managed directory, such as CORP.
-- `"Tags"`: The tags to be assigned to AD Connector.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the directory.
+- `"short_name"`: The NetBIOS name of your self-managed directory, such as CORP.
+- `"tags"`: The tags to be assigned to AD Connector.
 """
-function connect_directory(
-    ConnectSettings, Name, Password, Size; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "ConnectDirectory",
-        Dict{String,Any}(
-            "ConnectSettings" => ConnectSettings,
-            "Name" => Name,
-            "Password" => Password,
-            "Size" => Size,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function connect_directory(
     ConnectSettings,
     Name,
     Password,
-    Size,
-    params::AbstractDict{String};
+    Size;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ConnectDirectory",
         Dict{String,Any}(
@@ -320,8 +273,7 @@ function connect_directory(
 end
 
 """
-    create_alias(alias, directory_id)
-    create_alias(alias, directory_id, params::Dict{String,<:Any})
+    create_alias(alias, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an alias for a directory and assigns the alias to the directory. The alias is used
 to construct the access URL for the directory, such as http://&lt;alias&gt;.awsapps.com.
@@ -335,20 +287,10 @@ only be used when absolutely necessary.
 - `directory_id`: The identifier of the directory for which to create the alias.
 
 """
-function create_alias(Alias, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "CreateAlias",
-        Dict{String,Any}("Alias" => Alias, "DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_alias(
-    Alias,
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Alias, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateAlias",
         Dict{String,Any}(
@@ -364,8 +306,7 @@ function create_alias(
 end
 
 """
-    create_computer(computer_name, directory_id, password)
-    create_computer(computer_name, directory_id, password, params::Dict{String,<:Any})
+    create_computer(computer_name, directory_id, password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Active Directory computer object in the specified directory.
 
@@ -376,33 +317,20 @@ Creates an Active Directory computer object in the specified directory.
   should generate a random, strong password to use for this parameter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComputerAttributes"`: An array of Attribute objects that contain any LDAP attributes to
-  apply to the computer account.
-- `"OrganizationalUnitDistinguishedName"`: The fully-qualified distinguished name of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"computer_attributes"`: An array of Attribute objects that contain any LDAP attributes
+  to apply to the computer account.
+- `"organizational_unit_distinguished_name"`: The fully-qualified distinguished name of the
   organizational unit to place the computer account in.
 """
 function create_computer(
-    ComputerName, DirectoryId, Password; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "CreateComputer",
-        Dict{String,Any}(
-            "ComputerName" => ComputerName,
-            "DirectoryId" => DirectoryId,
-            "Password" => Password,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_computer(
     ComputerName,
     DirectoryId,
-    Password,
-    params::AbstractDict{String};
+    Password;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateComputer",
         Dict{String,Any}(
@@ -422,8 +350,7 @@ function create_computer(
 end
 
 """
-    create_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name)
-    create_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name, params::Dict{String,<:Any})
+    create_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a conditional forwarder associated with your Amazon Web Services directory.
 Conditional forwarders are required in order to set up a trust relationship with another
@@ -443,25 +370,9 @@ function create_conditional_forwarder(
     DnsIpAddrs,
     RemoteDomainName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return directory_service(
-        "CreateConditionalForwarder",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "DnsIpAddrs" => DnsIpAddrs,
-            "RemoteDomainName" => RemoteDomainName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_conditional_forwarder(
-    DirectoryId,
-    DnsIpAddrs,
-    RemoteDomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateConditionalForwarder",
         Dict{String,Any}(
@@ -481,8 +392,7 @@ function create_conditional_forwarder(
 end
 
 """
-    create_directory(name, password, size)
-    create_directory(name, password, size, params::Dict{String,<:Any})
+    create_directory(name, password, size; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Simple AD directory. For more information, see Simple Active Directory in the
 Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the
@@ -507,30 +417,17 @@ Permissions: Actions, Resources, and Conditions Reference.
 - `size`: The size of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the directory.
-- `"ShortName"`: The NetBIOS name of the directory, such as CORP.
-- `"Tags"`: The tags to be assigned to the Simple AD directory.
-- `"VpcSettings"`: A DirectoryVpcSettings object that contains additional information for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the directory.
+- `"short_name"`: The NetBIOS name of the directory, such as CORP.
+- `"tags"`: The tags to be assigned to the Simple AD directory.
+- `"vpc_settings"`: A DirectoryVpcSettings object that contains additional information for
   the operation.
 """
 function create_directory(
-    Name, Password, Size; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Password, Size; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "CreateDirectory",
-        Dict{String,Any}("Name" => Name, "Password" => Password, "Size" => Size);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_directory(
-    Name,
-    Password,
-    Size,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateDirectory",
         Dict{String,Any}(
@@ -546,8 +443,7 @@ function create_directory(
 end
 
 """
-    create_log_subscription(directory_id, log_group_name)
-    create_log_subscription(directory_id, log_group_name, params::Dict{String,<:Any})
+    create_log_subscription(directory_id, log_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a subscription to forward real-time Directory Service domain controller security
 logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
@@ -560,21 +456,9 @@ logs to the specified Amazon CloudWatch log group in your Amazon Web Services ac
 
 """
 function create_log_subscription(
-    DirectoryId, LogGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, LogGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "CreateLogSubscription",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "LogGroupName" => LogGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_log_subscription(
-    DirectoryId,
-    LogGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateLogSubscription",
         Dict{String,Any}(
@@ -592,8 +476,7 @@ function create_log_subscription(
 end
 
 """
-    create_microsoft_ad(name, password, vpc_settings)
-    create_microsoft_ad(name, password, vpc_settings, params::Dict{String,<:Any})
+    create_microsoft_ad(name, password, vpc_settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information,
 see Managed Microsoft AD in the Directory Service Admin Guide. Before you call
@@ -613,35 +496,24 @@ Conditions Reference.
   operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the directory. This label will appear on the Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the directory. This label will appear on the Amazon
   Web Services console Directory Details page after the directory is created.
-- `"Edition"`: Managed Microsoft AD is available in two editions: Standard and Enterprise.
+- `"edition"`: Managed Microsoft AD is available in two editions: Standard and Enterprise.
   Enterprise is the default.
-- `"ShortName"`: The NetBIOS name for your domain, such as CORP. If you don't specify a
+- `"short_name"`: The NetBIOS name for your domain, such as CORP. If you don't specify a
   NetBIOS name, it will default to the first part of your directory DNS. For example, CORP
   for the directory DNS corp.example.com.
-- `"Tags"`: The tags to be assigned to the Managed Microsoft AD directory.
+- `"tags"`: The tags to be assigned to the Managed Microsoft AD directory.
 """
-function create_microsoft_ad(
-    Name, Password, VpcSettings; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "CreateMicrosoftAD",
-        Dict{String,Any}(
-            "Name" => Name, "Password" => Password, "VpcSettings" => VpcSettings
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_microsoft_ad(
     Name,
     Password,
-    VpcSettings,
-    params::AbstractDict{String};
+    VpcSettings;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateMicrosoftAD",
         Dict{String,Any}(
@@ -659,8 +531,7 @@ function create_microsoft_ad(
 end
 
 """
-    create_snapshot(directory_id)
-    create_snapshot(directory_id, params::Dict{String,<:Any})
+    create_snapshot(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services
 cloud.  You cannot take snapshots of AD Connector directories.
@@ -669,22 +540,13 @@ cloud.  You cannot take snapshots of AD Connector directories.
 - `directory_id`: The identifier of the directory of which to take a snapshot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: The descriptive name to apply to the snapshot.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: The descriptive name to apply to the snapshot.
 """
-function create_snapshot(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "CreateSnapshot",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_snapshot(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateSnapshot",
         Dict{String,Any}(
@@ -696,8 +558,7 @@ function create_snapshot(
 end
 
 """
-    create_trust(directory_id, remote_domain_name, trust_direction, trust_password)
-    create_trust(directory_id, remote_domain_name, trust_direction, trust_password, params::Dict{String,<:Any})
+    create_trust(directory_id, remote_domain_name, trust_direction, trust_password; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Directory Service for Microsoft Active Directory allows you to configure trust
 relationships. For example, you can establish a trust between your Managed Microsoft AD
@@ -717,11 +578,11 @@ create either a forest trust or an external trust.
   creating the trust relationship on the external domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalForwarderIpAddrs"`: The IP addresses of the remote DNS server associated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conditional_forwarder_ip_addrs"`: The IP addresses of the remote DNS server associated
   with RemoteDomainName.
-- `"SelectiveAuth"`: Optional parameter to enable selective authentication for the trust.
-- `"TrustType"`: The trust relationship type. Forest is the default.
+- `"selective_auth"`: Optional parameter to enable selective authentication for the trust.
+- `"trust_type"`: The trust relationship type. Forest is the default.
 """
 function create_trust(
     DirectoryId,
@@ -729,27 +590,9 @@ function create_trust(
     TrustDirection,
     TrustPassword;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return directory_service(
-        "CreateTrust",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "RemoteDomainName" => RemoteDomainName,
-            "TrustDirection" => TrustDirection,
-            "TrustPassword" => TrustPassword,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_trust(
-    DirectoryId,
-    RemoteDomainName,
-    TrustDirection,
-    TrustPassword,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "CreateTrust",
         Dict{String,Any}(
@@ -770,8 +613,7 @@ function create_trust(
 end
 
 """
-    delete_conditional_forwarder(directory_id, remote_domain_name)
-    delete_conditional_forwarder(directory_id, remote_domain_name, params::Dict{String,<:Any})
+    delete_conditional_forwarder(directory_id, remote_domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
 
@@ -782,23 +624,12 @@ Deletes a conditional forwarder that has been set up for your Amazon Web Service
 
 """
 function delete_conditional_forwarder(
-    DirectoryId, RemoteDomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "DeleteConditionalForwarder",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId, "RemoteDomainName" => RemoteDomainName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_conditional_forwarder(
     DirectoryId,
-    RemoteDomainName,
-    params::AbstractDict{String};
+    RemoteDomainName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeleteConditionalForwarder",
         Dict{String,Any}(
@@ -816,8 +647,7 @@ function delete_conditional_forwarder(
 end
 
 """
-    delete_directory(directory_id)
-    delete_directory(directory_id, params::Dict{String,<:Any})
+    delete_directory(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of
 the required permissions have been explicitly granted through a policy. For details about
@@ -828,19 +658,10 @@ API Permissions: Actions, Resources, and Conditions Reference.
 - `directory_id`: The identifier of the directory to delete.
 
 """
-function delete_directory(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DeleteDirectory",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_directory(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeleteDirectory",
         Dict{String,Any}(
@@ -852,8 +673,7 @@ function delete_directory(
 end
 
 """
-    delete_log_subscription(directory_id)
-    delete_log_subscription(directory_id, params::Dict{String,<:Any})
+    delete_log_subscription(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified log subscription.
 
@@ -862,20 +682,9 @@ Deletes the specified log subscription.
 
 """
 function delete_log_subscription(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DeleteLogSubscription",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_log_subscription(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeleteLogSubscription",
         Dict{String,Any}(
@@ -887,8 +696,7 @@ function delete_log_subscription(
 end
 
 """
-    delete_snapshot(snapshot_id)
-    delete_snapshot(snapshot_id, params::Dict{String,<:Any})
+    delete_snapshot(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a directory snapshot.
 
@@ -896,19 +704,10 @@ Deletes a directory snapshot.
 - `snapshot_id`: The identifier of the directory snapshot to be deleted.
 
 """
-function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DeleteSnapshot",
-        Dict{String,Any}("SnapshotId" => SnapshotId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_snapshot(
-    SnapshotId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeleteSnapshot",
         Dict{String,Any}(
@@ -920,8 +719,7 @@ function delete_snapshot(
 end
 
 """
-    delete_trust(trust_id)
-    delete_trust(trust_id, params::Dict{String,<:Any})
+    delete_trust(trust_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing trust relationship between your Managed Microsoft AD directory and an
 external domain.
@@ -930,21 +728,12 @@ external domain.
 - `trust_id`: The Trust ID of the trust relationship to be deleted.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeleteAssociatedConditionalForwarder"`: Delete a conditional forwarder as part of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delete_associated_conditional_forwarder"`: Delete a conditional forwarder as part of a
   DeleteTrustRequest.
 """
-function delete_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DeleteTrust",
-        Dict{String,Any}("TrustId" => TrustId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_trust(
-    TrustId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeleteTrust",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TrustId" => TrustId), params));
@@ -954,8 +743,7 @@ function delete_trust(
 end
 
 """
-    deregister_certificate(certificate_id, directory_id)
-    deregister_certificate(certificate_id, directory_id, params::Dict{String,<:Any})
+    deregister_certificate(certificate_id, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes from the system the certificate that was registered for secure LDAP or client
 certificate authentication.
@@ -966,21 +754,9 @@ certificate authentication.
 
 """
 function deregister_certificate(
-    CertificateId, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DeregisterCertificate",
-        Dict{String,Any}("CertificateId" => CertificateId, "DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_certificate(
-    CertificateId,
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeregisterCertificate",
         Dict{String,Any}(
@@ -998,8 +774,7 @@ function deregister_certificate(
 end
 
 """
-    deregister_event_topic(directory_id, topic_name)
-    deregister_event_topic(directory_id, topic_name, params::Dict{String,<:Any})
+    deregister_event_topic(directory_id, topic_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified directory as a publisher to the specified Amazon SNS topic.
 
@@ -1011,21 +786,9 @@ Removes the specified directory as a publisher to the specified Amazon SNS topic
 
 """
 function deregister_event_topic(
-    DirectoryId, TopicName; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, TopicName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DeregisterEventTopic",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "TopicName" => TopicName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_event_topic(
-    DirectoryId,
-    TopicName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DeregisterEventTopic",
         Dict{String,Any}(
@@ -1041,8 +804,7 @@ function deregister_event_topic(
 end
 
 """
-    describe_certificate(certificate_id, directory_id)
-    describe_certificate(certificate_id, directory_id, params::Dict{String,<:Any})
+    describe_certificate(certificate_id, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays information about the certificate registered for secure LDAP or client certificate
 authentication.
@@ -1053,21 +815,9 @@ authentication.
 
 """
 function describe_certificate(
-    CertificateId, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeCertificate",
-        Dict{String,Any}("CertificateId" => CertificateId, "DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_certificate(
-    CertificateId,
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeCertificate",
         Dict{String,Any}(
@@ -1085,8 +835,7 @@ function describe_certificate(
 end
 
 """
-    describe_client_authentication_settings(directory_id)
-    describe_client_authentication_settings(directory_id, params::Dict{String,<:Any})
+    describe_client_authentication_settings(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the type of client authentication for the specified directory,
 if the type is specified. If no type is specified, information about all client
@@ -1097,30 +846,19 @@ Currently, only SmartCard is supported.
 - `directory_id`: The identifier of the directory for which to retrieve information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
-- `"NextToken"`: The DescribeClientAuthenticationSettingsResult.NextToken value from a
+- `"next_token"`: The DescribeClientAuthenticationSettingsResult.NextToken value from a
   previous call to DescribeClientAuthenticationSettings. Pass null if this is the first call.
-- `"Type"`: The type of client authentication for which to retrieve information. If no type
+- `"type"`: The type of client authentication for which to retrieve information. If no type
   is specified, a list of all client authentication types that are supported for the
   specified directory is retrieved.
 """
 function describe_client_authentication_settings(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeClientAuthenticationSettings",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_client_authentication_settings(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeClientAuthenticationSettings",
         Dict{String,Any}(
@@ -1132,8 +870,7 @@ function describe_client_authentication_settings(
 end
 
 """
-    describe_conditional_forwarders(directory_id)
-    describe_conditional_forwarders(directory_id, params::Dict{String,<:Any})
+    describe_conditional_forwarders(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains information about the conditional forwarders for this account. If no input
 parameters are provided for RemoteDomainNames, this request describes all conditional
@@ -1144,26 +881,15 @@ forwarders for the specified directory ID.
   forwarders.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RemoteDomainNames"`: The fully qualified domain names (FQDN) of the remote domains for
-  which to get the list of associated conditional forwarders. If this member is null, all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"remote_domain_names"`: The fully qualified domain names (FQDN) of the remote domains
+  for which to get the list of associated conditional forwarders. If this member is null, all
   conditional forwarders are returned.
 """
 function describe_conditional_forwarders(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeConditionalForwarders",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_conditional_forwarders(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeConditionalForwarders",
         Dict{String,Any}(
@@ -1175,8 +901,7 @@ function describe_conditional_forwarders(
 end
 
 """
-    describe_directories()
-    describe_directories(params::Dict{String,<:Any})
+    describe_directories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains information about the directories that belong to this account. You can retrieve
 information about specific directories by passing the directory identifiers in the
@@ -1188,23 +913,19 @@ the next set of items. You can also specify a maximum number of return results w
 Limit parameter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryIds"`: A list of identifiers of the directories for which to obtain the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_ids"`: A list of identifiers of the directories for which to obtain the
   information. If this member is null, all directories that belong to the current account are
   returned. An empty list results in an InvalidParameterException being thrown.
-- `"Limit"`: The maximum number of items to return. If this value is zero, the maximum
+- `"limit"`: The maximum number of items to return. If this value is zero, the maximum
   number of items is specified by the limitations of the operation.
-- `"NextToken"`: The DescribeDirectoriesResult.NextToken value from a previous call to
+- `"next_token"`: The DescribeDirectoriesResult.NextToken value from a previous call to
   DescribeDirectories. Pass null if this is the first call.
 """
-function describe_directories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DescribeDirectories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_directories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_directories(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeDirectories",
         params;
@@ -1214,8 +935,7 @@ function describe_directories(
 end
 
 """
-    describe_domain_controllers(directory_id)
-    describe_domain_controllers(directory_id, params::Dict{String,<:Any})
+    describe_domain_controllers(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about any domain controllers in your directory.
 
@@ -1224,28 +944,17 @@ Provides information about any domain controllers in your directory.
   information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DomainControllerIds"`: A list of identifiers for the domain controllers whose
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_controller_ids"`: A list of identifiers for the domain controllers whose
   information will be provided.
-- `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: The DescribeDomainControllers.NextToken value from a previous call to
+- `"limit"`: The maximum number of items to return.
+- `"next_token"`: The DescribeDomainControllers.NextToken value from a previous call to
   DescribeDomainControllers. Pass null if this is the first call.
 """
 function describe_domain_controllers(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeDomainControllers",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain_controllers(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeDomainControllers",
         Dict{String,Any}(
@@ -1257,29 +966,24 @@ function describe_domain_controllers(
 end
 
 """
-    describe_event_topics()
-    describe_event_topics(params::Dict{String,<:Any})
+    describe_event_topics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains information about which Amazon SNS topics receive status messages from the
 specified directory. If no input parameters are provided, such as DirectoryId or TopicName,
 this request describes all of the associations in the account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryId"`: The Directory ID for which to get the list of associated Amazon SNS
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_id"`: The Directory ID for which to get the list of associated Amazon SNS
   topics. If this member is null, associations for all Directory IDs are returned.
-- `"TopicNames"`: A list of Amazon SNS topic names for which to obtain the information. If
+- `"topic_names"`: A list of Amazon SNS topic names for which to obtain the information. If
   this member is null, all associations for the specified Directory ID are returned. An empty
   list results in an InvalidParameterException being thrown.
 """
-function describe_event_topics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DescribeEventTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_event_topics(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_event_topics(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeEventTopics",
         params;
@@ -1289,8 +993,7 @@ function describe_event_topics(
 end
 
 """
-    describe_ldapssettings(directory_id)
-    describe_ldapssettings(directory_id, params::Dict{String,<:Any})
+    describe_ldapssettings(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the status of LDAP security for the specified directory.
 
@@ -1298,27 +1001,16 @@ Describes the status of LDAP security for the specified directory.
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: Specifies the number of items that should be displayed on one page.
-- `"NextToken"`: The type of next token used for pagination.
-- `"Type"`: The type of LDAP security to enable. Currently only the value Client is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: Specifies the number of items that should be displayed on one page.
+- `"next_token"`: The type of next token used for pagination.
+- `"type"`: The type of LDAP security to enable. Currently only the value Client is
   supported.
 """
 function describe_ldapssettings(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeLDAPSSettings",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_ldapssettings(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeLDAPSSettings",
         Dict{String,Any}(
@@ -1330,8 +1022,7 @@ function describe_ldapssettings(
 end
 
 """
-    describe_regions(directory_id)
-    describe_regions(directory_id, params::Dict{String,<:Any})
+    describe_regions(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the Regions that are configured for multi-Region replication.
 
@@ -1339,24 +1030,15 @@ Provides information about the Regions that are configured for multi-Region repl
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The DescribeRegionsResult.NextToken value from a previous call to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The DescribeRegionsResult.NextToken value from a previous call to
   DescribeRegions. Pass null if this is the first call.
-- `"RegionName"`: The name of the Region. For example, us-east-1.
+- `"region_name"`: The name of the Region. For example, us-east-1.
 """
-function describe_regions(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DescribeRegions",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_regions(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeRegions",
         Dict{String,Any}(
@@ -1368,8 +1050,7 @@ function describe_regions(
 end
 
 """
-    describe_shared_directories(owner_directory_id)
-    describe_shared_directories(owner_directory_id, params::Dict{String,<:Any})
+    describe_shared_directories(owner_directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the shared directories in your account.
 
@@ -1378,27 +1059,17 @@ Returns the shared directories in your account.
   account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The number of shared directories to return in the response object.
-- `"NextToken"`: The DescribeSharedDirectoriesResult.NextToken value from a previous call
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The number of shared directories to return in the response object.
+- `"next_token"`: The DescribeSharedDirectoriesResult.NextToken value from a previous call
   to DescribeSharedDirectories. Pass null if this is the first call.
-- `"SharedDirectoryIds"`: A list of identifiers of all shared directories in your account.
+- `"shared_directory_ids"`: A list of identifiers of all shared directories in your
+  account.
 """
 function describe_shared_directories(
-    OwnerDirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    OwnerDirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DescribeSharedDirectories",
-        Dict{String,Any}("OwnerDirectoryId" => OwnerDirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_shared_directories(
-    OwnerDirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeSharedDirectories",
         Dict{String,Any}(
@@ -1412,8 +1083,7 @@ function describe_shared_directories(
 end
 
 """
-    describe_snapshots()
-    describe_snapshots(params::Dict{String,<:Any})
+    describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains information about the directory snapshots that belong to this account. This
 operation supports pagination with the use of the NextToken request and response
@@ -1422,64 +1092,50 @@ a token that you pass in the next call to DescribeSnapshots to retrieve the next
 items. You can also specify a maximum number of return results with the Limit parameter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryId"`: The identifier of the directory for which to retrieve snapshot
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_id"`: The identifier of the directory for which to retrieve snapshot
   information.
-- `"Limit"`: The maximum number of objects to return.
-- `"NextToken"`: The DescribeSnapshotsResult.NextToken value from a previous call to
+- `"limit"`: The maximum number of objects to return.
+- `"next_token"`: The DescribeSnapshotsResult.NextToken value from a previous call to
   DescribeSnapshots. Pass null if this is the first call.
-- `"SnapshotIds"`: A list of identifiers of the snapshots to obtain the information for. If
-  this member is null or empty, all snapshots are returned using the Limit and NextToken
+- `"snapshot_ids"`: A list of identifiers of the snapshots to obtain the information for.
+  If this member is null or empty, all snapshots are returned using the Limit and NextToken
   members.
 """
-function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_trusts()
-    describe_trusts(params::Dict{String,<:Any})
+    describe_trusts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains information about the trust relationships for this account. If no input parameters
 are provided, such as DirectoryId or TrustIds, this request describes all the trust
 relationships belonging to the account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryId"`: The Directory ID of the Amazon Web Services directory that is a part of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_id"`: The Directory ID of the Amazon Web Services directory that is a part of
   the requested trust relationship.
-- `"Limit"`: The maximum number of objects to return.
-- `"NextToken"`: The DescribeTrustsResult.NextToken value from a previous call to
+- `"limit"`: The maximum number of objects to return.
+- `"next_token"`: The DescribeTrustsResult.NextToken value from a previous call to
   DescribeTrusts. Pass null if this is the first call.
-- `"TrustIds"`: A list of identifiers of the trust relationships for which to obtain the
+- `"trust_ids"`: A list of identifiers of the trust relationships for which to obtain the
   information. If this member is null, all trust relationships that belong to the current
   account are returned. An empty list results in an InvalidParameterException being thrown.
 """
-function describe_trusts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DescribeTrusts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_trusts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_trusts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DescribeTrusts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    disable_client_authentication(directory_id, type)
-    disable_client_authentication(directory_id, type, params::Dict{String,<:Any})
+    disable_client_authentication(directory_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables alternative client authentication methods for the specified directory.
 
@@ -1490,21 +1146,9 @@ Disables alternative client authentication methods for the specified directory.
 
 """
 function disable_client_authentication(
-    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "DisableClientAuthentication",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_client_authentication(
-    DirectoryId,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DisableClientAuthentication",
         Dict{String,Any}(
@@ -1520,8 +1164,7 @@ function disable_client_authentication(
 end
 
 """
-    disable_ldaps(directory_id, type)
-    disable_ldaps(directory_id, type, params::Dict{String,<:Any})
+    disable_ldaps(directory_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deactivates LDAP secure calls for the specified directory.
 
@@ -1530,20 +1173,10 @@ Deactivates LDAP secure calls for the specified directory.
 - `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
-function disable_ldaps(DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DisableLDAPS",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_ldaps(
-    DirectoryId,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DisableLDAPS",
         Dict{String,Any}(
@@ -1559,8 +1192,7 @@ function disable_ldaps(
 end
 
 """
-    disable_radius(directory_id)
-    disable_radius(directory_id, params::Dict{String,<:Any})
+    disable_radius(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User
 Service (RADIUS) server for an AD Connector or Microsoft AD directory.
@@ -1569,19 +1201,10 @@ Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 - `directory_id`: The identifier of the directory for which to disable MFA.
 
 """
-function disable_radius(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DisableRadius",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_radius(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DisableRadius",
         Dict{String,Any}(
@@ -1593,8 +1216,7 @@ function disable_radius(
 end
 
 """
-    disable_sso(directory_id)
-    disable_sso(directory_id, params::Dict{String,<:Any})
+    disable_sso(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables single-sign on for a directory.
 
@@ -1602,29 +1224,20 @@ Disables single-sign on for a directory.
 - `directory_id`: The identifier of the directory for which to disable single-sign on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Password"`: The password of an alternate account to use to disable single-sign on. This
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"password"`: The password of an alternate account to use to disable single-sign on. This
   is only used for AD Connector directories. For more information, see the UserName parameter.
-- `"UserName"`: The username of an alternate account to use to disable single-sign on. This
-  is only used for AD Connector directories. This account must have privileges to remove a
-  service principal name. If the AD Connector service account does not have privileges to
+- `"user_name"`: The username of an alternate account to use to disable single-sign on.
+  This is only used for AD Connector directories. This account must have privileges to remove
+  a service principal name. If the AD Connector service account does not have privileges to
   remove a service principal name, you can specify an alternate account with the UserName and
   Password parameters. These credentials are only used to disable single sign-on and are not
   stored by the service. The AD Connector service account is not changed.
 """
-function disable_sso(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "DisableSso",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_sso(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "DisableSso",
         Dict{String,Any}(
@@ -1636,8 +1249,7 @@ function disable_sso(
 end
 
 """
-    enable_client_authentication(directory_id, type)
-    enable_client_authentication(directory_id, type, params::Dict{String,<:Any})
+    enable_client_authentication(directory_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables alternative client authentication methods for the specified directory.
 
@@ -1649,21 +1261,9 @@ Enables alternative client authentication methods for the specified directory.
 
 """
 function enable_client_authentication(
-    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "EnableClientAuthentication",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_client_authentication(
-    DirectoryId,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "EnableClientAuthentication",
         Dict{String,Any}(
@@ -1679,8 +1279,7 @@ function enable_client_authentication(
 end
 
 """
-    enable_ldaps(directory_id, type)
-    enable_ldaps(directory_id, type, params::Dict{String,<:Any})
+    enable_ldaps(directory_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Activates the switch for the specific directory to always use LDAP secure calls.
 
@@ -1689,20 +1288,10 @@ Activates the switch for the specific directory to always use LDAP secure calls.
 - `type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
-function enable_ldaps(DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "EnableLDAPS",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_ldaps(
-    DirectoryId,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "EnableLDAPS",
         Dict{String,Any}(
@@ -1718,8 +1307,7 @@ function enable_ldaps(
 end
 
 """
-    enable_radius(directory_id, radius_settings)
-    enable_radius(directory_id, radius_settings, params::Dict{String,<:Any})
+    enable_radius(directory_id, radius_settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
 Service (RADIUS) server for an AD Connector or Microsoft AD directory.
@@ -1731,21 +1319,12 @@ Service (RADIUS) server for an AD Connector or Microsoft AD directory.
 
 """
 function enable_radius(
-    DirectoryId, RadiusSettings; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "EnableRadius",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "RadiusSettings" => RadiusSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_radius(
     DirectoryId,
-    RadiusSettings,
-    params::AbstractDict{String};
+    RadiusSettings;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "EnableRadius",
         Dict{String,Any}(
@@ -1763,8 +1342,7 @@ function enable_radius(
 end
 
 """
-    enable_sso(directory_id)
-    enable_sso(directory_id, params::Dict{String,<:Any})
+    enable_sso(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables single sign-on for a directory. Single sign-on allows users in your directory to
 access certain Amazon Web Services services from a computer joined to the directory without
@@ -1774,29 +1352,20 @@ having to enter their credentials separately.
 - `directory_id`: The identifier of the directory for which to enable single-sign on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Password"`: The password of an alternate account to use to enable single-sign on. This
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"password"`: The password of an alternate account to use to enable single-sign on. This
   is only used for AD Connector directories. For more information, see the UserName parameter.
-- `"UserName"`: The username of an alternate account to use to enable single-sign on. This
+- `"user_name"`: The username of an alternate account to use to enable single-sign on. This
   is only used for AD Connector directories. This account must have privileges to add a
   service principal name. If the AD Connector service account does not have privileges to add
   a service principal name, you can specify an alternate account with the UserName and
   Password parameters. These credentials are only used to enable single sign-on and are not
   stored by the service. The AD Connector service account is not changed.
 """
-function enable_sso(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "EnableSso",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_sso(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "EnableSso",
         Dict{String,Any}(
@@ -1808,28 +1377,22 @@ function enable_sso(
 end
 
 """
-    get_directory_limits()
-    get_directory_limits(params::Dict{String,<:Any})
+    get_directory_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains directory limit information for the current Region.
 
 """
-function get_directory_limits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "GetDirectoryLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_directory_limits(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_directory_limits(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "GetDirectoryLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_snapshot_limits(directory_id)
-    get_snapshot_limits(directory_id, params::Dict{String,<:Any})
+    get_snapshot_limits(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains the manual snapshot limits for a directory.
 
@@ -1837,19 +1400,10 @@ Obtains the manual snapshot limits for a directory.
 - `directory_id`: Contains the identifier of the directory to obtain the limits for.
 
 """
-function get_snapshot_limits(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "GetSnapshotLimits",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_snapshot_limits(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "GetSnapshotLimits",
         Dict{String,Any}(
@@ -1861,8 +1415,7 @@ function get_snapshot_limits(
 end
 
 """
-    list_certificates(directory_id)
-    list_certificates(directory_id, params::Dict{String,<:Any})
+    list_certificates(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For the specified directory, lists all the certificates registered for a secure LDAP or
 client certificate authentication.
@@ -1871,26 +1424,17 @@ client certificate authentication.
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The number of items that should show up on one page
-- `"NextToken"`: A token for requesting another page of certificates if the NextToken
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The number of items that should show up on one page
+- `"next_token"`: A token for requesting another page of certificates if the NextToken
   response element indicates that more certificates are available. Use the value of the
   returned NextToken element in your request until the token comes back as null. Pass null if
   this is the first call.
 """
-function list_certificates(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "ListCertificates",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_certificates(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ListCertificates",
         Dict{String,Any}(
@@ -1902,8 +1446,7 @@ function list_certificates(
 end
 
 """
-    list_ip_routes(directory_id)
-    list_ip_routes(directory_id, params::Dict{String,<:Any})
+    list_ip_routes(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the address blocks that you have added to a directory.
 
@@ -1912,25 +1455,16 @@ Lists the address blocks that you have added to a directory.
   addresses.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: Maximum number of items to return. If this value is zero, the maximum number
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: Maximum number of items to return. If this value is zero, the maximum number
   of items is specified by the limitations of the operation.
-- `"NextToken"`: The ListIpRoutes.NextToken value from a previous call to ListIpRoutes.
+- `"next_token"`: The ListIpRoutes.NextToken value from a previous call to ListIpRoutes.
   Pass null if this is the first call.
 """
-function list_ip_routes(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "ListIpRoutes",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_ip_routes(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ListIpRoutes",
         Dict{String,Any}(
@@ -1942,28 +1476,23 @@ function list_ip_routes(
 end
 
 """
-    list_log_subscriptions()
-    list_log_subscriptions(params::Dict{String,<:Any})
+    list_log_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the active log subscriptions for the Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryId"`: If a DirectoryID is provided, lists only the log subscription associated
-  with that directory. If no DirectoryId is provided, lists all log subscriptions associated
-  with your Amazon Web Services account. If there are no log subscriptions for the Amazon Web
-  Services account or the directory, an empty list will be returned.
-- `"Limit"`: The maximum number of items returned.
-- `"NextToken"`: The token for the next set of items to return.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_id"`: If a DirectoryID is provided, lists only the log subscription
+  associated with that directory. If no DirectoryId is provided, lists all log subscriptions
+  associated with your Amazon Web Services account. If there are no log subscriptions for the
+  Amazon Web Services account or the directory, an empty list will be returned.
+- `"limit"`: The maximum number of items returned.
+- `"next_token"`: The token for the next set of items to return.
 """
-function list_log_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "ListLogSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_log_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_log_subscriptions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ListLogSubscriptions",
         params;
@@ -1973,8 +1502,7 @@ function list_log_subscriptions(
 end
 
 """
-    list_schema_extensions(directory_id)
-    list_schema_extensions(directory_id, params::Dict{String,<:Any})
+    list_schema_extensions(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all schema extensions applied to a Microsoft AD Directory.
 
@@ -1983,26 +1511,15 @@ Lists all schema extensions applied to a Microsoft AD Directory.
   extension information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of items to return.
-- `"NextToken"`: The ListSchemaExtensions.NextToken value from a previous call to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of items to return.
+- `"next_token"`: The ListSchemaExtensions.NextToken value from a previous call to
   ListSchemaExtensions. Pass null if this is the first call.
 """
 function list_schema_extensions(
-    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "ListSchemaExtensions",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_schema_extensions(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ListSchemaExtensions",
         Dict{String,Any}(
@@ -2014,8 +1531,7 @@ function list_schema_extensions(
 end
 
 """
-    list_tags_for_resource(resource_id)
-    list_tags_for_resource(resource_id, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags on a directory.
 
@@ -2023,25 +1539,14 @@ Lists all tags on a directory.
 - `resource_id`: Identifier (ID) of the directory for which you want to retrieve tags.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: Reserved for future use.
-- `"NextToken"`: Reserved for future use.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: Reserved for future use.
+- `"next_token"`: Reserved for future use.
 """
 function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2053,8 +1558,7 @@ function list_tags_for_resource(
 end
 
 """
-    register_certificate(certificate_data, directory_id)
-    register_certificate(certificate_data, directory_id, params::Dict{String,<:Any})
+    register_certificate(certificate_data, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a certificate for a secure LDAP or client certificate authentication.
 
@@ -2063,30 +1567,19 @@ Registers a certificate for a secure LDAP or client certificate authentication.
 - `directory_id`: The identifier of the directory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientCertAuthSettings"`: A ClientCertAuthSettings object that contains client
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_cert_auth_settings"`: A ClientCertAuthSettings object that contains client
   certificate authentication settings.
-- `"Type"`: The function that the registered certificate performs. Valid values include
+- `"type"`: The function that the registered certificate performs. Valid values include
   ClientLDAPS or ClientCertAuth. The default value is ClientLDAPS.
 """
 function register_certificate(
-    CertificateData, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "RegisterCertificate",
-        Dict{String,Any}(
-            "CertificateData" => CertificateData, "DirectoryId" => DirectoryId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_certificate(
     CertificateData,
-    DirectoryId,
-    params::AbstractDict{String};
+    DirectoryId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RegisterCertificate",
         Dict{String,Any}(
@@ -2104,8 +1597,7 @@ function register_certificate(
 end
 
 """
-    register_event_topic(directory_id, topic_name)
-    register_event_topic(directory_id, topic_name, params::Dict{String,<:Any})
+    register_event_topic(directory_id, topic_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a directory with an Amazon SNS topic. This establishes the directory as a
 publisher to the specified Amazon SNS topic. You can then receive email or text (SMS)
@@ -2121,21 +1613,9 @@ when the directory returns to an Active status.
 
 """
 function register_event_topic(
-    DirectoryId, TopicName; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, TopicName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "RegisterEventTopic",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "TopicName" => TopicName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_event_topic(
-    DirectoryId,
-    TopicName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RegisterEventTopic",
         Dict{String,Any}(
@@ -2151,8 +1631,7 @@ function register_event_topic(
 end
 
 """
-    reject_shared_directory(shared_directory_id)
-    reject_shared_directory(shared_directory_id, params::Dict{String,<:Any})
+    reject_shared_directory(shared_directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Rejects a directory sharing request that was sent from the directory owner account.
 
@@ -2162,20 +1641,9 @@ Rejects a directory sharing request that was sent from the directory owner accou
 
 """
 function reject_shared_directory(
-    SharedDirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    SharedDirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "RejectSharedDirectory",
-        Dict{String,Any}("SharedDirectoryId" => SharedDirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reject_shared_directory(
-    SharedDirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RejectSharedDirectory",
         Dict{String,Any}(
@@ -2189,8 +1657,7 @@ function reject_shared_directory(
 end
 
 """
-    remove_ip_routes(cidr_ips, directory_id)
-    remove_ip_routes(cidr_ips, directory_id, params::Dict{String,<:Any})
+    remove_ip_routes(cidr_ips, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes IP address blocks from a directory.
 
@@ -2201,21 +1668,9 @@ Removes IP address blocks from a directory.
 
 """
 function remove_ip_routes(
-    CidrIps, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    CidrIps, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "RemoveIpRoutes",
-        Dict{String,Any}("CidrIps" => CidrIps, "DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_ip_routes(
-    CidrIps,
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RemoveIpRoutes",
         Dict{String,Any}(
@@ -2231,8 +1686,7 @@ function remove_ip_routes(
 end
 
 """
-    remove_region(directory_id)
-    remove_region(directory_id, params::Dict{String,<:Any})
+    remove_region(directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops all replication and removes the domain controllers from the specified Region. You
 cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
@@ -2242,19 +1696,10 @@ cannot remove the primary Region with this operation. Instead, use the DeleteDir
   replication.
 
 """
-function remove_region(DirectoryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "RemoveRegion",
-        Dict{String,Any}("DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_region(
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RemoveRegion",
         Dict{String,Any}(
@@ -2266,8 +1711,7 @@ function remove_region(
 end
 
 """
-    remove_tags_from_resource(resource_id, tag_keys)
-    remove_tags_from_resource(resource_id, tag_keys, params::Dict{String,<:Any})
+    remove_tags_from_resource(resource_id, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from a directory.
 
@@ -2277,21 +1721,9 @@ Removes tags from a directory.
 
 """
 function remove_tags_from_resource(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "RemoveTagsFromResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_tags_from_resource(
-    ResourceId,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RemoveTagsFromResource",
         Dict{String,Any}(
@@ -2307,8 +1739,7 @@ function remove_tags_from_resource(
 end
 
 """
-    reset_user_password(directory_id, new_password, user_name)
-    reset_user_password(directory_id, new_password, user_name, params::Dict{String,<:Any})
+    reset_user_password(directory_id, new_password, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Resets the password for any user in your Managed Microsoft AD or Simple AD directory. You
 can reset the password for any user in your directory with the following exceptions:   For
@@ -2328,26 +1759,13 @@ Directory Service Administration Guide.
 
 """
 function reset_user_password(
-    DirectoryId, NewPassword, UserName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "ResetUserPassword",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "NewPassword" => NewPassword,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reset_user_password(
     DirectoryId,
     NewPassword,
-    UserName,
-    params::AbstractDict{String};
+    UserName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ResetUserPassword",
         Dict{String,Any}(
@@ -2367,8 +1785,7 @@ function reset_user_password(
 end
 
 """
-    restore_from_snapshot(snapshot_id)
-    restore_from_snapshot(snapshot_id, params::Dict{String,<:Any})
+    restore_from_snapshot(snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Restores a directory using an existing directory snapshot. When you restore a directory
 from a snapshot, any changes made to the directory after the snapshot date are overwritten.
@@ -2382,20 +1799,9 @@ restore operation is complete.
 
 """
 function restore_from_snapshot(
-    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "RestoreFromSnapshot",
-        Dict{String,Any}("SnapshotId" => SnapshotId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function restore_from_snapshot(
-    SnapshotId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "RestoreFromSnapshot",
         Dict{String,Any}(
@@ -2407,8 +1813,7 @@ function restore_from_snapshot(
 end
 
 """
-    share_directory(directory_id, share_method, share_target)
-    share_directory(directory_id, share_method, share_target, params::Dict{String,<:Any})
+    share_directory(directory_id, share_method, share_target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory
 owner) with another Amazon Web Services account (directory consumer). With this operation
@@ -2434,32 +1839,19 @@ request to the directory consumer.
   to be shared.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ShareNotes"`: A directory share request that is sent by the directory owner to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"share_notes"`: A directory share request that is sent by the directory owner to the
   directory consumer. The request includes a typed message to help the directory consumer
   administrator determine whether to approve or reject the share invitation.
 """
 function share_directory(
-    DirectoryId, ShareMethod, ShareTarget; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "ShareDirectory",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "ShareMethod" => ShareMethod,
-            "ShareTarget" => ShareTarget,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function share_directory(
     DirectoryId,
     ShareMethod,
-    ShareTarget,
-    params::AbstractDict{String};
+    ShareTarget;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "ShareDirectory",
         Dict{String,Any}(
@@ -2479,8 +1871,7 @@ function share_directory(
 end
 
 """
-    start_schema_extension(create_snapshot_before_schema_extension, description, directory_id, ldif_content)
-    start_schema_extension(create_snapshot_before_schema_extension, description, directory_id, ldif_content, params::Dict{String,<:Any})
+    start_schema_extension(create_snapshot_before_schema_extension, description, directory_id, ldif_content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies a schema extension to a Microsoft AD directory.
 
@@ -2501,27 +1892,9 @@ function start_schema_extension(
     DirectoryId,
     LdifContent;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return directory_service(
-        "StartSchemaExtension",
-        Dict{String,Any}(
-            "CreateSnapshotBeforeSchemaExtension" => CreateSnapshotBeforeSchemaExtension,
-            "Description" => Description,
-            "DirectoryId" => DirectoryId,
-            "LdifContent" => LdifContent,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_schema_extension(
-    CreateSnapshotBeforeSchemaExtension,
-    Description,
-    DirectoryId,
-    LdifContent,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "StartSchemaExtension",
         Dict{String,Any}(
@@ -2543,8 +1916,7 @@ function start_schema_extension(
 end
 
 """
-    unshare_directory(directory_id, unshare_target)
-    unshare_directory(directory_id, unshare_target, params::Dict{String,<:Any})
+    unshare_directory(directory_id, unshare_target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops the directory sharing between the directory owner and consumer accounts.
 
@@ -2556,21 +1928,9 @@ Stops the directory sharing between the directory owner and consumer accounts.
 
 """
 function unshare_directory(
-    DirectoryId, UnshareTarget; aws_config::AbstractAWSConfig=global_aws_config()
+    DirectoryId, UnshareTarget; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "UnshareDirectory",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "UnshareTarget" => UnshareTarget);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function unshare_directory(
-    DirectoryId,
-    UnshareTarget,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "UnshareDirectory",
         Dict{String,Any}(
@@ -2588,8 +1948,7 @@ function unshare_directory(
 end
 
 """
-    update_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name)
-    update_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name, params::Dict{String,<:Any})
+    update_conditional_forwarder(directory_id, dns_ip_addrs, remote_domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
 
@@ -2607,25 +1966,9 @@ function update_conditional_forwarder(
     DnsIpAddrs,
     RemoteDomainName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return directory_service(
-        "UpdateConditionalForwarder",
-        Dict{String,Any}(
-            "DirectoryId" => DirectoryId,
-            "DnsIpAddrs" => DnsIpAddrs,
-            "RemoteDomainName" => RemoteDomainName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_conditional_forwarder(
-    DirectoryId,
-    DnsIpAddrs,
-    RemoteDomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "UpdateConditionalForwarder",
         Dict{String,Any}(
@@ -2645,8 +1988,7 @@ function update_conditional_forwarder(
 end
 
 """
-    update_number_of_domain_controllers(desired_number, directory_id)
-    update_number_of_domain_controllers(desired_number, directory_id, params::Dict{String,<:Any})
+    update_number_of_domain_controllers(desired_number, directory_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or removes domain controllers to or from the directory. Based on the difference
 between current value and new value (provided through this API call), domain controllers
@@ -2661,21 +2003,9 @@ time, you cannot make another update request.
 
 """
 function update_number_of_domain_controllers(
-    DesiredNumber, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config()
+    DesiredNumber, DirectoryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return directory_service(
-        "UpdateNumberOfDomainControllers",
-        Dict{String,Any}("DesiredNumber" => DesiredNumber, "DirectoryId" => DirectoryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_number_of_domain_controllers(
-    DesiredNumber,
-    DirectoryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "UpdateNumberOfDomainControllers",
         Dict{String,Any}(
@@ -2693,8 +2023,7 @@ function update_number_of_domain_controllers(
 end
 
 """
-    update_radius(directory_id, radius_settings)
-    update_radius(directory_id, radius_settings, params::Dict{String,<:Any})
+    update_radius(directory_id, radius_settings; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the Remote Authentication Dial In User Service (RADIUS) server information for an
 AD Connector or Microsoft AD directory.
@@ -2707,21 +2036,12 @@ AD Connector or Microsoft AD directory.
 
 """
 function update_radius(
-    DirectoryId, RadiusSettings; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return directory_service(
-        "UpdateRadius",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "RadiusSettings" => RadiusSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_radius(
     DirectoryId,
-    RadiusSettings,
-    params::AbstractDict{String};
+    RadiusSettings;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "UpdateRadius",
         Dict{String,Any}(
@@ -2739,8 +2059,7 @@ function update_radius(
 end
 
 """
-    update_trust(trust_id)
-    update_trust(trust_id, params::Dict{String,<:Any})
+    update_trust(trust_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the trust that has been set up between your Managed Microsoft AD directory and an
 self-managed Active Directory.
@@ -2749,20 +2068,11 @@ self-managed Active Directory.
 - `trust_id`: Identifier of the trust relationship.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SelectiveAuth"`: Updates selective authentication for the trust.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"selective_auth"`: Updates selective authentication for the trust.
 """
-function update_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "UpdateTrust",
-        Dict{String,Any}("TrustId" => TrustId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_trust(
-    TrustId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "UpdateTrust",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TrustId" => TrustId), params));
@@ -2772,8 +2082,7 @@ function update_trust(
 end
 
 """
-    verify_trust(trust_id)
-    verify_trust(trust_id, params::Dict{String,<:Any})
+    verify_trust(trust_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Directory Service for Microsoft Active Directory allows you to configure and verify trust
 relationships. This action verifies a trust relationship between your Managed Microsoft AD
@@ -2783,17 +2092,8 @@ directory and an external domain.
 - `trust_id`: The unique Trust ID of the trust relationship to verify.
 
 """
-function verify_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config())
-    return directory_service(
-        "VerifyTrust",
-        Dict{String,Any}("TrustId" => TrustId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function verify_trust(
-    TrustId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function verify_trust(TrustId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return directory_service(
         "VerifyTrust",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TrustId" => TrustId), params));

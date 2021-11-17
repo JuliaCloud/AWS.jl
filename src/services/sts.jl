@@ -4,9 +4,21 @@ using AWS.AWSServices: sts
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "provider_id" => "ProviderId",
+    "token_code" => "TokenCode",
+    "policy" => "Policy",
+    "external_id" => "ExternalId",
+    "source_identity" => "SourceIdentity",
+    "duration_seconds" => "DurationSeconds",
+    "policy_arns" => "PolicyArns",
+    "transitive_tag_keys" => "TransitiveTagKeys",
+    "tags" => "Tags",
+    "serial_number" => "SerialNumber",
+)
+
 """
-    assume_role(role_arn, role_session_name)
-    assume_role(role_arn, role_session_name, params::Dict{String,<:Any})
+    assume_role(role_arn, role_session_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of temporary security credentials that you can use to access Amazon Web
 Services resources that you might not normally have access to. These temporary credentials
@@ -72,8 +84,8 @@ user's hardware or virtual MFA device. The TokenCode is the time-based one-time 
   spaces. You can also include underscores or any of the following characters: =,.@-
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DurationSeconds"`: The duration, in seconds, of the role session. The value specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_seconds"`: The duration, in seconds, of the role session. The value specified
   can can range from 900 seconds (15 minutes) up to the maximum session duration that is set
   for the role. The maximum session duration setting can have a value from 1 hour to 12
   hours. If you specify a value higher than this setting or the administrator setting
@@ -86,7 +98,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   federation endpoint for a console sign-in token takes a SessionDuration parameter that
   specifies the maximum length of the console session. For more information, see Creating a
   URL that Enables Federated Users to Access the Management Console in the IAM User Guide.
-- `"ExternalId"`: A unique identifier that might be required when you assume a role in
+- `"external_id"`: A unique identifier that might be required when you assume a role in
   another account. If the administrator of the account to which the role belongs provided you
   with an external ID, then provide that value in the ExternalId parameter. This value can be
   any string, such as a passphrase or account number. A cross-account role is usually set up
@@ -98,7 +110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter is a string of characters consisting of upper- and lower-case alphanumeric
   characters with no spaces. You can also include underscores or any of the following
   characters: =,.@:/-
-- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+- `"policy"`: An IAM policy in JSON format that you want to use as an inline session
   policy. This parameter is optional. Passing policies to this operation returns new
   temporary credentials. The resulting session's permissions are the intersection of the
   role's identity-based policy and the session policies. You can use the role's temporary
@@ -114,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a separate limit. Your request can fail for this limit even if your plaintext meets the
   other requirements. The PackedPolicySize response element indicates by percentage how close
   the policies and tags for your request are to the upper size limit.
-- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+- `"policy_arns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
   want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plaintext that you use for both inline and managed session policies can't exceed 2,048
@@ -131,15 +143,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use session policies to grant more permissions than those allowed by the identity-based
   policy of the role that is being assumed. For more information, see Session Policies in the
   IAM User Guide.
-- `"SerialNumber"`: The identification number of the MFA device that is associated with the
-  user who is making the AssumeRole call. Specify this value if the trust policy of the role
-  being assumed includes a condition that requires MFA authentication. The value is either
-  the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name
-  (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to
-  validate this parameter is a string of characters consisting of upper- and lower-case
-  alphanumeric characters with no spaces. You can also include underscores or any of the
-  following characters: =,.@-
-- `"SourceIdentity"`: The source identity specified by the principal that is calling the
+- `"serial_number"`: The identification number of the MFA device that is associated with
+  the user who is making the AssumeRole call. Specify this value if the trust policy of the
+  role being assumed includes a condition that requires MFA authentication. The value is
+  either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource
+  Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex
+  used to validate this parameter is a string of characters consisting of upper- and
+  lower-case alphanumeric characters with no spaces. You can also include underscores or any
+  of the following characters: =,.@-
+- `"source_identity"`: The source identity specified by the principal that is calling the
   AssumeRole operation. You can require users to specify a source identity when they assume a
   role. You do this by using the sts:SourceIdentity condition key in a role trust policy. You
   can use source identity information in CloudTrail logs to determine who took actions with a
@@ -150,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of upper- and lower-case alphanumeric characters with no spaces. You can also include
   underscores or any of the following characters: =,.@-. You cannot use a value that begins
   with the text aws:. This prefix is reserved for Amazon Web Services internal use.
-- `"Tags"`: A list of session tags that you want to pass. Each session tag consists of a
+- `"tags"`: A list of session tags that you want to pass. Each session tag consists of a
   key name and an associated value. For more information about session tags, see Tagging STS
   Sessions in the IAM User Guide. This parameter is optional. You can pass up to 50 session
   tags. The plaintext session tag keys can’t exceed 128 characters, and the values can’t
@@ -171,12 +183,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the same key as an inherited tag, the operation fails. To view the inherited tags for
   a session, see the CloudTrail logs. For more information, see Viewing Session Tags in
   CloudTrail in the IAM User Guide.
-- `"TokenCode"`: The value provided by the MFA device, if the trust policy of the role
+- `"token_code"`: The value provided by the MFA device, if the trust policy of the role
   being assumed requires MFA. (In other words, if the policy includes a condition that tests
   for MFA). If the role being assumed requires MFA and if the TokenCode value is missing or
   expired, the AssumeRole call returns an \"access denied\" error. The format for this
   parameter, as described by its regex pattern, is a sequence of six numeric digits.
-- `"TransitiveTagKeys"`: A list of keys for session tags that you want to set as
+- `"transitive_tag_keys"`: A list of keys for session tags that you want to set as
   transitive. If you set a tag key as transitive, the corresponding key and value passes to
   subsequent sessions in a role chain. For more information, see Chaining Roles with Session
   Tags in the IAM User Guide. This parameter is optional. When you set session tags as
@@ -185,21 +197,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any subsequent sessions.
 """
 function assume_role(
-    RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config()
+    RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sts(
-        "AssumeRole",
-        Dict{String,Any}("RoleArn" => RoleArn, "RoleSessionName" => RoleSessionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_role(
-    RoleArn,
-    RoleSessionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "AssumeRole",
         Dict{String,Any}(
@@ -217,8 +217,7 @@ function assume_role(
 end
 
 """
-    assume_role_with_saml(principal_arn, role_arn, samlassertion)
-    assume_role_with_saml(principal_arn, role_arn, samlassertion, params::Dict{String,<:Any})
+    assume_role_with_saml(principal_arn, role_arn, samlassertion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of temporary security credentials for users who have been authenticated via a
 SAML authentication response. This operation provides a mechanism for tying an enterprise
@@ -300,8 +299,8 @@ in the IAM User Guide.     Creating a Role for SAML 2.0 Federation in the IAM Us
   more information, see Configuring a Relying Party and Adding Claims in the IAM User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DurationSeconds"`: The duration, in seconds, of the role session. Your role session
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_seconds"`: The duration, in seconds, of the role session. Your role session
   lasts for the duration that you specify for the DurationSeconds parameter, or until the
   time specified in the SAML authentication response's SessionNotOnOrAfter value, whichever
   is shorter. You can provide a DurationSeconds value from 900 seconds (15 minutes) up to the
@@ -316,7 +315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   takes a SessionDuration parameter that specifies the maximum length of the console session.
   For more information, see Creating a URL that Enables Federated Users to Access the
   Management Console in the IAM User Guide.
-- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+- `"policy"`: An IAM policy in JSON format that you want to use as an inline session
   policy. This parameter is optional. Passing policies to this operation returns new
   temporary credentials. The resulting session's permissions are the intersection of the
   role's identity-based policy and the session policies. You can use the role's temporary
@@ -332,7 +331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a separate limit. Your request can fail for this limit even if your plaintext meets the
   other requirements. The PackedPolicySize response element indicates by percentage how close
   the policies and tags for your request are to the upper size limit.
-- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+- `"policy_arns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
   want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plaintext that you use for both inline and managed session policies can't exceed 2,048
@@ -351,26 +350,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM User Guide.
 """
 function assume_role_with_saml(
-    PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sts(
-        "AssumeRoleWithSAML",
-        Dict{String,Any}(
-            "PrincipalArn" => PrincipalArn,
-            "RoleArn" => RoleArn,
-            "SAMLAssertion" => SAMLAssertion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_role_with_saml(
     PrincipalArn,
     RoleArn,
-    SAMLAssertion,
-    params::AbstractDict{String};
+    SAMLAssertion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "AssumeRoleWithSAML",
         Dict{String,Any}(
@@ -390,8 +376,7 @@ function assume_role_with_saml(
 end
 
 """
-    assume_role_with_web_identity(role_arn, role_session_name, web_identity_token)
-    assume_role_with_web_identity(role_arn, role_session_name, web_identity_token, params::Dict{String,<:Any})
+    assume_role_with_web_identity(role_arn, role_session_name, web_identity_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of temporary security credentials for users who have been authenticated in a
 mobile or web application with a web identity provider. Example providers include Amazon
@@ -488,8 +473,8 @@ use web identity federation to get access to content in Amazon S3.
   makes an AssumeRoleWithWebIdentity call.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DurationSeconds"`: The duration, in seconds, of the role session. The value can range
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_seconds"`: The duration, in seconds, of the role session. The value can range
   from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This
   setting can have a value from 1 hour to 12 hours. If you specify a value higher than this
   setting, the operation fails. For example, if you specify a session duration of 12 hours,
@@ -501,7 +486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console sign-in token takes a SessionDuration parameter that specifies the maximum length
   of the console session. For more information, see Creating a URL that Enables Federated
   Users to Access the Management Console in the IAM User Guide.
-- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+- `"policy"`: An IAM policy in JSON format that you want to use as an inline session
   policy. This parameter is optional. Passing policies to this operation returns new
   temporary credentials. The resulting session's permissions are the intersection of the
   role's identity-based policy and the session policies. You can use the role's temporary
@@ -517,7 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   has a separate limit. Your request can fail for this limit even if your plaintext meets the
   other requirements. The PackedPolicySize response element indicates by percentage how close
   the policies and tags for your request are to the upper size limit.
-- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+- `"policy_arns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
   want to use as managed session policies. The policies must exist in the same account as the
   role. This parameter is optional. You can provide up to 10 managed policy ARNs. However,
   the plaintext that you use for both inline and managed session policies can't exceed 2,048
@@ -534,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use session policies to grant more permissions than those allowed by the identity-based
   policy of the role that is being assumed. For more information, see Session Policies in the
   IAM User Guide.
-- `"ProviderId"`: The fully qualified host component of the domain name of the identity
+- `"provider_id"`: The fully qualified host component of the domain name of the identity
   provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and
   graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens.
   Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect
@@ -545,25 +530,9 @@ function assume_role_with_web_identity(
     RoleSessionName,
     WebIdentityToken;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sts(
-        "AssumeRoleWithWebIdentity",
-        Dict{String,Any}(
-            "RoleArn" => RoleArn,
-            "RoleSessionName" => RoleSessionName,
-            "WebIdentityToken" => WebIdentityToken,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function assume_role_with_web_identity(
-    RoleArn,
-    RoleSessionName,
-    WebIdentityToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "AssumeRoleWithWebIdentity",
         Dict{String,Any}(
@@ -583,8 +552,7 @@ function assume_role_with_web_identity(
 end
 
 """
-    decode_authorization_message(encoded_message)
-    decode_authorization_message(encoded_message, params::Dict{String,<:Any})
+    decode_authorization_message(encoded_message; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Decodes additional information about the authorization status of a request from an encoded
 message returned in response to an Amazon Web Services request. For example, if a user is
@@ -609,20 +577,9 @@ The values of condition keys in the context of the user's request.
 
 """
 function decode_authorization_message(
-    EncodedMessage; aws_config::AbstractAWSConfig=global_aws_config()
+    EncodedMessage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sts(
-        "DecodeAuthorizationMessage",
-        Dict{String,Any}("EncodedMessage" => EncodedMessage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function decode_authorization_message(
-    EncodedMessage,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "DecodeAuthorizationMessage",
         Dict{String,Any}(
@@ -634,8 +591,7 @@ function decode_authorization_message(
 end
 
 """
-    get_access_key_info(access_key_id)
-    get_access_key_info(access_key_id, params::Dict{String,<:Any})
+    get_access_key_info(access_key_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the account identifier for the specified access key ID. Access keys consist of two
 parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE) and a secret access key (for
@@ -659,19 +615,10 @@ that the key doesn't exist.
   digit.
 
 """
-function get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts(
-        "GetAccessKeyInfo",
-        Dict{String,Any}("AccessKeyId" => AccessKeyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_key_info(
-    AccessKeyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "GetAccessKeyInfo",
         Dict{String,Any}(
@@ -683,8 +630,7 @@ function get_access_key_info(
 end
 
 """
-    get_caller_identity()
-    get_caller_identity(params::Dict{String,<:Any})
+    get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details about the IAM user or role whose credentials are used to call the
 operation.  No permissions are required to perform this operation. If an administrator adds
@@ -695,20 +641,15 @@ access. To view an example response, see I Am Not Authorized to Perform:
 iam:DeleteVirtualMFADevice in the IAM User Guide.
 
 """
-function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_caller_identity(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "GetCallerIdentity", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_federation_token(name)
-    get_federation_token(name, params::Dict{String,<:Any})
+    get_federation_token(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of temporary security credentials (consisting of an access key ID, a secret
 access key, and a security token) for a federated user. A typical use is in a proxy
@@ -806,14 +747,14 @@ passed in the request takes precedence over the user tag.
   following characters: =,.@-
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DurationSeconds"`: The duration, in seconds, that the session should last. Acceptable
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_seconds"`: The duration, in seconds, that the session should last. Acceptable
   durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds
   (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using Amazon
   Web Services account root user credentials are restricted to a maximum of 3,600 seconds
   (one hour). If the specified duration is longer than one hour, the session obtained by
   using root user credentials defaults to one hour.
-- `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
+- `"policy"`: An IAM policy in JSON format that you want to use as an inline session
   policy. You must pass an inline or managed session policy to this operation. You can pass a
   single JSON policy document to use as an inline session policy. You can also specify up to
   10 managed policies to use as managed session policies. This parameter is optional.
@@ -835,7 +776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format that has a separate limit. Your request can fail for this limit even if your
   plaintext meets the other requirements. The PackedPolicySize response element indicates by
   percentage how close the policies and tags for your request are to the upper size limit.
-- `"PolicyArns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
+- `"policy_arns"`: The Amazon Resource Names (ARNs) of the IAM managed policies that you
   want to use as a managed session policy. The policies must exist in the same account as the
   IAM user that is requesting federated access. You must pass an inline or managed session
   policy to this operation. You can pass a single JSON policy document to use as an inline
@@ -859,7 +800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if your plaintext meets the other requirements. The PackedPolicySize response element
   indicates by percentage how close the policies and tags for your request are to the upper
   size limit.
-- `"Tags"`: A list of session tags. Each session tag consists of a key name and an
+- `"tags"`: A list of session tags. Each session tag consists of a key name and an
   associated value. For more information about session tags, see Passing Session Tags in STS
   in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The
   plaintext session tag keys can’t exceed 128 characters and the values can’t exceed 256
@@ -876,17 +817,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   department=engineering session tag. Department and department are not saved as separate
   tags, and the session tag passed in the request takes precedence over the role tag.
 """
-function get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts(
-        "GetFederationToken",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_federation_token(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "GetFederationToken",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -896,8 +830,7 @@ function get_federation_token(
 end
 
 """
-    get_session_token()
-    get_session_token(params::Dict{String,<:Any})
+    get_session_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of temporary credentials for an Amazon Web Services account or IAM user. The
 credentials consist of an access key ID, a secret access key, and a security token.
@@ -932,35 +865,31 @@ information about using GetSessionToken to create temporary credentials, go to T
 Credentials for Users in Untrusted Environments in the IAM User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DurationSeconds"`: The duration, in seconds, that the credentials should remain valid.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_seconds"`: The duration, in seconds, that the credentials should remain valid.
   Acceptable durations for IAM user sessions range from 900 seconds (15 minutes) to 129,600
   seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions for Amazon Web
   Services account owners are restricted to a maximum of 3,600 seconds (one hour). If the
   duration is longer than one hour, the session for Amazon Web Services account owners
   defaults to one hour.
-- `"SerialNumber"`: The identification number of the MFA device that is associated with the
-  IAM user who is making the GetSessionToken call. Specify this value if the IAM user has a
-  policy that requires MFA authentication. The value is either the serial number for a
+- `"serial_number"`: The identification number of the MFA device that is associated with
+  the IAM user who is making the GetSessionToken call. Specify this value if the IAM user has
+  a policy that requires MFA authentication. The value is either the serial number for a
   hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual
   device (such as arn:aws:iam::123456789012:mfa/user). You can find the device for an IAM
   user by going to the Management Console and viewing the user's security credentials.  The
   regex used to validate this parameter is a string of characters consisting of upper- and
   lower-case alphanumeric characters with no spaces. You can also include underscores or any
   of the following characters: =,.@:/-
-- `"TokenCode"`: The value provided by the MFA device, if MFA is required. If any policy
+- `"token_code"`: The value provided by the MFA device, if MFA is required. If any policy
   requires the IAM user to submit an MFA code, specify this value. If MFA authentication is
   required, the user must provide a code when requesting a set of temporary security
   credentials. A user who fails to provide the code receives an \"access denied\" response
   when requesting resources that require MFA authentication. The format for this parameter,
   as described by its regex pattern, is a sequence of six numeric digits.
 """
-function get_session_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_session_token(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_session_token(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return sts(
         "GetSessionToken", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )

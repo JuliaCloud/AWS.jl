@@ -4,9 +4,30 @@ using AWS.AWSServices: application_auto_scaling
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "end_time" => "EndTime",
+    "resource_id" => "ResourceId",
+    "max_capacity" => "MaxCapacity",
+    "timezone" => "Timezone",
+    "next_token" => "NextToken",
+    "policy_names" => "PolicyNames",
+    "schedule" => "Schedule",
+    "start_time" => "StartTime",
+    "role_arn" => "RoleARN",
+    "min_capacity" => "MinCapacity",
+    "step_scaling_policy_configuration" => "StepScalingPolicyConfiguration",
+    "max_results" => "MaxResults",
+    "scalable_target_action" => "ScalableTargetAction",
+    "scheduled_action_names" => "ScheduledActionNames",
+    "target_tracking_scaling_policy_configuration" => "TargetTrackingScalingPolicyConfiguration",
+    "resource_ids" => "ResourceIds",
+    "suspended_state" => "SuspendedState",
+    "scalable_dimension" => "ScalableDimension",
+    "policy_type" => "PolicyType",
+)
+
 """
-    delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
-    delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
+    delete_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified scaling policy for an Application Auto Scaling scalable target.
 Deleting a step scaling policy deletes the underlying alarm action, but does not delete the
@@ -91,27 +112,9 @@ function delete_scaling_policy(
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "DeleteScalingPolicy",
-        Dict{String,Any}(
-            "PolicyName" => PolicyName,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_scaling_policy(
-    PolicyName,
-    ResourceId,
-    ScalableDimension,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DeleteScalingPolicy",
         Dict{String,Any}(
@@ -132,8 +135,7 @@ function delete_scaling_policy(
 end
 
 """
-    delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
-    delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace, params::Dict{String,<:Any})
+    delete_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified scheduled action for an Application Auto Scaling scalable target. For
 more information, see Delete a scheduled action in the Application Auto Scaling User Guide.
@@ -215,27 +217,9 @@ function delete_scheduled_action(
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "DeleteScheduledAction",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScheduledActionName" => ScheduledActionName,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_scheduled_action(
-    ResourceId,
-    ScalableDimension,
-    ScheduledActionName,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DeleteScheduledAction",
         Dict{String,Any}(
@@ -256,8 +240,7 @@ function delete_scheduled_action(
 end
 
 """
-    deregister_scalable_target(resource_id, scalable_dimension, service_namespace)
-    deregister_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
+    deregister_scalable_target(resource_id, scalable_dimension, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deregisters an Application Auto Scaling scalable target when you have finished using it. To
 see which resources have been registered, use DescribeScalableTargets.   Deregistering a
@@ -340,25 +323,9 @@ function deregister_scalable_target(
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "DeregisterScalableTarget",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_scalable_target(
-    ResourceId,
-    ScalableDimension,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DeregisterScalableTarget",
         Dict{String,Any}(
@@ -378,8 +345,7 @@ function deregister_scalable_target(
 end
 
 """
-    describe_scalable_targets(service_namespace)
-    describe_scalable_targets(service_namespace, params::Dict{String,<:Any})
+    describe_scalable_targets(service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the scalable targets in the specified namespace. You can filter the
 results using ResourceIds and ScalableDimension.
@@ -390,18 +356,18 @@ results using ResourceIds and ScalableDimension.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of scalable targets. This value can be between 1 and
   50. The default value is 50. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
   include the NextToken value in a subsequent call. If this parameter is not used, the
   operation returns up to 50 results and a NextToken value, if applicable.
-- `"NextToken"`: The token for the next set of results.
-- `"ResourceIds"`: The identifier of the resource associated with the scalable target. This
-  string consists of the resource type and unique identifier.   ECS service - The resource
-  type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
-  the unique identifier is the Spot Fleet request ID. Example:
+- `"next_token"`: The token for the next set of results.
+- `"resource_ids"`: The identifier of the resource associated with the scalable target.
+  This string consists of the resource type and unique identifier.   ECS service - The
+  resource type is service and the unique identifier is the cluster name and service name.
+  Example: service/default/sample-webapp.   Spot Fleet - The resource type is
+  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -433,7 +399,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.
-- `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
+- `"scalable_dimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -465,20 +431,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scalable_targets(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_auto_scaling(
-        "DescribeScalableTargets",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scalable_targets(
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DescribeScalableTargets",
         Dict{String,Any}(
@@ -492,8 +447,7 @@ function describe_scalable_targets(
 end
 
 """
-    describe_scaling_activities(service_namespace)
-    describe_scaling_activities(service_namespace, params::Dict{String,<:Any})
+    describe_scaling_activities(service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides descriptive information about the scaling activities in the specified namespace
 from the previous six weeks. You can filter the results using ResourceId and
@@ -505,18 +459,18 @@ ScalableDimension.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of scalable targets. This value can be between 1 and
   50. The default value is 50. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
   include the NextToken value in a subsequent call. If this parameter is not used, the
   operation returns up to 50 results and a NextToken value, if applicable.
-- `"NextToken"`: The token for the next set of results.
-- `"ResourceId"`: The identifier of the resource associated with the scaling activity. This
-  string consists of the resource type and unique identifier.   ECS service - The resource
-  type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
-  the unique identifier is the Spot Fleet request ID. Example:
+- `"next_token"`: The token for the next set of results.
+- `"resource_id"`: The identifier of the resource associated with the scaling activity.
+  This string consists of the resource type and unique identifier.   ECS service - The
+  resource type is service and the unique identifier is the cluster name and service name.
+  Example: service/default/sample-webapp.   Spot Fleet - The resource type is
+  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -548,7 +502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.
-- `"ScalableDimension"`: The scalable dimension. This string consists of the service
+- `"scalable_dimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
@@ -579,20 +533,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_activities(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_auto_scaling(
-        "DescribeScalingActivities",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scaling_activities(
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DescribeScalingActivities",
         Dict{String,Any}(
@@ -606,8 +549,7 @@ function describe_scaling_activities(
 end
 
 """
-    describe_scaling_policies(service_namespace)
-    describe_scaling_policies(service_namespace, params::Dict{String,<:Any})
+    describe_scaling_policies(service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the Application Auto Scaling scaling policies for the specified service
 namespace. You can filter the results using ResourceId, ScalableDimension, and PolicyNames.
@@ -620,15 +562,15 @@ Application Auto Scaling User Guide.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of scalable targets. This value can be between 1 and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of scalable targets. This value can be between 1 and
   10. The default value is 10. If this parameter is used, the operation returns up to
   MaxResults results at a time, along with a NextToken value. To get the next set of results,
   include the NextToken value in a subsequent call. If this parameter is not used, the
   operation returns up to 10 results and a NextToken value, if applicable.
-- `"NextToken"`: The token for the next set of results.
-- `"PolicyNames"`: The names of the scaling policies to describe.
-- `"ResourceId"`: The identifier of the resource associated with the scaling policy. This
+- `"next_token"`: The token for the next set of results.
+- `"policy_names"`: The names of the scaling policies to describe.
+- `"resource_id"`: The identifier of the resource associated with the scaling policy. This
   string consists of the resource type and unique identifier.   ECS service - The resource
   type is service and the unique identifier is the cluster name and service name. Example:
   service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
@@ -664,7 +606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.
-- `"ScalableDimension"`: The scalable dimension. This string consists of the service
+- `"scalable_dimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
@@ -695,20 +637,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   read replicas in an Amazon Neptune DB cluster.
 """
 function describe_scaling_policies(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_auto_scaling(
-        "DescribeScalingPolicies",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scaling_policies(
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DescribeScalingPolicies",
         Dict{String,Any}(
@@ -722,8 +653,7 @@ function describe_scaling_policies(
 end
 
 """
-    describe_scheduled_actions(service_namespace)
-    describe_scheduled_actions(service_namespace, params::Dict{String,<:Any})
+    describe_scheduled_actions(service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the Application Auto Scaling scheduled actions for the specified service
 namespace. You can filter the results using the ResourceId, ScalableDimension, and
@@ -736,18 +666,18 @@ scheduled scaling in the Application Auto Scaling User Guide.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of scheduled action results. This value can be between
-  1 and 50. The default value is 50. If this parameter is used, the operation returns up to
-  MaxResults results at a time, along with a NextToken value. To get the next set of results,
-  include the NextToken value in a subsequent call. If this parameter is not used, the
-  operation returns up to 50 results and a NextToken value, if applicable.
-- `"NextToken"`: The token for the next set of results.
-- `"ResourceId"`: The identifier of the resource associated with the scheduled action. This
-  string consists of the resource type and unique identifier.   ECS service - The resource
-  type is service and the unique identifier is the cluster name and service name. Example:
-  service/default/sample-webapp.   Spot Fleet - The resource type is spot-fleet-request and
-  the unique identifier is the Spot Fleet request ID. Example:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of scheduled action results. This value can be
+  between 1 and 50. The default value is 50. If this parameter is used, the operation returns
+  up to MaxResults results at a time, along with a NextToken value. To get the next set of
+  results, include the NextToken value in a subsequent call. If this parameter is not used,
+  the operation returns up to 50 results and a NextToken value, if applicable.
+- `"next_token"`: The token for the next set of results.
+- `"resource_id"`: The identifier of the resource associated with the scheduled action.
+  This string consists of the resource type and unique identifier.   ECS service - The
+  resource type is service and the unique identifier is the cluster name and service name.
+  Example: service/default/sample-webapp.   Spot Fleet - The resource type is
+  spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example:
   spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   EMR cluster - The resource
   type is instancegroup and the unique identifier is the cluster ID and instance group ID.
   Example: instancegroup/j-2EEZNYKUA1NTV/ig-1791Y4E1L8YI0.   AppStream 2.0 fleet - The
@@ -779,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.
-- `"ScalableDimension"`: The scalable dimension. This string consists of the service
+- `"scalable_dimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
   ECS service.    elasticmapreduce:instancegroup:InstanceCount - The instance count of an EMR
@@ -808,23 +738,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
-- `"ScheduledActionNames"`: The names of the scheduled actions to describe.
+- `"scheduled_action_names"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_auto_scaling(
-        "DescribeScheduledActions",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scheduled_actions(
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "DescribeScheduledActions",
         Dict{String,Any}(
@@ -838,8 +757,7 @@ function describe_scheduled_actions(
 end
 
 """
-    put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
-    put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
+    put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or updates a scaling policy for an Application Auto Scaling scalable target. Each
 scalable target is identified by a service namespace, resource ID, and scalable dimension.
@@ -934,18 +852,18 @@ scaling policies that were specified for the scalable target are deleted.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PolicyType"`: The policy type. This parameter is required if you are creating a scaling
-  policy. The following policy types are supported:   TargetTrackingScaling—Not supported
-  for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon
-  Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see Target
-  tracking scaling policies and Step scaling policies in the Application Auto Scaling User
-  Guide.
-- `"StepScalingPolicyConfiguration"`: A step scaling policy. This parameter is required if
-  you are creating a policy and the policy type is StepScaling.
-- `"TargetTrackingScalingPolicyConfiguration"`: A target tracking scaling policy. Includes
-  support for predefined or customized metrics. This parameter is required if you are
-  creating a policy and the policy type is TargetTrackingScaling.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"policy_type"`: The policy type. This parameter is required if you are creating a
+  scaling policy. The following policy types are supported:   TargetTrackingScaling—Not
+  supported for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend,
+  Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information,
+  see Target tracking scaling policies and Step scaling policies in the Application Auto
+  Scaling User Guide.
+- `"step_scaling_policy_configuration"`: A step scaling policy. This parameter is required
+  if you are creating a policy and the policy type is StepScaling.
+- `"target_tracking_scaling_policy_configuration"`: A target tracking scaling policy.
+  Includes support for predefined or customized metrics. This parameter is required if you
+  are creating a policy and the policy type is TargetTrackingScaling.
 """
 function put_scaling_policy(
     PolicyName,
@@ -953,27 +871,9 @@ function put_scaling_policy(
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "PutScalingPolicy",
-        Dict{String,Any}(
-            "PolicyName" => PolicyName,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_scaling_policy(
-    PolicyName,
-    ResourceId,
-    ScalableDimension,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "PutScalingPolicy",
         Dict{String,Any}(
@@ -994,8 +894,7 @@ function put_scaling_policy(
 end
 
 """
-    put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace)
-    put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace, params::Dict{String,<:Any})
+    put_scheduled_action(resource_id, scalable_dimension, scheduled_action_name, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or updates a scheduled action for an Application Auto Scaling scalable target.
 Each scalable target is identified by a service namespace, resource ID, and scalable
@@ -1081,13 +980,13 @@ scheduled actions that were specified for the scalable target are deleted.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndTime"`: The date and time for the recurring schedule to end, in UTC.
-- `"ScalableTargetAction"`: The new minimum and maximum capacity. You can set both values
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The date and time for the recurring schedule to end, in UTC.
+- `"scalable_target_action"`: The new minimum and maximum capacity. You can set both values
   or just one. At the scheduled time, if the current capacity is below the minimum capacity,
   Application Auto Scaling scales out to the minimum capacity. If the current capacity is
   above the maximum capacity, Application Auto Scaling scales in to the maximum capacity.
-- `"Schedule"`: The schedule for this action. The following formats are supported:   At
+- `"schedule"`: The schedule for this action. The following formats are supported:   At
   expressions - \"at(yyyy-mm-ddThh:mm:ss)\"   Rate expressions - \"rate(value unit)\"   Cron
   expressions - \"cron(fields)\"   At expressions are useful for one-time schedules. Cron
   expressions are useful for scheduled actions that run periodically at a specified date and
@@ -1097,8 +996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   [Day_of_Week] [Year]. For rate expressions, value is a positive integer and unit is minute
   | minutes | hour | hours | day | days. For more information and examples, see Example
   scheduled actions for Application Auto Scaling in the Application Auto Scaling User Guide.
-- `"StartTime"`: The date and time for this scheduled action to start, in UTC.
-- `"Timezone"`: Specifies the time zone used when setting a scheduled action by using an at
+- `"start_time"`: The date and time for this scheduled action to start, in UTC.
+- `"timezone"`: Specifies the time zone used when setting a scheduled action by using an at
   or cron expression. If a time zone is not provided, UTC is used by default. Valid values
   are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
@@ -1109,27 +1008,9 @@ function put_scheduled_action(
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "PutScheduledAction",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScheduledActionName" => ScheduledActionName,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_scheduled_action(
-    ResourceId,
-    ScalableDimension,
-    ScheduledActionName,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "PutScheduledAction",
         Dict{String,Any}(
@@ -1150,8 +1031,7 @@ function put_scheduled_action(
 end
 
 """
-    register_scalable_target(resource_id, scalable_dimension, service_namespace)
-    register_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
+    register_scalable_target(resource_id, scalable_dimension, service_namespace; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers or updates a scalable target.  A scalable target is a resource that Application
 Auto Scaling can scale out and scale in. Scalable targets are uniquely identified by the
@@ -1243,8 +1123,8 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxCapacity"`: The maximum value that you plan to scale out to. When a scaling policy
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_capacity"`: The maximum value that you plan to scale out to. When a scaling policy
   is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. Although you can specify a large maximum capacity, note that service
@@ -1253,21 +1133,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   increase. For more information, consult the documentation for that service. For information
   about the default quotas for each service, see Service Endpoints and Quotas in the Amazon
   Web Services General Reference.
-- `"MinCapacity"`: The minimum value that you plan to scale in to. When a scaling policy is
-  in effect, Application Auto Scaling can scale in (contract) as needed to the minimum
+- `"min_capacity"`: The minimum value that you plan to scale in to. When a scaling policy
+  is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. For certain resources, the minimum value allowed is 0. This includes
   Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR clusters,
   and custom resources. For all other resources, the minimum value allowed is 1.
-- `"RoleARN"`: This parameter is required for services that do not support service-linked
+- `"role_arn"`: This parameter is required for services that do not support service-linked
   roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows
   Application Auto Scaling to modify the scalable target on your behalf.  If the service
   supports service-linked roles, Application Auto Scaling uses a service-linked role, which
   it creates if it does not yet exist. For more information, see Application Auto Scaling IAM
   roles.
-- `"SuspendedState"`: An embedded object that contains attributes and attribute values that
-  are used to suspend and resume automatic scaling. Setting the value of an attribute to true
-  suspends the specified scaling activities. Setting it to false (default) resumes the
+- `"suspended_state"`: An embedded object that contains attributes and attribute values
+  that are used to suspend and resume automatic scaling. Setting the value of an attribute to
+  true suspends the specified scaling activities. Setting it to false (default) resumes the
   specified scaling activities.   Suspension Outcomes    For DynamicScalingInSuspended, while
   a suspension is in effect, all scale-in activities that are triggered by a scaling policy
   are suspended.   For DynamicScalingOutSuspended, while a suspension is in effect, all
@@ -1281,25 +1161,9 @@ function register_scalable_target(
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_auto_scaling(
-        "RegisterScalableTarget",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_scalable_target(
-    ResourceId,
-    ScalableDimension,
-    ServiceNamespace,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_auto_scaling(
         "RegisterScalableTarget",
         Dict{String,Any}(

@@ -4,9 +4,53 @@ using AWS.AWSServices: kendra
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "edition" => "Edition",
+    "page_number" => "PageNumber",
+    "status_filter" => "StatusFilter",
+    "mode" => "Mode",
+    "ordering_id" => "OrderingId",
+    "server_side_encryption_configuration" => "ServerSideEncryptionConfiguration",
+    "click_feedback_items" => "ClickFeedbackItems",
+    "page_size" => "PageSize",
+    "next_token" => "NextToken",
+    "role_arn" => "RoleArn",
+    "schedule" => "Schedule",
+    "name" => "Name",
+    "configuration" => "Configuration",
+    "user_group_resolution_configuration" => "UserGroupResolutionConfiguration",
+    "include_queries_without_user_information" => "IncludeQueriesWithoutUserInformation",
+    "source_s3_path" => "SourceS3Path",
+    "attribute_filter" => "AttributeFilter",
+    "document_relevance_override_configurations" => "DocumentRelevanceOverrideConfigurations",
+    "minimum_query_count" => "MinimumQueryCount",
+    "data_source_id" => "DataSourceId",
+    "sorting_configuration" => "SortingConfiguration",
+    "user_token_configurations" => "UserTokenConfigurations",
+    "user_context" => "UserContext",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "data_source_sync_job_metric_target" => "DataSourceSyncJobMetricTarget",
+    "user_context_policy" => "UserContextPolicy",
+    "visitor_id" => "VisitorId",
+    "requested_document_attributes" => "RequestedDocumentAttributes",
+    "client_token" => "ClientToken",
+    "document_metadata_configuration_updates" => "DocumentMetadataConfigurationUpdates",
+    "file_format" => "FileFormat",
+    "facets" => "Facets",
+    "query_result_type_filter" => "QueryResultTypeFilter",
+    "relevance_feedback_items" => "RelevanceFeedbackItems",
+    "minimum_number_of_querying_users" => "MinimumNumberOfQueryingUsers",
+    "max_suggestions_count" => "MaxSuggestionsCount",
+    "language_code" => "LanguageCode",
+    "start_time_filter" => "StartTimeFilter",
+    "tags" => "Tags",
+    "query_log_look_back_window_in_days" => "QueryLogLookBackWindowInDays",
+    "capacity_units" => "CapacityUnits",
+)
+
 """
-    batch_delete_document(document_id_list, index_id)
-    batch_delete_document(document_id_list, index_id, params::Dict{String,<:Any})
+    batch_delete_document(document_id_list, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more documents from an index. The documents must have been added with the
 BatchPutDocument operation. The documents are deleted asynchronously. You can see the
@@ -18,25 +62,13 @@ related to the processing of the batch are sent to you CloudWatch log.
 - `index_id`: The identifier of the index that contains the documents to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceSyncJobMetricTarget"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_sync_job_metric_target"`:
 """
 function batch_delete_document(
-    DocumentIdList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentIdList, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "BatchDeleteDocument",
-        Dict{String,Any}("DocumentIdList" => DocumentIdList, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_document(
-    DocumentIdList,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "BatchDeleteDocument",
         Dict{String,Any}(
@@ -52,8 +84,7 @@ function batch_delete_document(
 end
 
 """
-    batch_get_document_status(document_info_list, index_id)
-    batch_get_document_status(document_info_list, index_id, params::Dict{String,<:Any})
+    batch_get_document_status(document_info_list, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the indexing status for one or more documents submitted with the  BatchPutDocument
 operation. When you use the BatchPutDocument operation, documents are indexed
@@ -72,21 +103,9 @@ returns NOT_FOUND as the status.
 
 """
 function batch_get_document_status(
-    DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentInfoList, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "BatchGetDocumentStatus",
-        Dict{String,Any}("DocumentInfoList" => DocumentInfoList, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_document_status(
-    DocumentInfoList,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "BatchGetDocumentStatus",
         Dict{String,Any}(
@@ -104,8 +123,7 @@ function batch_get_document_status(
 end
 
 """
-    batch_put_document(documents, index_id)
-    batch_put_document(documents, index_id, params::Dict{String,<:Any})
+    batch_put_document(documents, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more documents to an index. The BatchPutDocument operation enables you to
 ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this
@@ -128,26 +146,14 @@ to your Amazon Web Services CloudWatch log.
   index first using the CreateIndex operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role that is allowed to run the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"role_arn"`: The Amazon Resource Name (ARN) of a role that is allowed to run the
   BatchPutDocument operation. For more information, see IAM Roles for Amazon Kendra.
 """
 function batch_put_document(
-    Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "BatchPutDocument",
-        Dict{String,Any}("Documents" => Documents, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_put_document(
-    Documents,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "BatchPutDocument",
         Dict{String,Any}(
@@ -163,8 +169,7 @@ function batch_put_document(
 end
 
 """
-    clear_query_suggestions(index_id)
-    clear_query_suggestions(index_id, params::Dict{String,<:Any})
+    clear_query_suggestions(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Clears existing query suggestions from an index. This deletes existing suggestions only,
 not the queries in the query log. After you clear suggestions, Amazon Kendra learns new
@@ -176,17 +181,10 @@ collect enough queries to learn new suggestions.
 - `index_id`: The identifier of the index you want to clear query suggestions from.
 
 """
-function clear_query_suggestions(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "ClearQuerySuggestions",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function clear_query_suggestions(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ClearQuerySuggestions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -196,8 +194,7 @@ function clear_query_suggestions(
 end
 
 """
-    create_data_source(index_id, name, type)
-    create_data_source(index_id, name, type, params::Dict{String,<:Any})
+    create_data_source(index_id, name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a data source that you want to use with an Amazon Kendra index.  You specify a
 name, data source connector type and description for your data source. You also specify
@@ -212,53 +209,35 @@ Otherwise, an exception is raised.
 - `type`: The type of repository that contains the data source.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A token that you provide to identify the request to create a data
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token that you provide to identify the request to create a data
   source. Multiple calls to the CreateDataSource operation with the same client token will
   create only one data source.
-- `"Configuration"`: The connector configuration information that is required to access the
+- `"configuration"`: The connector configuration information that is required to access the
   repository. You can't specify the Configuration parameter when the Type parameter is set to
   CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter
   is required for all other data sources.
-- `"Description"`: A description for the data source.
-- `"LanguageCode"`: The code for a language. This allows you to support a language for all
+- `"description"`: A description for the data source.
+- `"language_code"`: The code for a language. This allows you to support a language for all
   documents when creating the data source. English is supported by default. For more
   information on supported languages, including their codes, see Adding documents in
   languages other than English.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
+- `"role_arn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source. For more information, see IAM Roles for Amazon Kendra. You can't specify the
   RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a
   ValidationException exception. The RoleArn parameter is required for all other data sources.
-- `"Schedule"`: Sets the frequency that Amazon Kendra will check the documents in your
+- `"schedule"`: Sets the frequency that Amazon Kendra will check the documents in your
   repository and update the index. If you don't set a schedule Amazon Kendra will not
   periodically update the index. You can call the StartDataSourceSyncJob operation to update
   the index. You can't specify the Schedule parameter when the Type parameter is set to
   CUSTOM. If you do, you receive a ValidationException exception.
-- `"Tags"`: A list of key-value pairs that identify the data source. You can use the tags
+- `"tags"`: A list of key-value pairs that identify the data source. You can use the tags
   to identify and organize your resources and to control access to resources.
 """
 function create_data_source(
-    IndexId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "CreateDataSource",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "Type" => Type,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_data_source(
-    IndexId,
-    Name,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "CreateDataSource",
         Dict{String,Any}(
@@ -268,7 +247,7 @@ function create_data_source(
                     "IndexId" => IndexId,
                     "Name" => Name,
                     "Type" => Type,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -279,8 +258,7 @@ function create_data_source(
 end
 
 """
-    create_faq(index_id, name, role_arn, s3_path)
-    create_faq(index_id, name, role_arn, s3_path, params::Dict{String,<:Any})
+    create_faq(index_id, name, role_arn, s3_path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an new set of frequently asked question (FAQ) questions and answers.
 
@@ -292,45 +270,30 @@ Creates an new set of frequently asked question (FAQ) questions and answers.
 - `s3_path`: The S3 location of the FAQ input data.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A token that you provide to identify the request to create a FAQ.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token that you provide to identify the request to create a FAQ.
   Multiple calls to the CreateFaqRequest operation with the same client token will create
   only one FAQ.
-- `"Description"`: A description of the FAQ.
-- `"FileFormat"`: The format of the input file. You can choose between a basic CSV format,
+- `"description"`: A description of the FAQ.
+- `"file_format"`: The format of the input file. You can choose between a basic CSV format,
   a CSV format that includes customs attributes in a header, and a JSON format that includes
   custom attributes. The format must match the format of the file stored in the S3 bucket
   identified in the S3Path parameter. For more information, see Adding questions and answers.
-- `"LanguageCode"`: The code for a language. This allows you to support a language for the
+- `"language_code"`: The code for a language. This allows you to support a language for the
   FAQ document. English is supported by default. For more information on supported languages,
   including their codes, see Adding documents in languages other than English.
-- `"Tags"`: A list of key-value pairs that identify the FAQ. You can use the tags to
+- `"tags"`: A list of key-value pairs that identify the FAQ. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
-function create_faq(
-    IndexId, Name, RoleArn, S3Path; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kendra(
-        "CreateFaq",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "S3Path" => S3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_faq(
     IndexId,
     Name,
     RoleArn,
-    S3Path,
-    params::AbstractDict{String};
+    S3Path;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "CreateFaq",
         Dict{String,Any}(
@@ -341,7 +304,7 @@ function create_faq(
                     "Name" => Name,
                     "RoleArn" => RoleArn,
                     "S3Path" => S3Path,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -352,8 +315,7 @@ function create_faq(
 end
 
 """
-    create_index(name, role_arn)
-    create_index(name, role_arn, params::Dict{String,<:Any})
+    create_index(name, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Amazon Kendra index. Index creation is an asynchronous operation. To
 determine if index creation has completed, check the Status field returned from a call to
@@ -368,56 +330,44 @@ one of the supported data sources.
   when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A token that you provide to identify the request to create an index.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token that you provide to identify the request to create an index.
   Multiple calls to the CreateIndex operation with the same client token will create only one
   index.
-- `"Description"`: A description for the index.
-- `"Edition"`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for
+- `"description"`: A description for the index.
+- `"edition"`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for
   indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for
   your production databases. Once you set the edition for an index, it can't be changed. The
   Edition parameter is optional. If you don't supply a value, the default is
   ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer
   editions, see Quotas.
-- `"ServerSideEncryptionConfiguration"`: The identifier of the KMScustomer managed key
+- `"server_side_encryption_configuration"`: The identifier of the KMScustomer managed key
   (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
   asymmetric CMKs.
-- `"Tags"`: A list of key-value pairs that identify the index. You can use the tags to
+- `"tags"`: A list of key-value pairs that identify the index. You can use the tags to
   identify and organize your resources and to control access to resources.
-- `"UserContextPolicy"`: The user context policy.  ATTRIBUTE_FILTER  All indexed content is
-  searchable and displayable for all users. If you want to filter search results on user
+- `"user_context_policy"`: The user context policy.  ATTRIBUTE_FILTER  All indexed content
+  is searchable and displayable for all users. If you want to filter search results on user
   context, you can use the attribute filters of _user_id and _group_ids or you can provide
   user and group information in UserContext.   USER_TOKEN  Enables token-based user access
   control to filter search results on user context. All documents with no access control and
   all documents accessible to the user will be searchable and displayable.
-- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an AWS Single Sign-On identity source. To configure this, see
+- `"user_group_resolution_configuration"`: Enables fetching access levels of groups and
+  users from an AWS Single Sign-On identity source. To configure this, see
   UserGroupResolutionConfiguration.
-- `"UserTokenConfigurations"`: The user token configuration.
+- `"user_token_configurations"`: The user token configuration.
 """
-function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "CreateIndex",
-        Dict{String,Any}(
-            "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_index(
-    Name,
-    RoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "CreateIndex",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "Name" => Name, "RoleArn" => RoleArn, "ClientToken" => string(uuid4())
+                    "Name" => Name, "RoleArn" => RoleArn, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -428,8 +378,7 @@ function create_index(
 end
 
 """
-    create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path)
-    create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path, params::Dict{String,<:Any})
+    create_query_suggestions_block_list(index_id, name, role_arn, source_s3_path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a block list to exlcude certain queries from suggestions. Any query that contains
 words or phrases specified in the block list is blocked or filtered out from being shown as
@@ -452,38 +401,23 @@ information on the current quota limits for block lists, see Quotas for Amazon K
   quota limits for block lists, see Quotas for Amazon Kendra.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A token that you provide to identify the request to create a query
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token that you provide to identify the request to create a query
   suggestions block list.
-- `"Description"`: A user-friendly description for the block list. For example, the
+- `"description"`: A user-friendly description for the block list. For example, the
   description \"List of all offensive words that can appear in user queries and need to be
   blocked from suggestions.\"
-- `"Tags"`: A tag that you can assign to a block list that categorizes the block list.
+- `"tags"`: A tag that you can assign to a block list that categorizes the block list.
 """
-function create_query_suggestions_block_list(
-    IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kendra(
-        "CreateQuerySuggestionsBlockList",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "SourceS3Path" => SourceS3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_query_suggestions_block_list(
     IndexId,
     Name,
     RoleArn,
-    SourceS3Path,
-    params::AbstractDict{String};
+    SourceS3Path;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "CreateQuerySuggestionsBlockList",
         Dict{String,Any}(
@@ -494,7 +428,7 @@ function create_query_suggestions_block_list(
                     "Name" => Name,
                     "RoleArn" => RoleArn,
                     "SourceS3Path" => SourceS3Path,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -505,8 +439,7 @@ function create_query_suggestions_block_list(
 end
 
 """
-    create_thesaurus(index_id, name, role_arn, source_s3_path)
-    create_thesaurus(index_id, name, role_arn, source_s3_path, params::Dict{String,<:Any})
+    create_thesaurus(index_id, name, role_arn, source_s3_path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a thesaurus for an index. The thesaurus contains a list of synonyms in Solr format.
 
@@ -518,38 +451,23 @@ Creates a thesaurus for an index. The thesaurus contains a list of synonyms in S
 - `source_s3_path`: The thesaurus file Amazon S3 source path.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A token that you provide to identify the request to create a thesaurus.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token that you provide to identify the request to create a thesaurus.
   Multiple calls to the CreateThesaurus operation with the same client token will create only
   one thesaurus.
-- `"Description"`: The description for the new thesaurus.
-- `"Tags"`: A list of key-value pairs that identify the thesaurus. You can use the tags to
+- `"description"`: The description for the new thesaurus.
+- `"tags"`: A list of key-value pairs that identify the thesaurus. You can use the tags to
   identify and organize your resources and to control access to resources.
 """
-function create_thesaurus(
-    IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kendra(
-        "CreateThesaurus",
-        Dict{String,Any}(
-            "IndexId" => IndexId,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "SourceS3Path" => SourceS3Path,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_thesaurus(
     IndexId,
     Name,
     RoleArn,
-    SourceS3Path,
-    params::AbstractDict{String};
+    SourceS3Path;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "CreateThesaurus",
         Dict{String,Any}(
@@ -560,7 +478,7 @@ function create_thesaurus(
                     "Name" => Name,
                     "RoleArn" => RoleArn,
                     "SourceS3Path" => SourceS3Path,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -571,8 +489,7 @@ function create_thesaurus(
 end
 
 """
-    delete_data_source(id, index_id)
-    delete_data_source(id, index_id, params::Dict{String,<:Any})
+    delete_data_source(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon Kendra data source. An exception is not thrown if the data source is
 already being deleted. While the data source is being deleted, the Status field returned by
@@ -584,20 +501,10 @@ Deleting Data Sources.
 - `index_id`: The unique identifier of the index associated with the data source.
 
 """
-function delete_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DeleteDataSource",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_data_source(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeleteDataSource",
         Dict{String,Any}(
@@ -609,8 +516,7 @@ function delete_data_source(
 end
 
 """
-    delete_faq(id, index_id)
-    delete_faq(id, index_id, params::Dict{String,<:Any})
+    delete_faq(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes an FAQ from an index.
 
@@ -619,20 +525,10 @@ Removes an FAQ from an index.
 - `index_id`: The index to remove the FAQ from.
 
 """
-function delete_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DeleteFaq",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_faq(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeleteFaq",
         Dict{String,Any}(
@@ -644,8 +540,7 @@ function delete_faq(
 end
 
 """
-    delete_index(id)
-    delete_index(id, params::Dict{String,<:Any})
+    delete_index(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already
 being deleted. While the index is being deleted, the Status field returned by a call to the
@@ -655,17 +550,8 @@ DescribeIndex operation is set to DELETING.
 - `id`: The identifier of the index to delete.
 
 """
-function delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DeleteIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_index(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_index(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeleteIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
@@ -675,8 +561,7 @@ function delete_index(
 end
 
 """
-    delete_principal_mapping(group_id, index_id)
-    delete_principal_mapping(group_id, index_id, params::Dict{String,<:Any})
+    delete_principal_mapping(group_id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a group so that all users and sub groups that belong to the group can no longer
 access documents only available to that group. For example, after deleting the group
@@ -693,16 +578,16 @@ and input this list when calling PutPrincipalMapping.
 - `index_id`: The identifier of the index you want to delete a group from.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceId"`: The identifier of the data source you want to delete a group from. This
-  is useful if a group is tied to multiple data sources and you want to delete a group from
-  accessing documents in a certain data source. For example, the groups \"Research\",
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_id"`: The identifier of the data source you want to delete a group from.
+  This is useful if a group is tied to multiple data sources and you want to delete a group
+  from accessing documents in a certain data source. For example, the groups \"Research\",
   \"Engineering\", and \"Sales and Marketing\" are all tied to the company's documents stored
   in the data sources Confluence and Salesforce. You want to delete \"Research\" and
   \"Engineering\" groups from Salesforce, so that these groups cannot access customer-related
   documents stored in Salesforce. Only \"Sales and Marketing\" should access documents in the
   Salesforce data source.
-- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra does not
+- `"ordering_id"`: The timestamp identifier you specify to ensure Amazon Kendra does not
   override the latest DELETE action with previous actions. The highest number ID, which is
   the ordering ID, is the latest action you want to process and apply on top of other actions
   with lower number IDs. This prevents previous actions with lower number IDs from possibly
@@ -714,21 +599,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the action was received by Amazon Kendra.
 """
 function delete_principal_mapping(
-    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DeletePrincipalMapping",
-        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_principal_mapping(
-    GroupId,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeletePrincipalMapping",
         Dict{String,Any}(
@@ -742,8 +615,7 @@ function delete_principal_mapping(
 end
 
 """
-    delete_query_suggestions_block_list(id, index_id)
-    delete_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+    delete_query_suggestions_block_list(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a block list used for query suggestions for an index. A deleted block list might
 not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to
@@ -755,21 +627,9 @@ add back the queries that were previously blocked.
 
 """
 function delete_query_suggestions_block_list(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DeleteQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_query_suggestions_block_list(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeleteQuerySuggestionsBlockList",
         Dict{String,Any}(
@@ -781,8 +641,7 @@ function delete_query_suggestions_block_list(
 end
 
 """
-    delete_thesaurus(id, index_id)
-    delete_thesaurus(id, index_id, params::Dict{String,<:Any})
+    delete_thesaurus(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing Amazon Kendra thesaurus.
 
@@ -791,20 +650,10 @@ Deletes an existing Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index associated with the thesaurus to delete.
 
 """
-function delete_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DeleteThesaurus",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_thesaurus(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DeleteThesaurus",
         Dict{String,Any}(
@@ -816,8 +665,7 @@ function delete_thesaurus(
 end
 
 """
-    describe_data_source(id, index_id)
-    describe_data_source(id, index_id, params::Dict{String,<:Any})
+    describe_data_source(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a Amazon Kendra data source.
 
@@ -827,21 +675,9 @@ Gets information about a Amazon Kendra data source.
 
 """
 function describe_data_source(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DescribeDataSource",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_data_source(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeDataSource",
         Dict{String,Any}(
@@ -853,8 +689,7 @@ function describe_data_source(
 end
 
 """
-    describe_faq(id, index_id)
-    describe_faq(id, index_id, params::Dict{String,<:Any})
+    describe_faq(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about an FAQ list.
 
@@ -863,20 +698,10 @@ Gets information about an FAQ list.
 - `index_id`: The identifier of the index that contains the FAQ.
 
 """
-function describe_faq(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DescribeFaq",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_faq(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeFaq",
         Dict{String,Any}(
@@ -888,8 +713,7 @@ function describe_faq(
 end
 
 """
-    describe_index(id)
-    describe_index(id, params::Dict{String,<:Any})
+    describe_index(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an existing Amazon Kendra index
 
@@ -897,17 +721,8 @@ Describes an existing Amazon Kendra index
 - `id`: The name of the index to describe.
 
 """
-function describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DescribeIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_index(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_index(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
@@ -917,8 +732,7 @@ function describe_index(
 end
 
 """
-    describe_principal_mapping(group_id, index_id)
-    describe_principal_mapping(group_id, index_id, params::Dict{String,<:Any})
+    describe_principal_mapping(group_id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the processing of PUT and DELETE actions for mapping users to their groups. This
 includes information on the status of actions currently processing or yet to be processed,
@@ -933,26 +747,14 @@ action could not be processed.
   DELETE actions for mapping users to their groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceId"`: The identifier of the data source to check the processing of PUT and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_id"`: The identifier of the data source to check the processing of PUT and
   DELETE actions for mapping users to their groups.
 """
 function describe_principal_mapping(
-    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    GroupId, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DescribePrincipalMapping",
-        Dict{String,Any}("GroupId" => GroupId, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_principal_mapping(
-    GroupId,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribePrincipalMapping",
         Dict{String,Any}(
@@ -966,8 +768,7 @@ function describe_principal_mapping(
 end
 
 """
-    describe_query_suggestions_block_list(id, index_id)
-    describe_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+    describe_query_suggestions_block_list(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a block list used for query suggestions for an index. This is used to check the
 current settings that are applied to a block list.
@@ -978,21 +779,9 @@ current settings that are applied to a block list.
 
 """
 function describe_query_suggestions_block_list(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DescribeQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_query_suggestions_block_list(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeQuerySuggestionsBlockList",
         Dict{String,Any}(
@@ -1004,8 +793,7 @@ function describe_query_suggestions_block_list(
 end
 
 """
-    describe_query_suggestions_config(index_id)
-    describe_query_suggestions_config(index_id, params::Dict{String,<:Any})
+    describe_query_suggestions_config(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the settings of query suggestions for an index. This is used to check the current
 settings applied to query suggestions.
@@ -1016,18 +804,9 @@ settings applied to query suggestions.
 
 """
 function describe_query_suggestions_config(
-    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "DescribeQuerySuggestionsConfig",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_query_suggestions_config(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -1037,8 +816,7 @@ function describe_query_suggestions_config(
 end
 
 """
-    describe_thesaurus(id, index_id)
-    describe_thesaurus(id, index_id, params::Dict{String,<:Any})
+    describe_thesaurus(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an existing Amazon Kendra thesaurus.
 
@@ -1047,20 +825,10 @@ Describes an existing Amazon Kendra thesaurus.
 - `index_id`: The identifier of the index associated with the thesaurus to describe.
 
 """
-function describe_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "DescribeThesaurus",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_thesaurus(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "DescribeThesaurus",
         Dict{String,Any}(
@@ -1072,8 +840,7 @@ function describe_thesaurus(
 end
 
 """
-    get_query_suggestions(index_id, query_text)
-    get_query_suggestions(index_id, query_text, params::Dict{String,<:Any})
+    get_query_suggestions(index_id, query_text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Fetches the queries that are suggested to your users.
 
@@ -1086,26 +853,14 @@ Fetches the queries that are suggested to your users.
   word of more than four characters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxSuggestionsCount"`: The maximum number of query suggestions you want to show to your
-  users.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_suggestions_count"`: The maximum number of query suggestions you want to show to
+  your users.
 """
 function get_query_suggestions(
-    IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "GetQuerySuggestions",
-        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_query_suggestions(
-    IndexId,
-    QueryText,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "GetQuerySuggestions",
         Dict{String,Any}(
@@ -1121,8 +876,7 @@ function get_query_suggestions(
 end
 
 """
-    list_data_source_sync_jobs(id, index_id)
-    list_data_source_sync_jobs(id, index_id, params::Dict{String,<:Any})
+    list_data_source_sync_jobs(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets statistics about synchronizing Amazon Kendra with a data source.
 
@@ -1131,33 +885,21 @@ Gets statistics about synchronizing Amazon Kendra with a data source.
 - `index_id`: The identifier of the index that contains the data source.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of synchronization jobs to return in the response. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of synchronization jobs to return in the response. If
   there are fewer results in the list, this response contains only the actual results.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of jobs.
-- `"StartTimeFilter"`: When specified, the synchronization jobs returned in the list are
+- `"start_time_filter"`: When specified, the synchronization jobs returned in the list are
   limited to jobs between the specified dates.
-- `"StatusFilter"`: When specified, only returns synchronization jobs with the Status field
-  equal to the specified status.
+- `"status_filter"`: When specified, only returns synchronization jobs with the Status
+  field equal to the specified status.
 """
 function list_data_source_sync_jobs(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "ListDataSourceSyncJobs",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_data_source_sync_jobs(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListDataSourceSyncJobs",
         Dict{String,Any}(
@@ -1169,8 +911,7 @@ function list_data_source_sync_jobs(
 end
 
 """
-    list_data_sources(index_id)
-    list_data_sources(index_id, params::Dict{String,<:Any})
+    list_data_sources(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the data sources that you have created.
 
@@ -1178,23 +919,16 @@ Lists the data sources that you have created.
 - `index_id`: The identifier of the index that contains the data source.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of data sources to return.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of data sources to return.
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of data sources (DataSourceSummaryItems).
 """
-function list_data_sources(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "ListDataSources",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_data_sources(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListDataSources",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -1204,8 +938,7 @@ function list_data_sources(
 end
 
 """
-    list_faqs(index_id)
-    list_faqs(index_id, params::Dict{String,<:Any})
+    list_faqs(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of FAQ lists associated with an index.
 
@@ -1213,24 +946,15 @@ Gets a list of FAQ lists associated with an index.
 - `index_id`: The index that contains the FAQ lists.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of FAQs to return in the response. If there are fewer
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of FAQs to return in the response. If there are fewer
   results in the list, this response contains only the actual results.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of FAQs.
 """
-function list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "ListFaqs",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_faqs(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_faqs(IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListFaqs",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -1240,8 +964,7 @@ function list_faqs(
 end
 
 """
-    list_groups_older_than_ordering_id(index_id, ordering_id)
-    list_groups_older_than_ordering_id(index_id, ordering_id, params::Dict{String,<:Any})
+    list_groups_older_than_ordering_id(index_id, ordering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of groups that are mapped to users before a given ordering or timestamp
 identifier.
@@ -1253,32 +976,20 @@ identifier.
   mapping users to their groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceId"`: The identifier of the data source for getting a list of groups mapped
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_id"`: The identifier of the data source for getting a list of groups mapped
   to users before a given ordering timestamp identifier.
-- `"MaxResults"`:  The maximum number of returned groups that are mapped to users before a
+- `"max_results"`:  The maximum number of returned groups that are mapped to users before a
   given ordering or timestamp identifier.
-- `"NextToken"`:  If the previous response was incomplete (because there is more data to
+- `"next_token"`:  If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of groups that are mapped to users before a given
   ordering or timestamp identifier.
 """
 function list_groups_older_than_ordering_id(
-    IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId, OrderingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "ListGroupsOlderThanOrderingId",
-        Dict{String,Any}("IndexId" => IndexId, "OrderingId" => OrderingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_groups_older_than_ordering_id(
-    IndexId,
-    OrderingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListGroupsOlderThanOrderingId",
         Dict{String,Any}(
@@ -1294,32 +1005,26 @@ function list_groups_older_than_ordering_id(
 end
 
 """
-    list_indices()
-    list_indices(params::Dict{String,<:Any})
+    list_indices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Amazon Kendra indexes that you have created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of data sources to return.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of data sources to return.
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of indexes (DataSourceSummaryItems).
 """
-function list_indices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra("ListIndices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_indices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_indices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListIndices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_query_suggestions_block_lists(index_id)
-    list_query_suggestions_block_lists(index_id, params::Dict{String,<:Any})
+    list_query_suggestions_block_lists(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the block lists used for query suggestions for an index. For information on the
 current quota limits for block lists, see Quotas for Amazon Kendra.
@@ -1330,25 +1035,16 @@ current quota limits for block lists, see Quotas for Amazon Kendra.
   Kendra.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of block lists to return.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of block lists to return.
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of block lists (BlockListSummaryItems).
 """
 function list_query_suggestions_block_lists(
-    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "ListQuerySuggestionsBlockLists",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_query_suggestions_block_lists(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListQuerySuggestionsBlockLists",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -1358,8 +1054,7 @@ function list_query_suggestions_block_lists(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of tags associated with a specified resource. Indexes, FAQs, and data sources
 can have tags associated with them.
@@ -1370,20 +1065,9 @@ can have tags associated with them.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1395,8 +1079,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_thesauri(index_id)
-    list_thesauri(index_id, params::Dict{String,<:Any})
+    list_thesauri(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Amazon Kendra thesauri associated with an index.
 
@@ -1404,23 +1087,16 @@ Lists the Amazon Kendra thesauri associated with an index.
 - `index_id`: The identifier of the index associated with the thesaurus to list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of thesauri to return.
-- `"NextToken"`: If the previous response was incomplete (because there is more data to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of thesauri to return.
+- `"next_token"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Kendra returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of thesauri (ThesaurusSummaryItems).
 """
-function list_thesauri(IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "ListThesauri",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_thesauri(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "ListThesauri",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -1430,8 +1106,7 @@ function list_thesauri(
 end
 
 """
-    put_principal_mapping(group_id, group_members, index_id)
-    put_principal_mapping(group_id, group_members, index_id, params::Dict{String,<:Any})
+    put_principal_mapping(group_id, group_members, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Maps users to their groups so that you only need to provide the user ID when you issue the
 query. You can also map sub groups to groups. For example, the group \"Company Intellectual
@@ -1456,14 +1131,14 @@ processing, a validation exception is thrown.
 - `index_id`: The identifier of the index you want to map users to their groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceId"`: The identifier of the data source you want to map users to their
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_id"`: The identifier of the data source you want to map users to their
   groups. This is useful if a group is tied to multiple data sources, but you only want the
   group to access documents of a certain data source. For example, the groups \"Research\",
   \"Engineering\", and \"Sales and Marketing\" are all tied to the company's documents stored
   in the data sources Confluence and Salesforce. However, \"Sales and Marketing\" team only
   needs access to customer-related documents stored in Salesforce.
-- `"OrderingId"`: The timestamp identifier you specify to ensure Amazon Kendra does not
+- `"ordering_id"`: The timestamp identifier you specify to ensure Amazon Kendra does not
   override the latest PUT action with previous actions. The highest number ID, which is the
   ordering ID, is the latest action you want to process and apply on top of other actions
   with lower number IDs. This prevents previous actions with lower number IDs from possibly
@@ -1473,29 +1148,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   members list doesn't get overwritten by earlier PUT actions for the same group which are
   yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
   the action was received by Amazon Kendra.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role that has access to the S3 file that
-  contains your list of users or sub groups that belong to a group. For more information, see
-  IAM roles for Amazon Kendra.
+- `"role_arn"`: The Amazon Resource Name (ARN) of a role that has access to the S3 file
+  that contains your list of users or sub groups that belong to a group. For more
+  information, see IAM roles for Amazon Kendra.
 """
-function put_principal_mapping(
-    GroupId, GroupMembers, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kendra(
-        "PutPrincipalMapping",
-        Dict{String,Any}(
-            "GroupId" => GroupId, "GroupMembers" => GroupMembers, "IndexId" => IndexId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_principal_mapping(
     GroupId,
     GroupMembers,
-    IndexId,
-    params::AbstractDict{String};
+    IndexId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "PutPrincipalMapping",
         Dict{String,Any}(
@@ -1515,8 +1179,7 @@ function put_principal_mapping(
 end
 
 """
-    query(index_id, query_text)
-    query(index_id, query_text, params::Dict{String,<:Any})
+    query(index_id, query_text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Searches an active index. Use this API to search your documents using query. The Query
 operation enables to do faceted search and to filter results based on document attributes.
@@ -1533,60 +1196,50 @@ query returns the 100 most relevant results.
 - `query_text`: The text to search for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributeFilter"`: Enables filtered searches based on document attributes. You can only
-  provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attribute_filter"`: Enables filtered searches based on document attributes. You can
+  only provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters
   parameters contain a list of other filters. The AttributeFilter parameter enables you to
   create a set of filtering rules that a document must satisfy to be included in the query
   results.
-- `"DocumentRelevanceOverrideConfigurations"`: Overrides relevance tuning configurations of
-  fields or attributes set at the index level. If you use this API to override the relevance
-  tuning configured at the index level, but there is no relevance tuning configured at the
-  index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance
-  tuning configured at the index level, but you do not use this API to override any relevance
-  tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the
-  index level. If there is relevance tuning configured for fields at the index level, but you
-  use this API to override only some of these fields, then for the fields you did not
-  override, the importance is set to 1.
-- `"Facets"`: An array of documents attributes. Amazon Kendra returns a count for each
+- `"document_relevance_override_configurations"`: Overrides relevance tuning configurations
+  of fields or attributes set at the index level. If you use this API to override the
+  relevance tuning configured at the index level, but there is no relevance tuning configured
+  at the index level, then Amazon Kendra does not apply any relevance tuning. If there is
+  relevance tuning configured at the index level, but you do not use this API to override any
+  relevance tuning in the index, then Amazon Kendra uses the relevance tuning that is
+  configured at the index level. If there is relevance tuning configured for fields at the
+  index level, but you use this API to override only some of these fields, then for the
+  fields you did not override, the importance is set to 1.
+- `"facets"`: An array of documents attributes. Amazon Kendra returns a count for each
   attribute key specified. You can use this information to help narrow the search for your
   user.
-- `"PageNumber"`: Query results are returned in pages the size of the PageSize parameter.
+- `"page_number"`: Query results are returned in pages the size of the PageSize parameter.
   By default, Amazon Kendra returns the first page of results. Use this parameter to get
   result pages after the first one.
-- `"PageSize"`: Sets the number of results that are returned in each page of results. The
+- `"page_size"`: Sets the number of results that are returned in each page of results. The
   default page size is 10. The maximum number of results returned is 100. If you ask for more
   than 100 results, only 100 are returned.
-- `"QueryResultTypeFilter"`: Sets the type of query. Only results for the specified query
-  type are returned.
-- `"RequestedDocumentAttributes"`: An array of document attributes to include in the
+- `"query_result_type_filter"`: Sets the type of query. Only results for the specified
+  query type are returned.
+- `"requested_document_attributes"`: An array of document attributes to include in the
   response. No other document attributes are included in the response. By default all
   document attributes are included in the response.
-- `"SortingConfiguration"`: Provides information that determines how the results of the
+- `"sorting_configuration"`: Provides information that determines how the results of the
   query are sorted. You can set the field that Amazon Kendra should sort the results on, and
   specify whether the results should be sorted in ascending or descending order. In the case
   of ties in sorting the results, the results are sorted by relevance. If you don't provide
   sorting configuration, the results are sorted by the relevance that Amazon Kendra
   determines for the result.
-- `"UserContext"`: The user context token or user and group information.
-- `"VisitorId"`: Provides an identifier for a specific user. The VisitorId should be a
+- `"user_context"`: The user context token or user and group information.
+- `"visitor_id"`: Provides an identifier for a specific user. The VisitorId should be a
   unique identifier, such as a GUID. Don't use personally identifiable information, such as
   the user's email address, as the VisitorId.
 """
-function query(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "Query",
-        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function query(
-    IndexId,
-    QueryText,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "Query",
         Dict{String,Any}(
@@ -1602,8 +1255,7 @@ function query(
 end
 
 """
-    start_data_source_sync_job(id, index_id)
-    start_data_source_sync_job(id, index_id, params::Dict{String,<:Any})
+    start_data_source_sync_job(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a synchronization job for a data source. If a synchronization job is already in
 progress, Amazon Kendra returns a ResourceInUseException exception.
@@ -1614,21 +1266,9 @@ progress, Amazon Kendra returns a ResourceInUseException exception.
 
 """
 function start_data_source_sync_job(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "StartDataSourceSyncJob",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_data_source_sync_job(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "StartDataSourceSyncJob",
         Dict{String,Any}(
@@ -1640,8 +1280,7 @@ function start_data_source_sync_job(
 end
 
 """
-    stop_data_source_sync_job(id, index_id)
-    stop_data_source_sync_job(id, index_id, params::Dict{String,<:Any})
+    stop_data_source_sync_job(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a running synchronization job. You can't stop a scheduled synchronization job.
 
@@ -1651,21 +1290,9 @@ Stops a running synchronization job. You can't stop a scheduled synchronization 
 
 """
 function stop_data_source_sync_job(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "StopDataSourceSyncJob",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_data_source_sync_job(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "StopDataSourceSyncJob",
         Dict{String,Any}(
@@ -1677,8 +1304,7 @@ function stop_data_source_sync_job(
 end
 
 """
-    submit_feedback(index_id, query_id)
-    submit_feedback(index_id, query_id, params::Dict{String,<:Any})
+    submit_feedback(index_id, query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables you to provide feedback to Amazon Kendra to improve the performance of your index.
 
@@ -1688,28 +1314,16 @@ Enables you to provide feedback to Amazon Kendra to improve the performance of y
   The query ID is returned in the response to the Query operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClickFeedbackItems"`: Tells Amazon Kendra that a particular search result link was
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"click_feedback_items"`: Tells Amazon Kendra that a particular search result link was
   chosen by the user.
-- `"RelevanceFeedbackItems"`: Provides Amazon Kendra with relevant or not relevant feedback
-  for whether a particular item was relevant to the search.
+- `"relevance_feedback_items"`: Provides Amazon Kendra with relevant or not relevant
+  feedback for whether a particular item was relevant to the search.
 """
 function submit_feedback(
-    IndexId, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId, QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "SubmitFeedback",
-        Dict{String,Any}("IndexId" => IndexId, "QueryId" => QueryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function submit_feedback(
-    IndexId,
-    QueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "SubmitFeedback",
         Dict{String,Any}(
@@ -1723,8 +1337,7 @@ function submit_feedback(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tag to the specified index, FAQ, or data source resource. If the tag
 already exists, the existing value is replaced with the new value.
@@ -1735,20 +1348,10 @@ already exists, the existing value is replaced with the new value.
   exists, the existing value is replaced with the new value.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "TagResource",
         Dict{String,Any}(
@@ -1764,8 +1367,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a tag from an index, FAQ, or a data source.
 
@@ -1777,21 +1379,9 @@ Removes a tag from an index, FAQ, or a data source.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UntagResource",
         Dict{String,Any}(
@@ -1807,8 +1397,7 @@ function untag_resource(
 end
 
 """
-    update_data_source(id, index_id)
-    update_data_source(id, index_id, params::Dict{String,<:Any})
+    update_data_source(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Amazon Kendra data source.
 
@@ -1817,33 +1406,23 @@ Updates an existing Amazon Kendra data source.
 - `index_id`: The identifier of the index that contains the data source to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`:
-- `"Description"`: The new description for the data source.
-- `"LanguageCode"`: The code for a language. This allows you to support a language for all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration"`:
+- `"description"`: The new description for the data source.
+- `"language_code"`: The code for a language. This allows you to support a language for all
   documents when updating the data source. English is supported by default. For more
   information on supported languages, including their codes, see Adding documents in
   languages other than English.
-- `"Name"`: The name of the data source to update. The name of the data source can't be
+- `"name"`: The name of the data source to update. The name of the data source can't be
   updated. To rename a data source you must delete the data source and re-create it.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of the new role to use when the data source
+- `"role_arn"`: The Amazon Resource Name (ARN) of the new role to use when the data source
   is accessing resources on your behalf.
-- `"Schedule"`: The new update schedule for the data source.
+- `"schedule"`: The new update schedule for the data source.
 """
-function update_data_source(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "UpdateDataSource",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_data_source(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UpdateDataSource",
         Dict{String,Any}(
@@ -1855,8 +1434,7 @@ function update_data_source(
 end
 
 """
-    update_index(id)
-    update_index(id, params::Dict{String,<:Any})
+    update_index(id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Amazon Kendra index.
 
@@ -1864,33 +1442,24 @@ Updates an existing Amazon Kendra index.
 - `id`: The identifier of the index to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CapacityUnits"`: Sets the number of additional storage and query capacity units that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"capacity_units"`: Sets the number of additional storage and query capacity units that
   should be used by the index. You can change the capacity of the index up to 5 times per
   day. If you are using extra storage units, you can't reduce the storage capacity below that
   required to meet the storage needs for your index.
-- `"Description"`: A new description for the index.
-- `"DocumentMetadataConfigurationUpdates"`: The document metadata to update.
-- `"Name"`: The name of the index to update.
-- `"RoleArn"`: A new IAM role that gives Amazon Kendra permission to access your Amazon
+- `"description"`: A new description for the index.
+- `"document_metadata_configuration_updates"`: The document metadata to update.
+- `"name"`: The name of the index to update.
+- `"role_arn"`: A new IAM role that gives Amazon Kendra permission to access your Amazon
   CloudWatch logs.
-- `"UserContextPolicy"`: The user context policy.
-- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an AWS Single Sign-On identity source. To configure this, see
+- `"user_context_policy"`: The user context policy.
+- `"user_group_resolution_configuration"`: Enables fetching access levels of groups and
+  users from an AWS Single Sign-On identity source. To configure this, see
   UserGroupResolutionConfiguration.
-- `"UserTokenConfigurations"`: The user token configuration.
+- `"user_token_configurations"`: The user token configuration.
 """
-function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "UpdateIndex",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_index(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UpdateIndex",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
@@ -1900,8 +1469,7 @@ function update_index(
 end
 
 """
-    update_query_suggestions_block_list(id, index_id)
-    update_query_suggestions_block_list(id, index_id, params::Dict{String,<:Any})
+    update_query_suggestions_block_list(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a block list used for query suggestions for an index. Updates to a block list might
 not take effect right away. Amazon Kendra needs to refresh the entire suggestions list to
@@ -1915,12 +1483,12 @@ only need to provide the fields you want to update.
 - `index_id`: The identifier of the index for a block list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description for a block list.
-- `"Name"`: The name of a block list.
-- `"RoleArn"`: The IAM (Identity and Access Management) role used to access the block list
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description for a block list.
+- `"name"`: The name of a block list.
+- `"role_arn"`: The IAM (Identity and Access Management) role used to access the block list
   text file in S3.
-- `"SourceS3Path"`: The S3 path where your block list text file sits in S3. If you update
+- `"source_s3_path"`: The S3 path where your block list text file sits in S3. If you update
   your block list and provide the same path to the block list text file in S3, then Amazon
   Kendra reloads the file to refresh the block list. Amazon Kendra does not automatically
   refresh your block list. You need to call the UpdateQuerySuggestionsBlockList API to
@@ -1929,21 +1497,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might not take effect immediately.
 """
 function update_query_suggestions_block_list(
-    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "UpdateQuerySuggestionsBlockList",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_query_suggestions_block_list(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UpdateQuerySuggestionsBlockList",
         Dict{String,Any}(
@@ -1955,8 +1511,7 @@ function update_query_suggestions_block_list(
 end
 
 """
-    update_query_suggestions_config(index_id)
-    update_query_suggestions_config(index_id, params::Dict{String,<:Any})
+    update_query_suggestions_config(index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the settings of query suggestions for an index. Amazon Kendra supports partial
 updates, so you only need to provide the fields you want to update. If an update is
@@ -1970,8 +1525,8 @@ any time.
 - `index_id`: The identifier of the index you want to update query suggestions settings for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeQueriesWithoutUserInformation"`:  TRUE to include queries without user
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_queries_without_user_information"`:  TRUE to include queries without user
   information (i.e. all queries, irrespective of the user), otherwise FALSE to only include
   queries with user information. If you pass user information to Amazon Kendra along with the
   queries, you can set this flag to FALSE and instruct Amazon Kendra to only consider queries
@@ -1979,37 +1534,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   at least MinimumQueryCount times across MinimumNumberOfQueryingUsers unique users for
   suggestions. If you set to TRUE, Amazon Kendra ignores all user information and learns from
   all queries.
-- `"MinimumNumberOfQueryingUsers"`: The minimum number of unique users who must search a
-  query in order for the query to be eligible to suggest to your users. Increasing this
+- `"minimum_number_of_querying_users"`: The minimum number of unique users who must search
+  a query in order for the query to be eligible to suggest to your users. Increasing this
   number might decrease the number of suggestions. However, this ensures a query is searched
   by many users and is truly popular to suggest to users. How you tune this setting depends
   on your specific needs.
-- `"MinimumQueryCount"`: The the minimum number of times a query must be searched in order
-  to be eligible to suggest to your users. Decreasing this number increases the number of
-  suggestions. However, this affects the quality of suggestions as it sets a low bar for a
+- `"minimum_query_count"`: The the minimum number of times a query must be searched in
+  order to be eligible to suggest to your users. Decreasing this number increases the number
+  of suggestions. However, this affects the quality of suggestions as it sets a low bar for a
   query to be considered popular to suggest to users. How you tune this setting depends on
   your specific needs.
-- `"Mode"`: Set the mode to ENABLED or LEARN_ONLY. By default, Amazon Kendra enables query
+- `"mode"`: Set the mode to ENABLED or LEARN_ONLY. By default, Amazon Kendra enables query
   suggestions. LEARN_ONLY mode allows you to turn off query suggestions. You can to update
   this at any time. In LEARN_ONLY mode, Amazon Kendra continues to learn from new queries to
   keep suggestions up to date for when you are ready to switch to ENABLED mode again.
-- `"QueryLogLookBackWindowInDays"`: How recent your queries are in your query log time
-  window. The time window is the number of days from current day to past days. By default,
-  Amazon Kendra sets this to 180.
+- `"query_log_look_back_window_in_days"`: How recent your queries are in your query log
+  time window. The time window is the number of days from current day to past days. By
+  default, Amazon Kendra sets this to 180.
 """
 function update_query_suggestions_config(
-    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kendra(
-        "UpdateQuerySuggestionsConfig",
-        Dict{String,Any}("IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_query_suggestions_config(
-    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UpdateQuerySuggestionsConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
@@ -2019,8 +1565,7 @@ function update_query_suggestions_config(
 end
 
 """
-    update_thesaurus(id, index_id)
-    update_thesaurus(id, index_id, params::Dict{String,<:Any})
+    update_thesaurus(id, index_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a thesaurus file associated with an index.
 
@@ -2029,26 +1574,16 @@ Updates a thesaurus file associated with an index.
 - `index_id`: The identifier of the index associated with the thesaurus to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The updated description of the thesaurus.
-- `"Name"`: The updated name of the thesaurus.
-- `"RoleArn"`: The updated role ARN of the thesaurus.
-- `"SourceS3Path"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The updated description of the thesaurus.
+- `"name"`: The updated name of the thesaurus.
+- `"role_arn"`: The updated role ARN of the thesaurus.
+- `"source_s3_path"`:
 """
-function update_thesaurus(Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return kendra(
-        "UpdateThesaurus",
-        Dict{String,Any}("Id" => Id, "IndexId" => IndexId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_thesaurus(
-    Id,
-    IndexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Id, IndexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kendra(
         "UpdateThesaurus",
         Dict{String,Any}(

@@ -4,9 +4,10 @@ using AWS.AWSServices: mobile_analytics
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("client_context_encoding" => "x-amz-Client-Context-Encoding")
+
 """
-    put_events(events, x-amz-_client-_context)
-    put_events(events, x-amz-_client-_context, params::Dict{String,<:Any})
+    put_events(events, x-amz-_client-_context; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The PutEvents operation records one or more events. You can have up to 1,500 unique custom
 events per app, any combination of up to 40 attributes and metrics per custom event, and
@@ -18,29 +19,16 @@ any number of attribute or metric values.
   version and package name.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_context_encoding"`: The encoding used for the client context.
 """
 function put_events(
-    events, x_amz_Client_Context; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mobile_analytics(
-        "POST",
-        "/2014-06-05/events",
-        Dict{String,Any}(
-            "events" => events,
-            "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_events(
     events,
-    x_amz_Client_Context,
-    params::AbstractDict{String};
+    x_amz_Client_Context;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile_analytics(
         "POST",
         "/2014-06-05/events",

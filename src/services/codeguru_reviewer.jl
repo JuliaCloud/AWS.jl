@@ -4,9 +4,24 @@ using AWS.AWSServices: codeguru_reviewer
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "repository_names" => "RepositoryNames",
+    "user_id" => "UserId",
+    "next_token" => "NextToken",
+    "client_request_token" => "ClientRequestToken",
+    "states" => "States",
+    "names" => "Name",
+    "max_results" => "MaxResults",
+    "provider_types" => "ProviderTypes",
+    "recommendation_ids" => "RecommendationIds",
+    "user_ids" => "UserIds",
+    "kmskey_details" => "KMSKeyDetails",
+    "tags" => "Tags",
+    "owners" => "Owner",
+)
+
 """
-    associate_repository(repository)
-    associate_repository(repository, params::Dict{String,<:Any})
+    associate_repository(repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Use to associate an Amazon Web Services CodeCommit repository or a repostory managed by
 Amazon Web Services CodeStar Connections with Amazon CodeGuru Reviewer. When you associate
@@ -27,35 +42,23 @@ with CodeGuru Reviewer in the CodeGuru Reviewer User Guide.
 - `repository`: The repository to associate.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Amazon CodeGuru Reviewer uses this value to prevent the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate repository associations if there are failures and retries.
-- `"KMSKeyDetails"`: A KMSKeyDetails object that contains:   The encryption option for this
-  repository association. It is either owned by Amazon Web Services Key Management Service
-  (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the Amazon
-  Web Services KMS key that is associated with this respository association.
-- `"Tags"`:  An array of key-value pairs used to tag an associated repository. A tag is a
+- `"kmskey_details"`: A KMSKeyDetails object that contains:   The encryption option for
+  this repository association. It is either owned by Amazon Web Services Key Management
+  Service (KMS) (AWS_OWNED_CMK) or customer managed (CUSTOMER_MANAGED_CMK).   The ID of the
+  Amazon Web Services KMS key that is associated with this respository association.
+- `"tags"`:  An array of key-value pairs used to tag an associated repository. A tag is a
   custom attribute label with two parts:    A tag key (for example, CostCenter, Environment,
   Project, or Secret). Tag keys are case sensitive.   An optional field known as a tag value
   (for example, 111122223333, Production, or a team name). Omitting the tag value is the same
   as using an empty string. Like tag keys, tag values are case sensitive.
 """
-function associate_repository(Repository; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_reviewer(
-        "POST",
-        "/associations",
-        Dict{String,Any}(
-            "Repository" => Repository, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_repository(
-    Repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "POST",
         "/associations",
@@ -63,7 +66,7 @@ function associate_repository(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "Repository" => Repository, "ClientRequestToken" => string(uuid4())
+                    "Repository" => Repository, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -74,8 +77,7 @@ function associate_repository(
 end
 
 """
-    create_code_review(name, repository_association_arn, type)
-    create_code_review(name, repository_association_arn, type, params::Dict{String,<:Any})
+    create_code_review(name, repository_association_arn, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Use to create a code review with a  CodeReviewType  of RepositoryAnalysis. This type of
 code review analyzes all code under a specified branch in an associated repository.
@@ -92,33 +94,18 @@ PullRequest code reviews are automatically triggered by a pull request.
   object. You can create a code review only of type RepositoryAnalysis.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`:  Amazon CodeGuru Reviewer uses this value to prevent the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:  Amazon CodeGuru Reviewer uses this value to prevent the
   accidental creation of duplicate code reviews if there are failures and retries.
 """
 function create_code_review(
-    Name, RepositoryAssociationArn, Type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_reviewer(
-        "POST",
-        "/codereviews",
-        Dict{String,Any}(
-            "Name" => Name,
-            "RepositoryAssociationArn" => RepositoryAssociationArn,
-            "Type" => Type,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_code_review(
     Name,
     RepositoryAssociationArn,
-    Type,
-    params::AbstractDict{String};
+    Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "POST",
         "/codereviews",
@@ -129,7 +116,7 @@ function create_code_review(
                     "Name" => Name,
                     "RepositoryAssociationArn" => RepositoryAssociationArn,
                     "Type" => Type,
-                    "ClientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -140,8 +127,7 @@ function create_code_review(
 end
 
 """
-    describe_code_review(code_review_arn)
-    describe_code_review(code_review_arn, params::Dict{String,<:Any})
+    describe_code_review(code_review_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the metadata associated with the code review along with its status.
 
@@ -150,20 +136,9 @@ end
 
 """
 function describe_code_review(
-    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "GET",
-        "/codereviews/$(CodeReviewArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_code_review(
-    CodeReviewArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/codereviews/$(CodeReviewArn)",
@@ -174,8 +149,7 @@ function describe_code_review(
 end
 
 """
-    describe_recommendation_feedback(code_review_arn, recommendation_id)
-    describe_recommendation_feedback(code_review_arn, recommendation_id, params::Dict{String,<:Any})
+    describe_recommendation_feedback(code_review_arn, recommendation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Describes the customer feedback for a CodeGuru Reviewer recommendation.
 
@@ -185,30 +159,20 @@ end
   recommendations and then to collect the feedback.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"UserId"`:  Optional parameter to describe the feedback for a given user. If this is not
-  supplied, it defaults to the user making the request.   The UserId is an IAM principal that
-  can be specified as an Amazon Web Services account ID or an Amazon Resource Name (ARN). For
-  more information, see  Specifying a Principal in the Amazon Web Services Identity and
-  Access Management User Guide.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"user_id"`:  Optional parameter to describe the feedback for a given user. If this is
+  not supplied, it defaults to the user making the request.   The UserId is an IAM principal
+  that can be specified as an Amazon Web Services account ID or an Amazon Resource Name
+  (ARN). For more information, see  Specifying a Principal in the Amazon Web Services
+  Identity and Access Management User Guide.
 """
 function describe_recommendation_feedback(
-    CodeReviewArn, RecommendationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeguru_reviewer(
-        "GET",
-        "/feedback/$(CodeReviewArn)",
-        Dict{String,Any}("RecommendationId" => RecommendationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_recommendation_feedback(
     CodeReviewArn,
-    RecommendationId,
-    params::AbstractDict{String};
+    RecommendationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/feedback/$(CodeReviewArn)",
@@ -223,8 +187,7 @@ function describe_recommendation_feedback(
 end
 
 """
-    describe_repository_association(association_arn)
-    describe_repository_association(association_arn, params::Dict{String,<:Any})
+    describe_repository_association(association_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a  RepositoryAssociation  object that contains information about the requested
 repository association.
@@ -235,20 +198,9 @@ repository association.
 
 """
 function describe_repository_association(
-    AssociationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "GET",
-        "/associations/$(AssociationArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_repository_association(
-    AssociationArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/associations/$(AssociationArn)",
@@ -259,8 +211,7 @@ function describe_repository_association(
 end
 
 """
-    disassociate_repository(association_arn)
-    disassociate_repository(association_arn, params::Dict{String,<:Any})
+    disassociate_repository(association_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between Amazon CodeGuru Reviewer and a repository.
 
@@ -270,20 +221,9 @@ Removes the association between Amazon CodeGuru Reviewer and a repository.
 
 """
 function disassociate_repository(
-    AssociationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "DELETE",
-        "/associations/$(AssociationArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_repository(
-    AssociationArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "DELETE",
         "/associations/$(AssociationArn)",
@@ -294,8 +234,7 @@ function disassociate_repository(
 end
 
 """
-    list_code_reviews(type)
-    list_code_reviews(type, params::Dict{String,<:Any})
+    list_code_reviews(type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists all the code reviews that the customer has created in the past 90 days.
 
@@ -303,34 +242,26 @@ end
 - `type`:  The type of code reviews to list in the response.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  The maximum number of results that are returned per call. The default is
-  100.
-- `"NextToken"`:  If nextToken is returned, there are more results available. The value of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of results that are returned per call. The default
+  is 100.
+- `"next_token"`:  If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged.
-- `"ProviderTypes"`:  List of provider types for filtering that needs to be applied before
+- `"provider_types"`:  List of provider types for filtering that needs to be applied before
   displaying the result. For example, providerTypes=[GitHub] lists code reviews from GitHub.
-- `"RepositoryNames"`:  List of repository names for filtering that needs to be applied
+- `"repository_names"`:  List of repository names for filtering that needs to be applied
   before displaying the result.
-- `"States"`:  List of states for filtering that needs to be applied before displaying the
+- `"states"`:  List of states for filtering that needs to be applied before displaying the
   result. For example, states=[Pending] lists code reviews in the Pending state.  The valid
   code review states are:    Completed: The code review is complete.     Pending: The code
   review started and has not completed or failed.     Failed: The code review failed.
   Deleting: The code review is being deleted.
 """
-function list_code_reviews(Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_reviewer(
-        "GET",
-        "/codereviews",
-        Dict{String,Any}("Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_code_reviews(
-    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/codereviews",
@@ -341,8 +272,7 @@ function list_code_reviews(
 end
 
 """
-    list_recommendation_feedback(code_review_arn)
-    list_recommendation_feedback(code_review_arn, params::Dict{String,<:Any})
+    list_recommendation_feedback(code_review_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of  RecommendationFeedbackSummary  objects that contain customer
 recommendation feedback for all CodeGuru Reviewer users.
@@ -351,35 +281,24 @@ recommendation feedback for all CodeGuru Reviewer users.
 - `code_review_arn`: The Amazon Resource Name (ARN) of the  CodeReview  object.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  The maximum number of results that are returned per call. The default is
-  100.
-- `"NextToken"`:  If nextToken is returned, there are more results available. The value of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of results that are returned per call. The default
+  is 100.
+- `"next_token"`:  If nextToken is returned, there are more results available. The value of
   nextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged.
-- `"RecommendationIds"`:  Used to query the recommendation feedback for a given
+- `"recommendation_ids"`:  Used to query the recommendation feedback for a given
   recommendation.
-- `"UserIds"`:  An Amazon Web Services user's account ID or Amazon Resource Name (ARN). Use
-  this ID to query the recommendation feedback for a code review from that user.   The UserId
-  is an IAM principal that can be specified as an Amazon Web Services account ID or an Amazon
-  Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon Web
-  Services Identity and Access Management User Guide.
+- `"user_ids"`:  An Amazon Web Services user's account ID or Amazon Resource Name (ARN).
+  Use this ID to query the recommendation feedback for a code review from that user.   The
+  UserId is an IAM principal that can be specified as an Amazon Web Services account ID or an
+  Amazon Resource Name (ARN). For more information, see  Specifying a Principal in the Amazon
+  Web Services Identity and Access Management User Guide.
 """
 function list_recommendation_feedback(
-    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "GET",
-        "/feedback/$(CodeReviewArn)/RecommendationFeedback";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recommendation_feedback(
-    CodeReviewArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/feedback/$(CodeReviewArn)/RecommendationFeedback",
@@ -390,8 +309,7 @@ function list_recommendation_feedback(
 end
 
 """
-    list_recommendations(code_review_arn)
-    list_recommendations(code_review_arn, params::Dict{String,<:Any})
+    list_recommendations(code_review_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the list of all recommendations for a completed code review.
 
@@ -399,26 +317,15 @@ end
 - `code_review_arn`: The Amazon Resource Name (ARN) of the  CodeReview  object.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  The maximum number of results that are returned per call. The default is
-  100.
-- `"NextToken"`:  Pagination token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of results that are returned per call. The default
+  is 100.
+- `"next_token"`:  Pagination token.
 """
 function list_recommendations(
-    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CodeReviewArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "GET",
-        "/codereviews/$(CodeReviewArn)/Recommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recommendations(
-    CodeReviewArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/codereviews/$(CodeReviewArn)/Recommendations",
@@ -429,36 +336,35 @@ function list_recommendations(
 end
 
 """
-    list_repository_associations()
-    list_repository_associations(params::Dict{String,<:Any})
+    list_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of  RepositoryAssociationSummary  objects that contain summary information
 about a repository association. You can filter the returned list by  ProviderType ,  Name ,
  State , and  Owner .
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of repository association results returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of repository association results returned by
   ListRepositoryAssociations in paginated output. When this parameter is used,
   ListRepositoryAssociations only returns maxResults results in a single page with a
   nextToken response element. The remaining results of the initial request can be seen by
   sending another ListRepositoryAssociations request with the returned nextToken value. This
   value can be between 1 and 100. If this parameter is not used, ListRepositoryAssociations
   returns up to 100 results and a nextToken value if applicable.
-- `"Name"`: List of repository names to use as a filter.
-- `"NextToken"`: The nextToken value returned from a previous paginated
+- `"names"`: List of repository names to use as a filter.
+- `"next_token"`: The nextToken value returned from a previous paginated
   ListRepositoryAssociations request where maxResults was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the nextToken value.   Treat this token as an opaque identifier that is only used
   to retrieve the next items in a list and not for other programmatic purposes.
-- `"Owner"`: List of owners to use as a filter. For Amazon Web Services CodeCommit, it is
+- `"owners"`: List of owners to use as a filter. For Amazon Web Services CodeCommit, it is
   the name of the CodeCommit account that was used to associate the repository. For other
   repository source providers, such as Bitbucket and GitHub Enterprise Server, this is name
   of the account that was used to associate the repository.
-- `"ProviderType"`: List of provider types to use as a filter.
-- `"State"`: List of repository association states to use as a filter. The valid repository
-  association states are:    Associated: The repository association is complete.
-  Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is
+- `"provider_types"`: List of provider types to use as a filter.
+- `"states"`: List of repository association states to use as a filter. The valid
+  repository association states are:    Associated: The repository association is complete.
+    Associating: CodeGuru Reviewer is:     Setting up pull request notifications. This is
   required for pull requests to trigger a CodeGuru Reviewer review.    If your repository
   ProviderType is GitHub, GitHub Enterprise Server, or Bitbucket, CodeGuru Reviewer creates
   webhooks in your repository to trigger CodeGuru Reviewer reviews. If you delete these
@@ -472,14 +378,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository with tags after it has been disassociated. For more information, see Using tags
   to control access to associated repositories in the Amazon CodeGuru Reviewer User Guide.
 """
-function list_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_reviewer(
-        "GET", "/associations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_repository_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_repository_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/associations",
@@ -490,8 +392,7 @@ function list_repository_associations(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the list of tags associated with an associated repository resource.
 
@@ -501,20 +402,9 @@ Returns the list of tags associated with an associated repository resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "GET",
         "/tags/$(resourceArn)",
@@ -525,8 +415,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_recommendation_feedback(code_review_arn, reactions, recommendation_id)
-    put_recommendation_feedback(code_review_arn, reactions, recommendation_id, params::Dict{String,<:Any})
+    put_recommendation_feedback(code_review_arn, reactions, recommendation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Stores customer feedback for a CodeGuru Reviewer recommendation. When this API is called
 again with different reactions the previous feedback is overwritten.
@@ -544,26 +433,9 @@ function put_recommendation_feedback(
     Reactions,
     RecommendationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeguru_reviewer(
-        "PUT",
-        "/feedback",
-        Dict{String,Any}(
-            "CodeReviewArn" => CodeReviewArn,
-            "Reactions" => Reactions,
-            "RecommendationId" => RecommendationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_recommendation_feedback(
-    CodeReviewArn,
-    Reactions,
-    RecommendationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "PUT",
         "/feedback",
@@ -584,8 +456,7 @@ function put_recommendation_feedback(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(tags, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to an associated repository.
 
@@ -599,21 +470,10 @@ Adds one or more tags to an associated repository.
   You can retrieve this ARN by calling  ListRepositoryAssociations .
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeguru_reviewer(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Tags,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "POST",
         "/tags/$(resourceArn)",
@@ -624,8 +484,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a tag from an associated repository.
 
@@ -637,22 +496,9 @@ Removes a tag from an associated repository.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeguru_reviewer(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeguru_reviewer(
         "DELETE",
         "/tags/$(resourceArn)",

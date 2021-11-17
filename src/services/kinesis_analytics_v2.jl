@@ -4,9 +4,32 @@ using AWS.AWSServices: kinesis_analytics_v2
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "application_mode" => "ApplicationMode",
+    "cloud_watch_logging_option_updates" => "CloudWatchLoggingOptionUpdates",
+    "next_token" => "NextToken",
+    "run_configuration_update" => "RunConfigurationUpdate",
+    "s3_configuration" => "S3Configuration",
+    "include_additional_details" => "IncludeAdditionalDetails",
+    "current_application_version_id" => "CurrentApplicationVersionId",
+    "force" => "Force",
+    "input_starting_position_configuration" => "InputStartingPositionConfiguration",
+    "input_processing_configuration" => "InputProcessingConfiguration",
+    "conditional_token" => "ConditionalToken",
+    "application_configuration" => "ApplicationConfiguration",
+    "cloud_watch_logging_options" => "CloudWatchLoggingOptions",
+    "run_configuration" => "RunConfiguration",
+    "session_expiration_duration_in_seconds" => "SessionExpirationDurationInSeconds",
+    "application_description" => "ApplicationDescription",
+    "resource_arn" => "ResourceARN",
+    "service_execution_role_update" => "ServiceExecutionRoleUpdate",
+    "tags" => "Tags",
+    "application_configuration_update" => "ApplicationConfigurationUpdate",
+    "limit" => "Limit",
+)
+
 """
-    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option)
-    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option, params::Dict{String,<:Any})
+    add_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an Amazon CloudWatch log stream to monitor application configuration errors.
 
@@ -16,13 +39,13 @@ Adds an Amazon CloudWatch log stream to monitor application configuration errors
   Name (ARN).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conditional_token"`: A value you use to implement strong concurrency for application
   updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
   the application's current ConditionalToken using DescribeApplication. For better
   concurrency support, use the ConditionalToken parameter instead of
   CurrentApplicationVersionId.
-- `"CurrentApplicationVersionId"`: The version ID of the Kinesis Data Analytics
+- `"current_application_version_id"`: The version ID of the Kinesis Data Analytics
   application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You
   can retrieve the application version ID using DescribeApplication. For better concurrency
   support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
@@ -31,23 +54,9 @@ function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CloudWatchLoggingOption" => CloudWatchLoggingOption,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_cloud_watch_logging_option(
-    ApplicationName,
-    CloudWatchLoggingOption,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationCloudWatchLoggingOption",
         Dict{String,Any}(
@@ -66,8 +75,7 @@ function add_application_cloud_watch_logging_option(
 end
 
 """
-    add_application_input(application_name, current_application_version_id, input)
-    add_application_input(application_name, current_application_version_id, input, params::Dict{String,<:Any})
+    add_application_input(application_name, current_application_version_id, input; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Adds a streaming source to your SQL-based Kinesis Data Analytics application.  You can add
 a streaming source when you create an application, or you can use this operation to add a
@@ -90,25 +98,9 @@ function add_application_input(
     CurrentApplicationVersionId,
     Input;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationInput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "Input" => Input,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_input(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    Input,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationInput",
         Dict{String,Any}(
@@ -128,8 +120,7 @@ function add_application_input(
 end
 
 """
-    add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration)
-    add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration, params::Dict{String,<:Any})
+    add_application_input_processing_configuration(application_name, current_application_version_id, input_id, input_processing_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an InputProcessingConfiguration to a SQL-based Kinesis Data Analytics application. An
 input processor pre-processes records on the input stream before the application's SQL code
@@ -155,27 +146,9 @@ function add_application_input_processing_configuration(
     InputId,
     InputProcessingConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "InputId" => InputId,
-            "InputProcessingConfiguration" => InputProcessingConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_input_processing_configuration(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    InputId,
-    InputProcessingConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationInputProcessingConfiguration",
         Dict{String,Any}(
@@ -196,8 +169,7 @@ function add_application_input_processing_configuration(
 end
 
 """
-    add_application_output(application_name, current_application_version_id, output)
-    add_application_output(application_name, current_application_version_id, output, params::Dict{String,<:Any})
+    add_application_output(application_name, current_application_version_id, output; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an external destination to your SQL-based Kinesis Data Analytics application. If you
 want Kinesis Data Analytics to deliver data from an in-application stream within your
@@ -229,25 +201,9 @@ function add_application_output(
     CurrentApplicationVersionId,
     Output;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationOutput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "Output" => Output,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_output(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    Output,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationOutput",
         Dict{String,Any}(
@@ -267,8 +223,7 @@ function add_application_output(
 end
 
 """
-    add_application_reference_data_source(application_name, current_application_version_id, reference_data_source)
-    add_application_reference_data_source(application_name, current_application_version_id, reference_data_source, params::Dict{String,<:Any})
+    add_application_reference_data_source(application_name, current_application_version_id, reference_data_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a reference data source to an existing SQL-based Kinesis Data Analytics application.
 Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an
@@ -294,25 +249,9 @@ function add_application_reference_data_source(
     CurrentApplicationVersionId,
     ReferenceDataSource;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationReferenceDataSource",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "ReferenceDataSource" => ReferenceDataSource,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_reference_data_source(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    ReferenceDataSource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationReferenceDataSource",
         Dict{String,Any}(
@@ -332,8 +271,7 @@ function add_application_reference_data_source(
 end
 
 """
-    add_application_vpc_configuration(application_name, vpc_configuration)
-    add_application_vpc_configuration(application_name, vpc_configuration, params::Dict{String,<:Any})
+    add_application_vpc_configuration(application_name, vpc_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use
 VPCs to store and access resources securely. Note the following about VPC configurations
@@ -347,36 +285,25 @@ to the application, add an Internet gateway to your VPC.
 - `vpc_configuration`: Description of the VPC to add to the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conditional_token"`: A value you use to implement strong concurrency for application
   updates. You must provide the ApplicationVersionID or the ConditionalToken. You get the
   application's current ConditionalToken using DescribeApplication. For better concurrency
   support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
-- `"CurrentApplicationVersionId"`: The version of the application to which you want to add
-  the VPC configuration. You must provide the CurrentApplicationVersionId or the
+- `"current_application_version_id"`: The version of the application to which you want to
+  add the VPC configuration. You must provide the CurrentApplicationVersionId or the
   ConditionalToken. You can use the DescribeApplication operation to get the current
   application version. If the version specified is not the current version, the
   ConcurrentModificationException is returned. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 function add_application_vpc_configuration(
-    ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "AddApplicationVpcConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "VpcConfiguration" => VpcConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_application_vpc_configuration(
     ApplicationName,
-    VpcConfiguration,
-    params::AbstractDict{String};
+    VpcConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "AddApplicationVpcConfiguration",
         Dict{String,Any}(
@@ -395,8 +322,7 @@ function add_application_vpc_configuration(
 end
 
 """
-    create_application(application_name, runtime_environment, service_execution_role)
-    create_application(application_name, runtime_environment, service_execution_role, params::Dict{String,<:Any})
+    create_application(application_name, runtime_environment, service_execution_role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Kinesis Data Analytics application. For information about creating a Kinesis Data
 Analytics application, see Creating an Application.
@@ -410,14 +336,14 @@ Analytics application, see Creating an Application.
   resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationConfiguration"`: Use this parameter to configure the application.
-- `"ApplicationDescription"`: A summary description of the application.
-- `"ApplicationMode"`: Use the STREAMING mode to create a Kinesis Data Analytics Studio
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_configuration"`: Use this parameter to configure the application.
+- `"application_description"`: A summary description of the application.
+- `"application_mode"`: Use the STREAMING mode to create a Kinesis Data Analytics Studio
   notebook. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
-- `"CloudWatchLoggingOptions"`: Use this parameter to configure an Amazon CloudWatch log
+- `"cloud_watch_logging_options"`: Use this parameter to configure an Amazon CloudWatch log
   stream to monitor application configuration errors.
-- `"Tags"`: A list of one or more tags to assign to the application. A tag is a key-value
+- `"tags"`: A list of one or more tags to assign to the application. A tag is a key-value
   pair that identifies an application. Note that the maximum number of application tags
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
@@ -427,25 +353,9 @@ function create_application(
     RuntimeEnvironment,
     ServiceExecutionRole;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "CreateApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "RuntimeEnvironment" => RuntimeEnvironment,
-            "ServiceExecutionRole" => ServiceExecutionRole,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_application(
-    ApplicationName,
-    RuntimeEnvironment,
-    ServiceExecutionRole,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "CreateApplication",
         Dict{String,Any}(
@@ -465,8 +375,7 @@ function create_application(
 end
 
 """
-    create_application_presigned_url(application_name, url_type)
-    create_application_presigned_url(application_name, url_type, params::Dict{String,<:Any})
+    create_application_presigned_url(application_name, url_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and returns a URL that you can use to connect to an application's extension.
 Currently, the only available extension is the Apache Flink dashboard. The IAM role or user
@@ -486,26 +395,14 @@ error.
   the only valid extension URL type is FLINK_DASHBOARD_URL.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SessionExpirationDurationInSeconds"`: The duration in seconds for which the returned
-  URL will be valid.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"session_expiration_duration_in_seconds"`: The duration in seconds for which the
+  returned URL will be valid.
 """
 function create_application_presigned_url(
-    ApplicationName, UrlType; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName, UrlType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "CreateApplicationPresignedUrl",
-        Dict{String,Any}("ApplicationName" => ApplicationName, "UrlType" => UrlType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_application_presigned_url(
-    ApplicationName,
-    UrlType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "CreateApplicationPresignedUrl",
         Dict{String,Any}(
@@ -523,8 +420,7 @@ function create_application_presigned_url(
 end
 
 """
-    create_application_snapshot(application_name, snapshot_name)
-    create_application_snapshot(application_name, snapshot_name, params::Dict{String,<:Any})
+    create_application_snapshot(application_name, snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a snapshot of the application's state data.
 
@@ -534,23 +430,12 @@ Creates a snapshot of the application's state data.
 
 """
 function create_application_snapshot(
-    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "CreateApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_application_snapshot(
     ApplicationName,
-    SnapshotName,
-    params::AbstractDict{String};
+    SnapshotName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "CreateApplicationSnapshot",
         Dict{String,Any}(
@@ -568,8 +453,7 @@ function create_application_snapshot(
 end
 
 """
-    delete_application(application_name, create_timestamp)
-    delete_application(application_name, create_timestamp, params::Dict{String,<:Any})
+    delete_application(application_name, create_timestamp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified application. Kinesis Data Analytics halts application execution and
 deletes the application.
@@ -580,23 +464,12 @@ deletes the application.
 
 """
 function delete_application(
-    ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "DeleteApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application(
     ApplicationName,
-    CreateTimestamp,
-    params::AbstractDict{String};
+    CreateTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplication",
         Dict{String,Any}(
@@ -615,8 +488,7 @@ function delete_application(
 end
 
 """
-    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id)
-    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id, params::Dict{String,<:Any})
+    delete_application_cloud_watch_logging_option(application_name, cloud_watch_logging_option_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application.
 
@@ -627,14 +499,14 @@ Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics applicati
   DescribeApplication operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conditional_token"`: A value you use to implement strong concurrency for application
   updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
   the application's current ConditionalToken using DescribeApplication. For better
   concurrency support, use the ConditionalToken parameter instead of
   CurrentApplicationVersionId.
-- `"CurrentApplicationVersionId"`: The version ID of the application. You must provide the
-  CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
+- `"current_application_version_id"`: The version ID of the application. You must provide
+  the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
@@ -642,23 +514,9 @@ function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_cloud_watch_logging_option(
-    ApplicationName,
-    CloudWatchLoggingOptionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationCloudWatchLoggingOption",
         Dict{String,Any}(
@@ -677,8 +535,7 @@ function delete_application_cloud_watch_logging_option(
 end
 
 """
-    delete_application_input_processing_configuration(application_name, current_application_version_id, input_id)
-    delete_application_input_processing_configuration(application_name, current_application_version_id, input_id, params::Dict{String,<:Any})
+    delete_application_input_processing_configuration(application_name, current_application_version_id, input_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an InputProcessingConfiguration from an input.
 
@@ -697,25 +554,9 @@ function delete_application_input_processing_configuration(
     CurrentApplicationVersionId,
     InputId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "InputId" => InputId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_input_processing_configuration(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    InputId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationInputProcessingConfiguration",
         Dict{String,Any}(
@@ -735,8 +576,7 @@ function delete_application_input_processing_configuration(
 end
 
 """
-    delete_application_output(application_name, current_application_version_id, output_id)
-    delete_application_output(application_name, current_application_version_id, output_id, params::Dict{String,<:Any})
+    delete_application_output(application_name, current_application_version_id, output_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the output destination configuration from your SQL-based Kinesis Data Analytics
 application's configuration. Kinesis Data Analytics will no longer write data from the
@@ -759,25 +599,9 @@ function delete_application_output(
     CurrentApplicationVersionId,
     OutputId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationOutput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "OutputId" => OutputId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_output(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    OutputId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationOutput",
         Dict{String,Any}(
@@ -797,8 +621,7 @@ function delete_application_output(
 end
 
 """
-    delete_application_reference_data_source(application_name, current_application_version_id, reference_id)
-    delete_application_reference_data_source(application_name, current_application_version_id, reference_id, params::Dict{String,<:Any})
+    delete_application_reference_data_source(application_name, current_application_version_id, reference_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a reference data source configuration from the specified SQL-based Kinesis Data
 Analytics application's configuration. If the application is running, Kinesis Data
@@ -820,25 +643,9 @@ function delete_application_reference_data_source(
     CurrentApplicationVersionId,
     ReferenceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationReferenceDataSource",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "ReferenceId" => ReferenceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_reference_data_source(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    ReferenceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationReferenceDataSource",
         Dict{String,Any}(
@@ -858,8 +665,7 @@ function delete_application_reference_data_source(
 end
 
 """
-    delete_application_snapshot(application_name, snapshot_creation_timestamp, snapshot_name)
-    delete_application_snapshot(application_name, snapshot_creation_timestamp, snapshot_name, params::Dict{String,<:Any})
+    delete_application_snapshot(application_name, snapshot_creation_timestamp, snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a snapshot of application state.
 
@@ -875,25 +681,9 @@ function delete_application_snapshot(
     SnapshotCreationTimestamp,
     SnapshotName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "SnapshotCreationTimestamp" => SnapshotCreationTimestamp,
-            "SnapshotName" => SnapshotName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_snapshot(
-    ApplicationName,
-    SnapshotCreationTimestamp,
-    SnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationSnapshot",
         Dict{String,Any}(
@@ -913,8 +703,7 @@ function delete_application_snapshot(
 end
 
 """
-    delete_application_vpc_configuration(application_name, vpc_configuration_id)
-    delete_application_vpc_configuration(application_name, vpc_configuration_id, params::Dict{String,<:Any})
+    delete_application_vpc_configuration(application_name, vpc_configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a VPC configuration from a Kinesis Data Analytics application.
 
@@ -923,35 +712,24 @@ Removes a VPC configuration from a Kinesis Data Analytics application.
 - `vpc_configuration_id`: The ID of the VPC configuration to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conditional_token"`: A value you use to implement strong concurrency for application
   updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
   the application's current ConditionalToken using DescribeApplication. For better
   concurrency support, use the ConditionalToken parameter instead of
   CurrentApplicationVersionId.
-- `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
+- `"current_application_version_id"`: The current application version ID. You must provide
+  the CurrentApplicationVersionId or the ConditionalToken. You can retrieve the application
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
 function delete_application_vpc_configuration(
-    ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "DeleteApplicationVpcConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "VpcConfigurationId" => VpcConfigurationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application_vpc_configuration(
     ApplicationName,
-    VpcConfigurationId,
-    params::AbstractDict{String};
+    VpcConfigurationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DeleteApplicationVpcConfiguration",
         Dict{String,Any}(
@@ -970,8 +748,7 @@ function delete_application_vpc_configuration(
 end
 
 """
-    describe_application(application_name)
-    describe_application(application_name, params::Dict{String,<:Any})
+    describe_application(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a specific Kinesis Data Analytics application. If you want to
 retrieve a list of all applications in your account, use the ListApplications operation.
@@ -980,25 +757,14 @@ retrieve a list of all applications in your account, use the ListApplications op
 - `application_name`: The name of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncludeAdditionalDetails"`: Displays verbose information about a Kinesis Data Analytics
-  application, including the application's job plan.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_additional_details"`: Displays verbose information about a Kinesis Data
+  Analytics application, including the application's job plan.
 """
 function describe_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "DescribeApplication",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DescribeApplication",
         Dict{String,Any}(
@@ -1012,8 +778,7 @@ function describe_application(
 end
 
 """
-    describe_application_snapshot(application_name, snapshot_name)
-    describe_application_snapshot(application_name, snapshot_name, params::Dict{String,<:Any})
+    describe_application_snapshot(application_name, snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a snapshot of application state data.
 
@@ -1024,23 +789,12 @@ Returns information about a snapshot of application state data.
 
 """
 function describe_application_snapshot(
-    ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "DescribeApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application_snapshot(
     ApplicationName,
-    SnapshotName,
-    params::AbstractDict{String};
+    SnapshotName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DescribeApplicationSnapshot",
         Dict{String,Any}(
@@ -1058,8 +812,7 @@ function describe_application_snapshot(
 end
 
 """
-    describe_application_version(application_name, application_version_id)
-    describe_application_version(application_name, application_version_id, params::Dict{String,<:Any})
+    describe_application_version(application_name, application_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a detailed description of a specified version of the application. To see a list of
 all the versions of an application, invoke the ListApplicationVersions operation.  This
@@ -1073,24 +826,12 @@ operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
 
 """
 function describe_application_version(
-    ApplicationName, ApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
-        "DescribeApplicationVersion",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "ApplicationVersionId" => ApplicationVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application_version(
     ApplicationName,
-    ApplicationVersionId,
-    params::AbstractDict{String};
+    ApplicationVersionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DescribeApplicationVersion",
         Dict{String,Any}(
@@ -1109,8 +850,7 @@ function describe_application_version(
 end
 
 """
-    discover_input_schema(service_execution_role)
-    discover_input_schema(service_execution_role, params::Dict{String,<:Any})
+    discover_input_schema(service_execution_role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample
 records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose
@@ -1124,30 +864,19 @@ operation to infer a schema and show it in the console user interface.
 - `service_execution_role`: The ARN of the role that is used to access the streaming source.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InputProcessingConfiguration"`: The InputProcessingConfiguration to use to preprocess
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"input_processing_configuration"`: The InputProcessingConfiguration to use to preprocess
   the records before discovering the schema of the records.
-- `"InputStartingPositionConfiguration"`: The point at which you want Kinesis Data
+- `"input_starting_position_configuration"`: The point at which you want Kinesis Data
   Analytics to start reading records from the specified streaming source discovery purposes.
-- `"ResourceARN"`: The Amazon Resource Name (ARN) of the streaming source.
-- `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
+- `"resource_arn"`: The Amazon Resource Name (ARN) of the streaming source.
+- `"s3_configuration"`: Specify this parameter to discover a schema from data in an Amazon
   S3 object.
 """
 function discover_input_schema(
-    ServiceExecutionRole; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceExecutionRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "DiscoverInputSchema",
-        Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function discover_input_schema(
-    ServiceExecutionRole,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "DiscoverInputSchema",
         Dict{String,Any}(
@@ -1163,8 +892,7 @@ function discover_input_schema(
 end
 
 """
-    list_application_snapshots(application_name)
-    list_application_snapshots(application_name, params::Dict{String,<:Any})
+    list_application_snapshots(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists information about the current application snapshots.
 
@@ -1172,27 +900,16 @@ Lists information about the current application snapshots.
 - `application_name`: The name of an existing application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of application snapshots to list.
-- `"NextToken"`: Use this parameter if you receive a NextToken response in a previous
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of application snapshots to list.
+- `"next_token"`: Use this parameter if you receive a NextToken response in a previous
   request that indicates that there is more output available. Set it to the value of the
   previous call's NextToken response to indicate where the output should continue from.
 """
 function list_application_snapshots(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "ListApplicationSnapshots",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_application_snapshots(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "ListApplicationSnapshots",
         Dict{String,Any}(
@@ -1206,8 +923,7 @@ function list_application_snapshots(
 end
 
 """
-    list_application_versions(application_name)
-    list_application_versions(application_name, params::Dict{String,<:Any})
+    list_application_versions(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the versions for the specified application, including versions that were rolled
 back. The response also includes a summary of the configuration associated with each
@@ -1219,27 +935,16 @@ Data Analytics for Apache Flink.
 - `application_name`: The name of the application for which you want to list all versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of versions to list in this invocation of the operation.
-- `"NextToken"`: If a previous invocation of this operation returned a pagination token,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of versions to list in this invocation of the operation.
+- `"next_token"`: If a previous invocation of this operation returned a pagination token,
   pass it into this value to retrieve the next set of results. For more information about
   pagination, see Using the Amazon Command Line Interface's Pagination Options.
 """
 function list_application_versions(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "ListApplicationVersions",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_application_versions(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "ListApplicationVersions",
         Dict{String,Any}(
@@ -1253,8 +958,7 @@ function list_application_versions(
 end
 
 """
-    list_applications()
-    list_applications(params::Dict{String,<:Any})
+    list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Kinesis Data Analytics applications in your account. For each
 application, the response includes the application name, Amazon Resource Name (ARN), and
@@ -1262,28 +966,21 @@ status.  If you want detailed information about a specific application, use
 DescribeApplication.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of applications to list.
-- `"NextToken"`: If a previous command returned a pagination token, pass it into this value
-  to retrieve the next set of results. For more information about pagination, see Using the
-  Amazon Command Line Interface's Pagination Options.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of applications to list.
+- `"next_token"`: If a previous command returned a pagination token, pass it into this
+  value to retrieve the next set of results. For more information about pagination, see Using
+  the Amazon Command Line Interface's Pagination Options.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_analytics_v2(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the list of key-value tags assigned to the application. For more information, see
 Using Tagging.
@@ -1293,20 +990,9 @@ Using Tagging.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1318,8 +1004,7 @@ function list_tags_for_resource(
 end
 
 """
-    rollback_application(application_name, current_application_version_id)
-    rollback_application(application_name, current_application_version_id, params::Dict{String,<:Any})
+    rollback_application(application_name, current_application_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reverts the application to the previous running version. You can roll back an application
 if you suspect it is stuck in a transient status.  You can roll back an application only if
@@ -1338,23 +1023,9 @@ function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "RollbackApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function rollback_application(
-    ApplicationName,
-    CurrentApplicationVersionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "RollbackApplication",
         Dict{String,Any}(
@@ -1373,8 +1044,7 @@ function rollback_application(
 end
 
 """
-    start_application(application_name)
-    start_application(application_name, params::Dict{String,<:Any})
+    start_application(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the specified Kinesis Data Analytics application. After creating an application, you
 must exclusively call this operation to start your application.
@@ -1383,25 +1053,14 @@ must exclusively call this operation to start your application.
 - `application_name`: The name of the application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RunConfiguration"`: Identifies the run configuration (start parameters) of a Kinesis
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"run_configuration"`: Identifies the run configuration (start parameters) of a Kinesis
   Data Analytics application.
 """
 function start_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "StartApplication",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_application(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "StartApplication",
         Dict{String,Any}(
@@ -1415,8 +1074,7 @@ function start_application(
 end
 
 """
-    stop_application(application_name)
-    stop_application(application_name, params::Dict{String,<:Any})
+    stop_application(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops the application from processing data. You can stop an application only if it is in
 the running status, unless you set the Force parameter to true. You can use the
@@ -1427,8 +1085,8 @@ a snapshot when the application is stopped, unless Force is set to true.
 - `application_name`: The name of the running application to stop.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Force"`: Set to true to force the application to stop. If you set Force to true,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"force"`: Set to true to force the application to stop. If you set Force to true,
   Kinesis Data Analytics stops the application without taking a snapshot.   Force-stopping
   your application may lead to data loss or duplication. To prevent data loss or duplicate
   processing of data during application restarts, we recommend you to take frequent snapshots
@@ -1437,20 +1095,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
 """
 function stop_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "StopApplication",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_application(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "StopApplication",
         Dict{String,Any}(
@@ -1464,8 +1111,7 @@ function stop_application(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more key-value tags to a Kinesis Data Analytics application. Note that the
 maximum number of application tags includes system tags. The maximum number of user-defined
@@ -1476,20 +1122,10 @@ application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_analytics_v2(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "TagResource",
         Dict{String,Any}(
@@ -1505,8 +1141,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a Kinesis Data Analytics application. For more information,
 see Using Tagging.
@@ -1518,21 +1153,9 @@ see Using Tagging.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "UntagResource",
         Dict{String,Any}(
@@ -1548,8 +1171,7 @@ function untag_resource(
 end
 
 """
-    update_application(application_name)
-    update_application(application_name, params::Dict{String,<:Any})
+    update_application(application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing Kinesis Data Analytics application. Using this operation, you can
 update application code, input configuration, and output configuration.  Kinesis Data
@@ -1561,38 +1183,27 @@ application's RuntimeEnvironment, you must delete the application and create it 
 - `application_name`: The name of the application to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationConfigurationUpdate"`: Describes application configuration updates.
-- `"CloudWatchLoggingOptionUpdates"`: Describes application Amazon CloudWatch logging
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_configuration_update"`: Describes application configuration updates.
+- `"cloud_watch_logging_option_updates"`: Describes application Amazon CloudWatch logging
   option updates. You can only update existing CloudWatch logging options with this action.
   To add a new CloudWatch logging option, use AddApplicationCloudWatchLoggingOption.
-- `"ConditionalToken"`: A value you use to implement strong concurrency for application
+- `"conditional_token"`: A value you use to implement strong concurrency for application
   updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get
   the application's current ConditionalToken using DescribeApplication. For better
   concurrency support, use the ConditionalToken parameter instead of
   CurrentApplicationVersionId.
-- `"CurrentApplicationVersionId"`: The current application version ID. You must provide the
-  CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application
+- `"current_application_version_id"`: The current application version ID. You must provide
+  the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
-- `"RunConfigurationUpdate"`: Describes updates to the application's starting parameters.
-- `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
+- `"run_configuration_update"`: Describes updates to the application's starting parameters.
+- `"service_execution_role_update"`: Describes updates to the service execution role.
 """
 function update_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_analytics_v2(
-        "UpdateApplication",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application(
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "UpdateApplication",
         Dict{String,Any}(
@@ -1606,8 +1217,7 @@ function update_application(
 end
 
 """
-    update_application_maintenance_configuration(application_maintenance_configuration_update, application_name)
-    update_application_maintenance_configuration(application_maintenance_configuration_update, application_name, params::Dict{String,<:Any})
+    update_application_maintenance_configuration(application_maintenance_configuration_update, application_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the maintenance configuration of the Kinesis Data Analytics application.  You can
 invoke this operation on an application that is in one of the two following states: READY
@@ -1634,24 +1244,9 @@ function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_analytics_v2(
-        "UpdateApplicationMaintenanceConfiguration",
-        Dict{String,Any}(
-            "ApplicationMaintenanceConfigurationUpdate" =>
-                ApplicationMaintenanceConfigurationUpdate,
-            "ApplicationName" => ApplicationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application_maintenance_configuration(
-    ApplicationMaintenanceConfigurationUpdate,
-    ApplicationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_analytics_v2(
         "UpdateApplicationMaintenanceConfiguration",
         Dict{String,Any}(

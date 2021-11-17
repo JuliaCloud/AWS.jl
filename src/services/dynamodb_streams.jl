@@ -4,9 +4,16 @@ using AWS.AWSServices: dynamodb_streams
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "table_name" => "TableName",
+    "sequence_number" => "SequenceNumber",
+    "exclusive_start_stream_arn" => "ExclusiveStartStreamArn",
+    "exclusive_start_shard_id" => "ExclusiveStartShardId",
+    "limit" => "Limit",
+)
+
 """
-    describe_stream(stream_arn)
-    describe_stream(stream_arn, params::Dict{String,<:Any})
+    describe_stream(stream_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a stream, including the current status of the stream, its Amazon
 Resource Name (ARN), the composition of its shards, and its corresponding DynamoDB table.
@@ -20,25 +27,16 @@ present, then that shard is closed and can no longer receive more data.
 - `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartShardId"`: The shard ID of the first item that this operation will
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_shard_id"`: The shard ID of the first item that this operation will
   evaluate. Use the value that was returned for LastEvaluatedShardId in the previous
   operation.
-- `"Limit"`: The maximum number of shard objects to return. The upper limit is 100.
+- `"limit"`: The maximum number of shard objects to return. The upper limit is 100.
 """
-function describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
-        "DescribeStream",
-        Dict{String,Any}("StreamArn" => StreamArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_stream(
-    StreamArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    StreamArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb_streams(
         "DescribeStream",
         Dict{String,Any}(
@@ -50,8 +48,7 @@ function describe_stream(
 end
 
 """
-    get_records(shard_iterator)
-    get_records(shard_iterator, params::Dict{String,<:Any})
+    get_records(shard_iterator; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the stream records from a given shard. Specify a shard iterator using the
 ShardIterator parameter. The shard iterator specifies the position in the shard from which
@@ -66,23 +63,14 @@ records, whichever comes first.
   operation. This iterator can be used to access the stream records in this shard.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of records to return from the shard. The upper limit is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of records to return from the shard. The upper limit is
   1000.
 """
-function get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
-        "GetRecords",
-        Dict{String,Any}("ShardIterator" => ShardIterator);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_records(
-    ShardIterator,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ShardIterator; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb_streams(
         "GetRecords",
         Dict{String,Any}(
@@ -94,8 +82,7 @@ function get_records(
 end
 
 """
-    get_shard_iterator(shard_id, shard_iterator_type, stream_arn)
-    get_shard_iterator(shard_id, shard_iterator_type, stream_arn, params::Dict{String,<:Any})
+    get_shard_iterator(shard_id, shard_iterator_type, stream_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a shard iterator. A shard iterator provides information about how to retrieve the
 stream records from within a shard. Use the shard iterator in a subsequent GetRecords
@@ -116,31 +103,18 @@ after it is returned to the requester.
 - `stream_arn`: The Amazon Resource Name (ARN) for the stream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SequenceNumber"`: The sequence number of a stream record in the shard from which to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sequence_number"`: The sequence number of a stream record in the shard from which to
   start reading.
 """
 function get_shard_iterator(
-    ShardId, ShardIteratorType, StreamArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb_streams(
-        "GetShardIterator",
-        Dict{String,Any}(
-            "ShardId" => ShardId,
-            "ShardIteratorType" => ShardIteratorType,
-            "StreamArn" => StreamArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_shard_iterator(
     ShardId,
     ShardIteratorType,
-    StreamArn,
-    params::AbstractDict{String};
+    StreamArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb_streams(
         "GetShardIterator",
         Dict{String,Any}(
@@ -160,30 +134,23 @@ function get_shard_iterator(
 end
 
 """
-    list_streams()
-    list_streams(params::Dict{String,<:Any})
+    list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of stream ARNs associated with the current account and endpoint. If the
 TableName parameter is present, then ListStreams will return only the streams ARNs for that
 table.  You can call ListStreams at a maximum rate of 5 times per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartStreamArn"`: The ARN (Amazon Resource Name) of the first item that this
-  operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the
-  previous operation.
-- `"Limit"`: The maximum number of streams to return. The upper limit is 100.
-- `"TableName"`: If this parameter is provided, then only the streams associated with this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_stream_arn"`: The ARN (Amazon Resource Name) of the first item that
+  this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in
+  the previous operation.
+- `"limit"`: The maximum number of streams to return. The upper limit is 100.
+- `"table_name"`: If this parameter is provided, then only the streams associated with this
   table name are returned.
 """
-function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
-        "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb_streams(
         "ListStreams", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )

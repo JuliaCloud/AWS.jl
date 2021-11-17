@@ -4,9 +4,16 @@ using AWS.AWSServices: health
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "locale" => "locale",
+    "filter" => "filter",
+    "event_arns" => "eventArns",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    describe_affected_accounts_for_organization(event_arn)
-    describe_affected_accounts_for_organization(event_arn, params::Dict{String,<:Any})
+    describe_affected_accounts_for_organization(event_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of accounts in the organization from Organizations that are affected by the
 provided event. For more information about the different types of Health events, see Event.
@@ -23,29 +30,18 @@ nextToken parameter in the next request to return more results.
   T_SCHEDULED_ABC123-DEF456
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_affected_accounts_for_organization(
-    eventArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeAffectedAccountsForOrganization",
-        Dict{String,Any}("eventArn" => eventArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_affected_accounts_for_organization(
-    eventArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeAffectedAccountsForOrganization",
         Dict{String,Any}(
@@ -57,8 +53,7 @@ function describe_affected_accounts_for_organization(
 end
 
 """
-    describe_affected_entities(filter)
-    describe_affected_entities(filter, params::Dict{String,<:Any})
+    describe_affected_entities(filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of entities that have been affected by the specified events, based on the
 specified filter criteria. Entities can refer to individual customer resources, groups of
@@ -74,29 +69,20 @@ information, see Resource- and action-based conditions in the Health User Guide.
 - `filter`: Values to narrow the results returned. At least one event ARN is required.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_affected_entities(
-    filter; aws_config::AbstractAWSConfig=global_aws_config()
+    filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeAffectedEntities",
-        Dict{String,Any}("filter" => filter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_affected_entities(
-    filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeAffectedEntities",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("filter" => filter), params));
@@ -106,8 +92,7 @@ function describe_affected_entities(
 end
 
 """
-    describe_affected_entities_for_organization(organization_entity_filters)
-    describe_affected_entities_for_organization(organization_entity_filters, params::Dict{String,<:Any})
+    describe_affected_entities_for_organization(organization_entity_filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of entities that have been affected by one or more events for one or more
 accounts in your organization in Organizations, based on the filter criteria. Entities can
@@ -127,31 +112,20 @@ Guide.
   eventArn.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_affected_entities_for_organization(
-    organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()
+    organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeAffectedEntitiesForOrganization",
-        Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_affected_entities_for_organization(
-    organizationEntityFilters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeAffectedEntitiesForOrganization",
         Dict{String,Any}(
@@ -167,27 +141,22 @@ function describe_affected_entities_for_organization(
 end
 
 """
-    describe_entity_aggregates()
-    describe_entity_aggregates(params::Dict{String,<:Any})
+    describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of entities that are affected by each of the specified events.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"eventArns"`: A list of event ARNs (unique identifiers). For example:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"event_arns"`: A list of event ARNs (unique identifiers). For example:
   \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREM
   ENT_SCHEDULED_ABC123-CDE456\",
   \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
   \"
 """
-function describe_entity_aggregates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health(
-        "DescribeEntityAggregates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_entity_aggregates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_entity_aggregates(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEntityAggregates",
         params;
@@ -197,8 +166,7 @@ function describe_entity_aggregates(
 end
 
 """
-    describe_event_aggregates(aggregate_field)
-    describe_event_aggregates(aggregate_field, params::Dict{String,<:Any})
+    describe_event_aggregates(aggregate_field; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of events of each event type (issue, scheduled change, and account
 notification). If no filter is specified, the counts of all events in each category are
@@ -209,30 +177,19 @@ request to return more results.
 - `aggregate_field`: The only currently supported value is eventTypeCategory.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filter"`: Values to narrow the results returned.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_event_aggregates(
-    aggregateField; aws_config::AbstractAWSConfig=global_aws_config()
+    aggregateField; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeEventAggregates",
-        Dict{String,Any}("aggregateField" => aggregateField);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_event_aggregates(
-    aggregateField,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEventAggregates",
         Dict{String,Any}(
@@ -244,8 +201,7 @@ function describe_event_aggregates(
 end
 
 """
-    describe_event_details(event_arns)
-    describe_event_details(event_arns, params::Dict{String,<:Any})
+    describe_event_details(event_arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about one or more specified events. Information includes
 standard event data (Amazon Web Services Region, service, and so on, as returned by
@@ -265,25 +221,14 @@ Health User Guide.
   \"
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
 function describe_event_details(
-    eventArns; aws_config::AbstractAWSConfig=global_aws_config()
+    eventArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeEventDetails",
-        Dict{String,Any}("eventArns" => eventArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_event_details(
-    eventArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEventDetails",
         Dict{String,Any}(
@@ -295,8 +240,7 @@ function describe_event_details(
 end
 
 """
-    describe_event_details_for_organization(organization_event_detail_filters)
-    describe_event_details_for_organization(organization_event_detail_filters, params::Dict{String,<:Any})
+    describe_event_details_for_organization(organization_event_detail_filters; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about one or more specified events for one or more Amazon Web
 Services accounts in your organization. This information includes standard event data (such
@@ -324,27 +268,16 @@ the Health User Guide.
   awsAccountId and the eventArn.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 """
 function describe_event_details_for_organization(
-    organizationEventDetailFilters; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return health(
-        "DescribeEventDetailsForOrganization",
-        Dict{String,Any}(
-            "organizationEventDetailFilters" => organizationEventDetailFilters
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_event_details_for_organization(
-    organizationEventDetailFilters,
-    params::AbstractDict{String};
+    organizationEventDetailFilters;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEventDetailsForOrganization",
         Dict{String,Any}(
@@ -362,8 +295,7 @@ function describe_event_details_for_organization(
 end
 
 """
-    describe_event_types()
-    describe_event_types(params::Dict{String,<:Any})
+    describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the event types that meet the specified filter criteria. You can use this API
 operation to find information about the Health event, such as the category, Amazon Web
@@ -373,33 +305,28 @@ in no particular order.   This API operation uses pagination. Specify the nextTo
 parameter in the next request to return more results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filter"`: Values to narrow the results returned.
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health(
-        "DescribeEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_event_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_event_types(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEventTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_events()
-    describe_events(params::Dict{String,<:Any})
+    describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns information about events that meet the specified filter criteria. Events are
 returned in a summary form and do not include the detailed description, any additional
@@ -416,31 +343,26 @@ information, see Event.   This API operation uses pagination. Specify the nextTo
 parameter in the next request to return more results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filter"`: Values to narrow the results returned.
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
-function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return health("DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_events_for_organization()
-    describe_events_for_organization(params::Dict{String,<:Any})
+    describe_events_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about events across your organization in Organizations. You can use
 thefilters parameter to specify the events that you want to return. Events are returned in
@@ -457,29 +379,21 @@ management account.  This API operation uses pagination. Specify the nextToken p
 the next request to return more results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filter"`: Values to narrow the results returned.
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
-- `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
+- `"max_results"`: The maximum number of items to return in one batch, between 10 and 100,
   inclusive.
-- `"nextToken"`: If the results of a search are large, only a portion of the results are
+- `"next_token"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
 """
 function describe_events_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeEventsForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_events_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeEventsForOrganization",
         params;
@@ -489,8 +403,7 @@ function describe_events_for_organization(
 end
 
 """
-    describe_health_service_status_for_organization()
-    describe_health_service_status_for_organization(params::Dict{String,<:Any})
+    describe_health_service_status_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation provides status information on enabling or disabling Health to work with
 your organization. To call this operation, you must sign in as an IAM user, assume an IAM
@@ -499,17 +412,9 @@ account.
 
 """
 function describe_health_service_status_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DescribeHealthServiceStatusForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_health_service_status_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DescribeHealthServiceStatusForOrganization",
         params;
@@ -519,8 +424,7 @@ function describe_health_service_status_for_organization(
 end
 
 """
-    disable_health_service_access_for_organization()
-    disable_health_service_access_for_organization(params::Dict{String,<:Any})
+    disable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables Health from working with Organizations. To call this operation, you must sign in
 as an Identity and Access Management (IAM) user, assume an IAM role, or sign in as the root
@@ -537,17 +441,9 @@ events for your Amazon Web Services account.
 
 """
 function disable_health_service_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "DisableHealthServiceAccessForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_health_service_access_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "DisableHealthServiceAccessForOrganization",
         params;
@@ -557,8 +453,7 @@ function disable_health_service_access_for_organization(
 end
 
 """
-    enable_health_service_access_for_organization()
-    enable_health_service_access_for_organization(params::Dict{String,<:Any})
+    enable_health_service_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables Health to work with Organizations. You can use the organizational view feature to
 aggregate events from all Amazon Web Services accounts in your organization in a
@@ -575,17 +470,9 @@ Aggregating Health events in the Health User Guide.
 
 """
 function enable_health_service_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return health(
-        "EnableHealthServiceAccessForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_health_service_access_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return health(
         "EnableHealthServiceAccessForOrganization",
         params;

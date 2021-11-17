@@ -4,9 +4,20 @@ using AWS.AWSServices: voice_id
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "job_name" => "JobName",
+    "client_token" => "ClientToken",
+    "registration_config" => "RegistrationConfig",
+    "job_status" => "JobStatus",
+    "tags" => "Tags",
+    "next_token" => "NextToken",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "enrollment_config" => "EnrollmentConfig",
+)
+
 """
-    create_domain(name, server_side_encryption_configuration)
-    create_domain(name, server_side_encryption_configuration, params::Dict{String,<:Any})
+    create_domain(name, server_side_encryption_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a domain that contains all Amazon Connect Voice ID data, such as speakers,
 fraudsters, customer audio, and voiceprints.
@@ -18,34 +29,19 @@ fraudsters, customer audio, and voiceprints.
   Amazon Connect VoiceID encryption at rest for more details on how the KMS Key is used.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: The idempotency token for creating a new domain. If not provided, Amazon
-  Web Services SDK populates this field.
-- `"Description"`: A brief description of this domain.
-- `"Tags"`: A list of tags you want added to the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: The idempotency token for creating a new domain. If not provided,
+  Amazon Web Services SDK populates this field.
+- `"description"`: A brief description of this domain.
+- `"tags"`: A list of tags you want added to the domain.
 """
 function create_domain(
     Name,
     ServerSideEncryptionConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return voice_id(
-        "CreateDomain",
-        Dict{String,Any}(
-            "Name" => Name,
-            "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_domain(
-    Name,
-    ServerSideEncryptionConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "CreateDomain",
         Dict{String,Any}(
@@ -55,7 +51,7 @@ function create_domain(
                     "Name" => Name,
                     "ServerSideEncryptionConfiguration" =>
                         ServerSideEncryptionConfiguration,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -66,8 +62,7 @@ function create_domain(
 end
 
 """
-    delete_domain(domain_id)
-    delete_domain(domain_id, params::Dict{String,<:Any})
+    delete_domain(domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified domain from the Amazon Connect Voice ID system.
 
@@ -75,19 +70,10 @@ Deletes the specified domain from the Amazon Connect Voice ID system.
 - `domain_id`: The identifier of the domain you want to delete.
 
 """
-function delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id(
-        "DeleteDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_domain(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DeleteDomain",
         Dict{String,Any}(
@@ -99,8 +85,7 @@ function delete_domain(
 end
 
 """
-    delete_fraudster(domain_id, fraudster_id)
-    delete_fraudster(domain_id, fraudster_id, params::Dict{String,<:Any})
+    delete_fraudster(domain_id, fraudster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified fraudster from the Amazon Connect Voice ID system.
 
@@ -110,21 +95,9 @@ Deletes the specified fraudster from the Amazon Connect Voice ID system.
 
 """
 function delete_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DeleteFraudster",
-        Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fraudster(
-    DomainId,
-    FraudsterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DeleteFraudster",
         Dict{String,Any}(
@@ -140,8 +113,7 @@ function delete_fraudster(
 end
 
 """
-    delete_speaker(domain_id, speaker_id)
-    delete_speaker(domain_id, speaker_id, params::Dict{String,<:Any})
+    delete_speaker(domain_id, speaker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified speaker from the Amazon Connect Voice ID system.
 
@@ -151,21 +123,9 @@ Deletes the specified speaker from the Amazon Connect Voice ID system.
 
 """
 function delete_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DeleteSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DeleteSpeaker",
         Dict{String,Any}(
@@ -181,8 +141,7 @@ function delete_speaker(
 end
 
 """
-    describe_domain(domain_id)
-    describe_domain(domain_id, params::Dict{String,<:Any})
+    describe_domain(domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified domain.
 
@@ -190,19 +149,10 @@ Describes the specified domain.
 - `domain_id`: The identifier of the domain you are describing.
 
 """
-function describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id(
-        "DescribeDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_domain(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DescribeDomain",
         Dict{String,Any}(
@@ -214,8 +164,7 @@ function describe_domain(
 end
 
 """
-    describe_fraudster(domain_id, fraudster_id)
-    describe_fraudster(domain_id, fraudster_id, params::Dict{String,<:Any})
+    describe_fraudster(domain_id, fraudster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified fraudster.
 
@@ -225,21 +174,9 @@ Describes the specified fraudster.
 
 """
 function describe_fraudster(
-    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, FraudsterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DescribeFraudster",
-        Dict{String,Any}("DomainId" => DomainId, "FraudsterId" => FraudsterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fraudster(
-    DomainId,
-    FraudsterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DescribeFraudster",
         Dict{String,Any}(
@@ -255,8 +192,7 @@ function describe_fraudster(
 end
 
 """
-    describe_fraudster_registration_job(domain_id, job_id)
-    describe_fraudster_registration_job(domain_id, job_id, params::Dict{String,<:Any})
+    describe_fraudster_registration_job(domain_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified fraudster registration job.
 
@@ -266,21 +202,9 @@ Describes the specified fraudster registration job.
 
 """
 function describe_fraudster_registration_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DescribeFraudsterRegistrationJob",
-        Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fraudster_registration_job(
-    DomainId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DescribeFraudsterRegistrationJob",
         Dict{String,Any}(
@@ -294,8 +218,7 @@ function describe_fraudster_registration_job(
 end
 
 """
-    describe_speaker(domain_id, speaker_id)
-    describe_speaker(domain_id, speaker_id, params::Dict{String,<:Any})
+    describe_speaker(domain_id, speaker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified speaker.
 
@@ -305,21 +228,9 @@ Describes the specified speaker.
 
 """
 function describe_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DescribeSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DescribeSpeaker",
         Dict{String,Any}(
@@ -335,8 +246,7 @@ function describe_speaker(
 end
 
 """
-    describe_speaker_enrollment_job(domain_id, job_id)
-    describe_speaker_enrollment_job(domain_id, job_id, params::Dict{String,<:Any})
+    describe_speaker_enrollment_job(domain_id, job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified speaker enrollment job.
 
@@ -346,21 +256,9 @@ Describes the specified speaker enrollment job.
 
 """
 function describe_speaker_enrollment_job(
-    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "DescribeSpeakerEnrollmentJob",
-        Dict{String,Any}("DomainId" => DomainId, "JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_speaker_enrollment_job(
-    DomainId,
-    JobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "DescribeSpeakerEnrollmentJob",
         Dict{String,Any}(
@@ -374,8 +272,7 @@ function describe_speaker_enrollment_job(
 end
 
 """
-    evaluate_session(domain_id, session_name_or_id)
-    evaluate_session(domain_id, session_name_or_id, params::Dict{String,<:Any})
+    evaluate_session(domain_id, session_name_or_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Evaluates a specified session based on audio data accumulated during a streaming Amazon
 Connect Voice ID call.
@@ -387,21 +284,9 @@ Connect Voice ID call.
 
 """
 function evaluate_session(
-    DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SessionNameOrId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "EvaluateSession",
-        Dict{String,Any}("DomainId" => DomainId, "SessionNameOrId" => SessionNameOrId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function evaluate_session(
-    DomainId,
-    SessionNameOrId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "EvaluateSession",
         Dict{String,Any}(
@@ -419,35 +304,29 @@ function evaluate_session(
 end
 
 """
-    list_domains()
-    list_domains(params::Dict{String,<:Any})
+    list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the domains in the Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results that are returned per call. You can use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results that are returned per call. You can use
   NextToken to obtain further pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
+- `"next_token"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "ListDomains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_fraudster_registration_jobs(domain_id)
-    list_fraudster_registration_jobs(domain_id, params::Dict{String,<:Any})
+    list_fraudster_registration_jobs(domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the fraudster registration jobs in the domain with the given JobStatus. If
 JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
@@ -456,31 +335,20 @@ JobStatus is not provided, this lists all fraudster registration jobs in the giv
 - `domain_id`: The identifier of the domain containing the fraudster registration Jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobStatus"`: Provides the status of your fraudster registration job.
-- `"MaxResults"`: The maximum number of results that are returned per call. You can use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_status"`: Provides the status of your fraudster registration job.
+- `"max_results"`: The maximum number of results that are returned per call. You can use
   NextToken to obtain further pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
+- `"next_token"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
 function list_fraudster_registration_jobs(
-    DomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "ListFraudsterRegistrationJobs",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_fraudster_registration_jobs(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "ListFraudsterRegistrationJobs",
         Dict{String,Any}(
@@ -492,8 +360,7 @@ function list_fraudster_registration_jobs(
 end
 
 """
-    list_speaker_enrollment_jobs(domain_id)
-    list_speaker_enrollment_jobs(domain_id, params::Dict{String,<:Any})
+    list_speaker_enrollment_jobs(domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If
 JobStatus is not provided, this lists all jobs with all possible speaker enrollment job
@@ -503,31 +370,20 @@ statuses.
 - `domain_id`: The identifier of the domain containing the speaker enrollment jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobStatus"`: Provides the status of your speaker enrollment Job.
-- `"MaxResults"`: The maximum number of results that are returned per call. You can use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_status"`: Provides the status of your speaker enrollment Job.
+- `"max_results"`: The maximum number of results that are returned per call. You can use
   NextToken to obtain further pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
+- `"next_token"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
 function list_speaker_enrollment_jobs(
-    DomainId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "ListSpeakerEnrollmentJobs",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_speaker_enrollment_jobs(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "ListSpeakerEnrollmentJobs",
         Dict{String,Any}(
@@ -539,8 +395,7 @@ function list_speaker_enrollment_jobs(
 end
 
 """
-    list_speakers(domain_id)
-    list_speakers(domain_id, params::Dict{String,<:Any})
+    list_speakers(domain_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all speakers in a specified domain.
 
@@ -548,28 +403,19 @@ Lists all speakers in a specified domain.
 - `domain_id`: The identifier of the domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results that are returned per call. You can use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results that are returned per call. You can use
   NextToken to obtain further pages of results. The default is 100; the maximum allowed page
   size is also 100.
-- `"NextToken"`: If NextToken is returned, there are more results available. The value of
+- `"next_token"`: If NextToken is returned, there are more results available. The value of
   NextToken is a unique pagination token for each page. Make the call again using the
   returned token to retrieve the next page. Keep all other arguments unchanged. Each
   pagination token expires after 24 hours.
 """
-function list_speakers(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id(
-        "ListSpeakers",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_speakers(
-    DomainId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "ListSpeakers",
         Dict{String,Any}(
@@ -581,8 +427,7 @@ function list_speakers(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags associated with a specified Voice ID resource.
 
@@ -592,20 +437,9 @@ Lists all tags associated with a specified Voice ID resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -617,8 +451,7 @@ function list_tags_for_resource(
 end
 
 """
-    opt_out_speaker(domain_id, speaker_id)
-    opt_out_speaker(domain_id, speaker_id, params::Dict{String,<:Any})
+    opt_out_speaker(domain_id, speaker_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Opts out a speaker from Voice ID system. A speaker can be opted out regardless of whether
 or not they already exist in the system. If they don't yet exist, a new speaker is created
@@ -632,21 +465,9 @@ speakers, and opted out speakers have no voice embeddings stored in the system.
 
 """
 function opt_out_speaker(
-    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainId, SpeakerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "OptOutSpeaker",
-        Dict{String,Any}("DomainId" => DomainId, "SpeakerId" => SpeakerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function opt_out_speaker(
-    DomainId,
-    SpeakerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "OptOutSpeaker",
         Dict{String,Any}(
@@ -662,8 +483,7 @@ function opt_out_speaker(
 end
 
 """
-    start_fraudster_registration_job(data_access_role_arn, domain_id, input_data_config, output_data_config)
-    start_fraudster_registration_job(data_access_role_arn, domain_id, input_data_config, output_data_config, params::Dict{String,<:Any})
+    start_fraudster_registration_job(data_access_role_arn, domain_id, input_data_config, output_data_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a new batch fraudster registration job using provided details.
 
@@ -680,11 +500,11 @@ Starts a new batch fraudster registration job using provided details.
   writes the job output file; you must also include a KMS Key ID to encrypt the file.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: The idempotency token for starting a new fraudster registration job. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: The idempotency token for starting a new fraudster registration job. If
   not provided, Amazon Web Services SDK populates this field.
-- `"JobName"`: The name of the new fraudster registration job.
-- `"RegistrationConfig"`: The registration config containing details such as the action to
+- `"job_name"`: The name of the new fraudster registration job.
+- `"registration_config"`: The registration config containing details such as the action to
   take when a duplicate fraudster is detected, and the similarity threshold to use for
   detecting a duplicate fraudster.
 """
@@ -694,28 +514,9 @@ function start_fraudster_registration_job(
     InputDataConfig,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return voice_id(
-        "StartFraudsterRegistrationJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DomainId" => DomainId,
-            "InputDataConfig" => InputDataConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_fraudster_registration_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "StartFraudsterRegistrationJob",
         Dict{String,Any}(
@@ -726,7 +527,7 @@ function start_fraudster_registration_job(
                     "DomainId" => DomainId,
                     "InputDataConfig" => InputDataConfig,
                     "OutputDataConfig" => OutputDataConfig,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -737,8 +538,7 @@ function start_fraudster_registration_job(
 end
 
 """
-    start_speaker_enrollment_job(data_access_role_arn, domain_id, input_data_config, output_data_config)
-    start_speaker_enrollment_job(data_access_role_arn, domain_id, input_data_config, output_data_config, params::Dict{String,<:Any})
+    start_speaker_enrollment_job(data_access_role_arn, domain_id, input_data_config, output_data_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a new batch speaker enrollment job using specified details.
 
@@ -755,13 +555,13 @@ Starts a new batch speaker enrollment job using specified details.
   writes the job output file; you must also include a KMS Key ID to encrypt the file.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: The idempotency token for starting a new speaker enrollment Job. If not
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: The idempotency token for starting a new speaker enrollment Job. If not
   provided, Amazon Web Services SDK populates this field.
-- `"EnrollmentConfig"`: The enrollment config that contains details such as the action to
+- `"enrollment_config"`: The enrollment config that contains details such as the action to
   take when a speaker is already enrolled in the Voice ID system or when a speaker is
   identified as a fraudster.
-- `"JobName"`: A name for your speaker enrollment job.
+- `"job_name"`: A name for your speaker enrollment job.
 """
 function start_speaker_enrollment_job(
     DataAccessRoleArn,
@@ -769,28 +569,9 @@ function start_speaker_enrollment_job(
     InputDataConfig,
     OutputDataConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return voice_id(
-        "StartSpeakerEnrollmentJob",
-        Dict{String,Any}(
-            "DataAccessRoleArn" => DataAccessRoleArn,
-            "DomainId" => DomainId,
-            "InputDataConfig" => InputDataConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_speaker_enrollment_job(
-    DataAccessRoleArn,
-    DomainId,
-    InputDataConfig,
-    OutputDataConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "StartSpeakerEnrollmentJob",
         Dict{String,Any}(
@@ -801,7 +582,7 @@ function start_speaker_enrollment_job(
                     "DomainId" => DomainId,
                     "InputDataConfig" => InputDataConfig,
                     "OutputDataConfig" => OutputDataConfig,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -812,8 +593,7 @@ function start_speaker_enrollment_job(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tags an Amazon Connect Voice ID resource with the provided list of tags.
 
@@ -822,20 +602,10 @@ Tags an Amazon Connect Voice ID resource with the provided list of tags.
 - `tags`: The list of tags to assign to the specified resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return voice_id(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "TagResource",
         Dict{String,Any}(
@@ -851,8 +621,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes specified tags from a specified Amazon Connect Voice ID resource.
 
@@ -863,21 +632,9 @@ Removes specified tags from a specified Amazon Connect Voice ID resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return voice_id(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "UntagResource",
         Dict{String,Any}(
@@ -893,8 +650,7 @@ function untag_resource(
 end
 
 """
-    update_domain(domain_id, name, server_side_encryption_configuration)
-    update_domain(domain_id, name, server_side_encryption_configuration, params::Dict{String,<:Any})
+    update_domain(domain_id, name, server_side_encryption_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified domain. This API has clobber behavior, and clears and replaces all
 attributes. If an optional field, such as 'Description' is not provided, it is removed from
@@ -909,33 +665,17 @@ the domain.
   data added to domain after updating the key is encrypted using the new key.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A brief description about this domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A brief description about this domain.
 """
 function update_domain(
     DomainId,
     Name,
     ServerSideEncryptionConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return voice_id(
-        "UpdateDomain",
-        Dict{String,Any}(
-            "DomainId" => DomainId,
-            "Name" => Name,
-            "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_domain(
-    DomainId,
-    Name,
-    ServerSideEncryptionConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return voice_id(
         "UpdateDomain",
         Dict{String,Any}(

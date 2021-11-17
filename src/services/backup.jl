@@ -4,9 +4,52 @@ using AWS.AWSServices: backup
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "by_backup_vault_name" => "backupVaultName",
+    "by_resource_type" => "resourceType",
+    "max_retention_days" => "MaxRetentionDays",
+    "resource_type" => "ResourceType",
+    "backup_options" => "BackupOptions",
+    "backup_plan_tags" => "BackupPlanTags",
+    "next_token" => "nextToken",
+    "by_created_after" => "createdAfter",
+    "creator_request_id" => "CreatorRequestId",
+    "report_plan_tags" => "ReportPlanTags",
+    "by_status" => "status",
+    "start_window_minutes" => "StartWindowMinutes",
+    "by_state" => "state",
+    "min_retention_days" => "MinRetentionDays",
+    "complete_window_minutes" => "CompleteWindowMinutes",
+    "max_results" => "maxResults",
+    "by_report_plan_name" => "ReportPlanName",
+    "framework_tags" => "FrameworkTags",
+    "idempotency_token" => "IdempotencyToken",
+    "encryption_key_arn" => "EncryptionKeyArn",
+    "global_settings" => "GlobalSettings",
+    "policy" => "Policy",
+    "changeable_for_days" => "ChangeableForDays",
+    "report_setting" => "ReportSetting",
+    "version_id" => "versionId",
+    "framework_controls" => "FrameworkControls",
+    "report_plan_description" => "ReportPlanDescription",
+    "backup_vault_tags" => "BackupVaultTags",
+    "resource_type_opt_in_preference" => "ResourceTypeOptInPreference",
+    "by_destination_vault_arn" => "destinationVaultArn",
+    "by_account_id" => "accountId",
+    "by_backup_plan_id" => "backupPlanId",
+    "by_created_before" => "createdBefore",
+    "by_resource_arn" => "resourceArn",
+    "by_creation_before" => "CreationBefore",
+    "report_delivery_channel" => "ReportDeliveryChannel",
+    "include_deleted" => "includeDeleted",
+    "by_creation_after" => "CreationAfter",
+    "framework_description" => "FrameworkDescription",
+    "lifecycle" => "Lifecycle",
+    "recovery_point_tags" => "RecoveryPointTags",
+)
+
 """
-    create_backup_plan(backup_plan)
-    create_backup_plan(backup_plan, params::Dict{String,<:Any})
+    create_backup_plan(backup_plan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a backup plan using a backup plan name and backup rules. A backup plan is a
 document that contains information that Backup uses to schedule tasks that create recovery
@@ -18,28 +61,18 @@ receive an AlreadyExistsException exception.
   more sets of Rules.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BackupPlanTags"`: To help organize your resources, you can assign your own metadata to
-  the resources that you create. Each tag is a key-value pair. The specified tags are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"backup_plan_tags"`: To help organize your resources, you can assign your own metadata
+  to the resources that you create. Each tag is a key-value pair. The specified tags are
   assigned to all backups created with this plan.
-- `"CreatorRequestId"`: Identifies the request and allows failed requests to be retried
+- `"creator_request_id"`: Identifies the request and allows failed requests to be retried
   without the risk of running the operation twice. If the request includes a CreatorRequestId
   that matches an existing backup plan, that plan is returned. This parameter is optional.
 """
-function create_backup_plan(BackupPlan; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "PUT",
-        "/backup/plans/",
-        Dict{String,Any}("BackupPlan" => BackupPlan);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_backup_plan(
-    BackupPlan,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    BackupPlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup/plans/",
@@ -52,8 +85,7 @@ function create_backup_plan(
 end
 
 """
-    create_backup_selection(backup_selection, backup_plan_id)
-    create_backup_selection(backup_selection, backup_plan_id, params::Dict{String,<:Any})
+    create_backup_selection(backup_selection, backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a JSON document that specifies a set of resources to assign to a backup plan.
 Resources can be included by specifying patterns for a ListOfTags and selected Resources.
@@ -75,27 +107,17 @@ operator. In other words, all patterns that match are selected for backup.
   of resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CreatorRequestId"`: A unique string that identifies the request and allows failed
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"creator_request_id"`: A unique string that identifies the request and allows failed
   requests to be retried without the risk of running the operation twice.
 """
 function create_backup_selection(
-    BackupSelection, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "PUT",
-        "/backup/plans/$(backupPlanId)/selections/",
-        Dict{String,Any}("BackupSelection" => BackupSelection);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_backup_selection(
     BackupSelection,
-    backupPlanId,
-    params::AbstractDict{String};
+    backupPlanId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup/plans/$(backupPlanId)/selections/",
@@ -110,8 +132,7 @@ function create_backup_selection(
 end
 
 """
-    create_backup_vault(backup_vault_name)
-    create_backup_vault(backup_vault_name, params::Dict{String,<:Any})
+    create_backup_vault(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a logical container where backups are stored. A CreateBackupVault request includes
 a name, optionally one or more resource tags, an encryption key, and a request ID.  Do not
@@ -124,30 +145,19 @@ include sensitive data, such as passport numbers, in the name of a backup vault.
   hyphens.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BackupVaultTags"`: Metadata that you can assign to help organize the resources that you
-  create. Each tag is a key-value pair.
-- `"CreatorRequestId"`: A unique string that identifies the request and allows failed
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"backup_vault_tags"`: Metadata that you can assign to help organize the resources that
+  you create. Each tag is a key-value pair.
+- `"creator_request_id"`: A unique string that identifies the request and allows failed
   requests to be retried without the risk of running the operation twice.
-- `"EncryptionKeyArn"`: The server-side encryption key that is used to protect your
+- `"encryption_key_arn"`: The server-side encryption key that is used to protect your
   backups; for example,
   arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
 """
 function create_backup_vault(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "PUT",
-        "/backup-vaults/$(backupVaultName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_backup_vault(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup-vaults/$(backupVaultName)",
@@ -158,8 +168,7 @@ function create_backup_vault(
 end
 
 """
-    create_framework(framework_controls, framework_name)
-    create_framework(framework_controls, framework_name, params::Dict{String,<:Any})
+    create_framework(framework_controls, framework_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a framework with one or more controls. A framework is a collection of controls that
 you can use to evaluate your backup practices. By using pre-built customizable controls to
@@ -174,36 +183,22 @@ policies and which resources are not yet in compliance.
   and underscores (_).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FrameworkDescription"`: An optional description of the framework with a maximum of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"framework_description"`: An optional description of the framework with a maximum of
   1,024 characters.
-- `"FrameworkTags"`: Metadata that you can assign to help organize the frameworks that you
+- `"framework_tags"`: Metadata that you can assign to help organize the frameworks that you
   create. Each tag is a key-value pair.
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to CreateFrameworkInput. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
 """
 function create_framework(
-    FrameworkControls, FrameworkName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "POST",
-        "/audit/frameworks",
-        Dict{String,Any}(
-            "FrameworkControls" => FrameworkControls,
-            "FrameworkName" => FrameworkName,
-            "IdempotencyToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_framework(
     FrameworkControls,
-    FrameworkName,
-    params::AbstractDict{String};
+    FrameworkName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/audit/frameworks",
@@ -213,7 +208,7 @@ function create_framework(
                 Dict{String,Any}(
                     "FrameworkControls" => FrameworkControls,
                     "FrameworkName" => FrameworkName,
-                    "IdempotencyToken" => string(uuid4()),
+                    "idempotency_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -224,8 +219,7 @@ function create_framework(
 end
 
 """
-    create_report_plan(report_delivery_channel, report_plan_name, report_setting)
-    create_report_plan(report_delivery_channel, report_plan_name, report_setting, params::Dict{String,<:Any})
+    create_report_plan(report_delivery_channel, report_plan_name, report_setting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a report plan. A report plan is a document that contains information about the
 contents of the report and where Backup will deliver it. If you call CreateReportPlan with
@@ -245,13 +239,13 @@ a plan that already exists, you receive an AlreadyExistsException exception.
   resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to CreateReportPlanInput. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
-- `"ReportPlanDescription"`: An optional description of the report plan with a maximum of
+- `"report_plan_description"`: An optional description of the report plan with a maximum of
   1,024 characters.
-- `"ReportPlanTags"`: Metadata that you can assign to help organize the report plans that
+- `"report_plan_tags"`: Metadata that you can assign to help organize the report plans that
   you create. Each tag is a key-value pair.
 """
 function create_report_plan(
@@ -259,27 +253,9 @@ function create_report_plan(
     ReportPlanName,
     ReportSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return backup(
-        "POST",
-        "/audit/report-plans",
-        Dict{String,Any}(
-            "ReportDeliveryChannel" => ReportDeliveryChannel,
-            "ReportPlanName" => ReportPlanName,
-            "ReportSetting" => ReportSetting,
-            "IdempotencyToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_report_plan(
-    ReportDeliveryChannel,
-    ReportPlanName,
-    ReportSetting,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/audit/report-plans",
@@ -290,7 +266,7 @@ function create_report_plan(
                     "ReportDeliveryChannel" => ReportDeliveryChannel,
                     "ReportPlanName" => ReportPlanName,
                     "ReportSetting" => ReportSetting,
-                    "IdempotencyToken" => string(uuid4()),
+                    "idempotency_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -301,8 +277,7 @@ function create_report_plan(
 end
 
 """
-    delete_backup_plan(backup_plan_id)
-    delete_backup_plan(backup_plan_id, params::Dict{String,<:Any})
+    delete_backup_plan(backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a backup plan. A backup plan can only be deleted after all associated selections of
 resources have been deleted. Deleting a backup plan deletes the current version of a backup
@@ -312,19 +287,10 @@ plan. Previous versions, if any, will still exist.
 - `backup_plan_id`: Uniquely identifies a backup plan.
 
 """
-function delete_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "DELETE",
-        "/backup/plans/$(backupPlanId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_backup_plan(
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup/plans/$(backupPlanId)",
@@ -335,8 +301,7 @@ function delete_backup_plan(
 end
 
 """
-    delete_backup_selection(backup_plan_id, selection_id)
-    delete_backup_selection(backup_plan_id, selection_id, params::Dict{String,<:Any})
+    delete_backup_selection(backup_plan_id, selection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the resource selection associated with a backup plan that is specified by the
 SelectionId.
@@ -348,21 +313,9 @@ SelectionId.
 
 """
 function delete_backup_selection(
-    backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/backup/plans/$(backupPlanId)/selections/$(selectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup_selection(
-    backupPlanId,
-    selectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)",
@@ -373,8 +326,7 @@ function delete_backup_selection(
 end
 
 """
-    delete_backup_vault(backup_vault_name)
-    delete_backup_vault(backup_vault_name, params::Dict{String,<:Any})
+    delete_backup_vault(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
 
@@ -386,20 +338,9 @@ Deletes the backup vault identified by its name. A vault can be deleted only if 
 
 """
 function delete_backup_vault(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/backup-vaults/$(backupVaultName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup_vault(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)",
@@ -410,8 +351,7 @@ function delete_backup_vault(
 end
 
 """
-    delete_backup_vault_access_policy(backup_vault_name)
-    delete_backup_vault_access_policy(backup_vault_name, params::Dict{String,<:Any})
+    delete_backup_vault_access_policy(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the policy document that manages permissions on a backup vault.
 
@@ -423,20 +363,9 @@ Deletes the policy document that manages permissions on a backup vault.
 
 """
 function delete_backup_vault_access_policy(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/backup-vaults/$(backupVaultName)/access-policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup_vault_access_policy(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/access-policy",
@@ -447,8 +376,7 @@ function delete_backup_vault_access_policy(
 end
 
 """
-    delete_backup_vault_lock_configuration(backup_vault_name)
-    delete_backup_vault_lock_configuration(backup_vault_name, params::Dict{String,<:Any})
+    delete_backup_vault_lock_configuration(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the
 Vault Lock configuration is immutable, then you cannot delete Vault Lock using API
@@ -460,20 +388,9 @@ more information, see Vault Lock in the Backup Developer Guide.
 
 """
 function delete_backup_vault_lock_configuration(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/backup-vaults/$(backupVaultName)/vault-lock";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup_vault_lock_configuration(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/vault-lock",
@@ -484,8 +401,7 @@ function delete_backup_vault_lock_configuration(
 end
 
 """
-    delete_backup_vault_notifications(backup_vault_name)
-    delete_backup_vault_notifications(backup_vault_name, params::Dict{String,<:Any})
+    delete_backup_vault_notifications(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes event notifications for the specified backup vault.
 
@@ -496,20 +412,9 @@ Deletes event notifications for the specified backup vault.
 
 """
 function delete_backup_vault_notifications(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/backup-vaults/$(backupVaultName)/notification-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_backup_vault_notifications(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/notification-configuration",
@@ -520,8 +425,7 @@ function delete_backup_vault_notifications(
 end
 
 """
-    delete_framework(framework_name)
-    delete_framework(framework_name, params::Dict{String,<:Any})
+    delete_framework(framework_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the framework specified by a framework name.
 
@@ -529,19 +433,10 @@ Deletes the framework specified by a framework name.
 - `framework_name`: The unique name of a framework.
 
 """
-function delete_framework(frameworkName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "DELETE",
-        "/audit/frameworks/$(frameworkName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_framework(
-    frameworkName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    frameworkName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/audit/frameworks/$(frameworkName)",
@@ -552,8 +447,7 @@ function delete_framework(
 end
 
 """
-    delete_recovery_point(backup_vault_name, recovery_point_arn)
-    delete_recovery_point(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+    delete_recovery_point(backup_vault_name, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the recovery point specified by a recovery point ID. If the recovery point ID
 belongs to a continuous backup, calling this endpoint deletes the existing continuous
@@ -570,21 +464,12 @@ backup and stops future continuous backup.
 
 """
 function delete_recovery_point(
-    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "DELETE",
-        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recovery_point(
     backupVaultName,
-    recoveryPointArn,
-    params::AbstractDict{String};
+    recoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
@@ -595,8 +480,7 @@ function delete_recovery_point(
 end
 
 """
-    delete_report_plan(report_plan_name)
-    delete_report_plan(report_plan_name, params::Dict{String,<:Any})
+    delete_report_plan(report_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the report plan specified by a report plan name.
 
@@ -605,20 +489,9 @@ Deletes the report plan specified by a report plan name.
 
 """
 function delete_report_plan(
-    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "DELETE",
-        "/audit/report-plans/$(reportPlanName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_report_plan(
-    reportPlanName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "DELETE",
         "/audit/report-plans/$(reportPlanName)",
@@ -629,8 +502,7 @@ function delete_report_plan(
 end
 
 """
-    describe_backup_job(backup_job_id)
-    describe_backup_job(backup_job_id, params::Dict{String,<:Any})
+    describe_backup_job(backup_job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns backup job details for the specified BackupJobId.
 
@@ -638,19 +510,10 @@ Returns backup job details for the specified BackupJobId.
 - `backup_job_id`: Uniquely identifies a request to Backup to back up a resource.
 
 """
-function describe_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/backup-jobs/$(backupJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_backup_job(
-    backupJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    backupJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-jobs/$(backupJobId)",
@@ -661,8 +524,7 @@ function describe_backup_job(
 end
 
 """
-    describe_backup_vault(backup_vault_name)
-    describe_backup_vault(backup_vault_name, params::Dict{String,<:Any})
+    describe_backup_vault(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata about a backup vault specified by its name.
 
@@ -674,20 +536,9 @@ Returns metadata about a backup vault specified by its name.
 
 """
 function describe_backup_vault(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_backup_vault(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)",
@@ -698,8 +549,7 @@ function describe_backup_vault(
 end
 
 """
-    describe_copy_job(copy_job_id)
-    describe_copy_job(copy_job_id, params::Dict{String,<:Any})
+    describe_copy_job(copy_job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata associated with creating a copy of a resource.
 
@@ -707,19 +557,10 @@ Returns metadata associated with creating a copy of a resource.
 - `copy_job_id`: Uniquely identifies a copy job.
 
 """
-function describe_copy_job(copyJobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/copy-jobs/$(copyJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_copy_job(
-    copyJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    copyJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/copy-jobs/$(copyJobId)",
@@ -730,8 +571,7 @@ function describe_copy_job(
 end
 
 """
-    describe_framework(framework_name)
-    describe_framework(framework_name, params::Dict{String,<:Any})
+    describe_framework(framework_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the framework details for the specified FrameworkName.
 
@@ -740,20 +580,9 @@ Returns the framework details for the specified FrameworkName.
 
 """
 function describe_framework(
-    frameworkName; aws_config::AbstractAWSConfig=global_aws_config()
+    frameworkName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/audit/frameworks/$(frameworkName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_framework(
-    frameworkName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/frameworks/$(frameworkName)",
@@ -764,22 +593,17 @@ function describe_framework(
 end
 
 """
-    describe_global_settings()
-    describe_global_settings(params::Dict{String,<:Any})
+    describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes whether the Amazon Web Services account is opted in to cross-account backup.
 Returns an error if the account is not a member of an Organizations organization. Example:
 describe-global-settings --region us-west-2
 
 """
-function describe_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_global_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_global_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/global-settings",
@@ -790,8 +614,7 @@ function describe_global_settings(
 end
 
 """
-    describe_protected_resource(resource_arn)
-    describe_protected_resource(resource_arn, params::Dict{String,<:Any})
+    describe_protected_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a saved resource, including the last time it was backed up, its
 Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
@@ -802,20 +625,9 @@ Amazon Resource Name (ARN), and the Amazon Web Services service type of the save
 
 """
 function describe_protected_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/resources/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_protected_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/resources/$(resourceArn)",
@@ -826,8 +638,7 @@ function describe_protected_resource(
 end
 
 """
-    describe_recovery_point(backup_vault_name, recovery_point_arn)
-    describe_recovery_point(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+    describe_recovery_point(backup_vault_name, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata associated with a recovery point, including ID, status, encryption, and
 lifecycle.
@@ -843,21 +654,12 @@ lifecycle.
 
 """
 function describe_recovery_point(
-    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_recovery_point(
     backupVaultName,
-    recoveryPointArn,
-    params::AbstractDict{String};
+    recoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
@@ -868,8 +670,7 @@ function describe_recovery_point(
 end
 
 """
-    describe_region_settings()
-    describe_region_settings(params::Dict{String,<:Any})
+    describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current service opt-in settings for the Region. If service opt-in is enabled
 for a service, Backup tries to protect that service's resources in this Region, when the
@@ -877,14 +678,10 @@ resource is included in an on-demand backup or scheduled backup plan. Otherwise,
 does not try to protect that service's resources in this Region.
 
 """
-function describe_region_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_region_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_region_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/account-settings",
@@ -895,8 +692,7 @@ function describe_region_settings(
 end
 
 """
-    describe_report_job(report_job_id)
-    describe_report_job(report_job_id, params::Dict{String,<:Any})
+    describe_report_job(report_job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details associated with creating a report as specified by its ReportJobId.
 
@@ -905,19 +701,10 @@ Returns the details associated with creating a report as specified by its Report
   UTF-8 encoded string that is at most 1,024 bytes long. The report job ID cannot be edited.
 
 """
-function describe_report_job(reportJobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/audit/report-jobs/$(reportJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_report_job(
-    reportJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    reportJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/report-jobs/$(reportJobId)",
@@ -928,8 +715,7 @@ function describe_report_job(
 end
 
 """
-    describe_report_plan(report_plan_name)
-    describe_report_plan(report_plan_name, params::Dict{String,<:Any})
+    describe_report_plan(report_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all report plans for an Amazon Web Services account and Amazon Web
 Services Region.
@@ -939,20 +725,9 @@ Services Region.
 
 """
 function describe_report_plan(
-    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/audit/report-plans/$(reportPlanName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_report_plan(
-    reportPlanName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/report-plans/$(reportPlanName)",
@@ -963,8 +738,7 @@ function describe_report_plan(
 end
 
 """
-    describe_restore_job(restore_job_id)
-    describe_restore_job(restore_job_id, params::Dict{String,<:Any})
+    describe_restore_job(restore_job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata associated with a restore job that is specified by a job ID.
 
@@ -973,20 +747,9 @@ Returns metadata associated with a restore job that is specified by a job ID.
 
 """
 function describe_restore_job(
-    restoreJobId; aws_config::AbstractAWSConfig=global_aws_config()
+    restoreJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/restore-jobs/$(restoreJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_restore_job(
-    restoreJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/restore-jobs/$(restoreJobId)",
@@ -997,8 +760,7 @@ function describe_restore_job(
 end
 
 """
-    disassociate_recovery_point(backup_vault_name, recovery_point_arn)
-    disassociate_recovery_point(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+    disassociate_recovery_point(backup_vault_name, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified continuous backup recovery point from Backup and releases control of
 that continuous backup to the source service, such as Amazon RDS. The source service will
@@ -1012,21 +774,12 @@ your original backup plan. Does not support snapshot backup recovery points.
 
 """
 function disassociate_recovery_point(
-    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "POST",
-        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_recovery_point(
     backupVaultName,
-    recoveryPointArn,
-    params::AbstractDict{String};
+    recoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/disassociate",
@@ -1037,8 +790,7 @@ function disassociate_recovery_point(
 end
 
 """
-    export_backup_plan_template(backup_plan_id)
-    export_backup_plan_template(backup_plan_id, params::Dict{String,<:Any})
+    export_backup_plan_template(backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the backup plan that is specified by the plan ID as a backup template.
 
@@ -1047,20 +799,9 @@ Returns the backup plan that is specified by the plan ID as a backup template.
 
 """
 function export_backup_plan_template(
-    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup/plans/$(backupPlanId)/toTemplate/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_backup_plan_template(
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/$(backupPlanId)/toTemplate/",
@@ -1071,8 +812,7 @@ function export_backup_plan_template(
 end
 
 """
-    get_backup_plan(backup_plan_id)
-    get_backup_plan(backup_plan_id, params::Dict{String,<:Any})
+    get_backup_plan(backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns BackupPlan details for the specified BackupPlanId. The details are the body of a
 backup plan in JSON format, in addition to plan metadata.
@@ -1081,23 +821,14 @@ backup plan in JSON format, in addition to plan metadata.
 - `backup_plan_id`: Uniquely identifies a backup plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"versionId"`: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"version_id"`: Unique, randomly generated, Unicode, UTF-8 encoded strings that are at
   most 1,024 bytes long. Version IDs cannot be edited.
 """
-function get_backup_plan(backupPlanId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/backup/plans/$(backupPlanId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_backup_plan(
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/$(backupPlanId)/",
@@ -1108,8 +839,7 @@ function get_backup_plan(
 end
 
 """
-    get_backup_plan_from_json(backup_plan_template_json)
-    get_backup_plan_from_json(backup_plan_template_json, params::Dict{String,<:Any})
+    get_backup_plan_from_json(backup_plan_template_json; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a valid JSON document specifying a backup plan or an error.
 
@@ -1118,21 +848,9 @@ Returns a valid JSON document specifying a backup plan or an error.
 
 """
 function get_backup_plan_from_json(
-    BackupPlanTemplateJson; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupPlanTemplateJson; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "POST",
-        "/backup/template/json/toPlan",
-        Dict{String,Any}("BackupPlanTemplateJson" => BackupPlanTemplateJson);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_backup_plan_from_json(
-    BackupPlanTemplateJson,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/backup/template/json/toPlan",
@@ -1149,8 +867,7 @@ function get_backup_plan_from_json(
 end
 
 """
-    get_backup_plan_from_template(template_id)
-    get_backup_plan_from_template(template_id, params::Dict{String,<:Any})
+    get_backup_plan_from_template(template_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the template specified by its templateId as a backup plan.
 
@@ -1159,20 +876,9 @@ Returns the template specified by its templateId as a backup plan.
 
 """
 function get_backup_plan_from_template(
-    templateId; aws_config::AbstractAWSConfig=global_aws_config()
+    templateId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup/template/plans/$(templateId)/toPlan";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_backup_plan_from_template(
-    templateId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/template/plans/$(templateId)/toPlan",
@@ -1183,8 +889,7 @@ function get_backup_plan_from_template(
 end
 
 """
-    get_backup_selection(backup_plan_id, selection_id)
-    get_backup_selection(backup_plan_id, selection_id, params::Dict{String,<:Any})
+    get_backup_selection(backup_plan_id, selection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns selection metadata and a document in JSON format that specifies a list of resources
 that are associated with a backup plan.
@@ -1196,21 +901,9 @@ that are associated with a backup plan.
 
 """
 function get_backup_selection(
-    backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    backupPlanId, selectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup/plans/$(backupPlanId)/selections/$(selectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_backup_selection(
-    backupPlanId,
-    selectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/$(backupPlanId)/selections/$(selectionId)",
@@ -1221,8 +914,7 @@ function get_backup_selection(
 end
 
 """
-    get_backup_vault_access_policy(backup_vault_name)
-    get_backup_vault_access_policy(backup_vault_name, params::Dict{String,<:Any})
+    get_backup_vault_access_policy(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the access policy document that is associated with the named backup vault.
 
@@ -1234,20 +926,9 @@ Returns the access policy document that is associated with the named backup vaul
 
 """
 function get_backup_vault_access_policy(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)/access-policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_backup_vault_access_policy(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/access-policy",
@@ -1258,8 +939,7 @@ function get_backup_vault_access_policy(
 end
 
 """
-    get_backup_vault_notifications(backup_vault_name)
-    get_backup_vault_notifications(backup_vault_name, params::Dict{String,<:Any})
+    get_backup_vault_notifications(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns event notifications for the specified backup vault.
 
@@ -1271,20 +951,9 @@ Returns event notifications for the specified backup vault.
 
 """
 function get_backup_vault_notifications(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)/notification-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_backup_vault_notifications(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/notification-configuration",
@@ -1295,8 +964,7 @@ function get_backup_vault_notifications(
 end
 
 """
-    get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn)
-    get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+    get_recovery_point_restore_metadata(backup_vault_name, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of metadata key-value pairs that were used to create the backup.
 
@@ -1311,21 +979,12 @@ Returns a set of metadata key-value pairs that were used to create the backup.
 
 """
 function get_recovery_point_restore_metadata(
-    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recovery_point_restore_metadata(
     backupVaultName,
-    recoveryPointArn,
-    params::AbstractDict{String};
+    recoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata",
@@ -1336,23 +995,15 @@ function get_recovery_point_restore_metadata(
 end
 
 """
-    get_supported_resource_types()
-    get_supported_resource_types(params::Dict{String,<:Any})
+    get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the Amazon Web Services resource types supported by Backup.
 
 """
-function get_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/supported-resource-types";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_supported_resource_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_supported_resource_types(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/supported-resource-types",
@@ -1363,43 +1014,37 @@ function get_supported_resource_types(
 end
 
 """
-    list_backup_jobs()
-    list_backup_jobs(params::Dict{String,<:Any})
+    list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of existing backup jobs for an authenticated account for the last 30 days.
 For a longer period of time, consider using these monitoring tools.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountId"`: The account ID to list the jobs from. Returns only backup jobs associated
-  with the specified account ID. If used from an Organizations management account, passing *
-  returns all jobs across the organization.
-- `"backupVaultName"`: Returns only backup jobs that will be stored in the specified backup
-  vault. Backup vaults are identified by names that are unique to the account used to create
-  them and the Amazon Web Services Region where they are created. They consist of lowercase
-  letters, numbers, and hyphens.
-- `"createdAfter"`: Returns only backup jobs that were created after the specified date.
-- `"createdBefore"`: Returns only backup jobs that were created before the specified date.
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
-  items in your list starting at the location pointed to by the next token.
-- `"resourceArn"`: Returns only backup jobs that match the specified resource Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_account_id"`: The account ID to list the jobs from. Returns only backup jobs
+  associated with the specified account ID. If used from an Organizations management account,
+  passing * returns all jobs across the organization.
+- `"by_backup_vault_name"`: Returns only backup jobs that will be stored in the specified
+  backup vault. Backup vaults are identified by names that are unique to the account used to
+  create them and the Amazon Web Services Region where they are created. They consist of
+  lowercase letters, numbers, and hyphens.
+- `"by_created_after"`: Returns only backup jobs that were created after the specified date.
+- `"by_created_before"`: Returns only backup jobs that were created before the specified
+  date.
+- `"by_resource_arn"`: Returns only backup jobs that match the specified resource Amazon
   Resource Name (ARN).
-- `"resourceType"`: Returns only backup jobs for the specified resources:    DynamoDB for
-  Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
+- `"by_resource_type"`: Returns only backup jobs for the specified resources:    DynamoDB
+  for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
   Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service
    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
-- `"state"`: Returns only backup jobs that are in the specified state.
+- `"by_state"`: Returns only backup jobs that are in the specified state.
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
+  a request is made to return maxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the next token.
 """
-function list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/backup-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_backup_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-jobs/",
@@ -1410,30 +1055,22 @@ function list_backup_jobs(
 end
 
 """
-    list_backup_plan_templates()
-    list_backup_plan_templates(params::Dict{String,<:Any})
+    list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata of your saved backup plan templates, including the template ID, name, and
 the creation and deletion dates.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
-function list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/backup/template/plans";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_backup_plan_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_backup_plan_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/template/plans",
@@ -1444,8 +1081,7 @@ function list_backup_plan_templates(
 end
 
 """
-    list_backup_plan_versions(backup_plan_id)
-    list_backup_plan_versions(backup_plan_id, params::Dict{String,<:Any})
+    list_backup_plan_versions(backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns version metadata of your backup plans, including Amazon Resource Names (ARNs),
 backup plan IDs, creation and deletion dates, plan names, and version IDs.
@@ -1454,27 +1090,16 @@ backup plan IDs, creation and deletion dates, plan names, and version IDs.
 - `backup_plan_id`: Uniquely identifies a backup plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plan_versions(
-    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup/plans/$(backupPlanId)/versions/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_backup_plan_versions(
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/$(backupPlanId)/versions/",
@@ -1485,30 +1110,23 @@ function list_backup_plan_versions(
 end
 
 """
-    list_backup_plans()
-    list_backup_plans(params::Dict{String,<:Any})
+    list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all active backup plans for an authenticated account. The list contains
 information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates,
 version IDs, plan names, and creator request IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeDeleted"`: A Boolean value with a default value of FALSE that returns deleted
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_deleted"`: A Boolean value with a default value of FALSE that returns deleted
   backup plans when set to TRUE.
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
-function list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/backup/plans/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_backup_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/",
@@ -1519,8 +1137,7 @@ function list_backup_plans(
 end
 
 """
-    list_backup_selections(backup_plan_id)
-    list_backup_selections(backup_plan_id, params::Dict{String,<:Any})
+    list_backup_selections(backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array containing metadata of the resources associated with the target backup
 plan.
@@ -1529,27 +1146,16 @@ plan.
 - `backup_plan_id`: Uniquely identifies a backup plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_selections(
-    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup/plans/$(backupPlanId)/selections/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_backup_selections(
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup/plans/$(backupPlanId)/selections/",
@@ -1560,26 +1166,19 @@ function list_backup_selections(
 end
 
 """
-    list_backup_vaults()
-    list_backup_vaults(params::Dict{String,<:Any})
+    list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of recovery point storage containers along with information about them.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
-function list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/backup-vaults/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_backup_vaults(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/",
@@ -1590,67 +1189,53 @@ function list_backup_vaults(
 end
 
 """
-    list_copy_jobs()
-    list_copy_jobs(params::Dict{String,<:Any})
+    list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata about your copy jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountId"`: The account ID to list the jobs from. Returns only copy jobs associated
-  with the specified account ID.
-- `"createdAfter"`: Returns only copy jobs that were created after the specified date.
-- `"createdBefore"`: Returns only copy jobs that were created before the specified date.
-- `"destinationVaultArn"`: An Amazon Resource Name (ARN) that uniquely identifies a source
-  backup vault to copy from; for example,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_account_id"`: The account ID to list the jobs from. Returns only copy jobs
+  associated with the specified account ID.
+- `"by_created_after"`: Returns only copy jobs that were created after the specified date.
+- `"by_created_before"`: Returns only copy jobs that were created before the specified date.
+- `"by_destination_vault_arn"`: An Amazon Resource Name (ARN) that uniquely identifies a
+  source backup vault to copy from; for example,
   arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
-  items in your list starting at the location pointed to by the next token.
-- `"resourceArn"`: Returns only copy jobs that match the specified resource Amazon Resource
-  Name (ARN).
-- `"resourceType"`: Returns only backup jobs for the specified resources:    DynamoDB for
-  Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
+- `"by_resource_arn"`: Returns only copy jobs that match the specified resource Amazon
+  Resource Name (ARN).
+- `"by_resource_type"`: Returns only backup jobs for the specified resources:    DynamoDB
+  for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
   Cloud    EFS for Amazon Elastic File System    RDS for Amazon Relational Database Service
    Aurora for Amazon Aurora    Storage Gateway for Storage Gateway
-- `"state"`: Returns only copy jobs that are in the specified state.
+- `"by_state"`: Returns only copy jobs that are in the specified state.
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
+  a request is made to return maxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the next token.
 """
-function list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/copy-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_copy_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET", "/copy-jobs/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_frameworks()
-    list_frameworks(params::Dict{String,<:Any})
+    list_frameworks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services
 Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of desired results from 1 to 1000. Optional. If unspecified,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of desired results from 1 to 1000. Optional. If unspecified,
   the query will return 1 MB of data.
-- `"NextToken"`: An identifier that was returned from the previous call to this operation,
+- `"next_token"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_frameworks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/audit/frameworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_frameworks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_frameworks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/frameworks",
@@ -1661,35 +1246,29 @@ function list_frameworks(
 end
 
 """
-    list_protected_resources()
-    list_protected_resources(params::Dict{String,<:Any})
+    list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of resources successfully backed up by Backup, including the time the
 resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
-function list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/resources/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_protected_resources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_protected_resources(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET", "/resources/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_recovery_points_by_backup_vault(backup_vault_name)
-    list_recovery_points_by_backup_vault(backup_vault_name, params::Dict{String,<:Any})
+    list_recovery_points_by_backup_vault(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about the recovery points stored in a backup vault.
 
@@ -1701,35 +1280,25 @@ Returns detailed information about the recovery points stored in a backup vault.
   creates the backup.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"backupPlanId"`: Returns only recovery points that match the specified backup plan ID.
-- `"createdAfter"`: Returns only recovery points that were created after the specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_backup_plan_id"`: Returns only recovery points that match the specified backup plan
+  ID.
+- `"by_created_after"`: Returns only recovery points that were created after the specified
   timestamp.
-- `"createdBefore"`: Returns only recovery points that were created before the specified
-  timestamp.
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+- `"by_created_before"`: Returns only recovery points that were created before the
+  specified timestamp.
+- `"by_resource_arn"`: Returns only recovery points that match the specified resource
+  Amazon Resource Name (ARN).
+- `"by_resource_type"`: Returns only recovery points that match the specified resource type.
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
-- `"resourceArn"`: Returns only recovery points that match the specified resource Amazon
-  Resource Name (ARN).
-- `"resourceType"`: Returns only recovery points that match the specified resource type.
 """
 function list_recovery_points_by_backup_vault(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/backup-vaults/$(backupVaultName)/recovery-points/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recovery_points_by_backup_vault(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/",
@@ -1740,8 +1309,7 @@ function list_recovery_points_by_backup_vault(
 end
 
 """
-    list_recovery_points_by_resource(resource_arn)
-    list_recovery_points_by_resource(resource_arn, params::Dict{String,<:Any})
+    list_recovery_points_by_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about all the recovery points of the type specified by a
 resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists
@@ -1752,28 +1320,17 @@ recovery points created by Backup.
   on the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.  Amazon RDS requires a value
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.  Amazon RDS requires a value
   of at least 20.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_recovery_points_by_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "GET",
-        "/resources/$(resourceArn)/recovery-points/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_recovery_points_by_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/resources/$(resourceArn)/recovery-points/",
@@ -1784,35 +1341,28 @@ function list_recovery_points_by_resource(
 end
 
 """
-    list_report_jobs()
-    list_report_jobs(params::Dict{String,<:Any})
+    list_report_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details about your report jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CreationAfter"`: Returns only report jobs that were created after the date and time
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_creation_after"`: Returns only report jobs that were created after the date and time
   specified in Unix format and Coordinated Universal Time (UTC). For example, the value
   1516925490 represents Friday, January 26, 2018 12:11:30 AM.
-- `"CreationBefore"`: Returns only report jobs that were created before the date and time
-  specified in Unix format and Coordinated Universal Time (UTC). For example, the value
+- `"by_creation_before"`: Returns only report jobs that were created before the date and
+  time specified in Unix format and Coordinated Universal Time (UTC). For example, the value
   1516925490 represents Friday, January 26, 2018 12:11:30 AM.
-- `"MaxResults"`: The number of desired results from 1 to 1000. Optional. If unspecified,
+- `"by_report_plan_name"`: Returns only report jobs with the specified report plan name.
+- `"by_status"`: Returns only report jobs that are in the specified status. The statuses
+  are:  CREATED | RUNNING | COMPLETED | FAILED
+- `"max_results"`: The number of desired results from 1 to 1000. Optional. If unspecified,
   the query will return 1 MB of data.
-- `"NextToken"`: An identifier that was returned from the previous call to this operation,
+- `"next_token"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
-- `"ReportPlanName"`: Returns only report jobs with the specified report plan name.
-- `"Status"`: Returns only report jobs that are in the specified status. The statuses are:
-  CREATED | RUNNING | COMPLETED | FAILED
 """
-function list_report_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/audit/report-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_report_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_report_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/report-jobs",
@@ -1823,27 +1373,20 @@ function list_report_jobs(
 end
 
 """
-    list_report_plans()
-    list_report_plans(params::Dict{String,<:Any})
+    list_report_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of your report plans. For detailed information about a single report plan,
 use DescribeReportPlan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of desired results from 1 to 1000. Optional. If unspecified,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of desired results from 1 to 1000. Optional. If unspecified,
   the query will return 1 MB of data.
-- `"NextToken"`: An identifier that was returned from the previous call to this operation,
+- `"next_token"`: An identifier that was returned from the previous call to this operation,
   which can be used to return the next set of items in the list.
 """
-function list_report_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/audit/report-plans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_report_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_report_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/audit/report-plans",
@@ -1854,32 +1397,27 @@ function list_report_plans(
 end
 
 """
-    list_restore_jobs()
-    list_restore_jobs(params::Dict{String,<:Any})
+    list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of jobs that Backup initiated to restore a saved resource, including details
 about the recovery process.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountId"`: The account ID to list the jobs from. Returns only restore jobs associated
-  with the specified account ID.
-- `"createdAfter"`: Returns only restore jobs that were created after the specified date.
-- `"createdBefore"`: Returns only restore jobs that were created before the specified date.
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_account_id"`: The account ID to list the jobs from. Returns only restore jobs
+  associated with the specified account ID.
+- `"by_created_after"`: Returns only restore jobs that were created after the specified
+  date.
+- `"by_created_before"`: Returns only restore jobs that were created before the specified
+  date.
+- `"by_status"`: Returns only restore jobs associated with the specified job status.
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
-- `"status"`: Returns only restore jobs associated with the specified job status.
 """
-function list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET", "/restore-jobs/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_restore_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/restore-jobs/",
@@ -1890,8 +1428,7 @@ function list_restore_jobs(
 end
 
 """
-    list_tags(resource_arn)
-    list_tags(resource_arn, params::Dict{String,<:Any})
+    list_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of key-value pairs assigned to a target recovery point, backup plan, or
 backup vault.   ListTags are currently only supported with Amazon EFS backups.
@@ -1902,25 +1439,16 @@ backup vault.   ListTags are currently only supported with Amazon EFS backups.
   points, backup plans, and backup vaults.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to be returned.
-- `"nextToken"`: The next item following a partial list of returned items. For example, if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to be returned.
+- `"next_token"`: The next item following a partial list of returned items. For example, if
   a request is made to return maxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
-function list_tags(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "GET",
-        "/tags/$(resourceArn)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_tags(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "GET",
         "/tags/$(resourceArn)/",
@@ -1931,8 +1459,7 @@ function list_tags(
 end
 
 """
-    put_backup_vault_access_policy(backup_vault_name)
-    put_backup_vault_access_policy(backup_vault_name, params::Dict{String,<:Any})
+    put_backup_vault_access_policy(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets a resource-based policy that is used to manage access permissions on the target backup
 vault. Requires a backup vault name and an access policy document in JSON format.
@@ -1944,24 +1471,13 @@ vault. Requires a backup vault name and an access policy document in JSON format
   numbers, and hyphens.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Policy"`: The backup vault access policy document in JSON format.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"policy"`: The backup vault access policy document in JSON format.
 """
 function put_backup_vault_access_policy(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "PUT",
-        "/backup-vaults/$(backupVaultName)/access-policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_backup_vault_access_policy(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup-vaults/$(backupVaultName)/access-policy",
@@ -1972,8 +1488,7 @@ function put_backup_vault_access_policy(
 end
 
 """
-    put_backup_vault_lock_configuration(backup_vault_name)
-    put_backup_vault_lock_configuration(backup_vault_name, params::Dict{String,<:Any})
+    put_backup_vault_lock_configuration(backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery
 point stored in or created in a backup vault. Vault Lock also prevents attempts to update
@@ -1986,8 +1501,8 @@ period for future backup and copy jobs that target a backup vault.
   backup vault it protects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChangeableForDays"`: The Backup Vault Lock configuration that specifies the number of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"changeable_for_days"`: The Backup Vault Lock configuration that specifies the number of
   days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at
   8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour
   cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you
@@ -1998,7 +1513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified, you can delete Vault Lock from the vault using
   DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using
   PutBackupVaultLockConfiguration at any time.
-- `"MaxRetentionDays"`: The Backup Vault Lock configuration that specifies the maximum
+- `"max_retention_days"`: The Backup Vault Lock configuration that specifies the maximum
   retention period that the vault retains its recovery points. This setting can be useful if,
   for example, your organization's policies require you to destroy certain data after
   retaining it for four years (1460 days). If this parameter is not included, Vault Lock does
@@ -2010,7 +1525,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the vault fails the backup or copy job, and you should either modify your lifecycle
   settings or use a different vault. Recovery points already saved in the vault prior to
   Vault Lock are not affected.
-- `"MinRetentionDays"`: The Backup Vault Lock configuration that specifies the minimum
+- `"min_retention_days"`: The Backup Vault Lock configuration that specifies the minimum
   retention period that the vault retains its recovery points. This setting can be useful if,
   for example, your organization's policies require you to retain certain data for at least
   seven years (2555 days). If this parameter is not specified, Vault Lock will not enforce a
@@ -2022,20 +1537,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the vault prior to Vault Lock are not affected.
 """
 function put_backup_vault_lock_configuration(
-    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "PUT",
-        "/backup-vaults/$(backupVaultName)/vault-lock";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_backup_vault_lock_configuration(
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup-vaults/$(backupVaultName)/vault-lock",
@@ -2046,8 +1550,7 @@ function put_backup_vault_lock_configuration(
 end
 
 """
-    put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name)
-    put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name, params::Dict{String,<:Any})
+    put_backup_vault_notifications(backup_vault_events, snstopic_arn, backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Turns on notifications on a backup vault for the specified topic and events.
 
@@ -2071,24 +1574,9 @@ function put_backup_vault_notifications(
     SNSTopicArn,
     backupVaultName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return backup(
-        "PUT",
-        "/backup-vaults/$(backupVaultName)/notification-configuration",
-        Dict{String,Any}(
-            "BackupVaultEvents" => BackupVaultEvents, "SNSTopicArn" => SNSTopicArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_backup_vault_notifications(
-    BackupVaultEvents,
-    SNSTopicArn,
-    backupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup-vaults/$(backupVaultName)/notification-configuration",
@@ -2107,8 +1595,7 @@ function put_backup_vault_notifications(
 end
 
 """
-    start_backup_job(backup_vault_name, iam_role_arn, resource_arn)
-    start_backup_job(backup_vault_name, iam_role_arn, resource_arn, params::Dict{String,<:Any})
+    start_backup_job(backup_vault_name, iam_role_arn, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an on-demand backup job for the specified resource.
 
@@ -2123,20 +1610,20 @@ Starts an on-demand backup job for the specified resource.
   format of the ARN depends on the resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BackupOptions"`: Specifies the backup option for a selected resource. This option is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"backup_options"`: Specifies the backup option for a selected resource. This option is
   only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set
   to \"WindowsVSS\":\"enabled\" to enable the WindowsVSS backup option and create a Windows
   VSS backup. Set to \"WindowsVSS\"\"disabled\" to create a regular backup. The WindowsVSS
   option is not enabled by default.
-- `"CompleteWindowMinutes"`: A value in minutes during which a successfully started backup
-  must complete, or else AWS Backup will cancel the job. This value is optional. This value
-  begins counting down from when the backup was scheduled. It does not add additional time
-  for StartWindowMinutes, or if the backup started later than scheduled.
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+- `"complete_window_minutes"`: A value in minutes during which a successfully started
+  backup must complete, or else AWS Backup will cancel the job. This value is optional. This
+  value begins counting down from when the backup was scheduled. It does not add additional
+  time for StartWindowMinutes, or if the backup started later than scheduled.
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartBackupJob. Retrying a successful request with the same
   idempotency token results in a success message with no action taken.
-- `"Lifecycle"`: The lifecycle defines when a protected resource is transitioned to cold
+- `"lifecycle"`: The lifecycle defines when a protected resource is transitioned to cold
   storage and when it expires. Backup will transition and expire backups automatically
   according to the lifecycle that you define.  Backups transitioned to cold storage must be
   stored in cold storage for a minimum of 90 days. Therefore, the “expire after days”
@@ -2144,37 +1631,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   “transition to cold after days” setting cannot be changed after a backup has been
   transitioned to cold.  Only Amazon EFS file system backups can be transitioned to cold
   storage.
-- `"RecoveryPointTags"`: To help organize your resources, you can assign your own metadata
-  to the resources that you create. Each tag is a key-value pair.
-- `"StartWindowMinutes"`: A value in minutes after a backup is scheduled before a job will
-  be canceled if it doesn't start successfully. This value is optional, and the default is 8
-  hours.
+- `"recovery_point_tags"`: To help organize your resources, you can assign your own
+  metadata to the resources that you create. Each tag is a key-value pair.
+- `"start_window_minutes"`: A value in minutes after a backup is scheduled before a job
+  will be canceled if it doesn't start successfully. This value is optional, and the default
+  is 8 hours.
 """
 function start_backup_job(
     BackupVaultName,
     IamRoleArn,
     ResourceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return backup(
-        "PUT",
-        "/backup-jobs",
-        Dict{String,Any}(
-            "BackupVaultName" => BackupVaultName,
-            "IamRoleArn" => IamRoleArn,
-            "ResourceArn" => ResourceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_backup_job(
-    BackupVaultName,
-    IamRoleArn,
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/backup-jobs",
@@ -2195,8 +1665,7 @@ function start_backup_job(
 end
 
 """
-    start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name)
-    start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name, params::Dict{String,<:Any})
+    start_copy_job(destination_backup_vault_arn, iam_role_arn, recovery_point_arn, source_backup_vault_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a job to create a one-time copy of the specified resource. Does not support
 continuous backups.
@@ -2216,11 +1685,11 @@ continuous backups.
   letters, numbers, and hyphens.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartCopyJob. Retrying a successful request with the same
   idempotency token results in a success message with no action taken.
-- `"Lifecycle"`:
+- `"lifecycle"`:
 """
 function start_copy_job(
     DestinationBackupVaultArn,
@@ -2228,28 +1697,9 @@ function start_copy_job(
     RecoveryPointArn,
     SourceBackupVaultName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return backup(
-        "PUT",
-        "/copy-jobs",
-        Dict{String,Any}(
-            "DestinationBackupVaultArn" => DestinationBackupVaultArn,
-            "IamRoleArn" => IamRoleArn,
-            "RecoveryPointArn" => RecoveryPointArn,
-            "SourceBackupVaultName" => SourceBackupVaultName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_copy_job(
-    DestinationBackupVaultArn,
-    IamRoleArn,
-    RecoveryPointArn,
-    SourceBackupVaultName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/copy-jobs",
@@ -2271,8 +1721,7 @@ function start_copy_job(
 end
 
 """
-    start_report_job(report_plan_name)
-    start_report_job(report_plan_name, params::Dict{String,<:Any})
+    start_report_job(report_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an on-demand report job for the specified report plan.
 
@@ -2280,31 +1729,21 @@ Starts an on-demand report job for the specified report plan.
 - `report_plan_name`: The unique name of a report plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartReportJobInput. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
 """
-function start_report_job(reportPlanName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "POST",
-        "/audit/report-jobs/$(reportPlanName)",
-        Dict{String,Any}("IdempotencyToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_report_job(
-    reportPlanName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/audit/report-jobs/$(reportPlanName)",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("IdempotencyToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("idempotency_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,
@@ -2313,8 +1752,7 @@ function start_report_job(
 end
 
 """
-    start_restore_job(iam_role_arn, metadata, recovery_point_arn)
-    start_restore_job(iam_role_arn, metadata, recovery_point_arn, params::Dict{String,<:Any})
+    start_restore_job(iam_role_arn, metadata, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Recovers the saved resource identified by an Amazon Resource Name (ARN).
 
@@ -2344,11 +1782,11 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
   arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartRestoreJob. Retrying a successful request with the same
   idempotency token results in a success message with no action taken.
-- `"ResourceType"`: Starts a job to restore a recovery point for one of the following
+- `"resource_type"`: Starts a job to restore a recovery point for one of the following
   resources:    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for
   Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    RDS for Amazon
   Relational Database Service    Aurora for Amazon Aurora    Storage Gateway for Storage
@@ -2359,26 +1797,9 @@ function start_restore_job(
     Metadata,
     RecoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return backup(
-        "PUT",
-        "/restore-jobs",
-        Dict{String,Any}(
-            "IamRoleArn" => IamRoleArn,
-            "Metadata" => Metadata,
-            "RecoveryPointArn" => RecoveryPointArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_restore_job(
-    IamRoleArn,
-    Metadata,
-    RecoveryPointArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/restore-jobs",
@@ -2399,8 +1820,7 @@ function start_restore_job(
 end
 
 """
-    stop_backup_job(backup_job_id)
-    stop_backup_job(backup_job_id, params::Dict{String,<:Any})
+    stop_backup_job(backup_job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attempts to cancel a job to create a one-time backup of a resource.
 
@@ -2408,19 +1828,10 @@ Attempts to cancel a job to create a one-time backup of a resource.
 - `backup_job_id`: Uniquely identifies a request to Backup to back up a resource.
 
 """
-function stop_backup_job(backupJobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "POST",
-        "/backup-jobs/$(backupJobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_backup_job(
-    backupJobId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    backupJobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/backup-jobs/$(backupJobId)",
@@ -2431,8 +1842,7 @@ function stop_backup_job(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(tags, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault
 identified by an Amazon Resource Name (ARN).
@@ -2444,21 +1854,10 @@ identified by an Amazon Resource Name (ARN).
   on the type of the tagged resource.
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Tags,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/tags/$(resourceArn)",
@@ -2469,8 +1868,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(tag_key_list, resource_arn)
-    untag_resource(tag_key_list, resource_arn, params::Dict{String,<:Any})
+    untag_resource(tag_key_list, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a set of key-value pairs from a recovery point, backup plan, or backup vault
 identified by an Amazon Resource Name (ARN)
@@ -2482,22 +1880,9 @@ identified by an Amazon Resource Name (ARN)
 
 """
 function untag_resource(
-    TagKeyList, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TagKeyList, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "POST",
-        "/untag/$(resourceArn)",
-        Dict{String,Any}("TagKeyList" => TagKeyList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    TagKeyList,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/untag/$(resourceArn)",
@@ -2510,8 +1895,7 @@ function untag_resource(
 end
 
 """
-    update_backup_plan(backup_plan, backup_plan_id)
-    update_backup_plan(backup_plan, backup_plan_id, params::Dict{String,<:Any})
+    update_backup_plan(backup_plan, backup_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing backup plan identified by its backupPlanId with the input document in
 JSON format. The new version is uniquely identified by a VersionId.
@@ -2523,22 +1907,9 @@ JSON format. The new version is uniquely identified by a VersionId.
 
 """
 function update_backup_plan(
-    BackupPlan, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupPlan, backupPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "POST",
-        "/backup/plans/$(backupPlanId)",
-        Dict{String,Any}("BackupPlan" => BackupPlan);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_backup_plan(
-    BackupPlan,
-    backupPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/backup/plans/$(backupPlanId)",
@@ -2551,8 +1922,7 @@ function update_backup_plan(
 end
 
 """
-    update_framework(framework_name)
-    update_framework(framework_name, params::Dict{String,<:Any})
+    update_framework(framework_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing framework identified by its FrameworkName with the input document in
 JSON format.
@@ -2563,35 +1933,25 @@ JSON format.
   and underscores (_).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FrameworkControls"`: A list of the controls that make up the framework. Each control in
-  the list has a name, input parameters, and scope.
-- `"FrameworkDescription"`: An optional description of the framework with a maximum 1,024
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"framework_controls"`: A list of the controls that make up the framework. Each control
+  in the list has a name, input parameters, and scope.
+- `"framework_description"`: An optional description of the framework with a maximum 1,024
   characters.
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to UpdateFrameworkInput. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
 """
-function update_framework(frameworkName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "PUT",
-        "/audit/frameworks/$(frameworkName)",
-        Dict{String,Any}("IdempotencyToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_framework(
-    frameworkName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    frameworkName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/audit/frameworks/$(frameworkName)",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("IdempotencyToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("idempotency_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,
@@ -2600,27 +1960,22 @@ function update_framework(
 end
 
 """
-    update_global_settings()
-    update_global_settings(params::Dict{String,<:Any})
+    update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates whether the Amazon Web Services account is opted in to cross-account backup.
 Returns an error if the account is not an Organizations management account. Use the
 DescribeGlobalSettings API to determine the current settings.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalSettings"`: A value for isCrossAccountBackupEnabled and a Region. Example:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_settings"`: A value for isCrossAccountBackupEnabled and a Region. Example:
   update-global-settings --global-settings isCrossAccountBackupEnabled=false --region
   us-west-2.
 """
-function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "PUT", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_global_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function update_global_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/global-settings",
@@ -2631,8 +1986,7 @@ function update_global_settings(
 end
 
 """
-    update_recovery_point_lifecycle(backup_vault_name, recovery_point_arn)
-    update_recovery_point_lifecycle(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+    update_recovery_point_lifecycle(backup_vault_name, recovery_point_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected
 resource is transitioned to cold storage and when it expires. Backup transitions and
@@ -2654,8 +2008,8 @@ backups.
   arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Lifecycle"`: The lifecycle defines when a protected resource is transitioned to cold
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lifecycle"`: The lifecycle defines when a protected resource is transitioned to cold
   storage and when it expires. Backup transitions and expires backups automatically according
   to the lifecycle that you define.  Backups transitioned to cold storage must be stored in
   cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must
@@ -2664,21 +2018,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cold.
 """
 function update_recovery_point_lifecycle(
-    backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backup(
-        "POST",
-        "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_recovery_point_lifecycle(
     backupVaultName,
-    recoveryPointArn,
-    params::AbstractDict{String};
+    recoveryPointArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "POST",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)",
@@ -2689,8 +2034,7 @@ function update_recovery_point_lifecycle(
 end
 
 """
-    update_region_settings()
-    update_region_settings(params::Dict{String,<:Any})
+    update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the current service opt-in settings for the Region. If service-opt-in is enabled
 for a service, Backup tries to protect that service's resources in this Region, when the
@@ -2699,18 +2043,14 @@ does not try to protect that service's resources in this Region. Use the
 DescribeRegionSettings API to determine the resource types that are supported.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceTypeOptInPreference"`: Updates the list of services along with the opt-in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resource_type_opt_in_preference"`: Updates the list of services along with the opt-in
   preferences for the Region.
 """
-function update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return backup(
-        "PUT", "/account-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_region_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function update_region_settings(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/account-settings",
@@ -2721,8 +2061,7 @@ function update_region_settings(
 end
 
 """
-    update_report_plan(report_plan_name)
-    update_report_plan(report_plan_name, params::Dict{String,<:Any})
+    update_report_plan(report_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing report plan identified by its ReportPlanName with the input document in
 JSON format.
@@ -2733,43 +2072,31 @@ JSON format.
   and underscores (_).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to UpdateReportPlanInput. Retrying a successful request with the
   same idempotency token results in a success message with no action taken.
-- `"ReportDeliveryChannel"`: A structure that contains information about where to deliver
+- `"report_delivery_channel"`: A structure that contains information about where to deliver
   your reports, specifically your Amazon S3 bucket name, S3 key prefix, and the formats of
   your reports.
-- `"ReportPlanDescription"`: An optional description of the report plan with a maximum
+- `"report_plan_description"`: An optional description of the report plan with a maximum
   1,024 characters.
-- `"ReportSetting"`: Identifies the report template for the report. Reports are built using
-  a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
+- `"report_setting"`: Identifies the report template for the report. Reports are built
+  using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT |
   CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If
   the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API
   resource also describes the report coverage by Amazon Web Services Regions and frameworks.
 """
 function update_report_plan(
-    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+    reportPlanName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return backup(
-        "PUT",
-        "/audit/report-plans/$(reportPlanName)",
-        Dict{String,Any}("IdempotencyToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_report_plan(
-    reportPlanName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return backup(
         "PUT",
         "/audit/report-plans/$(reportPlanName)",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("IdempotencyToken" => string(uuid4())), params
+                _merge, Dict{String,Any}("idempotency_token" => string(uuid4())), params
             ),
         );
         aws_config=aws_config,

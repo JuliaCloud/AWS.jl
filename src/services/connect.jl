@@ -4,9 +4,57 @@ using AWS.AWSServices: connect
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "hierarchy_group_id" => "HierarchyGroupId",
+    "parent_group_id" => "ParentGroupId",
+    "outbound_caller_config" => "OutboundCallerConfig",
+    "traffic_type" => "TrafficType",
+    "client_token" => "ClientToken",
+    "permissions" => "Permissions",
+    "lex_v2_bot" => "LexV2Bot",
+    "attributes" => "Attributes",
+    "source_application_name" => "SourceApplicationName",
+    "queue_configs" => "QueueConfigs",
+    "groupings" => "Groupings",
+    "display_order" => "DisplayOrder",
+    "integration_type" => "integrationType",
+    "name" => "Name",
+    "max_results" => "maxResults",
+    "campaign_id" => "CampaignId",
+    "agent_status_types" => "AgentStatusTypes",
+    "contact_flow_types" => "contactFlowTypes",
+    "directory_user_id" => "DirectoryUserId",
+    "password" => "Password",
+    "source_phone_number" => "SourcePhoneNumber",
+    "time_zone" => "TimeZone",
+    "identity_info" => "IdentityInfo",
+    "initial_message" => "InitialMessage",
+    "next_token" => "nextToken",
+    "phone_number_country_codes" => "phoneNumberCountryCodes",
+    "directory_id" => "DirectoryId",
+    "state" => "State",
+    "quick_connect_types" => "QuickConnectTypes",
+    "config" => "Config",
+    "tags" => "Tags",
+    "answer_machine_detection_config" => "AnswerMachineDetectionConfig",
+    "phone_number_types" => "phoneNumberTypes",
+    "quick_connect_ids" => "QuickConnectIds",
+    "queue_types" => "queueTypes",
+    "lex_bot" => "LexBot",
+    "source_type" => "SourceType",
+    "reset_order_number" => "ResetOrderNumber",
+    "queue_id" => "QueueId",
+    "description" => "Description",
+    "source_application_url" => "SourceApplicationUrl",
+    "scheduled_time" => "ScheduledTime",
+    "references" => "References",
+    "instance_alias" => "InstanceAlias",
+    "max_contacts" => "MaxContacts",
+    "previous_contact_id" => "PreviousContactId",
+)
+
 """
-    associate_approved_origin(instance_id, origin)
-    associate_approved_origin(instance_id, origin, params::Dict{String,<:Any})
+    associate_approved_origin(instance_id, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Associates an
 approved origin to an Amazon Connect instance.
@@ -18,22 +66,9 @@ approved origin to an Amazon Connect instance.
 
 """
 function associate_approved_origin(
-    InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/approved-origin",
-        Dict{String,Any}("Origin" => Origin);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_approved_origin(
-    InstanceId,
-    Origin,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/approved-origin",
@@ -44,8 +79,7 @@ function associate_approved_origin(
 end
 
 """
-    associate_bot(instance_id)
-    associate_bot(instance_id, params::Dict{String,<:Any})
+    associate_bot(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Allows the
 specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
@@ -55,23 +89,14 @@ specified Amazon Connect instance to access the specified Amazon Lex or Amazon L
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LexBot"`:
-- `"LexV2Bot"`: The Amazon Lex V2 bot to associate with the instance.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lex_bot"`:
+- `"lex_v2_bot"`: The Amazon Lex V2 bot to associate with the instance.
 """
-function associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_bot(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/bot",
@@ -82,8 +107,7 @@ function associate_bot(
 end
 
 """
-    associate_instance_storage_config(instance_id, resource_type, storage_config)
-    associate_instance_storage_config(instance_id, resource_type, storage_config, params::Dict{String,<:Any})
+    associate_instance_storage_config(instance_id, resource_type, storage_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Associates a
 storage resource type for the first time. You can only associate one type of storage
@@ -105,22 +129,9 @@ function associate_instance_storage_config(
     ResourceType,
     StorageConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/storage-config",
-        Dict{String,Any}("ResourceType" => ResourceType, "StorageConfig" => StorageConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_instance_storage_config(
-    InstanceId,
-    ResourceType,
-    StorageConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/storage-config",
@@ -139,8 +150,7 @@ function associate_instance_storage_config(
 end
 
 """
-    associate_lambda_function(function_arn, instance_id)
-    associate_lambda_function(function_arn, instance_id, params::Dict{String,<:Any})
+    associate_lambda_function(function_arn, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Allows the
 specified Amazon Connect instance to access the specified Lambda function.
@@ -153,22 +163,9 @@ specified Amazon Connect instance to access the specified Lambda function.
 
 """
 function associate_lambda_function(
-    FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/lambda-function",
-        Dict{String,Any}("FunctionArn" => FunctionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_lambda_function(
-    FunctionArn,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/lambda-function",
@@ -181,8 +178,7 @@ function associate_lambda_function(
 end
 
 """
-    associate_lex_bot(instance_id, lex_bot)
-    associate_lex_bot(instance_id, lex_bot, params::Dict{String,<:Any})
+    associate_lex_bot(instance_id, lex_bot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Allows the
 specified Amazon Connect instance to access the specified Amazon Lex bot.
@@ -194,22 +190,9 @@ specified Amazon Connect instance to access the specified Amazon Lex bot.
 
 """
 function associate_lex_bot(
-    InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/lex-bot",
-        Dict{String,Any}("LexBot" => LexBot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_lex_bot(
-    InstanceId,
-    LexBot,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/lex-bot",
@@ -220,8 +203,7 @@ function associate_lex_bot(
 end
 
 """
-    associate_queue_quick_connects(instance_id, queue_id, quick_connect_ids)
-    associate_queue_quick_connects(instance_id, queue_id, quick_connect_ids, params::Dict{String,<:Any})
+    associate_queue_quick_connects(instance_id, queue_id, quick_connect_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Associates a
 set of quick connects with a queue.
@@ -234,23 +216,13 @@ set of quick connects with a queue.
 
 """
 function associate_queue_quick_connects(
-    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects",
-        Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_queue_quick_connects(
     InstanceId,
     QueueId,
-    QuickConnectIds,
-    params::AbstractDict{String};
+    QuickConnectIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/associate-quick-connects",
@@ -265,8 +237,7 @@ function associate_queue_quick_connects(
 end
 
 """
-    associate_routing_profile_queues(instance_id, queue_configs, routing_profile_id)
-    associate_routing_profile_queues(instance_id, queue_configs, routing_profile_id, params::Dict{String,<:Any})
+    associate_routing_profile_queues(instance_id, queue_configs, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a set of queues with a routing profile.
 
@@ -282,22 +253,9 @@ function associate_routing_profile_queues(
     QueueConfigs,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues",
-        Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_routing_profile_queues(
-    InstanceId,
-    QueueConfigs,
-    RoutingProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/associate-queues",
@@ -310,8 +268,7 @@ function associate_routing_profile_queues(
 end
 
 """
-    associate_security_key(instance_id, key)
-    associate_security_key(instance_id, key, params::Dict{String,<:Any})
+    associate_security_key(instance_id, key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Associates a
 security key to the instance.
@@ -323,22 +280,9 @@ security key to the instance.
 
 """
 function associate_security_key(
-    InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/security-key",
-        Dict{String,Any}("Key" => Key);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_security_key(
-    InstanceId,
-    Key,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/security-key",
@@ -349,8 +293,7 @@ function associate_security_key(
 end
 
 """
-    create_agent_status(instance_id, name, state)
-    create_agent_status(instance_id, name, state, params::Dict{String,<:Any})
+    create_agent_status(instance_id, name, state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Creates an
 agent status for the specified Amazon Connect instance.
@@ -362,29 +305,15 @@ agent status for the specified Amazon Connect instance.
 - `state`: The state of the status.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the status.
-- `"DisplayOrder"`: The display order of the status.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the status.
+- `"display_order"`: The display order of the status.
+- `"tags"`: One or more tags.
 """
 function create_agent_status(
-    InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/agent-status/$(InstanceId)",
-        Dict{String,Any}("Name" => Name, "State" => State);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_agent_status(
-    InstanceId,
-    Name,
-    State,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/agent-status/$(InstanceId)",
@@ -397,8 +326,7 @@ function create_agent_status(
 end
 
 """
-    create_contact_flow(content, instance_id, name, type)
-    create_contact_flow(content, instance_id, name, type, params::Dict{String,<:Any})
+    create_contact_flow(content, instance_id, name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a contact flow for the specified Amazon Connect instance. You can also create and
 update contact flows using the Amazon Connect Flow language.
@@ -411,29 +339,19 @@ update contact flows using the Amazon Connect Flow language.
   a Contact Flow Type in the Amazon Connect Administrator Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the contact flow.
-- `"Tags"`: One or more tags.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the contact flow.
+- `"tags"`: One or more tags.
 """
-function create_contact_flow(
-    Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/contact-flows/$(InstanceId)",
-        Dict{String,Any}("Content" => Content, "Name" => Name, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_contact_flow(
     Content,
     InstanceId,
     Name,
-    Type,
-    params::AbstractDict{String};
+    Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/contact-flows/$(InstanceId)",
@@ -450,8 +368,7 @@ function create_contact_flow(
 end
 
 """
-    create_hours_of_operation(config, instance_id, name, time_zone)
-    create_hours_of_operation(config, instance_id, name, time_zone, params::Dict{String,<:Any})
+    create_hours_of_operation(config, instance_id, name, time_zone; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates hours of operation.
 
@@ -464,29 +381,19 @@ Creates hours of operation.
 - `time_zone`: The time zone of the hours of operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the hours of operation.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the hours of operation.
+- `"tags"`: One or more tags.
 """
-function create_hours_of_operation(
-    Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/hours-of-operations/$(InstanceId)",
-        Dict{String,Any}("Config" => Config, "Name" => Name, "TimeZone" => TimeZone);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_hours_of_operation(
     Config,
     InstanceId,
     Name,
-    TimeZone,
-    params::AbstractDict{String};
+    TimeZone;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/hours-of-operations/$(InstanceId)",
@@ -505,8 +412,7 @@ function create_hours_of_operation(
 end
 
 """
-    create_instance(identity_management_type, inbound_calls_enabled, outbound_calls_enabled)
-    create_instance(identity_management_type, inbound_calls_enabled, outbound_calls_enabled, params::Dict{String,<:Any})
+    create_instance(identity_management_type, inbound_calls_enabled, outbound_calls_enabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Initiates an
 Amazon Connect instance with all the supported channels enabled. It does not attach any
@@ -523,36 +429,19 @@ has been an excessive number of attempts at creating or deleting instances. You 
 - `outbound_calls_enabled`: Your contact center allows outbound calls.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: The idempotency token.
-- `"DirectoryId"`: The identifier for the directory.
-- `"InstanceAlias"`: The name for your instance.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: The idempotency token.
+- `"directory_id"`: The identifier for the directory.
+- `"instance_alias"`: The name for your instance.
 """
 function create_instance(
     IdentityManagementType,
     InboundCallsEnabled,
     OutboundCallsEnabled;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/instance",
-        Dict{String,Any}(
-            "IdentityManagementType" => IdentityManagementType,
-            "InboundCallsEnabled" => InboundCallsEnabled,
-            "OutboundCallsEnabled" => OutboundCallsEnabled,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_instance(
-    IdentityManagementType,
-    InboundCallsEnabled,
-    OutboundCallsEnabled,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance",
@@ -573,10 +462,9 @@ function create_instance(
 end
 
 """
-    create_integration_association(instance_id, integration_arn, integration_type)
-    create_integration_association(instance_id, integration_arn, integration_type, params::Dict{String,<:Any})
+    create_integration_association(instance_id, integration_arn, integration_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates an Amazon Web Services resource association with an Amazon Connect instance.
+Creates an AWS resource association with an Amazon Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -585,38 +473,23 @@ Creates an Amazon Web Services resource association with an Amazon Connect insta
 - `integration_type`: The type of information to be ingested.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SourceApplicationName"`: The name of the external application. This field is only
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"source_application_name"`: The name of the external application. This field is only
   required for the EVENT integration type.
-- `"SourceApplicationUrl"`: The URL for the external application. This field is only
+- `"source_application_url"`: The URL for the external application. This field is only
   required for the EVENT integration type.
-- `"SourceType"`: The type of the data source. This field is only required for the EVENT
+- `"source_type"`: The type of the data source. This field is only required for the EVENT
   integration type.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+- `"tags"`: One or more tags.
 """
 function create_integration_association(
     InstanceId,
     IntegrationArn,
     IntegrationType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/integration-associations",
-        Dict{String,Any}(
-            "IntegrationArn" => IntegrationArn, "IntegrationType" => IntegrationType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_integration_association(
-    InstanceId,
-    IntegrationArn,
-    IntegrationType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/integration-associations",
@@ -635,8 +508,7 @@ function create_integration_association(
 end
 
 """
-    create_queue(hours_of_operation_id, instance_id, name)
-    create_queue(hours_of_operation_id, instance_id, name, params::Dict{String,<:Any})
+    create_queue(hours_of_operation_id, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Creates a new
 queue for the specified Amazon Connect instance.
@@ -648,32 +520,23 @@ queue for the specified Amazon Connect instance.
 - `name`: The name of the queue.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the queue.
-- `"MaxContacts"`: The maximum number of contacts that can be in the queue before it is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the queue.
+- `"max_contacts"`: The maximum number of contacts that can be in the queue before it is
   considered full.
-- `"OutboundCallerConfig"`: The outbound caller ID name, number, and outbound whisper flow.
-- `"QuickConnectIds"`: The quick connects available to agents who are working the queue.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+- `"outbound_caller_config"`: The outbound caller ID name, number, and outbound whisper
+  flow.
+- `"quick_connect_ids"`: The quick connects available to agents who are working the queue.
+- `"tags"`: One or more tags.
 """
-function create_queue(
-    HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/queues/$(InstanceId)",
-        Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_queue(
     HoursOfOperationId,
     InstanceId,
-    Name,
-    params::AbstractDict{String};
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/queues/$(InstanceId)",
@@ -692,8 +555,7 @@ function create_queue(
 end
 
 """
-    create_quick_connect(instance_id, name, quick_connect_config)
-    create_quick_connect(instance_id, name, quick_connect_config, params::Dict{String,<:Any})
+    create_quick_connect(instance_id, name, quick_connect_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a quick connect for the specified Amazon Connect instance.
 
@@ -704,28 +566,18 @@ Creates a quick connect for the specified Amazon Connect instance.
 - `quick_connect_config`: Configuration settings for the quick connect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the quick connect.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the quick connect.
+- `"tags"`: One or more tags.
 """
-function create_quick_connect(
-    InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/quick-connects/$(InstanceId)",
-        Dict{String,Any}("Name" => Name, "QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_quick_connect(
     InstanceId,
     Name,
-    QuickConnectConfig,
-    params::AbstractDict{String};
+    QuickConnectConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/quick-connects/$(InstanceId)",
@@ -744,8 +596,7 @@ function create_quick_connect(
 end
 
 """
-    create_routing_profile(default_outbound_queue_id, description, instance_id, media_concurrencies, name)
-    create_routing_profile(default_outbound_queue_id, description, instance_id, media_concurrencies, name, params::Dict{String,<:Any})
+    create_routing_profile(default_outbound_queue_id, description, instance_id, media_concurrencies, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new routing profile.
 
@@ -759,10 +610,10 @@ Creates a new routing profile.
 - `name`: The name of the routing profile. Must not be more than 127 characters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"QueueConfigs"`: The inbound queues associated with the routing profile. If no queue is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"queue_configs"`: The inbound queues associated with the routing profile. If no queue is
   added, the agent can make only outbound calls.
-- `"Tags"`: One or more tags.
+- `"tags"`: One or more tags.
 """
 function create_routing_profile(
     DefaultOutboundQueueId,
@@ -771,29 +622,9 @@ function create_routing_profile(
     MediaConcurrencies,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/routing-profiles/$(InstanceId)",
-        Dict{String,Any}(
-            "DefaultOutboundQueueId" => DefaultOutboundQueueId,
-            "Description" => Description,
-            "MediaConcurrencies" => MediaConcurrencies,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_routing_profile(
-    DefaultOutboundQueueId,
-    Description,
-    InstanceId,
-    MediaConcurrencies,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/routing-profiles/$(InstanceId)",
@@ -815,8 +646,7 @@ function create_routing_profile(
 end
 
 """
-    create_security_profile(instance_id, security_profile_name)
-    create_security_profile(instance_id, security_profile_name, params::Dict{String,<:Any})
+    create_security_profile(instance_id, security_profile_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Creates a
 security profile.
@@ -827,28 +657,18 @@ security profile.
 - `security_profile_name`: The name of the security profile.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the security profile.
-- `"Permissions"`: Permissions assigned to the security profile.
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the security profile.
+- `"permissions"`: Permissions assigned to the security profile.
+- `"tags"`: One or more tags.
 """
 function create_security_profile(
-    InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/security-profiles/$(InstanceId)",
-        Dict{String,Any}("SecurityProfileName" => SecurityProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_security_profile(
     InstanceId,
-    SecurityProfileName,
-    params::AbstractDict{String};
+    SecurityProfileName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/security-profiles/$(InstanceId)",
@@ -865,8 +685,7 @@ function create_security_profile(
 end
 
 """
-    create_use_case(instance_id, integration_association_id, use_case_type)
-    create_use_case(instance_id, integration_association_id, use_case_type, params::Dict{String,<:Any})
+    create_use_case(instance_id, integration_association_id, use_case_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a use case for an integration association.
 
@@ -878,30 +697,17 @@ Creates a use case for an integration association.
   integration association can have only one of each use case type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The tags used to organize, track, or control access for this resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: One or more tags.
 """
 function create_use_case(
     InstanceId,
     IntegrationAssociationId,
     UseCaseType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
-        Dict{String,Any}("UseCaseType" => UseCaseType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_use_case(
-    InstanceId,
-    IntegrationAssociationId,
-    UseCaseType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
@@ -914,8 +720,7 @@ function create_use_case(
 end
 
 """
-    create_user(instance_id, phone_config, routing_profile_id, security_profile_ids, username)
-    create_user(instance_id, phone_config, routing_profile_id, security_profile_ids, username, params::Dict{String,<:Any})
+    create_user(instance_id, phone_config, routing_profile_id, security_profile_ids, username; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a user account for the specified Amazon Connect instance. For information about how
 to create user accounts using the Amazon Connect console, see Add Users in the Amazon
@@ -932,8 +737,8 @@ Connect Administrator Guide.
   identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.@]+.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DirectoryUserId"`: The identifier of the user account in the directory used for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"directory_user_id"`: The identifier of the user account in the directory used for
   identity management. If Amazon Connect cannot access the directory, you can specify this
   identifier to authenticate users. If you include the identifier, we assume that Amazon
   Connect cannot access the directory. Otherwise, the identity information is used to
@@ -941,11 +746,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing directory for identity management in Amazon Connect when Amazon Connect cannot
   access your directory to authenticate users. If you are using SAML for identity management
   and include this parameter, an error is returned.
-- `"HierarchyGroupId"`: The identifier of the hierarchy group for the user.
-- `"IdentityInfo"`: The information about the identity of the user.
-- `"Password"`: The password for the user account. A password is required if you are using
+- `"hierarchy_group_id"`: The identifier of the hierarchy group for the user.
+- `"identity_info"`: The information about the identity of the user.
+- `"password"`: The password for the user account. A password is required if you are using
   Amazon Connect for identity management. Otherwise, it is an error to include a password.
-- `"Tags"`: One or more tags.
+- `"tags"`: One or more tags.
 """
 function create_user(
     InstanceId,
@@ -954,29 +759,9 @@ function create_user(
     SecurityProfileIds,
     Username;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/users/$(InstanceId)",
-        Dict{String,Any}(
-            "PhoneConfig" => PhoneConfig,
-            "RoutingProfileId" => RoutingProfileId,
-            "SecurityProfileIds" => SecurityProfileIds,
-            "Username" => Username,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user(
-    InstanceId,
-    PhoneConfig,
-    RoutingProfileId,
-    SecurityProfileIds,
-    Username,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/users/$(InstanceId)",
@@ -998,8 +783,7 @@ function create_user(
 end
 
 """
-    create_user_hierarchy_group(instance_id, name)
-    create_user_hierarchy_group(instance_id, name, params::Dict{String,<:Any})
+    create_user_hierarchy_group(instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new user hierarchy group.
 
@@ -1009,27 +793,14 @@ Creates a new user hierarchy group.
 - `name`: The name of the user hierarchy group. Must not be more than 100 characters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ParentGroupId"`: The identifier for the parent hierarchy group. The user hierarchy is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"parent_group_id"`: The identifier for the parent hierarchy group. The user hierarchy is
   created at level one if the parent group ID is null.
 """
 function create_user_hierarchy_group(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "PUT",
-        "/user-hierarchy-groups/$(InstanceId)",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user_hierarchy_group(
-    InstanceId,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/user-hierarchy-groups/$(InstanceId)",
@@ -1040,8 +811,7 @@ function create_user_hierarchy_group(
 end
 
 """
-    delete_hours_of_operation(hours_of_operation_id, instance_id)
-    delete_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
+    delete_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an hours of operation.
 
@@ -1052,21 +822,12 @@ Deletes an hours of operation.
 
 """
 function delete_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "DELETE",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_hours_of_operation(
     HoursOfOperationId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
@@ -1077,8 +838,7 @@ function delete_hours_of_operation(
 end
 
 """
-    delete_instance(instance_id)
-    delete_instance(instance_id, params::Dict{String,<:Any})
+    delete_instance(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes the
 Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances
@@ -1092,19 +852,10 @@ your account.
   in the ARN of the instance.
 
 """
-function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_instance(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)",
@@ -1115,11 +866,10 @@ function delete_instance(
 end
 
 """
-    delete_integration_association(instance_id, integration_association_id)
-    delete_integration_association(instance_id, integration_association_id, params::Dict{String,<:Any})
+    delete_integration_association(instance_id, integration_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Deletes an Amazon Web Services resource association from an Amazon Connect instance. The
-association must not have any use cases associated with it.
+Deletes an AWS resource association from an Amazon Connect instance. The association must
+not have any use cases associated with it.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
@@ -1128,21 +878,12 @@ association must not have any use cases associated with it.
 
 """
 function delete_integration_association(
-    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_integration_association(
     InstanceId,
-    IntegrationAssociationId,
-    params::AbstractDict{String};
+    IntegrationAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)",
@@ -1153,8 +894,7 @@ function delete_integration_association(
 end
 
 """
-    delete_quick_connect(instance_id, quick_connect_id)
-    delete_quick_connect(instance_id, quick_connect_id, params::Dict{String,<:Any})
+    delete_quick_connect(instance_id, quick_connect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a quick connect.
 
@@ -1165,21 +905,9 @@ Deletes a quick connect.
 
 """
 function delete_quick_connect(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "DELETE",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_quick_connect(
-    InstanceId,
-    QuickConnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)",
@@ -1190,8 +918,7 @@ function delete_quick_connect(
 end
 
 """
-    delete_security_profile(instance_id, security_profile_id)
-    delete_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+    delete_security_profile(instance_id, security_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes a
 security profile.
@@ -1203,21 +930,12 @@ security profile.
 
 """
 function delete_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "DELETE",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_security_profile(
     InstanceId,
-    SecurityProfileId,
-    params::AbstractDict{String};
+    SecurityProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
@@ -1228,8 +946,7 @@ function delete_security_profile(
 end
 
 """
-    delete_use_case(instance_id, integration_association_id, use_case_id)
-    delete_use_case(instance_id, integration_association_id, use_case_id, params::Dict{String,<:Any})
+    delete_use_case(instance_id, integration_association_id, use_case_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a use case from an integration association.
 
@@ -1245,21 +962,9 @@ function delete_use_case(
     IntegrationAssociationId,
     UseCaseId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_use_case(
-    InstanceId,
-    IntegrationAssociationId,
-    UseCaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases/$(UseCaseId)",
@@ -1270,8 +975,7 @@ function delete_use_case(
 end
 
 """
-    delete_user(instance_id, user_id)
-    delete_user(instance_id, user_id, params::Dict{String,<:Any})
+    delete_user(instance_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a user account from the specified Amazon Connect instance. For information about
 what happens to a user's data when their account is deleted, see Delete Users from Your
@@ -1283,20 +987,10 @@ Amazon Connect Instance in the Amazon Connect Administrator Guide.
 - `user_id`: The identifier of the user.
 
 """
-function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "DELETE",
-        "/users/$(InstanceId)/$(UserId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user(
-    InstanceId,
-    UserId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/users/$(InstanceId)/$(UserId)",
@@ -1307,8 +1001,7 @@ function delete_user(
 end
 
 """
-    delete_user_hierarchy_group(hierarchy_group_id, instance_id)
-    delete_user_hierarchy_group(hierarchy_group_id, instance_id, params::Dict{String,<:Any})
+    delete_user_hierarchy_group(hierarchy_group_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing user hierarchy group. It must not be associated with any agents or have
 any active child groups.
@@ -1320,21 +1013,12 @@ any active child groups.
 
 """
 function delete_user_hierarchy_group(
-    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "DELETE",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_user_hierarchy_group(
     HierarchyGroupId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)",
@@ -1345,8 +1029,7 @@ function delete_user_hierarchy_group(
 end
 
 """
-    describe_agent_status(agent_status_id, instance_id)
-    describe_agent_status(agent_status_id, instance_id, params::Dict{String,<:Any})
+    describe_agent_status(agent_status_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Describes an
 agent status.
@@ -1358,21 +1041,9 @@ agent status.
 
 """
 function describe_agent_status(
-    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_agent_status(
-    AgentStatusId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
@@ -1383,8 +1054,33 @@ function describe_agent_status(
 end
 
 """
-    describe_contact_flow(contact_flow_id, instance_id)
-    describe_contact_flow(contact_flow_id, instance_id, params::Dict{String,<:Any})
+    describe_contact(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+This API is in preview release for Amazon Connect and is subject to change. Describes the
+specified contact.   Contact information is available in Amazon Connect for 24 months, and
+then it is deleted.
+
+# Arguments
+- `contact_id`: The identifier of the initial contact.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+"""
+function describe_contact(
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
+)
+    params = amazonify(MAPPING, kwargs)
+    return connect(
+        "GET",
+        "/contacts/$(InstanceId)/$(ContactId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_contact_flow(contact_flow_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified contact flow. You can also create and update contact flows using
 the Amazon Connect Flow language.
@@ -1395,21 +1091,9 @@ the Amazon Connect Flow language.
 
 """
 function describe_contact_flow(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_contact_flow(
-    ContactFlowId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)",
@@ -1420,8 +1104,7 @@ function describe_contact_flow(
 end
 
 """
-    describe_hours_of_operation(hours_of_operation_id, instance_id)
-    describe_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
+    describe_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the hours of operation.
 
@@ -1432,21 +1115,12 @@ Describes the hours of operation.
 
 """
 function describe_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_hours_of_operation(
     HoursOfOperationId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
@@ -1457,8 +1131,7 @@ function describe_hours_of_operation(
 end
 
 """
-    describe_instance(instance_id)
-    describe_instance(instance_id, params::Dict{String,<:Any})
+    describe_instance(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns the
 current state of the specified instance identifier. It tracks the instance while it is
@@ -1472,19 +1145,10 @@ invoked.
   in the ARN of the instance.
 
 """
-function describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_instance(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)",
@@ -1495,8 +1159,7 @@ function describe_instance(
 end
 
 """
-    describe_instance_attribute(attribute_type, instance_id)
-    describe_instance_attribute(attribute_type, instance_id, params::Dict{String,<:Any})
+    describe_instance_attribute(attribute_type, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Describes the
 specified instance attribute.
@@ -1508,21 +1171,9 @@ specified instance attribute.
 
 """
 function describe_instance_attribute(
-    AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/attribute/$(AttributeType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_attribute(
-    AttributeType,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/attribute/$(AttributeType)",
@@ -1533,8 +1184,7 @@ function describe_instance_attribute(
 end
 
 """
-    describe_instance_storage_config(association_id, instance_id, resource_type)
-    describe_instance_storage_config(association_id, instance_id, resource_type, params::Dict{String,<:Any})
+    describe_instance_storage_config(association_id, instance_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Retrieves the
 current storage configurations for the specified resource type, association ID, and
@@ -1553,22 +1203,9 @@ function describe_instance_storage_config(
     InstanceId,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_storage_config(
-    AssociationId,
-    InstanceId,
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
@@ -1581,8 +1218,7 @@ function describe_instance_storage_config(
 end
 
 """
-    describe_queue(instance_id, queue_id)
-    describe_queue(instance_id, queue_id, params::Dict{String,<:Any})
+    describe_queue(instance_id, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Describes the
 specified queue.
@@ -1594,21 +1230,9 @@ specified queue.
 
 """
 function describe_queue(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/queues/$(InstanceId)/$(QueueId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_queue(
-    InstanceId,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)",
@@ -1619,8 +1243,7 @@ function describe_queue(
 end
 
 """
-    describe_quick_connect(instance_id, quick_connect_id)
-    describe_quick_connect(instance_id, quick_connect_id, params::Dict{String,<:Any})
+    describe_quick_connect(instance_id, quick_connect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the quick connect.
 
@@ -1631,21 +1254,9 @@ Describes the quick connect.
 
 """
 function describe_quick_connect(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_quick_connect(
-    InstanceId,
-    QuickConnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)",
@@ -1656,8 +1267,7 @@ function describe_quick_connect(
 end
 
 """
-    describe_routing_profile(instance_id, routing_profile_id)
-    describe_routing_profile(instance_id, routing_profile_id, params::Dict{String,<:Any})
+    describe_routing_profile(instance_id, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified routing profile.
 
@@ -1668,21 +1278,12 @@ Describes the specified routing profile.
 
 """
 function describe_routing_profile(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_routing_profile(
     InstanceId,
-    RoutingProfileId,
-    params::AbstractDict{String};
+    RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)",
@@ -1693,8 +1294,7 @@ function describe_routing_profile(
 end
 
 """
-    describe_security_profile(instance_id, security_profile_id)
-    describe_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+    describe_security_profile(instance_id, security_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Gets basic
 information about the security profle.
@@ -1706,21 +1306,12 @@ information about the security profle.
 
 """
 function describe_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_security_profile(
     InstanceId,
-    SecurityProfileId,
-    params::AbstractDict{String};
+    SecurityProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
@@ -1731,8 +1322,7 @@ function describe_security_profile(
 end
 
 """
-    describe_user(instance_id, user_id)
-    describe_user(instance_id, user_id, params::Dict{String,<:Any})
+    describe_user(instance_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified user account. You can find the instance ID in the console (it’s
 the final part of the ARN). The console does not display the user IDs. Instead, list the
@@ -1745,21 +1335,9 @@ users and note the IDs provided in the output.
 
 """
 function describe_user(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/users/$(InstanceId)/$(UserId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_user(
-    InstanceId,
-    UserId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/users/$(InstanceId)/$(UserId)",
@@ -1770,8 +1348,7 @@ function describe_user(
 end
 
 """
-    describe_user_hierarchy_group(hierarchy_group_id, instance_id)
-    describe_user_hierarchy_group(hierarchy_group_id, instance_id, params::Dict{String,<:Any})
+    describe_user_hierarchy_group(hierarchy_group_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified hierarchy group.
 
@@ -1782,21 +1359,12 @@ Describes the specified hierarchy group.
 
 """
 function describe_user_hierarchy_group(
-    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_user_hierarchy_group(
     HierarchyGroupId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)",
@@ -1807,8 +1375,7 @@ function describe_user_hierarchy_group(
 end
 
 """
-    describe_user_hierarchy_structure(instance_id)
-    describe_user_hierarchy_structure(instance_id, params::Dict{String,<:Any})
+    describe_user_hierarchy_structure(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the hierarchy structure of the specified Amazon Connect instance.
 
@@ -1818,20 +1385,9 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
 
 """
 function describe_user_hierarchy_structure(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/user-hierarchy-structure/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_user_hierarchy_structure(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/user-hierarchy-structure/$(InstanceId)",
@@ -1842,8 +1398,7 @@ function describe_user_hierarchy_structure(
 end
 
 """
-    disassociate_approved_origin(instance_id, origin)
-    disassociate_approved_origin(instance_id, origin, params::Dict{String,<:Any})
+    disassociate_approved_origin(instance_id, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Revokes access
 to integrated applications from Amazon Connect.
@@ -1855,22 +1410,9 @@ to integrated applications from Amazon Connect.
 
 """
 function disassociate_approved_origin(
-    InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/approved-origin",
-        Dict{String,Any}("origin" => origin);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_approved_origin(
-    InstanceId,
-    origin,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/approved-origin",
@@ -1881,8 +1423,7 @@ function disassociate_approved_origin(
 end
 
 """
-    disassociate_bot(instance_id)
-    disassociate_bot(instance_id, params::Dict{String,<:Any})
+    disassociate_bot(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Revokes
 authorization from the specified instance to access the specified Amazon Lex or Amazon Lex
@@ -1893,23 +1434,14 @@ V2 bot.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LexBot"`:
-- `"LexV2Bot"`: The Amazon Lex V2 bot to disassociate from the instance.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lex_bot"`:
+- `"lex_v2_bot"`: The Amazon Lex V2 bot to disassociate from the instance.
 """
-function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/bot";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_bot(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/instance/$(InstanceId)/bot",
@@ -1920,8 +1452,7 @@ function disassociate_bot(
 end
 
 """
-    disassociate_instance_storage_config(association_id, instance_id, resource_type)
-    disassociate_instance_storage_config(association_id, instance_id, resource_type, params::Dict{String,<:Any})
+    disassociate_instance_storage_config(association_id, instance_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Removes the
 storage type configurations for the specified resource type and association ID.
@@ -1939,22 +1470,9 @@ function disassociate_instance_storage_config(
     InstanceId,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_instance_storage_config(
-    AssociationId,
-    InstanceId,
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
@@ -1967,8 +1485,7 @@ function disassociate_instance_storage_config(
 end
 
 """
-    disassociate_lambda_function(instance_id, function_arn)
-    disassociate_lambda_function(instance_id, function_arn, params::Dict{String,<:Any})
+    disassociate_lambda_function(instance_id, function_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Remove the
 Lambda function from the dropdown options available in the relevant contact flow blocks.
@@ -1980,22 +1497,9 @@ Lambda function from the dropdown options available in the relevant contact flow
 
 """
 function disassociate_lambda_function(
-    InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/lambda-function",
-        Dict{String,Any}("functionArn" => functionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_lambda_function(
-    InstanceId,
-    functionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/lambda-function",
@@ -2008,8 +1512,7 @@ function disassociate_lambda_function(
 end
 
 """
-    disassociate_lex_bot(instance_id, bot_name, lex_region)
-    disassociate_lex_bot(instance_id, bot_name, lex_region, params::Dict{String,<:Any})
+    disassociate_lex_bot(instance_id, bot_name, lex_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Revokes
 authorization from the specified instance to access the specified Amazon Lex bot.
@@ -2022,23 +1525,13 @@ authorization from the specified instance to access the specified Amazon Lex bot
 
 """
 function disassociate_lex_bot(
-    InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/lex-bot",
-        Dict{String,Any}("botName" => botName, "lexRegion" => lexRegion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_lex_bot(
     InstanceId,
     botName,
-    lexRegion,
-    params::AbstractDict{String};
+    lexRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/lex-bot",
@@ -2055,8 +1548,7 @@ function disassociate_lex_bot(
 end
 
 """
-    disassociate_queue_quick_connects(instance_id, queue_id, quick_connect_ids)
-    disassociate_queue_quick_connects(instance_id, queue_id, quick_connect_ids, params::Dict{String,<:Any})
+    disassociate_queue_quick_connects(instance_id, queue_id, quick_connect_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Disassociates a
 set of quick connects from a queue.
@@ -2069,23 +1561,13 @@ set of quick connects from a queue.
 
 """
 function disassociate_queue_quick_connects(
-    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects",
-        Dict{String,Any}("QuickConnectIds" => QuickConnectIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_queue_quick_connects(
     InstanceId,
     QueueId,
-    QuickConnectIds,
-    params::AbstractDict{String};
+    QuickConnectIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/disassociate-quick-connects",
@@ -2100,8 +1582,7 @@ function disassociate_queue_quick_connects(
 end
 
 """
-    disassociate_routing_profile_queues(instance_id, queue_references, routing_profile_id)
-    disassociate_routing_profile_queues(instance_id, queue_references, routing_profile_id, params::Dict{String,<:Any})
+    disassociate_routing_profile_queues(instance_id, queue_references, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a set of queues from a routing profile.
 
@@ -2117,22 +1598,9 @@ function disassociate_routing_profile_queues(
     QueueReferences,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues",
-        Dict{String,Any}("QueueReferences" => QueueReferences);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_routing_profile_queues(
-    InstanceId,
-    QueueReferences,
-    RoutingProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/disassociate-queues",
@@ -2147,8 +1615,7 @@ function disassociate_routing_profile_queues(
 end
 
 """
-    disassociate_security_key(association_id, instance_id)
-    disassociate_security_key(association_id, instance_id, params::Dict{String,<:Any})
+    disassociate_security_key(association_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes the
 specified security key.
@@ -2161,21 +1628,9 @@ specified security key.
 
 """
 function disassociate_security_key(
-    AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "DELETE",
-        "/instance/$(InstanceId)/security-key/$(AssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_security_key(
-    AssociationId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/security-key/$(AssociationId)",
@@ -2186,8 +1641,7 @@ function disassociate_security_key(
 end
 
 """
-    get_contact_attributes(initial_contact_id, instance_id)
-    get_contact_attributes(initial_contact_id, instance_id, params::Dict{String,<:Any})
+    get_contact_attributes(initial_contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the contact attributes for the specified contact.
 
@@ -2197,21 +1651,12 @@ Retrieves the contact attributes for the specified contact.
 
 """
 function get_contact_attributes(
-    InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/contact/attributes/$(InstanceId)/$(InitialContactId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_contact_attributes(
     InitialContactId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/contact/attributes/$(InstanceId)/$(InitialContactId)",
@@ -2222,8 +1667,7 @@ function get_contact_attributes(
 end
 
 """
-    get_current_metric_data(current_metrics, filters, instance_id)
-    get_current_metric_data(current_metrics, filters, instance_id, params::Dict{String,<:Any})
+    get_current_metric_data(current_metrics, filters, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the real-time metric data from the specified Amazon Connect instance. For a
 description of each metric, see Real-time Metrics Definitions in the Amazon Connect
@@ -2256,35 +1700,25 @@ Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Groupings"`: The grouping applied to the metrics returned. For example, when grouped by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"groupings"`: The grouping applied to the metrics returned. For example, when grouped by
   QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. If
   you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels
   are supported. If no Grouping is included in the request, a summary of metrics is returned.
-- `"MaxResults"`: The maximum number of results to return per page.
-- `"NextToken"`: The token for the next set of results. Use the value returned in the
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results. The token
   expires after 5 minutes from the time it is created. Subsequent requests that use the token
   must use the same request parameters as the request that generated the token.
 """
 function get_current_metric_data(
-    CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/metrics/current/$(InstanceId)",
-        Dict{String,Any}("CurrentMetrics" => CurrentMetrics, "Filters" => Filters);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_current_metric_data(
     CurrentMetrics,
     Filters,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/metrics/current/$(InstanceId)",
@@ -2301,8 +1735,7 @@ function get_current_metric_data(
 end
 
 """
-    get_federation_token(instance_id)
-    get_federation_token(instance_id, params::Dict{String,<:Any})
+    get_federation_token(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a token for federation.  This API doesn't support root users. If you try to
 invoke GetFederationToken with root credentials, an error message similar to the following
@@ -2314,19 +1747,10 @@ with Amazon Connect
   in the ARN of the instance.
 
 """
-function get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/user/federate/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_federation_token(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/user/federate/$(InstanceId)",
@@ -2337,8 +1761,7 @@ function get_federation_token(
 end
 
 """
-    get_metric_data(end_time, filters, historical_metrics, instance_id, start_time)
-    get_metric_data(end_time, filters, historical_metrics, instance_id, start_time, params::Dict{String,<:Any})
+    get_metric_data(end_time, filters, historical_metrics, instance_id, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets historical metric data from the specified Amazon Connect instance. For a description
 of each historical metric, see Historical Metrics Definitions in the Amazon Connect
@@ -2384,13 +1807,13 @@ Administrator Guide.
   24 hours before the time of the request. Historical metrics are available only for 24 hours.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Groupings"`: The grouping applied to the metrics returned. For example, when results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"groupings"`: The grouping applied to the metrics returned. For example, when results
   are grouped by queue, the metrics returned are grouped by queue. The values returned apply
   to the metrics for each queue rather than aggregated for all queues. If no grouping is
   specified, a summary of metrics for all queues is returned.
-- `"MaxResults"`: The maximum number of results to return per page.
-- `"NextToken"`: The token for the next set of results. Use the value returned in the
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function get_metric_data(
@@ -2400,29 +1823,9 @@ function get_metric_data(
     InstanceId,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/metrics/historical/$(InstanceId)",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "Filters" => Filters,
-            "HistoricalMetrics" => HistoricalMetrics,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_metric_data(
-    EndTime,
-    Filters,
-    HistoricalMetrics,
-    InstanceId,
-    StartTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/metrics/historical/$(InstanceId)",
@@ -2444,8 +1847,7 @@ function get_metric_data(
 end
 
 """
-    list_agent_statuses(instance_id)
-    list_agent_statuses(instance_id, params::Dict{String,<:Any})
+    list_agent_statuses(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Lists agent
 statuses.
@@ -2455,25 +1857,16 @@ statuses.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AgentStatusTypes"`: Available agent status types.
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"agent_status_types"`: Available agent status types.
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/agent-status/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_agent_statuses(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/agent-status/$(InstanceId)",
@@ -2484,8 +1877,7 @@ function list_agent_statuses(
 end
 
 """
-    list_approved_origins(instance_id)
-    list_approved_origins(instance_id, params::Dict{String,<:Any})
+    list_approved_origins(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of all approved origins associated with the instance.
@@ -2495,26 +1887,15 @@ paginated list of all approved origins associated with the instance.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_approved_origins(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/approved-origins";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_approved_origins(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/approved-origins",
@@ -2525,8 +1906,7 @@ function list_approved_origins(
 end
 
 """
-    list_bots(instance_id, lex_version)
-    list_bots(instance_id, lex_version, params::Dict{String,<:Any})
+    list_bots(instance_id, lex_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. For the
 specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots
@@ -2538,28 +1918,15 @@ currently associated with the instance.
 - `lex_version`: The version of Amazon Lex or Amazon Lex V2.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_bots(
-    InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/bots",
-        Dict{String,Any}("lexVersion" => lexVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_bots(
-    InstanceId,
-    lexVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/bots",
@@ -2572,8 +1939,7 @@ function list_bots(
 end
 
 """
-    list_contact_flows(instance_id)
-    list_contact_flows(instance_id, params::Dict{String,<:Any})
+    list_contact_flows(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the contact flows for the specified Amazon Connect instance. You
 can also create and update contact flows using the Amazon Connect Flow language. For more
@@ -2585,25 +1951,16 @@ Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactFlowTypes"`: The type of contact flow.
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"contact_flow_types"`: The type of contact flow.
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/contact-flows-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contact_flows(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/contact-flows-summary/$(InstanceId)",
@@ -2614,8 +1971,44 @@ function list_contact_flows(
 end
 
 """
-    list_hours_of_operations(instance_id)
-    list_hours_of_operations(instance_id, params::Dict{String,<:Any})
+    list_contact_references(contact_id, instance_id, reference_types; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+This API is in preview release for Amazon Connect and is subject to change. For the
+specified referenceTypes, returns a list of references associated with the contact.
+
+# Arguments
+- `contact_id`: The identifier of the initial contact.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `reference_types`: The type of reference.
+
+# Optional Parameters
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.  This is not
+  expected to be set since the value returned in the previous response is always null.
+"""
+function list_contact_references(
+    ContactId,
+    InstanceId,
+    referenceTypes;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
+)
+    params = amazonify(MAPPING, kwargs)
+    return connect(
+        "GET",
+        "/contact/references/$(InstanceId)/$(ContactId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("referenceTypes" => referenceTypes), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_hours_of_operations(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the hours of operation for the specified Amazon Connect
 instance. For more information about hours of operation, see Set the Hours of Operation for
@@ -2626,26 +2019,15 @@ a Queue in the Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_hours_of_operations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/hours-of-operations-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_hours_of_operations(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/hours-of-operations-summary/$(InstanceId)",
@@ -2656,8 +2038,7 @@ function list_hours_of_operations(
 end
 
 """
-    list_instance_attributes(instance_id)
-    list_instance_attributes(instance_id, params::Dict{String,<:Any})
+    list_instance_attributes(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of all attribute types for the given instance.
@@ -2667,26 +2048,15 @@ paginated list of all attribute types for the given instance.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/attributes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_instance_attributes(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/attributes",
@@ -2697,8 +2067,7 @@ function list_instance_attributes(
 end
 
 """
-    list_instance_storage_configs(instance_id, resource_type)
-    list_instance_storage_configs(instance_id, resource_type, params::Dict{String,<:Any})
+    list_instance_storage_configs(instance_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of storage configs for the identified instance and resource type.
@@ -2709,28 +2078,15 @@ paginated list of storage configs for the identified instance and resource type.
 - `resource_type`: A valid resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_storage_configs(
-    InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/storage-configs",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_instance_storage_configs(
-    InstanceId,
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/storage-configs",
@@ -2743,8 +2099,7 @@ function list_instance_storage_configs(
 end
 
 """
-    list_instances()
-    list_instances(params::Dict{String,<:Any})
+    list_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Return a list
 of instances which are in active state, creation-in-progress state, and failed state.
@@ -2752,57 +2107,39 @@ Instances that aren't successfully created (they are in a failed state) are retu
 for 24 hours after the CreateInstance API was invoked.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET", "/instance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_integration_associations(instance_id)
-    list_integration_associations(instance_id, params::Dict{String,<:Any})
+    list_integration_associations(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Provides summary information about the Amazon Web Services resource associations for the
-specified Amazon Connect instance.
+Provides summary information about the AWS resource associations for the specified Amazon
+Connect instance.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"integrationType"`: The type of integration.
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"integration_type"`:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_integration_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/integration-associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_integration_associations(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/integration-associations",
@@ -2813,8 +2150,7 @@ function list_integration_associations(
 end
 
 """
-    list_lambda_functions(instance_id)
-    list_lambda_functions(instance_id, params::Dict{String,<:Any})
+    list_lambda_functions(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of all Lambda functions that display in the dropdown options in the relevant
@@ -2825,26 +2161,15 @@ contact flow blocks.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_lambda_functions(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/lambda-functions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_lambda_functions(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/lambda-functions",
@@ -2855,8 +2180,7 @@ function list_lambda_functions(
 end
 
 """
-    list_lex_bots(instance_id)
-    list_lex_bots(instance_id, params::Dict{String,<:Any})
+    list_lex_bots(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of all the Amazon Lex bots currently associated with the instance.
@@ -2866,25 +2190,16 @@ paginated list of all the Amazon Lex bots currently associated with the instance
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page. If no value is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page. If no value is
   specified, the default is 10.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/lex-bots";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_lex_bots(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/lex-bots",
@@ -2895,8 +2210,7 @@ function list_lex_bots(
 end
 
 """
-    list_phone_numbers(instance_id)
-    list_phone_numbers(instance_id, params::Dict{String,<:Any})
+    list_phone_numbers(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the phone numbers for the specified Amazon Connect instance.
 For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center
@@ -2907,26 +2221,17 @@ in the Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"phoneNumberCountryCodes"`: The ISO country code.
-- `"phoneNumberTypes"`: The type of phone number.
+- `"phone_number_country_codes"`: The ISO country code.
+- `"phone_number_types"`: The type of phone number.
 """
-function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/phone-numbers-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_phone_numbers(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/phone-numbers-summary/$(InstanceId)",
@@ -2937,8 +2242,7 @@ function list_phone_numbers(
 end
 
 """
-    list_prompts(instance_id)
-    list_prompts(instance_id, params::Dict{String,<:Any})
+    list_prompts(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the prompts for the specified Amazon Connect instance.
 
@@ -2946,24 +2250,15 @@ Provides information about the prompts for the specified Amazon Connect instance
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/prompts-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_prompts(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/prompts-summary/$(InstanceId)",
@@ -2974,8 +2269,7 @@ function list_prompts(
 end
 
 """
-    list_queue_quick_connects(instance_id, queue_id)
-    list_queue_quick_connects(instance_id, queue_id, params::Dict{String,<:Any})
+    list_queue_quick_connects(instance_id, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Lists the quick
 connects associated with a queue.
@@ -2986,27 +2280,15 @@ connects associated with a queue.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_queue_quick_connects(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/queues/$(InstanceId)/$(QueueId)/quick-connects";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_queue_quick_connects(
-    InstanceId,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/queues/$(InstanceId)/$(QueueId)/quick-connects",
@@ -3017,8 +2299,7 @@ function list_queue_quick_connects(
 end
 
 """
-    list_queues(instance_id)
-    list_queues(instance_id, params::Dict{String,<:Any})
+    list_queues(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the queues for the specified Amazon Connect instance. If you do
 not specify a QueueTypes parameter, both standard and agent queues are returned. This might
@@ -3031,25 +2312,16 @@ Queues: Standard and Agent in the Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"queueTypes"`: The type of queue.
+- `"queue_types"`: The type of queue.
 """
-function list_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/queues-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_queues(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/queues-summary/$(InstanceId)",
@@ -3060,8 +2332,7 @@ function list_queues(
 end
 
 """
-    list_quick_connects(instance_id)
-    list_quick_connects(instance_id, params::Dict{String,<:Any})
+    list_quick_connects(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about the quick connects for the specified Amazon Connect instance.
 
@@ -3070,27 +2341,18 @@ Provides information about the quick connects for the specified Amazon Connect i
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"QuickConnectTypes"`: The type of quick connect. In the Amazon Connect console, when you
-  create a quick connect, you are prompted to assign one of the following types: Agent
-  (USER), External (PHONE_NUMBER), or Queue (QUEUE).
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+- `"quick_connect_types"`: The type of quick connect. In the Amazon Connect console, when
+  you create a quick connect, you are prompted to assign one of the following types: Agent
+  (USER), External (PHONE_NUMBER), or Queue (QUEUE).
 """
-function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/quick-connects/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_quick_connects(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/quick-connects/$(InstanceId)",
@@ -3101,8 +2363,7 @@ function list_quick_connects(
 end
 
 """
-    list_routing_profile_queues(instance_id, routing_profile_id)
-    list_routing_profile_queues(instance_id, routing_profile_id, params::Dict{String,<:Any})
+    list_routing_profile_queues(instance_id, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the queues associated with a routing profile.
 
@@ -3112,27 +2373,18 @@ Lists the queues associated with a routing profile.
 - `routing_profile_id`: The identifier of the routing profile.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profile_queues(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_routing_profile_queues(
     InstanceId,
-    RoutingProfileId,
-    params::AbstractDict{String};
+    RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
@@ -3143,8 +2395,7 @@ function list_routing_profile_queues(
 end
 
 """
-    list_routing_profiles(instance_id)
-    list_routing_profiles(instance_id, params::Dict{String,<:Any})
+    list_routing_profiles(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides summary information about the routing profiles for the specified Amazon Connect
 instance. For more information about routing profiles, see Routing Profiles and Create a
@@ -3155,26 +2406,15 @@ Routing Profile in the Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/routing-profiles-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_routing_profiles(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/routing-profiles-summary/$(InstanceId)",
@@ -3185,8 +2425,7 @@ function list_routing_profiles(
 end
 
 """
-    list_security_keys(instance_id)
-    list_security_keys(instance_id, params::Dict{String,<:Any})
+    list_security_keys(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Returns a
 paginated list of all security keys associated with the instance.
@@ -3196,24 +2435,15 @@ paginated list of all security keys associated with the instance.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/security-keys";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_security_keys(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/security-keys",
@@ -3224,8 +2454,7 @@ function list_security_keys(
 end
 
 """
-    list_security_profile_permissions(instance_id, security_profile_id)
-    list_security_profile_permissions(instance_id, security_profile_id, params::Dict{String,<:Any})
+    list_security_profile_permissions(instance_id, security_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Lists the
 permissions granted to a security profile.
@@ -3236,27 +2465,18 @@ permissions granted to a security profile.
 - `security_profile_id`: The identifier for the security profle.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profile_permissions(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_security_profile_permissions(
     InstanceId,
-    SecurityProfileId,
-    params::AbstractDict{String};
+    SecurityProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/security-profiles-permissions/$(InstanceId)/$(SecurityProfileId)",
@@ -3267,39 +2487,26 @@ function list_security_profile_permissions(
 end
 
 """
-    list_security_profiles(instance_id)
-    list_security_profiles(instance_id, params::Dict{String,<:Any})
+    list_security_profiles(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-This API is in preview release for Amazon Connect and is subject to change. Provides
-summary information about the security profiles for the specified Amazon Connect instance.
-For more information about security profiles, see Security Profiles in the Amazon Connect
-Administrator Guide.
+Provides summary information about the security profiles for the specified Amazon Connect
+instance. For more information about security profiles, see Security Profiles in the Amazon
+Connect Administrator Guide.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/security-profiles-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_security_profiles(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/security-profiles-summary/$(InstanceId)",
@@ -3310,8 +2517,7 @@ function list_security_profiles(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified resource. For sample policies that use tags, see Amazon
 Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
@@ -3321,20 +2527,9 @@ Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/tags/$(resourceArn)",
@@ -3345,8 +2540,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_use_cases(instance_id, integration_association_id)
-    list_use_cases(instance_id, integration_association_id, params::Dict{String,<:Any})
+    list_use_cases(instance_id, integration_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the use cases for the integration association.
 
@@ -3356,27 +2550,18 @@ Lists the use cases for the integration association.
 - `integration_association_id`: The identifier for the integration association.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_use_cases(
-    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "GET",
-        "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_use_cases(
     InstanceId,
-    IntegrationAssociationId,
-    params::AbstractDict{String};
+    IntegrationAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)/use-cases",
@@ -3387,8 +2572,7 @@ function list_use_cases(
 end
 
 """
-    list_user_hierarchy_groups(instance_id)
-    list_user_hierarchy_groups(instance_id, params::Dict{String,<:Any})
+    list_user_hierarchy_groups(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides summary information about the hierarchy groups for the specified Amazon Connect
 instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the
@@ -3399,26 +2583,15 @@ Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_user_hierarchy_groups(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "GET",
-        "/user-hierarchy-groups-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_user_hierarchy_groups(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/user-hierarchy-groups-summary/$(InstanceId)",
@@ -3429,8 +2602,7 @@ function list_user_hierarchy_groups(
 end
 
 """
-    list_users(instance_id)
-    list_users(instance_id, params::Dict{String,<:Any})
+    list_users(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides summary information about the users for the specified Amazon Connect instance.
 
@@ -3439,24 +2611,15 @@ Provides summary information about the users for the specified Amazon Connect in
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "GET",
-        "/users-summary/$(InstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_users(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "GET",
         "/users-summary/$(InstanceId)",
@@ -3467,8 +2630,7 @@ function list_users(
 end
 
 """
-    resume_contact_recording(contact_id, initial_contact_id, instance_id)
-    resume_contact_recording(contact_id, initial_contact_id, instance_id, params::Dict{String,<:Any})
+    resume_contact_recording(contact_id, initial_contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 When a contact is being recorded, and the recording has been suspended using
 SuspendContactRecording, this API resumes recording the call. Only voice recordings are
@@ -3487,26 +2649,9 @@ function resume_contact_recording(
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/resume-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function resume_contact_recording(
-    ContactId,
-    InitialContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/resume-recording",
@@ -3527,8 +2672,7 @@ function resume_contact_recording(
 end
 
 """
-    start_chat_contact(contact_flow_id, instance_id, participant_details)
-    start_chat_contact(contact_flow_id, instance_id, participant_details, params::Dict{String,<:Any})
+    start_chat_contact(contact_flow_id, instance_id, participant_details; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Initiates a contact flow to start a new chat for the customer. Response of this API
 provides a token required to obtain credentials from the CreateParticipantConnection API in
@@ -3554,41 +2698,23 @@ Administrator Guide.
 - `participant_details`: Information identifying the participant.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: A custom key-value pair using an attribute map. The attributes are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes"`: A custom key-value pair using an attribute map. The attributes are
   standard Amazon Connect attributes. They can be accessed in contact flows just like any
   other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs
   per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"InitialMessage"`: The initial message to be sent to the newly created chat.
+- `"initial_message"`: The initial message to be sent to the newly created chat.
 """
 function start_chat_contact(
     ContactFlowId,
     InstanceId,
     ParticipantDetails;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/contact/chat",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "InstanceId" => InstanceId,
-            "ParticipantDetails" => ParticipantDetails,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_chat_contact(
-    ContactFlowId,
-    InstanceId,
-    ParticipantDetails,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/contact/chat",
@@ -3599,7 +2725,7 @@ function start_chat_contact(
                     "ContactFlowId" => ContactFlowId,
                     "InstanceId" => InstanceId,
                     "ParticipantDetails" => ParticipantDetails,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3610,8 +2736,7 @@ function start_chat_contact(
 end
 
 """
-    start_contact_recording(contact_id, initial_contact_id, instance_id, voice_recording_configuration)
-    start_contact_recording(contact_id, initial_contact_id, instance_id, voice_recording_configuration, params::Dict{String,<:Any})
+    start_contact_recording(contact_id, initial_contact_id, instance_id, voice_recording_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts recording the contact when the agent joins the call. StartContactRecording is a
 one-time action. For example, if you use StopContactRecording to stop recording an ongoing
@@ -3636,28 +2761,9 @@ function start_contact_recording(
     InstanceId,
     VoiceRecordingConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/start-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-            "VoiceRecordingConfiguration" => VoiceRecordingConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_contact_recording(
-    ContactId,
-    InitialContactId,
-    InstanceId,
-    VoiceRecordingConfiguration,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/start-recording",
@@ -3679,8 +2785,7 @@ function start_contact_recording(
 end
 
 """
-    start_contact_streaming(chat_streaming_configuration, client_token, contact_id, instance_id)
-    start_contact_streaming(chat_streaming_configuration, client_token, contact_id, instance_id, params::Dict{String,<:Any})
+    start_contact_streaming(chat_streaming_configuration, client_token, contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Initiates real-time message streaming for a new chat contact.  For more information about
 message streaming, see Enable real-time chat message streaming in the Amazon Connect
@@ -3703,28 +2808,9 @@ function start_contact_streaming(
     ContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/start-streaming",
-        Dict{String,Any}(
-            "ChatStreamingConfiguration" => ChatStreamingConfiguration,
-            "ClientToken" => ClientToken,
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_contact_streaming(
-    ChatStreamingConfiguration,
-    ClientToken,
-    ContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/start-streaming",
@@ -3746,8 +2832,7 @@ function start_contact_streaming(
 end
 
 """
-    start_outbound_voice_contact(contact_flow_id, destination_phone_number, instance_id)
-    start_outbound_voice_contact(contact_flow_id, destination_phone_number, instance_id, params::Dict{String,<:Any})
+    start_outbound_voice_contact(contact_flow_id, destination_phone_number, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Places an outbound call to a contact, and then initiates the contact flow. It performs the
 actions in the contact flow that's specified (in ContactFlowId). Agents do not initiate the
@@ -3775,24 +2860,24 @@ Amazon Connect Administrator Guide.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AnswerMachineDetectionConfig"`: Configuration of the answering machine detection for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"answer_machine_detection_config"`: Configuration of the answering machine detection for
   this outbound call.
-- `"Attributes"`: A custom key-value pair using an attribute map. The attributes are
+- `"attributes"`: A custom key-value pair using an attribute map. The attributes are
   standard Amazon Connect attributes, and can be accessed in contact flows just like any
   other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs
   per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-- `"CampaignId"`: The campaign identifier of the outbound communication.
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+- `"campaign_id"`: The campaign identifier of the outbound communication.
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. The token is valid for 7 days after creation. If a contact is
   already started, the contact ID is returned.
-- `"QueueId"`: The queue for the call. If you specify a queue, the phone displayed for
+- `"queue_id"`: The queue for the call. If you specify a queue, the phone displayed for
   caller ID is the phone number specified in the queue. If you do not specify a queue, the
   queue defined in the contact flow is used. If you do not specify a queue, you must specify
   a source phone number.
-- `"SourcePhoneNumber"`: The phone number associated with the Amazon Connect instance, in
+- `"source_phone_number"`: The phone number associated with the Amazon Connect instance, in
   E.164 format. If you do not specify a source phone number, you must specify a queue.
-- `"TrafficType"`: Denotes the class of traffic. Calls with different traffic types are
+- `"traffic_type"`: Denotes the class of traffic. Calls with different traffic types are
   handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if
   EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
 """
@@ -3801,27 +2886,9 @@ function start_outbound_voice_contact(
     DestinationPhoneNumber,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "PUT",
-        "/contact/outbound-voice",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "DestinationPhoneNumber" => DestinationPhoneNumber,
-            "InstanceId" => InstanceId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_outbound_voice_contact(
-    ContactFlowId,
-    DestinationPhoneNumber,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/contact/outbound-voice",
@@ -3832,7 +2899,7 @@ function start_outbound_voice_contact(
                     "ContactFlowId" => ContactFlowId,
                     "DestinationPhoneNumber" => DestinationPhoneNumber,
                     "InstanceId" => InstanceId,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3843,10 +2910,9 @@ function start_outbound_voice_contact(
 end
 
 """
-    start_task_contact(contact_flow_id, instance_id, name)
-    start_task_contact(contact_flow_id, instance_id, name, params::Dict{String,<:Any})
+    start_task_contact(contact_flow_id, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Initiates a contact flow to start a new task.
+Initiates a contact flow to start a new task immediately or at a future date and time.
 
 # Arguments
 - `contact_flow_id`: The identifier of the contact flow for initiating the tasks. To see
@@ -3861,42 +2927,30 @@ Initiates a contact flow to start a new task.
 - `name`: The name of a task that is shown to an agent in the Contact Control Panel (CCP).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: A custom key-value pair using an attribute map. The attributes are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes"`: A custom key-value pair using an attribute map. The attributes are
   standard Amazon Connect attributes, and can be accessed in contact flows just like any
   other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs
   per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"Description"`: A description of the task that is shown to an agent in the Contact
+- `"description"`: A description of the task that is shown to an agent in the Contact
   Control Panel (CCP).
-- `"PreviousContactId"`: The identifier of the previous chat, voice, or task contact.
-- `"References"`: A formatted URL that is shown to an agent in the Contact Control Panel
+- `"previous_contact_id"`: The identifier of the previous chat, voice, or task contact.
+- `"references"`: A formatted URL that is shown to an agent in the Contact Control Panel
   (CCP).
+- `"scheduled_time"`: The timestamp, in Unix Epoch seconds format, at which to start
+  running the inbound contact flow. The scheduled time cannot be in the past. It must be
+  within up to 6 days in future.
 """
-function start_task_contact(
-    ContactFlowId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "PUT",
-        "/contact/task",
-        Dict{String,Any}(
-            "ContactFlowId" => ContactFlowId,
-            "InstanceId" => InstanceId,
-            "Name" => Name,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_task_contact(
     ContactFlowId,
     InstanceId,
-    Name,
-    params::AbstractDict{String};
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "PUT",
         "/contact/task",
@@ -3907,7 +2961,7 @@ function start_task_contact(
                     "ContactFlowId" => ContactFlowId,
                     "InstanceId" => InstanceId,
                     "Name" => Name,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3918,8 +2972,7 @@ function start_task_contact(
 end
 
 """
-    stop_contact(contact_id, instance_id)
-    stop_contact(contact_id, instance_id, params::Dict{String,<:Any})
+    stop_contact(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Ends the specified contact.
 
@@ -3930,22 +2983,9 @@ Ends the specified contact.
 
 """
 function stop_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/contact/stop",
-        Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_contact(
-    ContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/stop",
@@ -3962,8 +3002,7 @@ function stop_contact(
 end
 
 """
-    stop_contact_recording(contact_id, initial_contact_id, instance_id)
-    stop_contact_recording(contact_id, initial_contact_id, instance_id, params::Dict{String,<:Any})
+    stop_contact_recording(contact_id, initial_contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops recording a call when a contact is being recorded. StopContactRecording is a one-time
 action. If you use StopContactRecording to stop recording an ongoing call, you can't use
@@ -3985,26 +3024,9 @@ function stop_contact_recording(
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/stop-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_contact_recording(
-    ContactId,
-    InitialContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/stop-recording",
@@ -4025,8 +3047,7 @@ function stop_contact_recording(
 end
 
 """
-    stop_contact_streaming(contact_id, instance_id, streaming_id)
-    stop_contact_streaming(contact_id, instance_id, streaming_id, params::Dict{String,<:Any})
+    stop_contact_streaming(contact_id, instance_id, streaming_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Ends message streaming on a specified contact. To restart message streaming on that
 contact, call the StartContactStreaming API.
@@ -4040,27 +3061,13 @@ contact, call the StartContactStreaming API.
 
 """
 function stop_contact_streaming(
-    ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/contact/stop-streaming",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InstanceId" => InstanceId,
-            "StreamingId" => StreamingId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_contact_streaming(
     ContactId,
     InstanceId,
-    StreamingId,
-    params::AbstractDict{String};
+    StreamingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/stop-streaming",
@@ -4081,8 +3088,7 @@ function stop_contact_streaming(
 end
 
 """
-    suspend_contact_recording(contact_id, initial_contact_id, instance_id)
-    suspend_contact_recording(contact_id, initial_contact_id, instance_id, params::Dict{String,<:Any})
+    suspend_contact_recording(contact_id, initial_contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 When a contact is being recorded, this API suspends recording the call. For example, you
 might suspend the call recording while collecting sensitive information, such as a credit
@@ -4103,26 +3109,9 @@ function suspend_contact_recording(
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/suspend-recording",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function suspend_contact_recording(
-    ContactId,
-    InitialContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/suspend-recording",
@@ -4143,8 +3132,7 @@ function suspend_contact_recording(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified resource. The supported resource types are users,
 routing profiles, queues, quick connects, contact flows, agent status, and hours of
@@ -4157,21 +3145,10 @@ Examples in the Amazon Connect Administrator Guide.
   \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return connect(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/tags/$(resourceArn)",
@@ -4182,8 +3159,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from the specified resource.
 
@@ -4193,22 +3169,9 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -4219,8 +3182,7 @@ function untag_resource(
 end
 
 """
-    update_agent_status(agent_status_id, instance_id)
-    update_agent_status(agent_status_id, instance_id, params::Dict{String,<:Any})
+    update_agent_status(agent_status_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates agent
 status.
@@ -4231,29 +3193,17 @@ status.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the agent status.
-- `"DisplayOrder"`: The display order of the agent status.
-- `"Name"`: The name of the agent status.
-- `"ResetOrderNumber"`: A number indicating the reset order of the agent status.
-- `"State"`: The state of the agent status.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the agent status.
+- `"display_order"`: The display order of the agent status.
+- `"name"`: The name of the agent status.
+- `"reset_order_number"`: A number indicating the reset order of the agent status.
+- `"state"`: The state of the agent status.
 """
 function update_agent_status(
-    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/agent-status/$(InstanceId)/$(AgentStatusId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_agent_status(
-    AgentStatusId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/agent-status/$(InstanceId)/$(AgentStatusId)",
@@ -4264,8 +3214,41 @@ function update_agent_status(
 end
 
 """
-    update_contact_attributes(attributes, initial_contact_id, instance_id)
-    update_contact_attributes(attributes, initial_contact_id, instance_id, params::Dict{String,<:Any})
+    update_contact(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+This API is in preview release for Amazon Connect and is subject to change. Adds or updates
+user defined contact information associated with the specified contact. At least one field
+to be updated must be present in the request.  You can add or update user-defined contact
+information for both ongoing and completed contacts.
+
+# Arguments
+- `contact_id`: The identifier of the contact. This is the identifier of the contact
+  associated with the first interaction with your contact center.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the contact.
+- `"name"`: The name of the contact.
+- `"references"`: A formatted URL that is shown to an agent in the Contact Control Panel
+  (CCP).
+"""
+function update_contact(
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
+)
+    params = amazonify(MAPPING, kwargs)
+    return connect(
+        "POST",
+        "/contacts/$(InstanceId)/$(ContactId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_contact_attributes(attributes, initial_contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or updates user-defined contact attributes associated with the specified contact.
 You can create or update user-defined attributes for both ongoing and completed contacts.
@@ -4300,26 +3283,9 @@ function update_contact_attributes(
     InitialContactId,
     InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/contact/attributes",
-        Dict{String,Any}(
-            "Attributes" => Attributes,
-            "InitialContactId" => InitialContactId,
-            "InstanceId" => InstanceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_contact_attributes(
-    Attributes,
-    InitialContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact/attributes",
@@ -4340,8 +3306,7 @@ function update_contact_attributes(
 end
 
 """
-    update_contact_flow_content(contact_flow_id, content, instance_id)
-    update_contact_flow_content(contact_flow_id, content, instance_id, params::Dict{String,<:Any})
+    update_contact_flow_content(contact_flow_id, content, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified contact flow. You can also create and update contact flows using the
 Amazon Connect Flow language.
@@ -4355,23 +3320,13 @@ Amazon Connect Flow language.
 
 """
 function update_contact_flow_content(
-    ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
-        Dict{String,Any}("Content" => Content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_contact_flow_content(
     ContactFlowId,
     Content,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/content",
@@ -4382,8 +3337,7 @@ function update_contact_flow_content(
 end
 
 """
-    update_contact_flow_name(contact_flow_id, instance_id)
-    update_contact_flow_name(contact_flow_id, instance_id, params::Dict{String,<:Any})
+    update_contact_flow_name(contact_flow_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The name of the contact flow. You can also create and update contact flows using the Amazon
 Connect Flow language.
@@ -4393,26 +3347,14 @@ Connect Flow language.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the contact flow.
-- `"Name"`: The name of the contact flow.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the contact flow.
+- `"name"`: The name of the contact flow.
 """
 function update_contact_flow_name(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/contact-flows/$(InstanceId)/$(ContactFlowId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_contact_flow_name(
-    ContactFlowId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/contact-flows/$(InstanceId)/$(ContactFlowId)/name",
@@ -4423,8 +3365,48 @@ function update_contact_flow_name(
 end
 
 """
-    update_hours_of_operation(hours_of_operation_id, instance_id)
-    update_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
+    update_contact_schedule(contact_id, instance_id, scheduled_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+Updates the scheduled time of a task contact that is already scheduled.
+
+# Arguments
+- `contact_id`: The identifier of the contact.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+- `scheduled_time`: The timestamp, in Unix Epoch seconds format, at which to start running
+  the inbound contact flow. The scheduled time cannot be in the past. It must be within up to
+  6 days in future.
+
+"""
+function update_contact_schedule(
+    ContactId,
+    InstanceId,
+    ScheduledTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
+)
+    params = amazonify(MAPPING, kwargs)
+    return connect(
+        "POST",
+        "/contact/schedule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "InstanceId" => InstanceId,
+                    "ScheduledTime" => ScheduledTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_hours_of_operation(hours_of_operation_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the hours of operation.
 
@@ -4434,28 +3416,19 @@ Updates the hours of operation.
   in the ARN of the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Config"`: Configuration information of the hours of operation.
-- `"Description"`: The description of the hours of operation.
-- `"Name"`: The name of the hours of operation.
-- `"TimeZone"`: The time zone of the hours of operation.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"config"`: Configuration information of the hours of operation.
+- `"description"`: The description of the hours of operation.
+- `"name"`: The name of the hours of operation.
+- `"time_zone"`: The time zone of the hours of operation.
 """
 function update_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_hours_of_operation(
     HoursOfOperationId,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/hours-of-operations/$(InstanceId)/$(HoursOfOperationId)",
@@ -4466,39 +3439,27 @@ function update_hours_of_operation(
 end
 
 """
-    update_instance_attribute(attribute_type, instance_id, value)
-    update_instance_attribute(attribute_type, instance_id, value, params::Dict{String,<:Any})
+    update_instance_attribute(attribute_type, instance_id, value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 value for the specified attribute type.
 
 # Arguments
 - `attribute_type`: The type of attribute.  Only allowlisted customers can consume
-  USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for
-  allowlisting.
+  USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
   in the ARN of the instance.
 - `value`: The value for the attribute. Maximum character limit is 100.
 
 """
 function update_instance_attribute(
-    AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/attribute/$(AttributeType)",
-        Dict{String,Any}("Value" => Value);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_instance_attribute(
     AttributeType,
     InstanceId,
-    Value,
-    params::AbstractDict{String};
+    Value;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/instance/$(InstanceId)/attribute/$(AttributeType)",
@@ -4509,8 +3470,7 @@ function update_instance_attribute(
 end
 
 """
-    update_instance_storage_config(association_id, instance_id, storage_config, resource_type)
-    update_instance_storage_config(association_id, instance_id, storage_config, resource_type, params::Dict{String,<:Any})
+    update_instance_storage_config(association_id, instance_id, storage_config, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates an
 existing configuration for a resource type. This API is idempotent.
@@ -4530,23 +3490,9 @@ function update_instance_storage_config(
     StorageConfig,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/instance/$(InstanceId)/storage-config/$(AssociationId)",
-        Dict{String,Any}("StorageConfig" => StorageConfig, "resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_instance_storage_config(
-    AssociationId,
-    InstanceId,
-    StorageConfig,
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/instance/$(InstanceId)/storage-config/$(AssociationId)",
@@ -4565,8 +3511,7 @@ function update_instance_storage_config(
 end
 
 """
-    update_queue_hours_of_operation(hours_of_operation_id, instance_id, queue_id)
-    update_queue_hours_of_operation(hours_of_operation_id, instance_id, queue_id, params::Dict{String,<:Any})
+    update_queue_hours_of_operation(hours_of_operation_id, instance_id, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 hours of operation for the specified queue.
@@ -4583,22 +3528,9 @@ function update_queue_hours_of_operation(
     InstanceId,
     QueueId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/hours-of-operation",
-        Dict{String,Any}("HoursOfOperationId" => HoursOfOperationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_hours_of_operation(
-    HoursOfOperationId,
-    InstanceId,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/hours-of-operation",
@@ -4613,8 +3545,7 @@ function update_queue_hours_of_operation(
 end
 
 """
-    update_queue_max_contacts(instance_id, queue_id)
-    update_queue_max_contacts(instance_id, queue_id, params::Dict{String,<:Any})
+    update_queue_max_contacts(instance_id, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 maximum number of contacts allowed in a queue before it is considered full.
@@ -4625,26 +3556,14 @@ maximum number of contacts allowed in a queue before it is considered full.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxContacts"`: The maximum number of contacts that can be in the queue before it is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_contacts"`: The maximum number of contacts that can be in the queue before it is
   considered full.
 """
 function update_queue_max_contacts(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/max-contacts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_max_contacts(
-    InstanceId,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/max-contacts",
@@ -4655,8 +3574,7 @@ function update_queue_max_contacts(
 end
 
 """
-    update_queue_name(instance_id, queue_id)
-    update_queue_name(instance_id, queue_id, params::Dict{String,<:Any})
+    update_queue_name(instance_id, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 name and description of a queue. At least Name or Description must be provided.
@@ -4667,26 +3585,14 @@ name and description of a queue. At least Name or Description must be provided.
 - `queue_id`: The identifier for the queue.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the queue.
-- `"Name"`: The name of the queue.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the queue.
+- `"name"`: The name of the queue.
 """
 function update_queue_name(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_name(
-    InstanceId,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/name",
@@ -4697,8 +3603,7 @@ function update_queue_name(
 end
 
 """
-    update_queue_outbound_caller_config(instance_id, outbound_caller_config, queue_id)
-    update_queue_outbound_caller_config(instance_id, outbound_caller_config, queue_id, params::Dict{String,<:Any})
+    update_queue_outbound_caller_config(instance_id, outbound_caller_config, queue_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 outbound caller ID name, number, and outbound whisper flow for a specified queue.
@@ -4715,22 +3620,9 @@ function update_queue_outbound_caller_config(
     OutboundCallerConfig,
     QueueId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config",
-        Dict{String,Any}("OutboundCallerConfig" => OutboundCallerConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_outbound_caller_config(
-    InstanceId,
-    OutboundCallerConfig,
-    QueueId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/outbound-caller-config",
@@ -4747,8 +3639,7 @@ function update_queue_outbound_caller_config(
 end
 
 """
-    update_queue_status(instance_id, queue_id, status)
-    update_queue_status(instance_id, queue_id, status, params::Dict{String,<:Any})
+    update_queue_status(instance_id, queue_id, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates the
 status of the queue.
@@ -4761,23 +3652,13 @@ status of the queue.
 
 """
 function update_queue_status(
-    InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/queues/$(InstanceId)/$(QueueId)/status",
-        Dict{String,Any}("Status" => Status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_queue_status(
     InstanceId,
     QueueId,
-    Status,
-    params::AbstractDict{String};
+    Status;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/queues/$(InstanceId)/$(QueueId)/status",
@@ -4788,8 +3669,7 @@ function update_queue_status(
 end
 
 """
-    update_quick_connect_config(instance_id, quick_connect_config, quick_connect_id)
-    update_quick_connect_config(instance_id, quick_connect_config, quick_connect_id, params::Dict{String,<:Any})
+    update_quick_connect_config(instance_id, quick_connect_config, quick_connect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration settings for the specified quick connect.
 
@@ -4806,22 +3686,9 @@ function update_quick_connect_config(
     QuickConnectConfig,
     QuickConnectId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)/config",
-        Dict{String,Any}("QuickConnectConfig" => QuickConnectConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_quick_connect_config(
-    InstanceId,
-    QuickConnectConfig,
-    QuickConnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)/config",
@@ -4836,8 +3703,7 @@ function update_quick_connect_config(
 end
 
 """
-    update_quick_connect_name(instance_id, quick_connect_id)
-    update_quick_connect_name(instance_id, quick_connect_id, params::Dict{String,<:Any})
+    update_quick_connect_name(instance_id, quick_connect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name and description of a quick connect. The request accepts the following data
 in JSON format. At least Name or Description must be provided.
@@ -4848,26 +3714,14 @@ in JSON format. At least Name or Description must be provided.
 - `quick_connect_id`: The identifier for the quick connect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the quick connect.
-- `"Name"`: The name of the quick connect.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the quick connect.
+- `"name"`: The name of the quick connect.
 """
 function update_quick_connect_name(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/quick-connects/$(InstanceId)/$(QuickConnectId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_quick_connect_name(
-    InstanceId,
-    QuickConnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/quick-connects/$(InstanceId)/$(QuickConnectId)/name",
@@ -4878,8 +3732,7 @@ function update_quick_connect_name(
 end
 
 """
-    update_routing_profile_concurrency(instance_id, media_concurrencies, routing_profile_id)
-    update_routing_profile_concurrency(instance_id, media_concurrencies, routing_profile_id, params::Dict{String,<:Any})
+    update_routing_profile_concurrency(instance_id, media_concurrencies, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the channels that agents can handle in the Contact Control Panel (CCP) for a
 routing profile.
@@ -4897,22 +3750,9 @@ function update_routing_profile_concurrency(
     MediaConcurrencies,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency",
-        Dict{String,Any}("MediaConcurrencies" => MediaConcurrencies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_profile_concurrency(
-    InstanceId,
-    MediaConcurrencies,
-    RoutingProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/concurrency",
@@ -4927,8 +3767,7 @@ function update_routing_profile_concurrency(
 end
 
 """
-    update_routing_profile_default_outbound_queue(default_outbound_queue_id, instance_id, routing_profile_id)
-    update_routing_profile_default_outbound_queue(default_outbound_queue_id, instance_id, routing_profile_id, params::Dict{String,<:Any})
+    update_routing_profile_default_outbound_queue(default_outbound_queue_id, instance_id, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the default outbound queue of a routing profile.
 
@@ -4944,22 +3783,9 @@ function update_routing_profile_default_outbound_queue(
     InstanceId,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue",
-        Dict{String,Any}("DefaultOutboundQueueId" => DefaultOutboundQueueId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_profile_default_outbound_queue(
-    DefaultOutboundQueueId,
-    InstanceId,
-    RoutingProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/default-outbound-queue",
@@ -4976,8 +3802,7 @@ function update_routing_profile_default_outbound_queue(
 end
 
 """
-    update_routing_profile_name(instance_id, routing_profile_id)
-    update_routing_profile_name(instance_id, routing_profile_id, params::Dict{String,<:Any})
+    update_routing_profile_name(instance_id, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name and description of a routing profile. The request accepts the following
 data in JSON format. At least Name or Description must be provided.
@@ -4988,27 +3813,18 @@ data in JSON format. At least Name or Description must be provided.
 - `routing_profile_id`: The identifier of the routing profile.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the routing profile. Must not be more than 250
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the routing profile. Must not be more than 250
   characters.
-- `"Name"`: The name of the routing profile. Must not be more than 127 characters.
+- `"name"`: The name of the routing profile. Must not be more than 127 characters.
 """
 function update_routing_profile_name(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_profile_name(
     InstanceId,
-    RoutingProfileId,
-    params::AbstractDict{String};
+    RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/name",
@@ -5019,8 +3835,7 @@ function update_routing_profile_name(
 end
 
 """
-    update_routing_profile_queues(instance_id, queue_configs, routing_profile_id)
-    update_routing_profile_queues(instance_id, queue_configs, routing_profile_id, params::Dict{String,<:Any})
+    update_routing_profile_queues(instance_id, queue_configs, routing_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the properties associated with a set of queues for a routing profile.
 
@@ -5037,22 +3852,9 @@ function update_routing_profile_queues(
     QueueConfigs,
     RoutingProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
-        Dict{String,Any}("QueueConfigs" => QueueConfigs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_profile_queues(
-    InstanceId,
-    QueueConfigs,
-    RoutingProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/routing-profiles/$(InstanceId)/$(RoutingProfileId)/queues",
@@ -5065,8 +3867,7 @@ function update_routing_profile_queues(
 end
 
 """
-    update_security_profile(instance_id, security_profile_id)
-    update_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
+    update_security_profile(instance_id, security_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API is in preview release for Amazon Connect and is subject to change. Updates a
 security profile.
@@ -5077,26 +3878,17 @@ security profile.
 - `security_profile_id`: The identifier for the security profle.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the security profile.
-- `"Permissions"`: The permissions granted to a security profile.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the security profile.
+- `"permissions"`: The permissions granted to a security profile.
 """
 function update_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/security-profiles/$(InstanceId)/$(SecurityProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_security_profile(
     InstanceId,
-    SecurityProfileId,
-    params::AbstractDict{String};
+    SecurityProfileId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/security-profiles/$(InstanceId)/$(SecurityProfileId)",
@@ -5107,8 +3899,7 @@ function update_security_profile(
 end
 
 """
-    update_user_hierarchy(instance_id, user_id)
-    update_user_hierarchy(instance_id, user_id, params::Dict{String,<:Any})
+    update_user_hierarchy(instance_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns the specified hierarchy group to the specified user.
 
@@ -5118,25 +3909,13 @@ Assigns the specified hierarchy group to the specified user.
 - `user_id`: The identifier of the user account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HierarchyGroupId"`: The identifier of the hierarchy group.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"hierarchy_group_id"`: The identifier of the hierarchy group.
 """
 function update_user_hierarchy(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/hierarchy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_hierarchy(
-    InstanceId,
-    UserId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/hierarchy",
@@ -5147,8 +3926,7 @@ function update_user_hierarchy(
 end
 
 """
-    update_user_hierarchy_group_name(hierarchy_group_id, instance_id, name)
-    update_user_hierarchy_group_name(hierarchy_group_id, instance_id, name, params::Dict{String,<:Any})
+    update_user_hierarchy_group_name(hierarchy_group_id, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name of the user hierarchy group.
 
@@ -5160,23 +3938,13 @@ Updates the name of the user hierarchy group.
 
 """
 function update_user_hierarchy_group_name(
-    HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_hierarchy_group_name(
     HierarchyGroupId,
     InstanceId,
-    Name,
-    params::AbstractDict{String};
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)/name",
@@ -5187,8 +3955,7 @@ function update_user_hierarchy_group_name(
 end
 
 """
-    update_user_hierarchy_structure(hierarchy_structure, instance_id)
-    update_user_hierarchy_structure(hierarchy_structure, instance_id, params::Dict{String,<:Any})
+    update_user_hierarchy_structure(hierarchy_structure, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the user hierarchy structure: add, remove, and rename user hierarchy levels.
 
@@ -5199,22 +3966,12 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
 
 """
 function update_user_hierarchy_structure(
-    HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/user-hierarchy-structure/$(InstanceId)",
-        Dict{String,Any}("HierarchyStructure" => HierarchyStructure);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_hierarchy_structure(
     HierarchyStructure,
-    InstanceId,
-    params::AbstractDict{String};
+    InstanceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/user-hierarchy-structure/$(InstanceId)",
@@ -5229,8 +3986,7 @@ function update_user_hierarchy_structure(
 end
 
 """
-    update_user_identity_info(identity_info, instance_id, user_id)
-    update_user_identity_info(identity_info, instance_id, user_id, params::Dict{String,<:Any})
+    update_user_identity_info(identity_info, instance_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the identity information for the specified user.  We strongly recommend limiting
 who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change
@@ -5247,23 +4003,13 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 
 """
 function update_user_identity_info(
-    IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/identity-info",
-        Dict{String,Any}("IdentityInfo" => IdentityInfo);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_identity_info(
     IdentityInfo,
     InstanceId,
-    UserId,
-    params::AbstractDict{String};
+    UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/identity-info",
@@ -5276,8 +4022,7 @@ function update_user_identity_info(
 end
 
 """
-    update_user_phone_config(instance_id, phone_config, user_id)
-    update_user_phone_config(instance_id, phone_config, user_id, params::Dict{String,<:Any})
+    update_user_phone_config(instance_id, phone_config, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the phone configuration settings for the specified user.
 
@@ -5289,23 +4034,13 @@ Updates the phone configuration settings for the specified user.
 
 """
 function update_user_phone_config(
-    InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/phone-config",
-        Dict{String,Any}("PhoneConfig" => PhoneConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_phone_config(
     InstanceId,
     PhoneConfig,
-    UserId,
-    params::AbstractDict{String};
+    UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/phone-config",
@@ -5318,8 +4053,7 @@ function update_user_phone_config(
 end
 
 """
-    update_user_routing_profile(instance_id, routing_profile_id, user_id)
-    update_user_routing_profile(instance_id, routing_profile_id, user_id, params::Dict{String,<:Any})
+    update_user_routing_profile(instance_id, routing_profile_id, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns the specified routing profile to the specified user.
 
@@ -5331,23 +4065,13 @@ Assigns the specified routing profile to the specified user.
 
 """
 function update_user_routing_profile(
-    InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/routing-profile",
-        Dict{String,Any}("RoutingProfileId" => RoutingProfileId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_routing_profile(
     InstanceId,
     RoutingProfileId,
-    UserId,
-    params::AbstractDict{String};
+    UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/routing-profile",
@@ -5362,8 +4086,7 @@ function update_user_routing_profile(
 end
 
 """
-    update_user_security_profiles(instance_id, security_profile_ids, user_id)
-    update_user_security_profiles(instance_id, security_profile_ids, user_id, params::Dict{String,<:Any})
+    update_user_security_profiles(instance_id, security_profile_ids, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns the specified security profiles to the specified user.
 
@@ -5379,22 +4102,9 @@ function update_user_security_profiles(
     SecurityProfileIds,
     UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connect(
-        "POST",
-        "/users/$(InstanceId)/$(UserId)/security-profiles",
-        Dict{String,Any}("SecurityProfileIds" => SecurityProfileIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_user_security_profiles(
-    InstanceId,
-    SecurityProfileIds,
-    UserId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect(
         "POST",
         "/users/$(InstanceId)/$(UserId)/security-profiles",

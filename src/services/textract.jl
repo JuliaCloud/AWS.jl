@@ -4,9 +4,19 @@ using AWS.AWSServices: textract
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "human_loop_config" => "HumanLoopConfig",
+    "output_config" => "OutputConfig",
+    "kmskey_id" => "KMSKeyId",
+    "notification_channel" => "NotificationChannel",
+    "next_token" => "NextToken",
+    "client_request_token" => "ClientRequestToken",
+    "max_results" => "MaxResults",
+    "job_tag" => "JobTag",
+)
+
 """
-    analyze_document(document, feature_types)
-    analyze_document(document, feature_types, params::Dict{String,<:Any})
+    analyze_document(document, feature_types; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Analyzes an input document for relationships between detected items.  The types of
 information returned are as follows:    Form data (key-value pairs). The related
@@ -36,26 +46,14 @@ use StartDocumentAnalysis. For more information, see Document Text Analysis.
   (including text that isn't related to the value of FeatureTypes).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HumanLoopConfig"`: Sets the configuration for the human in the loop workflow for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"human_loop_config"`: Sets the configuration for the human in the loop workflow for
   analyzing documents.
 """
 function analyze_document(
-    Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
+    Document, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return textract(
-        "AnalyzeDocument",
-        Dict{String,Any}("Document" => Document, "FeatureTypes" => FeatureTypes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function analyze_document(
-    Document,
-    FeatureTypes,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "AnalyzeDocument",
         Dict{String,Any}(
@@ -71,8 +69,7 @@ function analyze_document(
 end
 
 """
-    analyze_expense(document)
-    analyze_expense(document, params::Dict{String,<:Any})
+    analyze_expense(document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Analyzes an input document for financially related relationships between text. Information
 is returned as ExpenseDocuments and seperated as follows.    LineItemGroups- A data set
@@ -84,19 +81,10 @@ receipt, such as header information or the vendors name.
 - `document`:
 
 """
-function analyze_expense(Document; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "AnalyzeExpense",
-        Dict{String,Any}("Document" => Document);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function analyze_expense(
-    Document,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "AnalyzeExpense",
         Dict{String,Any}(
@@ -108,8 +96,7 @@ function analyze_expense(
 end
 
 """
-    detect_document_text(document)
-    detect_document_text(document, params::Dict{String,<:Any})
+    detect_document_text(document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detects text in the input document. Amazon Textract can detect lines of text and the words
 that make up a line of text. The input document must be an image in JPEG or PNG format.
@@ -127,19 +114,10 @@ use StartDocumentTextDetection. For more information, see Document Text Detectio
   you might not need to base64-encode image bytes that are passed using the Bytes field.
 
 """
-function detect_document_text(Document; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "DetectDocumentText",
-        Dict{String,Any}("Document" => Document);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function detect_document_text(
-    Document,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "DetectDocumentText",
         Dict{String,Any}(
@@ -151,8 +129,7 @@ function detect_document_text(
 end
 
 """
-    get_document_analysis(job_id)
-    get_document_analysis(job_id, params::Dict{String,<:Any})
+    get_document_analysis(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the results for an Amazon Textract asynchronous operation that analyzes text in a
 document. You start asynchronous text analysis by calling StartDocumentAnalysis, which
@@ -185,25 +162,18 @@ GetDocumentAnalysis. For more information, see Document Text Analysis.
   StartDocumentAnalysis. A JobId value is only valid for 7 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per paginated call. The largest
   value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum
   of 1,000 results is returned. The default value is 1,000.
-- `"NextToken"`: If the previous response was incomplete (because there are more blocks to
+- `"next_token"`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_document_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetDocumentAnalysis",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_document_analysis(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "GetDocumentAnalysis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
@@ -213,8 +183,7 @@ function get_document_analysis(
 end
 
 """
-    get_document_text_detection(job_id)
-    get_document_text_detection(job_id, params::Dict{String,<:Any})
+    get_document_text_detection(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the results for an Amazon Textract asynchronous operation that detects text in a
 document. Amazon Textract can detect lines of text and the words that make up a line of
@@ -241,27 +210,18 @@ more information, see Document Text Detection.
   StartDocumentTextDetection. A JobId value is only valid for 7 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 1,000. If you specify a value greater than 1,000, a maximum of
   1,000 results is returned. The default value is 1,000.
-- `"NextToken"`: If the previous response was incomplete (because there are more blocks to
+- `"next_token"`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
 function get_document_text_detection(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return textract(
-        "GetDocumentTextDetection",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_document_text_detection(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "GetDocumentTextDetection",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
@@ -271,8 +231,7 @@ function get_document_text_detection(
 end
 
 """
-    get_expense_analysis(job_id)
-    get_expense_analysis(job_id, params::Dict{String,<:Any})
+    get_expense_analysis(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the results for an Amazon Textract asynchronous operation that analyzes invoices and
 receipts. Amazon Textract finds contact information, items purchased, and vendor name, from
@@ -295,25 +254,18 @@ GetExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
   StartExpenseAnalysis. A JobId value is only valid for 7 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return per paginated call. The largest
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per paginated call. The largest
   value you can specify is 20. If you specify a value greater than 20, a maximum of 20
   results is returned. The default value is 20.
-- `"NextToken"`: If the previous response was incomplete (because there are more blocks to
+- `"next_token"`: If the previous response was incomplete (because there are more blocks to
   retrieve), Amazon Textract returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of blocks.
 """
-function get_expense_analysis(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return textract(
-        "GetExpenseAnalysis",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_expense_analysis(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "GetExpenseAnalysis",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
@@ -323,8 +275,7 @@ function get_expense_analysis(
 end
 
 """
-    start_document_analysis(document_location, feature_types)
-    start_document_analysis(document_location, feature_types, params::Dict{String,<:Any})
+    start_document_analysis(document_location, feature_types; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the asynchronous analysis of an input document for relationships between detected
 items such as key-value pairs, tables, and selection elements.  StartDocumentAnalysis can
@@ -347,42 +298,33 @@ StartDocumentAnalysis. For more information, see Document Text Analysis.
   (including text that isn't related to the value of FeatureTypes).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: The idempotent token that you use to identify the start request.
-  If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is
-  returned. Use ClientRequestToken to prevent the same job from being accidentally started
-  more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
-- `"JobTag"`: An identifier that you specify that's included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: The idempotent token that you use to identify the start
+  request. If you use the same token with multiple StartDocumentAnalysis requests, the same
+  JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally
+  started more than once. For more information, see Calling Amazon Textract Asynchronous
+  Operations.
+- `"job_tag"`: An identifier that you specify that's included in the completion
+  notification published to the Amazon SNS topic. For example, you can use JobTag to identify
+  the type of document that the completion notification corresponds to (such as a tax form or
+  a receipt).
+- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
   Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
+- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
   publish the completion status of the operation to.
-- `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
+- `"output_config"`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis
   operation.
 """
 function start_document_analysis(
-    DocumentLocation, FeatureTypes; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return textract(
-        "StartDocumentAnalysis",
-        Dict{String,Any}(
-            "DocumentLocation" => DocumentLocation, "FeatureTypes" => FeatureTypes
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_document_analysis(
     DocumentLocation,
-    FeatureTypes,
-    params::AbstractDict{String};
+    FeatureTypes;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "StartDocumentAnalysis",
         Dict{String,Any}(
@@ -400,8 +342,7 @@ function start_document_analysis(
 end
 
 """
-    start_document_text_detection(document_location)
-    start_document_text_detection(document_location, params::Dict{String,<:Any})
+    start_document_text_detection(document_location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the asynchronous detection of text in a document. Amazon Textract can detect lines
 of text and the words that make up a line of text.  StartDocumentTextDetection can analyze
@@ -419,39 +360,29 @@ StartDocumentTextDetection. For more information, see Document Text Detection.
 - `document_location`: The location of the document to be processed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: The idempotent token that's used to identify the start request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: The idempotent token that's used to identify the start request.
   If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
   is returned. Use ClientRequestToken to prevent the same job from being accidentally started
   more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
-- `"JobTag"`: An identifier that you specify that's included in the completion notification
-  published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
-  document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
+- `"job_tag"`: An identifier that you specify that's included in the completion
+  notification published to the Amazon SNS topic. For example, you can use JobTag to identify
+  the type of document that the completion notification corresponds to (such as a tax form or
+  a receipt).
+- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
   Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
+- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
   publish the completion status of the operation to.
-- `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default
+- `"output_config"`: Sets if the output will go to a customer defined bucket. By default
   Amazon Textract will save the results internally to be accessed with the
   GetDocumentTextDetection operation.
 """
 function start_document_text_detection(
-    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return textract(
-        "StartDocumentTextDetection",
-        Dict{String,Any}("DocumentLocation" => DocumentLocation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_document_text_detection(
-    DocumentLocation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "StartDocumentTextDetection",
         Dict{String,Any}(
@@ -465,8 +396,7 @@ function start_document_text_detection(
 end
 
 """
-    start_expense_analysis(document_location)
-    start_expense_analysis(document_location, params::Dict{String,<:Any})
+    start_expense_analysis(document_location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the asynchronous analysis of invoices or receipts for data like contact information,
 items purchased, and vendor names.  StartExpenseAnalysis can analyze text in documents that
@@ -485,39 +415,28 @@ StartExpenseAnalysis. For more information, see Analyzing Invoices and Receipts.
 - `document_location`: The location of the document to be processed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: The idempotent token that's used to identify the start request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: The idempotent token that's used to identify the start request.
   If you use the same token with multiple StartDocumentTextDetection requests, the same JobId
   is returned. Use ClientRequestToken to prevent the same job from being accidentally started
   more than once. For more information, see Calling Amazon Textract Asynchronous Operations
-- `"JobTag"`: An identifier you specify that's included in the completion notification
+- `"job_tag"`: An identifier you specify that's included in the completion notification
   published to the Amazon SNS topic. For example, you can use JobTag to identify the type of
   document that the completion notification corresponds to (such as a tax form or a receipt).
-- `"KMSKeyId"`: The KMS key used to encrypt the inference results. This can be in either
+- `"kmskey_id"`: The KMS key used to encrypt the inference results. This can be in either
   Key ID or Key Alias format. When a KMS key is provided, the KMS key will be used for
   server-side encryption of the objects in the customer bucket. When this parameter is not
   enabled, the result will be encrypted server side,using SSE-S3.
-- `"NotificationChannel"`: The Amazon SNS topic ARN that you want Amazon Textract to
+- `"notification_channel"`: The Amazon SNS topic ARN that you want Amazon Textract to
   publish the completion status of the operation to.
-- `"OutputConfig"`: Sets if the output will go to a customer defined bucket. By default,
+- `"output_config"`: Sets if the output will go to a customer defined bucket. By default,
   Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis
   operation.
 """
 function start_expense_analysis(
-    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentLocation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return textract(
-        "StartExpenseAnalysis",
-        Dict{String,Any}("DocumentLocation" => DocumentLocation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_expense_analysis(
-    DocumentLocation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return textract(
         "StartExpenseAnalysis",
         Dict{String,Any}(

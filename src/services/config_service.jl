@@ -4,9 +4,52 @@ using AWS.AWSServices: config_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "conformance_pack_input_parameters" => "ConformancePackInputParameters",
+    "resource_type" => "ResourceType",
+    "resource_id" => "ResourceId",
+    "account_aggregation_sources" => "AccountAggregationSources",
+    "resource_keys" => "ResourceKeys",
+    "update_status" => "UpdateStatus",
+    "next_token" => "NextToken",
+    "resource_types" => "ResourceTypes",
+    "organization_config_rule_names" => "OrganizationConfigRuleNames",
+    "configuration_aggregator_names" => "ConfigurationAggregatorNames",
+    "resource_name" => "ResourceName",
+    "conformance_pack_names" => "ConformancePackNames",
+    "configuration_recorder_names" => "ConfigurationRecorderNames",
+    "excluded_accounts" => "ExcludedAccounts",
+    "organization_custom_rule_metadata" => "OrganizationCustomRuleMetadata",
+    "expiration_time" => "ExpirationTime",
+    "compliance_types" => "ComplianceTypes",
+    "template_s3_uri" => "TemplateS3Uri",
+    "organization_aggregation_source" => "OrganizationAggregationSource",
+    "delivery_s3_bucket" => "DeliveryS3Bucket",
+    "max_results" => "MaxResults",
+    "config_rule_names" => "ConfigRuleNames",
+    "delivery_channel_names" => "DeliveryChannelNames",
+    "organization_conformance_pack_names" => "OrganizationConformancePackNames",
+    "compliance_type" => "ComplianceType",
+    "evaluations" => "Evaluations",
+    "group_by_key" => "GroupByKey",
+    "retention_configuration_names" => "RetentionConfigurationNames",
+    "earlier_time" => "earlierTime",
+    "delivery_s3_key_prefix" => "DeliveryS3KeyPrefix",
+    "test_mode" => "TestMode",
+    "chronological_order" => "chronologicalOrder",
+    "later_time" => "laterTime",
+    "include_deleted_resources" => "includeDeletedResources",
+    "filters" => "Filters",
+    "organization_managed_rule_metadata" => "OrganizationManagedRuleMetadata",
+    "message" => "Message",
+    "resource_ids" => "resourceIds",
+    "template_body" => "TemplateBody",
+    "tags" => "Tags",
+    "limit" => "Limit",
+)
+
 """
-    batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers)
-    batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers, params::Dict{String,<:Any})
+    batch_get_aggregate_resource_config(configuration_aggregator_name, resource_identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current configuration items for resources that are present in your Config
 aggregator. The operation also returns a list of resources that are not processed in the
@@ -23,23 +66,9 @@ function batch_get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifiers;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "BatchGetAggregateResourceConfig",
-        Dict{String,Any}(
-            "ConfigurationAggregatorName" => ConfigurationAggregatorName,
-            "ResourceIdentifiers" => ResourceIdentifiers,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_aggregate_resource_config(
-    ConfigurationAggregatorName,
-    ResourceIdentifiers,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "BatchGetAggregateResourceConfig",
         Dict{String,Any}(
@@ -58,8 +87,7 @@ function batch_get_aggregate_resource_config(
 end
 
 """
-    batch_get_resource_config(resource_keys)
-    batch_get_resource_config(resource_keys, params::Dict{String,<:Any})
+    batch_get_resource_config(resource_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the BaseConfigurationItem for one or more requested resources. The operation also
 returns a list of resources that are not processed in the current request. If there are no
@@ -74,20 +102,9 @@ section of the API response.
 
 """
 function batch_get_resource_config(
-    resourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "BatchGetResourceConfig",
-        Dict{String,Any}("resourceKeys" => resourceKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_resource_config(
-    resourceKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "BatchGetResourceConfig",
         Dict{String,Any}(
@@ -99,8 +116,7 @@ function batch_get_resource_config(
 end
 
 """
-    delete_aggregation_authorization(authorized_account_id, authorized_aws_region)
-    delete_aggregation_authorization(authorized_account_id, authorized_aws_region, params::Dict{String,<:Any})
+    delete_aggregation_authorization(authorized_account_id, authorized_aws_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the authorization granted to the specified configuration aggregator account in a
 specified region.
@@ -115,23 +131,9 @@ function delete_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "DeleteAggregationAuthorization",
-        Dict{String,Any}(
-            "AuthorizedAccountId" => AuthorizedAccountId,
-            "AuthorizedAwsRegion" => AuthorizedAwsRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_aggregation_authorization(
-    AuthorizedAccountId,
-    AuthorizedAwsRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteAggregationAuthorization",
         Dict{String,Any}(
@@ -150,8 +152,7 @@ function delete_aggregation_authorization(
 end
 
 """
-    delete_config_rule(config_rule_name)
-    delete_config_rule(config_rule_name, params::Dict{String,<:Any})
+    delete_config_rule(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified Config rule and all of its evaluation results. Config sets the state
 of a rule to DELETING until the deletion is complete. You cannot update a rule while it is
@@ -164,20 +165,9 @@ DescribeConfigRules request.
 
 """
 function delete_config_rule(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteConfigRule",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_config_rule(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteConfigRule",
         Dict{String,Any}(
@@ -189,8 +179,7 @@ function delete_config_rule(
 end
 
 """
-    delete_configuration_aggregator(configuration_aggregator_name)
-    delete_configuration_aggregator(configuration_aggregator_name, params::Dict{String,<:Any})
+    delete_configuration_aggregator(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified configuration aggregator and the aggregated data associated with the
 aggregator.
@@ -200,20 +189,11 @@ aggregator.
 
 """
 function delete_configuration_aggregator(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DeleteConfigurationAggregator",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_configuration_aggregator(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteConfigurationAggregator",
         Dict{String,Any}(
@@ -231,8 +211,7 @@ function delete_configuration_aggregator(
 end
 
 """
-    delete_configuration_recorder(configuration_recorder_name)
-    delete_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
+    delete_configuration_recorder(configuration_recorder_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the configuration recorder. After the configuration recorder is deleted, Config
 will not record resource configuration changes until you create a new configuration
@@ -248,20 +227,9 @@ Config console until you create a new configuration recorder.
 
 """
 function delete_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteConfigurationRecorder",
-        Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_configuration_recorder(
-    ConfigurationRecorderName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteConfigurationRecorder",
         Dict{String,Any}(
@@ -277,8 +245,7 @@ function delete_configuration_recorder(
 end
 
 """
-    delete_conformance_pack(conformance_pack_name)
-    delete_conformance_pack(conformance_pack_name, params::Dict{String,<:Any})
+    delete_conformance_pack(conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified conformance pack and all the Config rules, remediation actions, and
 all evaluation results within that conformance pack. Config sets the conformance pack to
@@ -290,20 +257,9 @@ while it is in this state.
 
 """
 function delete_conformance_pack(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteConformancePack",
-        Dict{String,Any}("ConformancePackName" => ConformancePackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_conformance_pack(
-    ConformancePackName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteConformancePack",
         Dict{String,Any}(
@@ -319,8 +275,7 @@ function delete_conformance_pack(
 end
 
 """
-    delete_delivery_channel(delivery_channel_name)
-    delete_delivery_channel(delivery_channel_name, params::Dict{String,<:Any})
+    delete_delivery_channel(delivery_channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the delivery channel. Before you can delete the delivery channel, you must stop the
 configuration recorder by using the StopConfigurationRecorder action.
@@ -330,20 +285,9 @@ configuration recorder by using the StopConfigurationRecorder action.
 
 """
 function delete_delivery_channel(
-    DeliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteDeliveryChannel",
-        Dict{String,Any}("DeliveryChannelName" => DeliveryChannelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_delivery_channel(
-    DeliveryChannelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteDeliveryChannel",
         Dict{String,Any}(
@@ -359,8 +303,7 @@ function delete_delivery_channel(
 end
 
 """
-    delete_evaluation_results(config_rule_name)
-    delete_evaluation_results(config_rule_name, params::Dict{String,<:Any})
+    delete_evaluation_results(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the evaluation results for the specified Config rule. You can specify one Config
 rule per request. After you delete the evaluation results, you can call the
@@ -373,20 +316,9 @@ against the rule.
 
 """
 function delete_evaluation_results(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteEvaluationResults",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_evaluation_results(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteEvaluationResults",
         Dict{String,Any}(
@@ -398,8 +330,7 @@ function delete_evaluation_results(
 end
 
 """
-    delete_organization_config_rule(organization_config_rule_name)
-    delete_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
+    delete_organization_config_rule(organization_config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified organization config rule and all of its evaluation results from all
 member accounts in that organization.  Only a master account and a delegated administrator
@@ -414,20 +345,9 @@ complete. You cannot update a rule while it is in this state.
 
 """
 function delete_organization_config_rule(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteOrganizationConfigRule",
-        Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_organization_config_rule(
-    OrganizationConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteOrganizationConfigRule",
         Dict{String,Any}(
@@ -445,8 +365,7 @@ function delete_organization_config_rule(
 end
 
 """
-    delete_organization_conformance_pack(organization_conformance_pack_name)
-    delete_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
+    delete_organization_conformance_pack(organization_conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified organization conformance pack and all of the config rules and
 remediation actions from all member accounts in that organization.   Only a master account
@@ -462,22 +381,11 @@ pack while it is in this state.
 
 """
 function delete_organization_conformance_pack(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DeleteOrganizationConformancePack",
-        Dict{String,Any}(
-            "OrganizationConformancePackName" => OrganizationConformancePackName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_organization_conformance_pack(
-    OrganizationConformancePackName,
-    params::AbstractDict{String};
+    OrganizationConformancePackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteOrganizationConformancePack",
         Dict{String,Any}(
@@ -495,8 +403,7 @@ function delete_organization_conformance_pack(
 end
 
 """
-    delete_pending_aggregation_request(requester_account_id, requester_aws_region)
-    delete_pending_aggregation_request(requester_account_id, requester_aws_region, params::Dict{String,<:Any})
+    delete_pending_aggregation_request(requester_account_id, requester_aws_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes pending authorization requests for a specified aggregator account in a specified
 region.
@@ -511,23 +418,9 @@ function delete_pending_aggregation_request(
     RequesterAccountId,
     RequesterAwsRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "DeletePendingAggregationRequest",
-        Dict{String,Any}(
-            "RequesterAccountId" => RequesterAccountId,
-            "RequesterAwsRegion" => RequesterAwsRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_pending_aggregation_request(
-    RequesterAccountId,
-    RequesterAwsRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeletePendingAggregationRequest",
         Dict{String,Any}(
@@ -546,8 +439,7 @@ function delete_pending_aggregation_request(
 end
 
 """
-    delete_remediation_configuration(config_rule_name)
-    delete_remediation_configuration(config_rule_name, params::Dict{String,<:Any})
+    delete_remediation_configuration(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the remediation configuration.
 
@@ -556,24 +448,13 @@ Deletes the remediation configuration.
   configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceType"`: The type of a resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resource_type"`: The type of a resource.
 """
 function delete_remediation_configuration(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteRemediationConfiguration",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_remediation_configuration(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteRemediationConfiguration",
         Dict{String,Any}(
@@ -585,8 +466,7 @@ function delete_remediation_configuration(
 end
 
 """
-    delete_remediation_exceptions(config_rule_name, resource_keys)
-    delete_remediation_exceptions(config_rule_name, resource_keys, params::Dict{String,<:Any})
+    delete_remediation_exceptions(config_rule_name, resource_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes one or more remediation exceptions mentioned in the resource keys.  Config
 generates a remediation exception when a problem occurs executing a remediation action to a
@@ -602,23 +482,12 @@ cleared.
 
 """
 function delete_remediation_exceptions(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DeleteRemediationExceptions",
-        Dict{String,Any}(
-            "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_remediation_exceptions(
     ConfigRuleName,
-    ResourceKeys,
-    params::AbstractDict{String};
+    ResourceKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteRemediationExceptions",
         Dict{String,Any}(
@@ -636,8 +505,7 @@ function delete_remediation_exceptions(
 end
 
 """
-    delete_resource_config(resource_id, resource_type)
-    delete_resource_config(resource_id, resource_type, params::Dict{String,<:Any})
+    delete_resource_config(resource_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Records the configuration state for a custom resource that has been deleted. This API
 records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the
@@ -649,21 +517,9 @@ ConfigurationItems recorded for this resource in your Config History.
 
 """
 function delete_resource_config(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteResourceConfig",
-        Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_config(
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteResourceConfig",
         Dict{String,Any}(
@@ -681,8 +537,7 @@ function delete_resource_config(
 end
 
 """
-    delete_retention_configuration(retention_configuration_name)
-    delete_retention_configuration(retention_configuration_name, params::Dict{String,<:Any})
+    delete_retention_configuration(retention_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the retention configuration.
 
@@ -691,20 +546,9 @@ Deletes the retention configuration.
 
 """
 function delete_retention_configuration(
-    RetentionConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeleteRetentionConfiguration",
-        Dict{String,Any}("RetentionConfigurationName" => RetentionConfigurationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_retention_configuration(
-    RetentionConfigurationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteRetentionConfiguration",
         Dict{String,Any}(
@@ -722,8 +566,7 @@ function delete_retention_configuration(
 end
 
 """
-    delete_stored_query(query_name)
-    delete_stored_query(query_name, params::Dict{String,<:Any})
+    delete_stored_query(query_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the stored query for a single Amazon Web Services account and a single Amazon Web
 Services Region.
@@ -732,19 +575,10 @@ Services Region.
 - `query_name`: The name of the query that you want to delete.
 
 """
-function delete_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "DeleteStoredQuery",
-        Dict{String,Any}("QueryName" => QueryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_stored_query(
-    QueryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    QueryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeleteStoredQuery",
         Dict{String,Any}(
@@ -756,8 +590,7 @@ function delete_stored_query(
 end
 
 """
-    deliver_config_snapshot(delivery_channel_name)
-    deliver_config_snapshot(delivery_channel_name, params::Dict{String,<:Any})
+    deliver_config_snapshot(delivery_channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Schedules delivery of a configuration snapshot to the Amazon S3 bucket in the specified
 delivery channel. After the delivery has started, Config sends the following notifications
@@ -771,20 +604,9 @@ successfully completed.   Notification of delivery failure, if the delivery fail
 
 """
 function deliver_config_snapshot(
-    deliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config()
+    deliveryChannelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DeliverConfigSnapshot",
-        Dict{String,Any}("deliveryChannelName" => deliveryChannelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deliver_config_snapshot(
-    deliveryChannelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DeliverConfigSnapshot",
         Dict{String,Any}(
@@ -800,8 +622,7 @@ function deliver_config_snapshot(
 end
 
 """
-    describe_aggregate_compliance_by_config_rules(configuration_aggregator_name)
-    describe_aggregate_compliance_by_config_rules(configuration_aggregator_name, params::Dict{String,<:Any})
+    describe_aggregate_compliance_by_config_rules(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of compliant and noncompliant rules with the number of resources for
 compliant and noncompliant rules. Does not display rules that do not have compliance
@@ -812,28 +633,19 @@ results are displayed on the next page.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the results by ConfigRuleComplianceFilters object.
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the results by ConfigRuleComplianceFilters object.
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_config_rules(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DescribeAggregateComplianceByConfigRules",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_aggregate_compliance_by_config_rules(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeAggregateComplianceByConfigRules",
         Dict{String,Any}(
@@ -851,8 +663,7 @@ function describe_aggregate_compliance_by_config_rules(
 end
 
 """
-    describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name)
-    describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name, params::Dict{String,<:Any})
+    describe_aggregate_compliance_by_conformance_packs(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the conformance packs and their associated compliance status with the
 count of compliant and noncompliant Config rules within each conformance pack. Also returns
@@ -864,28 +675,19 @@ but if you have a nextToken, the results are displayed on the next page.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the result by AggregateConformancePackComplianceFilters object.
-- `"Limit"`: The maximum number of conformance packs compliance details returned on each
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the result by AggregateConformancePackComplianceFilters object.
+- `"limit"`: The maximum number of conformance packs compliance details returned on each
   page. The default is maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_aggregate_compliance_by_conformance_packs(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DescribeAggregateComplianceByConformancePacks",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_aggregate_compliance_by_conformance_packs(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeAggregateComplianceByConformancePacks",
         Dict{String,Any}(
@@ -903,30 +705,21 @@ function describe_aggregate_compliance_by_conformance_packs(
 end
 
 """
-    describe_aggregation_authorizations()
-    describe_aggregation_authorizations(params::Dict{String,<:Any})
+    describe_aggregation_authorizations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of authorizations granted to various aggregator accounts and regions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of AggregationAuthorizations returned on each page. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of AggregationAuthorizations returned on each page. The
   default is maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_aggregation_authorizations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeAggregationAuthorizations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_aggregation_authorizations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeAggregationAuthorizations",
         params;
@@ -936,8 +729,7 @@ function describe_aggregation_authorizations(
 end
 
 """
-    describe_compliance_by_config_rule()
-    describe_compliance_by_config_rule(params::Dict{String,<:Any})
+    describe_compliance_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Indicates whether the specified Config rules are compliant. If a rule is noncompliant, this
 action returns the number of Amazon Web Services resources that do not comply with the
@@ -954,25 +746,18 @@ permission.   The rule's Lambda function has returned NOT_APPLICABLE for all eva
 results. This can occur if the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"compliance_types"`: Filters the results by compliance. The allowed values are COMPLIANT
   and NON_COMPLIANT.
-- `"ConfigRuleNames"`: Specify one or more Config rule names to filter the results by rule.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"config_rule_names"`: Specify one or more Config rule names to filter the results by
+  rule.
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_compliance_by_config_rule(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeComplianceByConfigRule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_compliance_by_config_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeComplianceByConfigRule",
         params;
@@ -982,8 +767,7 @@ function describe_compliance_by_config_rule(
 end
 
 """
-    describe_compliance_by_resource()
-    describe_compliance_by_resource(params::Dict{String,<:Any})
+    describe_compliance_by_resource(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Indicates whether the specified Amazon Web Services resources are compliant. If a resource
 is noncompliant, this action returns the number of Config rules that the resource does not
@@ -1001,32 +785,24 @@ Lambda function has returned NOT_APPLICABLE for all evaluation results. This can
 the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and INSUFFICIENT_DATA.
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"compliance_types"`: Filters the results by compliance. The allowed values are
+  COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"ResourceId"`: The ID of the Amazon Web Services resource for which you want compliance
+- `"resource_id"`: The ID of the Amazon Web Services resource for which you want compliance
   information. You can specify only one resource ID. If you specify a resource ID, you must
   also specify a type for ResourceType.
-- `"ResourceType"`: The types of Amazon Web Services resources for which you want
+- `"resource_type"`: The types of Amazon Web Services resources for which you want
   compliance information (for example, AWS::EC2::Instance). For this action, you can specify
   that the resource type is an Amazon Web Services account by specifying AWS::::Account.
 """
 function describe_compliance_by_resource(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeComplianceByResource";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_compliance_by_resource(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeComplianceByResource",
         params;
@@ -1036,37 +812,28 @@ function describe_compliance_by_resource(
 end
 
 """
-    describe_config_rule_evaluation_status()
-    describe_config_rule_evaluation_status(params::Dict{String,<:Any})
+    describe_config_rule_evaluation_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns status information for each of your Config managed rules. The status includes
 information such as the last time Config invoked the rule, the last time Config failed to
 invoke the rule, and the related error for the last failure.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigRuleNames"`: The name of the Config managed rules for which you want status
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"config_rule_names"`: The name of the Config managed rules for which you want status
   information. If you do not specify any names, Config returns status information for all
   Config managed rules that you use.
-- `"Limit"`: The number of rule evaluation results that you want returned. This parameter
+- `"limit"`: The number of rule evaluation results that you want returned. This parameter
   is required if the rule limit for your account is more than the default of 150 rules. For
   information about requesting a rule limit increase, see Config Limits in the Amazon Web
   Services General Reference Guide.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_config_rule_evaluation_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConfigRuleEvaluationStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_config_rule_evaluation_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigRuleEvaluationStatus",
         params;
@@ -1076,26 +843,21 @@ function describe_config_rule_evaluation_status(
 end
 
 """
-    describe_config_rules()
-    describe_config_rules(params::Dict{String,<:Any})
+    describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details about your Config rules.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigRuleNames"`: The names of the Config rules for which you want details. If you do
-  not specify any names, Config returns details for all your rules.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"config_rule_names"`: The names of the Config rules for which you want details. If you
+  do not specify any names, Config returns details for all your rules.
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
-function describe_config_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "DescribeConfigRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_config_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_config_rules(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigRules",
         params;
@@ -1105,8 +867,7 @@ function describe_config_rules(
 end
 
 """
-    describe_configuration_aggregator_sources_status(configuration_aggregator_name)
-    describe_configuration_aggregator_sources_status(configuration_aggregator_name, params::Dict{String,<:Any})
+    describe_configuration_aggregator_sources_status(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns status information for sources within an aggregator. The status includes
 information about the last time Config verified authorization between the source account
@@ -1117,30 +878,21 @@ or message.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of AggregatorSourceStatus returned on each page. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of AggregatorSourceStatus returned on each page. The
   default is maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"UpdateStatus"`: Filters the status type.   Valid value FAILED indicates errors while
+- `"update_status"`: Filters the status type.   Valid value FAILED indicates errors while
   moving data.   Valid value SUCCEEDED indicates the data was successfully moved.   Valid
   value OUTDATED indicates the data is not the most recent.
 """
 function describe_configuration_aggregator_sources_status(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "DescribeConfigurationAggregatorSourcesStatus",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configuration_aggregator_sources_status(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigurationAggregatorSourcesStatus",
         Dict{String,Any}(
@@ -1158,33 +910,24 @@ function describe_configuration_aggregator_sources_status(
 end
 
 """
-    describe_configuration_aggregators()
-    describe_configuration_aggregators(params::Dict{String,<:Any})
+    describe_configuration_aggregators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of one or more configuration aggregators. If the configuration
 aggregator is not specified, this action returns the details for all the configuration
 aggregators associated with the account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationAggregatorNames"`: The name of the configuration aggregators.
-- `"Limit"`: The maximum number of configuration aggregators returned on each page. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_aggregator_names"`: The name of the configuration aggregators.
+- `"limit"`: The maximum number of configuration aggregators returned on each page. The
   default is maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_configuration_aggregators(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConfigurationAggregators";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configuration_aggregators(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigurationAggregators",
         params;
@@ -1194,8 +937,7 @@ function describe_configuration_aggregators(
 end
 
 """
-    describe_configuration_recorder_status()
-    describe_configuration_recorder_status(params::Dict{String,<:Any})
+    describe_configuration_recorder_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current status of the specified configuration recorder. If a configuration
 recorder is not specified, this action returns the status of all configuration recorders
@@ -1203,23 +945,15 @@ associated with the account.  Currently, you can specify only one configuration 
 per region in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationRecorderNames"`: The name(s) of the configuration recorder. If the name is
-  not specified, the action returns the current status of all the configuration recorders
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_recorder_names"`: The name(s) of the configuration recorder. If the name
+  is not specified, the action returns the current status of all the configuration recorders
   associated with the account.
 """
 function describe_configuration_recorder_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConfigurationRecorderStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configuration_recorder_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigurationRecorderStatus",
         params;
@@ -1229,8 +963,7 @@ function describe_configuration_recorder_status(
 end
 
 """
-    describe_configuration_recorders()
-    describe_configuration_recorders(params::Dict{String,<:Any})
+    describe_configuration_recorders(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details for the specified configuration recorders. If the configuration
 recorder is not specified, this action returns the details for all configuration recorders
@@ -1238,21 +971,13 @@ associated with the account.  Currently, you can specify only one configuration 
 per region in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationRecorderNames"`: A list of configuration recorder names.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_recorder_names"`: A list of configuration recorder names.
 """
 function describe_configuration_recorders(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConfigurationRecorders";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configuration_recorders(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConfigurationRecorders",
         params;
@@ -1262,8 +987,7 @@ function describe_configuration_recorders(
 end
 
 """
-    describe_conformance_pack_compliance(conformance_pack_name)
-    describe_conformance_pack_compliance(conformance_pack_name, params::Dict{String,<:Any})
+    describe_conformance_pack_compliance(conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns compliance details for each rule in that conformance pack.  You must provide exact
 rule names.
@@ -1272,28 +996,17 @@ rule names.
 - `conformance_pack_name`: Name of the conformance pack.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: A ConformancePackComplianceFilters object.
-- `"Limit"`: The maximum number of Config rules within a conformance pack are returned on
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: A ConformancePackComplianceFilters object.
+- `"limit"`: The maximum number of Config rules within a conformance pack are returned on
   each page.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
 function describe_conformance_pack_compliance(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConformancePackCompliance",
-        Dict{String,Any}("ConformancePackName" => ConformancePackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_conformance_pack_compliance(
-    ConformancePackName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConformancePackCompliance",
         Dict{String,Any}(
@@ -1309,31 +1022,22 @@ function describe_conformance_pack_compliance(
 end
 
 """
-    describe_conformance_pack_status()
-    describe_conformance_pack_status(params::Dict{String,<:Any})
+    describe_conformance_pack_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides one or more conformance packs deployment status.  If there are no conformance
 packs then you will see an empty result.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConformancePackNames"`: Comma-separated list of conformance pack names.
-- `"Limit"`: The maximum number of conformance packs status returned on each page.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conformance_pack_names"`: Comma-separated list of conformance pack names.
+- `"limit"`: The maximum number of conformance packs status returned on each page.
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
 function describe_conformance_pack_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeConformancePackStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_conformance_pack_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConformancePackStatus",
         params;
@@ -1343,28 +1047,23 @@ function describe_conformance_pack_status(
 end
 
 """
-    describe_conformance_packs()
-    describe_conformance_packs(params::Dict{String,<:Any})
+    describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of one or more conformance packs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConformancePackNames"`: Comma-separated list of conformance pack names for which you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conformance_pack_names"`: Comma-separated list of conformance pack names for which you
   want details. If you do not specify any names, Config returns details for all your
   conformance packs.
-- `"Limit"`: The maximum number of conformance packs returned on each page.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+- `"limit"`: The maximum number of conformance packs returned on each page.
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
-function describe_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "DescribeConformancePacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_conformance_packs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_conformance_packs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeConformancePacks",
         params;
@@ -1374,8 +1073,7 @@ function describe_conformance_packs(
 end
 
 """
-    describe_delivery_channel_status()
-    describe_delivery_channel_status(params::Dict{String,<:Any})
+    describe_delivery_channel_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current status of the specified delivery channel. If a delivery channel is not
 specified, this action returns the current status of all delivery channels associated with
@@ -1383,21 +1081,13 @@ the account.  Currently, you can specify only one delivery channel per region in
 account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryChannelNames"`: A list of delivery channel names.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_channel_names"`: A list of delivery channel names.
 """
 function describe_delivery_channel_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeDeliveryChannelStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_delivery_channel_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeDeliveryChannelStatus",
         params;
@@ -1407,25 +1097,20 @@ function describe_delivery_channel_status(
 end
 
 """
-    describe_delivery_channels()
-    describe_delivery_channels(params::Dict{String,<:Any})
+    describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details about the specified delivery channel. If a delivery channel is not
 specified, this action returns the details of all delivery channels associated with the
 account.  Currently, you can specify only one delivery channel per region in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryChannelNames"`: A list of delivery channel names.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_channel_names"`: A list of delivery channel names.
 """
-function describe_delivery_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "DescribeDeliveryChannels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_delivery_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_delivery_channels(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeDeliveryChannels",
         params;
@@ -1435,8 +1120,7 @@ function describe_delivery_channels(
 end
 
 """
-    describe_organization_config_rule_statuses()
-    describe_organization_config_rule_statuses(params::Dict{String,<:Any})
+    describe_organization_config_rule_statuses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides organization config rule deployment status for an organization.  The status is not
 considered successful until organization config rule is successfully deployed in all the
@@ -1446,27 +1130,19 @@ you specify organization config rule names. It is only applicable, when you requ
 organization config rules.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of OrganizationConfigRuleStatuses returned on each page. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of OrganizationConfigRuleStatuses returned on each page. If
   you do no specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+- `"organization_config_rule_names"`: The names of organization config rules for which you
   want status details. If you do not specify any names, Config returns details for all your
   organization Config rules.
 """
 function describe_organization_config_rule_statuses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeOrganizationConfigRuleStatuses";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_organization_config_rule_statuses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeOrganizationConfigRuleStatuses",
         params;
@@ -1476,8 +1152,7 @@ function describe_organization_config_rule_statuses(
 end
 
 """
-    describe_organization_config_rules()
-    describe_organization_config_rules(params::Dict{String,<:Any})
+    describe_organization_config_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of organization config rules.   When you specify the limit and the next
 token, you receive a paginated response. Limit and next token are not applicable if you
@@ -1485,27 +1160,19 @@ specify organization config rule names. It is only applicable, when you request 
 organization config rules.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of organization config rules returned on each page. If you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of organization config rules returned on each page. If you
   do no specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConfigRuleNames"`: The names of organization config rules for which you
+- `"organization_config_rule_names"`: The names of organization config rules for which you
   want details. If you do not specify any names, Config returns details for all your
   organization config rules.
 """
 function describe_organization_config_rules(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeOrganizationConfigRules";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_organization_config_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeOrganizationConfigRules",
         params;
@@ -1515,8 +1182,7 @@ function describe_organization_config_rules(
 end
 
 """
-    describe_organization_conformance_pack_statuses()
-    describe_organization_conformance_pack_statuses(params::Dict{String,<:Any})
+    describe_organization_conformance_pack_statuses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides organization conformance pack deployment status for an organization.   The status
 is not considered successful until organization conformance pack is successfully deployed
@@ -1526,27 +1192,19 @@ applicable if you specify organization conformance pack names. They are only app
 when you request all the organization conformance packs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of OrganizationConformancePackStatuses returned on each
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of OrganizationConformancePackStatuses returned on each
   page. If you do no specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConformancePackNames"`: The names of organization conformance packs for
+- `"organization_conformance_pack_names"`: The names of organization conformance packs for
   which you want status details. If you do not specify any names, Config returns details for
   all your organization conformance packs.
 """
 function describe_organization_conformance_pack_statuses(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeOrganizationConformancePackStatuses";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_organization_conformance_pack_statuses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeOrganizationConformancePackStatuses",
         params;
@@ -1556,8 +1214,7 @@ function describe_organization_conformance_pack_statuses(
 end
 
 """
-    describe_organization_conformance_packs()
-    describe_organization_conformance_packs(params::Dict{String,<:Any})
+    describe_organization_conformance_packs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of organization conformance packs.   When you specify the limit and the next
 token, you receive a paginated response.  Limit and next token are not applicable if you
@@ -1565,26 +1222,18 @@ specify organization conformance packs names. They are only applicable, when you
 all the organization conformance packs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of organization config packs returned on each page. If you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of organization config packs returned on each page. If you
   do no specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"OrganizationConformancePackNames"`: The name that you assign to an organization
+- `"organization_conformance_pack_names"`: The name that you assign to an organization
   conformance pack.
 """
 function describe_organization_conformance_packs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeOrganizationConformancePacks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_organization_conformance_packs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeOrganizationConformancePacks",
         params;
@@ -1594,30 +1243,21 @@ function describe_organization_conformance_packs(
 end
 
 """
-    describe_pending_aggregation_requests()
-    describe_pending_aggregation_requests(params::Dict{String,<:Any})
+    describe_pending_aggregation_requests(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all pending aggregation requests.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function describe_pending_aggregation_requests(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribePendingAggregationRequests";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_pending_aggregation_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribePendingAggregationRequests",
         params;
@@ -1627,8 +1267,7 @@ function describe_pending_aggregation_requests(
 end
 
 """
-    describe_remediation_configurations(config_rule_names)
-    describe_remediation_configurations(config_rule_names, params::Dict{String,<:Any})
+    describe_remediation_configurations(config_rule_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of one or more remediation configurations.
 
@@ -1638,20 +1277,9 @@ Returns the details of one or more remediation configurations.
 
 """
 function describe_remediation_configurations(
-    ConfigRuleNames; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeRemediationConfigurations",
-        Dict{String,Any}("ConfigRuleNames" => ConfigRuleNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_remediation_configurations(
-    ConfigRuleNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeRemediationConfigurations",
         Dict{String,Any}(
@@ -1665,8 +1293,7 @@ function describe_remediation_configurations(
 end
 
 """
-    describe_remediation_exceptions(config_rule_name)
-    describe_remediation_exceptions(config_rule_name, params::Dict{String,<:Any})
+    describe_remediation_exceptions(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of one or more remediation exceptions. A detailed view of a remediation
 exception for a set of resources that includes an explanation of an exception and the time
@@ -1681,30 +1308,19 @@ request resources in batch. It is only applicable, when you request all resource
 - `config_rule_name`: The name of the Config rule.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of RemediationExceptionResourceKey returned on each page.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of RemediationExceptionResourceKey returned on each page.
   The default is 25. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
-- `"ResourceKeys"`: An exception list of resource exception keys to be processed with the
+- `"resource_keys"`: An exception list of resource exception keys to be processed with the
   current request. Config adds exception for each resource key. For example, Config adds 3
   exceptions for 3 resource keys.
 """
 function describe_remediation_exceptions(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeRemediationExceptions",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_remediation_exceptions(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeRemediationExceptions",
         Dict{String,Any}(
@@ -1716,8 +1332,7 @@ function describe_remediation_exceptions(
 end
 
 """
-    describe_remediation_execution_status(config_rule_name)
-    describe_remediation_execution_status(config_rule_name, params::Dict{String,<:Any})
+    describe_remediation_execution_status(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a detailed view of a Remediation Execution for a set of resources including state,
 timestamps for when steps for the remediation execution occur, and any error messages for
@@ -1728,29 +1343,18 @@ paginated response.
 - `config_rule_name`: A list of Config rule names.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of RemediationExecutionStatuses returned on each page. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of RemediationExecutionStatuses returned on each page. The
   default is maximum. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"ResourceKeys"`: A list of resource keys to be processed with the current request. Each
+- `"resource_keys"`: A list of resource keys to be processed with the current request. Each
   element in the list consists of the resource type and resource ID.
 """
 function describe_remediation_execution_status(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeRemediationExecutionStatus",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_remediation_execution_status(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeRemediationExecutionStatus",
         Dict{String,Any}(
@@ -1762,8 +1366,7 @@ function describe_remediation_execution_status(
 end
 
 """
-    describe_retention_configurations()
-    describe_retention_configurations(params::Dict{String,<:Any})
+    describe_retention_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of one or more retention configurations. If the retention configuration
 name is not specified, this action returns the details for all the retention configurations
@@ -1771,26 +1374,18 @@ for that account.  Currently, Config supports only one retention configuration p
 in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"RetentionConfigurationNames"`: A list of names of retention configurations for which
+- `"retention_configuration_names"`: A list of names of retention configurations for which
   you want details. If you do not specify a name, Config returns details for all the
   retention configurations for that account.  Currently, Config supports only one retention
   configuration per region in your account.
 """
 function describe_retention_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "DescribeRetentionConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_retention_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "DescribeRetentionConfigurations",
         params;
@@ -1800,8 +1395,7 @@ function describe_retention_configurations(
 end
 
 """
-    get_aggregate_compliance_details_by_config_rule(account_id, aws_region, config_rule_name, configuration_aggregator_name)
-    get_aggregate_compliance_details_by_config_rule(account_id, aws_region, config_rule_name, configuration_aggregator_name, params::Dict{String,<:Any})
+    get_aggregate_compliance_details_by_config_rule(account_id, aws_region, config_rule_name, configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the evaluation results for the specified Config rule for a specific resource in a
 rule. The results indicate which Amazon Web Services resources were evaluated by the rule,
@@ -1816,14 +1410,14 @@ displayed on the next page.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceType"`: The resource compliance status.  For the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"compliance_type"`: The resource compliance status.  For the
   GetAggregateComplianceDetailsByConfigRuleRequest data type, Config supports only the
   COMPLIANT and NON_COMPLIANT. Config does not support the NOT_APPLICABLE and
   INSUFFICIENT_DATA values.
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   50. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_aggregate_compliance_details_by_config_rule(
@@ -1832,27 +1426,9 @@ function get_aggregate_compliance_details_by_config_rule(
     ConfigRuleName,
     ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "GetAggregateComplianceDetailsByConfigRule",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "AwsRegion" => AwsRegion,
-            "ConfigRuleName" => ConfigRuleName,
-            "ConfigurationAggregatorName" => ConfigurationAggregatorName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_aggregate_compliance_details_by_config_rule(
-    AccountId,
-    AwsRegion,
-    ConfigRuleName,
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetAggregateComplianceDetailsByConfigRule",
         Dict{String,Any}(
@@ -1873,8 +1449,7 @@ function get_aggregate_compliance_details_by_config_rule(
 end
 
 """
-    get_aggregate_config_rule_compliance_summary(configuration_aggregator_name)
-    get_aggregate_config_rule_compliance_summary(configuration_aggregator_name, params::Dict{String,<:Any})
+    get_aggregate_config_rule_compliance_summary(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of compliant and noncompliant rules for one or more accounts and regions
 in an aggregator.  The results can return an empty result page, but if you have a
@@ -1884,30 +1459,21 @@ nextToken, the results are displayed on the next page.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the results based on the ConfigRuleComplianceSummaryFilters object.
-- `"GroupByKey"`: Groups the result based on ACCOUNT_ID or AWS_REGION.
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the results based on the ConfigRuleComplianceSummaryFilters object.
+- `"group_by_key"`: Groups the result based on ACCOUNT_ID or AWS_REGION.
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   1000. You cannot specify a number greater than 1000. If you specify 0, Config uses the
   default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_aggregate_config_rule_compliance_summary(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "GetAggregateConfigRuleComplianceSummary",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_aggregate_config_rule_compliance_summary(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetAggregateConfigRuleComplianceSummary",
         Dict{String,Any}(
@@ -1925,8 +1491,7 @@ function get_aggregate_config_rule_compliance_summary(
 end
 
 """
-    get_aggregate_conformance_pack_compliance_summary(configuration_aggregator_name)
-    get_aggregate_conformance_pack_compliance_summary(configuration_aggregator_name, params::Dict{String,<:Any})
+    get_aggregate_conformance_pack_compliance_summary(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the count of compliant and noncompliant conformance packs across all Amazon Web
 Services accounts and Amazon Web Services Regions in an aggregator. You can filter based on
@@ -1937,31 +1502,22 @@ empty result page, but if you have a nextToken, the results are displayed on the
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the results based on the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the results based on the
   AggregateConformancePackComplianceSummaryFilters object.
-- `"GroupByKey"`: Groups the result based on Amazon Web Services account ID or Amazon Web
+- `"group_by_key"`: Groups the result based on Amazon Web Services account ID or Amazon Web
   Services Region.
-- `"Limit"`: The maximum number of results returned on each page. The default is maximum.
+- `"limit"`: The maximum number of results returned on each page. The default is maximum.
   If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_aggregate_conformance_pack_compliance_summary(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "GetAggregateConformancePackComplianceSummary",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_aggregate_conformance_pack_compliance_summary(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetAggregateConformancePackComplianceSummary",
         Dict{String,Any}(
@@ -1979,8 +1535,7 @@ function get_aggregate_conformance_pack_compliance_summary(
 end
 
 """
-    get_aggregate_discovered_resource_counts(configuration_aggregator_name)
-    get_aggregate_discovered_resource_counts(configuration_aggregator_name, params::Dict{String,<:Any})
+    get_aggregate_discovered_resource_counts(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the resource counts across accounts and regions that are present in your Config
 aggregator. You can request the resource counts by providing filters and GroupByKey. For
@@ -1993,30 +1548,21 @@ accounts that are present in your aggregator.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the results based on the ResourceCountFilters object.
-- `"GroupByKey"`: The key to group the resource counts.
-- `"Limit"`: The maximum number of GroupedResourceCount objects returned on each page. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the results based on the ResourceCountFilters object.
+- `"group_by_key"`: The key to group the resource counts.
+- `"limit"`: The maximum number of GroupedResourceCount objects returned on each page. The
   default is 1000. You cannot specify a number greater than 1000. If you specify 0, Config
   uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_aggregate_discovered_resource_counts(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "GetAggregateDiscoveredResourceCounts",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_aggregate_discovered_resource_counts(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetAggregateDiscoveredResourceCounts",
         Dict{String,Any}(
@@ -2034,8 +1580,7 @@ function get_aggregate_discovered_resource_counts(
 end
 
 """
-    get_aggregate_resource_config(configuration_aggregator_name, resource_identifier)
-    get_aggregate_resource_config(configuration_aggregator_name, resource_identifier, params::Dict{String,<:Any})
+    get_aggregate_resource_config(configuration_aggregator_name, resource_identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns configuration item that is aggregated for your specific resource in a specific
 source account and region.
@@ -2049,23 +1594,9 @@ function get_aggregate_resource_config(
     ConfigurationAggregatorName,
     ResourceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "GetAggregateResourceConfig",
-        Dict{String,Any}(
-            "ConfigurationAggregatorName" => ConfigurationAggregatorName,
-            "ResourceIdentifier" => ResourceIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_aggregate_resource_config(
-    ConfigurationAggregatorName,
-    ResourceIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetAggregateResourceConfig",
         Dict{String,Any}(
@@ -2084,8 +1615,7 @@ function get_aggregate_resource_config(
 end
 
 """
-    get_compliance_details_by_config_rule(config_rule_name)
-    get_compliance_details_by_config_rule(config_rule_name, params::Dict{String,<:Any})
+    get_compliance_details_by_config_rule(config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the evaluation results for the specified Config rule. The results indicate which
 Amazon Web Services resources were evaluated by the rule, when each resource was last
@@ -2095,29 +1625,18 @@ evaluated, and whether each resource complies with the rule.
 - `config_rule_name`: The name of the Config rule for which you want compliance information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and NOT_APPLICABLE.
-- `"Limit"`: The maximum number of evaluation results returned on each page. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"compliance_types"`: Filters the results by compliance. The allowed values are
+  COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
+- `"limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_compliance_details_by_config_rule(
-    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetComplianceDetailsByConfigRule",
-        Dict{String,Any}("ConfigRuleName" => ConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compliance_details_by_config_rule(
-    ConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetComplianceDetailsByConfigRule",
         Dict{String,Any}(
@@ -2129,8 +1648,7 @@ function get_compliance_details_by_config_rule(
 end
 
 """
-    get_compliance_details_by_resource(resource_id, resource_type)
-    get_compliance_details_by_resource(resource_id, resource_type, params::Dict{String,<:Any})
+    get_compliance_details_by_resource(resource_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the evaluation results for the specified Amazon Web Services resource. The results
 indicate which Config rules were used to evaluate the resource, when each rule was last
@@ -2143,28 +1661,16 @@ used, and whether the resource complies with each rule.
   compliance information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and NOT_APPLICABLE.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"compliance_types"`: Filters the results by compliance. The allowed values are
+  COMPLIANT, NON_COMPLIANT, and NOT_APPLICABLE.
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_compliance_details_by_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetComplianceDetailsByResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compliance_details_by_resource(
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetComplianceDetailsByResource",
         Dict{String,Any}(
@@ -2182,25 +1688,16 @@ function get_compliance_details_by_resource(
 end
 
 """
-    get_compliance_summary_by_config_rule()
-    get_compliance_summary_by_config_rule(params::Dict{String,<:Any})
+    get_compliance_summary_by_config_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of Config rules that are compliant and noncompliant, up to a maximum of
 25 for each.
 
 """
 function get_compliance_summary_by_config_rule(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetComplianceSummaryByConfigRule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compliance_summary_by_config_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetComplianceSummaryByConfigRule",
         params;
@@ -2210,33 +1707,24 @@ function get_compliance_summary_by_config_rule(
 end
 
 """
-    get_compliance_summary_by_resource_type()
-    get_compliance_summary_by_resource_type(params::Dict{String,<:Any})
+    get_compliance_summary_by_resource_type(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of resources that are compliant and the number that are noncompliant.
 You can specify one or more resource types to get these numbers for each resource type. The
 maximum number returned is 100.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceTypes"`: Specify one or more resource types to get the number of resources that
-  are compliant and the number that are noncompliant for each resource type. For this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resource_types"`: Specify one or more resource types to get the number of resources
+  that are compliant and the number that are noncompliant for each resource type. For this
   request, you can specify an Amazon Web Services resource type such as AWS::EC2::Instance.
   You can specify that the resource type is an Amazon Web Services account by specifying
   AWS::::Account.
 """
 function get_compliance_summary_by_resource_type(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetComplianceSummaryByResourceType";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compliance_summary_by_resource_type(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetComplianceSummaryByResourceType",
         params;
@@ -2246,8 +1734,7 @@ function get_compliance_summary_by_resource_type(
 end
 
 """
-    get_conformance_pack_compliance_details(conformance_pack_name)
-    get_conformance_pack_compliance_details(conformance_pack_name, params::Dict{String,<:Any})
+    get_conformance_pack_compliance_details(conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns compliance details of a conformance pack for all Amazon Web Services resources that
 are monitered by conformance pack.
@@ -2256,28 +1743,17 @@ are monitered by conformance pack.
 - `conformance_pack_name`: Name of the conformance pack.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: A ConformancePackEvaluationFilters object.
-- `"Limit"`: The maximum number of evaluation results returned on each page. If you do no
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: A ConformancePackEvaluationFilters object.
+- `"limit"`: The maximum number of evaluation results returned on each page. If you do no
   specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_details(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetConformancePackComplianceDetails",
-        Dict{String,Any}("ConformancePackName" => ConformancePackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_conformance_pack_compliance_details(
-    ConformancePackName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetConformancePackComplianceDetails",
         Dict{String,Any}(
@@ -2293,8 +1769,7 @@ function get_conformance_pack_compliance_details(
 end
 
 """
-    get_conformance_pack_compliance_summary(conformance_pack_names)
-    get_conformance_pack_compliance_summary(conformance_pack_names, params::Dict{String,<:Any})
+    get_conformance_pack_compliance_summary(conformance_pack_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns compliance details for the conformance pack based on the cumulative compliance
 results of all the rules in that conformance pack.
@@ -2303,26 +1778,15 @@ results of all the rules in that conformance pack.
 - `conformance_pack_names`: Names of conformance packs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of conformance packs returned on each page.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of conformance packs returned on each page.
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_conformance_pack_compliance_summary(
-    ConformancePackNames; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetConformancePackComplianceSummary",
-        Dict{String,Any}("ConformancePackNames" => ConformancePackNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_conformance_pack_compliance_summary(
-    ConformancePackNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetConformancePackComplianceSummary",
         Dict{String,Any}(
@@ -2338,8 +1802,7 @@ function get_conformance_pack_compliance_summary(
 end
 
 """
-    get_discovered_resource_counts()
-    get_discovered_resource_counts(params::Dict{String,<:Any})
+    get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the resource types, the number of each resource type, and the total number of
 resources that Config is recording in this region for your Amazon Web Services account.
@@ -2358,13 +1821,13 @@ minutes for Config to record and count your resources. Wait a few minutes and th
 the GetDiscoveredResourceCounts action.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"limit"`: The maximum number of ResourceCount objects returned on each page. The default
   is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the
   default.
-- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"resourceTypes"`: The comma-separated list that specifies the resource types that you
+- `"resource_types"`: The comma-separated list that specifies the resource types that you
   want Config to return (for example, \"AWS::EC2::Instance\", \"AWS::IAM::User\"). If a value
   for resourceTypes is not specified, Config returns all resource types that Config is
   recording in the region for your account.  If the configuration recorder is turned off,
@@ -2372,16 +1835,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recording a specific resource type (for example, S3 buckets), that resource type is not
   returned in the list of ResourceCount objects.
 """
-function get_discovered_resource_counts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "GetDiscoveredResourceCounts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_discovered_resource_counts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_discovered_resource_counts(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetDiscoveredResourceCounts",
         params;
@@ -2391,8 +1848,7 @@ function get_discovered_resource_counts(
 end
 
 """
-    get_organization_config_rule_detailed_status(organization_config_rule_name)
-    get_organization_config_rule_detailed_status(organization_config_rule_name, params::Dict{String,<:Any})
+    get_organization_config_rule_detailed_status(organization_config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed status for each member account within an organization for a given
 organization config rule.
@@ -2402,28 +1858,17 @@ organization config rule.
   status details for member accounts.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: A StatusDetailFilters object.
-- `"Limit"`: The maximum number of OrganizationConfigRuleDetailedStatus returned on each
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: A StatusDetailFilters object.
+- `"limit"`: The maximum number of OrganizationConfigRuleDetailedStatus returned on each
   page. If you do not specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_organization_config_rule_detailed_status(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetOrganizationConfigRuleDetailedStatus",
-        Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_organization_config_rule_detailed_status(
-    OrganizationConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetOrganizationConfigRuleDetailedStatus",
         Dict{String,Any}(
@@ -2441,8 +1886,7 @@ function get_organization_config_rule_detailed_status(
 end
 
 """
-    get_organization_conformance_pack_detailed_status(organization_conformance_pack_name)
-    get_organization_conformance_pack_detailed_status(organization_conformance_pack_name, params::Dict{String,<:Any})
+    get_organization_conformance_pack_detailed_status(organization_conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed status for each member account within an organization for a given
 organization conformance pack.
@@ -2452,30 +1896,19 @@ organization conformance pack.
   you want status details for member accounts.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An OrganizationResourceDetailedStatusFilters object.
-- `"Limit"`: The maximum number of OrganizationConformancePackDetailedStatuses returned on
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An OrganizationResourceDetailedStatusFilters object.
+- `"limit"`: The maximum number of OrganizationConformancePackDetailedStatuses returned on
   each page. If you do not specify a number, Config uses the default. The default is 100.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_organization_conformance_pack_detailed_status(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "GetOrganizationConformancePackDetailedStatus",
-        Dict{String,Any}(
-            "OrganizationConformancePackName" => OrganizationConformancePackName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_organization_conformance_pack_detailed_status(
-    OrganizationConformancePackName,
-    params::AbstractDict{String};
+    OrganizationConformancePackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetOrganizationConformancePackDetailedStatus",
         Dict{String,Any}(
@@ -2493,8 +1926,7 @@ function get_organization_conformance_pack_detailed_status(
 end
 
 """
-    get_resource_config_history(resource_id, resource_type)
-    get_resource_config_history(resource_id, resource_type, params::Dict{String,<:Any})
+    get_resource_config_history(resource_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of ConfigurationItems for the specified resource. The list contains details
 about each state of the resource during the specified time interval. If you specified a
@@ -2513,36 +1945,24 @@ nextToken.
 - `resource_type`: The resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"chronologicalOrder"`: The chronological order for configuration items listed. By
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"chronological_order"`: The chronological order for configuration items listed. By
   default, the results are listed in reverse chronological order.
-- `"earlierTime"`: The time stamp that indicates an earlier time. If not specified, the
+- `"earlier_time"`: The time stamp that indicates an earlier time. If not specified, the
   action returns paginated results that contain configuration items that start when the first
   configuration item was recorded.
-- `"laterTime"`: The time stamp that indicates a later time. If not specified, current time
-  is taken.
+- `"later_time"`: The time stamp that indicates a later time. If not specified, current
+  time is taken.
 - `"limit"`: The maximum number of configuration items returned on each page. The default
   is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the
   default.
-- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function get_resource_config_history(
-    resourceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "GetResourceConfigHistory",
-        Dict{String,Any}("resourceId" => resourceId, "resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_config_history(
-    resourceId,
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetResourceConfigHistory",
         Dict{String,Any}(
@@ -2560,8 +1980,7 @@ function get_resource_config_history(
 end
 
 """
-    get_stored_query(query_name)
-    get_stored_query(query_name, params::Dict{String,<:Any})
+    get_stored_query(query_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of a specific stored query.
 
@@ -2569,19 +1988,10 @@ Returns the details of a specific stored query.
 - `query_name`: The name of the query.
 
 """
-function get_stored_query(QueryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "GetStoredQuery",
-        Dict{String,Any}("QueryName" => QueryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_stored_query(
-    QueryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    QueryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "GetStoredQuery",
         Dict{String,Any}(
@@ -2593,8 +2003,7 @@ function get_stored_query(
 end
 
 """
-    list_aggregate_discovered_resources(configuration_aggregator_name, resource_type)
-    list_aggregate_discovered_resources(configuration_aggregator_name, resource_type, params::Dict{String,<:Any})
+    list_aggregate_discovered_resources(configuration_aggregator_name, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a resource type and returns a list of resource identifiers that are aggregated for
 a specific resource type across accounts and regions. A resource identifier includes the
@@ -2610,34 +2019,20 @@ AWS::EC2::Instance then the API returns all the EC2 instance identifiers of acco
 - `resource_type`: The type of resources that you want Config to list in the response.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters the results based on the ResourceFilters object.
-- `"Limit"`: The maximum number of resource identifiers returned on each page. You cannot
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters the results based on the ResourceFilters object.
+- `"limit"`: The maximum number of resource identifiers returned on each page. You cannot
   specify a number greater than 100. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function list_aggregate_discovered_resources(
     ConfigurationAggregatorName,
     ResourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "ListAggregateDiscoveredResources",
-        Dict{String,Any}(
-            "ConfigurationAggregatorName" => ConfigurationAggregatorName,
-            "ResourceType" => ResourceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_aggregate_discovered_resources(
-    ConfigurationAggregatorName,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "ListAggregateDiscoveredResources",
         Dict{String,Any}(
@@ -2656,8 +2051,7 @@ function list_aggregate_discovered_resources(
 end
 
 """
-    list_discovered_resources(resource_type)
-    list_discovered_resources(resource_type, params::Dict{String,<:Any})
+    list_discovered_resources(resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a resource type and returns a list of resource identifiers for the resources of
 that type. A resource identifier includes the resource type, ID, and (if available) the
@@ -2674,36 +2068,25 @@ nextToken parameter.
 - `resource_type`: The type of resources that you want Config to list in the response.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeDeletedResources"`: Specifies whether Config includes deleted resources in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_deleted_resources"`: Specifies whether Config includes deleted resources in the
   results. By default, deleted resources are not included.
 - `"limit"`: The maximum number of resource identifiers returned on each page. The default
   is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the
   default.
-- `"nextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
-- `"resourceIds"`: The IDs of only those resources that you want Config to list in the
+- `"resource_ids"`: The IDs of only those resources that you want Config to list in the
   response. If you do not specify this parameter, Config lists all resources of the specified
   type that it has discovered.
-- `"resourceName"`: The custom name of only those resources that you want Config to list in
-  the response. If you do not specify this parameter, Config lists all resources of the
+- `"resource_name"`: The custom name of only those resources that you want Config to list
+  in the response. If you do not specify this parameter, Config lists all resources of the
   specified type that it has discovered.
 """
 function list_discovered_resources(
-    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "ListDiscoveredResources",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_discovered_resources(
-    resourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "ListDiscoveredResources",
         Dict{String,Any}(
@@ -2715,34 +2098,26 @@ function list_discovered_resources(
 end
 
 """
-    list_stored_queries()
-    list_stored_queries(params::Dict{String,<:Any})
+    list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the stored queries for a single Amazon Web Services account and a single Amazon Web
 Services Region. The default is 100.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to be returned with a single call.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned with a single call.
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
-function list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "ListStoredQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_stored_queries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_stored_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "ListStoredQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the tags for Config resource.
 
@@ -2752,27 +2127,16 @@ List the tags for Config resource.
   and AggregatorAuthorization.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of tags returned on each page. The limit maximum is 50. You
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of tags returned on each page. The limit maximum is 50. You
   cannot specify a number greater than 50. If you specify 0, Config uses the default.
-- `"NextToken"`: The nextToken string returned on a previous page that you use to get the
+- `"next_token"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2784,8 +2148,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_aggregation_authorization(authorized_account_id, authorized_aws_region)
-    put_aggregation_authorization(authorized_account_id, authorized_aws_region, params::Dict{String,<:Any})
+    put_aggregation_authorization(authorized_account_id, authorized_aws_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Authorizes the aggregator account and region to collect data from the source account and
 region.
@@ -2796,30 +2159,16 @@ region.
 - `authorized_aws_region`: The region authorized to collect aggregated data.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of tag object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: An array of tag object.
 """
 function put_aggregation_authorization(
     AuthorizedAccountId,
     AuthorizedAwsRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "PutAggregationAuthorization",
-        Dict{String,Any}(
-            "AuthorizedAccountId" => AuthorizedAccountId,
-            "AuthorizedAwsRegion" => AuthorizedAwsRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_aggregation_authorization(
-    AuthorizedAccountId,
-    AuthorizedAwsRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutAggregationAuthorization",
         Dict{String,Any}(
@@ -2838,8 +2187,7 @@ function put_aggregation_authorization(
 end
 
 """
-    put_config_rule(config_rule)
-    put_config_rule(config_rule, params::Dict{String,<:Any})
+    put_config_rule(config_rule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates an Config rule for evaluating whether your Amazon Web Services resources
 comply with your desired configurations. You can use this action for custom Config rules
@@ -2865,22 +2213,13 @@ resource Configurations with Config in the Config Developer Guide.
 - `config_rule`: The rule that you want to add to your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: An array of tag object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: An array of tag object.
 """
-function put_config_rule(ConfigRule; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "PutConfigRule",
-        Dict{String,Any}("ConfigRule" => ConfigRule);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_config_rule(
-    ConfigRule,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ConfigRule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutConfigRule",
         Dict{String,Any}(
@@ -2892,8 +2231,7 @@ function put_config_rule(
 end
 
 """
-    put_configuration_aggregator(configuration_aggregator_name)
-    put_configuration_aggregator(configuration_aggregator_name, params::Dict{String,<:Any})
+    put_configuration_aggregator(configuration_aggregator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and updates the configuration aggregator with the selected source accounts and
 regions. The source account can be individual account(s) or an organization.  accountIds
@@ -2913,26 +2251,17 @@ guide.
 - `configuration_aggregator_name`: The name of the configuration aggregator.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountAggregationSources"`: A list of AccountAggregationSource object.
-- `"OrganizationAggregationSource"`: An OrganizationAggregationSource object.
-- `"Tags"`: An array of tag object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_aggregation_sources"`: A list of AccountAggregationSource object.
+- `"organization_aggregation_source"`: An OrganizationAggregationSource object.
+- `"tags"`: An array of tag object.
 """
 function put_configuration_aggregator(
-    ConfigurationAggregatorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "PutConfigurationAggregator",
-        Dict{String,Any}("ConfigurationAggregatorName" => ConfigurationAggregatorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_configuration_aggregator(
-    ConfigurationAggregatorName,
-    params::AbstractDict{String};
+    ConfigurationAggregatorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutConfigurationAggregator",
         Dict{String,Any}(
@@ -2950,8 +2279,7 @@ function put_configuration_aggregator(
 end
 
 """
-    put_configuration_recorder(configuration_recorder)
-    put_configuration_recorder(configuration_recorder, params::Dict{String,<:Any})
+    put_configuration_recorder(configuration_recorder; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new configuration recorder to record the selected resource configurations. You
 can use this action to change the role roleARN or the recordingGroup of an existing
@@ -2966,20 +2294,9 @@ specified, the default is to record all supported resource types.
 
 """
 function put_configuration_recorder(
-    ConfigurationRecorder; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorder; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutConfigurationRecorder",
-        Dict{String,Any}("ConfigurationRecorder" => ConfigurationRecorder);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_configuration_recorder(
-    ConfigurationRecorder,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutConfigurationRecorder",
         Dict{String,Any}(
@@ -2995,8 +2312,7 @@ function put_configuration_recorder(
 end
 
 """
-    put_conformance_pack(conformance_pack_name)
-    put_conformance_pack(conformance_pack_name, params::Dict{String,<:Any})
+    put_conformance_pack(conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or updates a conformance pack. A conformance pack is a collection of Config rules
 that can be easily deployed in an account and a region and across Amazon Web Services
@@ -3010,35 +2326,25 @@ TemplateBody parameter.
 - `conformance_pack_name`: Name of the conformance pack you want to create.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConformancePackInputParameters"`: A list of ConformancePackInputParameter objects.
-- `"DeliveryS3Bucket"`: The name of the Amazon S3 bucket where Config stores conformance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conformance_pack_input_parameters"`: A list of ConformancePackInputParameter objects.
+- `"delivery_s3_bucket"`: The name of the Amazon S3 bucket where Config stores conformance
   pack templates.  This field is optional.
-- `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.   This field is optional.
-- `"TemplateBody"`: A string containing full conformance pack template body. Structure
+- `"delivery_s3_key_prefix"`: The prefix for the Amazon S3 bucket.   This field is
+  optional.
+- `"template_body"`: A string containing full conformance pack template body. Structure
   containing the template body with a minimum length of 1 byte and a maximum length of 51,200
   bytes.  You can only use a YAML template with one resource type, that is, config rule and a
   remediation action.
-- `"TemplateS3Uri"`: Location of file containing the template body
+- `"template_s3_uri"`: Location of file containing the template body
   (s3://bucketname/prefix). The uri must point to the conformance pack template (max size:
   300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
    You must have access to read Amazon S3 bucket.
 """
 function put_conformance_pack(
-    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConformancePackName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutConformancePack",
-        Dict{String,Any}("ConformancePackName" => ConformancePackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_conformance_pack(
-    ConformancePackName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutConformancePack",
         Dict{String,Any}(
@@ -3054,8 +2360,7 @@ function put_conformance_pack(
 end
 
 """
-    put_delivery_channel(delivery_channel)
-    put_delivery_channel(delivery_channel, params::Dict{String,<:Any})
+    put_delivery_channel(delivery_channel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a delivery channel object to deliver configuration information to an Amazon S3
 bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a
@@ -3072,20 +2377,9 @@ delivery channel per region in your account.
 
 """
 function put_delivery_channel(
-    DeliveryChannel; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryChannel; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutDeliveryChannel",
-        Dict{String,Any}("DeliveryChannel" => DeliveryChannel);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_delivery_channel(
-    DeliveryChannel,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutDeliveryChannel",
         Dict{String,Any}(
@@ -3099,8 +2393,7 @@ function put_delivery_channel(
 end
 
 """
-    put_evaluations(result_token)
-    put_evaluations(result_token, params::Dict{String,<:Any})
+    put_evaluations(result_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used by an Lambda function to deliver evaluation results to Config. This action is required
 in every Lambda function that is invoked by an Config rule.
@@ -3110,29 +2403,20 @@ in every Lambda function that is invoked by an Config rule.
   Identifies the rule and the event that triggered the evaluation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Evaluations"`: The assessments that the Lambda function performs. Each evaluation
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"evaluations"`: The assessments that the Lambda function performs. Each evaluation
   identifies an Amazon Web Services resource and indicates whether it complies with the
   Config rule that invokes the Lambda function.
-- `"TestMode"`: Use this parameter to specify a test run for PutEvaluations. You can verify
-  whether your Lambda function will deliver evaluation results to Config. No updates occur to
-  your existing evaluations, and evaluation results are not sent to Config.  When TestMode is
-  true, PutEvaluations doesn't require a valid value for the ResultToken parameter, but the
-  value cannot be null.
+- `"test_mode"`: Use this parameter to specify a test run for PutEvaluations. You can
+  verify whether your Lambda function will deliver evaluation results to Config. No updates
+  occur to your existing evaluations, and evaluation results are not sent to Config.  When
+  TestMode is true, PutEvaluations doesn't require a valid value for the ResultToken
+  parameter, but the value cannot be null.
 """
-function put_evaluations(ResultToken; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "PutEvaluations",
-        Dict{String,Any}("ResultToken" => ResultToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_evaluations(
-    ResultToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResultToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutEvaluations",
         Dict{String,Any}(
@@ -3144,8 +2428,7 @@ function put_evaluations(
 end
 
 """
-    put_external_evaluation(config_rule_name, external_evaluation)
-    put_external_evaluation(config_rule_name, external_evaluation, params::Dict{String,<:Any})
+    put_external_evaluation(config_rule_name, external_evaluation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add or updates the evaluations for process checks. This API checks if the rule is a process
 check when the name of the Config rule is provided.
@@ -3157,23 +2440,12 @@ check when the name of the Config rule is provided.
 
 """
 function put_external_evaluation(
-    ConfigRuleName, ExternalEvaluation; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "PutExternalEvaluation",
-        Dict{String,Any}(
-            "ConfigRuleName" => ConfigRuleName, "ExternalEvaluation" => ExternalEvaluation
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_external_evaluation(
     ConfigRuleName,
-    ExternalEvaluation,
-    params::AbstractDict{String};
+    ExternalEvaluation;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutExternalEvaluation",
         Dict{String,Any}(
@@ -3192,8 +2464,7 @@ function put_external_evaluation(
 end
 
 """
-    put_organization_config_rule(organization_config_rule_name)
-    put_organization_config_rule(organization_config_rule_name, params::Dict{String,<:Any})
+    put_organization_config_rule(organization_config_rule_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates organization config rule for your entire organization evaluating whether
 your Amazon Web Services resources comply with your desired configurations.  Only a master
@@ -3223,27 +2494,16 @@ OrganizationManagedRuleMetadata.
 - `organization_config_rule_name`: The name that you assign to an organization config rule.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExcludedAccounts"`: A comma-separated list of accounts that you want to exclude from an
-  organization config rule.
-- `"OrganizationCustomRuleMetadata"`: An OrganizationCustomRuleMetadata object.
-- `"OrganizationManagedRuleMetadata"`: An OrganizationManagedRuleMetadata object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"excluded_accounts"`: A comma-separated list of accounts that you want to exclude from
+  an organization config rule.
+- `"organization_custom_rule_metadata"`: An OrganizationCustomRuleMetadata object.
+- `"organization_managed_rule_metadata"`: An OrganizationManagedRuleMetadata object.
 """
 function put_organization_config_rule(
-    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationConfigRuleName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutOrganizationConfigRule",
-        Dict{String,Any}("OrganizationConfigRuleName" => OrganizationConfigRuleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_organization_config_rule(
-    OrganizationConfigRuleName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutOrganizationConfigRule",
         Dict{String,Any}(
@@ -3261,8 +2521,7 @@ function put_organization_config_rule(
 end
 
 """
-    put_organization_conformance_pack(organization_conformance_pack_name)
-    put_organization_conformance_pack(organization_conformance_pack_name, params::Dict{String,<:Any})
+    put_organization_conformance_pack(organization_conformance_pack_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deploys conformance packs across member accounts in an Amazon Web Services Organization.
 Only a master account and a delegated administrator can call this API. When calling this
@@ -3287,38 +2546,27 @@ Config rules in each pack and 3 delegated administrator per organization.
   to create.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConformancePackInputParameters"`: A list of ConformancePackInputParameter objects.
-- `"DeliveryS3Bucket"`: The name of the Amazon S3 bucket where Config stores conformance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"conformance_pack_input_parameters"`: A list of ConformancePackInputParameter objects.
+- `"delivery_s3_bucket"`: The name of the Amazon S3 bucket where Config stores conformance
   pack templates.  This field is optional. If used, it must be prefixed with
   awsconfigconforms.
-- `"DeliveryS3KeyPrefix"`: The prefix for the Amazon S3 bucket.  This field is optional.
-- `"ExcludedAccounts"`: A list of Amazon Web Services accounts to be excluded from an
+- `"delivery_s3_key_prefix"`: The prefix for the Amazon S3 bucket.  This field is optional.
+- `"excluded_accounts"`: A list of Amazon Web Services accounts to be excluded from an
   organization conformance pack while deploying a conformance pack.
-- `"TemplateBody"`: A string containing full conformance pack template body. Structure
+- `"template_body"`: A string containing full conformance pack template body. Structure
   containing the template body with a minimum length of 1 byte and a maximum length of 51,200
   bytes.
-- `"TemplateS3Uri"`: Location of file containing the template body. The uri must point to
+- `"template_s3_uri"`: Location of file containing the template body. The uri must point to
   the conformance pack template (max size: 300 KB).  You must have access to read Amazon S3
   bucket.
 """
 function put_organization_conformance_pack(
-    OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "PutOrganizationConformancePack",
-        Dict{String,Any}(
-            "OrganizationConformancePackName" => OrganizationConformancePackName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_organization_conformance_pack(
-    OrganizationConformancePackName,
-    params::AbstractDict{String};
+    OrganizationConformancePackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutOrganizationConformancePack",
         Dict{String,Any}(
@@ -3336,8 +2584,7 @@ function put_organization_conformance_pack(
 end
 
 """
-    put_remediation_configurations(remediation_configurations)
-    put_remediation_configurations(remediation_configurations, params::Dict{String,<:Any})
+    put_remediation_configurations(remediation_configurations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates the remediation configuration with a specific Config rule with the selected
 target or action. The API creates the RemediationConfiguration object for the Config rule.
@@ -3353,20 +2600,9 @@ conformance packs, and rules deployed by Amazon Web Services Security Hub.
 
 """
 function put_remediation_configurations(
-    RemediationConfigurations; aws_config::AbstractAWSConfig=global_aws_config()
+    RemediationConfigurations; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutRemediationConfigurations",
-        Dict{String,Any}("RemediationConfigurations" => RemediationConfigurations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_remediation_configurations(
-    RemediationConfigurations,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutRemediationConfigurations",
         Dict{String,Any}(
@@ -3382,8 +2618,7 @@ function put_remediation_configurations(
 end
 
 """
-    put_remediation_exceptions(config_rule_name, resource_keys)
-    put_remediation_exceptions(config_rule_name, resource_keys, params::Dict{String,<:Any})
+    put_remediation_exceptions(config_rule_name, resource_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A remediation exception is when a specific resource is no longer considered for
 auto-remediation. This API adds a new exception or updates an existing exception for a
@@ -3399,28 +2634,17 @@ exceptions blocks auto-remediation until the exception is cleared.
   exceptions for 3 resource keys.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExpirationTime"`: The exception is automatically deleted after the expiration date.
-- `"Message"`: The message contains an explanation of the exception.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"expiration_time"`: The exception is automatically deleted after the expiration date.
+- `"message"`: The message contains an explanation of the exception.
 """
 function put_remediation_exceptions(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "PutRemediationExceptions",
-        Dict{String,Any}(
-            "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_remediation_exceptions(
     ConfigRuleName,
-    ResourceKeys,
-    params::AbstractDict{String};
+    ResourceKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutRemediationExceptions",
         Dict{String,Any}(
@@ -3438,8 +2662,7 @@ function put_remediation_exceptions(
 end
 
 """
-    put_resource_config(configuration, resource_id, resource_type, schema_version_id)
-    put_resource_config(configuration, resource_id, resource_type, schema_version_id, params::Dict{String,<:Any})
+    put_resource_config(configuration, resource_id, resource_type, schema_version_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Records the configuration state for the resource provided in the request. The configuration
 state of a resource is represented in Config as Configuration Items. Once this API records
@@ -3464,9 +2687,9 @@ configuration item.
   CloudFormation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResourceName"`: Name of the resource.
-- `"Tags"`: Tags associated with the resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"resource_name"`: Name of the resource.
+- `"tags"`: Tags associated with the resource.
 """
 function put_resource_config(
     Configuration,
@@ -3474,27 +2697,9 @@ function put_resource_config(
     ResourceType,
     SchemaVersionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "PutResourceConfig",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "ResourceId" => ResourceId,
-            "ResourceType" => ResourceType,
-            "SchemaVersionId" => SchemaVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resource_config(
-    Configuration,
-    ResourceId,
-    ResourceType,
-    SchemaVersionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutResourceConfig",
         Dict{String,Any}(
@@ -3515,8 +2720,7 @@ function put_resource_config(
 end
 
 """
-    put_retention_configuration(retention_period_in_days)
-    put_retention_configuration(retention_period_in_days, params::Dict{String,<:Any})
+    put_retention_configuration(retention_period_in_days; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and updates the retention configuration with details about retention period (number
 of days) that Config stores your historical information. The API creates the
@@ -3530,20 +2734,9 @@ Currently, Config supports only one retention configuration per region in your a
 
 """
 function put_retention_configuration(
-    RetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config()
+    RetentionPeriodInDays; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "PutRetentionConfiguration",
-        Dict{String,Any}("RetentionPeriodInDays" => RetentionPeriodInDays);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_retention_configuration(
-    RetentionPeriodInDays,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutRetentionConfiguration",
         Dict{String,Any}(
@@ -3559,8 +2752,7 @@ function put_retention_configuration(
 end
 
 """
-    put_stored_query(stored_query)
-    put_stored_query(stored_query, params::Dict{String,<:Any})
+    put_stored_query(stored_query; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Saves a new query or updates an existing saved query. The QueryName must be unique for a
 single Amazon Web Services account and a single Amazon Web Services Region. You can create
@@ -3574,22 +2766,13 @@ Region.
   description is optional.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of Tags object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of Tags object.
 """
-function put_stored_query(StoredQuery; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "PutStoredQuery",
-        Dict{String,Any}("StoredQuery" => StoredQuery);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_stored_query(
-    StoredQuery,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    StoredQuery; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "PutStoredQuery",
         Dict{String,Any}(
@@ -3601,8 +2784,7 @@ function put_stored_query(
 end
 
 """
-    select_aggregate_resource_config(configuration_aggregator_name, expression)
-    select_aggregate_resource_config(configuration_aggregator_name, expression, params::Dict{String,<:Any})
+    select_aggregate_resource_config(configuration_aggregator_name, expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a structured query language (SQL) SELECT command and an aggregator to query
 configuration state of Amazon Web Services resources across multiple accounts and regions,
@@ -3621,34 +2803,20 @@ parameters, the default page size is set to 25.
 - `expression`: The SQL query SELECT command.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of query results returned on each page.
-- `"MaxResults"`: The maximum number of query results returned on each page. Config also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of query results returned on each page.
+- `"max_results"`: The maximum number of query results returned on each page. Config also
   allows the Limit request parameter.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
 function select_aggregate_resource_config(
     ConfigurationAggregatorName,
     Expression;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return config_service(
-        "SelectAggregateResourceConfig",
-        Dict{String,Any}(
-            "ConfigurationAggregatorName" => ConfigurationAggregatorName,
-            "Expression" => Expression,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function select_aggregate_resource_config(
-    ConfigurationAggregatorName,
-    Expression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "SelectAggregateResourceConfig",
         Dict{String,Any}(
@@ -3667,8 +2835,7 @@ function select_aggregate_resource_config(
 end
 
 """
-    select_resource_config(expression)
-    select_resource_config(expression, params::Dict{String,<:Any})
+    select_resource_config(expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a structured query language (SQL) SELECT command, performs the corresponding
 search, and returns resource configurations matching the properties. For more information
@@ -3678,26 +2845,15 @@ about query components, see the  Query Components  section in the Config Develop
 - `expression`: The SQL query SELECT command.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Limit"`: The maximum number of query results returned on each page.
-- `"NextToken"`: The nextToken string returned in a previous request that you use to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"limit"`: The maximum number of query results returned on each page.
+- `"next_token"`: The nextToken string returned in a previous request that you use to
   request the next page of results in a paginated response.
 """
 function select_resource_config(
-    Expression; aws_config::AbstractAWSConfig=global_aws_config()
+    Expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "SelectResourceConfig",
-        Dict{String,Any}("Expression" => Expression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function select_resource_config(
-    Expression,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "SelectResourceConfig",
         Dict{String,Any}(
@@ -3709,8 +2865,7 @@ function select_resource_config(
 end
 
 """
-    start_config_rules_evaluation()
-    start_config_rules_evaluation(params::Dict{String,<:Any})
+    start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs an on-demand evaluation for the specified Config rules against the last known
 configuration state of the resources. Use StartConfigRulesEvaluation when you want to test
@@ -3730,18 +2885,14 @@ the StartConfigRulesEvaluation API.   Config invokes your Lambda function and ev
 your IAM resources.   Your custom rule will still run periodic evaluations every 24 hours.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigRuleNames"`: The list of names of Config rules that you want to run evaluations
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"config_rule_names"`: The list of names of Config rules that you want to run evaluations
   for.
 """
-function start_config_rules_evaluation(; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "StartConfigRulesEvaluation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function start_config_rules_evaluation(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function start_config_rules_evaluation(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "StartConfigRulesEvaluation",
         params;
@@ -3751,8 +2902,7 @@ function start_config_rules_evaluation(
 end
 
 """
-    start_configuration_recorder(configuration_recorder_name)
-    start_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
+    start_configuration_recorder(configuration_recorder_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts recording configurations of the Amazon Web Services resources you have selected to
 record in your Amazon Web Services account. You must have created at least one delivery
@@ -3764,20 +2914,9 @@ channel to successfully start the configuration recorder.
 
 """
 function start_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "StartConfigurationRecorder",
-        Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_configuration_recorder(
-    ConfigurationRecorderName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "StartConfigurationRecorder",
         Dict{String,Any}(
@@ -3793,8 +2932,7 @@ function start_configuration_recorder(
 end
 
 """
-    start_remediation_execution(config_rule_name, resource_keys)
-    start_remediation_execution(config_rule_name, resource_keys, params::Dict{String,<:Any})
+    start_remediation_execution(config_rule_name, resource_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs an on-demand remediation for the specified Config rules against the last known
 remediation configuration. It runs an execution against the current state of your
@@ -3810,23 +2948,12 @@ must complete before you can call the API again.
 
 """
 function start_remediation_execution(
-    ConfigRuleName, ResourceKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return config_service(
-        "StartRemediationExecution",
-        Dict{String,Any}(
-            "ConfigRuleName" => ConfigRuleName, "ResourceKeys" => ResourceKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_remediation_execution(
     ConfigRuleName,
-    ResourceKeys,
-    params::AbstractDict{String};
+    ResourceKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "StartRemediationExecution",
         Dict{String,Any}(
@@ -3844,8 +2971,7 @@ function start_remediation_execution(
 end
 
 """
-    stop_configuration_recorder(configuration_recorder_name)
-    stop_configuration_recorder(configuration_recorder_name, params::Dict{String,<:Any})
+    stop_configuration_recorder(configuration_recorder_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops recording configurations of the Amazon Web Services resources you have selected to
 record in your Amazon Web Services account.
@@ -3856,20 +2982,9 @@ record in your Amazon Web Services account.
 
 """
 function stop_configuration_recorder(
-    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationRecorderName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "StopConfigurationRecorder",
-        Dict{String,Any}("ConfigurationRecorderName" => ConfigurationRecorderName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_configuration_recorder(
-    ConfigurationRecorderName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "StopConfigurationRecorder",
         Dict{String,Any}(
@@ -3885,8 +3000,7 @@ function stop_configuration_recorder(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates the specified tags to a resource with the specified resourceArn. If existing
 tags on a resource are not specified in the request parameters, they are not changed. When
@@ -3899,20 +3013,10 @@ a resource is deleted, the tags associated with that resource are deleted as wel
 - `tags`: An array of tag object.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return config_service(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "TagResource",
         Dict{String,Any}(
@@ -3928,8 +3032,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes specified tags from a resource.
 
@@ -3941,21 +3044,9 @@ Deletes specified tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return config_service(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return config_service(
         "UntagResource",
         Dict{String,Any}(

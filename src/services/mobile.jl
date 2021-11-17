@@ -4,38 +4,42 @@ using AWS.AWSServices: mobile
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "name" => "name",
+    "snapshot_id" => "snapshotId",
+    "platform" => "platform",
+    "contents" => "contents",
+    "region" => "region",
+    "next_token" => "nextToken",
+    "project_id" => "projectId",
+    "max_results" => "maxResults",
+    "sync_from_resources" => "syncFromResources",
+)
+
 """
-    create_project()
-    create_project(params::Dict{String,<:Any})
+    create_project(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates an AWS Mobile Hub project.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"contents"`:  ZIP or YAML file which contains configuration settings to be used when
   creating the project. This may be the contents of the file downloaded from the URL provided
   in an export project operation.
 - `"name"`:  Name of the project.
 - `"region"`:  Default region where project resources should be created.
-- `"snapshotId"`:  Unique identifier for an exported snapshot of project configuration.
+- `"snapshot_id"`:  Unique identifier for an exported snapshot of project configuration.
   This snapshot identifier is included in the share URL when a project is exported.
 """
-function create_project(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "POST", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_project(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_project(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "POST", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    delete_project(project_id)
-    delete_project(project_id, params::Dict{String,<:Any})
+    delete_project(project_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Delets a project in AWS Mobile Hub.
 
@@ -43,19 +47,10 @@ end
 - `project_id`:  Unique project identifier.
 
 """
-function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "DELETE",
-        "/projects/$(projectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_project(
-    projectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "DELETE",
         "/projects/$(projectId)",
@@ -66,8 +61,7 @@ function delete_project(
 end
 
 """
-    describe_bundle(bundle_id)
-    describe_bundle(bundle_id, params::Dict{String,<:Any})
+    describe_bundle(bundle_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Get the bundle details for the requested bundle id.
 
@@ -75,19 +69,10 @@ end
 - `bundle_id`:  Unique bundle identifier.
 
 """
-function describe_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "GET",
-        "/bundles/$(bundleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_bundle(
-    bundleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "GET",
         "/bundles/$(bundleId)",
@@ -98,8 +83,7 @@ function describe_bundle(
 end
 
 """
-    describe_project(project_id)
-    describe_project(project_id, params::Dict{String,<:Any})
+    describe_project(project_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets details about a project in AWS Mobile Hub.
 
@@ -107,25 +91,15 @@ end
 - `project_id`:  Unique project identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"syncFromResources"`:  If set to true, causes AWS Mobile Hub to synchronize information
-  from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub
-  project.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sync_from_resources"`:  If set to true, causes AWS Mobile Hub to synchronize
+  information from other services, e.g., update state of AWS CloudFormation stacks in the AWS
+  Mobile Hub project.
 """
-function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "GET",
-        "/project",
-        Dict{String,Any}("projectId" => projectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_project(
-    projectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "GET",
         "/project",
@@ -138,8 +112,7 @@ function describe_project(
 end
 
 """
-    export_bundle(bundle_id)
-    export_bundle(bundle_id, params::Dict{String,<:Any})
+    export_bundle(bundle_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Generates customized software development kit (SDK) and or tool packages used to integrate
 mobile web or mobile app clients with backend AWS resources.
@@ -148,23 +121,14 @@ mobile web or mobile app clients with backend AWS resources.
 - `bundle_id`:  Unique bundle identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"platform"`:  Developer desktop or target application platform.
-- `"projectId"`:  Unique project identifier.
+- `"project_id"`:  Unique project identifier.
 """
-function export_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "POST",
-        "/bundles/$(bundleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_bundle(
-    bundleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    bundleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "POST",
         "/bundles/$(bundleId)",
@@ -175,8 +139,7 @@ function export_bundle(
 end
 
 """
-    export_project(project_id)
-    export_project(project_id, params::Dict{String,<:Any})
+    export_project(project_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Exports project configuration to a snapshot which can be downloaded and shared. Note that
 mobile app push credentials are encrypted in exported projects, so they can only be shared
@@ -186,19 +149,10 @@ successfully within the same AWS account.
 - `project_id`:  Unique project identifier.
 
 """
-function export_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "POST",
-        "/exports/$(projectId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_project(
-    projectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "POST",
         "/exports/$(projectId)",
@@ -209,58 +163,45 @@ function export_project(
 end
 
 """
-    list_bundles()
-    list_bundles(params::Dict{String,<:Any})
+    list_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  List all available bundles.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Maximum number of records to list in a single response.
-- `"nextToken"`:  Pagination token. Set to null to start listing bundles from start. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  Maximum number of records to list in a single response.
+- `"next_token"`:  Pagination token. Set to null to start listing bundles from start. If
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more bundles.
 """
-function list_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile("GET", "/bundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_bundles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_bundles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "GET", "/bundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_projects()
-    list_projects(params::Dict{String,<:Any})
+    list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists projects in AWS Mobile Hub.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Maximum number of records to list in a single response.
-- `"nextToken"`:  Pagination token. Set to null to start listing projects from start. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  Maximum number of records to list in a single response.
+- `"next_token"`:  Pagination token. Set to null to start listing projects from start. If
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more projects.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    update_project(project_id)
-    update_project(project_id, params::Dict{String,<:Any})
+    update_project(project_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Update an existing project.
 
@@ -268,25 +209,15 @@ end
 - `project_id`:  Unique project identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"contents"`:  ZIP or YAML file which contains project configuration to be updated. This
   should be the contents of the file downloaded from the URL provided in an export project
   operation.
 """
-function update_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return mobile(
-        "POST",
-        "/update",
-        Dict{String,Any}("projectId" => projectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_project(
-    projectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    projectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mobile(
         "POST",
         "/update",

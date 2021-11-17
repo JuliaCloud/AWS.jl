@@ -4,9 +4,16 @@ using AWS.AWSServices: lex_runtime_v2
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "input_stream" => "inputStream",
+    "request_attributes" => "requestAttributes",
+    "messages" => "messages",
+    "response_content_type" => "ResponseContentType",
+    "session_state" => "x-amz-lex-session-state",
+)
+
 """
-    delete_session(bot_alias_id, bot_id, locale_id, session_id)
-    delete_session(bot_alias_id, bot_id, locale_id, session_id, params::Dict{String,<:Any})
+    delete_session(bot_alias_id, bot_id, locale_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes session information for a specified bot, alias, and user ID.  You can use this
 operation to restart a conversation with a bot. When you remove a session, the entire
@@ -30,22 +37,9 @@ function delete_session(
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_runtime_v2(
-        "DELETE",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_session(
-    botAliasId,
-    botId,
-    localeId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_runtime_v2(
         "DELETE",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
@@ -56,8 +50,7 @@ function delete_session(
 end
 
 """
-    get_session(bot_alias_id, bot_id, locale_id, session_id)
-    get_session(bot_alias_id, bot_id, locale_id, session_id, params::Dict{String,<:Any})
+    get_session(bot_alias_id, bot_id, locale_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns session information for a specified bot, alias, and user. For example, you can use
 this operation to retrieve session information for a user that has left a long-running
@@ -78,22 +71,9 @@ function get_session(
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_runtime_v2(
-        "GET",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_session(
-    botAliasId,
-    botId,
-    localeId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_runtime_v2(
         "GET",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
@@ -104,8 +84,7 @@ function get_session(
 end
 
 """
-    put_session(bot_alias_id, bot_id, locale_id, session_id, session_state)
-    put_session(bot_alias_id, bot_id, locale_id, session_id, session_state, params::Dict{String,<:Any})
+    put_session(bot_alias_id, bot_id, locale_id, session_id, session_state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new session or modifies an existing session with an Amazon Lex V2 bot. Use this
 operation to enable your application to set the state of the bot.
@@ -120,15 +99,15 @@ operation to enable your application to set the state of the bot.
   the next step that Amazon Lex V2 should use in the conversation with the user.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ResponseContentType"`: The message that Amazon Lex V2 returns in the response can be
-  either text or speech depending on the value of this parameter.    If the value is
-  text/plain; charset=utf-8, Amazon Lex V2 returns text in the response.
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"messages"`: A list of messages to send to the user. Messages are sent in the order that
   they are defined in the list.
-- `"requestAttributes"`: Request-specific information passed between Amazon Lex V2 and the
+- `"request_attributes"`: Request-specific information passed between Amazon Lex V2 and the
   client application. The namespace x-amz-lex: is reserved for special attributes. Don't
   create any request attributes with the prefix x-amz-lex:.
+- `"response_content_type"`: The message that Amazon Lex V2 returns in the response can be
+  either text or speech depending on the value of this parameter.    If the value is
+  text/plain; charset=utf-8, Amazon Lex V2 returns text in the response.
 """
 function put_session(
     botAliasId,
@@ -137,24 +116,9 @@ function put_session(
     sessionId,
     sessionState;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
-        Dict{String,Any}("sessionState" => sessionState);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_session(
-    botAliasId,
-    botId,
-    localeId,
-    sessionId,
-    sessionState,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_runtime_v2(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)",
@@ -167,8 +131,7 @@ function put_session(
 end
 
 """
-    recognize_text(bot_alias_id, bot_id, locale_id, session_id, text)
-    recognize_text(bot_alias_id, bot_id, locale_id, session_id, text, params::Dict{String,<:Any})
+    recognize_text(bot_alias_id, bot_id, locale_id, session_id, text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends user input to Amazon Lex V2. Client applications use this API to send requests to
 Amazon Lex V2 at runtime. Amazon Lex V2 then interprets the user input using the machine
@@ -192,11 +155,11 @@ when the period times out.    For more information, see Completion message.
 - `text`: The text that the user entered. Amazon Lex V2 interprets this text.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"requestAttributes"`: Request-specific information passed between the client application
-  and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes. Don't
-  create any request attributes with the prefix x-amz-lex:.
-- `"sessionState"`: The current state of the dialog between the user and the bot.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"request_attributes"`: Request-specific information passed between the client
+  application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes.
+  Don't create any request attributes with the prefix x-amz-lex:.
+- `"session_state"`: The current state of the dialog between the user and the bot.
 """
 function recognize_text(
     botAliasId,
@@ -205,24 +168,9 @@ function recognize_text(
     sessionId,
     text;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
-        Dict{String,Any}("text" => text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function recognize_text(
-    botAliasId,
-    botId,
-    localeId,
-    sessionId,
-    text,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_runtime_v2(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/text",
@@ -233,8 +181,7 @@ function recognize_text(
 end
 
 """
-    recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id)
-    recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id, params::Dict{String,<:Any})
+    recognize_utterance(content-_type, bot_alias_id, bot_id, locale_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends user input to Amazon Lex V2. You can send text or speech. Clients use this API to
 send text and audio requests to Amazon Lex V2 at runtime. Amazon Lex V2 interprets the user
@@ -269,8 +216,14 @@ is returned when the period times out.    For more information, see Completion m
 - `session_id`: The identifier of the session in use.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Response-Content-Type"`: The message that Amazon Lex V2 returns in the response can be
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"input_stream"`: User input in PCM or Opus audio format or text format as described in
+  the requestContentType parameter.
+- `"request_attributes"`: Request-specific information passed between the client
+  application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes.
+  Don't create any request attributes for prefix x-amz-lex:. The requestAttributes field must
+  be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
+- `"response_content_type"`: The message that Amazon Lex V2 returns in the response can be
   either text or speech based on the responseContentType value.   If the value is
   text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.   If the value begins
   with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly
@@ -280,17 +233,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   16 KHz in 16-bit, little-endian format.   The following are the accepted values:
   audio/mpeg   audio/ogg   audio/pcm (16 KHz)   audio/* (defaults to mpeg)   text/plain;
   charset=utf-8
-- `"inputStream"`: User input in PCM or Opus audio format or text format as described in
-  the requestContentType parameter.
-- `"x-amz-lex-request-attributes"`: Request-specific information passed between the client
-  application and Amazon Lex V2  The namespace x-amz-lex: is reserved for special attributes.
-  Don't create any request attributes for prefix x-amz-lex:. The requestAttributes field must
-  be compressed using gzip and then base64 encoded before sending to Amazon Lex V2.
-- `"x-amz-lex-session-state"`: Sets the state of the session with the user. You can use
-  this to set the current intent, attributes, context, and dialog action. Use the dialog
-  action to determine the next step that Amazon Lex V2 should use in the conversation with
-  the user. The sessionState field must be compressed using gzip and then base64 encoded
-  before sending to Amazon Lex V2.
+- `"session_state"`: Sets the state of the session with the user. You can use this to set
+  the current intent, attributes, context, and dialog action. Use the dialog action to
+  determine the next step that Amazon Lex V2 should use in the conversation with the user.
+  The sessionState field must be compressed using gzip and then base64 encoded before sending
+  to Amazon Lex V2.
 """
 function recognize_utterance(
     Content_Type,
@@ -299,24 +246,9 @@ function recognize_utterance(
     localeId,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_runtime_v2(
-        "POST",
-        "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",
-        Dict{String,Any}("headers" => Dict{String,Any}("Content-Type" => Content_Type));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function recognize_utterance(
-    Content_Type,
-    botAliasId,
-    botId,
-    localeId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_runtime_v2(
         "POST",
         "/bots/$(botId)/botAliases/$(botAliasId)/botLocales/$(localeId)/sessions/$(sessionId)/utterance",

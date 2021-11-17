@@ -4,9 +4,20 @@ using AWS.AWSServices: connectparticipant
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "scan_direction" => "ScanDirection",
+    "start_position" => "StartPosition",
+    "sort_order" => "SortOrder",
+    "client_token" => "ClientToken",
+    "content" => "Content",
+    "contact_id" => "ContactId",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+    "connect_participant" => "ConnectParticipant",
+)
+
 """
-    complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer)
-    complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer, params::Dict{String,<:Any})
+    complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to confirm that the attachment has been uploaded using the pre-signed URL
 provided in StartAttachmentUpload API.  The Amazon Connect Participant Service APIs do not
@@ -24,26 +35,9 @@ function complete_attachment_upload(
     ClientToken,
     X_Amz_Bearer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connectparticipant(
-        "POST",
-        "/participant/complete-attachment-upload",
-        Dict{String,Any}(
-            "AttachmentIds" => AttachmentIds,
-            "ClientToken" => ClientToken,
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function complete_attachment_upload(
-    AttachmentIds,
-    ClientToken,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/complete-attachment-upload",
@@ -64,8 +58,7 @@ function complete_attachment_upload(
 end
 
 """
-    create_participant_connection(type, x-_amz-_bearer)
-    create_participant_connection(type, x-_amz-_bearer, params::Dict{String,<:Any})
+    create_participant_connection(type, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates the participant's connection. Note that ParticipantToken is used for invoking this
 API instead of ConnectionToken. The participant token is valid for the lifetime of the
@@ -90,29 +83,14 @@ Participant Service APIs do not use Signature Version 4 authentication.
   StartChatContact API response.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConnectParticipant"`: Amazon Connect Participant is used to mark the participant as
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connect_participant"`: Amazon Connect Participant is used to mark the participant as
   connected for message streaming.
 """
 function create_participant_connection(
-    Type, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    Type, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connectparticipant(
-        "POST",
-        "/participant/connection",
-        Dict{String,Any}(
-            "Type" => Type, "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_participant_connection(
-    Type,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/connection",
@@ -132,8 +110,7 @@ function create_participant_connection(
 end
 
 """
-    disconnect_participant(x-_amz-_bearer)
-    disconnect_participant(x-_amz-_bearer, params::Dict{String,<:Any})
+    disconnect_participant(x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disconnects a participant. Note that ConnectionToken is used for invoking this API instead
 of ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature
@@ -143,29 +120,14 @@ Version 4 authentication.
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
 function disconnect_participant(
-    X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connectparticipant(
-        "POST",
-        "/participant/disconnect",
-        Dict{String,Any}(
-            "ClientToken" => string(uuid4()),
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disconnect_participant(
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/disconnect",
@@ -173,7 +135,7 @@ function disconnect_participant(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                     "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
                 ),
                 params,
@@ -185,8 +147,7 @@ function disconnect_participant(
 end
 
 """
-    get_attachment(attachment_id, x-_amz-_bearer)
-    get_attachment(attachment_id, x-_amz-_bearer, params::Dict{String,<:Any})
+    get_attachment(attachment_id, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a pre-signed URL for download of a completed attachment. This is an asynchronous
 API for use with active contacts. The Amazon Connect Participant Service APIs do not use
@@ -198,25 +159,9 @@ Signature Version 4 authentication.
 
 """
 function get_attachment(
-    AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    AttachmentId, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connectparticipant(
-        "POST",
-        "/participant/attachment",
-        Dict{String,Any}(
-            "AttachmentId" => AttachmentId,
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_attachment(
-    AttachmentId,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/attachment",
@@ -236,8 +181,7 @@ function get_attachment(
 end
 
 """
-    get_transcript(x-_amz-_bearer)
-    get_transcript(x-_amz-_bearer, params::Dict{String,<:Any})
+    get_transcript(x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a transcript of the session, including details about any attachments. Note that
 ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon
@@ -247,31 +191,21 @@ Connect Participant Service APIs do not use Signature Version 4 authentication.
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ContactId"`: The contactId from the current contact chain for which transcript is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"contact_id"`: The contactId from the current contact chain for which transcript is
   needed.
-- `"MaxResults"`: The maximum number of results to return in the page. Default: 10.
-- `"NextToken"`: The pagination token. Use the value returned previously in the next
+- `"max_results"`: The maximum number of results to return in the page. Default: 10.
+- `"next_token"`: The pagination token. Use the value returned previously in the next
   subsequent request to retrieve the next set of results.
-- `"ScanDirection"`: The direction from StartPosition from which to retrieve message.
+- `"scan_direction"`: The direction from StartPosition from which to retrieve message.
   Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition.
-- `"SortOrder"`: The sort order for the records. Default: DESCENDING.
-- `"StartPosition"`: A filtering option for where to start.
+- `"sort_order"`: The sort order for the records. Default: DESCENDING.
+- `"start_position"`: A filtering option for where to start.
 """
-function get_transcript(X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectparticipant(
-        "POST",
-        "/participant/transcript",
-        Dict{String,Any}("headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_transcript(
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/transcript",
@@ -290,8 +224,7 @@ function get_transcript(
 end
 
 """
-    send_event(content_type, x-_amz-_bearer)
-    send_event(content_type, x-_amz-_bearer, params::Dict{String,<:Any})
+    send_event(content_type, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends an event. Note that ConnectionToken is used for invoking this API instead of
 ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version
@@ -304,33 +237,16 @@ ParticipantToken. The Amazon Connect Participant Service APIs do not use Signatu
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"Content"`: The content of the event to be sent (for example, message text). This is not
+- `"content"`: The content of the event to be sent (for example, message text). This is not
   yet supported.
 """
 function send_event(
-    ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+    ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connectparticipant(
-        "POST",
-        "/participant/event",
-        Dict{String,Any}(
-            "ContentType" => ContentType,
-            "ClientToken" => string(uuid4()),
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_event(
-    ContentType,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/event",
@@ -339,7 +255,7 @@ function send_event(
                 _merge,
                 Dict{String,Any}(
                     "ContentType" => ContentType,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                     "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
                 ),
                 params,
@@ -351,8 +267,7 @@ function send_event(
 end
 
 """
-    send_message(content, content_type, x-_amz-_bearer)
-    send_message(content, content_type, x-_amz-_bearer, params::Dict{String,<:Any})
+    send_message(content, content_type, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends a message. Note that ConnectionToken is used for invoking this API instead of
 ParticipantToken. The Amazon Connect Participant Service APIs do not use Signature Version
@@ -364,33 +279,18 @@ ParticipantToken. The Amazon Connect Participant Service APIs do not use Signatu
 - `x-_amz-_bearer`: The authentication token associated with the connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
 function send_message(
-    Content, ContentType, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectparticipant(
-        "POST",
-        "/participant/message",
-        Dict{String,Any}(
-            "Content" => Content,
-            "ContentType" => ContentType,
-            "ClientToken" => string(uuid4()),
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_message(
     Content,
     ContentType,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
+    X_Amz_Bearer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/message",
@@ -400,7 +300,7 @@ function send_message(
                 Dict{String,Any}(
                     "Content" => Content,
                     "ContentType" => ContentType,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                     "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
                 ),
                 params,
@@ -412,8 +312,7 @@ function send_message(
 end
 
 """
-    start_attachment_upload(attachment_name, attachment_size_in_bytes, client_token, content_type, x-_amz-_bearer)
-    start_attachment_upload(attachment_name, attachment_size_in_bytes, client_token, content_type, x-_amz-_bearer, params::Dict{String,<:Any})
+    start_attachment_upload(attachment_name, attachment_size_in_bytes, client_token, content_type, x-_amz-_bearer; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a pre-signed Amazon S3 URL in response for uploading the file directly to S3. The
 Amazon Connect Participant Service APIs do not use Signature Version 4 authentication.
@@ -434,30 +333,9 @@ function start_attachment_upload(
     ContentType,
     X_Amz_Bearer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return connectparticipant(
-        "POST",
-        "/participant/start-attachment-upload",
-        Dict{String,Any}(
-            "AttachmentName" => AttachmentName,
-            "AttachmentSizeInBytes" => AttachmentSizeInBytes,
-            "ClientToken" => ClientToken,
-            "ContentType" => ContentType,
-            "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_attachment_upload(
-    AttachmentName,
-    AttachmentSizeInBytes,
-    ClientToken,
-    ContentType,
-    X_Amz_Bearer,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connectparticipant(
         "POST",
         "/participant/start-attachment-upload",

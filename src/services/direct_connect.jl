@@ -4,9 +4,50 @@ using AWS.AWSServices: direct_connect
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "bgp_peer_id" => "bgpPeerId",
+    "virtual_gateway_id" => "virtualGatewayId",
+    "provider_name" => "providerName",
+    "ckn" => "ckn",
+    "asn" => "asn",
+    "test_duration_in_minutes" => "testDurationInMinutes",
+    "lag_id" => "lagId",
+    "next_token" => "nextToken",
+    "virtual_interface_id" => "virtualInterfaceId",
+    "router_type_identifier" => "routerTypeIdentifier",
+    "connection_name" => "connectionName",
+    "cak" => "cak",
+    "status" => "status",
+    "customer_address" => "customerAddress",
+    "add_allowed_prefixes_to_direct_connect_gateway" => "addAllowedPrefixesToDirectConnectGateway",
+    "interconnect_id" => "interconnectId",
+    "lag_name" => "lagName",
+    "association_id" => "associationId",
+    "connection_id" => "connectionId",
+    "max_results" => "maxResults",
+    "remove_allowed_prefixes_to_direct_connect_gateway" => "removeAllowedPrefixesToDirectConnectGateway",
+    "test_id" => "testId",
+    "child_connection_tags" => "childConnectionTags",
+    "bgp_peers" => "bgpPeers",
+    "mtu" => "mtu",
+    "secret_arn" => "secretARN",
+    "new_bgppeer" => "newBGPPeer",
+    "encryption_mode" => "encryptionMode",
+    "override_allowed_prefixes_to_direct_connect_gateway" => "overrideAllowedPrefixesToDirectConnectGateway",
+    "loa_content_type" => "loaContentType",
+    "request_macsec" => "requestMACSec",
+    "proposal_id" => "proposalId",
+    "amazon_side_asn" => "amazonSideAsn",
+    "agreement_name" => "agreementName",
+    "direct_connect_gateway_id" => "directConnectGatewayId",
+    "tags" => "tags",
+    "associated_gateway_id" => "associatedGatewayId",
+    "minimum_links" => "minimumLinks",
+    "gateway_id" => "gatewayId",
+)
+
 """
-    accept_direct_connect_gateway_association_proposal(associated_gateway_owner_account, direct_connect_gateway_id, proposal_id)
-    accept_direct_connect_gateway_association_proposal(associated_gateway_owner_account, direct_connect_gateway_id, proposal_id, params::Dict{String,<:Any})
+    accept_direct_connect_gateway_association_proposal(associated_gateway_owner_account, direct_connect_gateway_id, proposal_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts a proposal request to attach a virtual private gateway or transit gateway to a
 Direct Connect gateway.
@@ -18,35 +59,19 @@ Direct Connect gateway.
 - `proposal_id`: The ID of the request proposal.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"overrideAllowedPrefixesToDirectConnectGateway"`: Overrides the Amazon VPC prefixes
-  advertised to the Direct Connect gateway. For information about how to set the prefixes,
-  see Allowed Prefixes in the Direct Connect User Guide.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"override_allowed_prefixes_to_direct_connect_gateway"`: Overrides the Amazon VPC
+  prefixes advertised to the Direct Connect gateway. For information about how to set the
+  prefixes, see Allowed Prefixes in the Direct Connect User Guide.
 """
 function accept_direct_connect_gateway_association_proposal(
     associatedGatewayOwnerAccount,
     directConnectGatewayId,
     proposalId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AcceptDirectConnectGatewayAssociationProposal",
-        Dict{String,Any}(
-            "associatedGatewayOwnerAccount" => associatedGatewayOwnerAccount,
-            "directConnectGatewayId" => directConnectGatewayId,
-            "proposalId" => proposalId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function accept_direct_connect_gateway_association_proposal(
-    associatedGatewayOwnerAccount,
-    directConnectGatewayId,
-    proposalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AcceptDirectConnectGatewayAssociationProposal",
         Dict{String,Any}(
@@ -66,8 +91,7 @@ function accept_direct_connect_gateway_association_proposal(
 end
 
 """
-    allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan)
-    allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan, params::Dict{String,<:Any})
+    allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use AllocateHostedConnection instead. Creates a hosted connection on an
 interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a
@@ -93,29 +117,9 @@ function allocate_connection_on_interconnect(
     ownerAccount,
     vlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AllocateConnectionOnInterconnect",
-        Dict{String,Any}(
-            "bandwidth" => bandwidth,
-            "connectionName" => connectionName,
-            "interconnectId" => interconnectId,
-            "ownerAccount" => ownerAccount,
-            "vlan" => vlan,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function allocate_connection_on_interconnect(
-    bandwidth,
-    connectionName,
-    interconnectId,
-    ownerAccount,
-    vlan,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AllocateConnectionOnInterconnect",
         Dict{String,Any}(
@@ -137,8 +141,7 @@ function allocate_connection_on_interconnect(
 end
 
 """
-    allocate_hosted_connection(bandwidth, connection_id, connection_name, owner_account, vlan)
-    allocate_hosted_connection(bandwidth, connection_id, connection_name, owner_account, vlan, params::Dict{String,<:Any})
+    allocate_hosted_connection(bandwidth, connection_id, connection_name, owner_account, vlan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a hosted connection on the specified interconnect or a link aggregation group (LAG)
 of interconnects. Allocates a VLAN number and a specified amount of capacity (bandwidth)
@@ -159,7 +162,7 @@ Intended for use by Direct Connect Partners only.
 - `vlan`: The dedicated VLAN provisioned to the hosted connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: The tags associated with the connection.
 """
 function allocate_hosted_connection(
@@ -169,29 +172,9 @@ function allocate_hosted_connection(
     ownerAccount,
     vlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AllocateHostedConnection",
-        Dict{String,Any}(
-            "bandwidth" => bandwidth,
-            "connectionId" => connectionId,
-            "connectionName" => connectionName,
-            "ownerAccount" => ownerAccount,
-            "vlan" => vlan,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function allocate_hosted_connection(
-    bandwidth,
-    connectionId,
-    connectionName,
-    ownerAccount,
-    vlan,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AllocateHostedConnection",
         Dict{String,Any}(
@@ -213,8 +196,7 @@ function allocate_hosted_connection(
 end
 
 """
-    allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account)
-    allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
+    allocate_private_virtual_interface(connection_id, new_private_virtual_interface_allocation, owner_account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provisions a private virtual interface to be owned by the specified Amazon Web Services
 account. Virtual interfaces created using this action must be confirmed by the owner using
@@ -235,25 +217,9 @@ function allocate_private_virtual_interface(
     newPrivateVirtualInterfaceAllocation,
     ownerAccount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AllocatePrivateVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newPrivateVirtualInterfaceAllocation" => newPrivateVirtualInterfaceAllocation,
-            "ownerAccount" => ownerAccount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function allocate_private_virtual_interface(
-    connectionId,
-    newPrivateVirtualInterfaceAllocation,
-    ownerAccount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AllocatePrivateVirtualInterface",
         Dict{String,Any}(
@@ -274,8 +240,7 @@ function allocate_private_virtual_interface(
 end
 
 """
-    allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account)
-    allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
+    allocate_public_virtual_interface(connection_id, new_public_virtual_interface_allocation, owner_account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provisions a public virtual interface to be owned by the specified Amazon Web Services
 account. The owner of a connection calls this function to provision a public virtual
@@ -300,25 +265,9 @@ function allocate_public_virtual_interface(
     newPublicVirtualInterfaceAllocation,
     ownerAccount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AllocatePublicVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newPublicVirtualInterfaceAllocation" => newPublicVirtualInterfaceAllocation,
-            "ownerAccount" => ownerAccount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function allocate_public_virtual_interface(
-    connectionId,
-    newPublicVirtualInterfaceAllocation,
-    ownerAccount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AllocatePublicVirtualInterface",
         Dict{String,Any}(
@@ -339,8 +288,7 @@ function allocate_public_virtual_interface(
 end
 
 """
-    allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account)
-    allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account, params::Dict{String,<:Any})
+    allocate_transit_virtual_interface(connection_id, new_transit_virtual_interface_allocation, owner_account; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provisions a transit virtual interface to be owned by the specified Amazon Web Services
 account. Use this type of interface to connect a transit gateway to your Direct Connect
@@ -364,25 +312,9 @@ function allocate_transit_virtual_interface(
     newTransitVirtualInterfaceAllocation,
     ownerAccount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "AllocateTransitVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newTransitVirtualInterfaceAllocation" => newTransitVirtualInterfaceAllocation,
-            "ownerAccount" => ownerAccount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function allocate_transit_virtual_interface(
-    connectionId,
-    newTransitVirtualInterfaceAllocation,
-    ownerAccount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AllocateTransitVirtualInterface",
         Dict{String,Any}(
@@ -403,8 +335,7 @@ function allocate_transit_virtual_interface(
 end
 
 """
-    associate_connection_with_lag(connection_id, lag_id)
-    associate_connection_with_lag(connection_id, lag_id, params::Dict{String,<:Any})
+    associate_connection_with_lag(connection_id, lag_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates an existing connection with a link aggregation group (LAG). The connection is
 interrupted and re-established as a member of the LAG (connectivity to Amazon Web Services
@@ -425,21 +356,9 @@ with a different LAG, the hosted connections remain associated with the original
 
 """
 function associate_connection_with_lag(
-    connectionId, lagId; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId, lagId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "AssociateConnectionWithLag",
-        Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_connection_with_lag(
-    connectionId,
-    lagId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AssociateConnectionWithLag",
         Dict{String,Any}(
@@ -455,8 +374,7 @@ function associate_connection_with_lag(
 end
 
 """
-    associate_hosted_connection(connection_id, parent_connection_id)
-    associate_hosted_connection(connection_id, parent_connection_id, params::Dict{String,<:Any})
+    associate_hosted_connection(connection_id, parent_connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a hosted connection and its virtual interfaces with a link aggregation group
 (LAG) or interconnect. If the target interconnect or LAG has an existing hosted connection
@@ -470,23 +388,12 @@ migrated.  Intended for use by Direct Connect Partners only.
 
 """
 function associate_hosted_connection(
-    connectionId, parentConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return direct_connect(
-        "AssociateHostedConnection",
-        Dict{String,Any}(
-            "connectionId" => connectionId, "parentConnectionId" => parentConnectionId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_hosted_connection(
     connectionId,
-    parentConnectionId,
-    params::AbstractDict{String};
+    parentConnectionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AssociateHostedConnection",
         Dict{String,Any}(
@@ -505,8 +412,7 @@ function associate_hosted_connection(
 end
 
 """
-    associate_mac_sec_key(connection_id)
-    associate_mac_sec_key(connection_id, params::Dict{String,<:Any})
+    associate_mac_sec_key(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key
 (CAK) pair with an Direct Connect dedicated connection. You must supply either the
@@ -519,7 +425,7 @@ the Direct Connect User Guide.
   (dxlag-xxxx). You can use DescribeConnections or DescribeLags to retrieve connection ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"cak"`: The MAC Security (MACsec) CAK to associate with the dedicated connection. You
   can create the CKN/CAK pair using an industry standard tool.  The valid values are 64
   hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn
@@ -528,26 +434,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can create the CKN/CAK pair using an industry standard tool.  The valid values are 64
   hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak
   request parameter and not use the secretARN request parameter.
-- `"secretARN"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
+- `"secret_arn"`: The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to
   associate with the dedicated connection. You can use DescribeConnections or DescribeLags to
   retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do
   not use the ckn and cak request parameters.
 """
 function associate_mac_sec_key(
-    connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "AssociateMacSecKey",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_mac_sec_key(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AssociateMacSecKey",
         Dict{String,Any}(
@@ -559,8 +454,7 @@ function associate_mac_sec_key(
 end
 
 """
-    associate_virtual_interface(connection_id, virtual_interface_id)
-    associate_virtual_interface(connection_id, virtual_interface_id, params::Dict{String,<:Any})
+    associate_virtual_interface(connection_id, virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a virtual interface with a specified link aggregation group (LAG) or connection.
 Connectivity to Amazon Web Services is temporarily interrupted as the virtual interface is
@@ -579,23 +473,12 @@ connection or LAG for the association.
 
 """
 function associate_virtual_interface(
-    connectionId, virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return direct_connect(
-        "AssociateVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId, "virtualInterfaceId" => virtualInterfaceId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_virtual_interface(
     connectionId,
-    virtualInterfaceId,
-    params::AbstractDict{String};
+    virtualInterfaceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "AssociateVirtualInterface",
         Dict{String,Any}(
@@ -614,8 +497,7 @@ function associate_virtual_interface(
 end
 
 """
-    confirm_connection(connection_id)
-    confirm_connection(connection_id, params::Dict{String,<:Any})
+    confirm_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Confirms the creation of the specified hosted connection on an interconnect. Upon creation,
 the hosted connection is initially in the Ordering state, and remains in this state until
@@ -625,19 +507,10 @@ the owner confirms creation of the hosted connection.
 - `connection_id`: The ID of the hosted connection.
 
 """
-function confirm_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "ConfirmConnection",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function confirm_connection(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ConfirmConnection",
         Dict{String,Any}(
@@ -649,24 +522,19 @@ function confirm_connection(
 end
 
 """
-    confirm_customer_agreement()
-    confirm_customer_agreement(params::Dict{String,<:Any})
+    confirm_customer_agreement(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  The confirmation of the terms of agreement when creating the connection/link aggregation
 group (LAG).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"agreementName"`:  The name of the customer agreement.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"agreement_name"`:  The name of the customer agreement.
 """
-function confirm_customer_agreement(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "ConfirmCustomerAgreement"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function confirm_customer_agreement(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function confirm_customer_agreement(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ConfirmCustomerAgreement",
         params;
@@ -676,8 +544,7 @@ function confirm_customer_agreement(
 end
 
 """
-    confirm_private_virtual_interface(virtual_interface_id)
-    confirm_private_virtual_interface(virtual_interface_id, params::Dict{String,<:Any})
+    confirm_private_virtual_interface(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts ownership of a private virtual interface created by another Amazon Web Services
 account. After the virtual interface owner makes this call, the virtual interface is
@@ -688,25 +555,14 @@ and is made available to handle traffic.
 - `virtual_interface_id`: The ID of the virtual interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"virtualGatewayId"`: The ID of the virtual private gateway.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"virtual_gateway_id"`: The ID of the virtual private gateway.
 """
 function confirm_private_virtual_interface(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "ConfirmPrivateVirtualInterface",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function confirm_private_virtual_interface(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ConfirmPrivateVirtualInterface",
         Dict{String,Any}(
@@ -720,8 +576,7 @@ function confirm_private_virtual_interface(
 end
 
 """
-    confirm_public_virtual_interface(virtual_interface_id)
-    confirm_public_virtual_interface(virtual_interface_id, params::Dict{String,<:Any})
+    confirm_public_virtual_interface(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts ownership of a public virtual interface created by another Amazon Web Services
 account. After the virtual interface owner makes this call, the specified virtual interface
@@ -732,20 +587,9 @@ is created and made available to handle traffic.
 
 """
 function confirm_public_virtual_interface(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "ConfirmPublicVirtualInterface",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function confirm_public_virtual_interface(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ConfirmPublicVirtualInterface",
         Dict{String,Any}(
@@ -759,8 +603,7 @@ function confirm_public_virtual_interface(
 end
 
 """
-    confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id)
-    confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id, params::Dict{String,<:Any})
+    confirm_transit_virtual_interface(direct_connect_gateway_id, virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accepts ownership of a transit virtual interface created by another Amazon Web Services
 account.  After the owner of the transit virtual interface makes this call, the specified
@@ -775,23 +618,9 @@ function confirm_transit_virtual_interface(
     directConnectGatewayId,
     virtualInterfaceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "ConfirmTransitVirtualInterface",
-        Dict{String,Any}(
-            "directConnectGatewayId" => directConnectGatewayId,
-            "virtualInterfaceId" => virtualInterfaceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function confirm_transit_virtual_interface(
-    directConnectGatewayId,
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ConfirmTransitVirtualInterface",
         Dict{String,Any}(
@@ -810,8 +639,7 @@ function confirm_transit_virtual_interface(
 end
 
 """
-    create_bgppeer()
-    create_bgppeer(params::Dict{String,<:Any})
+    create_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a BGP peer on the specified virtual interface. You must create a BGP peer for the
 corresponding address family (IPv4/IPv6) in order to access Amazon Web Services resources
@@ -824,26 +652,19 @@ interface, the Autonomous System Number (ASN) must be private or already on the 
 for the virtual interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"newBGPPeer"`: Information about the BGP peer.
-- `"virtualInterfaceId"`: The ID of the virtual interface.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"new_bgppeer"`: Information about the BGP peer.
+- `"virtual_interface_id"`: The ID of the virtual interface.
 """
-function create_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "CreateBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_bgppeer(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    create_connection(bandwidth, connection_name, location)
-    create_connection(bandwidth, connection_name, location, params::Dict{String,<:Any})
+    create_connection(bandwidth, connection_name, location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a connection between a customer network and a specific Direct Connect location. A
 connection links your internal network to an Direct Connect location over a standard
@@ -860,37 +681,24 @@ endpoint, the request fails and no connection is created.
 - `location`: The location of the connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"lagId"`: The ID of the LAG.
-- `"providerName"`: The name of the service provider associated with the requested
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lag_id"`: The ID of the LAG.
+- `"provider_name"`: The name of the service provider associated with the requested
   connection.
-- `"requestMACSec"`: Indicates whether you want the connection to support MAC Security
+- `"request_macsec"`: Indicates whether you want the connection to support MAC Security
   (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information
   about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the Direct Connect
   User Guide.
 - `"tags"`: The tags to associate with the lag.
 """
 function create_connection(
-    bandwidth, connectionName, location; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return direct_connect(
-        "CreateConnection",
-        Dict{String,Any}(
-            "bandwidth" => bandwidth,
-            "connectionName" => connectionName,
-            "location" => location,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_connection(
     bandwidth,
     connectionName,
-    location,
-    params::AbstractDict{String};
+    location;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateConnection",
         Dict{String,Any}(
@@ -910,8 +718,7 @@ function create_connection(
 end
 
 """
-    create_direct_connect_gateway(direct_connect_gateway_name)
-    create_direct_connect_gateway(direct_connect_gateway_name, params::Dict{String,<:Any})
+    create_direct_connect_gateway(direct_connect_gateway_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Direct Connect gateway, which is an intermediate object that enables you to
 connect a set of virtual interfaces and virtual private gateways. A Direct Connect gateway
@@ -925,26 +732,15 @@ traffic between them.
 - `direct_connect_gateway_name`: The name of the Direct Connect gateway.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"amazonSideAsn"`: The autonomous system number (ASN) for Border Gateway Protocol (BGP)
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"amazon_side_asn"`: The autonomous system number (ASN) for Border Gateway Protocol (BGP)
   to be configured on the Amazon side of the connection. The ASN must be in the private range
   of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
 """
 function create_direct_connect_gateway(
-    directConnectGatewayName; aws_config::AbstractAWSConfig=global_aws_config()
+    directConnectGatewayName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "CreateDirectConnectGateway",
-        Dict{String,Any}("directConnectGatewayName" => directConnectGatewayName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_direct_connect_gateway(
-    directConnectGatewayName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateDirectConnectGateway",
         Dict{String,Any}(
@@ -960,8 +756,7 @@ function create_direct_connect_gateway(
 end
 
 """
-    create_direct_connect_gateway_association(direct_connect_gateway_id)
-    create_direct_connect_gateway_association(direct_connect_gateway_id, params::Dict{String,<:Any})
+    create_direct_connect_gateway_association(direct_connect_gateway_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between a Direct Connect gateway and a virtual private gateway. The
 virtual private gateway must be attached to a VPC and must not be associated with another
@@ -971,29 +766,18 @@ Direct Connect gateway.
 - `direct_connect_gateway_id`: The ID of the Direct Connect gateway.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to advertise to the
-  Direct Connect gateway This parameter is required when you create an association to a
-  transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the
-  Direct Connect User Guide.
-- `"gatewayId"`: The ID of the virtual private gateway or transit gateway.
-- `"virtualGatewayId"`: The ID of the virtual private gateway.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"add_allowed_prefixes_to_direct_connect_gateway"`: The Amazon VPC prefixes to advertise
+  to the Direct Connect gateway This parameter is required when you create an association to
+  a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in
+  the Direct Connect User Guide.
+- `"gateway_id"`: The ID of the virtual private gateway or transit gateway.
+- `"virtual_gateway_id"`: The ID of the virtual private gateway.
 """
 function create_direct_connect_gateway_association(
-    directConnectGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    directConnectGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "CreateDirectConnectGatewayAssociation",
-        Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_direct_connect_gateway_association(
-    directConnectGatewayId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateDirectConnectGatewayAssociation",
         Dict{String,Any}(
@@ -1009,8 +793,7 @@ function create_direct_connect_gateway_association(
 end
 
 """
-    create_direct_connect_gateway_association_proposal(direct_connect_gateway_id, direct_connect_gateway_owner_account, gateway_id)
-    create_direct_connect_gateway_association_proposal(direct_connect_gateway_id, direct_connect_gateway_owner_account, gateway_id, params::Dict{String,<:Any})
+    create_direct_connect_gateway_association_proposal(direct_connect_gateway_id, direct_connect_gateway_owner_account, gateway_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a proposal to associate the specified virtual private gateway or transit gateway
 with the specified Direct Connect gateway. You can associate a Direct Connect gateway and
@@ -1024,36 +807,20 @@ account.
 - `gateway_id`: The ID of the virtual private gateway or transit gateway.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to advertise to the
-  Direct Connect gateway.
-- `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
-  advertise to the Direct Connect gateway.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"add_allowed_prefixes_to_direct_connect_gateway"`: The Amazon VPC prefixes to advertise
+  to the Direct Connect gateway.
+- `"remove_allowed_prefixes_to_direct_connect_gateway"`: The Amazon VPC prefixes to no
+  longer advertise to the Direct Connect gateway.
 """
 function create_direct_connect_gateway_association_proposal(
     directConnectGatewayId,
     directConnectGatewayOwnerAccount,
     gatewayId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "CreateDirectConnectGatewayAssociationProposal",
-        Dict{String,Any}(
-            "directConnectGatewayId" => directConnectGatewayId,
-            "directConnectGatewayOwnerAccount" => directConnectGatewayOwnerAccount,
-            "gatewayId" => gatewayId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_direct_connect_gateway_association_proposal(
-    directConnectGatewayId,
-    directConnectGatewayOwnerAccount,
-    gatewayId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateDirectConnectGatewayAssociationProposal",
         Dict{String,Any}(
@@ -1073,8 +840,7 @@ function create_direct_connect_gateway_association_proposal(
 end
 
 """
-    create_interconnect(bandwidth, interconnect_name, location)
-    create_interconnect(bandwidth, interconnect_name, location, params::Dict{String,<:Any})
+    create_interconnect(bandwidth, interconnect_name, location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an interconnect between an Direct Connect Partner's network and a specific Direct
 Connect location. An interconnect is a connection that is capable of hosting other
@@ -1098,32 +864,19 @@ Connect Partners only.
 - `location`: The location of the interconnect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"lagId"`: The ID of the LAG.
-- `"providerName"`: The name of the service provider associated with the interconnect.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lag_id"`: The ID of the LAG.
+- `"provider_name"`: The name of the service provider associated with the interconnect.
 - `"tags"`: The tags to associate with the interconnect.
 """
 function create_interconnect(
-    bandwidth, interconnectName, location; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return direct_connect(
-        "CreateInterconnect",
-        Dict{String,Any}(
-            "bandwidth" => bandwidth,
-            "interconnectName" => interconnectName,
-            "location" => location,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_interconnect(
     bandwidth,
     interconnectName,
-    location,
-    params::AbstractDict{String};
+    location;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateInterconnect",
         Dict{String,Any}(
@@ -1143,8 +896,7 @@ function create_interconnect(
 end
 
 """
-    create_lag(connections_bandwidth, lag_name, location, number_of_connections)
-    create_lag(connections_bandwidth, lag_name, location, number_of_connections, params::Dict{String,<:Any})
+    create_lag(connections_bandwidth, lag_name, location, number_of_connections; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a link aggregation group (LAG) with the specified number of bundled physical
 dedicated connections between the customer network and a specific Direct Connect location.
@@ -1173,11 +925,11 @@ virtual interfaces cannot be directly configured.
   provisioned and bundled by the LAG.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"childConnectionTags"`: The tags to associate with the automtically created LAGs.
-- `"connectionId"`: The ID of an existing dedicated connection to migrate to the LAG.
-- `"providerName"`: The name of the service provider associated with the LAG.
-- `"requestMACSec"`: Indicates whether the connection will support MAC Security (MACsec).
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"child_connection_tags"`: The tags to associate with the automtically created LAGs.
+- `"connection_id"`: The ID of an existing dedicated connection to migrate to the LAG.
+- `"provider_name"`: The name of the service provider associated with the LAG.
+- `"request_macsec"`: Indicates whether the connection will support MAC Security (MACsec).
   All connections in the LAG must be capable of supporting MAC Security (MACsec). For
   information about MAC Security (MACsec) prerequisties, see MACsec prerequisties in the
   Direct Connect User Guide.
@@ -1189,27 +941,9 @@ function create_lag(
     location,
     numberOfConnections;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "CreateLag",
-        Dict{String,Any}(
-            "connectionsBandwidth" => connectionsBandwidth,
-            "lagName" => lagName,
-            "location" => location,
-            "numberOfConnections" => numberOfConnections,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_lag(
-    connectionsBandwidth,
-    lagName,
-    location,
-    numberOfConnections,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateLag",
         Dict{String,Any}(
@@ -1230,8 +964,7 @@ function create_lag(
 end
 
 """
-    create_private_virtual_interface(connection_id, new_private_virtual_interface)
-    create_private_virtual_interface(connection_id, new_private_virtual_interface, params::Dict{String,<:Any})
+    create_private_virtual_interface(connection_id, new_private_virtual_interface; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a private virtual interface. A virtual interface is the VLAN that transports Direct
 Connect traffic. A private virtual interface can be connected to either a Direct Connect
@@ -1255,23 +988,9 @@ function create_private_virtual_interface(
     connectionId,
     newPrivateVirtualInterface;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "CreatePrivateVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newPrivateVirtualInterface" => newPrivateVirtualInterface,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_private_virtual_interface(
-    connectionId,
-    newPrivateVirtualInterface,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreatePrivateVirtualInterface",
         Dict{String,Any}(
@@ -1290,8 +1009,7 @@ function create_private_virtual_interface(
 end
 
 """
-    create_public_virtual_interface(connection_id, new_public_virtual_interface)
-    create_public_virtual_interface(connection_id, new_public_virtual_interface, params::Dict{String,<:Any})
+    create_public_virtual_interface(connection_id, new_public_virtual_interface; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a public virtual interface. A virtual interface is the VLAN that transports Direct
 Connect traffic. A public virtual interface supports sending traffic to public services of
@@ -1308,23 +1026,9 @@ function create_public_virtual_interface(
     connectionId,
     newPublicVirtualInterface;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "CreatePublicVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newPublicVirtualInterface" => newPublicVirtualInterface,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_public_virtual_interface(
-    connectionId,
-    newPublicVirtualInterface,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreatePublicVirtualInterface",
         Dict{String,Any}(
@@ -1343,8 +1047,7 @@ function create_public_virtual_interface(
 end
 
 """
-    create_transit_virtual_interface(connection_id, new_transit_virtual_interface)
-    create_transit_virtual_interface(connection_id, new_transit_virtual_interface, params::Dict{String,<:Any})
+    create_transit_virtual_interface(connection_id, new_transit_virtual_interface; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a transit virtual interface. A transit virtual interface should be used to access
 one or more transit gateways associated with Direct Connect gateways. A transit virtual
@@ -1369,23 +1072,9 @@ function create_transit_virtual_interface(
     connectionId,
     newTransitVirtualInterface;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "CreateTransitVirtualInterface",
-        Dict{String,Any}(
-            "connectionId" => connectionId,
-            "newTransitVirtualInterface" => newTransitVirtualInterface,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_transit_virtual_interface(
-    connectionId,
-    newTransitVirtualInterface,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "CreateTransitVirtualInterface",
         Dict{String,Any}(
@@ -1404,36 +1093,28 @@ function create_transit_virtual_interface(
 end
 
 """
-    delete_bgppeer()
-    delete_bgppeer(params::Dict{String,<:Any})
+    delete_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified BGP peer on the specified virtual interface with the specified
 customer address and ASN. You cannot delete the last BGP peer from a virtual interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"asn"`: The autonomous system (AS) number for Border Gateway Protocol (BGP)
   configuration.
-- `"bgpPeerId"`: The ID of the BGP peer.
-- `"customerAddress"`: The IP address assigned to the customer interface.
-- `"virtualInterfaceId"`: The ID of the virtual interface.
+- `"bgp_peer_id"`: The ID of the BGP peer.
+- `"customer_address"`: The IP address assigned to the customer interface.
+- `"virtual_interface_id"`: The ID of the virtual interface.
 """
-function delete_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DeleteBGPPeer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_bgppeer(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_bgppeer(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteBGPPeer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    delete_connection(connection_id)
-    delete_connection(connection_id, params::Dict{String,<:Any})
+    delete_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified connection. Deleting a connection only stops the Direct Connect port
 hour and data transfer charges. If you are partnering with any third parties to connect
@@ -1443,19 +1124,10 @@ with the Direct Connect location, you must cancel your service with them separat
 - `connection_id`: The ID of the connection.
 
 """
-function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DeleteConnection",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connection(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteConnection",
         Dict{String,Any}(
@@ -1467,8 +1139,7 @@ function delete_connection(
 end
 
 """
-    delete_direct_connect_gateway(direct_connect_gateway_id)
-    delete_direct_connect_gateway(direct_connect_gateway_id, params::Dict{String,<:Any})
+    delete_direct_connect_gateway(direct_connect_gateway_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified Direct Connect gateway. You must first delete all virtual interfaces
 that are attached to the Direct Connect gateway and disassociate all virtual private
@@ -1479,20 +1150,9 @@ gateways associated with the Direct Connect gateway.
 
 """
 function delete_direct_connect_gateway(
-    directConnectGatewayId; aws_config::AbstractAWSConfig=global_aws_config()
+    directConnectGatewayId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DeleteDirectConnectGateway",
-        Dict{String,Any}("directConnectGatewayId" => directConnectGatewayId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_direct_connect_gateway(
-    directConnectGatewayId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteDirectConnectGateway",
         Dict{String,Any}(
@@ -1508,8 +1168,7 @@ function delete_direct_connect_gateway(
 end
 
 """
-    delete_direct_connect_gateway_association()
-    delete_direct_connect_gateway_association(params::Dict{String,<:Any})
+    delete_direct_connect_gateway_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the association between the specified Direct Connect gateway and virtual private
 gateway. We recommend that you specify the associationID to delete the association.
@@ -1517,23 +1176,15 @@ Alternatively, if you own virtual gateway and a Direct Connect gateway associati
 specify the virtualGatewayId and directConnectGatewayId to delete an association.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"associationId"`: The ID of the Direct Connect gateway association.
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"virtualGatewayId"`: The ID of the virtual private gateway.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"association_id"`: The ID of the Direct Connect gateway association.
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"virtual_gateway_id"`: The ID of the virtual private gateway.
 """
 function delete_direct_connect_gateway_association(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DeleteDirectConnectGatewayAssociation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_direct_connect_gateway_association(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteDirectConnectGatewayAssociation",
         params;
@@ -1543,8 +1194,7 @@ function delete_direct_connect_gateway_association(
 end
 
 """
-    delete_direct_connect_gateway_association_proposal(proposal_id)
-    delete_direct_connect_gateway_association_proposal(proposal_id, params::Dict{String,<:Any})
+    delete_direct_connect_gateway_association_proposal(proposal_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the association proposal request between the specified Direct Connect gateway and
 virtual private gateway or transit gateway.
@@ -1554,20 +1204,9 @@ virtual private gateway or transit gateway.
 
 """
 function delete_direct_connect_gateway_association_proposal(
-    proposalId; aws_config::AbstractAWSConfig=global_aws_config()
+    proposalId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DeleteDirectConnectGatewayAssociationProposal",
-        Dict{String,Any}("proposalId" => proposalId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_direct_connect_gateway_association_proposal(
-    proposalId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteDirectConnectGatewayAssociationProposal",
         Dict{String,Any}(
@@ -1579,8 +1218,7 @@ function delete_direct_connect_gateway_association_proposal(
 end
 
 """
-    delete_interconnect(interconnect_id)
-    delete_interconnect(interconnect_id, params::Dict{String,<:Any})
+    delete_interconnect(interconnect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified interconnect.  Intended for use by Direct Connect Partners only.
 
@@ -1589,20 +1227,9 @@ Deletes the specified interconnect.  Intended for use by Direct Connect Partners
 
 """
 function delete_interconnect(
-    interconnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    interconnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DeleteInterconnect",
-        Dict{String,Any}("interconnectId" => interconnectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_interconnect(
-    interconnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteInterconnect",
         Dict{String,Any}(
@@ -1614,8 +1241,7 @@ function delete_interconnect(
 end
 
 """
-    delete_lag(lag_id)
-    delete_lag(lag_id, params::Dict{String,<:Any})
+    delete_lag(lag_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified link aggregation group (LAG). You cannot delete a LAG if it has
 active virtual interfaces or hosted connections.
@@ -1624,17 +1250,8 @@ active virtual interfaces or hosted connections.
 - `lag_id`: The ID of the LAG.
 
 """
-function delete_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DeleteLag",
-        Dict{String,Any}("lagId" => lagId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_lag(
-    lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteLag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
@@ -1644,8 +1261,7 @@ function delete_lag(
 end
 
 """
-    delete_virtual_interface(virtual_interface_id)
-    delete_virtual_interface(virtual_interface_id, params::Dict{String,<:Any})
+    delete_virtual_interface(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a virtual interface.
 
@@ -1654,20 +1270,9 @@ Deletes a virtual interface.
 
 """
 function delete_virtual_interface(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DeleteVirtualInterface",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_virtual_interface(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DeleteVirtualInterface",
         Dict{String,Any}(
@@ -1681,8 +1286,7 @@ function delete_virtual_interface(
 end
 
 """
-    describe_connection_loa(connection_id)
-    describe_connection_loa(connection_id, params::Dict{String,<:Any})
+    describe_connection_loa(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for a connection. The Letter of
 Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN
@@ -1694,28 +1298,17 @@ Direct Connect Locations in the Direct Connect User Guide.
 - `connection_id`: The ID of the connection.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
-  value is application/pdf.
-- `"providerName"`: The name of the APN partner or service provider who establishes
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"loa_content_type"`: The standard media type for the LOA-CFA document. The only
+  supported value is application/pdf.
+- `"provider_name"`: The name of the APN partner or service provider who establishes
   connectivity on your behalf. If you specify this parameter, the LOA-CFA lists the provider
   name alongside your company name as the requester of the cross connect.
 """
 function describe_connection_loa(
-    connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeConnectionLoa",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_connection_loa(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeConnectionLoa",
         Dict{String,Any}(
@@ -1727,23 +1320,18 @@ function describe_connection_loa(
 end
 
 """
-    describe_connections()
-    describe_connections(params::Dict{String,<:Any})
+    describe_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays the specified connection or all connections in this Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"connectionId"`: The ID of the connection.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connection_id"`: The ID of the connection.
 """
-function describe_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_connections(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeConnections",
         params;
@@ -1753,8 +1341,7 @@ function describe_connections(
 end
 
 """
-    describe_connections_on_interconnect(interconnect_id)
-    describe_connections_on_interconnect(interconnect_id, params::Dict{String,<:Any})
+    describe_connections_on_interconnect(interconnect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use DescribeHostedConnections instead. Lists the connections that have been
 provisioned on the specified interconnect.  Intended for use by Direct Connect Partners
@@ -1765,20 +1352,9 @@ only.
 
 """
 function describe_connections_on_interconnect(
-    interconnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    interconnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeConnectionsOnInterconnect",
-        Dict{String,Any}("interconnectId" => interconnectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_connections_on_interconnect(
-    interconnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeConnectionsOnInterconnect",
         Dict{String,Any}(
@@ -1790,21 +1366,16 @@ function describe_connections_on_interconnect(
 end
 
 """
-    describe_customer_metadata()
-    describe_customer_metadata(params::Dict{String,<:Any})
+    describe_customer_metadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get and view a list of customer agreements, along with their signed status and whether the
 customer is an NNIPartner, NNIPartnerV2, or a nonPartner.
 
 """
-function describe_customer_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeCustomerMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_customer_metadata(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_customer_metadata(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeCustomerMetadata",
         params;
@@ -1814,34 +1385,25 @@ function describe_customer_metadata(
 end
 
 """
-    describe_direct_connect_gateway_association_proposals()
-    describe_direct_connect_gateway_association_proposals(params::Dict{String,<:Any})
+    describe_direct_connect_gateway_association_proposals(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes one or more association proposals for connection between a virtual private
 gateway or transit gateway and a Direct Connect gateway.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"associatedGatewayId"`: The ID of the associated gateway.
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"associated_gateway_id"`: The ID of the associated gateway.
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If MaxResults
   is given a value larger than 100, only 100 results are returned.
-- `"nextToken"`: The token for the next page of results.
-- `"proposalId"`: The ID of the proposal.
+- `"next_token"`: The token for the next page of results.
+- `"proposal_id"`: The ID of the proposal.
 """
 function describe_direct_connect_gateway_association_proposals(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeDirectConnectGatewayAssociationProposals";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_direct_connect_gateway_association_proposals(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeDirectConnectGatewayAssociationProposals",
         params;
@@ -1851,8 +1413,7 @@ function describe_direct_connect_gateway_association_proposals(
 end
 
 """
-    describe_direct_connect_gateway_associations()
-    describe_direct_connect_gateway_associations(params::Dict{String,<:Any})
+    describe_direct_connect_gateway_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the associations between your Direct Connect gateways and virtual private gateways
 and transit gateways. You must specify one of the following:   A Direct Connect gateway The
@@ -1865,28 +1426,20 @@ and a transit gateway The response contains the association between the Direct C
 gateway and transit gateway.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"associatedGatewayId"`: The ID of the associated gateway.
-- `"associationId"`: The ID of the Direct Connect gateway association.
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"associated_gateway_id"`: The ID of the associated gateway.
+- `"association_id"`: The ID of the Direct Connect gateway association.
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If MaxResults
   is given a value larger than 100, only 100 results are returned.
-- `"nextToken"`: The token provided in the previous call to retrieve the next page.
-- `"virtualGatewayId"`: The ID of the virtual private gateway or transit gateway.
+- `"next_token"`: The token provided in the previous call to retrieve the next page.
+- `"virtual_gateway_id"`: The ID of the virtual private gateway or transit gateway.
 """
 function describe_direct_connect_gateway_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeDirectConnectGatewayAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_direct_connect_gateway_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeDirectConnectGatewayAssociations",
         params;
@@ -1896,8 +1449,7 @@ function describe_direct_connect_gateway_associations(
 end
 
 """
-    describe_direct_connect_gateway_attachments()
-    describe_direct_connect_gateway_attachments(params::Dict{String,<:Any})
+    describe_direct_connect_gateway_attachments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the attachments between your Direct Connect gateways and virtual interfaces. You must
 specify a Direct Connect gateway, a virtual interface, or both. If you specify a Direct
@@ -1907,26 +1459,18 @@ Connect gateways attached to the virtual interface. If you specify both, the res
 contains the attachment between the Direct Connect gateway and the virtual interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If MaxResults
   is given a value larger than 100, only 100 results are returned.
-- `"nextToken"`: The token provided in the previous call to retrieve the next page.
-- `"virtualInterfaceId"`: The ID of the virtual interface.
+- `"next_token"`: The token provided in the previous call to retrieve the next page.
+- `"virtual_interface_id"`: The ID of the virtual interface.
 """
 function describe_direct_connect_gateway_attachments(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeDirectConnectGatewayAttachments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_direct_connect_gateway_attachments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeDirectConnectGatewayAttachments",
         params;
@@ -1936,32 +1480,23 @@ function describe_direct_connect_gateway_attachments(
 end
 
 """
-    describe_direct_connect_gateways()
-    describe_direct_connect_gateways(params::Dict{String,<:Any})
+    describe_direct_connect_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all your Direct Connect gateways or only the specified Direct Connect gateway.
 Deleted Direct Connect gateways are not returned.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"directConnectGatewayId"`: The ID of the Direct Connect gateway.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"direct_connect_gateway_id"`: The ID of the Direct Connect gateway.
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If MaxResults
   is given a value larger than 100, only 100 results are returned.
-- `"nextToken"`: The token provided in the previous call to retrieve the next page.
+- `"next_token"`: The token provided in the previous call to retrieve the next page.
 """
 function describe_direct_connect_gateways(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeDirectConnectGateways";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_direct_connect_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeDirectConnectGateways",
         params;
@@ -1971,8 +1506,7 @@ function describe_direct_connect_gateways(
 end
 
 """
-    describe_hosted_connections(connection_id)
-    describe_hosted_connections(connection_id, params::Dict{String,<:Any})
+    describe_hosted_connections(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the hosted connections that have been provisioned on the specified interconnect or
 link aggregation group (LAG).  Intended for use by Direct Connect Partners only.
@@ -1982,20 +1516,9 @@ link aggregation group (LAG).  Intended for use by Direct Connect Partners only.
 
 """
 function describe_hosted_connections(
-    connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeHostedConnections",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_hosted_connections(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeHostedConnections",
         Dict{String,Any}(
@@ -2007,8 +1530,7 @@ function describe_hosted_connections(
 end
 
 """
-    describe_interconnect_loa(interconnect_id)
-    describe_interconnect_loa(interconnect_id, params::Dict{String,<:Any})
+    describe_interconnect_loa(interconnect_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for the specified interconnect. The
 Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is
@@ -2020,28 +1542,17 @@ in the Direct Connect User Guide.
 - `interconnect_id`: The ID of the interconnect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
-  value is application/pdf.
-- `"providerName"`: The name of the service provider who establishes connectivity on your
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"loa_content_type"`: The standard media type for the LOA-CFA document. The only
+  supported value is application/pdf.
+- `"provider_name"`: The name of the service provider who establishes connectivity on your
   behalf. If you supply this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
 function describe_interconnect_loa(
-    interconnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    interconnectId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeInterconnectLoa",
-        Dict{String,Any}("interconnectId" => interconnectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_interconnect_loa(
-    interconnectId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeInterconnectLoa",
         Dict{String,Any}(
@@ -2053,24 +1564,19 @@ function describe_interconnect_loa(
 end
 
 """
-    describe_interconnects()
-    describe_interconnects(params::Dict{String,<:Any})
+    describe_interconnects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the interconnects owned by the Amazon Web Services account or only the specified
 interconnect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"interconnectId"`: The ID of the interconnect.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"interconnect_id"`: The ID of the interconnect.
 """
-function describe_interconnects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeInterconnects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_interconnects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_interconnects(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeInterconnects",
         params;
@@ -2080,31 +1586,23 @@ function describe_interconnects(
 end
 
 """
-    describe_lags()
-    describe_lags(params::Dict{String,<:Any})
+    describe_lags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes all your link aggregation groups (LAG) or the specified LAG.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"lagId"`: The ID of the LAG.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lag_id"`: The ID of the LAG.
 """
-function describe_lags(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeLags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_lags(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_lags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeLags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_loa(connection_id)
-    describe_loa(connection_id, params::Dict{String,<:Any})
+    describe_loa(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the LOA-CFA for a connection, interconnect, or link aggregation group (LAG). The
 Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is
@@ -2116,26 +1614,17 @@ in the Direct Connect User Guide.
 - `connection_id`: The ID of a connection, LAG, or interconnect.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"loaContentType"`: The standard media type for the LOA-CFA document. The only supported
-  value is application/pdf.
-- `"providerName"`: The name of the service provider who establishes connectivity on your
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"loa_content_type"`: The standard media type for the LOA-CFA document. The only
+  supported value is application/pdf.
+- `"provider_name"`: The name of the service provider who establishes connectivity on your
   behalf. If you specify this parameter, the LOA-CFA lists the provider name alongside your
   company name as the requester of the cross connect.
 """
-function describe_loa(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeLoa",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_loa(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeLoa",
         Dict{String,Any}(
@@ -2147,29 +1636,21 @@ function describe_loa(
 end
 
 """
-    describe_locations()
-    describe_locations(params::Dict{String,<:Any})
+    describe_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Direct Connect locations in the current Amazon Web Services Region. These are the
 locations that can be selected when calling CreateConnection or CreateInterconnect.
 
 """
-function describe_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_locations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_router_configuration(virtual_interface_id)
-    describe_router_configuration(virtual_interface_id, params::Dict{String,<:Any})
+    describe_router_configuration(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Details about the router.
 
@@ -2177,25 +1658,14 @@ end
 - `virtual_interface_id`: The ID of the virtual interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"routerTypeIdentifier"`: Identifies the router by a combination of vendor, platform, and
-  software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"router_type_identifier"`: Identifies the router by a combination of vendor, platform,
+  and software version. For example, CiscoSystemsInc-2900SeriesRouters-IOS124.
 """
 function describe_router_configuration(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DescribeRouterConfiguration",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_router_configuration(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeRouterConfiguration",
         Dict{String,Any}(
@@ -2209,8 +1679,7 @@ function describe_router_configuration(
 end
 
 """
-    describe_tags(resource_arns)
-    describe_tags(resource_arns, params::Dict{String,<:Any})
+    describe_tags(resource_arns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the tags associated with the specified Direct Connect resources.
 
@@ -2218,19 +1687,10 @@ Describes the tags associated with the specified Direct Connect resources.
 - `resource_arns`: The Amazon Resource Names (ARNs) of the resources.
 
 """
-function describe_tags(resourceArns; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeTags",
-        Dict{String,Any}("resourceArns" => resourceArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_tags(
-    resourceArns,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArns; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeTags",
         Dict{String,Any}(
@@ -2242,21 +1702,16 @@ function describe_tags(
 end
 
 """
-    describe_virtual_gateways()
-    describe_virtual_gateways(params::Dict{String,<:Any})
+    describe_virtual_gateways(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the virtual private gateways owned by the Amazon Web Services account. You can create
 one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
 
 """
-function describe_virtual_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeVirtualGateways"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_virtual_gateways(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_virtual_gateways(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeVirtualGateways",
         params;
@@ -2266,8 +1721,7 @@ function describe_virtual_gateways(
 end
 
 """
-    describe_virtual_interfaces()
-    describe_virtual_interfaces(params::Dict{String,<:Any})
+    describe_virtual_interfaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays all virtual interfaces for an Amazon Web Services account. Virtual interfaces
 deleted fewer than 15 minutes before you make the request are also returned. If you specify
@@ -2277,18 +1731,14 @@ virtual interface (VLAN) transmits the traffic between the Direct Connect locati
 customer network.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"connectionId"`: The ID of the connection.
-- `"virtualInterfaceId"`: The ID of the virtual interface.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connection_id"`: The ID of the connection.
+- `"virtual_interface_id"`: The ID of the virtual interface.
 """
-function describe_virtual_interfaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "DescribeVirtualInterfaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_virtual_interfaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_virtual_interfaces(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DescribeVirtualInterfaces",
         params;
@@ -2298,8 +1748,7 @@ function describe_virtual_interfaces(
 end
 
 """
-    disassociate_connection_from_lag(connection_id, lag_id)
-    disassociate_connection_from_lag(connection_id, lag_id, params::Dict{String,<:Any})
+    disassociate_connection_from_lag(connection_id, lag_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a connection from a link aggregation group (LAG). The connection is
 interrupted and re-established as a standalone connection (the connection is not deleted;
@@ -2317,21 +1766,9 @@ exist as an empty LAG with no physical connections.
 
 """
 function disassociate_connection_from_lag(
-    connectionId, lagId; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId, lagId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DisassociateConnectionFromLag",
-        Dict{String,Any}("connectionId" => connectionId, "lagId" => lagId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_connection_from_lag(
-    connectionId,
-    lagId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DisassociateConnectionFromLag",
         Dict{String,Any}(
@@ -2347,8 +1784,7 @@ function disassociate_connection_from_lag(
 end
 
 """
-    disassociate_mac_sec_key(connection_id, secret_arn)
-    disassociate_mac_sec_key(connection_id, secret_arn, params::Dict{String,<:Any})
+    disassociate_mac_sec_key(connection_id, secret_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between a MAC Security (MACsec) security key and an Direct Connect
 dedicated connection.
@@ -2361,21 +1797,9 @@ dedicated connection.
 
 """
 function disassociate_mac_sec_key(
-    connectionId, secretARN; aws_config::AbstractAWSConfig=global_aws_config()
+    connectionId, secretARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "DisassociateMacSecKey",
-        Dict{String,Any}("connectionId" => connectionId, "secretARN" => secretARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_mac_sec_key(
-    connectionId,
-    secretARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "DisassociateMacSecKey",
         Dict{String,Any}(
@@ -2391,35 +1815,26 @@ function disassociate_mac_sec_key(
 end
 
 """
-    list_virtual_interface_test_history()
-    list_virtual_interface_test_history(params::Dict{String,<:Any})
+    list_virtual_interface_test_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the virtual interface failover test history.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"bgpPeers"`: The BGP peers that were placed in the DOWN state during the virtual
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bgp_peers"`: The BGP peers that were placed in the DOWN state during the virtual
   interface failover test.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value. If MaxResults
   is given a value larger than 100, only 100 results are returned.
-- `"nextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 - `"status"`: The status of the virtual interface failover test.
-- `"testId"`: The ID of the virtual interface failover test.
-- `"virtualInterfaceId"`: The ID of the virtual interface that was tested.
+- `"test_id"`: The ID of the virtual interface failover test.
+- `"virtual_interface_id"`: The ID of the virtual interface that was tested.
 """
 function list_virtual_interface_test_history(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "ListVirtualInterfaceTestHistory";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_virtual_interface_test_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "ListVirtualInterfaceTestHistory",
         params;
@@ -2429,8 +1844,7 @@ function list_virtual_interface_test_history(
 end
 
 """
-    start_bgp_failover_test(virtual_interface_id)
-    start_bgp_failover_test(virtual_interface_id, params::Dict{String,<:Any})
+    start_bgp_failover_test(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the virtual interface failover test that verifies your configuration meets your
 resiliency requirements by placing the BGP peering session in the DOWN state. You can then
@@ -2443,26 +1857,15 @@ completes, use StopBgpFailoverTest.
 - `virtual_interface_id`: The ID of the virtual interface you want to test.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"bgpPeers"`: The BGP peers to place in the DOWN state.
-- `"testDurationInMinutes"`: The time in minutes that the virtual interface failover test
-  will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bgp_peers"`: The BGP peers to place in the DOWN state.
+- `"test_duration_in_minutes"`: The time in minutes that the virtual interface failover
+  test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
 """
 function start_bgp_failover_test(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "StartBgpFailoverTest",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_bgp_failover_test(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "StartBgpFailoverTest",
         Dict{String,Any}(
@@ -2476,8 +1879,7 @@ function start_bgp_failover_test(
 end
 
 """
-    stop_bgp_failover_test(virtual_interface_id)
-    stop_bgp_failover_test(virtual_interface_id, params::Dict{String,<:Any})
+    stop_bgp_failover_test(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops the virtual interface failover test.
 
@@ -2486,20 +1888,9 @@ Stops the virtual interface failover test.
 
 """
 function stop_bgp_failover_test(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "StopBgpFailoverTest",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_bgp_failover_test(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "StopBgpFailoverTest",
         Dict{String,Any}(
@@ -2513,8 +1904,7 @@ function stop_bgp_failover_test(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified Direct Connect resource. Each resource can have a
 maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the
@@ -2525,20 +1915,10 @@ same key is already associated with the resource, this action updates its value.
 - `tags`: The tags to add.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "TagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "TagResource",
         Dict{String,Any}(
@@ -2554,8 +1934,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from the specified Direct Connect resource.
 
@@ -2565,21 +1944,9 @@ Removes one or more tags from the specified Direct Connect resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "UntagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UntagResource",
         Dict{String,Any}(
@@ -2595,8 +1962,7 @@ function untag_resource(
 end
 
 """
-    update_connection(connection_id)
-    update_connection(connection_id, params::Dict{String,<:Any})
+    update_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the Direct Connect dedicated connection configuration. You can update the following
 parameters for a connection:   The connection name   The connection's MAC Security (MACsec)
@@ -2607,24 +1973,15 @@ encryption mode.
   retrieve the connection ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"connectionName"`: The name of the connection.
-- `"encryptionMode"`: The connection MAC Security (MACsec) encryption mode. The valid
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connection_name"`: The name of the connection.
+- `"encryption_mode"`: The connection MAC Security (MACsec) encryption mode. The valid
   values are no_encrypt, should_encrypt, and must_encrypt.
 """
-function update_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "UpdateConnection",
-        Dict{String,Any}("connectionId" => connectionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_connection(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UpdateConnection",
         Dict{String,Any}(
@@ -2636,8 +1993,7 @@ function update_connection(
 end
 
 """
-    update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name)
-    update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name, params::Dict{String,<:Any})
+    update_direct_connect_gateway(direct_connect_gateway_id, new_direct_connect_gateway_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name of a current Direct Connect gateway.
 
@@ -2650,23 +2006,9 @@ function update_direct_connect_gateway(
     directConnectGatewayId,
     newDirectConnectGatewayName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return direct_connect(
-        "UpdateDirectConnectGateway",
-        Dict{String,Any}(
-            "directConnectGatewayId" => directConnectGatewayId,
-            "newDirectConnectGatewayName" => newDirectConnectGatewayName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_direct_connect_gateway(
-    directConnectGatewayId,
-    newDirectConnectGatewayName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UpdateDirectConnectGateway",
         Dict{String,Any}(
@@ -2685,32 +2027,23 @@ function update_direct_connect_gateway(
 end
 
 """
-    update_direct_connect_gateway_association()
-    update_direct_connect_gateway_association(params::Dict{String,<:Any})
+    update_direct_connect_gateway_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified attributes of the Direct Connect gateway association. Add or remove
 prefixes from the association.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to advertise to the
-  Direct Connect gateway.
-- `"associationId"`: The ID of the Direct Connect gateway association.
-- `"removeAllowedPrefixesToDirectConnectGateway"`: The Amazon VPC prefixes to no longer
-  advertise to the Direct Connect gateway.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"add_allowed_prefixes_to_direct_connect_gateway"`: The Amazon VPC prefixes to advertise
+  to the Direct Connect gateway.
+- `"association_id"`: The ID of the Direct Connect gateway association.
+- `"remove_allowed_prefixes_to_direct_connect_gateway"`: The Amazon VPC prefixes to no
+  longer advertise to the Direct Connect gateway.
 """
 function update_direct_connect_gateway_association(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "UpdateDirectConnectGatewayAssociation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_direct_connect_gateway_association(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UpdateDirectConnectGatewayAssociation",
         params;
@@ -2720,8 +2053,7 @@ function update_direct_connect_gateway_association(
 end
 
 """
-    update_lag(lag_id)
-    update_lag(lag_id, params::Dict{String,<:Any})
+    update_lag(lag_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the attributes of the specified link aggregation group (LAG). You can update the
 following LAG attributes:   The name of the LAG.   The value for the minimum number of
@@ -2735,24 +2067,15 @@ threshold and become non-operational.
 - `lag_id`: The ID of the LAG.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"encryptionMode"`: The LAG MAC Security (MACsec) encryption mode. Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"encryption_mode"`: The LAG MAC Security (MACsec) encryption mode. Amazon Web Services
   applies the value to all connections which are part of the LAG.
-- `"lagName"`: The name of the LAG.
-- `"minimumLinks"`: The minimum number of physical connections that must be operational for
-  the LAG itself to be operational.
+- `"lag_name"`: The name of the LAG.
+- `"minimum_links"`: The minimum number of physical connections that must be operational
+  for the LAG itself to be operational.
 """
-function update_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config())
-    return direct_connect(
-        "UpdateLag",
-        Dict{String,Any}("lagId" => lagId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_lag(
-    lagId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_lag(lagId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UpdateLag",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("lagId" => lagId), params));
@@ -2762,8 +2085,7 @@ function update_lag(
 end
 
 """
-    update_virtual_interface_attributes(virtual_interface_id)
-    update_virtual_interface_attributes(virtual_interface_id, params::Dict{String,<:Any})
+    update_virtual_interface_attributes(virtual_interface_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified attributes of the specified virtual private interface. Setting the
 MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying
@@ -2777,25 +2099,14 @@ DescribeVirtualInterfaces.
 - `virtual_interface_id`: The ID of the virtual private interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"mtu"`: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and
   9001. The default value is 1500.
 """
 function update_virtual_interface_attributes(
-    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    virtualInterfaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return direct_connect(
-        "UpdateVirtualInterfaceAttributes",
-        Dict{String,Any}("virtualInterfaceId" => virtualInterfaceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_virtual_interface_attributes(
-    virtualInterfaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return direct_connect(
         "UpdateVirtualInterfaceAttributes",
         Dict{String,Any}(

@@ -4,9 +4,15 @@ using AWS.AWSServices: chime_sdk_meetings
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "notifications_configuration" => "NotificationsConfiguration",
+    "meeting_host_id" => "MeetingHostId",
+    "next_token" => "next-token",
+    "max_results" => "max-results",
+)
+
 """
-    batch_create_attendee(attendees, meeting_id)
-    batch_create_attendee(attendees, meeting_id, params::Dict{String,<:Any})
+    batch_create_attendee(attendees, meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a group of meeting attendees.
 
@@ -16,22 +22,9 @@ Creates a group of meeting attendees.
 
 """
 function batch_create_attendee(
-    Attendees, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    Attendees, MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings/$(MeetingId)/attendees?operation=batch-create",
-        Dict{String,Any}("Attendees" => Attendees);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_create_attendee(
-    Attendees,
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings/$(MeetingId)/attendees?operation=batch-create",
@@ -44,8 +37,7 @@ function batch_create_attendee(
 end
 
 """
-    create_attendee(external_user_id, meeting_id)
-    create_attendee(external_user_id, meeting_id, params::Dict{String,<:Any})
+    create_attendee(external_user_id, meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about
 the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -57,22 +49,9 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
 
 """
 function create_attendee(
-    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalUserId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings/$(MeetingId)/attendees",
-        Dict{String,Any}("ExternalUserId" => ExternalUserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_attendee(
-    ExternalUserId,
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings/$(MeetingId)/attendees",
@@ -85,8 +64,7 @@ function create_attendee(
 end
 
 """
-    create_meeting(client_request_token, external_meeting_id, media_region)
-    create_meeting(client_request_token, external_meeting_id, media_region, params::Dict{String,<:Any})
+    create_meeting(client_request_token, external_meeting_id, media_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
 attendees. For more information about specifying media Regions, see Amazon Chime SDK Media
@@ -103,9 +81,9 @@ SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
   sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MeetingHostId"`: Reserved.
-- `"NotificationsConfiguration"`: The configuration for resource targets to receive
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"meeting_host_id"`: Reserved.
+- `"notifications_configuration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
 """
 function create_meeting(
@@ -113,26 +91,9 @@ function create_meeting(
     ExternalMeetingId,
     MediaRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "ExternalMeetingId" => ExternalMeetingId,
-            "MediaRegion" => MediaRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_meeting(
-    ClientRequestToken,
-    ExternalMeetingId,
-    MediaRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings",
@@ -153,8 +114,7 @@ function create_meeting(
 end
 
 """
-    create_meeting_with_attendees(attendees, client_request_token, external_meeting_id, media_region)
-    create_meeting_with_attendees(attendees, client_request_token, external_meeting_id, media_region, params::Dict{String,<:Any})
+    create_meeting_with_attendees(attendees, client_request_token, external_meeting_id, media_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
 more information about specifying media Regions, see Amazon Chime SDK Media Regions in the
@@ -169,9 +129,9 @@ the Amazon Chime SDK in the Amazon Chime Developer Guide.
 - `media_region`: The Region in which to create the meeting.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MeetingHostId"`: Reserved.
-- `"NotificationsConfiguration"`: The configuration for resource targets to receive
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"meeting_host_id"`: Reserved.
+- `"notifications_configuration"`: The configuration for resource targets to receive
   notifications when meeting and attendee events occur.
 """
 function create_meeting_with_attendees(
@@ -180,28 +140,9 @@ function create_meeting_with_attendees(
     ExternalMeetingId,
     MediaRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings?operation=create-attendees",
-        Dict{String,Any}(
-            "Attendees" => Attendees,
-            "ClientRequestToken" => ClientRequestToken,
-            "ExternalMeetingId" => ExternalMeetingId,
-            "MediaRegion" => MediaRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_meeting_with_attendees(
-    Attendees,
-    ClientRequestToken,
-    ExternalMeetingId,
-    MediaRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings?operation=create-attendees",
@@ -223,8 +164,7 @@ function create_meeting_with_attendees(
 end
 
 """
-    delete_attendee(attendee_id, meeting_id)
-    delete_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
+    delete_attendee(attendee_id, meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
 JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
@@ -237,21 +177,9 @@ Amazon Chime Developer Guide.
 
 """
 function delete_attendee(
-    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return chime_sdk_meetings(
-        "DELETE",
-        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_attendee(
-    AttendeeId,
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "DELETE",
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
@@ -262,8 +190,7 @@ function delete_attendee(
 end
 
 """
-    delete_meeting(meeting_id)
-    delete_meeting(meeting_id, params::Dict{String,<:Any})
+    delete_meeting(meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees,
 disconnects all clients, and prevents new clients from joining the meeting. For more
@@ -274,19 +201,10 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime_sdk_meetings(
-        "DELETE",
-        "/meetings/$(MeetingId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_meeting(
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "DELETE",
         "/meetings/$(MeetingId)",
@@ -297,8 +215,7 @@ function delete_meeting(
 end
 
 """
-    get_attendee(attendee_id, meeting_id)
-    get_attendee(attendee_id, meeting_id, params::Dict{String,<:Any})
+    get_attendee(attendee_id, meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For
 more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon
@@ -310,21 +227,9 @@ Chime Developer Guide.
 
 """
 function get_attendee(
-    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttendeeId, MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return chime_sdk_meetings(
-        "GET",
-        "/meetings/$(MeetingId)/attendees/$(AttendeeId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_attendee(
-    AttendeeId,
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "GET",
         "/meetings/$(MeetingId)/attendees/$(AttendeeId)",
@@ -335,8 +240,7 @@ function get_attendee(
 end
 
 """
-    get_meeting(meeting_id)
-    get_meeting(meeting_id, params::Dict{String,<:Any})
+    get_meeting(meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
 information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
@@ -346,19 +250,10 @@ Developer Guide.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_meeting(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime_sdk_meetings(
-        "GET",
-        "/meetings/$(MeetingId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_meeting(
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "GET",
         "/meetings/$(MeetingId)",
@@ -369,8 +264,7 @@ function get_meeting(
 end
 
 """
-    list_attendees(meeting_id)
-    list_attendees(meeting_id, params::Dict{String,<:Any})
+    list_attendees(meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
 the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
@@ -379,23 +273,14 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"max-results"`: The maximum number of results to return in a single call.
-- `"next-token"`: The token to use to retrieve the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call.
+- `"next_token"`: The token to use to retrieve the next page of results.
 """
-function list_attendees(MeetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime_sdk_meetings(
-        "GET",
-        "/meetings/$(MeetingId)/attendees";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_attendees(
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "GET",
         "/meetings/$(MeetingId)/attendees",
@@ -406,8 +291,7 @@ function list_attendees(
 end
 
 """
-    start_meeting_transcription(meeting_id, transcription_configuration)
-    start_meeting_transcription(meeting_id, transcription_configuration, params::Dict{String,<:Any})
+    start_meeting_transcription(meeting_id, transcription_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts transcription for the specified meetingId.
 
@@ -418,22 +302,12 @@ Starts transcription for the specified meetingId.
 
 """
 function start_meeting_transcription(
-    MeetingId, TranscriptionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings/$(MeetingId)/transcription?operation=start",
-        Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_meeting_transcription(
     MeetingId,
-    TranscriptionConfiguration,
-    params::AbstractDict{String};
+    TranscriptionConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings/$(MeetingId)/transcription?operation=start",
@@ -452,8 +326,7 @@ function start_meeting_transcription(
 end
 
 """
-    stop_meeting_transcription(meeting_id)
-    stop_meeting_transcription(meeting_id, params::Dict{String,<:Any})
+    stop_meeting_transcription(meeting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops transcription for the specified meetingId.
 
@@ -462,20 +335,9 @@ Stops transcription for the specified meetingId.
 
 """
 function stop_meeting_transcription(
-    MeetingId; aws_config::AbstractAWSConfig=global_aws_config()
+    MeetingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return chime_sdk_meetings(
-        "POST",
-        "/meetings/$(MeetingId)/transcription?operation=stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_meeting_transcription(
-    MeetingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return chime_sdk_meetings(
         "POST",
         "/meetings/$(MeetingId)/transcription?operation=stop",

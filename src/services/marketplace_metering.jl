@@ -4,9 +4,15 @@ using AWS.AWSServices: marketplace_metering
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "dry_run" => "DryRun",
+    "usage_allocations" => "UsageAllocations",
+    "usage_quantity" => "UsageQuantity",
+    "nonce" => "Nonce",
+)
+
 """
-    batch_meter_usage(product_code, usage_records)
-    batch_meter_usage(product_code, usage_records, params::Dict{String,<:Any})
+    batch_meter_usage(product_code, usage_records; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 BatchMeterUsage is called from a SaaS application listed on the AWS Marketplace to post
 metering records for a set of customers. For identical requests, the API is idempotent;
@@ -25,21 +31,9 @@ allocations, to provide customers with usagedata split into buckets by tags that
 
 """
 function batch_meter_usage(
-    ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_metering(
-        "BatchMeterUsage",
-        Dict{String,Any}("ProductCode" => ProductCode, "UsageRecords" => UsageRecords);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_meter_usage(
-    ProductCode,
-    UsageRecords,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_metering(
         "BatchMeterUsage",
         Dict{String,Any}(
@@ -57,8 +51,7 @@ function batch_meter_usage(
 end
 
 """
-    meter_usage(product_code, timestamp, usage_dimension)
-    meter_usage(product_code, timestamp, usage_dimension, params::Dict{String,<:Any})
+    meter_usage(product_code, timestamp, usage_dimension; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 API to emit metering records. For identical requests, the API is idempotent. It simply
 returns the metering record ID. MeterUsage is authenticated on the buyer's AWS account
@@ -76,39 +69,23 @@ by tags that you define (or allow the customer to define).
   publishing of the product.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Checks whether you have the permissions required for the action, but does not
-  make the request. If you have the permissions, the request returns DryRunOperation;
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Checks whether you have the permissions required for the action, but does
+  not make the request. If you have the permissions, the request returns DryRunOperation;
   otherwise, it returns UnauthorizedException. Defaults to false if not specified.
-- `"UsageAllocations"`: The set of UsageAllocations to submit. The sum of all
+- `"usage_allocations"`: The set of UsageAllocations to submit. The sum of all
   UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each
   UsageAllocation must have a unique set of tags (include no tags).
-- `"UsageQuantity"`: Consumption value for the hour. Defaults to 0 if not specified.
+- `"usage_quantity"`: Consumption value for the hour. Defaults to 0 if not specified.
 """
 function meter_usage(
     ProductCode,
     Timestamp,
     UsageDimension;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return marketplace_metering(
-        "MeterUsage",
-        Dict{String,Any}(
-            "ProductCode" => ProductCode,
-            "Timestamp" => Timestamp,
-            "UsageDimension" => UsageDimension,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function meter_usage(
-    ProductCode,
-    Timestamp,
-    UsageDimension,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_metering(
         "MeterUsage",
         Dict{String,Any}(
@@ -128,8 +105,7 @@ function meter_usage(
 end
 
 """
-    register_usage(product_code, public_key_version)
-    register_usage(product_code, public_key_version, params::Dict{String,<:Any})
+    register_usage(product_code, public_key_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Paid container software products sold through AWS Marketplace must integrate with the AWS
 Marketplace Metering Service and call the RegisterUsage operation for software entitlement
@@ -163,28 +139,17 @@ to perform entitlement checks at runtime.
 - `public_key_version`: Public Key Version provided by AWS Marketplace
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Nonce"`: (Optional) To scope down the registration to a specific running software
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"nonce"`: (Optional) To scope down the registration to a specific running software
   instance and guard against replay attacks.
 """
 function register_usage(
-    ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return marketplace_metering(
-        "RegisterUsage",
-        Dict{String,Any}(
-            "ProductCode" => ProductCode, "PublicKeyVersion" => PublicKeyVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_usage(
     ProductCode,
-    PublicKeyVersion,
-    params::AbstractDict{String};
+    PublicKeyVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return marketplace_metering(
         "RegisterUsage",
         Dict{String,Any}(
@@ -202,8 +167,7 @@ function register_usage(
 end
 
 """
-    resolve_customer(registration_token)
-    resolve_customer(registration_token, params::Dict{String,<:Any})
+    resolve_customer(registration_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 ResolveCustomer is called by a SaaS application during the registration process. When a
 buyer visits your website during the registration process, the buyer submits a registration
@@ -217,20 +181,9 @@ a CustomerIdentifier and product code.
 
 """
 function resolve_customer(
-    RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config()
+    RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_metering(
-        "ResolveCustomer",
-        Dict{String,Any}("RegistrationToken" => RegistrationToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function resolve_customer(
-    RegistrationToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_metering(
         "ResolveCustomer",
         Dict{String,Any}(

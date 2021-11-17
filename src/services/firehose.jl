@@ -4,9 +4,34 @@ using AWS.AWSServices: firehose
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "splunk_destination_configuration" => "SplunkDestinationConfiguration",
+    "s3_destination_configuration" => "S3DestinationConfiguration",
+    "amazonopensearchservice_destination_update" => "AmazonopensearchserviceDestinationUpdate",
+    "amazonopensearchservice_destination_configuration" => "AmazonopensearchserviceDestinationConfiguration",
+    "redshift_destination_update" => "RedshiftDestinationUpdate",
+    "redshift_destination_configuration" => "RedshiftDestinationConfiguration",
+    "delivery_stream_type" => "DeliveryStreamType",
+    "delivery_stream_encryption_configuration_input" => "DeliveryStreamEncryptionConfigurationInput",
+    "http_endpoint_destination_update" => "HttpEndpointDestinationUpdate",
+    "elasticsearch_destination_configuration" => "ElasticsearchDestinationConfiguration",
+    "extended_s3_destination_update" => "ExtendedS3DestinationUpdate",
+    "splunk_destination_update" => "SplunkDestinationUpdate",
+    "elasticsearch_destination_update" => "ElasticsearchDestinationUpdate",
+    "exclusive_start_delivery_stream_name" => "ExclusiveStartDeliveryStreamName",
+    "extended_s3_destination_configuration" => "ExtendedS3DestinationConfiguration",
+    "s3_destination_update" => "S3DestinationUpdate",
+    "exclusive_start_tag_key" => "ExclusiveStartTagKey",
+    "kinesis_stream_source_configuration" => "KinesisStreamSourceConfiguration",
+    "exclusive_start_destination_id" => "ExclusiveStartDestinationId",
+    "allow_force_delete" => "AllowForceDelete",
+    "tags" => "Tags",
+    "http_endpoint_destination_configuration" => "HttpEndpointDestinationConfiguration",
+    "limit" => "Limit",
+)
+
 """
-    create_delivery_stream(delivery_stream_name)
-    create_delivery_stream(delivery_stream_name, params::Dict{String,<:Any})
+    create_delivery_stream(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Kinesis Data Firehose delivery stream. By default, you can create up to 50
 delivery streams per AWS Region. This is an asynchronous operation that immediately
@@ -59,29 +84,29 @@ Firehose Developer Guide.
   different Regions, you can have multiple delivery streams with the same name.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AmazonopensearchserviceDestinationConfiguration"`:
-- `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"amazonopensearchservice_destination_configuration"`:
+- `"delivery_stream_encryption_configuration_input"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
-- `"DeliveryStreamType"`: The delivery stream type. This parameter can be one of the
+- `"delivery_stream_type"`: The delivery stream type. This parameter can be one of the
   following values:    DirectPut: Provider applications access the delivery stream directly.
     KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.
-- `"ElasticsearchDestinationConfiguration"`: The destination in Amazon ES. You can specify
+- `"elasticsearch_destination_configuration"`: The destination in Amazon ES. You can
+  specify only one destination.
+- `"extended_s3_destination_configuration"`: The destination in Amazon S3. You can specify
   only one destination.
-- `"ExtendedS3DestinationConfiguration"`: The destination in Amazon S3. You can specify
-  only one destination.
-- `"HttpEndpointDestinationConfiguration"`: Enables configuring Kinesis Firehose to deliver
-  data to any HTTP endpoint destination. You can specify only one destination.
-- `"KinesisStreamSourceConfiguration"`: When a Kinesis data stream is used as the source
+- `"http_endpoint_destination_configuration"`: Enables configuring Kinesis Firehose to
+  deliver data to any HTTP endpoint destination. You can specify only one destination.
+- `"kinesis_stream_source_configuration"`: When a Kinesis data stream is used as the source
   for the delivery stream, a KinesisStreamSourceConfiguration containing the Kinesis data
   stream Amazon Resource Name (ARN) and the role ARN for the source stream.
-- `"RedshiftDestinationConfiguration"`: The destination in Amazon Redshift. You can specify
-  only one destination.
-- `"S3DestinationConfiguration"`: [Deprecated] The destination in Amazon S3. You can
+- `"redshift_destination_configuration"`: The destination in Amazon Redshift. You can
   specify only one destination.
-- `"SplunkDestinationConfiguration"`: The destination in Splunk. You can specify only one
+- `"s3_destination_configuration"`: [Deprecated] The destination in Amazon S3. You can
+  specify only one destination.
+- `"splunk_destination_configuration"`: The destination in Splunk. You can specify only one
   destination.
-- `"Tags"`: A set of tags to assign to the delivery stream. A tag is a key-value pair that
+- `"tags"`: A set of tags to assign to the delivery stream. A tag is a key-value pair that
   you can define and assign to AWS resources. Tags are metadata. For example, you can add
   friendly names and descriptions or other types of information that can help you distinguish
   the delivery stream. For more information about tags, see Using Cost Allocation Tags in the
@@ -89,20 +114,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delivery stream.
 """
 function create_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "CreateDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_delivery_stream(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "CreateDeliveryStream",
         Dict{String,Any}(
@@ -116,8 +130,7 @@ function create_delivery_stream(
 end
 
 """
-    delete_delivery_stream(delivery_stream_name)
-    delete_delivery_stream(delivery_stream_name, params::Dict{String,<:Any})
+    delete_delivery_stream(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a delivery stream and its data. To check the state of a delivery stream, use
 DescribeDeliveryStream. You can delete a delivery stream only if it is in one of the
@@ -132,9 +145,9 @@ applications that are sending records before you delete a delivery stream.
 - `delivery_stream_name`: The name of the delivery stream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllowForceDelete"`: Set this to true if you want to delete the delivery stream even if
-  Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"allow_force_delete"`: Set this to true if you want to delete the delivery stream even
+  if Kinesis Data Firehose is unable to retire the grant for the CMK. Kinesis Data Firehose
   might be unable to retire the grant due to a customer error, such as when the CMK or the
   grant are in an invalid state. If you force deletion, you can then use the RevokeGrant
   operation to revoke the grant you gave to Kinesis Data Firehose. If a failure to retire the
@@ -142,20 +155,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. The default value is false.
 """
 function delete_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "DeleteDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_delivery_stream(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "DeleteDeliveryStream",
         Dict{String,Any}(
@@ -169,8 +171,7 @@ function delete_delivery_stream(
 end
 
 """
-    describe_delivery_stream(delivery_stream_name)
-    describe_delivery_stream(delivery_stream_name, params::Dict{String,<:Any})
+    describe_delivery_stream(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified delivery stream and its status. For example, after your delivery
 stream is created, call DescribeDeliveryStream to see whether the delivery stream is ACTIVE
@@ -184,27 +185,16 @@ again but with DeleteDeliveryStreamInputAllowForceDelete set to true.
 - `delivery_stream_name`: The name of the delivery stream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartDestinationId"`: The ID of the destination to start returning the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_destination_id"`: The ID of the destination to start returning the
   destination information. Kinesis Data Firehose supports one destination per delivery stream.
-- `"Limit"`: The limit on the number of destinations to return. You can have one
+- `"limit"`: The limit on the number of destinations to return. You can have one
   destination per delivery stream.
 """
 function describe_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "DescribeDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_delivery_stream(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "DescribeDeliveryStream",
         Dict{String,Any}(
@@ -218,8 +208,7 @@ function describe_delivery_stream(
 end
 
 """
-    list_delivery_streams()
-    list_delivery_streams(params::Dict{String,<:Any})
+    list_delivery_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists your delivery streams in alphabetical order of their names. The number of delivery
 streams might be too large to return using a single call to ListDeliveryStreams. You can
@@ -230,25 +219,21 @@ this operation again and setting the ExclusiveStartDeliveryStreamName parameter 
 of the last delivery stream returned in the last call.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryStreamType"`: The delivery stream type. This can be one of the following
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_stream_type"`: The delivery stream type. This can be one of the following
   values:    DirectPut: Provider applications access the delivery stream directly.
   KinesisStreamAsSource: The delivery stream uses a Kinesis data stream as a source.   This
   parameter is optional. If this parameter is omitted, delivery streams of all types are
   returned.
-- `"ExclusiveStartDeliveryStreamName"`: The list of delivery streams returned by this call
-  to ListDeliveryStreams will start with the delivery stream whose name comes alphabetically
-  immediately after the name you specify in ExclusiveStartDeliveryStreamName.
-- `"Limit"`: The maximum number of delivery streams to list. The default value is 10.
+- `"exclusive_start_delivery_stream_name"`: The list of delivery streams returned by this
+  call to ListDeliveryStreams will start with the delivery stream whose name comes
+  alphabetically immediately after the name you specify in ExclusiveStartDeliveryStreamName.
+- `"limit"`: The maximum number of delivery streams to list. The default value is 10.
 """
-function list_delivery_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return firehose(
-        "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_delivery_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_delivery_streams(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "ListDeliveryStreams",
         params;
@@ -258,8 +243,7 @@ function list_delivery_streams(
 end
 
 """
-    list_tags_for_delivery_stream(delivery_stream_name)
-    list_tags_for_delivery_stream(delivery_stream_name, params::Dict{String,<:Any})
+    list_tags_for_delivery_stream(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified delivery stream. This operation has a limit of five
 transactions per second per account.
@@ -268,29 +252,18 @@ transactions per second per account.
 - `delivery_stream_name`: The name of the delivery stream whose tags you want to list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartTagKey"`: The key to use as the starting point for the list of tags. If
-  you set this parameter, ListTagsForDeliveryStream gets all tags that occur after
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_tag_key"`: The key to use as the starting point for the list of tags.
+  If you set this parameter, ListTagsForDeliveryStream gets all tags that occur after
   ExclusiveStartTagKey.
-- `"Limit"`: The number of tags to return. If this number is less than the total number of
+- `"limit"`: The number of tags to return. If this number is less than the total number of
   tags associated with the delivery stream, HasMoreTags is set to true in the response. To
   list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
 function list_tags_for_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "ListTagsForDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_delivery_stream(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "ListTagsForDeliveryStream",
         Dict{String,Any}(
@@ -304,8 +277,7 @@ function list_tags_for_delivery_stream(
 end
 
 """
-    put_record(delivery_stream_name, record)
-    put_record(delivery_stream_name, record, params::Dict{String,<:Any})
+    put_record(delivery_stream_name, record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Writes a single data record into an Amazon Kinesis Data Firehose delivery stream. To write
 multiple data records into a delivery stream, use PutRecordBatch. Applications using these
@@ -337,21 +309,9 @@ your records. Instead, concatenate the raw data, then perform base64 encoding.
 
 """
 function put_record(
-    DeliveryStreamName, Record; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "PutRecord",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Record" => Record);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_record(
-    DeliveryStreamName,
-    Record,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "PutRecord",
         Dict{String,Any}(
@@ -369,8 +329,7 @@ function put_record(
 end
 
 """
-    put_record_batch(delivery_stream_name, records)
-    put_record_batch(delivery_stream_name, records, params::Dict{String,<:Any})
+    put_record_batch(delivery_stream_name, records; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Writes multiple data records into a delivery stream in a single call, which can achieve
 higher throughput per producer than when writing single records. To write single data
@@ -419,21 +378,12 @@ base64 encoding.
 
 """
 function put_record_batch(
-    DeliveryStreamName, Records; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return firehose(
-        "PutRecordBatch",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Records" => Records);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_record_batch(
     DeliveryStreamName,
-    Records,
-    params::AbstractDict{String};
+    Records;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "PutRecordBatch",
         Dict{String,Any}(
@@ -451,8 +401,7 @@ function put_record_batch(
 end
 
 """
-    start_delivery_stream_encryption(delivery_stream_name)
-    start_delivery_stream_encryption(delivery_stream_name, params::Dict{String,<:Any})
+    start_delivery_stream_encryption(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables server-side encryption (SSE) for the delivery stream.  This operation is
 asynchronous. It returns immediately. When you invoke it, Kinesis Data Firehose first sets
@@ -488,25 +437,14 @@ the same delivery stream in a 24-hour period.
   server-side encryption (SSE).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryStreamEncryptionConfigurationInput"`: Used to specify the type and Amazon
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_stream_encryption_configuration_input"`: Used to specify the type and Amazon
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
 function start_delivery_stream_encryption(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "StartDeliveryStreamEncryption",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_delivery_stream_encryption(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "StartDeliveryStreamEncryption",
         Dict{String,Any}(
@@ -520,8 +458,7 @@ function start_delivery_stream_encryption(
 end
 
 """
-    stop_delivery_stream_encryption(delivery_stream_name)
-    stop_delivery_stream_encryption(delivery_stream_name, params::Dict{String,<:Any})
+    stop_delivery_stream_encryption(delivery_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables server-side encryption (SSE) for the delivery stream.  This operation is
 asynchronous. It returns immediately. When you invoke it, Kinesis Data Firehose first sets
@@ -546,20 +483,9 @@ same delivery stream in a 24-hour period.
 
 """
 function stop_delivery_stream_encryption(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "StopDeliveryStreamEncryption",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_delivery_stream_encryption(
-    DeliveryStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "StopDeliveryStreamEncryption",
         Dict{String,Any}(
@@ -573,8 +499,7 @@ function stop_delivery_stream_encryption(
 end
 
 """
-    tag_delivery_stream(delivery_stream_name, tags)
-    tag_delivery_stream(delivery_stream_name, tags, params::Dict{String,<:Any})
+    tag_delivery_stream(delivery_stream_name, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates tags for the specified delivery stream. A tag is a key-value pair that you
 can define and assign to AWS resources. If you specify a tag that already exists, the tag
@@ -591,21 +516,9 @@ account.
 
 """
 function tag_delivery_stream(
-    DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return firehose(
-        "TagDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_delivery_stream(
-    DeliveryStreamName,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "TagDeliveryStream",
         Dict{String,Any}(
@@ -623,8 +536,7 @@ function tag_delivery_stream(
 end
 
 """
-    untag_delivery_stream(delivery_stream_name, tag_keys)
-    untag_delivery_stream(delivery_stream_name, tag_keys, params::Dict{String,<:Any})
+    untag_delivery_stream(delivery_stream_name, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified delivery stream. Removed tags are deleted, and you can't
 recover them after this operation successfully completes. If you specify a tag that doesn't
@@ -638,21 +550,12 @@ per account.
 
 """
 function untag_delivery_stream(
-    DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return firehose(
-        "UntagDeliveryStream",
-        Dict{String,Any}("DeliveryStreamName" => DeliveryStreamName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_delivery_stream(
     DeliveryStreamName,
-    TagKeys,
-    params::AbstractDict{String};
+    TagKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "UntagDeliveryStream",
         Dict{String,Any}(
@@ -670,8 +573,7 @@ function untag_delivery_stream(
 end
 
 """
-    update_destination(current_delivery_stream_version_id, delivery_stream_name, destination_id)
-    update_destination(current_delivery_stream_version_id, delivery_stream_name, destination_id, params::Dict{String,<:Any})
+    update_destination(current_delivery_stream_version_id, delivery_stream_name, destination_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified destination of the specified delivery stream. Use this operation to
 change the destination type (for example, to replace the Amazon S3 destination with Amazon
@@ -706,40 +608,25 @@ version ID to set CurrentDeliveryStreamVersionId in the next call.
 - `destination_id`: The ID of the destination.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AmazonopensearchserviceDestinationUpdate"`:
-- `"ElasticsearchDestinationUpdate"`: Describes an update for a destination in Amazon ES.
-- `"ExtendedS3DestinationUpdate"`: Describes an update for a destination in Amazon S3.
-- `"HttpEndpointDestinationUpdate"`: Describes an update to the specified HTTP endpoint
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"amazonopensearchservice_destination_update"`:
+- `"elasticsearch_destination_update"`: Describes an update for a destination in Amazon ES.
+- `"extended_s3_destination_update"`: Describes an update for a destination in Amazon S3.
+- `"http_endpoint_destination_update"`: Describes an update to the specified HTTP endpoint
   destination.
-- `"RedshiftDestinationUpdate"`: Describes an update for a destination in Amazon Redshift.
-- `"S3DestinationUpdate"`: [Deprecated] Describes an update for a destination in Amazon S3.
-- `"SplunkDestinationUpdate"`: Describes an update for a destination in Splunk.
+- `"redshift_destination_update"`: Describes an update for a destination in Amazon Redshift.
+- `"s3_destination_update"`: [Deprecated] Describes an update for a destination in Amazon
+  S3.
+- `"splunk_destination_update"`: Describes an update for a destination in Splunk.
 """
 function update_destination(
     CurrentDeliveryStreamVersionId,
     DeliveryStreamName,
     DestinationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return firehose(
-        "UpdateDestination",
-        Dict{String,Any}(
-            "CurrentDeliveryStreamVersionId" => CurrentDeliveryStreamVersionId,
-            "DeliveryStreamName" => DeliveryStreamName,
-            "DestinationId" => DestinationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_destination(
-    CurrentDeliveryStreamVersionId,
-    DeliveryStreamName,
-    DestinationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return firehose(
         "UpdateDestination",
         Dict{String,Any}(

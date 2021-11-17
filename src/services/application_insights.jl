@@ -4,45 +4,62 @@ using AWS.AWSServices: application_insights
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "end_time" => "EndTime",
+    "component_name" => "ComponentName",
+    "tier" => "Tier",
+    "next_token" => "NextToken",
+    "ops_item_snstopic_arn" => "OpsItemSNSTopicArn",
+    "pattern_set_name" => "PatternSetName",
+    "event_status" => "EventStatus",
+    "start_time" => "StartTime",
+    "monitor" => "Monitor",
+    "pattern" => "Pattern",
+    "resource_group_name" => "ResourceGroupName",
+    "component_configuration" => "ComponentConfiguration",
+    "new_component_name" => "NewComponentName",
+    "max_results" => "MaxResults",
+    "remove_snstopic" => "RemoveSNSTopic",
+    "rank" => "Rank",
+    "cwemonitor_enabled" => "CWEMonitorEnabled",
+    "ops_center_enabled" => "OpsCenterEnabled",
+    "auto_config_enabled" => "AutoConfigEnabled",
+    "resource_list" => "ResourceList",
+    "auto_create" => "AutoCreate",
+    "tags" => "Tags",
+)
+
 """
-    create_application()
-    create_application(params::Dict{String,<:Any})
+    create_application(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an application that is created from a resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
-- `"AutoCreate"`:
-- `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_config_enabled"`:
+- `"auto_create"`:
+- `"cwemonitor_enabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
-- `"OpsCenterEnabled"`:  When set to true, creates opsItems for any problems detected on an
-  application.
-- `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
+- `"ops_center_enabled"`:  When set to true, creates opsItems for any problems detected on
+  an application.
+- `"ops_item_snstopic_arn"`:  The SNS topic provided to Application Insights that is
   associated to the created opsItem. Allows you to receive notifications for updates to the
   opsItem.
-- `"ResourceGroupName"`: The name of the resource group.
-- `"Tags"`: List of tags to add to the application. tag key (Key) and an associated tag
+- `"resource_group_name"`: The name of the resource group.
+- `"tags"`: List of tags to add to the application. tag key (Key) and an associated tag
   value (Value). The maximum length of a tag key is 128 characters. The maximum length of a
   tag value is 256 characters.
 """
-function create_application(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "CreateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_application(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_application(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "CreateApplication", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    create_component(component_name, resource_group_name, resource_list)
-    create_component(component_name, resource_group_name, resource_list, params::Dict{String,<:Any})
+    create_component(component_name, resource_group_name, resource_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a custom component by grouping similar standalone instances to monitor.
 
@@ -57,25 +74,9 @@ function create_component(
     ResourceGroupName,
     ResourceList;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "CreateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "ResourceList" => ResourceList,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_component(
-    ComponentName,
-    ResourceGroupName,
-    ResourceList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "CreateComponent",
         Dict{String,Any}(
@@ -95,8 +96,7 @@ function create_component(
 end
 
 """
-    create_log_pattern(pattern, pattern_name, pattern_set_name, rank, resource_group_name)
-    create_log_pattern(pattern, pattern_name, pattern_set_name, rank, resource_group_name, params::Dict{String,<:Any})
+    create_log_pattern(pattern, pattern_name, pattern_set_name, rank, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an log pattern to a LogPatternSet.
 
@@ -122,29 +122,9 @@ function create_log_pattern(
     Rank,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "CreateLogPattern",
-        Dict{String,Any}(
-            "Pattern" => Pattern,
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "Rank" => Rank,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_log_pattern(
-    Pattern,
-    PatternName,
-    PatternSetName,
-    Rank,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "CreateLogPattern",
         Dict{String,Any}(
@@ -166,8 +146,7 @@ function create_log_pattern(
 end
 
 """
-    delete_application(resource_group_name)
-    delete_application(resource_group_name, params::Dict{String,<:Any})
+    delete_application(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified application from monitoring. Does not delete the application.
 
@@ -176,20 +155,9 @@ Removes the specified application from monitoring. Does not delete the applicati
 
 """
 function delete_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "DeleteApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DeleteApplication",
         Dict{String,Any}(
@@ -203,8 +171,7 @@ function delete_application(
 end
 
 """
-    delete_component(component_name, resource_group_name)
-    delete_component(component_name, resource_group_name, params::Dict{String,<:Any})
+    delete_component(component_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Ungroups a custom component. When you ungroup custom components, all applicable monitors
 that are set up for the component are removed and the instances revert to their standalone
@@ -216,23 +183,12 @@ status.
 
 """
 function delete_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
-        "DeleteComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_component(
     ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
+    ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DeleteComponent",
         Dict{String,Any}(
@@ -251,8 +207,7 @@ function delete_component(
 end
 
 """
-    delete_log_pattern(pattern_name, pattern_set_name, resource_group_name)
-    delete_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
+    delete_log_pattern(pattern_name, pattern_set_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified log pattern from a LogPatternSet.
 
@@ -267,25 +222,9 @@ function delete_log_pattern(
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "DeleteLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DeleteLogPattern",
         Dict{String,Any}(
@@ -305,8 +244,7 @@ function delete_log_pattern(
 end
 
 """
-    describe_application(resource_group_name)
-    describe_application(resource_group_name, params::Dict{String,<:Any})
+    describe_application(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the application.
 
@@ -315,20 +253,9 @@ Describes the application.
 
 """
 function describe_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "DescribeApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeApplication",
         Dict{String,Any}(
@@ -342,8 +269,7 @@ function describe_application(
 end
 
 """
-    describe_component(component_name, resource_group_name)
-    describe_component(component_name, resource_group_name, params::Dict{String,<:Any})
+    describe_component(component_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a component and lists the resources that are grouped together in a component.
 
@@ -353,23 +279,12 @@ Describes a component and lists the resources that are grouped together in a com
 
 """
 function describe_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
-        "DescribeComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component(
     ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
+    ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeComponent",
         Dict{String,Any}(
@@ -388,8 +303,7 @@ function describe_component(
 end
 
 """
-    describe_component_configuration(component_name, resource_group_name)
-    describe_component_configuration(component_name, resource_group_name, params::Dict{String,<:Any})
+    describe_component_configuration(component_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the monitoring configuration of the component.
 
@@ -399,23 +313,12 @@ Describes the monitoring configuration of the component.
 
 """
 function describe_component_configuration(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
-        "DescribeComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component_configuration(
     ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
+    ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeComponentConfiguration",
         Dict{String,Any}(
@@ -434,8 +337,7 @@ function describe_component_configuration(
 end
 
 """
-    describe_component_configuration_recommendation(component_name, resource_group_name, tier)
-    describe_component_configuration_recommendation(component_name, resource_group_name, tier, params::Dict{String,<:Any})
+    describe_component_configuration_recommendation(component_name, resource_group_name, tier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the recommended monitoring configuration of the component.
 
@@ -451,25 +353,9 @@ function describe_component_configuration_recommendation(
     ResourceGroupName,
     Tier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "DescribeComponentConfigurationRecommendation",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName,
-            "ResourceGroupName" => ResourceGroupName,
-            "Tier" => Tier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_component_configuration_recommendation(
-    ComponentName,
-    ResourceGroupName,
-    Tier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeComponentConfigurationRecommendation",
         Dict{String,Any}(
@@ -489,8 +375,7 @@ function describe_component_configuration_recommendation(
 end
 
 """
-    describe_log_pattern(pattern_name, pattern_set_name, resource_group_name)
-    describe_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
+    describe_log_pattern(pattern_name, pattern_set_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describe a specific log pattern from a LogPatternSet.
 
@@ -505,25 +390,9 @@ function describe_log_pattern(
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "DescribeLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeLogPattern",
         Dict{String,Any}(
@@ -543,8 +412,7 @@ function describe_log_pattern(
 end
 
 """
-    describe_observation(observation_id)
-    describe_observation(observation_id, params::Dict{String,<:Any})
+    describe_observation(observation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an anomaly or error with the application.
 
@@ -553,20 +421,9 @@ Describes an anomaly or error with the application.
 
 """
 function describe_observation(
-    ObservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ObservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "DescribeObservation",
-        Dict{String,Any}("ObservationId" => ObservationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_observation(
-    ObservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeObservation",
         Dict{String,Any}(
@@ -578,8 +435,7 @@ function describe_observation(
 end
 
 """
-    describe_problem(problem_id)
-    describe_problem(problem_id, params::Dict{String,<:Any})
+    describe_problem(problem_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an application problem.
 
@@ -587,19 +443,10 @@ Describes an application problem.
 - `problem_id`: The ID of the problem.
 
 """
-function describe_problem(ProblemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "DescribeProblem",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_problem(
-    ProblemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ProblemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeProblem",
         Dict{String,Any}(
@@ -611,8 +458,7 @@ function describe_problem(
 end
 
 """
-    describe_problem_observations(problem_id)
-    describe_problem_observations(problem_id, params::Dict{String,<:Any})
+    describe_problem_observations(problem_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the anomalies or errors associated with the problem.
 
@@ -621,20 +467,9 @@ Describes the anomalies or errors associated with the problem.
 
 """
 function describe_problem_observations(
-    ProblemId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProblemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "DescribeProblemObservations",
-        Dict{String,Any}("ProblemId" => ProblemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_problem_observations(
-    ProblemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "DescribeProblemObservations",
         Dict{String,Any}(
@@ -646,33 +481,25 @@ function describe_problem_observations(
 end
 
 """
-    list_applications()
-    list_applications(params::Dict{String,<:Any})
+    list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the IDs of the applications that you are monitoring.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
-- `"NextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"next_token"`: The token to request the next page of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListApplications", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_components(resource_group_name)
-    list_components(resource_group_name, params::Dict{String,<:Any})
+    list_components(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the auto-grouped, standalone, and custom components of the application.
 
@@ -680,26 +507,15 @@ Lists the auto-grouped, standalone, and custom components of the application.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
-- `"NextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"next_token"`: The token to request the next page of results.
 """
 function list_components(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "ListComponents",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_components(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListComponents",
         Dict{String,Any}(
@@ -713,8 +529,7 @@ function list_components(
 end
 
 """
-    list_configuration_history()
-    list_configuration_history(params::Dict{String,<:Any})
+    list_configuration_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by
 Application Insights. Examples of events represented are:    INFO: creating a new alarm or
@@ -723,31 +538,27 @@ to predict thresholds.   ERROR: alarm not created due to permission errors or ex
 quotas.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndTime"`: The end time of the event.
-- `"EventStatus"`: The status of the configuration update event. Possible values include
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The end time of the event.
+- `"event_status"`: The status of the configuration update event. Possible values include
   INFO, WARN, and ERROR.
-- `"MaxResults"`:  The maximum number of results returned by ListConfigurationHistory in
+- `"max_results"`:  The maximum number of results returned by ListConfigurationHistory in
   paginated output. When this parameter is used, ListConfigurationHistory returns only
   MaxResults in a single page along with a NextToken response element. The remaining results
   of the initial request can be seen by sending another ListConfigurationHistory request with
   the returned NextToken value. If this parameter is not used, then ListConfigurationHistory
   returns all results.
-- `"NextToken"`: The NextToken value returned from a previous paginated
+- `"next_token"`: The NextToken value returned from a previous paginated
   ListConfigurationHistory request where MaxResults was used and the results exceeded the
   value of that parameter. Pagination continues from the end of the previous results that
   returned the NextToken value. This value is null when there are no more results to return.
-- `"ResourceGroupName"`: Resource group to which the application belongs.
-- `"StartTime"`: The start time of the event.
+- `"resource_group_name"`: Resource group to which the application belongs.
+- `"start_time"`: The start time of the event.
 """
-function list_configuration_history(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "ListConfigurationHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_configuration_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_configuration_history(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListConfigurationHistory",
         params;
@@ -757,8 +568,7 @@ function list_configuration_history(
 end
 
 """
-    list_log_pattern_sets(resource_group_name)
-    list_log_pattern_sets(resource_group_name, params::Dict{String,<:Any})
+    list_log_pattern_sets(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the log pattern sets in the specific application.
 
@@ -766,26 +576,15 @@ Lists the log pattern sets in the specific application.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
-- `"NextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"next_token"`: The token to request the next page of results.
 """
 function list_log_pattern_sets(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "ListLogPatternSets",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_log_pattern_sets(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListLogPatternSets",
         Dict{String,Any}(
@@ -799,8 +598,7 @@ function list_log_pattern_sets(
 end
 
 """
-    list_log_patterns(resource_group_name)
-    list_log_patterns(resource_group_name, params::Dict{String,<:Any})
+    list_log_patterns(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the log patterns in the specific log LogPatternSet.
 
@@ -808,27 +606,16 @@ Lists the log patterns in the specific log LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
-- `"NextToken"`: The token to request the next page of results.
-- `"PatternSetName"`: The name of the log pattern set.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"next_token"`: The token to request the next page of results.
+- `"pattern_set_name"`: The name of the log pattern set.
 """
 function list_log_patterns(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "ListLogPatterns",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_log_patterns(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListLogPatterns",
         Dict{String,Any}(
@@ -842,39 +629,31 @@ function list_log_patterns(
 end
 
 """
-    list_problems()
-    list_problems(params::Dict{String,<:Any})
+    list_problems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the problems with your application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComponentName"`:
-- `"EndTime"`: The time when the problem ended, in epoch seconds. If not specified,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"component_name"`:
+- `"end_time"`: The time when the problem ended, in epoch seconds. If not specified,
   problems within the past seven days are returned.
-- `"MaxResults"`: The maximum number of results to return in a single call. To retrieve the
-  remaining results, make another call with the returned NextToken value.
-- `"NextToken"`: The token to request the next page of results.
-- `"ResourceGroupName"`: The name of the resource group.
-- `"StartTime"`: The time when the problem was detected, in epoch seconds. If you don't
+- `"max_results"`: The maximum number of results to return in a single call. To retrieve
+  the remaining results, make another call with the returned NextToken value.
+- `"next_token"`: The token to request the next page of results.
+- `"resource_group_name"`: The name of the resource group.
+- `"start_time"`: The time when the problem was detected, in epoch seconds. If you don't
   specify a time frame for the request, problems within the past seven days are returned.
 """
-function list_problems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "ListProblems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_problems(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_problems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListProblems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve a list of the tags (keys and values) that are associated with a specified
 application. A tag is a label that you optionally define and associate with an application.
@@ -888,20 +667,9 @@ descriptor within a tag key.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -913,8 +681,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add one or more tags (keys and values) to a specified application. A tag is a label that
 you optionally define and associate with an application. Tags can help you categorize and
@@ -931,20 +698,10 @@ tag values. A tag value acts as a descriptor within a tag key.
   characters. The maximum length of a tag value is 256 characters.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_insights(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "TagResource",
         Dict{String,Any}(
@@ -960,8 +717,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Remove one or more tags (keys and values) from a specified application.
 
@@ -975,21 +731,9 @@ Remove one or more tags (keys and values) from a specified application.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "UntagResource",
         Dict{String,Any}(
@@ -1005,8 +749,7 @@ function untag_resource(
 end
 
 """
-    update_application(resource_group_name)
-    update_application(resource_group_name, params::Dict{String,<:Any})
+    update_application(resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the application.
 
@@ -1014,34 +757,23 @@ Updates the application.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
-- `"CWEMonitorEnabled"`:  Indicates whether Application Insights can listen to CloudWatch
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_config_enabled"`:
+- `"cwemonitor_enabled"`:  Indicates whether Application Insights can listen to CloudWatch
   events for the application resources, such as instance terminated, failed deployment, and
   others.
-- `"OpsCenterEnabled"`:  When set to true, creates opsItems for any problems detected on an
-  application.
-- `"OpsItemSNSTopicArn"`:  The SNS topic provided to Application Insights that is
+- `"ops_center_enabled"`:  When set to true, creates opsItems for any problems detected on
+  an application.
+- `"ops_item_snstopic_arn"`:  The SNS topic provided to Application Insights that is
   associated to the created opsItem. Allows you to receive notifications for updates to the
   opsItem.
-- `"RemoveSNSTopic"`:  Disassociates the SNS topic from the opsItem created for detected
+- `"remove_snstopic"`:  Disassociates the SNS topic from the opsItem created for detected
   problems.
 """
 function update_application(
-    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_insights(
-        "UpdateApplication",
-        Dict{String,Any}("ResourceGroupName" => ResourceGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application(
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "UpdateApplication",
         Dict{String,Any}(
@@ -1055,8 +787,7 @@ function update_application(
 end
 
 """
-    update_component(component_name, resource_group_name)
-    update_component(component_name, resource_group_name, params::Dict{String,<:Any})
+    update_component(component_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the custom component name and/or the list of resources that make up the component.
 
@@ -1065,28 +796,17 @@ Updates the custom component name and/or the list of resources that make up the 
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NewComponentName"`: The new name of the component.
-- `"ResourceList"`: The list of resource ARNs that belong to the component.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"new_component_name"`: The new name of the component.
+- `"resource_list"`: The list of resource ARNs that belong to the component.
 """
 function update_component(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
-        "UpdateComponent",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_component(
     ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
+    ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "UpdateComponent",
         Dict{String,Any}(
@@ -1105,8 +825,7 @@ function update_component(
 end
 
 """
-    update_component_configuration(component_name, resource_group_name)
-    update_component_configuration(component_name, resource_group_name, params::Dict{String,<:Any})
+    update_component_configuration(component_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the monitoring configurations for the component. The configuration input parameter
 is an escaped JSON of the configuration and should match the schema of what is returned by
@@ -1117,35 +836,24 @@ DescribeComponentConfigurationRecommendation.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoConfigEnabled"`:
-- `"ComponentConfiguration"`: The configuration settings of the component. The value is the
-  escaped JSON of the configuration. For more information about the JSON format, see Working
-  with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see
-  the recommended configuration for a component. For the complete format of the component
-  configuration file, see Component Configuration.
-- `"Monitor"`: Indicates whether the application component is monitored.
-- `"Tier"`: The tier of the application component. Supported tiers include DOT_NET_WORKER,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_config_enabled"`:
+- `"component_configuration"`: The configuration settings of the component. The value is
+  the escaped JSON of the configuration. For more information about the JSON format, see
+  Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation
+  to see the recommended configuration for a component. For the complete format of the
+  component configuration file, see Component Configuration.
+- `"monitor"`: Indicates whether the application component is monitored.
+- `"tier"`: The tier of the application component. Supported tiers include DOT_NET_WORKER,
   DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.
 """
 function update_component_configuration(
-    ComponentName, ResourceGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_insights(
-        "UpdateComponentConfiguration",
-        Dict{String,Any}(
-            "ComponentName" => ComponentName, "ResourceGroupName" => ResourceGroupName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_component_configuration(
     ComponentName,
-    ResourceGroupName,
-    params::AbstractDict{String};
+    ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "UpdateComponentConfiguration",
         Dict{String,Any}(
@@ -1164,8 +872,7 @@ function update_component_configuration(
 end
 
 """
-    update_log_pattern(pattern_name, pattern_set_name, resource_group_name)
-    update_log_pattern(pattern_name, pattern_set_name, resource_group_name, params::Dict{String,<:Any})
+    update_log_pattern(pattern_name, pattern_set_name, resource_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a log pattern to a LogPatternSet.
 
@@ -1175,10 +882,10 @@ Adds a log pattern to a LogPatternSet.
 - `resource_group_name`: The name of the resource group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Pattern"`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"pattern"`: The log pattern. The pattern must be DFA compatible. Patterns that utilize
   forward lookahead or backreference constructions are not supported.
-- `"Rank"`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns
+- `"rank"`: Rank of the log pattern. Must be a value between 1 and 1,000,000. The patterns
   are sorted by rank, so we recommend that you set your highest priority patterns with the
   lowest rank. A pattern of rank 1 will be the first to get matched to a log line. A pattern
   of rank 1,000,000 will be last to get matched. When you configure custom log patterns from
@@ -1191,25 +898,9 @@ function update_log_pattern(
     PatternSetName,
     ResourceGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_insights(
-        "UpdateLogPattern",
-        Dict{String,Any}(
-            "PatternName" => PatternName,
-            "PatternSetName" => PatternSetName,
-            "ResourceGroupName" => ResourceGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_log_pattern(
-    PatternName,
-    PatternSetName,
-    ResourceGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_insights(
         "UpdateLogPattern",
         Dict{String,Any}(

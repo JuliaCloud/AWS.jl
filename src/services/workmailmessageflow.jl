@@ -4,9 +4,10 @@ using AWS.AWSServices: workmailmessageflow
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict{String,String}()
+
 """
-    get_raw_message_content(message_id)
-    get_raw_message_content(message_id, params::Dict{String,<:Any})
+    get_raw_message_content(message_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the raw content of an in-transit email message, in MIME format.
 
@@ -15,20 +16,9 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 
 """
 function get_raw_message_content(
-    messageId; aws_config::AbstractAWSConfig=global_aws_config()
+    messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return workmailmessageflow(
-        "GET",
-        "/messages/$(messageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_raw_message_content(
-    messageId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return workmailmessageflow(
         "GET",
         "/messages/$(messageId)",
@@ -39,8 +29,7 @@ function get_raw_message_content(
 end
 
 """
-    put_raw_message_content(content, message_id)
-    put_raw_message_content(content, message_id, params::Dict{String,<:Any})
+    put_raw_message_content(content, message_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the raw content of an in-transit email message, in MIME format. This example
 describes how to update in-transit email message. For more information and examples for
@@ -56,22 +45,9 @@ returns an updated message.
 
 """
 function put_raw_message_content(
-    content, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+    content, messageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return workmailmessageflow(
-        "POST",
-        "/messages/$(messageId)",
-        Dict{String,Any}("content" => content);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_raw_message_content(
-    content,
-    messageId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return workmailmessageflow(
         "POST",
         "/messages/$(messageId)",

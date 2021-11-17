@@ -4,9 +4,17 @@ using AWS.AWSServices: migration_hub
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "resource_name" => "ResourceName",
+    "dry_run" => "DryRun",
+    "application_ids" => "ApplicationIds",
+    "next_token" => "NextToken",
+    "update_date_time" => "UpdateDateTime",
+    "max_results" => "MaxResults",
+)
+
 """
-    associate_created_artifact(created_artifact, migration_task_name, progress_update_stream)
-    associate_created_artifact(created_artifact, migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    associate_created_artifact(created_artifact, migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a created artifact of an AWS cloud resource, the target receiving the migration,
 with the migration task performed by a migration tool. This API has the following traits:
@@ -24,8 +32,8 @@ resource behind the created artifact are, AMI's, EC2 instance, or DMS endpoint, 
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function associate_created_artifact(
@@ -33,25 +41,9 @@ function associate_created_artifact(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "AssociateCreatedArtifact",
-        Dict{String,Any}(
-            "CreatedArtifact" => CreatedArtifact,
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_created_artifact(
-    CreatedArtifact,
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "AssociateCreatedArtifact",
         Dict{String,Any}(
@@ -71,8 +63,7 @@ function associate_created_artifact(
 end
 
 """
-    associate_discovered_resource(discovered_resource, migration_task_name, progress_update_stream)
-    associate_discovered_resource(discovered_resource, migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    associate_discovered_resource(discovered_resource, migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a discovered resource ID from Application Discovery Service with a migration
 task.
@@ -84,8 +75,8 @@ task.
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function associate_discovered_resource(
@@ -93,25 +84,9 @@ function associate_discovered_resource(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "AssociateDiscoveredResource",
-        Dict{String,Any}(
-            "DiscoveredResource" => DiscoveredResource,
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_discovered_resource(
-    DiscoveredResource,
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "AssociateDiscoveredResource",
         Dict{String,Any}(
@@ -131,8 +106,7 @@ function associate_discovered_resource(
 end
 
 """
-    create_progress_update_stream(progress_update_stream_name)
-    create_progress_update_stream(progress_update_stream_name, params::Dict{String,<:Any})
+    create_progress_update_stream(progress_update_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a progress update stream which is an AWS resource used for access control as well
 as a namespace for migration task names that is implicitly linked to your AWS account. It
@@ -145,25 +119,14 @@ account.
   personal data in this field.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function create_progress_update_stream(
-    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return migration_hub(
-        "CreateProgressUpdateStream",
-        Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_progress_update_stream(
-    ProgressUpdateStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "CreateProgressUpdateStream",
         Dict{String,Any}(
@@ -179,8 +142,7 @@ function create_progress_update_stream(
 end
 
 """
-    delete_progress_update_stream(progress_update_stream_name)
-    delete_progress_update_stream(progress_update_stream_name, params::Dict{String,<:Any})
+    delete_progress_update_stream(progress_update_stream_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a progress update stream, including all of its tasks, which was previously created
 as an AWS resource used for access control. This API has the following traits:   The only
@@ -201,25 +163,14 @@ the old stream).
   personal data in this field.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function delete_progress_update_stream(
-    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return migration_hub(
-        "DeleteProgressUpdateStream",
-        Dict{String,Any}("ProgressUpdateStreamName" => ProgressUpdateStreamName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_progress_update_stream(
-    ProgressUpdateStreamName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "DeleteProgressUpdateStream",
         Dict{String,Any}(
@@ -235,8 +186,7 @@ function delete_progress_update_stream(
 end
 
 """
-    describe_application_state(application_id)
-    describe_application_state(application_id, params::Dict{String,<:Any})
+    describe_application_state(application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the migration status of an application.
 
@@ -246,20 +196,9 @@ Gets the migration status of an application.
 
 """
 function describe_application_state(
-    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return migration_hub(
-        "DescribeApplicationState",
-        Dict{String,Any}("ApplicationId" => ApplicationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application_state(
-    ApplicationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "DescribeApplicationState",
         Dict{String,Any}(
@@ -271,8 +210,7 @@ function describe_application_state(
 end
 
 """
-    describe_migration_task(migration_task_name, progress_update_stream)
-    describe_migration_task(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    describe_migration_task(migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of all attributes associated with a specific migration task.
 
@@ -286,23 +224,9 @@ function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "DescribeMigrationTask",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_migration_task(
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "DescribeMigrationTask",
         Dict{String,Any}(
@@ -321,8 +245,7 @@ function describe_migration_task(
 end
 
 """
-    disassociate_created_artifact(created_artifact_name, migration_task_name, progress_update_stream)
-    disassociate_created_artifact(created_artifact_name, migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    disassociate_created_artifact(created_artifact_name, migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a created artifact of an AWS resource with a migration task performed by a
 migration tool that was previously associated. This API has the following traits:   A
@@ -340,8 +263,8 @@ resource behind the created artifact are, AMI's, EC2 instance, or RDS instance, 
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function disassociate_created_artifact(
@@ -349,25 +272,9 @@ function disassociate_created_artifact(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "DisassociateCreatedArtifact",
-        Dict{String,Any}(
-            "CreatedArtifactName" => CreatedArtifactName,
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_created_artifact(
-    CreatedArtifactName,
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "DisassociateCreatedArtifact",
         Dict{String,Any}(
@@ -387,8 +294,7 @@ function disassociate_created_artifact(
 end
 
 """
-    disassociate_discovered_resource(configuration_id, migration_task_name, progress_update_stream)
-    disassociate_discovered_resource(configuration_id, migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    disassociate_discovered_resource(configuration_id, migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociate an Application Discovery Service discovered resource from a migration task.
 
@@ -400,8 +306,8 @@ Disassociate an Application Discovery Service discovered resource from a migrati
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function disassociate_discovered_resource(
@@ -409,25 +315,9 @@ function disassociate_discovered_resource(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "DisassociateDiscoveredResource",
-        Dict{String,Any}(
-            "ConfigurationId" => ConfigurationId,
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_discovered_resource(
-    ConfigurationId,
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "DisassociateDiscoveredResource",
         Dict{String,Any}(
@@ -447,8 +337,7 @@ function disassociate_discovered_resource(
 end
 
 """
-    import_migration_task(migration_task_name, progress_update_stream)
-    import_migration_task(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    import_migration_task(migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a new migration task which represents a server, database, etc., being migrated to
 AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState
@@ -460,31 +349,17 @@ API as the migration tool must first register the migration task with Migration 
 - `progress_update_stream`: The name of the ProgressUpdateStream. &gt;
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "ImportMigrationTask",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_migration_task(
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ImportMigrationTask",
         Dict{String,Any}(
@@ -503,30 +378,25 @@ function import_migration_task(
 end
 
 """
-    list_application_states()
-    list_application_states(params::Dict{String,<:Any})
+    list_application_states(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the migration statuses for your applications. If you use the optional
 ApplicationIds parameter, only the migration statuses for those applications will be
 returned.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationIds"`: The configurationIds from the Application Discovery Service that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_ids"`: The configurationIds from the Application Discovery Service that
   uniquely identifies your applications.
-- `"MaxResults"`: Maximum number of results to be returned per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, there are more results
+- `"max_results"`: Maximum number of results to be returned per page.
+- `"next_token"`: If a NextToken was returned by a previous call, there are more results
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
-function list_application_states(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migration_hub(
-        "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_application_states(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_application_states(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ListApplicationStates",
         params;
@@ -536,8 +406,7 @@ function list_application_states(
 end
 
 """
-    list_created_artifacts(migration_task_name, progress_update_stream)
-    list_created_artifacts(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    list_created_artifacts(migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the created artifacts attached to a given migration task in an update stream. This
 API has the following traits:   Gets the list of the created artifacts while migration is
@@ -550,9 +419,9 @@ the AssociateCreatedArtifact API.    Lists created artifacts in a paginated inte
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Maximum number of results to be returned per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, there are more results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of results to be returned per page.
+- `"next_token"`: If a NextToken was returned by a previous call, there are more results
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
@@ -560,23 +429,9 @@ function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "ListCreatedArtifacts",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_created_artifacts(
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ListCreatedArtifacts",
         Dict{String,Any}(
@@ -595,8 +450,7 @@ function list_created_artifacts(
 end
 
 """
-    list_discovered_resources(migration_task_name, progress_update_stream)
-    list_discovered_resources(migration_task_name, progress_update_stream, params::Dict{String,<:Any})
+    list_discovered_resources(migration_task_name, progress_update_stream; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists discovered resources associated with the given MigrationTask.
 
@@ -606,9 +460,9 @@ Lists discovered resources associated with the given MigrationTask.
 - `progress_update_stream`: The name of the ProgressUpdateStream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results returned per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, there are more results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results returned per page.
+- `"next_token"`: If a NextToken was returned by a previous call, there are more results
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
@@ -616,23 +470,9 @@ function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "ListDiscoveredResources",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_discovered_resources(
-    MigrationTaskName,
-    ProgressUpdateStream,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ListDiscoveredResources",
         Dict{String,Any}(
@@ -651,8 +491,7 @@ function list_discovered_resources(
 end
 
 """
-    list_migration_tasks()
-    list_migration_tasks(params::Dict{String,<:Any})
+    list_migration_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all, or filtered by resource name, migration tasks associated with the user account
 making this call. This API has the following traits:   Can show a summary list of the most
@@ -660,47 +499,38 @@ recent migration tasks.   Can show a summary list of migration tasks associated 
 given discovered resource.   Lists migration tasks in a paginated interface.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Value to specify how many results are returned per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, there are more results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Value to specify how many results are returned per page.
+- `"next_token"`: If a NextToken was returned by a previous call, there are more results
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
-- `"ResourceName"`: Filter migration tasks by discovered resource name.
+- `"resource_name"`: Filter migration tasks by discovered resource name.
 """
-function list_migration_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migration_hub(
-        "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_migration_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_migration_tasks(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ListMigrationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_progress_update_streams()
-    list_progress_update_streams(params::Dict{String,<:Any})
+    list_progress_update_streams(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists progress update streams associated with the user account making this call.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Filter to limit the maximum number of results to list per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, there are more results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Filter to limit the maximum number of results to list per page.
+- `"next_token"`: If a NextToken was returned by a previous call, there are more results
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
-function list_progress_update_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migration_hub(
-        "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_progress_update_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_progress_update_streams(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "ListProgressUpdateStreams",
         params;
@@ -710,8 +540,7 @@ function list_progress_update_streams(
 end
 
 """
-    notify_application_state(application_id, status)
-    notify_application_state(application_id, status, params::Dict{String,<:Any})
+    notify_application_state(application_id, status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets the migration state of an application. For a given application identified by the value
 passed to ApplicationId, its status is set or updated by passing one of three values to
@@ -723,27 +552,15 @@ Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
 - `status`: Status of the application - Not Started, In-Progress, Complete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
-- `"UpdateDateTime"`: The timestamp when the application state changed.
+- `"update_date_time"`: The timestamp when the application state changed.
 """
 function notify_application_state(
-    ApplicationId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId, Status; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return migration_hub(
-        "NotifyApplicationState",
-        Dict{String,Any}("ApplicationId" => ApplicationId, "Status" => Status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function notify_application_state(
-    ApplicationId,
-    Status,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "NotifyApplicationState",
         Dict{String,Any}(
@@ -759,8 +576,7 @@ function notify_application_state(
 end
 
 """
-    notify_migration_task_state(migration_task_name, next_update_seconds, progress_update_stream, task, update_date_time)
-    notify_migration_task_state(migration_task_name, next_update_seconds, progress_update_stream, task, update_date_time, params::Dict{String,<:Any})
+    notify_migration_task_state(migration_task_name, next_update_seconds, progress_update_stream, task, update_date_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Notifies Migration Hub of the current status, progress, or other detail regarding a
 migration task. This API has the following traits:   Migration tools will call the
@@ -779,8 +595,8 @@ access control and to provide a namespace for each migration tool.
 - `update_date_time`: The timestamp when the task was gathered.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function notify_migration_task_state(
@@ -790,29 +606,9 @@ function notify_migration_task_state(
     Task,
     UpdateDateTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "NotifyMigrationTaskState",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "NextUpdateSeconds" => NextUpdateSeconds,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-            "Task" => Task,
-            "UpdateDateTime" => UpdateDateTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function notify_migration_task_state(
-    MigrationTaskName,
-    NextUpdateSeconds,
-    ProgressUpdateStream,
-    Task,
-    UpdateDateTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "NotifyMigrationTaskState",
         Dict{String,Any}(
@@ -834,8 +630,7 @@ function notify_migration_task_state(
 end
 
 """
-    put_resource_attributes(migration_task_name, progress_update_stream, resource_attribute_list)
-    put_resource_attributes(migration_task_name, progress_update_stream, resource_attribute_list, params::Dict{String,<:Any})
+    put_resource_attributes(migration_task_name, progress_update_stream, resource_attribute_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides identifying details of the resource being migrated so that it can be associated in
 the Application Discovery Service repository. This association occurs asynchronously after
@@ -868,8 +663,8 @@ ListDiscoveredResources.
   to the ResourceAttributeList parameter to maximize the chances of matching.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional boolean flag to indicate whether any effect should take place. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional boolean flag to indicate whether any effect should take place. Used
   to test if the caller has permission to make the call.
 """
 function put_resource_attributes(
@@ -877,25 +672,9 @@ function put_resource_attributes(
     ProgressUpdateStream,
     ResourceAttributeList;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return migration_hub(
-        "PutResourceAttributes",
-        Dict{String,Any}(
-            "MigrationTaskName" => MigrationTaskName,
-            "ProgressUpdateStream" => ProgressUpdateStream,
-            "ResourceAttributeList" => ResourceAttributeList,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resource_attributes(
-    MigrationTaskName,
-    ProgressUpdateStream,
-    ResourceAttributeList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migration_hub(
         "PutResourceAttributes",
         Dict{String,Any}(

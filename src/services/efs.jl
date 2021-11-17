@@ -4,9 +4,32 @@ using AWS.AWSServices: efs
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "creation_token" => "CreationToken",
+    "posix_user" => "PosixUser",
+    "kms_key_id" => "KmsKeyId",
+    "security_groups" => "SecurityGroups",
+    "next_token" => "NextToken",
+    "encrypted" => "Encrypted",
+    "backup" => "Backup",
+    "provisioned_throughput_in_mibps" => "ProvisionedThroughputInMibps",
+    "availability_zone_name" => "AvailabilityZoneName",
+    "max_results" => "MaxResults",
+    "file_system_id" => "FileSystemId",
+    "max_items" => "MaxItems",
+    "root_directory" => "RootDirectory",
+    "access_point_id" => "AccessPointId",
+    "mount_target_id" => "MountTargetId",
+    "ip_address" => "IpAddress",
+    "marker" => "Marker",
+    "bypass_policy_lockout_safety_check" => "BypassPolicyLockoutSafetyCheck",
+    "tags" => "Tags",
+    "throughput_mode" => "ThroughputMode",
+    "performance_mode" => "PerformanceMode",
+)
+
 """
-    create_access_point(client_token, file_system_id)
-    create_access_point(client_token, file_system_id, params::Dict{String,<:Any})
+    create_access_point(client_token, file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an EFS access point. An access point is an application-specific view into an EFS
 file system that applies an operating system user and group, and a file system path, to any
@@ -23,10 +46,10 @@ elasticfilesystem:CreateAccessPoint action.
 - `file_system_id`: The ID of the EFS file system that the access point provides access to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PosixUser"`: The operating system user and group applied to all file system requests
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"posix_user"`: The operating system user and group applied to all file system requests
   made using the access point.
-- `"RootDirectory"`: Specifies the directory on the Amazon EFS file system that the access
+- `"root_directory"`: Specifies the directory on the Amazon EFS file system that the access
   point exposes as the root directory of your file system to NFS clients using the access
   point. The clients using the access point can only access the root directory and below. If
   the RootDirectory &gt; Path specified does not exist, EFS creates it and applies the
@@ -36,27 +59,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the directory. If you do not provide this information, Amazon EFS does not create the
   root directory. If the root directory does not exist, attempts to mount using the access
   point will fail.
-- `"Tags"`: Creates tags associated with the access point. Each tag is a key-value pair,
+- `"tags"`: Creates tags associated with the access point. Each tag is a key-value pair,
   each key must be unique. For more information, see Tagging Amazon Web Services resources in
   the Amazon Web Services General Reference Guide.
 """
 function create_access_point(
-    ClientToken, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "POST",
-        "/2015-02-01/access-points",
-        Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_access_point(
-    ClientToken,
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/access-points",
@@ -75,8 +85,7 @@ function create_access_point(
 end
 
 """
-    create_file_system(creation_token)
-    create_file_system(creation_token, params::Dict{String,<:Any})
+    create_file_system(creation_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new, empty file system. The operation requires a creation token in the request
 that Amazon EFS uses to ensure idempotent creation (calling the operation with same
@@ -114,25 +123,25 @@ permissions for the elasticfilesystem:CreateFileSystem action.
   idempotent creation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AvailabilityZoneName"`: Used to create a file system that uses One Zone storage
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"availability_zone_name"`: Used to create a file system that uses One Zone storage
   classes. It specifies the Amazon Web Services Availability Zone in which to create the file
   system. Use the format us-east-1a to specify the Availability Zone. For more information
   about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.
    One Zone storage classes are not available in all Availability Zones in Amazon Web
   Services Regions where Amazon EFS is available.
-- `"Backup"`: Specifies whether automatic backups are enabled on the file system that you
+- `"backup"`: Specifies whether automatic backups are enabled on the file system that you
   are creating. Set the value to true to enable automatic backups. If you are creating a file
   system that uses One Zone storage classes, automatic backups are enabled by default. For
   more information, see Automatic backups in the Amazon EFS User Guide. Default is false.
   However, if you specify an AvailabilityZoneName, the default is true.  Backup is not
   available in all Amazon Web Services Regionswhere Amazon EFS is available.
-- `"Encrypted"`: A Boolean value that, if true, creates an encrypted file system. When
+- `"encrypted"`: A Boolean value that, if true, creates an encrypted file system. When
   creating an encrypted file system, you have the option of specifying
   CreateFileSystemRequestKmsKeyId for an existing Key Management Service (KMS customer master
   key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS,
   /aws/elasticfilesystem, is used to protect the encrypted file system.
-- `"KmsKeyId"`: The ID of the KMS CMK that you want to use to protect the encrypted file
+- `"kms_key_id"`: The ID of the KMS CMK that you want to use to protect the encrypted file
   system. This parameter is only required if you want to use a non-default KMS key. If this
   parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one
   of the following formats:   Key ID - A unique identifier of the key, for example
@@ -143,24 +152,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the
   CreateFileSystemRequestEncrypted parameter must be set to true.  EFS accepts only symmetric
   KMS keys. You cannot use asymmetric KMS keys with EFS file systems.
-- `"PerformanceMode"`: The performance mode of the file system. We recommend generalPurpose
-  performance mode for most file systems. File systems using the maxIO performance mode can
-  scale to higher levels of aggregate throughput and operations per second with a tradeoff of
-  slightly higher latencies for most file operations. The performance mode can't be changed
-  after the file system has been created.  The maxIO mode is not supported on file systems
-  using One Zone storage classes.
-- `"ProvisionedThroughputInMibps"`: The throughput, measured in MiB/s, that you want to
+- `"performance_mode"`: The performance mode of the file system. We recommend
+  generalPurpose performance mode for most file systems. File systems using the maxIO
+  performance mode can scale to higher levels of aggregate throughput and operations per
+  second with a tradeoff of slightly higher latencies for most file operations. The
+  performance mode can't be changed after the file system has been created.  The maxIO mode
+  is not supported on file systems using One Zone storage classes.
+- `"provisioned_throughput_in_mibps"`: The throughput, measured in MiB/s, that you want to
   provision for a file system that you're creating. Valid values are 1-1024. Required if
   ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. To
   increase this limit, contact Amazon Web Services Support. For more information, see Amazon
   EFS quotas that you can increase in the Amazon EFS User Guide.
-- `"Tags"`: Use to create one or more tags associated with the file system. Each tag is a
+- `"tags"`: Use to create one or more tags associated with the file system. Each tag is a
   user-defined key-value pair. Name your file system on creation by including a
   \"Key\":\"Name\",\"Value\":\"{value}\" key-value pair. Each key must be unique. For more
   information, see Tagging Amazon Web Services resources in the Amazon Web Services General
   Reference Guide.
-- `"ThroughputMode"`: Specifies the throughput mode for the file system, either bursting or
-  provisioned. If you set ThroughputMode to provisioned, you must also set a value for
+- `"throughput_mode"`: Specifies the throughput mode for the file system, either bursting
+  or provisioned. If you set ThroughputMode to provisioned, you must also set a value for
   ProvisionedThroughputInMibps. After you create the file system, you can decrease your file
   system's throughput in Provisioned Throughput mode or change between the throughput modes,
   as long as it’s been more than 24 hours since the last decrease or throughput mode
@@ -168,21 +177,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EFS User Guide.  Default is bursting.
 """
 function create_file_system(
-    CreationToken; aws_config::AbstractAWSConfig=global_aws_config()
+    CreationToken; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "POST",
-        "/2015-02-01/file-systems",
-        Dict{String,Any}("CreationToken" => CreationToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_file_system(
-    CreationToken,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/file-systems",
@@ -195,8 +192,7 @@ function create_file_system(
 end
 
 """
-    create_mount_target(file_system_id, subnet_id)
-    create_mount_target(file_system_id, subnet_id, params::Dict{String,<:Any})
+    create_mount_target(file_system_id, subnet_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a mount target for a file system. You can then mount the file system on EC2
 instances by using the mount target. You can create one mount target in each Availability
@@ -262,28 +258,15 @@ ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface
   Availability Zone.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IpAddress"`: Valid IPv4 address within the address range of the specified subnet.
-- `"SecurityGroups"`: Up to five VPC security group IDs, of the form sg-xxxxxxxx. These
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ip_address"`: Valid IPv4 address within the address range of the specified subnet.
+- `"security_groups"`: Up to five VPC security group IDs, of the form sg-xxxxxxxx. These
   must be for the same VPC as subnet specified.
 """
 function create_mount_target(
-    FileSystemId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "POST",
-        "/2015-02-01/mount-targets",
-        Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_mount_target(
-    FileSystemId,
-    SubnetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/mount-targets",
@@ -300,8 +283,7 @@ function create_mount_target(
 end
 
 """
-    create_tags(file_system_id, tags)
-    create_tags(file_system_id, tags, params::Dict{String,<:Any})
+    create_tags(file_system_id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  DEPRECATED - CreateTags is deprecated and not maintained. Please use the API action to
 create tags for EFS resources.  Creates or overwrites tags associated with a file system.
@@ -317,21 +299,10 @@ elasticfilesystem:CreateTags action.
 - `tags`: An array of Tag objects to add. Each Tag object is a key-value pair.
 
 """
-function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "POST",
-        "/2015-02-01/create-tags/$(FileSystemId)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_tags(
-    FileSystemId,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/create-tags/$(FileSystemId)",
@@ -342,8 +313,7 @@ function create_tags(
 end
 
 """
-    delete_access_point(access_point_id)
-    delete_access_point(access_point_id, params::Dict{String,<:Any})
+    delete_access_point(access_point_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified access point. After deletion is complete, new clients can no longer
 connect to the access points. Clients connected to the access point at the time of deletion
@@ -355,20 +325,9 @@ permissions for the elasticfilesystem:DeleteAccessPoint action.
 
 """
 function delete_access_point(
-    AccessPointId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessPointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/access-points/$(AccessPointId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access_point(
-    AccessPointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "DELETE",
         "/2015-02-01/access-points/$(AccessPointId)",
@@ -379,8 +338,7 @@ function delete_access_point(
 end
 
 """
-    delete_file_system(file_system_id)
-    delete_file_system(file_system_id, params::Dict{String,<:Any})
+    delete_file_system(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a file system, permanently severing access to its contents. Upon return, the file
 system no longer exists and you can't access any contents of the deleted file system.  You
@@ -397,19 +355,10 @@ elasticfilesystem:DeleteFileSystem action.
 - `file_system_id`: The ID of the file system you want to delete.
 
 """
-function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "DELETE",
-        "/2015-02-01/file-systems/$(FileSystemId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_file_system(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "DELETE",
         "/2015-02-01/file-systems/$(FileSystemId)",
@@ -420,8 +369,7 @@ function delete_file_system(
 end
 
 """
-    delete_file_system_policy(file_system_id)
-    delete_file_system_policy(file_system_id, params::Dict{String,<:Any})
+    delete_file_system_policy(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the FileSystemPolicy for the specified file system. The default FileSystemPolicy
 goes into effect once the existing policy is deleted. For more information about the
@@ -433,20 +381,9 @@ requires permissions for the elasticfilesystem:DeleteFileSystemPolicy action.
 
 """
 function delete_file_system_policy(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/file-systems/$(FileSystemId)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_file_system_policy(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "DELETE",
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
@@ -457,8 +394,7 @@ function delete_file_system_policy(
 end
 
 """
-    delete_mount_target(mount_target_id)
-    delete_mount_target(mount_target_id, params::Dict{String,<:Any})
+    delete_mount_target(mount_target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified mount target. This operation forcibly breaks any mounts of the file
 system by using the mount target that is being deleted, which might disrupt instances or
@@ -479,20 +415,9 @@ action on the mount target's network interface:    ec2:DeleteNetworkInterface
 
 """
 function delete_mount_target(
-    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/mount-targets/$(MountTargetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_mount_target(
-    MountTargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "DELETE",
         "/2015-02-01/mount-targets/$(MountTargetId)",
@@ -503,8 +428,7 @@ function delete_mount_target(
 end
 
 """
-    delete_tags(file_system_id, tag_keys)
-    delete_tags(file_system_id, tag_keys, params::Dict{String,<:Any})
+    delete_tags(file_system_id, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  DEPRECATED - DeleteTags is deprecated and not maintained. Please use the API action to
 remove tags from EFS resources.  Deletes the specified tags from a file system. If the
@@ -519,22 +443,9 @@ permissions for the elasticfilesystem:DeleteTags action.
 
 """
 function delete_tags(
-    FileSystemId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "POST",
-        "/2015-02-01/delete-tags/$(FileSystemId)",
-        Dict{String,Any}("TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_tags(
-    FileSystemId,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/delete-tags/$(FileSystemId)",
@@ -545,8 +456,7 @@ function delete_tags(
 end
 
 """
-    describe_access_points()
-    describe_access_points(params::Dict{String,<:Any})
+    describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the description of a specific Amazon EFS access point if the AccessPointId is
 provided. If you provide an EFS FileSystemId, it returns descriptions of all access points
@@ -555,28 +465,21 @@ request, but not both.  This operation requires permissions for the
 elasticfilesystem:DescribeAccessPoints action.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPointId"`: (Optional) Specifies an EFS access point to describe in the response;
-  mutually exclusive with FileSystemId.
-- `"FileSystemId"`: (Optional) If you provide a FileSystemId, EFS returns all access points
-  for that file system; mutually exclusive with AccessPointId.
-- `"MaxResults"`: (Optional) When retrieving all access points for a file system, you can
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_point_id"`: (Optional) Specifies an EFS access point to describe in the
+  response; mutually exclusive with FileSystemId.
+- `"file_system_id"`: (Optional) If you provide a FileSystemId, EFS returns all access
+  points for that file system; mutually exclusive with AccessPointId.
+- `"max_results"`: (Optional) When retrieving all access points for a file system, you can
   optionally specify the MaxItems parameter to limit the number of objects returned in a
   response. The default value is 100.
-- `"NextToken"`:  NextToken is present if the response is paginated. You can use NextMarker
-  in the subsequent request to fetch the next page of access point descriptions.
+- `"next_token"`:  NextToken is present if the response is paginated. You can use
+  NextMarker in the subsequent request to fetch the next page of access point descriptions.
 """
-function describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/access-points";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_access_points(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_access_points(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/access-points",
@@ -587,32 +490,24 @@ function describe_access_points(
 end
 
 """
-    describe_account_preferences()
-    describe_account_preferences(params::Dict{String,<:Any})
+    describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the account preferences settings for the Amazon Web Services account associated
 with the user making the request, in the current Amazon Web Services Region. For more
 information, see Managing Amazon EFS resource IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: (Optional) When retrieving account preferences, you can optionally
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: (Optional) When retrieving account preferences, you can optionally
   specify the MaxItems parameter to limit the number of objects returned in a response. The
   default value is 100.
-- `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
-  page of Amazon Web Services account preferences if the response payload was paginated.
+- `"next_token"`: (Optional) You can use NextToken in a subsequent request to fetch the
+  next page of Amazon Web Services account preferences if the response payload was paginated.
 """
-function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/account-preferences";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_account_preferences(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_account_preferences(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/account-preferences",
@@ -623,8 +518,7 @@ function describe_account_preferences(
 end
 
 """
-    describe_backup_policy(file_system_id)
-    describe_backup_policy(file_system_id, params::Dict{String,<:Any})
+    describe_backup_policy(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the backup policy for the specified EFS file system.
 
@@ -633,20 +527,9 @@ Returns the backup policy for the specified EFS file system.
 
 """
 function describe_backup_policy(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems/$(FileSystemId)/backup-policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_backup_policy(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
@@ -657,8 +540,7 @@ function describe_backup_policy(
 end
 
 """
-    describe_file_system_policy(file_system_id)
-    describe_file_system_policy(file_system_id, params::Dict{String,<:Any})
+    describe_file_system_policy(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the FileSystemPolicy for the specified EFS file system. This operation requires
 permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
@@ -668,20 +550,9 @@ permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
 
 """
 function describe_file_system_policy(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems/$(FileSystemId)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_file_system_policy(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
@@ -692,8 +563,7 @@ function describe_file_system_policy(
 end
 
 """
-    describe_file_systems()
-    describe_file_systems(params::Dict{String,<:Any})
+    describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the description of a specific Amazon EFS file system if either the file system
 CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all
@@ -713,29 +583,22 @@ is unspecified.   This operation requires permissions for the
 elasticfilesystem:DescribeFileSystems action.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CreationToken"`: (Optional) Restricts the list to the file system with this creation
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"creation_token"`: (Optional) Restricts the list to the file system with this creation
   token (String). You specify a creation token when you create an Amazon EFS file system.
-- `"FileSystemId"`: (Optional) ID of the file system whose description you want to retrieve
-  (String).
-- `"Marker"`: (Optional) Opaque pagination token returned from a previous
+- `"file_system_id"`: (Optional) ID of the file system whose description you want to
+  retrieve (String).
+- `"marker"`: (Optional) Opaque pagination token returned from a previous
   DescribeFileSystems operation (String). If present, specifies to continue the list from
   where the returning call had left off.
-- `"MaxItems"`: (Optional) Specifies the maximum number of file systems to return in the
+- `"max_items"`: (Optional) Specifies the maximum number of file systems to return in the
   response (integer). This number is automatically set to 100. The response is paginated at
   100 per page if you have more than 100 file systems.
 """
-function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_file_systems(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_file_systems(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/file-systems",
@@ -746,8 +609,7 @@ function describe_file_systems(
 end
 
 """
-    describe_lifecycle_configuration(file_system_id)
-    describe_lifecycle_configuration(file_system_id, params::Dict{String,<:Any})
+    describe_lifecycle_configuration(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current LifecycleConfiguration object for the specified Amazon EFS file system.
 EFS lifecycle management uses the LifecycleConfiguration object to identify which files to
@@ -763,20 +625,9 @@ elasticfilesystem:DescribeLifecycleConfiguration operation.
 
 """
 function describe_lifecycle_configuration(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_lifecycle_configuration(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
@@ -787,8 +638,7 @@ function describe_lifecycle_configuration(
 end
 
 """
-    describe_mount_target_security_groups(mount_target_id)
-    describe_mount_target_security_groups(mount_target_id, params::Dict{String,<:Any})
+    describe_mount_target_security_groups(mount_target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the security groups currently in effect for a mount target. This operation requires
 that the network interface of the mount target has been created and the lifecycle state of
@@ -802,20 +652,9 @@ target's network interface.
 
 """
 function describe_mount_target_security_groups(
-    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "GET",
-        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_mount_target_security_groups(
-    MountTargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
@@ -826,8 +665,7 @@ function describe_mount_target_security_groups(
 end
 
 """
-    describe_mount_targets()
-    describe_mount_targets(params::Dict{String,<:Any})
+    describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the descriptions of all the current mount targets, or a specific mount target, for
 a file system. When requesting all of the current mount targets, the order of mount targets
@@ -837,34 +675,27 @@ specify in FileSystemId, or on the file system of the mount target that you spec
 MountTargetId.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPointId"`: (Optional) The ID of the access point whose mount targets that you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_point_id"`: (Optional) The ID of the access point whose mount targets that you
   want to list. It must be included in your request if a FileSystemId or MountTargetId is not
   included in your request. Accepts either an access point ID or ARN as input.
-- `"FileSystemId"`: (Optional) ID of the file system whose mount targets you want to list
+- `"file_system_id"`: (Optional) ID of the file system whose mount targets you want to list
   (String). It must be included in your request if an AccessPointId or MountTargetId is not
   included. Accepts either a file system ID or ARN as input.
-- `"Marker"`: (Optional) Opaque pagination token returned from a previous
+- `"marker"`: (Optional) Opaque pagination token returned from a previous
   DescribeMountTargets operation (String). If present, it specifies to continue the list from
   where the previous returning call left off.
-- `"MaxItems"`: (Optional) Maximum number of mount targets to return in the response.
+- `"max_items"`: (Optional) Maximum number of mount targets to return in the response.
   Currently, this number is automatically set to 10, and other values are ignored. The
   response is paginated at 100 per page if you have more than 100 mount targets.
-- `"MountTargetId"`: (Optional) ID of the mount target that you want to have described
+- `"mount_target_id"`: (Optional) ID of the mount target that you want to have described
   (String). It must be included in your request if FileSystemId is not included. Accepts
   either a mount target ID or ARN as input.
 """
-function describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/mount-targets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_mount_targets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_mount_targets(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/mount-targets",
@@ -875,8 +706,7 @@ function describe_mount_targets(
 end
 
 """
-    describe_tags(file_system_id)
-    describe_tags(file_system_id, params::Dict{String,<:Any})
+    describe_tags(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  DEPRECATED - The DeleteTags action is deprecated and not maintained. Please use the API
 action to remove tags from EFS resources.  Returns the tags associated with a file system.
@@ -889,27 +719,18 @@ action.
 - `file_system_id`: The ID of the file system whose tag set you want to retrieve.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: (Optional) An opaque pagination token returned from a previous DescribeTags
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: (Optional) An opaque pagination token returned from a previous DescribeTags
   operation (String). If present, it specifies to continue the list from where the previous
   call left off.
-- `"MaxItems"`: (Optional) The maximum number of file system tags to return in the
+- `"max_items"`: (Optional) The maximum number of file system tags to return in the
   response. Currently, this number is automatically set to 100, and other values are ignored.
   The response is paginated at 100 per page if you have more than 100 tags.
 """
-function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/tags/$(FileSystemId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_tags(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/tags/$(FileSystemId)/",
@@ -920,8 +741,7 @@ function describe_tags(
 end
 
 """
-    list_tags_for_resource(resource_id)
-    list_tags_for_resource(resource_id, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags for a top-level EFS resource. You must provide the ID of the resource that
 you want to retrieve the tags for. This operation requires permissions for the
@@ -932,27 +752,16 @@ elasticfilesystem:DescribeAccessPoints action.
   tags for EFS file systems and access points using this API endpoint.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: (Optional) Specifies the maximum number of tag objects to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: (Optional) Specifies the maximum number of tag objects to return in the
   response. The default value is 100.
-- `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
-  page of access point descriptions if the response payload was paginated.
+- `"next_token"`: (Optional) You can use NextToken in a subsequent request to fetch the
+  next page of access point descriptions if the response payload was paginated.
 """
 function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "GET",
-        "/2015-02-01/resource-tags/$(ResourceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "GET",
         "/2015-02-01/resource-tags/$(ResourceId)",
@@ -963,8 +772,7 @@ function list_tags_for_resource(
 end
 
 """
-    modify_mount_target_security_groups(mount_target_id)
-    modify_mount_target_security_groups(mount_target_id, params::Dict{String,<:Any})
+    modify_mount_target_security_groups(mount_target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the set of security groups in effect for a mount target. When you create a mount
 target, Amazon EFS also creates a new network interface. For more information, see
@@ -980,24 +788,13 @@ target's network interface.
 - `mount_target_id`: The ID of the mount target whose security groups you want to modify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SecurityGroups"`: An array of up to five VPC security group IDs.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"security_groups"`: An array of up to five VPC security group IDs.
 """
 function modify_mount_target_security_groups(
-    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_mount_target_security_groups(
-    MountTargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/mount-targets/$(MountTargetId)/security-groups",
@@ -1008,8 +805,7 @@ function modify_mount_target_security_groups(
 end
 
 """
-    put_account_preferences(resource_id_type)
-    put_account_preferences(resource_id_type, params::Dict{String,<:Any})
+    put_account_preferences(resource_id_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use this operation to set the account preference in the current Amazon Web Services Region
 to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS
@@ -1030,21 +826,9 @@ receive an error and need to use short IDs for file system and mount target reso
 
 """
 function put_account_preferences(
-    ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/account-preferences",
-        Dict{String,Any}("ResourceIdType" => ResourceIdType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_account_preferences(
-    ResourceIdType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/account-preferences",
@@ -1057,8 +841,7 @@ function put_account_preferences(
 end
 
 """
-    put_backup_policy(backup_policy, file_system_id)
-    put_backup_policy(backup_policy, file_system_id, params::Dict{String,<:Any})
+    put_backup_policy(backup_policy, file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the file system's backup policy. Use this action to start or stop automatic backups
 of the file system.
@@ -1069,22 +852,9 @@ of the file system.
 
 """
 function put_backup_policy(
-    BackupPolicy, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupPolicy, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
-        Dict{String,Any}("BackupPolicy" => BackupPolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_backup_policy(
-    BackupPolicy,
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
@@ -1097,8 +867,7 @@ function put_backup_policy(
 end
 
 """
-    put_file_system_policy(file_system_id, policy)
-    put_file_system_policy(file_system_id, policy, params::Dict{String,<:Any})
+    put_file_system_policy(file_system_id, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy
 is an IAM resource-based policy and can contain multiple policy statements. A file system
@@ -1117,32 +886,19 @@ for the elasticfilesystem:PutFileSystemPolicy action.
   the elements that make up a file system policy, see EFS Resource-based Policies.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BypassPolicyLockoutSafetyCheck"`: (Optional) A flag to indicate whether to bypass the
-  FileSystemPolicy lockout safety check. The policy lockout safety check determines whether
-  the policy in the request will prevent the principal making the request will be locked out
-  from making future PutFileSystemPolicy requests on the file system. Set
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bypass_policy_lockout_safety_check"`: (Optional) A flag to indicate whether to bypass
+  the FileSystemPolicy lockout safety check. The policy lockout safety check determines
+  whether the policy in the request will prevent the principal making the request will be
+  locked out from making future PutFileSystemPolicy requests on the file system. Set
   BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that
   is making the request from making a subsequent PutFileSystemPolicy request on the file
   system. The default value is False.
 """
 function put_file_system_policy(
-    FileSystemId, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+    FileSystemId, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_file_system_policy(
-    FileSystemId,
-    Policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)/policy",
@@ -1153,8 +909,7 @@ function put_file_system_policy(
 end
 
 """
-    put_lifecycle_configuration(file_system_id, lifecycle_policies)
-    put_lifecycle_configuration(file_system_id, lifecycle_policies, params::Dict{String,<:Any})
+    put_lifecycle_configuration(file_system_id, lifecycle_policies; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables lifecycle management by creating a new LifecycleConfiguration object. A
 LifecycleConfiguration object defines when files in an Amazon EFS file system are
@@ -1192,22 +947,12 @@ Management Service permissions as when you created the encrypted file system.
 
 """
 function put_lifecycle_configuration(
-    FileSystemId, LifecyclePolicies; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
-        Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_lifecycle_configuration(
     FileSystemId,
-    LifecyclePolicies,
-    params::AbstractDict{String};
+    LifecyclePolicies;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
@@ -1222,8 +967,7 @@ function put_lifecycle_configuration(
 end
 
 """
-    tag_resource(resource_id, tags)
-    tag_resource(resource_id, tags, params::Dict{String,<:Any})
+    tag_resource(resource_id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a tag for an EFS resource. You can create tags for EFS file systems and access
 points using this API operation. This operation requires permissions for the
@@ -1234,21 +978,10 @@ elasticfilesystem:TagResource action.
 - `tags`: An array of Tag objects to add. Each Tag object is a key-value pair.
 
 """
-function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "POST",
-        "/2015-02-01/resource-tags/$(ResourceId)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceId,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "POST",
         "/2015-02-01/resource-tags/$(ResourceId)",
@@ -1259,8 +992,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_id, tag_keys)
-    untag_resource(resource_id, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_id, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from an EFS resource. You can remove tags from EFS file systems and access
 points using this API operation. This operation requires permissions for the
@@ -1273,22 +1005,9 @@ elasticfilesystem:UntagResource action.
 
 """
 function untag_resource(
-    ResourceId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/resource-tags/$(ResourceId)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceId,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "DELETE",
         "/2015-02-01/resource-tags/$(ResourceId)",
@@ -1299,8 +1018,7 @@ function untag_resource(
 end
 
 """
-    update_file_system(file_system_id)
-    update_file_system(file_system_id, params::Dict{String,<:Any})
+    update_file_system(file_system_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the throughput mode or the amount of provisioned throughput of an existing file
 system.
@@ -1309,29 +1027,20 @@ system.
 - `file_system_id`: The ID of the file system that you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ProvisionedThroughputInMibps"`: (Optional) Sets the amount of provisioned throughput,
-  in MiB/s, for the file system. Valid values are 1-1024. If you are changing the throughput
-  mode to provisioned, you must also provide the amount of provisioned throughput. Required
-  if ThroughputMode is changed to provisioned on update.
-- `"ThroughputMode"`: (Optional) Updates the file system's throughput mode. If you're not
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"provisioned_throughput_in_mibps"`: (Optional) Sets the amount of provisioned
+  throughput, in MiB/s, for the file system. Valid values are 1-1024. If you are changing the
+  throughput mode to provisioned, you must also provide the amount of provisioned throughput.
+  Required if ThroughputMode is changed to provisioned on update.
+- `"throughput_mode"`: (Optional) Updates the file system's throughput mode. If you're not
   updating your throughput mode, you don't need to provide this value in your request. If you
   are changing the ThroughputMode to provisioned, you must also set a value for
   ProvisionedThroughputInMibps.
 """
-function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_file_system(
-    FileSystemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return efs(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)",

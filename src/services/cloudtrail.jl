@@ -4,9 +4,32 @@ using AWS.AWSServices: cloudtrail
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "end_time" => "EndTime",
+    "kms_key_id" => "KmsKeyId",
+    "include_global_service_events" => "IncludeGlobalServiceEvents",
+    "cloud_watch_logs_log_group_arn" => "CloudWatchLogsLogGroupArn",
+    "cloud_watch_logs_role_arn" => "CloudWatchLogsRoleArn",
+    "is_organization_trail" => "IsOrganizationTrail",
+    "sns_topic_name" => "SnsTopicName",
+    "event_category" => "EventCategory",
+    "include_shadow_trails" => "includeShadowTrails",
+    "next_token" => "NextToken",
+    "event_selectors" => "EventSelectors",
+    "start_time" => "StartTime",
+    "lookup_attributes" => "LookupAttributes",
+    "max_results" => "MaxResults",
+    "s3_key_prefix" => "S3KeyPrefix",
+    "trail_name_list" => "trailNameList",
+    "advanced_event_selectors" => "AdvancedEventSelectors",
+    "tags_list" => "TagsList",
+    "is_multi_region_trail" => "IsMultiRegionTrail",
+    "s3_bucket_name" => "S3BucketName",
+    "enable_log_file_validation" => "EnableLogFileValidation",
+)
+
 """
-    add_tags(resource_id)
-    add_tags(resource_id, params::Dict{String,<:Any})
+    add_tags(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to a trail, up to a limit of 50. Overwrites an existing tag's value
 when a new value is specified for an existing tag key. Tag key names must be unique for a
@@ -20,22 +43,11 @@ which the trail was created (also known as its home region).
   The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagsList"`: Contains a list of tags, up to a limit of 50
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags_list"`: Contains a list of tags, up to a limit of 50
 """
-function add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "AddTags",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_tags(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function add_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "AddTags",
         Dict{String,Any}(
@@ -47,8 +59,7 @@ function add_tags(
 end
 
 """
-    create_trail(name, s3_bucket_name)
-    create_trail(name, s3_bucket_name, params::Dict{String,<:Any})
+    create_trail(name, s3_bucket_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a trail that specifies the settings for delivery of log data to an Amazon S3
 bucket.
@@ -64,30 +75,30 @@ bucket.
   log files. See Amazon S3 Bucket Naming Requirements.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CloudWatchLogsLogGroupArn"`: Specifies a log group name using an Amazon Resource Name
-  (ARN), a unique identifier that represents the log group to which CloudTrail logs will be
-  delivered. Not required unless you specify CloudWatchLogsRoleArn.
-- `"CloudWatchLogsRoleArn"`: Specifies the role for the CloudWatch Logs endpoint to assume
-  to write to a user's log group.
-- `"EnableLogFileValidation"`: Specifies whether log file integrity validation is enabled.
-  The default is false.  When you disable log file integrity validation, the chain of digest
-  files is broken after one hour. CloudTrail does not create digest files for log files that
-  were delivered during a period in which log file integrity validation was disabled. For
-  example, if you enable log file integrity validation at noon on January 1, disable it at
-  noon on January 2, and re-enable it at noon on January 10, digest files will not be created
-  for the log files delivered from noon on January 2 to noon on January 10. The same applies
-  whenever you stop CloudTrail logging or delete a trail.
-- `"IncludeGlobalServiceEvents"`: Specifies whether the trail is publishing events from
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cloud_watch_logs_log_group_arn"`: Specifies a log group name using an Amazon Resource
+  Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will
+  be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+- `"cloud_watch_logs_role_arn"`: Specifies the role for the CloudWatch Logs endpoint to
+  assume to write to a user's log group.
+- `"enable_log_file_validation"`: Specifies whether log file integrity validation is
+  enabled. The default is false.  When you disable log file integrity validation, the chain
+  of digest files is broken after one hour. CloudTrail does not create digest files for log
+  files that were delivered during a period in which log file integrity validation was
+  disabled. For example, if you enable log file integrity validation at noon on January 1,
+  disable it at noon on January 2, and re-enable it at noon on January 10, digest files will
+  not be created for the log files delivered from noon on January 2 to noon on January 10.
+  The same applies whenever you stop CloudTrail logging or delete a trail.
+- `"include_global_service_events"`: Specifies whether the trail is publishing events from
   global services such as IAM to the log files.
-- `"IsMultiRegionTrail"`: Specifies whether the trail is created in the current region or
-  in all regions. The default is false, which creates a trail only in the region where you
+- `"is_multi_region_trail"`: Specifies whether the trail is created in the current region
+  or in all regions. The default is false, which creates a trail only in the region where you
   are signed in. As a best practice, consider creating trails that log events in all regions.
-- `"IsOrganizationTrail"`: Specifies whether the trail is created for all accounts in an
+- `"is_organization_trail"`: Specifies whether the trail is created for all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
   Services account that is the management account for an organization in Organizations.
-- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
+- `"kms_key_id"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
   an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
   supports KMS multi-Region keys. For more information about multi-Region keys, see Using
@@ -95,27 +106,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
-- `"S3KeyPrefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
+- `"s3_key_prefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
   bucket you have designated for log file delivery. For more information, see Finding Your
   CloudTrail Log Files. The maximum length is 200 characters.
-- `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
-  log file delivery. The maximum length is 256 characters.
-- `"TagsList"`:
+- `"sns_topic_name"`: Specifies the name of the Amazon SNS topic defined for notification
+  of log file delivery. The maximum length is 256 characters.
+- `"tags_list"`:
 """
-function create_trail(Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "CreateTrail",
-        Dict{String,Any}("Name" => Name, "S3BucketName" => S3BucketName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_trail(
-    Name,
-    S3BucketName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, S3BucketName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "CreateTrail",
         Dict{String,Any}(
@@ -131,8 +132,7 @@ function create_trail(
 end
 
 """
-    delete_trail(name)
-    delete_trail(name, params::Dict{String,<:Any})
+    delete_trail(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a trail. This operation must be called from the region in which the trail was
 created. DeleteTrail cannot be called on the shadow trails (replicated trails in other
@@ -144,17 +144,8 @@ regions) of a trail that is enabled in all regions.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "DeleteTrail",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "DeleteTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -164,21 +155,20 @@ function delete_trail(
 end
 
 """
-    describe_trails()
-    describe_trails(params::Dict{String,<:Any})
+    describe_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves settings for one or more trails associated with the current region for your
 account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"includeShadowTrails"`: Specifies whether to include shadow trails in the response. A
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"include_shadow_trails"`: Specifies whether to include shadow trails in the response. A
   shadow trail is the replication in a region of a trail that was created in a different
   region, or in the case of an organization trail, the replication of an organization trail
   in member accounts. If you do not include shadow trails, organization trails in a member
   account and region replication trails will not be returned. The default is true.
-- `"trailNameList"`: Specifies a list of trail names, trail ARNs, or both, of the trails to
-  describe. The format of a trail ARN is:
+- `"trail_name_list"`: Specifies a list of trail names, trail ARNs, or both, of the trails
+  to describe. The format of a trail ARN is:
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified,
   information for the trail in the current region is returned.   If an empty list is
   specified and IncludeShadowTrails is false, then information for all trails in the current
@@ -189,22 +179,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current region. To return information about a trail in another region, you must specify its
   trail ARN.
 """
-function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "DescribeTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_trails(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "DescribeTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_event_selectors(trail_name)
-    get_event_selectors(trail_name, params::Dict{String,<:Any})
+    get_event_selectors(trail_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the settings for the event selectors that you configured for your trail. The
 information returned for your event selectors includes the following:   If your event
@@ -224,19 +207,10 @@ CloudTrail User Guide.
   must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function get_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "GetEventSelectors",
-        Dict{String,Any}("TrailName" => TrailName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_event_selectors(
-    TrailName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "GetEventSelectors",
         Dict{String,Any}(
@@ -248,8 +222,7 @@ function get_event_selectors(
 end
 
 """
-    get_insight_selectors(trail_name)
-    get_insight_selectors(trail_name, params::Dict{String,<:Any})
+    get_insight_selectors(trail_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the settings for the Insights event selectors that you configured for your trail.
 GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and
@@ -268,19 +241,10 @@ for Trails  in the CloudTrail User Guide.
   must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function get_insight_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "GetInsightSelectors",
-        Dict{String,Any}("TrailName" => TrailName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_insight_selectors(
-    TrailName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "GetInsightSelectors",
         Dict{String,Any}(
@@ -292,8 +256,7 @@ function get_insight_selectors(
 end
 
 """
-    get_trail(name)
-    get_trail(name, params::Dict{String,<:Any})
+    get_trail(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns settings information for a specified trail.
 
@@ -302,17 +265,8 @@ Returns settings information for a specified trail.
   retrieve settings information.
 
 """
-function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "GetTrail",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "GetTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -322,8 +276,7 @@ function get_trail(
 end
 
 """
-    get_trail_status(name)
-    get_trail_status(name, params::Dict{String,<:Any})
+    get_trail_status(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a JSON-formatted list of information about the specified trail. Fields include
 information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging
@@ -337,17 +290,10 @@ trail status from all regions, you must call the operation on each region.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function get_trail_status(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "GetTrailStatus",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_trail_status(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "GetTrailStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -357,8 +303,7 @@ function get_trail_status(
 end
 
 """
-    list_public_keys()
-    list_public_keys(params::Dict{String,<:Any})
+    list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all public keys whose private keys were used to sign the digest files within the
 specified time range. The public key is needed to validate digest files that were signed
@@ -368,30 +313,23 @@ validate a digest file from a specific region, you must look in the same region 
 corresponding public key.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndTime"`: Optionally specifies, in UTC, the end of the time range to look up public
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: Optionally specifies, in UTC, the end of the time range to look up public
   keys for CloudTrail digest files. If not specified, the current time is used.
-- `"NextToken"`: Reserved for future use.
-- `"StartTime"`: Optionally specifies, in UTC, the start of the time range to look up
+- `"next_token"`: Reserved for future use.
+- `"start_time"`: Optionally specifies, in UTC, the start of the time range to look up
   public keys for CloudTrail digest files. If not specified, the current time is used, and
   the current public key is returned.
 """
-function list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "ListPublicKeys"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_public_keys(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_public_keys(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "ListPublicKeys", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags(resource_id_list)
-    list_tags(resource_id_list, params::Dict{String,<:Any})
+    list_tags(resource_id_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the trail in the current region.
 
@@ -401,22 +339,13 @@ Lists the tags for the trail in the current region.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: Reserved for future use.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: Reserved for future use.
 """
-function list_tags(ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "ListTags",
-        Dict{String,Any}("ResourceIdList" => ResourceIdList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_tags(
-    ResourceIdList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceIdList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "ListTags",
         Dict{String,Any}(
@@ -428,32 +357,26 @@ function list_tags(
 end
 
 """
-    list_trails()
-    list_trails(params::Dict{String,<:Any})
+    list_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists trails that are in the current account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The token to use to get the next page of results after a previous API
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The token to use to get the next page of results after a previous API
   call. This token must be passed in with the same parameters that were specified in the the
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
 """
-function list_trails(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail("ListTrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_trails(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_trails(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "ListTrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    lookup_events()
-    lookup_events(params::Dict{String,<:Any})
+    lookup_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
 You can look up events that occurred in a region within the last 90 days. Lookup supports
@@ -466,40 +389,33 @@ next page of results.  The rate of lookup requests is limited to two per second,
 account, per region. If this limit is exceeded, a throttling error occurs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndTime"`: Specifies that only events that occur before or at the specified time are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: Specifies that only events that occur before or at the specified time are
   returned. If the specified end time is before the specified start time, an error is
   returned.
-- `"EventCategory"`: Specifies the event category. If you do not specify an event category,
-  events of the category are not returned in the response. For example, if you do not specify
-  insight as the value of EventCategory, no Insights events are returned.
-- `"LookupAttributes"`: Contains a list of lookup attributes. Currently the list can
+- `"event_category"`: Specifies the event category. If you do not specify an event
+  category, events of the category are not returned in the response. For example, if you do
+  not specify insight as the value of EventCategory, no Insights events are returned.
+- `"lookup_attributes"`: Contains a list of lookup attributes. Currently the list can
   contain only one item.
-- `"MaxResults"`: The number of events to return. Possible values are 1 through 50. The
+- `"max_results"`: The number of events to return. Possible values are 1 through 50. The
   default is 50.
-- `"NextToken"`: The token to use to get the next page of results after a previous API
+- `"next_token"`: The token to use to get the next page of results after a previous API
   call. This token must be passed in with the same parameters that were specified in the the
   original call. For example, if the original call specified an AttributeKey of 'Username'
   with a value of 'root', the call with NextToken should include those same parameters.
-- `"StartTime"`: Specifies that only events that occur after or at the specified time are
+- `"start_time"`: Specifies that only events that occur after or at the specified time are
   returned. If the specified start time is after the specified end time, an error is returned.
 """
-function lookup_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "LookupEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function lookup_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function lookup_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "LookupEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    put_event_selectors(trail_name)
-    put_event_selectors(trail_name, params::Dict{String,<:Any})
+    put_event_selectors(trail_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures an event selector or advanced event selectors for your trail. Use event
 selectors or advanced event selectors to specify management and data event settings for
@@ -534,31 +450,22 @@ CloudTrail User Guide.
   must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AdvancedEventSelectors"`:  Specifies the settings for advanced event selectors. You can
-  add advanced event selectors, and conditions for your advanced event selectors, up to a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"advanced_event_selectors"`:  Specifies the settings for advanced event selectors. You
+  can add advanced event selectors, and conditions for your advanced event selectors, up to a
   maximum of 500 values for all conditions and selectors on a trail. You can use either
   AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors
   to a trail, any existing EventSelectors are overwritten. For more information about
   advanced event selectors, see Logging data events for trails in the CloudTrail User Guide.
-- `"EventSelectors"`: Specifies the settings for your event selectors. You can configure up
-  to five event selectors for a trail. You can use either EventSelectors or
+- `"event_selectors"`: Specifies the settings for your event selectors. You can configure
+  up to five event selectors for a trail. You can use either EventSelectors or
   AdvancedEventSelectors in a PutEventSelectors request, but not both. If you apply
   EventSelectors to a trail, any existing AdvancedEventSelectors are overwritten.
 """
-function put_event_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "PutEventSelectors",
-        Dict{String,Any}("TrailName" => TrailName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_event_selectors(
-    TrailName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrailName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "PutEventSelectors",
         Dict{String,Any}(
@@ -570,8 +477,7 @@ function put_event_selectors(
 end
 
 """
-    put_insight_selectors(insight_selectors, trail_name)
-    put_insight_selectors(insight_selectors, trail_name, params::Dict{String,<:Any})
+    put_insight_selectors(insight_selectors, trail_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lets you enable Insights event logging by specifying the Insights selectors that you want
 to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event
@@ -586,21 +492,12 @@ release is ApiCallRateInsight.
 
 """
 function put_insight_selectors(
-    InsightSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudtrail(
-        "PutInsightSelectors",
-        Dict{String,Any}("InsightSelectors" => InsightSelectors, "TrailName" => TrailName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_insight_selectors(
     InsightSelectors,
-    TrailName,
-    params::AbstractDict{String};
+    TrailName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "PutInsightSelectors",
         Dict{String,Any}(
@@ -618,8 +515,7 @@ function put_insight_selectors(
 end
 
 """
-    remove_tags(resource_id)
-    remove_tags(resource_id, params::Dict{String,<:Any})
+    remove_tags(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from a trail.
 
@@ -628,22 +524,13 @@ Removes the specified tags from a trail.
   format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagsList"`: Specifies a list of tags to be removed.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags_list"`: Specifies a list of tags to be removed.
 """
-function remove_tags(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "RemoveTags",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_tags(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "RemoveTags",
         Dict{String,Any}(
@@ -655,8 +542,7 @@ function remove_tags(
 end
 
 """
-    start_logging(name)
-    start_logging(name, params::Dict{String,<:Any})
+    start_logging(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
 For a trail that is enabled in all regions, this operation must be called from the region
@@ -669,17 +555,8 @@ in which the trail was created. This operation cannot be called on the shadow tr
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "StartLogging",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_logging(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function start_logging(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "StartLogging",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -689,8 +566,7 @@ function start_logging(
 end
 
 """
-    stop_logging(name)
-    stop_logging(name, params::Dict{String,<:Any})
+    stop_logging(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Suspends the recording of Amazon Web Services API calls and log file delivery for the
 specified trail. Under most circumstances, there is no need to use this action. You can
@@ -706,17 +582,8 @@ all regions.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
-function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "StopLogging",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_logging(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function stop_logging(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "StopLogging",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -726,8 +593,7 @@ function stop_logging(
 end
 
 """
-    update_trail(name)
-    update_trail(name, params::Dict{String,<:Any})
+    update_trail(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates trail settings that control what events you are logging, and how to handle log
 files. Changes to a trail do not require stopping the CloudTrail service. Use this action
@@ -746,13 +612,13 @@ InvalidHomeRegionException is thrown.
   following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CloudWatchLogsLogGroupArn"`: Specifies a log group name using an Amazon Resource Name
-  (ARN), a unique identifier that represents the log group to which CloudTrail logs are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cloud_watch_logs_log_group_arn"`: Specifies a log group name using an Amazon Resource
+  Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are
   delivered. Not required unless you specify CloudWatchLogsRoleArn.
-- `"CloudWatchLogsRoleArn"`: Specifies the role for the CloudWatch Logs endpoint to assume
-  to write to a user's log group.
-- `"EnableLogFileValidation"`: Specifies whether log file validation is enabled. The
+- `"cloud_watch_logs_role_arn"`: Specifies the role for the CloudWatch Logs endpoint to
+  assume to write to a user's log group.
+- `"enable_log_file_validation"`: Specifies whether log file validation is enabled. The
   default is false.  When you disable log file integrity validation, the chain of digest
   files is broken after one hour. CloudTrail does not create digest files for log files that
   were delivered during a period in which log file integrity validation was disabled. For
@@ -760,15 +626,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   noon on January 2, and re-enable it at noon on January 10, digest files will not be created
   for the log files delivered from noon on January 2 to noon on January 10. The same applies
   whenever you stop CloudTrail logging or delete a trail.
-- `"IncludeGlobalServiceEvents"`: Specifies whether the trail is publishing events from
+- `"include_global_service_events"`: Specifies whether the trail is publishing events from
   global services such as IAM to the log files.
-- `"IsMultiRegionTrail"`: Specifies whether the trail applies only to the current region or
-  to all regions. The default is false. If the trail exists only in the current region and
+- `"is_multi_region_trail"`: Specifies whether the trail applies only to the current region
+  or to all regions. The default is false. If the trail exists only in the current region and
   this value is set to true, shadow trails (replications of the trail) will be created in the
   other regions. If the trail exists in all regions and this value is set to false, the trail
   will remain in the region where it was created, and its shadow trails in other regions will
   be deleted. As a best practice, consider using trails that log events in all regions.
-- `"IsOrganizationTrail"`: Specifies whether the trail is applied to all accounts in an
+- `"is_organization_trail"`: Specifies whether the trail is applied to all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
   Services account that is the management account for an organization in Organizations. If
@@ -776,7 +642,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in all Amazon Web Services accounts that belong to the organization. If the trail is an
   organization trail and this is set to false, the trail will remain in the current Amazon
   Web Services account but be deleted from all member accounts in the organization.
-- `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
+- `"kms_key_id"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
   an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
   supports KMS multi-Region keys. For more information about multi-Region keys, see Using
@@ -784,25 +650,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
-- `"S3BucketName"`: Specifies the name of the Amazon S3 bucket designated for publishing
+- `"s3_bucket_name"`: Specifies the name of the Amazon S3 bucket designated for publishing
   log files. See Amazon S3 Bucket Naming Requirements.
-- `"S3KeyPrefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
+- `"s3_key_prefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
   bucket you have designated for log file delivery. For more information, see Finding Your
   CloudTrail Log Files. The maximum length is 200 characters.
-- `"SnsTopicName"`: Specifies the name of the Amazon SNS topic defined for notification of
-  log file delivery. The maximum length is 256 characters.
+- `"sns_topic_name"`: Specifies the name of the Amazon SNS topic defined for notification
+  of log file delivery. The maximum length is 256 characters.
 """
-function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "UpdateTrail",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_trail(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_trail(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudtrail(
         "UpdateTrail",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));

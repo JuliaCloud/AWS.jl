@@ -566,18 +566,13 @@ end
         end
 
         Secrets_Manager.create_secret(
-            secret_name,
-            LittleDict(
-                "SecretString" => secret_string, "ClientRequestToken" => string(uuid4())
-            ),
+            secret_name; secret_string=secret_string, client_request_token=string(uuid4())
         )
 
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            Secrets_Manager.delete_secret(
-                secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true")
-            )
+            Secrets_Manager.delete_secret(secret_name; force_delete_without_recovery="true")
         end
 
         @test_throws AWSException _get_secret_string(secret_name)
@@ -837,7 +832,7 @@ end
         try
             # PUT with parameters operation
             body = "sample-file-body"
-            S3.put_object(bucket_name, file_name, Dict("body" => body))
+            S3.put_object(bucket_name, file_name; body=body)
             @test !isempty(S3.get_object(bucket_name, file_name))
 
             # GET operation
@@ -846,12 +841,12 @@ end
 
             # GET with parameters operation
             max_keys = 1
-            result = S3.list_objects(bucket_name, Dict("max_keys" => max_keys))
+            result = S3.list_objects(bucket_name; max_keys=max_keys)
             @test length([result["Contents"]]) == max_keys
 
             # GET with an IO target
             mktemp() do f, io
-                S3.get_object(bucket_name, file_name, Dict("response_stream" => io))
+                S3.get_object(bucket_name, file_name; response_stream=io)
                 flush(io)
                 @test read(f, String) == body
             end
@@ -944,23 +939,22 @@ end
 
         try
             # POST
-            tags = Dict("Tags" => LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
+            tags = Dict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02")
 
             for vault in vault_names
-                Glacier.add_tags_to_vault("-", vault, tags)
+                Glacier.add_tags_to_vault("-", vault; Tags=tags)
             end
 
             for vault in vault_names
                 result_tags = Glacier.list_tags_for_vault("-", vault)
-                @test result_tags == tags
+                @test result_tags["Tags"] == tags
             end
 
             # GET
             # If this is an Integer AWS Coral cannot convert it to a String
             # "class com.amazon.coral.value.json.numbers.TruncatingBigNumber can not be converted to an String"
             limit = "1"
-            args = LittleDict("limit" => limit)
-            result = Glacier.list_vaults("-", args)
+            result = Glacier.list_vaults("-"; limit=limit)
             @test length(result["VaultList"]) == parse(Int, limit)
         finally
             # DELETE

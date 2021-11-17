@@ -4,9 +4,155 @@ using AWS.AWSServices: ssm
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "schedule_expression" => "ScheduleExpression",
+    "schedule_timezone" => "ScheduleTimezone",
+    "target_parameter_name" => "TargetParameterName",
+    "requires" => "Requires",
+    "task_invocation_parameters" => "TaskInvocationParameters",
+    "scheduled_end_time" => "ScheduledEndTime",
+    "sync_type" => "SyncType",
+    "association_version" => "AssociationVersion",
+    "actual_start_time" => "ActualStartTime",
+    "document_hash" => "DocumentHash",
+    "schedule" => "Schedule",
+    "cutoff" => "Cutoff",
+    "aggregator" => "Aggregator",
+    "target_type" => "TargetType",
+    "document_filter_list" => "DocumentFilterList",
+    "force" => "Force",
+    "keys_to_delete" => "KeysToDelete",
+    "client_token" => "ClientToken",
+    "account_ids_to_add" => "AccountIdsToAdd",
+    "version_name" => "VersionName",
+    "start_date" => "StartDate",
+    "approved_patches_enable_non_security" => "ApprovedPatchesEnableNonSecurity",
+    "association_filter_list" => "AssociationFilterList",
+    "notifications" => "Notifications",
+    "document_version" => "DocumentVersion",
+    "task_arn" => "TaskArn",
+    "instance_ids" => "InstanceIds",
+    "task_parameters" => "TaskParameters",
+    "metadata_to_update" => "MetadataToUpdate",
+    "plugin_name" => "PluginName",
+    "data_type" => "DataType",
+    "planned_start_time" => "PlannedStartTime",
+    "global_filters" => "GlobalFilters",
+    "output_s3_bucket_name" => "OutputS3BucketName",
+    "registration_limit" => "RegistrationLimit",
+    "patch_set" => "PatchSet",
+    "operational_data" => "OperationalData",
+    "tier" => "Tier",
+    "ops_item_filters" => "OpsItemFilters",
+    "at_time" => "AtTime",
+    "allowed_pattern" => "AllowedPattern",
+    "schedule_offset" => "ScheduleOffset",
+    "name" => "Name",
+    "priority" => "Priority",
+    "parameters" => "Parameters",
+    "rejected_patches_action" => "RejectedPatchesAction",
+    "s3_destination" => "S3Destination",
+    "parameter_version" => "ParameterVersion",
+    "association_id" => "AssociationId",
+    "rejected_patches" => "RejectedPatches",
+    "window_id" => "WindowId",
+    "max_results" => "MaxResults",
+    "comment" => "Comment",
+    "auto_approve" => "AutoApprove",
+    "output_location" => "OutputLocation",
+    "output_s3_region" => "OutputS3Region",
+    "logging_info" => "LoggingInfo",
+    "schema_delete_option" => "SchemaDeleteOption",
+    "related_ops_items" => "RelatedOpsItems",
+    "document_type" => "DocumentType",
+    "baseline_override" => "BaselineOverride",
+    "timeout_seconds" => "TimeoutSeconds",
+    "instance_id" => "InstanceId",
+    "document_format" => "DocumentFormat",
+    "end_date" => "EndDate",
+    "sub_type" => "SubType",
+    "enabled" => "Enabled",
+    "metadata" => "Metadata",
+    "notification_config" => "NotificationConfig",
+    "max_concurrency" => "MaxConcurrency",
+    "target_locations" => "TargetLocations",
+    "overwrite" => "Overwrite",
+    "parameter_filters" => "ParameterFilters",
+    "mode" => "Mode",
+    "compliance_severity" => "ComplianceSeverity",
+    "targets" => "Targets",
+    "cloud_watch_output_config" => "CloudWatchOutputConfig",
+    "association_name" => "AssociationName",
+    "next_token" => "NextToken",
+    "resource_types" => "ResourceTypes",
+    "service_role_arn" => "ServiceRoleArn",
+    "owner_information" => "OwnerInformation",
+    "default_instance_name" => "DefaultInstanceName",
+    "cutoff_behavior" => "CutoffBehavior",
+    "apply_only_at_cron_interval" => "ApplyOnlyAtCronInterval",
+    "account_ids_to_remove" => "AccountIdsToRemove",
+    "upload_type" => "UploadType",
+    "ops_item_id" => "OpsItemId",
+    "approved_patches_compliance_level" => "ApprovedPatchesComplianceLevel",
+    "aggregators" => "Aggregators",
+    "command_id" => "CommandId",
+    "item_content_hash" => "ItemContentHash",
+    "shared_document_version" => "SharedDocumentVersion",
+    "category" => "Category",
+    "calendar_names" => "CalendarNames",
+    "operating_system" => "OperatingSystem",
+    "type_name" => "TypeName",
+    "output_s3_key_prefix" => "OutputS3KeyPrefix",
+    "actual_end_time" => "ActualEndTime",
+    "policies" => "Policies",
+    "result_attributes" => "ResultAttributes",
+    "automation_target_parameter_name" => "AutomationTargetParameterName",
+    "resource_ids" => "ResourceIds",
+    "display_name" => "DisplayName",
+    "title" => "Title",
+    "tags" => "Tags",
+    "deletion_id" => "DeletionId",
+    "document_hash_type" => "DocumentHashType",
+    "operational_data_to_delete" => "OperationalDataToDelete",
+    "sources" => "Sources",
+    "key_id" => "KeyId",
+    "change_details" => "ChangeDetails",
+    "document_name" => "DocumentName",
+    "replace" => "Replace",
+    "resource_type" => "ResourceType",
+    "payload" => "Payload",
+    "allow_unassociated_targets" => "AllowUnassociatedTargets",
+    "duration" => "Duration",
+    "dry_run" => "DryRun",
+    "status" => "Status",
+    "approval_rules" => "ApprovalRules",
+    "target_maps" => "TargetMaps",
+    "change_request_name" => "ChangeRequestName",
+    "reason" => "Reason",
+    "description" => "Description",
+    "with_decryption" => "WithDecryption",
+    "sync_compliance" => "SyncCompliance",
+    "recursive" => "Recursive",
+    "instance_information_filter_list" => "InstanceInformationFilterList",
+    "ops_item_type" => "OpsItemType",
+    "details" => "Details",
+    "scheduled_time" => "ScheduledTime",
+    "severity" => "Severity",
+    "reverse_order" => "ReverseOrder",
+    "filters" => "Filters",
+    "sync_source" => "SyncSource",
+    "sync_name" => "SyncName",
+    "planned_end_time" => "PlannedEndTime",
+    "max_errors" => "MaxErrors",
+    "approved_patches" => "ApprovedPatches",
+    "attachments" => "Attachments",
+    "type" => "Type",
+    "expiration_date" => "ExpirationDate",
+    "safe" => "Safe",
+)
+
 """
-    add_tags_to_resource(resource_id, resource_type, tags)
-    add_tags_to_resource(resource_id, resource_type, tags, params::Dict{String,<:Any})
+    add_tags_to_resource(resource_id, resource_type, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or overwrites one or more tags for the specified resource. Tags are metadata that you
 can assign to your documents, managed instances, maintenance windows, Parameter Store
@@ -45,24 +191,13 @@ in the Amazon EC2 User Guide.
 
 """
 function add_tags_to_resource(
-    ResourceId, ResourceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "AddTagsToResource",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId, "ResourceType" => ResourceType, "Tags" => Tags
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_tags_to_resource(
     ResourceId,
     ResourceType,
-    Tags,
-    params::AbstractDict{String};
+    Tags;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "AddTagsToResource",
         Dict{String,Any}(
@@ -82,8 +217,7 @@ function add_tags_to_resource(
 end
 
 """
-    associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri)
-    associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri, params::Dict{String,<:Any})
+    associate_ops_item_related_item(association_type, ops_item_id, resource_type, resource_uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can
 associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and
@@ -107,27 +241,9 @@ function associate_ops_item_related_item(
     ResourceType,
     ResourceUri;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm(
-        "AssociateOpsItemRelatedItem",
-        Dict{String,Any}(
-            "AssociationType" => AssociationType,
-            "OpsItemId" => OpsItemId,
-            "ResourceType" => ResourceType,
-            "ResourceUri" => ResourceUri,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_ops_item_related_item(
-    AssociationType,
-    OpsItemId,
-    ResourceType,
-    ResourceUri,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "AssociateOpsItemRelatedItem",
         Dict{String,Any}(
@@ -148,8 +264,7 @@ function associate_ops_item_related_item(
 end
 
 """
-    cancel_command(command_id)
-    cancel_command(command_id, params::Dict{String,<:Any})
+    cancel_command(command_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attempts to cancel the command specified by the Command ID. There is no guarantee that the
 command will be terminated and the underlying process stopped.
@@ -158,24 +273,15 @@ command will be terminated and the underlying process stopped.
 - `command_id`: The ID of the command you want to cancel.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceIds"`: (Optional) A list of instance IDs on which you want to cancel the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"instance_ids"`: (Optional) A list of instance IDs on which you want to cancel the
   command. If not provided, the command is canceled on every instance on which it was
   requested.
 """
-function cancel_command(CommandId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CancelCommand",
-        Dict{String,Any}("CommandId" => CommandId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_command(
-    CommandId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CommandId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CancelCommand",
         Dict{String,Any}(
@@ -187,8 +293,7 @@ function cancel_command(
 end
 
 """
-    cancel_maintenance_window_execution(window_execution_id)
-    cancel_maintenance_window_execution(window_execution_id, params::Dict{String,<:Any})
+    cancel_maintenance_window_execution(window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a maintenance window execution that is already in progress and cancels any tasks in
 the window that haven't already starting running. Tasks already in progress will continue
@@ -199,20 +304,9 @@ to completion.
 
 """
 function cancel_maintenance_window_execution(
-    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "CancelMaintenanceWindowExecution",
-        Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_maintenance_window_execution(
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CancelMaintenanceWindowExecution",
         Dict{String,Any}(
@@ -226,8 +320,7 @@ function cancel_maintenance_window_execution(
 end
 
 """
-    create_activation(iam_role)
-    create_activation(iam_role, params::Dict{String,<:Any})
+    create_activation(iam_role; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Generates an activation code and activation ID you can use to register your on-premises
 server or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these
@@ -248,19 +341,19 @@ managed instances.
   Services Systems Manager User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DefaultInstanceName"`: The name of the registered, managed instance as it will appear
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"default_instance_name"`: The name of the registered, managed instance as it will appear
   in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services
   command line tools to list Systems Manager resources.  Don't enter personally identifiable
   information in this field.
-- `"Description"`: A user-defined description of the resource that you want to register
+- `"description"`: A user-defined description of the resource that you want to register
   with Systems Manager.   Don't enter personally identifiable information in this field.
-- `"ExpirationDate"`: The date by which this activation request should expire, in timestamp
-  format, such as \"2021-07-07T00:00:00\". You can specify a date up to 30 days in advance.
-  If you don't provide an expiration date, the activation code expires in 24 hours.
-- `"RegistrationLimit"`: Specify the maximum number of managed instances you want to
+- `"expiration_date"`: The date by which this activation request should expire, in
+  timestamp format, such as \"2021-07-07T00:00:00\". You can specify a date up to 30 days in
+  advance. If you don't provide an expiration date, the activation code expires in 24 hours.
+- `"registration_limit"`: Specify the maximum number of managed instances you want to
   register. The default value is 1.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+- `"tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag an activation to identify which servers or virtual machines (VMs) in your
   on-premises environment you intend to activate. In this case, you could specify the
@@ -275,17 +368,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances, see AddTagsToResource. For information about how to remove tags from your
   managed instances, see RemoveTagsFromResource.
 """
-function create_activation(IamRole; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CreateActivation",
-        Dict{String,Any}("IamRole" => IamRole);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_activation(
-    IamRole, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    IamRole; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateActivation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IamRole" => IamRole), params));
@@ -295,8 +381,7 @@ function create_activation(
 end
 
 """
-    create_association(name)
-    create_association(name, params::Dict{String,<:Any})
+    create_association(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A State Manager association defines the state that you want to maintain on your instances.
 For example, an association can specify that anti-virus software must be installed and
@@ -322,36 +407,37 @@ association might instruct State Manager to start the service.
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplyOnlyAtCronInterval"`: By default, when you create a new association, the system
-  runs it immediately after it is created and then according to the schedule you specified.
-  Specify this option if you don't want an association to run immediately after you create
-  it. This parameter isn't supported for rate expressions.
-- `"AssociationName"`: Specify a descriptive name for the association.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
-- `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apply_only_at_cron_interval"`: By default, when you create a new association, the
+  system runs it immediately after it is created and then according to the schedule you
+  specified. Specify this option if you don't want an association to run immediately after
+  you create it. This parameter isn't supported for rate expressions.
+- `"association_name"`: Specify a descriptive name for the association.
+- `"automation_target_parameter_name"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
+- `"calendar_names"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager
   Change Calendar.
-- `"ComplianceSeverity"`: The severity level to assign to the association.
-- `"DocumentVersion"`: The document version you want to associate with the target(s). Can
+- `"compliance_severity"`: The severity level to assign to the association.
+- `"document_version"`: The document version you want to associate with the target(s). Can
   be a specific version or the default version.
-- `"InstanceId"`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+- `"instance_id"`: The instance ID.   InstanceId has been deprecated. To specify an
+  instance ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
-- `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
+- `"max_concurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
   same time. If a new instance starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
   the next association interval, the new instance will process its association within the
   limit specified for MaxConcurrency.
-- `"MaxErrors"`: The number of errors that are allowed before the system stops sending
+- `"max_errors"`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
@@ -362,12 +448,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of these executions may fail as well. If you need to ensure that there won't be more than
   max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a
   time.
-- `"OutputLocation"`: An Amazon Simple Storage Service (Amazon S3) bucket where you want to
-  store the output details of the request.
-- `"Parameters"`: The parameters for the runtime configuration of the document.
-- `"ScheduleExpression"`: A cron expression when the association will be applied to the
+- `"output_location"`: An Amazon Simple Storage Service (Amazon S3) bucket where you want
+  to store the output details of the request.
+- `"parameters"`: The parameters for the runtime configuration of the document.
+- `"schedule_expression"`: A cron expression when the association will be applied to the
   target(s).
-- `"SyncCompliance"`: The mode for generating association compliance. You can specify AUTO
+- `"sync_compliance"`: The mode for generating association compliance. You can specify AUTO
   or MANUAL. In AUTO mode, the system uses the status of the association execution to
   determine the compliance status. If the association execution runs successfully, then the
   association is COMPLIANT. If the association execution doesn't run successfully, the
@@ -375,27 +461,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter for the PutComplianceItems API operation. In this case, compliance data isn't
   managed by State Manager. It is managed by your direct call to the PutComplianceItems API
   operation. By default, all associations use AUTO mode.
-- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
+- `"target_locations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   create an association in multiple Regions and multiple accounts.
-- `"Targets"`: The targets for the association. You can target instances by using tags,
+- `"targets"`: The targets for the association. You can target instances by using tags,
   Amazon Web Services resource groups, all instances in an Amazon Web Services account, or
   individual instance IDs. You can target all instances in an Amazon Web Services account by
   specifying the InstanceIds key with a value of *. For more information about choosing
   targets for an association, see Using targets and rate controls with State Manager
   associations in the Amazon Web Services Systems Manager User Guide.
 """
-function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CreateAssociation",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_association(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateAssociation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -405,8 +484,7 @@ function create_association(
 end
 
 """
-    create_association_batch(entries)
-    create_association_batch(entries, params::Dict{String,<:Any})
+    create_association_batch(entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates the specified Amazon Web Services Systems Manager document (SSM document) with
 the specified instances or targets. When you associate a document with one or more
@@ -420,18 +498,9 @@ system returns the AssociationAlreadyExists exception.
 
 """
 function create_association_batch(
-    Entries; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "CreateAssociationBatch",
-        Dict{String,Any}("Entries" => Entries);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_association_batch(
-    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateAssociationBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
@@ -441,8 +510,7 @@ function create_association_batch(
 end
 
 """
-    create_document(content, name)
-    create_document(content, name, params::Dict{String,<:Any})
+    create_document(content, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the
 actions that Systems Manager performs on your managed instances. For more information about
@@ -461,51 +529,41 @@ User Guide.
      aws-     amazon     amzn
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attachments"`: A list of key-value pairs that describe attachments to a version of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attachments"`: A list of key-value pairs that describe attachments to a version of a
   document.
-- `"DisplayName"`: An optional field where you can specify a friendly name for the SSM
+- `"display_name"`: An optional field where you can specify a friendly name for the SSM
   document. This value can differ for each version of the document. You can update this value
   at a later time using the UpdateDocument operation.
-- `"DocumentFormat"`: Specify the document format for the request. The document format can
+- `"document_format"`: Specify the document format for the request. The document format can
   be JSON, YAML, or TEXT. JSON is the default format.
-- `"DocumentType"`: The type of document to create.
-- `"Requires"`: A list of SSM documents required by a document. This parameter is used
+- `"document_type"`: The type of document to create.
+- `"requires"`: A list of SSM documents required by a document. This parameter is used
   exclusively by AppConfig. When a user creates an AppConfig configuration in an SSM
   document, the user must also specify a required document for validation purposes. In this
   case, an ApplicationConfiguration document requires an ApplicationConfigurationSchema
   document for validation purposes. For more information, see What is AppConfig? in the
   AppConfig User Guide.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+- `"tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag an SSM document to identify the types of targets or the environment where
   it will run. In this case, you could specify the following key-value pairs:
   Key=OS,Value=Windows     Key=Environment,Value=Production     To add tags to an existing
   SSM document, use the AddTagsToResource operation.
-- `"TargetType"`: Specify a target type to define the kinds of resources the document can
+- `"target_type"`: Specify a target type to define the kinds of resources the document can
   run on. For example, to run a document on EC2 instances, specify the following value:
   /AWS::EC2::Instance. If you specify a value of '/' the document can run on all types of
   resources. If you don't specify a value, the document can't run on any resources. For a
   list of valid resource types, see Amazon Web Services resource and property types reference
   in the CloudFormation User Guide.
-- `"VersionName"`: An optional field specifying the version of the artifact you are
+- `"version_name"`: An optional field specifying the version of the artifact you are
   creating with the document. For example, \"Release 12, Update 6\". This value is unique
   across all versions of a document, and can't be changed.
 """
-function create_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CreateDocument",
-        Dict{String,Any}("Content" => Content, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_document(
-    Content,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Content, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateDocument",
         Dict{String,Any}(
@@ -519,8 +577,7 @@ function create_document(
 end
 
 """
-    create_maintenance_window(allow_unassociated_targets, cutoff, duration, name, schedule)
-    create_maintenance_window(allow_unassociated_targets, cutoff, duration, name, schedule, params::Dict{String,<:Any})
+    create_maintenance_window(allow_unassociated_targets, cutoff, duration, name, schedule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new maintenance window.  The value you specify for Duration determines the
 specific end time for the maintenance window based on the time it begins. No maintenance
@@ -543,26 +600,26 @@ tasks can start after 5 PM.
   expression.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: User-provided idempotency token.
-- `"Description"`: An optional description for the maintenance window. We recommend
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: User-provided idempotency token.
+- `"description"`: An optional description for the maintenance window. We recommend
   specifying a description to help you organize your maintenance windows.
-- `"EndDate"`: The date and time, in ISO-8601 Extended format, for when you want the
+- `"end_date"`: The date and time, in ISO-8601 Extended format, for when you want the
   maintenance window to become inactive. EndDate allows you to set a date and time in the
   future when the maintenance window will no longer run.
-- `"ScheduleOffset"`: The number of days to wait after the date and time specified by a
+- `"schedule_offset"`: The number of days to wait after the date and time specified by a
   cron expression before running the maintenance window. For example, the following cron
   expression schedules a maintenance window to run on the third Tuesday of every month at
   11:30 PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window
   won't run until two days later.
-- `"ScheduleTimezone"`: The time zone that the scheduled maintenance window executions are
+- `"schedule_timezone"`: The time zone that the scheduled maintenance window executions are
   based on, in Internet Assigned Numbers Authority (IANA) format. For example:
   \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time
   Zone Database on the IANA website.
-- `"StartDate"`: The date and time, in ISO-8601 Extended format, for when you want the
+- `"start_date"`: The date and time, in ISO-8601 Extended format, for when you want the
   maintenance window to become active. StartDate allows you to delay activation of the
   maintenance window until the specified future date.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+- `"tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a maintenance window to identify the type of tasks it will run, the types
   of targets, and the environment it will run in. In this case, you could specify the
@@ -577,30 +634,9 @@ function create_maintenance_window(
     Name,
     Schedule;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm(
-        "CreateMaintenanceWindow",
-        Dict{String,Any}(
-            "AllowUnassociatedTargets" => AllowUnassociatedTargets,
-            "Cutoff" => Cutoff,
-            "Duration" => Duration,
-            "Name" => Name,
-            "Schedule" => Schedule,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_maintenance_window(
-    AllowUnassociatedTargets,
-    Cutoff,
-    Duration,
-    Name,
-    Schedule,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateMaintenanceWindow",
         Dict{String,Any}(
@@ -612,7 +648,7 @@ function create_maintenance_window(
                     "Duration" => Duration,
                     "Name" => Name,
                     "Schedule" => Schedule,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -623,8 +659,7 @@ function create_maintenance_window(
 end
 
 """
-    create_ops_item(description, source, title)
-    create_ops_item(description, source, title, params::Dict{String,<:Any})
+    create_ops_item(description, source, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to
 create a new OpsItem. For more information, see Getting started with OpsCenter in the
@@ -642,15 +677,15 @@ Amazon Web Services Systems Manager User Guide.
   resource.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"actual_end_time"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type /aws/changerequest.
-- `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
-  OpsItem type /aws/changerequest.
-- `"Category"`: Specify a category to assign to an OpsItem.
-- `"Notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
+- `"actual_start_time"`: The time a runbook workflow started. Currently reported only for
+  the OpsItem type /aws/changerequest.
+- `"category"`: Specify a category to assign to an OpsItem.
+- `"notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
   sent when this OpsItem is edited or changed.
-- `"OperationalData"`: Operational data is custom data that provides useful reference
+- `"operational_data"`: Operational data is custom data that provides useful reference
   details about the OpsItem. For example, you can specify log files, error strings, license
   keys, troubleshooting tips, or other relevant data. You enter operational data as key-value
   pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20
@@ -664,18 +699,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the /aws/automations key in OperationalData to associate an Automation runbook with the
   OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-- `"OpsItemType"`: The type of OpsItem to create. Currently, the only valid values are
+- `"ops_item_type"`: The type of OpsItem to create. Currently, the only valid values are
   /aws/changerequest and /aws/issue.
-- `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
-  Currently supported only for the OpsItem type /aws/changerequest.
-- `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
+- `"planned_end_time"`: The time specified in a change request for a runbook workflow to
+  end. Currently supported only for the OpsItem type /aws/changerequest.
+- `"planned_start_time"`: The time specified in a change request for a runbook workflow to
   start. Currently supported only for the OpsItem type /aws/changerequest.
-- `"Priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
-- `"RelatedOpsItems"`: One or more OpsItems that share something in common with the current
-  OpsItems. For example, related OpsItems can include OpsItems with similar error messages,
-  impacted resources, or statuses for the impacted resource.
-- `"Severity"`: Specify a severity to assign to an OpsItem.
-- `"Tags"`: Optional metadata that you assign to a resource. You can restrict access to
+- `"priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
+- `"related_ops_items"`: One or more OpsItems that share something in common with the
+  current OpsItems. For example, related OpsItems can include OpsItems with similar error
+  messages, impacted resources, or statuses for the impacted resource.
+- `"severity"`: Specify a severity to assign to an OpsItem.
+- `"tags"`: Optional metadata that you assign to a resource. You can restrict access to
   OpsItems by using an inline IAM policy that specifies tags. For more information, see
   Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Tags
   use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to a new
@@ -684,24 +719,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AddTagsToResource operation.
 """
 function create_ops_item(
-    Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config()
+    Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "CreateOpsItem",
-        Dict{String,Any}(
-            "Description" => Description, "Source" => Source, "Title" => Title
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_ops_item(
-    Description,
-    Source,
-    Title,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateOpsItem",
         Dict{String,Any}(
@@ -719,8 +739,7 @@ function create_ops_item(
 end
 
 """
-    create_ops_metadata(resource_id)
-    create_ops_metadata(resource_id, params::Dict{String,<:Any})
+    create_ops_metadata(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 If you create a new application in Application Manager, Amazon Web Services Systems Manager
 calls this API operation to specify information about the new application, including the
@@ -730,28 +749,19 @@ application type.
 - `resource_id`: A resource ID for a new Application Manager application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Metadata"`: Metadata for a new Application Manager application.
-- `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"metadata"`: Metadata for a new Application Manager application.
+- `"tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for an OpsMetadata object. Tags enable you to categorize a resource in different
   ways, such as by purpose, owner, or environment. For example, you might want to tag an
   OpsMetadata object to identify an environment or target Amazon Web Services Region. In this
   case, you could specify the following key-value pairs:    Key=Environment,Value=Production
      Key=Region,Value=us-east-2
 """
-function create_ops_metadata(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CreateOpsMetadata",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_ops_metadata(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateOpsMetadata",
         Dict{String,Any}(
@@ -763,8 +773,7 @@ function create_ops_metadata(
 end
 
 """
-    create_patch_baseline(name)
-    create_patch_baseline(name, params::Dict{String,<:Any})
+    create_patch_baseline(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a patch baseline.  For information about valid key-value pairs in PatchFilters for
 each supported operating system type, see PatchFilter.
@@ -773,28 +782,28 @@ each supported operating system type, see PatchFilter.
 - `name`: The name of the patch baseline.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApprovalRules"`: A set of rules used to include patches in the baseline.
-- `"ApprovedPatches"`: A list of explicitly approved patches for the baseline. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"approval_rules"`: A set of rules used to include patches in the baseline.
+- `"approved_patches"`: A list of explicitly approved patches for the baseline. For
   information about accepted formats for lists of approved patches and rejected patches, see
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
-- `"ApprovedPatchesComplianceLevel"`: Defines the compliance level for approved patches.
+- `"approved_patches_compliance_level"`: Defines the compliance level for approved patches.
   When an approved patch is reported as missing, this value describes the severity of the
   compliance violation. The default value is UNSPECIFIED.
-- `"ApprovedPatchesEnableNonSecurity"`: Indicates whether the list of approved patches
+- `"approved_patches_enable_non_security"`: Indicates whether the list of approved patches
   includes non-security updates that should be applied to the instances. The default value is
   false. Applies to Linux instances only.
-- `"ClientToken"`: User-provided idempotency token.
-- `"Description"`: A description of the patch baseline.
-- `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
-- `"OperatingSystem"`: Defines the operating system the patch baseline applies to. The
+- `"client_token"`: User-provided idempotency token.
+- `"description"`: A description of the patch baseline.
+- `"global_filters"`: A set of global filters used to include patches in the baseline.
+- `"operating_system"`: Defines the operating system the patch baseline applies to. The
   default value is WINDOWS.
-- `"RejectedPatches"`: A list of explicitly rejected patches for the baseline. For
+- `"rejected_patches"`: A list of explicitly rejected patches for the baseline. For
   information about accepted formats for lists of approved patches and rejected patches, see
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
-- `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
+- `"rejected_patches_action"`: The action for Patch Manager to take on patches included in
   the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
   is installed only if it is a dependency of another package. It is considered compliant with
   the patch baseline, and its status is reported as InstalledOther. This is the default
@@ -802,32 +811,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   packages that include them as dependencies, aren't installed under any circumstances. If a
   package was installed before it was added to the Rejected patches list, it is considered
   non-compliant with the patch baseline, and its status is reported as InstalledRejected.
-- `"Sources"`: Information about the patches to use to update the instances, including
+- `"sources"`: Information about the patches to use to update the instances, including
   target operating systems and source repositories. Applies to Linux instances only.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+- `"tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a patch baseline to identify the severity level of patches it specifies
   and the operating system family it applies to. In this case, you could specify the
   following key-value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows
   To add tags to an existing patch baseline, use the AddTagsToResource operation.
 """
-function create_patch_baseline(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "CreatePatchBaseline",
-        Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_patch_baseline(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreatePatchBaseline",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4())),
+                Dict{String,Any}("Name" => Name, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -837,8 +839,7 @@ function create_patch_baseline(
 end
 
 """
-    create_resource_data_sync(sync_name)
-    create_resource_data_sync(sync_name, params::Dict{String,<:Any})
+    create_resource_data_sync(sync_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A resource data sync helps you view data from multiple sources in a single location. Amazon
 Web Services Systems Manager offers two types of resource data sync: SyncToDestination and
@@ -863,12 +864,12 @@ bucket by creating a restrictive bucket policy.
 - `sync_name`: A name for the configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"S3Destination"`: Amazon S3 configuration details for the sync. This parameter is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"s3_destination"`: Amazon S3 configuration details for the sync. This parameter is
   required if the SyncType value is SyncToDestination.
-- `"SyncSource"`: Specify information about the data sources to synchronize. This parameter
-  is required if the SyncType value is SyncFromSource.
-- `"SyncType"`: Specify SyncToDestination to create a resource data sync that synchronizes
+- `"sync_source"`: Specify information about the data sources to synchronize. This
+  parameter is required if the SyncType value is SyncFromSource.
+- `"sync_type"`: Specify SyncToDestination to create a resource data sync that synchronizes
   data to an S3 bucket for Inventory. If you specify SyncToDestination, you must provide a
   value for S3Destination. Specify SyncFromSource to synchronize data from a single account
   and multiple Regions, or multiple Amazon Web Services accounts and Amazon Web Services
@@ -876,20 +877,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide a value for SyncSource. The default value is SyncToDestination.
 """
 function create_resource_data_sync(
-    SyncName; aws_config::AbstractAWSConfig=global_aws_config()
+    SyncName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "CreateResourceDataSync",
-        Dict{String,Any}("SyncName" => SyncName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resource_data_sync(
-    SyncName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "CreateResourceDataSync",
         Dict{String,Any}(
@@ -901,8 +891,7 @@ function create_resource_data_sync(
 end
 
 """
-    delete_activation(activation_id)
-    delete_activation(activation_id, params::Dict{String,<:Any})
+    delete_activation(activation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an activation. You aren't required to delete an activation. If you delete an
 activation, you can no longer use it to register additional managed instances. Deleting an
@@ -913,19 +902,10 @@ instances.
 - `activation_id`: The ID of the activation that you want to delete.
 
 """
-function delete_activation(ActivationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DeleteActivation",
-        Dict{String,Any}("ActivationId" => ActivationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_activation(
-    ActivationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ActivationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteActivation",
         Dict{String,Any}(
@@ -937,8 +917,7 @@ function delete_activation(
 end
 
 """
-    delete_association()
-    delete_association(params::Dict{String,<:Any})
+    delete_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates the specified Amazon Web Services Systems Manager document (SSM document)
 from the specified instance. If you created the association by using the Targets parameter,
@@ -948,30 +927,25 @@ the configuration state of an instance after you disassociate a document, you mu
 new document with the desired configuration and associate it with the instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssociationId"`: The association ID that you want to delete.
-- `"InstanceId"`: The instance ID.   InstanceId has been deprecated. To specify an instance
-  ID for an association, use the Targets parameter. Requests that include the parameter
-  InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or
-  later will fail. In addition, if you use the parameter InstanceId, you can't use the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"association_id"`: The association ID that you want to delete.
+- `"instance_id"`: The instance ID.   InstanceId has been deprecated. To specify an
+  instance ID for an association, use the Targets parameter. Requests that include the
+  parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
+  2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the
   parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or
   ScheduleExpression. To use these parameters, you must use the Targets parameter.
-- `"Name"`: The name of the SSM document.
+- `"name"`: The name of the SSM document.
 """
-function delete_association(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DeleteAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function delete_association(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteAssociation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    delete_document(name)
-    delete_document(name, params::Dict{String,<:Any})
+    delete_document(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the Amazon Web Services Systems Manager document (SSM document) and all instance
 associations to the document. Before you delete the document, we recommend that you use
@@ -981,27 +955,18 @@ DeleteAssociation to disassociate all instances that are associated with the doc
 - `name`: The name of the document.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The version of the document that you want to delete. If not
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_version"`: The version of the document that you want to delete. If not
   provided, all versions of the document are deleted.
-- `"Force"`: Some SSM document types require that you specify a Force flag before you can
+- `"force"`: Some SSM document types require that you specify a Force flag before you can
   delete the document. For example, you must specify a Force flag to delete a document of
   type ApplicationConfigurationSchema. You can restrict access to the Force flag in an
   Identity and Access Management (IAM) policy.
-- `"VersionName"`: The version name of the document that you want to delete. If not
+- `"version_name"`: The version name of the document that you want to delete. If not
   provided, all versions of the document are deleted.
 """
-function delete_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DeleteDocument",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_document(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_document(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -1011,8 +976,7 @@ function delete_document(
 end
 
 """
-    delete_inventory(type_name)
-    delete_inventory(type_name, params::Dict{String,<:Any})
+    delete_inventory(type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a custom inventory type or the data associated with a custom Inventory type.
 Deleting a custom inventory type is also referred to as deleting a custom inventory schema.
@@ -1022,13 +986,13 @@ Deleting a custom inventory type is also referred to as deleting a custom invent
   all previously collected data or the inventory type itself.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: User-provided idempotency token.
-- `"DryRun"`: Use this option to view a summary of the deletion request without deleting
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: User-provided idempotency token.
+- `"dry_run"`: Use this option to view a summary of the deletion request without deleting
   any data or the data type. This option is useful when you only want to understand what will
   be deleted. Once you validate that the data to be deleted is what you intend to delete, you
   can run the same command without specifying the DryRun option.
-- `"SchemaDeleteOption"`: Use the SchemaDeleteOption to delete a custom inventory type
+- `"schema_delete_option"`: Use the SchemaDeleteOption to delete a custom inventory type
   (schema). If you don't choose this option, the system only deletes existing inventory data
   associated with the custom inventory type. Choose one of the following options:
   DisableSchema: If you choose this option, the system ignores all inventory data for the
@@ -1037,25 +1001,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option deletes the specified custom type from the Inventory service. You can recreate the
   schema later, if you want.
 """
-function delete_inventory(TypeName; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DeleteInventory",
-        Dict{String,Any}("TypeName" => TypeName, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_inventory(
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteInventory",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("TypeName" => TypeName, "ClientToken" => string(uuid4())),
+                Dict{String,Any}("TypeName" => TypeName, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -1065,8 +1020,7 @@ function delete_inventory(
 end
 
 """
-    delete_maintenance_window(window_id)
-    delete_maintenance_window(window_id, params::Dict{String,<:Any})
+    delete_maintenance_window(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a maintenance window.
 
@@ -1075,20 +1029,9 @@ Deletes a maintenance window.
 
 """
 function delete_maintenance_window(
-    WindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeleteMaintenanceWindow",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_maintenance_window(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteMaintenanceWindow",
         Dict{String,Any}(
@@ -1100,8 +1043,7 @@ function delete_maintenance_window(
 end
 
 """
-    delete_ops_metadata(ops_metadata_arn)
-    delete_ops_metadata(ops_metadata_arn, params::Dict{String,<:Any})
+    delete_ops_metadata(ops_metadata_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete OpsMetadata related to an application.
 
@@ -1110,20 +1052,9 @@ Delete OpsMetadata related to an application.
 
 """
 function delete_ops_metadata(
-    OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()
+    OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeleteOpsMetadata",
-        Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_ops_metadata(
-    OpsMetadataArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteOpsMetadata",
         Dict{String,Any}(
@@ -1135,8 +1066,7 @@ function delete_ops_metadata(
 end
 
 """
-    delete_parameter(name)
-    delete_parameter(name, params::Dict{String,<:Any})
+    delete_parameter(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a parameter from the system. After deleting a parameter, wait for at least 30
 seconds to create a parameter with the same name.
@@ -1145,17 +1075,10 @@ seconds to create a parameter with the same name.
 - `name`: The name of the parameter to delete.
 
 """
-function delete_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DeleteParameter",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_parameter(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteParameter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -1165,8 +1088,7 @@ function delete_parameter(
 end
 
 """
-    delete_parameters(names)
-    delete_parameters(names, params::Dict{String,<:Any})
+    delete_parameters(names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to
 create a parameter with the same name.
@@ -1176,17 +1098,10 @@ create a parameter with the same name.
   least 30 seconds to create a parameter with the same name.
 
 """
-function delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DeleteParameters",
-        Dict{String,Any}("Names" => Names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_parameters(
-    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteParameters",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
@@ -1196,8 +1111,7 @@ function delete_parameters(
 end
 
 """
-    delete_patch_baseline(baseline_id)
-    delete_patch_baseline(baseline_id, params::Dict{String,<:Any})
+    delete_patch_baseline(baseline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a patch baseline.
 
@@ -1206,20 +1120,9 @@ Deletes a patch baseline.
 
 """
 function delete_patch_baseline(
-    BaselineId; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeletePatchBaseline",
-        Dict{String,Any}("BaselineId" => BaselineId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_patch_baseline(
-    BaselineId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeletePatchBaseline",
         Dict{String,Any}(
@@ -1231,8 +1134,7 @@ function delete_patch_baseline(
 end
 
 """
-    delete_resource_data_sync(sync_name)
-    delete_resource_data_sync(sync_name, params::Dict{String,<:Any})
+    delete_resource_data_sync(sync_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a resource data sync configuration. After the configuration is deleted, changes to
 data on managed instances are no longer synced to or from the target. Deleting a sync
@@ -1242,24 +1144,13 @@ configuration doesn't delete data.
 - `sync_name`: The name of the configuration to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SyncType"`: Specify the type of resource data sync to delete.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sync_type"`: Specify the type of resource data sync to delete.
 """
 function delete_resource_data_sync(
-    SyncName; aws_config::AbstractAWSConfig=global_aws_config()
+    SyncName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeleteResourceDataSync",
-        Dict{String,Any}("SyncName" => SyncName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_data_sync(
-    SyncName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeleteResourceDataSync",
         Dict{String,Any}(
@@ -1271,8 +1162,7 @@ function delete_resource_data_sync(
 end
 
 """
-    deregister_managed_instance(instance_id)
-    deregister_managed_instance(instance_id, params::Dict{String,<:Any})
+    deregister_managed_instance(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the server or virtual machine from the list of registered servers. You can
 reregister the instance again at any time. If you don't plan to use Run Command on the
@@ -1284,20 +1174,9 @@ server, we suggest uninstalling SSM Agent first.
 
 """
 function deregister_managed_instance(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeregisterManagedInstance",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_managed_instance(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeregisterManagedInstance",
         Dict{String,Any}(
@@ -1309,8 +1188,7 @@ function deregister_managed_instance(
 end
 
 """
-    deregister_patch_baseline_for_patch_group(baseline_id, patch_group)
-    deregister_patch_baseline_for_patch_group(baseline_id, patch_group, params::Dict{String,<:Any})
+    deregister_patch_baseline_for_patch_group(baseline_id, patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a patch group from a patch baseline.
 
@@ -1321,21 +1199,9 @@ Removes a patch group from a patch baseline.
 
 """
 function deregister_patch_baseline_for_patch_group(
-    BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeregisterPatchBaselineForPatchGroup",
-        Dict{String,Any}("BaselineId" => BaselineId, "PatchGroup" => PatchGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_patch_baseline_for_patch_group(
-    BaselineId,
-    PatchGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeregisterPatchBaselineForPatchGroup",
         Dict{String,Any}(
@@ -1351,8 +1217,7 @@ function deregister_patch_baseline_for_patch_group(
 end
 
 """
-    deregister_target_from_maintenance_window(window_id, window_target_id)
-    deregister_target_from_maintenance_window(window_id, window_target_id, params::Dict{String,<:Any})
+    deregister_target_from_maintenance_window(window_id, window_target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a target from a maintenance window.
 
@@ -1361,27 +1226,15 @@ Removes a target from a maintenance window.
 - `window_target_id`: The ID of the target definition to remove.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Safe"`: The system checks if the target is being referenced by a task. If the target is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"safe"`: The system checks if the target is being referenced by a task. If the target is
   being referenced, the system returns an error and doesn't deregister the target from the
   maintenance window.
 """
 function deregister_target_from_maintenance_window(
-    WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeregisterTargetFromMaintenanceWindow",
-        Dict{String,Any}("WindowId" => WindowId, "WindowTargetId" => WindowTargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_target_from_maintenance_window(
-    WindowId,
-    WindowTargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeregisterTargetFromMaintenanceWindow",
         Dict{String,Any}(
@@ -1399,8 +1252,7 @@ function deregister_target_from_maintenance_window(
 end
 
 """
-    deregister_task_from_maintenance_window(window_id, window_task_id)
-    deregister_task_from_maintenance_window(window_id, window_task_id, params::Dict{String,<:Any})
+    deregister_task_from_maintenance_window(window_id, window_task_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a task from a maintenance window.
 
@@ -1410,21 +1262,9 @@ Removes a task from a maintenance window.
 
 """
 function deregister_task_from_maintenance_window(
-    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DeregisterTaskFromMaintenanceWindow",
-        Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_task_from_maintenance_window(
-    WindowId,
-    WindowTaskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DeregisterTaskFromMaintenanceWindow",
         Dict{String,Any}(
@@ -1440,8 +1280,7 @@ function deregister_task_from_maintenance_window(
 end
 
 """
-    describe_activations()
-    describe_activations(params::Dict{String,<:Any})
+    describe_activations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes details about the activation, such as the date and time the activation was
 created, its expiration date, the Identity and Access Management (IAM) role assigned to the
@@ -1449,20 +1288,16 @@ instances in the activation, and the number of instances registered by using thi
 activation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: A filter to view information about your activations.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: A filter to view information about your activations.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function describe_activations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeActivations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_activations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_activations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeActivations",
         params;
@@ -1472,31 +1307,26 @@ function describe_activations(
 end
 
 """
-    describe_association()
-    describe_association(params::Dict{String,<:Any})
+    describe_association(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the association for the specified target or instance. If you created the
 association by using the Targets parameter, then you must retrieve the association by using
 the association ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssociationId"`: The association ID for which you want information.
-- `"AssociationVersion"`: Specify the association version to retrieve. To view the latest
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"association_id"`: The association ID for which you want information.
+- `"association_version"`: Specify the association version to retrieve. To view the latest
   version, either specify LATEST for this parameter, or omit this parameter. To view a list
   of all associations for an instance, use ListAssociations. To get a list of versions for a
   specific association, use ListAssociationVersions.
-- `"InstanceId"`: The instance ID.
-- `"Name"`: The name of the SSM document.
+- `"instance_id"`: The instance ID.
+- `"name"`: The name of the SSM document.
 """
-function describe_association(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeAssociation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_association(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_association(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAssociation",
         params;
@@ -1506,8 +1336,7 @@ function describe_association(
 end
 
 """
-    describe_association_execution_targets(association_id, execution_id)
-    describe_association_execution_targets(association_id, execution_id, params::Dict{String,<:Any})
+    describe_association_execution_targets(association_id, execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Views information about a specific execution of a specific association.
 
@@ -1517,29 +1346,17 @@ Views information about a specific execution of a specific association.
 - `execution_id`: The execution ID for which you want to view details.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters for the request. You can specify the following filters and values.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters for the request. You can specify the following filters and values.
   Status (EQUAL) ResourceId (EQUAL) ResourceType (EQUAL)
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_execution_targets(
-    AssociationId, ExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, ExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeAssociationExecutionTargets",
-        Dict{String,Any}("AssociationId" => AssociationId, "ExecutionId" => ExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_association_execution_targets(
-    AssociationId,
-    ExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAssociationExecutionTargets",
         Dict{String,Any}(
@@ -1557,8 +1374,7 @@ function describe_association_execution_targets(
 end
 
 """
-    describe_association_executions(association_id)
-    describe_association_executions(association_id, params::Dict{String,<:Any})
+    describe_association_executions(association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Views all executions for a specific association ID.
 
@@ -1566,28 +1382,17 @@ Views all executions for a specific association ID.
 - `association_id`: The association ID for which you want to view execution history details.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters for the request. You can specify the following filters and values.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters for the request. You can specify the following filters and values.
   ExecutionId (EQUAL) Status (EQUAL) CreatedTime (EQUAL, GREATER_THAN, LESS_THAN)
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function describe_association_executions(
-    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeAssociationExecutions",
-        Dict{String,Any}("AssociationId" => AssociationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_association_executions(
-    AssociationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAssociationExecutions",
         Dict{String,Any}(
@@ -1599,29 +1404,22 @@ function describe_association_executions(
 end
 
 """
-    describe_automation_executions()
-    describe_automation_executions(params::Dict{String,<:Any})
+    describe_automation_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides details about all active and terminated Automation executions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters used to limit the scope of executions that are requested.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters used to limit the scope of executions that are requested.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_automation_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeAutomationExecutions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_automation_executions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_automation_executions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAutomationExecutions",
         params;
@@ -1631,8 +1429,7 @@ function describe_automation_executions(
 end
 
 """
-    describe_automation_step_executions(automation_execution_id)
-    describe_automation_step_executions(automation_execution_id, params::Dict{String,<:Any})
+    describe_automation_step_executions(automation_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Information about all active and terminated step executions in an Automation workflow.
 
@@ -1641,31 +1438,20 @@ Information about all active and terminated step executions in an Automation wor
   descriptions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters to limit the number of step executions returned by the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters to limit the number of step executions returned by the
   request.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ReverseOrder"`: Indicates whether to list step executions in reverse order by start
+- `"reverse_order"`: Indicates whether to list step executions in reverse order by start
   time. The default value is 'false'.
 """
 function describe_automation_step_executions(
-    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeAutomationStepExecutions",
-        Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_automation_step_executions(
-    AutomationExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAutomationStepExecutions",
         Dict{String,Any}(
@@ -1681,14 +1467,13 @@ function describe_automation_step_executions(
 end
 
 """
-    describe_available_patches()
-    describe_available_patches(params::Dict{String,<:Any})
+    describe_available_patches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all patches eligible to be included in a patch baseline.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each element in the array is a structure containing a key-value pair.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each element in the array is a structure containing a key-value pair.
   Windows Server  Supported keys for Windows Server instance patches include the following:
     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values:
   WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample
@@ -1708,18 +1493,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   REPOSITORY   Sample values: Core | Updates      ADVISORY_ID   Sample values: ALAS-2018-1058
   | ALAS2-2021-1594      CVE_ID   Sample values: CVE-2018-3615 | CVE-2020-1472
   BUGZILLA_ID   Sample values: 1463241
-- `"MaxResults"`: The maximum number of patches to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"max_results"`: The maximum number of patches to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_available_patches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeAvailablePatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_available_patches(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_available_patches(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeAvailablePatches",
         params;
@@ -1729,8 +1510,7 @@ function describe_available_patches(
 end
 
 """
-    describe_document(name)
-    describe_document(name, params::Dict{String,<:Any})
+    describe_document(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified Amazon Web Services Systems Manager document (SSM document).
 
@@ -1738,24 +1518,17 @@ Describes the specified Amazon Web Services Systems Manager document (SSM docume
 - `name`: The name of the SSM document.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The document version for which you want information. Can be a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_version"`: The document version for which you want information. Can be a
   specific version or the default version.
-- `"VersionName"`: An optional field specifying the version of the artifact associated with
-  the document. For example, \"Release 12, Update 6\". This value is unique across all
+- `"version_name"`: An optional field specifying the version of the artifact associated
+  with the document. For example, \"Release 12, Update 6\". This value is unique across all
   versions of a document, and can't be changed.
 """
-function describe_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeDocument",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_document(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -1765,8 +1538,7 @@ function describe_document(
 end
 
 """
-    describe_document_permission(name, permission_type)
-    describe_document_permission(name, permission_type, params::Dict{String,<:Any})
+    describe_document_permission(name, permission_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the permissions for a Amazon Web Services Systems Manager document (SSM
 document). If you created the document, you are the owner. If a document is shared, it can
@@ -1778,28 +1550,16 @@ publicly (All).
 - `permission_type`: The permission type for the document. The permission type can be Share.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_document_permission(
-    Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeDocumentPermission",
-        Dict{String,Any}("Name" => Name, "PermissionType" => PermissionType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_document_permission(
-    Name,
-    PermissionType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeDocumentPermission",
         Dict{String,Any}(
@@ -1815,8 +1575,7 @@ function describe_document_permission(
 end
 
 """
-    describe_effective_instance_associations(instance_id)
-    describe_effective_instance_associations(instance_id, params::Dict{String,<:Any})
+    describe_effective_instance_associations(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 All associations for the instance(s).
 
@@ -1824,27 +1583,16 @@ All associations for the instance(s).
 - `instance_id`: The instance ID for which you want to view all associations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_effective_instance_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeEffectiveInstanceAssociations",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_effective_instance_associations(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeEffectiveInstanceAssociations",
         Dict{String,Any}(
@@ -1856,8 +1604,7 @@ function describe_effective_instance_associations(
 end
 
 """
-    describe_effective_patches_for_patch_baseline(baseline_id)
-    describe_effective_patches_for_patch_baseline(baseline_id, params::Dict{String,<:Any})
+    describe_effective_patches_for_patch_baseline(baseline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the current effective patches (the patch and the approval state) for the
 specified patch baseline. Applies to patch baselines for Windows only.
@@ -1866,26 +1613,15 @@ specified patch baseline. Applies to patch baselines for Windows only.
 - `baseline_id`: The ID of the patch baseline to retrieve the effective patches for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of patches to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of patches to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_effective_patches_for_patch_baseline(
-    BaselineId; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeEffectivePatchesForPatchBaseline",
-        Dict{String,Any}("BaselineId" => BaselineId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_effective_patches_for_patch_baseline(
-    BaselineId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeEffectivePatchesForPatchBaseline",
         Dict{String,Any}(
@@ -1897,8 +1633,7 @@ function describe_effective_patches_for_patch_baseline(
 end
 
 """
-    describe_instance_associations_status(instance_id)
-    describe_instance_associations_status(instance_id, params::Dict{String,<:Any})
+    describe_instance_associations_status(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The status of the associations for the instance(s).
 
@@ -1906,27 +1641,16 @@ The status of the associations for the instance(s).
 - `instance_id`: The instance IDs for which you want association status information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_instance_associations_status(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeInstanceAssociationsStatus",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_associations_status(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInstanceAssociationsStatus",
         Dict{String,Any}(
@@ -1938,8 +1662,7 @@ function describe_instance_associations_status(
 end
 
 """
-    describe_instance_information()
-    describe_instance_information(params::Dict{String,<:Any})
+    describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes one or more of your instances, including information about the operating system
 platform, the version of SSM Agent installed on the instance, instance status, and so on.
@@ -1950,29 +1673,23 @@ The IamRole field for this API operation is the Identity and Access Management (
 assigned to on-premises instances. This call doesn't return the IAM role for EC2 instances.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters. Use a filter to return a more specific list of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters. Use a filter to return a more specific list of
   instances. You can filter based on tags applied to EC2 instances. Use this Filters data
   type instead of InstanceInformationFilterList, which is deprecated.
-- `"InstanceInformationFilterList"`: This is a legacy method. We recommend that you don't
-  use this method. Instead, use the Filters data type. Filters enables you to return instance
-  information by filtering based on tags applied to managed instances.  Attempting to use
-  InstanceInformationFilterList and Filters leads to an exception error.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"instance_information_filter_list"`: This is a legacy method. We recommend that you
+  don't use this method. Instead, use the Filters data type. Filters enables you to return
+  instance information by filtering based on tags applied to managed instances.  Attempting
+  to use InstanceInformationFilterList and Filters leads to an exception error.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_instance_information(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeInstanceInformation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_information(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_instance_information(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInstanceInformation",
         params;
@@ -1982,8 +1699,7 @@ function describe_instance_information(
 end
 
 """
-    describe_instance_patch_states(instance_ids)
-    describe_instance_patch_states(instance_ids, params::Dict{String,<:Any})
+    describe_instance_patch_states(instance_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the high-level patch state of one or more instances.
 
@@ -1992,26 +1708,15 @@ Retrieves the high-level patch state of one or more instances.
   retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of instances to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of instances to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_instance_patch_states(
-    InstanceIds; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeInstancePatchStates",
-        Dict{String,Any}("InstanceIds" => InstanceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_patch_states(
-    InstanceIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInstancePatchStates",
         Dict{String,Any}(
@@ -2023,8 +1728,7 @@ function describe_instance_patch_states(
 end
 
 """
-    describe_instance_patch_states_for_patch_group(patch_group)
-    describe_instance_patch_states_for_patch_group(patch_group, params::Dict{String,<:Any})
+    describe_instance_patch_states_for_patch_group(patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the high-level patch state for the instances in the specified patch group.
 
@@ -2033,29 +1737,18 @@ Retrieves the high-level patch state for the instances in the specified patch gr
   be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each entry in the array is a structure containing:   Key (string between 1
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each entry in the array is a structure containing:   Key (string between 1
   and 200 characters)   Values (array containing a single string)   Type (string \"Equal\",
   \"NotEqual\", \"LessThan\", \"GreaterThan\")
-- `"MaxResults"`: The maximum number of patches to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"max_results"`: The maximum number of patches to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_instance_patch_states_for_patch_group(
-    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeInstancePatchStatesForPatchGroup",
-        Dict{String,Any}("PatchGroup" => PatchGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_patch_states_for_patch_group(
-    PatchGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInstancePatchStatesForPatchGroup",
         Dict{String,Any}(
@@ -2067,8 +1760,7 @@ function describe_instance_patch_states_for_patch_group(
 end
 
 """
-    describe_instance_patches(instance_id)
-    describe_instance_patches(instance_id, params::Dict{String,<:Any})
+    describe_instance_patches(instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the patches on the specified instance and their state relative
 to the patch baseline being used for the instance.
@@ -2077,31 +1769,20 @@ to the patch baseline being used for the instance.
 - `instance_id`: The ID of the instance whose patch state information should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each element in the array is a structure containing a key-value pair.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each element in the array is a structure containing a key-value pair.
   Supported keys for DescribeInstancePatchesinclude the following:     Classification
   Sample values: Security | SecurityUpdates      KBId   Sample values: KB4480056 |
   java-1.7.0-openjdk.x86_64      Severity   Sample values: Important | Medium | Low
   State   Sample values: Installed | InstalledOther | InstalledPendingReboot
-- `"MaxResults"`: The maximum number of patches to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"max_results"`: The maximum number of patches to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_instance_patches(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeInstancePatches",
-        Dict{String,Any}("InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_patches(
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInstancePatches",
         Dict{String,Any}(
@@ -2113,27 +1794,22 @@ function describe_instance_patches(
 end
 
 """
-    describe_inventory_deletions()
-    describe_inventory_deletions(params::Dict{String,<:Any})
+    describe_inventory_deletions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a specific delete inventory operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionId"`: Specify the delete inventory ID for which you want information. This ID
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deletion_id"`: Specify the delete inventory ID for which you want information. This ID
   was returned by the DeleteInventory operation.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function describe_inventory_deletions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeInventoryDeletions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_inventory_deletions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_inventory_deletions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeInventoryDeletions",
         params;
@@ -2143,8 +1819,7 @@ function describe_inventory_deletions(
 end
 
 """
-    describe_maintenance_window_execution_task_invocations(task_id, window_execution_id)
-    describe_maintenance_window_execution_task_invocations(task_id, window_execution_id, params::Dict{String,<:Any})
+    describe_maintenance_window_execution_task_invocations(task_id, window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the individual task executions (one per target) for a particular task run as part
 of a maintenance window execution.
@@ -2155,31 +1830,19 @@ of a maintenance window execution.
 - `window_execution_id`: The ID of the maintenance window execution the task is part of.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Optional filters used to scope down the returned task invocations. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Optional filters used to scope down the returned task invocations. The
   supported filter key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS,
   FAILED, TIMED_OUT, CANCELLING, and CANCELLED.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_window_execution_task_invocations(
-    TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowExecutionTaskInvocations",
-        Dict{String,Any}("TaskId" => TaskId, "WindowExecutionId" => WindowExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_execution_task_invocations(
-    TaskId,
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowExecutionTaskInvocations",
         Dict{String,Any}(
@@ -2197,8 +1860,7 @@ function describe_maintenance_window_execution_task_invocations(
 end
 
 """
-    describe_maintenance_window_execution_tasks(window_execution_id)
-    describe_maintenance_window_execution_tasks(window_execution_id, params::Dict{String,<:Any})
+    describe_maintenance_window_execution_tasks(window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For a given maintenance window execution, lists the tasks that were run.
 
@@ -2207,30 +1869,19 @@ For a given maintenance window execution, lists the tasks that were run.
   should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Optional filters used to scope down the returned tasks. The supported filter
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Optional filters used to scope down the returned tasks. The supported filter
   key is STATUS with the corresponding values PENDING, IN_PROGRESS, SUCCESS, FAILED,
   TIMED_OUT, CANCELLING, and CANCELLED.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_window_execution_tasks(
-    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowExecutionTasks",
-        Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_execution_tasks(
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowExecutionTasks",
         Dict{String,Any}(
@@ -2244,8 +1895,7 @@ function describe_maintenance_window_execution_tasks(
 end
 
 """
-    describe_maintenance_window_executions(window_id)
-    describe_maintenance_window_executions(window_id, params::Dict{String,<:Any})
+    describe_maintenance_window_executions(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the executions of a maintenance window. This includes information about when the
 maintenance window was scheduled to be active, and information about tasks registered and
@@ -2255,31 +1905,20 @@ run with the maintenance window.
 - `window_id`: The ID of the maintenance window whose executions should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each entry in the array is a structure containing:   Key. A string between 1
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each entry in the array is a structure containing:   Key. A string between 1
   and 128 characters. Supported keys include ExecutedBefore and ExecutedAfter.   Values. An
   array of strings, each between 1 and 256 characters. Supported values are date/time strings
   in a valid ISO 8601 date/time format, such as 2021-11-04T05:00:00Z.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_window_executions(
-    WindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowExecutions",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_executions(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowExecutions",
         Dict{String,Any}(
@@ -2291,37 +1930,28 @@ function describe_maintenance_window_executions(
 end
 
 """
-    describe_maintenance_window_schedule()
-    describe_maintenance_window_schedule(params::Dict{String,<:Any})
+    describe_maintenance_window_schedule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about upcoming executions of a maintenance window.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Filters used to limit the range of results. For example, you can limit
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Filters used to limit the range of results. For example, you can limit
   maintenance window executions to only those scheduled before or after a certain date and
   time.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ResourceType"`: The type of resource you want to retrieve information about. For
+- `"resource_type"`: The type of resource you want to retrieve information about. For
   example, INSTANCE.
-- `"Targets"`: The instance ID or key-value pair to retrieve information about.
-- `"WindowId"`: The ID of the maintenance window to retrieve information about.
+- `"targets"`: The instance ID or key-value pair to retrieve information about.
+- `"window_id"`: The ID of the maintenance window to retrieve information about.
 """
 function describe_maintenance_window_schedule(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowSchedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_schedule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowSchedule",
         params;
@@ -2331,8 +1961,7 @@ function describe_maintenance_window_schedule(
 end
 
 """
-    describe_maintenance_window_targets(window_id)
-    describe_maintenance_window_targets(window_id, params::Dict{String,<:Any})
+    describe_maintenance_window_targets(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the targets registered with the maintenance window.
 
@@ -2340,29 +1969,18 @@ Lists the targets registered with the maintenance window.
 - `window_id`: The ID of the maintenance window whose targets should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Optional filters that can be used to narrow down the scope of the returned
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Optional filters that can be used to narrow down the scope of the returned
   window targets. The supported filter keys are Type, WindowTargetId, and OwnerInformation.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_window_targets(
-    WindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowTargets",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_targets(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowTargets",
         Dict{String,Any}(
@@ -2374,8 +1992,7 @@ function describe_maintenance_window_targets(
 end
 
 """
-    describe_maintenance_window_tasks(window_id)
-    describe_maintenance_window_tasks(window_id, params::Dict{String,<:Any})
+    describe_maintenance_window_tasks(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tasks in a maintenance window.  For maintenance window tasks without a specified
 target, you can't supply values for --max-errors and --max-concurrency. Instead, the system
@@ -2386,29 +2003,18 @@ These values don't affect the running of your task and can be ignored.
 - `window_id`: The ID of the maintenance window whose tasks should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Optional filters used to narrow down the scope of the returned tasks. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Optional filters used to narrow down the scope of the returned tasks. The
   supported filter keys are WindowTaskId, TaskArn, Priority, and TaskType.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_window_tasks(
-    WindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowTasks",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_window_tasks(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowTasks",
         Dict{String,Any}(
@@ -2420,29 +2026,24 @@ function describe_maintenance_window_tasks(
 end
 
 """
-    describe_maintenance_windows()
-    describe_maintenance_windows(params::Dict{String,<:Any})
+    describe_maintenance_windows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the maintenance windows in an Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Optional filters used to narrow down the scope of the returned maintenance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Optional filters used to narrow down the scope of the returned maintenance
   windows. Supported filter keys are Name and Enabled. For example, Name=MyMaintenanceWindow
   and Enabled=True.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_maintenance_windows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeMaintenanceWindows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_maintenance_windows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_maintenance_windows(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindows",
         params;
@@ -2452,8 +2053,7 @@ function describe_maintenance_windows(
 end
 
 """
-    describe_maintenance_windows_for_target(resource_type, targets)
-    describe_maintenance_windows_for_target(resource_type, targets, params::Dict{String,<:Any})
+    describe_maintenance_windows_for_target(resource_type, targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the maintenance window targets or tasks that an instance is
 associated with.
@@ -2464,28 +2064,16 @@ associated with.
 - `targets`: The instance ID or key-value pair to retrieve information about.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function describe_maintenance_windows_for_target(
-    ResourceType, Targets; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceType, Targets; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribeMaintenanceWindowsForTarget",
-        Dict{String,Any}("ResourceType" => ResourceType, "Targets" => Targets);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_maintenance_windows_for_target(
-    ResourceType,
-    Targets,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeMaintenanceWindowsForTarget",
         Dict{String,Any}(
@@ -2501,8 +2089,7 @@ function describe_maintenance_windows_for_target(
 end
 
 """
-    describe_ops_items()
-    describe_ops_items(params::Dict{String,<:Any})
+    describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Query a set of OpsItems. You must have permission in Identity and Access Management (IAM)
 to query a list of OpsItems. For more information, see Getting started with OpsCenter in
@@ -2513,11 +2100,11 @@ Services resources. For more information, see OpsCenter in the Amazon Web Servic
 Manager User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"OpsItemFilters"`: One or more filters to limit the response.   Key: CreatedTime
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"ops_item_filters"`: One or more filters to limit the response.   Key: CreatedTime
   Operations: GreaterThan, LessThan   Key: LastModifiedBy Operations: Contains, Equals   Key:
   LastModifiedTime Operations: GreaterThan, LessThan   Key: Priority Operations: Equals
   Key: Source Operations: Contains, Equals   Key: Status Operations: Equals   Key: Title*
@@ -2530,20 +2117,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OperationalData operator, specify a key-value pair by using the following JSON format:
   {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
-function describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeOpsItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_ops_items(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeOpsItems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_parameters()
-    describe_parameters(params::Dict{String,<:Any})
+    describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about a parameter. Request results are returned on a best-effort basis. If
 you specify MaxResults in the request, the response includes information up to the limit
@@ -2556,49 +2138,40 @@ the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters
 whatever the original key alias was referencing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: This data type is deprecated. Instead, use ParameterFilters.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: This data type is deprecated. Instead, use ParameterFilters.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ParameterFilters"`: Filters to limit the request results.
+- `"parameter_filters"`: Filters to limit the request results.
 """
-function describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("DescribeParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_parameters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeParameters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_patch_baselines()
-    describe_patch_baselines(params::Dict{String,<:Any})
+    describe_patch_baselines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the patch baselines in your Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each element in the array is a structure containing a key-value pair.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each element in the array is a structure containing a key-value pair.
   Supported keys for DescribePatchBaselines include the following:     NAME_PREFIX   Sample
   values: AWS- | My-      OWNER   Sample values: AWS | Self      OPERATING_SYSTEM   Sample
   values: AMAZON_LINUX | SUSE | WINDOWS
-- `"MaxResults"`: The maximum number of patch baselines to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"max_results"`: The maximum number of patch baselines to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_patch_baselines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribePatchBaselines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_patch_baselines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_patch_baselines(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribePatchBaselines",
         params;
@@ -2608,8 +2181,7 @@ function describe_patch_baselines(
 end
 
 """
-    describe_patch_group_state(patch_group)
-    describe_patch_group_state(patch_group, params::Dict{String,<:Any})
+    describe_patch_group_state(patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns high-level aggregated patch compliance state information for a patch group.
 
@@ -2618,20 +2190,9 @@ Returns high-level aggregated patch compliance state information for a patch gro
 
 """
 function describe_patch_group_state(
-    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribePatchGroupState",
-        Dict{String,Any}("PatchGroup" => PatchGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_patch_group_state(
-    PatchGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribePatchGroupState",
         Dict{String,Any}(
@@ -2643,28 +2204,23 @@ function describe_patch_group_state(
 end
 
 """
-    describe_patch_groups()
-    describe_patch_groups(params::Dict{String,<:Any})
+    describe_patch_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all patch groups that have been registered with patch baselines.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Each element in the array is a structure containing a key-value pair.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Each element in the array is a structure containing a key-value pair.
   Supported keys for DescribePatchGroups include the following:     NAME_PREFIX   Sample
   values: AWS- | My-.     OPERATING_SYSTEM   Sample values: AMAZON_LINUX | SUSE | WINDOWS
-- `"MaxResults"`: The maximum number of patch groups to return (per page).
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"max_results"`: The maximum number of patch groups to return (per page).
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_patch_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribePatchGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_patch_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_patch_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribePatchGroups",
         params;
@@ -2674,8 +2230,7 @@ function describe_patch_groups(
 end
 
 """
-    describe_patch_properties(operating_system, property)
-    describe_patch_properties(operating_system, property, params::Dict{String,<:Any})
+    describe_patch_properties(operating_system, property; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the properties of available patches organized by product, product family,
 classification, severity, and other properties of available patches. You can use the
@@ -2697,30 +2252,18 @@ MSRC_SEVERITY
 - `property`: The patch property for which you want to view patch details.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"PatchSet"`: Indicates whether to list patches for the Windows operating system or for
+- `"patch_set"`: Indicates whether to list patches for the Windows operating system or for
   applications released by Microsoft. Not applicable for the Linux or macOS operating systems.
 """
 function describe_patch_properties(
-    OperatingSystem, Property; aws_config::AbstractAWSConfig=global_aws_config()
+    OperatingSystem, Property; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DescribePatchProperties",
-        Dict{String,Any}("OperatingSystem" => OperatingSystem, "Property" => Property);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_patch_properties(
-    OperatingSystem,
-    Property,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribePatchProperties",
         Dict{String,Any}(
@@ -2738,8 +2281,7 @@ function describe_patch_properties(
 end
 
 """
-    describe_sessions(state)
-    describe_sessions(state, params::Dict{String,<:Any})
+    describe_sessions(state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of all active sessions (both connected and disconnected) or terminated
 sessions from the past 30 days.
@@ -2748,24 +2290,17 @@ sessions from the past 30 days.
 - `state`: The session status to retrieve a list of sessions for. For example, \"Active\".
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters to limit the type of sessions returned by the request.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters to limit the type of sessions returned by the request.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function describe_sessions(State; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "DescribeSessions",
-        Dict{String,Any}("State" => State);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_sessions(
-    State, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    State; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DescribeSessions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("State" => State), params));
@@ -2775,8 +2310,7 @@ function describe_sessions(
 end
 
 """
-    disassociate_ops_item_related_item(association_id, ops_item_id)
-    disassociate_ops_item_related_item(association_id, ops_item_id, params::Dict{String,<:Any})
+    disassociate_ops_item_related_item(association_id, ops_item_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the association between an OpsItem and a related item. For example, this API
 operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a
@@ -2790,21 +2324,9 @@ capability of Amazon Web Services Systems Manager.
 
 """
 function disassociate_ops_item_related_item(
-    AssociationId, OpsItemId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "DisassociateOpsItemRelatedItem",
-        Dict{String,Any}("AssociationId" => AssociationId, "OpsItemId" => OpsItemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_ops_item_related_item(
-    AssociationId,
-    OpsItemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "DisassociateOpsItemRelatedItem",
         Dict{String,Any}(
@@ -2822,8 +2344,7 @@ function disassociate_ops_item_related_item(
 end
 
 """
-    get_automation_execution(automation_execution_id)
-    get_automation_execution(automation_execution_id, params::Dict{String,<:Any})
+    get_automation_execution(automation_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get detailed information about a particular Automation execution.
 
@@ -2834,20 +2355,9 @@ Get detailed information about a particular Automation execution.
 
 """
 function get_automation_execution(
-    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetAutomationExecution",
-        Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_automation_execution(
-    AutomationExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetAutomationExecution",
         Dict{String,Any}(
@@ -2863,8 +2373,7 @@ function get_automation_execution(
 end
 
 """
-    get_calendar_state(calendar_names)
-    get_calendar_state(calendar_names, params::Dict{String,<:Any})
+    get_calendar_state(calendar_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the state of a Amazon Web Services Systems Manager change calendar at the current time
 or a specified time. If you specify a time, GetCalendarState returns the state of the
@@ -2883,26 +2392,15 @@ Amazon Web Services Systems Manager User Guide.
   state.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AtTime"`: (Optional) The specific time for which you want to get calendar state
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"at_time"`: (Optional) The specific time for which you want to get calendar state
   information, in ISO 8601 format. If you don't specify a value or AtTime, the current time
   is used.
 """
 function get_calendar_state(
-    CalendarNames; aws_config::AbstractAWSConfig=global_aws_config()
+    CalendarNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetCalendarState",
-        Dict{String,Any}("CalendarNames" => CalendarNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_calendar_state(
-    CalendarNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetCalendarState",
         Dict{String,Any}(
@@ -2914,8 +2412,7 @@ function get_calendar_state(
 end
 
 """
-    get_command_invocation(command_id, instance_id)
-    get_command_invocation(command_id, instance_id, params::Dict{String,<:Any})
+    get_command_invocation(command_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about command execution for an invocation or plugin.
 GetCommandInvocation only gives the execution status of a plugin in a document. To get the
@@ -2930,8 +2427,8 @@ command execution status across instances, use ListCommands.
   Manager.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PluginName"`: The name of the plugin for which you want detailed results. If the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"plugin_name"`: The name of the plugin for which you want detailed results. If the
   document contains only one plugin, you can omit the name and details for that plugin. If
   the document contains more than one plugin, you must specify the name of the plugin for
   which you want to view details. Plugin names are also referred to as step names in Systems
@@ -2941,21 +2438,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Name attribute of the CommandPlugin object in the CommandPlugins list.
 """
 function get_command_invocation(
-    CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    CommandId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetCommandInvocation",
-        Dict{String,Any}("CommandId" => CommandId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_command_invocation(
-    CommandId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetCommandInvocation",
         Dict{String,Any}(
@@ -2971,8 +2456,7 @@ function get_command_invocation(
 end
 
 """
-    get_connection_status(target)
-    get_connection_status(target, params::Dict{String,<:Any})
+    get_connection_status(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the Session Manager connection status for an instance to determine whether it is
 running and ready to receive Session Manager connections.
@@ -2981,17 +2465,10 @@ running and ready to receive Session Manager connections.
 - `target`: The instance ID.
 
 """
-function get_connection_status(Target; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetConnectionStatus",
-        Dict{String,Any}("Target" => Target);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_connection_status(
-    Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetConnectionStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
@@ -3001,8 +2478,7 @@ function get_connection_status(
 end
 
 """
-    get_default_patch_baseline()
-    get_default_patch_baseline(params::Dict{String,<:Any})
+    get_default_patch_baseline(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating
 multiple default patch baselines. For example, you can create a default patch baseline for
@@ -3010,18 +2486,14 @@ each operating system. If you don't specify an operating system value, the defau
 baseline for Windows is returned.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OperatingSystem"`: Returns the default patch baseline for the specified operating
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"operating_system"`: Returns the default patch baseline for the specified operating
   system.
 """
-function get_default_patch_baseline(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetDefaultPatchBaseline"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_default_patch_baseline(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_default_patch_baseline(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetDefaultPatchBaseline",
         params;
@@ -3031,8 +2503,7 @@ function get_default_patch_baseline(
 end
 
 """
-    get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id)
-    get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id, params::Dict{String,<:Any})
+    get_deployable_patch_snapshot_for_instance(instance_id, snapshot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the current snapshot for the patch baseline the instance uses. This API is
 primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you
@@ -3049,25 +2520,13 @@ using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
 - `snapshot_id`: The snapshot ID provided by the user when running AWS-RunPatchBaseline.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BaselineOverride"`: Defines the basic information about a patch baseline override.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"baseline_override"`: Defines the basic information about a patch baseline override.
 """
 function get_deployable_patch_snapshot_for_instance(
-    InstanceId, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetDeployablePatchSnapshotForInstance",
-        Dict{String,Any}("InstanceId" => InstanceId, "SnapshotId" => SnapshotId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_deployable_patch_snapshot_for_instance(
-    InstanceId,
-    SnapshotId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetDeployablePatchSnapshotForInstance",
         Dict{String,Any}(
@@ -3083,8 +2542,7 @@ function get_deployable_patch_snapshot_for_instance(
 end
 
 """
-    get_document(name)
-    get_document(name, params::Dict{String,<:Any})
+    get_document(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the contents of the specified Amazon Web Services Systems Manager document (SSM
 document).
@@ -3093,25 +2551,16 @@ document).
 - `name`: The name of the SSM document.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentFormat"`: Returns the document in the specified format. The document format can
-  be either JSON or YAML. JSON is the default format.
-- `"DocumentVersion"`: The document version for which you want information.
-- `"VersionName"`: An optional field specifying the version of the artifact associated with
-  the document. For example, \"Release 12, Update 6\". This value is unique across all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_format"`: Returns the document in the specified format. The document format
+  can be either JSON or YAML. JSON is the default format.
+- `"document_version"`: The document version for which you want information.
+- `"version_name"`: An optional field specifying the version of the artifact associated
+  with the document. For example, \"Release 12, Update 6\". This value is unique across all
   versions of a document and can't be changed.
 """
-function get_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetDocument",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_document(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_document(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetDocument",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -3121,68 +2570,59 @@ function get_document(
 end
 
 """
-    get_inventory()
-    get_inventory(params::Dict{String,<:Any})
+    get_inventory(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Query inventory information. This includes instance status, such as Stopped or Terminated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Aggregators"`: Returns counts of inventory types based on one or more expressions. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"aggregators"`: Returns counts of inventory types based on one or more expressions. For
   example, if you aggregate by using an expression that uses the
   AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and
   Linux instances exist in your inventoried fleet.
-- `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"filters"`: One or more filters. Use a filter to return a more specific list of results.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"ResultAttributes"`: The list of inventory item types to return.
+- `"result_attributes"`: The list of inventory item types to return.
 """
-function get_inventory(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetInventory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_inventory(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_inventory(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetInventory", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_inventory_schema()
-    get_inventory_schema(params::Dict{String,<:Any})
+    get_inventory_schema(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Return a list of inventory type names for the account, or return a list of attribute names
 for a specific Inventory item type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Aggregator"`: Returns inventory schemas that support aggregation. For example, this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"aggregator"`: Returns inventory schemas that support aggregation. For example, this
   call returns the AWS:InstanceInformation type, because it supports aggregation based on the
   PlatformName, PlatformType, and PlatformVersion attributes.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"SubType"`: Returns the sub-type schema for a specified inventory type.
-- `"TypeName"`: The type of inventory item to return.
+- `"sub_type"`: Returns the sub-type schema for a specified inventory type.
+- `"type_name"`: The type of inventory item to return.
 """
-function get_inventory_schema(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetInventorySchema"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_inventory_schema(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_inventory_schema(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetInventorySchema", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_maintenance_window(window_id)
-    get_maintenance_window(window_id, params::Dict{String,<:Any})
+    get_maintenance_window(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a maintenance window.
 
@@ -3190,19 +2630,10 @@ Retrieves a maintenance window.
 - `window_id`: The ID of the maintenance window for which you want to retrieve information.
 
 """
-function get_maintenance_window(WindowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetMaintenanceWindow",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_maintenance_window(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetMaintenanceWindow",
         Dict{String,Any}(
@@ -3214,8 +2645,7 @@ function get_maintenance_window(
 end
 
 """
-    get_maintenance_window_execution(window_execution_id)
-    get_maintenance_window_execution(window_execution_id, params::Dict{String,<:Any})
+    get_maintenance_window_execution(window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves details about a specific a maintenance window execution.
 
@@ -3224,20 +2654,9 @@ Retrieves details about a specific a maintenance window execution.
 
 """
 function get_maintenance_window_execution(
-    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetMaintenanceWindowExecution",
-        Dict{String,Any}("WindowExecutionId" => WindowExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_maintenance_window_execution(
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetMaintenanceWindowExecution",
         Dict{String,Any}(
@@ -3251,8 +2670,7 @@ function get_maintenance_window_execution(
 end
 
 """
-    get_maintenance_window_execution_task(task_id, window_execution_id)
-    get_maintenance_window_execution_task(task_id, window_execution_id, params::Dict{String,<:Any})
+    get_maintenance_window_execution_task(task_id, window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the details about a specific task run as part of a maintenance window execution.
 
@@ -3263,21 +2681,9 @@ Retrieves the details about a specific task run as part of a maintenance window 
 
 """
 function get_maintenance_window_execution_task(
-    TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId, WindowExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetMaintenanceWindowExecutionTask",
-        Dict{String,Any}("TaskId" => TaskId, "WindowExecutionId" => WindowExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_maintenance_window_execution_task(
-    TaskId,
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetMaintenanceWindowExecutionTask",
         Dict{String,Any}(
@@ -3295,8 +2701,7 @@ function get_maintenance_window_execution_task(
 end
 
 """
-    get_maintenance_window_execution_task_invocation(invocation_id, task_id, window_execution_id)
-    get_maintenance_window_execution_task_invocation(invocation_id, task_id, window_execution_id, params::Dict{String,<:Any})
+    get_maintenance_window_execution_task_invocation(invocation_id, task_id, window_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a specific task running on a specific target.
 
@@ -3313,25 +2718,9 @@ function get_maintenance_window_execution_task_invocation(
     TaskId,
     WindowExecutionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm(
-        "GetMaintenanceWindowExecutionTaskInvocation",
-        Dict{String,Any}(
-            "InvocationId" => InvocationId,
-            "TaskId" => TaskId,
-            "WindowExecutionId" => WindowExecutionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_maintenance_window_execution_task_invocation(
-    InvocationId,
-    TaskId,
-    WindowExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetMaintenanceWindowExecutionTaskInvocation",
         Dict{String,Any}(
@@ -3351,8 +2740,7 @@ function get_maintenance_window_execution_task_invocation(
 end
 
 """
-    get_maintenance_window_task(window_id, window_task_id)
-    get_maintenance_window_task(window_id, window_task_id, params::Dict{String,<:Any})
+    get_maintenance_window_task(window_id, window_task_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tasks in a maintenance window.  For maintenance window tasks without a specified
 target, you can't supply values for --max-errors and --max-concurrency. Instead, the system
@@ -3365,21 +2753,9 @@ These values don't affect the running of your task and can be ignored.
 
 """
 function get_maintenance_window_task(
-    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetMaintenanceWindowTask",
-        Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_maintenance_window_task(
-    WindowId,
-    WindowTaskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetMaintenanceWindowTask",
         Dict{String,Any}(
@@ -3395,8 +2771,7 @@ function get_maintenance_window_task(
 end
 
 """
-    get_ops_item(ops_item_id)
-    get_ops_item(ops_item_id, params::Dict{String,<:Any})
+    get_ops_item(ops_item_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about an OpsItem by using the ID. You must have permission in Identity and
 Access Management (IAM) to view information about an OpsItem. For more information, see
@@ -3410,19 +2785,10 @@ Web Services Systems Manager User Guide.
 - `ops_item_id`: The ID of the OpsItem that you want to get.
 
 """
-function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetOpsItem",
-        Dict{String,Any}("OpsItemId" => OpsItemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_ops_item(
-    OpsItemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetOpsItem",
         Dict{String,Any}(
@@ -3434,8 +2800,7 @@ function get_ops_item(
 end
 
 """
-    get_ops_metadata(ops_metadata_arn)
-    get_ops_metadata(ops_metadata_arn, params::Dict{String,<:Any})
+    get_ops_metadata(ops_metadata_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 View operational metadata related to an application in Application Manager.
 
@@ -3443,24 +2808,15 @@ View operational metadata related to an application in Application Manager.
 - `ops_metadata_arn`: The Amazon Resource Name (ARN) of an OpsMetadata Object to view.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function get_ops_metadata(OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetOpsMetadata",
-        Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_ops_metadata(
-    OpsMetadataArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetOpsMetadata",
         Dict{String,Any}(
@@ -3472,8 +2828,7 @@ function get_ops_metadata(
 end
 
 """
-    get_ops_summary()
-    get_ops_summary(params::Dict{String,<:Any})
+    get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 View a summary of operations metadata (OpsData) based on specified filters and aggregators.
 OpsData can include information about Amazon Web Services Systems Manager OpsCenter
@@ -3482,30 +2837,25 @@ resource or service configured to report OpsData to Amazon Web Services Systems 
 Explorer.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Aggregators"`: Optional aggregators that return counts of OpsData based on one or more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"aggregators"`: Optional aggregators that return counts of OpsData based on one or more
   expressions.
-- `"Filters"`: Optional filters used to scope down the returned OpsData.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"filters"`: Optional filters used to scope down the returned OpsData.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ResultAttributes"`: The OpsData data type to return.
-- `"SyncName"`: Specify the name of a resource data sync to get.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"result_attributes"`: The OpsData data type to return.
+- `"sync_name"`: Specify the name of a resource data sync to get.
 """
-function get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("GetOpsSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_ops_summary(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_ops_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetOpsSummary", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_parameter(name)
-    get_parameter(name, params::Dict{String,<:Any})
+    get_parameter(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about a single parameter by specifying the parameter name.  To get
 information about more than one parameter at a time, use the GetParameters operation.
@@ -3515,21 +2865,12 @@ information about more than one parameter at a time, use the GetParameters opera
   \"Name\": \"name:label\". To query by parameter version, use \"Name\": \"name:version\".
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"WithDecryption"`: Return decrypted values for secure string parameters. This flag is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"with_decryption"`: Return decrypted values for secure string parameters. This flag is
   ignored for String and StringList parameter types.
 """
-function get_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetParameter",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_parameter(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetParameter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -3539,8 +2880,7 @@ function get_parameter(
 end
 
 """
-    get_parameter_history(name)
-    get_parameter_history(name, params::Dict{String,<:Any})
+    get_parameter_history(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the history of all changes to a parameter.  If you change the KMS key alias for
 the KMS key used to encrypt a parameter, then you must also update the key alias the
@@ -3551,25 +2891,18 @@ original key alias was referencing.
 - `name`: The name of the parameter for which you want to review history.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"WithDecryption"`: Return decrypted values for secure string parameters. This flag is
+- `"with_decryption"`: Return decrypted values for secure string parameters. This flag is
   ignored for String and StringList parameter types.
 """
-function get_parameter_history(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetParameterHistory",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_parameter_history(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetParameterHistory",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -3579,8 +2912,7 @@ function get_parameter_history(
 end
 
 """
-    get_parameters(names)
-    get_parameters(names, params::Dict{String,<:Any})
+    get_parameters(names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about one or more parameters by specifying multiple parameter names.  To
 get information about a single parameter, you can use the GetParameter operation instead.
@@ -3591,21 +2923,12 @@ get information about a single parameter, you can use the GetParameter operation
   \"name:version\".
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"WithDecryption"`: Return decrypted secure string value. Return decrypted values for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"with_decryption"`: Return decrypted secure string value. Return decrypted values for
   secure string parameters. This flag is ignored for String and StringList parameter types.
 """
-function get_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetParameters",
-        Dict{String,Any}("Names" => Names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_parameters(
-    Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetParameters",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
@@ -3615,8 +2938,7 @@ function get_parameters(
 end
 
 """
-    get_parameters_by_path(path)
-    get_parameters_by_path(path, params::Dict{String,<:Any})
+    get_parameters_by_path(path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve information about one or more parameters in a specific hierarchy.  Request results
 are returned on a best-effort basis. If you specify MaxResults in the request, the response
@@ -3634,31 +2956,24 @@ set of results.
   /Finance/Prod/IAD/WinServ2016/license33
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ParameterFilters"`: Filters to limit the request results.  The following Key values are
-  supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't
-  supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
-- `"Recursive"`: Retrieve all parameters within a hierarchy.  If a user has access to a
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"parameter_filters"`: Filters to limit the request results.  The following Key values
+  are supported for GetParametersByPath: Type, KeyId, and Label. The following Key values
+  aren't supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
+- `"recursive"`: Retrieve all parameters within a hierarchy.  If a user has access to a
   path, then the user can access all levels of that path. For example, if a user has
   permission to access path /a, then the user can also access /a/b. Even if a user has
   explicitly been denied access in IAM for parameter /a/b, they can still call the
   GetParametersByPath API operation recursively for /a and view /a/b.
-- `"WithDecryption"`: Retrieve all parameters in a hierarchy with their value decrypted.
+- `"with_decryption"`: Retrieve all parameters in a hierarchy with their value decrypted.
 """
-function get_parameters_by_path(Path; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetParametersByPath",
-        Dict{String,Any}("Path" => Path);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_parameters_by_path(
-    Path, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Path; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetParametersByPath",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Path" => Path), params));
@@ -3668,8 +2983,7 @@ function get_parameters_by_path(
 end
 
 """
-    get_patch_baseline(baseline_id)
-    get_patch_baseline(baseline_id, params::Dict{String,<:Any})
+    get_patch_baseline(baseline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a patch baseline.
 
@@ -3681,19 +2995,10 @@ Retrieves information about a patch baseline.
   pb-0e392de35e7c563b7.
 
 """
-function get_patch_baseline(BaselineId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetPatchBaseline",
-        Dict{String,Any}("BaselineId" => BaselineId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_patch_baseline(
-    BaselineId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetPatchBaseline",
         Dict{String,Any}(
@@ -3705,8 +3010,7 @@ function get_patch_baseline(
 end
 
 """
-    get_patch_baseline_for_patch_group(patch_group)
-    get_patch_baseline_for_patch_group(patch_group, params::Dict{String,<:Any})
+    get_patch_baseline_for_patch_group(patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the patch baseline that should be used for the specified patch group.
 
@@ -3714,25 +3018,14 @@ Retrieves the patch baseline that should be used for the specified patch group.
 - `patch_group`: The name of the patch group whose patch baseline should be retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OperatingSystem"`: Returns he operating system rule specified for patch groups using
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"operating_system"`: Returns he operating system rule specified for patch groups using
   the patch baseline.
 """
 function get_patch_baseline_for_patch_group(
-    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "GetPatchBaselineForPatchGroup",
-        Dict{String,Any}("PatchGroup" => PatchGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_patch_baseline_for_patch_group(
-    PatchGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetPatchBaselineForPatchGroup",
         Dict{String,Any}(
@@ -3744,8 +3037,7 @@ function get_patch_baseline_for_patch_group(
 end
 
 """
-    get_service_setting(setting_id)
-    get_service_setting(setting_id, params::Dict{String,<:Any})
+    get_service_setting(setting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  ServiceSetting is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
@@ -3769,19 +3061,10 @@ current service setting for the Amazon Web Services account.
   /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
 
 """
-function get_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "GetServiceSetting",
-        Dict{String,Any}("SettingId" => SettingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_setting(
-    SettingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SettingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "GetServiceSetting",
         Dict{String,Any}(
@@ -3793,8 +3076,7 @@ function get_service_setting(
 end
 
 """
-    label_parameter_version(labels, name)
-    label_parameter_version(labels, name, params::Dict{String,<:Any})
+    label_parameter_version(labels, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A parameter label is a user-defined alias to help you manage different versions of a
 parameter. When you modify a parameter, Amazon Web Services Systems Manager automatically
@@ -3817,27 +3099,15 @@ isn't associated with a parameter and the system displays it in the list of Inva
 - `name`: The parameter name on which you want to attach one or more labels.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ParameterVersion"`: The specific version of the parameter on which you want to attach
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"parameter_version"`: The specific version of the parameter on which you want to attach
   one or more labels. If no version is specified, the system attaches the label to the latest
   version.
 """
 function label_parameter_version(
-    Labels, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Labels, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "LabelParameterVersion",
-        Dict{String,Any}("Labels" => Labels, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function label_parameter_version(
-    Labels,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "LabelParameterVersion",
         Dict{String,Any}(
@@ -3849,8 +3119,7 @@ function label_parameter_version(
 end
 
 """
-    list_association_versions(association_id)
-    list_association_versions(association_id, params::Dict{String,<:Any})
+    list_association_versions(association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves all versions of an association for a specific association ID.
 
@@ -3858,26 +3127,15 @@ Retrieves all versions of an association for a specific association ID.
 - `association_id`: The association ID for which you want to view all versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_association_versions(
-    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ListAssociationVersions",
-        Dict{String,Any}("AssociationId" => AssociationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_association_versions(
-    AssociationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListAssociationVersions",
         Dict{String,Any}(
@@ -3889,8 +3147,7 @@ function list_association_versions(
 end
 
 """
-    list_associations()
-    list_associations(params::Dict{String,<:Any})
+    list_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all State Manager associations in the current Amazon Web Services account and
 Amazon Web Services Region. You can limit the results to a specific State Manager
@@ -3898,30 +3155,25 @@ association document or instance by specifying a filter. State Manager is a capa
 Amazon Web Services Systems Manager.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssociationFilterList"`: One or more filters. Use a filter to return a more specific
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"association_filter_list"`: One or more filters. Use a filter to return a more specific
   list of results.  Filtering associations using the InstanceID attribute only returns legacy
   associations created using the InstanceID attribute. Associations targeting the instance
   that are part of the Target Attributes ResourceGroup or Tags aren't returned.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function list_associations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListAssociations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_command_invocations()
-    list_command_invocations(params::Dict{String,<:Any})
+    list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 An invocation is copy of a command sent to a specific instance. A command can apply to one
 or more instances. A command invocation applies to one instance. For example, if a user
@@ -3929,27 +3181,23 @@ runs SendCommand against three instances, then a command invocation is created f
 requested instance ID. ListCommandInvocations provide status about command execution.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommandId"`: (Optional) The invocations for a specific command ID.
-- `"Details"`: (Optional) If set this returns the response of the command executions and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"command_id"`: (Optional) The invocations for a specific command ID.
+- `"details"`: (Optional) If set this returns the response of the command executions and
   any command output. The default value is false.
-- `"Filters"`: (Optional) One or more filters. Use a filter to return a more specific list
+- `"filters"`: (Optional) One or more filters. Use a filter to return a more specific list
   of results.
-- `"InstanceId"`: (Optional) The command execution details for a specific instance ID.
-- `"MaxResults"`: (Optional) The maximum number of items to return for this call. The call
+- `"instance_id"`: (Optional) The command execution details for a specific instance ID.
+- `"max_results"`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
-- `"NextToken"`: (Optional) The token for the next set of items to return. (You received
+- `"next_token"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
-function list_command_invocations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListCommandInvocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_command_invocations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_command_invocations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListCommandInvocations",
         params;
@@ -3959,64 +3207,54 @@ function list_command_invocations(
 end
 
 """
-    list_commands()
-    list_commands(params::Dict{String,<:Any})
+    list_commands(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the commands requested by users of the Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommandId"`: (Optional) If provided, lists only the specified command.
-- `"Filters"`: (Optional) One or more filters. Use a filter to return a more specific list
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"command_id"`: (Optional) If provided, lists only the specified command.
+- `"filters"`: (Optional) One or more filters. Use a filter to return a more specific list
   of results.
-- `"InstanceId"`: (Optional) Lists commands issued against this instance ID.  You can't
+- `"instance_id"`: (Optional) Lists commands issued against this instance ID.  You can't
   specify an instance ID in the same command that you specify Status = Pending. This is
   because the command hasn't reached the instance yet.
-- `"MaxResults"`: (Optional) The maximum number of items to return for this call. The call
+- `"max_results"`: (Optional) The maximum number of items to return for this call. The call
   also returns a token that you can specify in a subsequent call to get the next set of
   results.
-- `"NextToken"`: (Optional) The token for the next set of items to return. (You received
+- `"next_token"`: (Optional) The token for the next set of items to return. (You received
   this token from a previous call.)
 """
-function list_commands(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListCommands"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_commands(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_commands(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListCommands", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_compliance_items()
-    list_compliance_items(params::Dict{String,<:Any})
+    list_compliance_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For a specified resource ID, this API operation returns a list of compliance statuses for
 different resource types. Currently, you can only specify one resource ID per call. List
 results depend on the criteria specified in the filter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more compliance filters. Use a filter to return a more specific list
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more compliance filters. Use a filter to return a more specific list
   of results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"ResourceIds"`: The ID for the resources from which to get compliance information.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"resource_ids"`: The ID for the resources from which to get compliance information.
   Currently, you can only specify one resource ID.
-- `"ResourceTypes"`: The type of resource from which to get compliance information.
+- `"resource_types"`: The type of resource from which to get compliance information.
   Currently, the only supported resource type is ManagedInstance.
 """
-function list_compliance_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListComplianceItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_compliance_items(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_compliance_items(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListComplianceItems",
         params;
@@ -4026,30 +3264,25 @@ function list_compliance_items(
 end
 
 """
-    list_compliance_summaries()
-    list_compliance_summaries(params::Dict{String,<:Any})
+    list_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a summary count of compliant and non-compliant resources for a compliance type. For
 example, this call can return State Manager associations, patches, or custom compliance
 types according to the filter criteria that you specify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more compliance or inventory filters. Use a filter to return a more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more compliance or inventory filters. Use a filter to return a more
   specific list of results.
-- `"MaxResults"`: The maximum number of items to return for this call. Currently, you can
+- `"max_results"`: The maximum number of items to return for this call. Currently, you can
   specify null or 50. The call also returns a token that you can specify in a subsequent call
   to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function list_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListComplianceSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_compliance_summaries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_compliance_summaries(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListComplianceSummaries",
         params;
@@ -4059,8 +3292,7 @@ function list_compliance_summaries(
 end
 
 """
-    list_document_metadata_history(metadata, name)
-    list_document_metadata_history(metadata, name, params::Dict{String,<:Any})
+    list_document_metadata_history(metadata, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Information about approval reviews for a version of a change template in Change Manager.
 
@@ -4070,29 +3302,17 @@ Information about approval reviews for a version of a change template in Change 
 - `name`: The name of the change template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The version of the change template.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_version"`: The version of the change template.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function list_document_metadata_history(
-    Metadata, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Metadata, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ListDocumentMetadataHistory",
-        Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_document_metadata_history(
-    Metadata,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListDocumentMetadataHistory",
         Dict{String,Any}(
@@ -4106,8 +3326,7 @@ function list_document_metadata_history(
 end
 
 """
-    list_document_versions(name)
-    list_document_versions(name, params::Dict{String,<:Any})
+    list_document_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all versions for a document.
 
@@ -4115,23 +3334,16 @@ List all versions for a document.
 - `name`: The name of the document. You can specify an Amazon Resource Name (ARN).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function list_document_versions(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListDocumentVersions",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_document_versions(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListDocumentVersions",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -4141,16 +3353,15 @@ function list_document_versions(
 end
 
 """
-    list_documents()
-    list_documents(params::Dict{String,<:Any})
+    list_documents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and
 Amazon Web Services Region. You can limit the results of this request by using a filter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentFilterList"`: This data type is deprecated. Instead, use Filters.
-- `"Filters"`: One or more DocumentKeyValuesFilter objects. Use a filter to return a more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_filter_list"`: This data type is deprecated. Instead, use Filters.
+- `"filters"`: One or more DocumentKeyValuesFilter objects. Use a filter to return a more
   specific list of results. For keys, you can specify one or more key-value pair tags that
   have been applied to a document. Other valid keys include Owner, Name, PlatformTypes,
   DocumentType, and TargetType. For example, to return documents you own use
@@ -4158,25 +3369,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=tag:tagName,Values=valueName.  This API operation only supports filtering documents by
   using a single tag key and one or more tag values. For example:
   Key=tag:tagName,Values=valueName1,valueName2
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
-function list_documents(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListDocuments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_documents(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_documents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListDocuments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_inventory_entries(instance_id, type_name)
-    list_inventory_entries(instance_id, type_name, params::Dict{String,<:Any})
+    list_inventory_entries(instance_id, type_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A list of inventory items returned by the request.
 
@@ -4185,29 +3391,17 @@ A list of inventory items returned by the request.
 - `type_name`: The type of inventory item for which you want information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters. Use a filter to return a more specific list of results.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
 function list_inventory_entries(
-    InstanceId, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, TypeName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ListInventoryEntries",
-        Dict{String,Any}("InstanceId" => InstanceId, "TypeName" => TypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_inventory_entries(
-    InstanceId,
-    TypeName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListInventoryEntries",
         Dict{String,Any}(
@@ -4223,58 +3417,50 @@ function list_inventory_entries(
 end
 
 """
-    list_ops_item_events()
-    list_ops_item_events(params::Dict{String,<:Any})
+    list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon
 Web Services account. You can limit the results to events associated with specific OpsItems
 by specifying a filter.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
   results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function list_ops_item_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListOpsItemEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_ops_item_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_ops_item_events(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListOpsItemEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_ops_item_related_items()
-    list_ops_item_related_items(params::Dict{String,<:Any})
+    list_ops_item_related_items(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem.
 OpsCenter is a capability of Amazon Web Services Systems Manager.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more OpsItem filters. Use a filter to return a more specific list of
   results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: The token for the next set of items to return. (You received this token
+- `"next_token"`: The token for the next set of items to return. (You received this token
   from a previous call.)
-- `"OpsItemId"`: The ID of the OpsItem for which you want to list all related-item
+- `"ops_item_id"`: The ID of the OpsItem for which you want to list all related-item
   resources.
 """
-function list_ops_item_related_items(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListOpsItemRelatedItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_ops_item_related_items(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_ops_item_related_items(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListOpsItemRelatedItems",
         params;
@@ -4284,58 +3470,44 @@ function list_ops_item_related_items(
 end
 
 """
-    list_ops_metadata()
-    list_ops_metadata(params::Dict{String,<:Any})
+    list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Amazon Web Services Systems Manager calls this API operation when displaying all
 Application Manager OpsMetadata objects or blobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters to limit the number of OpsMetadata objects returned by
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters to limit the number of OpsMetadata objects returned by
   the call.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm("ListOpsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_ops_metadata(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_ops_metadata(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListOpsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_resource_compliance_summaries()
-    list_resource_compliance_summaries(params::Dict{String,<:Any})
+    list_resource_compliance_summaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a resource-level summary count. The summary includes information about compliant
 and non-compliant statuses and detailed compliance-item severity counts, according to the
 filter criteria you specify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: One or more filters. Use a filter to return a more specific list of results.
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: One or more filters. Use a filter to return a more specific list of results.
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
 function list_resource_compliance_summaries(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ListResourceComplianceSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resource_compliance_summaries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListResourceComplianceSummaries",
         params;
@@ -4345,8 +3517,7 @@ function list_resource_compliance_summaries(
 end
 
 """
-    list_resource_data_sync()
-    list_resource_data_sync(params::Dict{String,<:Any})
+    list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists your resource data sync configurations. Includes information about the last time a
 sync attempted to start, the last sync status, and the last time a sync successfully
@@ -4358,23 +3529,19 @@ list, you can request them by specifying the NextToken returned in the call to t
 parameter of a subsequent call.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return for this call. The call also
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
-- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
-- `"SyncType"`: View a list of resource data syncs according to the sync type. Specify
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"sync_type"`: View a list of resource data syncs according to the sync type. Specify
   SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket.
   Specify SyncFromSource to view resource data syncs from Organizations or from multiple
   Amazon Web Services Regions.
 """
-function list_resource_data_sync(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ListResourceDataSync"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resource_data_sync(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resource_data_sync(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListResourceDataSync",
         params;
@@ -4384,8 +3551,7 @@ function list_resource_data_sync(
 end
 
 """
-    list_tags_for_resource(resource_id, resource_type)
-    list_tags_for_resource(resource_id, resource_type, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the tags assigned to the specified resource. For information about the ID
 format for each supported resource type, see AddTagsToResource.
@@ -4396,21 +3562,9 @@ format for each supported resource type, see AddTagsToResource.
 
 """
 function list_tags_for_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "ResourceType" => ResourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -4428,8 +3582,7 @@ function list_tags_for_resource(
 end
 
 """
-    modify_document_permission(name, permission_type)
-    modify_document_permission(name, permission_type, params::Dict{String,<:Any})
+    modify_document_permission(name, permission_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately.
 If you share a document privately, you must specify the Amazon Web Services user account
@@ -4441,32 +3594,20 @@ specify All as the account ID.
 - `permission_type`: The permission type for the document. The permission type can be Share.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountIdsToAdd"`: The Amazon Web Services user accounts that should have access to the
-  document. The account IDs can either be a group of account IDs or All.
-- `"AccountIdsToRemove"`: The Amazon Web Services user accounts that should no longer have
-  access to the document. The Amazon Web Services user account can either be a group of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids_to_add"`: The Amazon Web Services user accounts that should have access to
+  the document. The account IDs can either be a group of account IDs or All.
+- `"account_ids_to_remove"`: The Amazon Web Services user accounts that should no longer
+  have access to the document. The Amazon Web Services user account can either be a group of
   account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify
   an account ID to add and the same ID to remove, the system removes access to the document.
-- `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
+- `"shared_document_version"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the Default version to share.
 """
 function modify_document_permission(
-    Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, PermissionType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "ModifyDocumentPermission",
-        Dict{String,Any}("Name" => Name, "PermissionType" => PermissionType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_document_permission(
-    Name,
-    PermissionType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ModifyDocumentPermission",
         Dict{String,Any}(
@@ -4482,8 +3623,7 @@ function modify_document_permission(
 end
 
 """
-    put_compliance_items(compliance_type, execution_summary, items, resource_id, resource_type)
-    put_compliance_items(compliance_type, execution_summary, items, resource_id, resource_type, params::Dict{String,<:Any})
+    put_compliance_items(compliance_type, execution_summary, items, resource_id, resource_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a compliance type and other compliance details on a designated resource. This
 operation lets you register custom compliance details with a resource. This call overwrites
@@ -4518,11 +3658,11 @@ the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
   supported resource type.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ItemContentHash"`: MD5 or SHA-256 content hash. The content hash is used to determine
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"item_content_hash"`: MD5 or SHA-256 content hash. The content hash is used to determine
   if existing information should be overwritten or ignored. If the content hashes match, the
   request to put compliance information is ignored.
-- `"UploadType"`: The mode for uploading compliance items. You can specify COMPLETE or
+- `"upload_type"`: The mode for uploading compliance items. You can specify COMPLETE or
   PARTIAL. In COMPLETE mode, the system overwrites all existing compliance information for
   the resource. You must provide a full list of compliance items each time you send the
   request. In PARTIAL mode, the system overwrites compliance information for a specific
@@ -4537,29 +3677,9 @@ function put_compliance_items(
     ResourceId,
     ResourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm(
-        "PutComplianceItems",
-        Dict{String,Any}(
-            "ComplianceType" => ComplianceType,
-            "ExecutionSummary" => ExecutionSummary,
-            "Items" => Items,
-            "ResourceId" => ResourceId,
-            "ResourceType" => ResourceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_compliance_items(
-    ComplianceType,
-    ExecutionSummary,
-    Items,
-    ResourceId,
-    ResourceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "PutComplianceItems",
         Dict{String,Any}(
@@ -4581,8 +3701,7 @@ function put_compliance_items(
 end
 
 """
-    put_inventory(instance_id, items)
-    put_inventory(instance_id, items, params::Dict{String,<:Any})
+    put_inventory(instance_id, items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Bulk update custom inventory items on one more instance. The request adds an inventory
 item, if it doesn't already exist, or updates an inventory item, if it does exist.
@@ -4592,20 +3711,10 @@ item, if it doesn't already exist, or updates an inventory item, if it does exis
 - `items`: The inventory items that you want to add or update on instances.
 
 """
-function put_inventory(InstanceId, Items; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "PutInventory",
-        Dict{String,Any}("InstanceId" => InstanceId, "Items" => Items);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_inventory(
-    InstanceId,
-    Items,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    InstanceId, Items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "PutInventory",
         Dict{String,Any}(
@@ -4621,8 +3730,7 @@ function put_inventory(
 end
 
 """
-    put_parameter(name, value)
-    put_parameter(name, value, params::Dict{String,<:Any})
+    put_parameter(name, value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add a parameter to the system.
 
@@ -4650,20 +3758,20 @@ Add a parameter to the system.
   {{ssm:parameter-name}} in a parameter value.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllowedPattern"`: A regular expression used to validate the parameter value. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"allowed_pattern"`: A regular expression used to validate the parameter value. For
   example, for String types with values restricted to numbers, you can specify the following:
   AllowedPattern=^d+
-- `"DataType"`: The data type for a String parameter. Supported data types include plain
+- `"data_type"`: The data type for a String parameter. Supported data types include plain
   text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.
   text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image,
   Amazon Web Services Systems Manager validates the parameter value is in the required
   format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your
   Amazon Web Services account. For more information, see Native parameter support for Amazon
   Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
-- `"Description"`: Information about the parameter that you want to add to the system.
+- `"description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
-- `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
+- `"key_id"`: The Key Management Service (KMS) ID that you want to use to encrypt a
   parameter. Either the default KMS key automatically assigned to your Amazon Web Services
   account or a custom key. Required for parameters that use the SecureString data type. If
   you don't specify a key ID, the system uses the default key associated with your Amazon Web
@@ -4671,8 +3779,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not specify the Key ID when you create the parameter. The system automatically populates
   Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data
   type with the Key ID parameter.
-- `"Overwrite"`: Overwrite an existing parameter. The default value is false.
-- `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
+- `"overwrite"`: Overwrite an existing parameter. The default value is false.
+- `"policies"`: One or more policies to apply to a parameter. This operation takes a JSON
   array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
   following policy types: Expiration: This policy deletes the parameter after it expires.
   When you create the policy, you specify the expiration date. You can update the expiration
@@ -4686,14 +3794,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a secret needs to be changed within a period of time, but it hasn't been changed. All
   existing policies are preserved until you send new policies or an empty policy. For more
   information about parameter policies, see Assigning parameter policies.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
+- `"tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a Systems Manager parameter to identify the type of resource to which it
   applies, the environment, or the type of configuration data referenced by the parameter. In
   this case, you could specify the following key-value pairs:    Key=Resource,Value=S3bucket
      Key=OS,Value=Windows     Key=ParameterType,Value=LicenseKey     To add tags to an
   existing Systems Manager parameter, use the AddTagsToResource operation.
-- `"Tier"`: The parameter tier to assign to a parameter. Parameter Store offers a standard
+- `"tier"`: The parameter tier to assign to a parameter. Parameter Store offers a standard
   tier and an advanced tier for parameters. Standard parameters have a content size limit of
   4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000
   standard parameters for each Region in an Amazon Web Services account. Standard parameters
@@ -4728,27 +3836,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   already exist in your Amazon Web Services account in the current Amazon Web Services
   Region.   For more information about configuring the default tier option, see Specifying a
   default parameter tier in the Amazon Web Services Systems Manager User Guide.
-- `"Type"`: The type of parameter that you want to add to the system.   SecureString isn't
+- `"type"`: The type of parameter that you want to add to the system.   SecureString isn't
   currently supported for CloudFormation templates.  Items in a StringList must be separated
   by a comma (,). You can't use other punctuation or special character to escape items in the
   list. If you have a parameter value that requires a comma, then use the String data type.
   Specifying a parameter type isn't required when updating a parameter. You must specify a
   parameter type when creating a parameter.
 """
-function put_parameter(Name, Value; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "PutParameter",
-        Dict{String,Any}("Name" => Name, "Value" => Value);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_parameter(
-    Name,
-    Value,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, Value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "PutParameter",
         Dict{String,Any}(
@@ -4760,8 +3858,7 @@ function put_parameter(
 end
 
 """
-    register_default_patch_baseline(baseline_id)
-    register_default_patch_baseline(baseline_id, params::Dict{String,<:Any})
+    register_default_patch_baseline(baseline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Defines the default patch baseline for the relevant operating system. To reset the Amazon
 Web Services-predefined patch baseline as the default, specify the full patch baseline
@@ -4774,20 +3871,9 @@ pb-0574b43a65ea646ed.
 
 """
 function register_default_patch_baseline(
-    BaselineId; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "RegisterDefaultPatchBaseline",
-        Dict{String,Any}("BaselineId" => BaselineId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_default_patch_baseline(
-    BaselineId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "RegisterDefaultPatchBaseline",
         Dict{String,Any}(
@@ -4799,8 +3885,7 @@ function register_default_patch_baseline(
 end
 
 """
-    register_patch_baseline_for_patch_group(baseline_id, patch_group)
-    register_patch_baseline_for_patch_group(baseline_id, patch_group, params::Dict{String,<:Any})
+    register_patch_baseline_for_patch_group(baseline_id, patch_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a patch baseline for a patch group.
 
@@ -4810,21 +3895,9 @@ Registers a patch baseline for a patch group.
 
 """
 function register_patch_baseline_for_patch_group(
-    BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId, PatchGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "RegisterPatchBaselineForPatchGroup",
-        Dict{String,Any}("BaselineId" => BaselineId, "PatchGroup" => PatchGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_patch_baseline_for_patch_group(
-    BaselineId,
-    PatchGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "RegisterPatchBaselineForPatchGroup",
         Dict{String,Any}(
@@ -4840,8 +3913,7 @@ function register_patch_baseline_for_patch_group(
 end
 
 """
-    register_target_with_maintenance_window(resource_type, targets, window_id)
-    register_target_with_maintenance_window(resource_type, targets, window_id, params::Dict{String,<:Any})
+    register_target_with_maintenance_window(resource_type, targets, window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a target with a maintenance window.
 
@@ -4868,35 +3940,21 @@ Registers a target with a maintenance window.
 - `window_id`: The ID of the maintenance window the target should be registered with.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: User-provided idempotency token.
-- `"Description"`: An optional description for the target.
-- `"Name"`: An optional name for the target.
-- `"OwnerInformation"`: User-provided value that will be included in any Amazon CloudWatch
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: User-provided idempotency token.
+- `"description"`: An optional description for the target.
+- `"name"`: An optional name for the target.
+- `"owner_information"`: User-provided value that will be included in any Amazon CloudWatch
   Events events raised while running tasks for these targets in this maintenance window.
 """
 function register_target_with_maintenance_window(
-    ResourceType, Targets, WindowId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "RegisterTargetWithMaintenanceWindow",
-        Dict{String,Any}(
-            "ResourceType" => ResourceType,
-            "Targets" => Targets,
-            "WindowId" => WindowId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_target_with_maintenance_window(
     ResourceType,
     Targets,
-    WindowId,
-    params::AbstractDict{String};
+    WindowId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "RegisterTargetWithMaintenanceWindow",
         Dict{String,Any}(
@@ -4906,7 +3964,7 @@ function register_target_with_maintenance_window(
                     "ResourceType" => ResourceType,
                     "Targets" => Targets,
                     "WindowId" => WindowId,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -4917,8 +3975,7 @@ function register_target_with_maintenance_window(
 end
 
 """
-    register_task_with_maintenance_window(task_arn, task_type, window_id)
-    register_task_with_maintenance_window(task_arn, task_type, window_id, params::Dict{String,<:Any})
+    register_task_with_maintenance_window(task_arn, task_type, window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a new task to a maintenance window.
 
@@ -4928,9 +3985,9 @@ Adds a new task to a maintenance window.
 - `window_id`: The ID of the maintenance window the task should be added to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: User-provided idempotency token.
-- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: User-provided idempotency token.
+- `"cutoff_behavior"`: Indicates whether tasks should continue to run after the cutoff time
   specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
   reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
   Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
@@ -4939,35 +3996,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation that attempts to cancel the command associated with the task. However, there is
   no guarantee that the command will be terminated and the underlying process stopped.   The
   status for tasks that are not completed is TIMED_OUT.
-- `"Description"`: An optional description for the task.
-- `"LoggingInfo"`: A structure containing information about an Amazon Simple Storage
+- `"description"`: An optional description for the task.
+- `"logging_info"`: A structure containing information about an Amazon Simple Storage
   Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been
   deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs,
   instead use the OutputS3BucketName and OutputS3KeyPrefix options in the
   TaskInvocationParameters structure. For information about how Amazon Web Services Systems
   Manager handles these options for the supported maintenance window task types, see
   MaintenanceWindowTaskInvocationParameters.
-- `"MaxConcurrency"`: The maximum number of targets this task can be run for in parallel.
+- `"max_concurrency"`: The maximum number of targets this task can be run for in parallel.
   For maintenance window tasks without a target specified, you can't supply a value for this
   option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the
   running of your task.
-- `"MaxErrors"`: The maximum number of errors allowed before this task stops being
+- `"max_errors"`: The maximum number of errors allowed before this task stops being
   scheduled.  For maintenance window tasks without a target specified, you can't supply a
   value for this option. Instead, the system inserts a placeholder value of 1. This value
   doesn't affect the running of your task.
-- `"Name"`: An optional name for the task.
-- `"Priority"`: The priority of the task in the maintenance window, the lower the number
+- `"name"`: An optional name for the task.
+- `"priority"`: The priority of the task in the maintenance window, the lower the number
   the higher the priority. Tasks in a maintenance window are scheduled in priority order with
   tasks that have the same priority scheduled in parallel.
-- `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
-  Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses your account's service-linked role. If no
-  service-linked role for Systems Manager exists in your account, it is created when you run
-  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in
-  the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
-  Systems Manager     Should I use a service-linked role or a custom service role to run
+- `"service_role_arn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon
+  Web Services Systems Manager to assume when running a maintenance window task. If you do
+  not specify a service role ARN, Systems Manager uses your account's service-linked role. If
+  no service-linked role for Systems Manager exists in your account, it is created when you
+  run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in
+  the in the Amazon Web Services Systems Manager User Guide:    Using service-linked roles
+  for Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `"Targets"`: The targets (either instances or maintenance window targets).  One or more
+- `"targets"`: The targets (either instances or maintenance window targets).  One or more
   targets must be specified for maintenance window Run Command-type tasks. Depending on the
   task, targets are optional for other maintenance window task types (Automation, Lambda, and
   Step Functions). For more information about running tasks that don't specify targets, see
@@ -4976,36 +4033,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance
   window targets using the following format:
   Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
-- `"TaskInvocationParameters"`: The parameters that the task should use during execution.
+- `"task_invocation_parameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.
-- `"TaskParameters"`: The parameters that should be passed to the task when it is run.
+- `"task_parameters"`: The parameters that should be passed to the task when it is run.
   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs,
   instead use the Parameters option in the TaskInvocationParameters structure. For
   information about how Systems Manager handles these options for the supported maintenance
   window task types, see MaintenanceWindowTaskInvocationParameters.
 """
 function register_task_with_maintenance_window(
-    TaskArn, TaskType, WindowId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "RegisterTaskWithMaintenanceWindow",
-        Dict{String,Any}(
-            "TaskArn" => TaskArn,
-            "TaskType" => TaskType,
-            "WindowId" => WindowId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_task_with_maintenance_window(
     TaskArn,
     TaskType,
-    WindowId,
-    params::AbstractDict{String};
+    WindowId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "RegisterTaskWithMaintenanceWindow",
         Dict{String,Any}(
@@ -5015,7 +4058,7 @@ function register_task_with_maintenance_window(
                     "TaskArn" => TaskArn,
                     "TaskType" => TaskType,
                     "WindowId" => WindowId,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -5026,8 +4069,7 @@ function register_task_with_maintenance_window(
 end
 
 """
-    remove_tags_from_resource(resource_id, resource_type, tag_keys)
-    remove_tags_from_resource(resource_id, resource_type, tag_keys, params::Dict{String,<:Any})
+    remove_tags_from_resource(resource_id, resource_type, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tag keys from the specified resource.
 
@@ -5050,24 +4092,13 @@ Removes tag keys from the specified resource.
 
 """
 function remove_tags_from_resource(
-    ResourceId, ResourceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "RemoveTagsFromResource",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId, "ResourceType" => ResourceType, "TagKeys" => TagKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_tags_from_resource(
     ResourceId,
     ResourceType,
-    TagKeys,
-    params::AbstractDict{String};
+    TagKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "RemoveTagsFromResource",
         Dict{String,Any}(
@@ -5087,8 +4118,7 @@ function remove_tags_from_resource(
 end
 
 """
-    reset_service_setting(setting_id)
-    reset_service_setting(setting_id, params::Dict{String,<:Any})
+    reset_service_setting(setting_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  ServiceSetting is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
@@ -5112,19 +4142,10 @@ provisioned by the Amazon Web Services service team.
   /ssm/parameter-store/high-throughput-enabled     /ssm/managed-instance/activation-tier
 
 """
-function reset_service_setting(SettingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ResetServiceSetting",
-        Dict{String,Any}("SettingId" => SettingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function reset_service_setting(
-    SettingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SettingId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ResetServiceSetting",
         Dict{String,Any}(
@@ -5136,8 +4157,7 @@ function reset_service_setting(
 end
 
 """
-    resume_session(session_id)
-    resume_session(session_id, params::Dict{String,<:Any})
+    resume_session(session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reconnects a session to an instance after it has been disconnected. Connections can be
 resumed for disconnected sessions, but not terminated sessions.  This command is primarily
@@ -5148,19 +4168,10 @@ It isn't intended for any other use.
 - `session_id`: The ID of the disconnected session to resume.
 
 """
-function resume_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "ResumeSession",
-        Dict{String,Any}("SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_session(
-    SessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "ResumeSession",
         Dict{String,Any}(
@@ -5172,8 +4183,7 @@ function resume_session(
 end
 
 """
-    send_automation_signal(automation_execution_id, signal_type)
-    send_automation_signal(automation_execution_id, signal_type, params::Dict{String,<:Any})
+    send_automation_signal(automation_execution_id, signal_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends a signal to an Automation execution to change the current behavior or status of the
 execution.
@@ -5184,8 +4194,8 @@ execution.
 - `signal_type`: The type of signal to send to an Automation execution.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Payload"`: The data sent with the signal. The data schema depends on the type of signal
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"payload"`: The data sent with the signal. The data schema depends on the type of signal
   used in the request. For Approve and Reject signal types, the payload is an optional
   comment that you can send with the signal type. For example:  Comment=\"Looks good\"  For
   StartStep and Resume signal types, you must send the name of the Automation step to start
@@ -5194,23 +4204,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StepExecutionId=\"97fff367-fc5a-4299-aed8-0123456789ab\"
 """
 function send_automation_signal(
-    AutomationExecutionId, SignalType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "SendAutomationSignal",
-        Dict{String,Any}(
-            "AutomationExecutionId" => AutomationExecutionId, "SignalType" => SignalType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_automation_signal(
     AutomationExecutionId,
-    SignalType,
-    params::AbstractDict{String};
+    SignalType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "SendAutomationSignal",
         Dict{String,Any}(
@@ -5229,8 +4228,7 @@ function send_automation_signal(
 end
 
 """
-    send_command(document_name)
-    send_command(document_name, params::Dict{String,<:Any})
+    send_command(document_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs commands on one or more managed instances.
 
@@ -5243,22 +4241,22 @@ Runs commands on one or more managed instances.
   hasn't been shared with your account, you receive an InvalidDocument error.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CloudWatchOutputConfig"`: Enables Amazon Web Services Systems Manager to send Run
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cloud_watch_output_config"`: Enables Amazon Web Services Systems Manager to send Run
   Command output to Amazon CloudWatch Logs. Run Command is a capability of Amazon Web
   Services Systems Manager.
-- `"Comment"`: User-specified information about the command, such as a brief description of
+- `"comment"`: User-specified information about the command, such as a brief description of
   what the command should do.
-- `"DocumentHash"`: The Sha256 or Sha1 hash created by the system when the document was
+- `"document_hash"`: The Sha256 or Sha1 hash created by the system when the document was
   created.   Sha1 hashes have been deprecated.
-- `"DocumentHashType"`: Sha256 or Sha1.  Sha1 hashes have been deprecated.
-- `"DocumentVersion"`: The SSM document version to use in the request. You can specify
+- `"document_hash_type"`: Sha256 or Sha1.  Sha1 hashes have been deprecated.
+- `"document_version"`: The SSM document version to use in the request. You can specify
   DEFAULT, LATEST, or a specific version number. If you run commands by using the Command
   Line Interface (Amazon Web Services CLI), then you must escape the first two options by
   using a backslash. If you specify a version number, then you don't need to use the
   backslash. For example: --document-version \"DEFAULT\" --document-version \"LATEST\"
   --document-version \"3\"
-- `"InstanceIds"`: The IDs of the instances where the command should run. Specifying
+- `"instance_ids"`: The IDs of the instances where the command should run. Specifying
   instance IDs is most useful when you are targeting a limited number of instances, though
   you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not
   to list individual instance IDs, we recommend using the Targets option instead. Using
@@ -5266,50 +4264,41 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you can a send command to tens, hundreds, or thousands of instances at once. For more
   information about how to use targets, see Using targets and rate controls to send commands
   to a fleet in the Amazon Web Services Systems Manager User Guide.
-- `"MaxConcurrency"`: (Optional) The maximum number of instances that are allowed to run
+- `"max_concurrency"`: (Optional) The maximum number of instances that are allowed to run
   the command at the same time. You can specify a number such as 10 or a percentage such as
   10%. The default value is 50. For more information about how to use MaxConcurrency, see
   Using concurrency controls in the Amazon Web Services Systems Manager User Guide.
-- `"MaxErrors"`: The maximum number of errors allowed without the command failing. When the
-  command fails one more time beyond the value of MaxErrors, the systems stops sending the
-  command to additional targets. You can specify a number like 10 or a percentage like 10%.
-  The default value is 0. For more information about how to use MaxErrors, see Using error
-  controls in the Amazon Web Services Systems Manager User Guide.
-- `"NotificationConfig"`: Configurations for sending notifications.
-- `"OutputS3BucketName"`: The name of the S3 bucket where command execution responses
+- `"max_errors"`: The maximum number of errors allowed without the command failing. When
+  the command fails one more time beyond the value of MaxErrors, the systems stops sending
+  the command to additional targets. You can specify a number like 10 or a percentage like
+  10%. The default value is 0. For more information about how to use MaxErrors, see Using
+  error controls in the Amazon Web Services Systems Manager User Guide.
+- `"notification_config"`: Configurations for sending notifications.
+- `"output_s3_bucket_name"`: The name of the S3 bucket where command execution responses
   should be stored.
-- `"OutputS3KeyPrefix"`: The directory structure within the S3 bucket where the responses
-  should be stored.
-- `"OutputS3Region"`: (Deprecated) You can no longer specify this parameter. The system
+- `"output_s3_key_prefix"`: The directory structure within the S3 bucket where the
+  responses should be stored.
+- `"output_s3_region"`: (Deprecated) You can no longer specify this parameter. The system
   ignores it. Instead, Systems Manager automatically determines the Amazon Web Services
   Region of the S3 bucket.
-- `"Parameters"`: The required and optional parameters specified in the document being run.
-- `"ServiceRoleArn"`: The ARN of the Identity and Access Management (IAM) service role to
+- `"parameters"`: The required and optional parameters specified in the document being run.
+- `"service_role_arn"`: The ARN of the Identity and Access Management (IAM) service role to
   use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run
   Command commands.
-- `"Targets"`: An array of search criteria that targets instances using a Key,Value
+- `"targets"`: An array of search criteria that targets instances using a Key,Value
   combination that you specify. Specifying targets is most useful when you want to send a
   command to a large number of instances at once. Using Targets, which accepts tag key-value
   pairs to identify instances, you can send a command to tens, hundreds, or thousands of
   instances at once. To send a command to a smaller number of instances, you can use the
   InstanceIds option instead. For more information about how to use targets, see Sending
   commands to a fleet in the Amazon Web Services Systems Manager User Guide.
-- `"TimeoutSeconds"`: If this time is reached and the command hasn't already started
+- `"timeout_seconds"`: If this time is reached and the command hasn't already started
   running, it won't run.
 """
-function send_command(DocumentName; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "SendCommand",
-        Dict{String,Any}("DocumentName" => DocumentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_command(
-    DocumentName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DocumentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "SendCommand",
         Dict{String,Any}(
@@ -5321,8 +4310,7 @@ function send_command(
 end
 
 """
-    start_associations_once(association_ids)
-    start_associations_once(association_ids, params::Dict{String,<:Any})
+    start_associations_once(association_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs an association immediately and only one time. This operation can be helpful when
 troubleshooting associations.
@@ -5332,20 +4320,9 @@ troubleshooting associations.
 
 """
 function start_associations_once(
-    AssociationIds; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "StartAssociationsOnce",
-        Dict{String,Any}("AssociationIds" => AssociationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_associations_once(
-    AssociationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "StartAssociationsOnce",
         Dict{String,Any}(
@@ -5357,8 +4334,7 @@ function start_associations_once(
 end
 
 """
-    start_automation_execution(document_name)
-    start_automation_execution(document_name, params::Dict{String,<:Any})
+    start_automation_execution(document_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Initiates execution of an Automation runbook.
 
@@ -5369,13 +4345,13 @@ Initiates execution of an Automation runbook.
   documents in the Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: User-provided idempotency token. The token must be unique, is case
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: User-provided idempotency token. The token must be unique, is case
   insensitive, enforces the UUID format, and can't be reused.
-- `"DocumentVersion"`: The version of the Automation runbook to use for this execution.
-- `"MaxConcurrency"`: The maximum number of targets allowed to run this task in parallel.
+- `"document_version"`: The version of the Automation runbook to use for this execution.
+- `"max_concurrency"`: The maximum number of targets allowed to run this task in parallel.
   You can specify a number, such as 10, or a percentage, such as 10%. The default value is 10.
-- `"MaxErrors"`: The number of errors that are allowed before the system stops running the
+- `"max_errors"`: The number of errors that are allowed before the system stops running the
   automation on additional targets. You can specify either an absolute number of errors, for
   example 10, or a percentage of the target set, for example 10%. If you specify 3, for
   example, the system stops running the automation when the fourth error is received. If you
@@ -5386,44 +4362,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reached are allowed to complete, but some of these executions may fail as well. If you need
   to ensure that there won't be more than max-errors failed executions, set max-concurrency
   to 1 so the executions proceed one at a time.
-- `"Mode"`: The execution mode of the automation. Valid modes include the following: Auto
+- `"mode"`: The execution mode of the automation. Valid modes include the following: Auto
   and Interactive. The default mode is Auto.
-- `"Parameters"`: A key-value map of execution parameters, which match the declared
+- `"parameters"`: A key-value map of execution parameters, which match the declared
   parameters in the Automation runbook.
-- `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
+- `"tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for an automation. Tags enable you to categorize a resource in different ways,
   such as by purpose, owner, or environment. For example, you might want to tag an automation
   to identify an environment or operating system. In this case, you could specify the
   following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To
   add tags to an existing patch baseline, use the AddTagsToResource operation.
-- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and/or
+- `"target_locations"`: A location is a combination of Amazon Web Services Regions and/or
   Amazon Web Services accounts where you want to run the automation. Use this operation to
   start an automation in multiple Amazon Web Services Regions and multiple Amazon Web
   Services accounts. For more information, see Running Automation workflows in multiple
   Amazon Web Services Regions and Amazon Web Services accounts in the Amazon Web Services
   Systems Manager User Guide.
-- `"TargetMaps"`: A key-value mapping of document parameters to target resources. Both
+- `"target_maps"`: A key-value mapping of document parameters to target resources. Both
   Targets and TargetMaps can't be specified together.
-- `"TargetParameterName"`: The name of the parameter used as the target resource for the
+- `"target_parameter_name"`: The name of the parameter used as the target resource for the
   rate-controlled execution. Required if you specify targets.
-- `"Targets"`: A key-value mapping to target resources. Required if you specify
+- `"targets"`: A key-value mapping to target resources. Required if you specify
   TargetParameterName.
 """
 function start_automation_execution(
-    DocumentName; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "StartAutomationExecution",
-        Dict{String,Any}("DocumentName" => DocumentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_automation_execution(
-    DocumentName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "StartAutomationExecution",
         Dict{String,Any}(
@@ -5435,8 +4400,7 @@ function start_automation_execution(
 end
 
 """
-    start_change_request_execution(document_name, runbooks)
-    start_change_request_execution(document_name, runbooks, params::Dict{String,<:Any})
+    start_change_request_execution(document_name, runbooks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a change request for Change Manager. The Automation runbooks specified in the
 change request run only after all required approvals for the change request have been
@@ -5450,32 +4414,32 @@ received.
   required approvals for the change request have been received.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoApprove"`: Indicates whether the change request can be approved automatically
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_approve"`: Indicates whether the change request can be approved automatically
   without the need for manual approvals. If AutoApprovable is enabled in a change template,
   then setting AutoApprove to true in StartChangeRequestExecution creates a change request
   that bypasses approver review.  Change Calendar restrictions are not bypassed in this
   scenario. If the state of an associated calendar is CLOSED, change freeze approvers must
   still grant permission for this change request to run. If they don't, the change won't be
   processed until the calendar state is again OPEN.
-- `"ChangeDetails"`: User-provided details about the change. If no details are provided,
+- `"change_details"`: User-provided details about the change. If no details are provided,
   content specified in the Template information section of the associated change template is
   added.
-- `"ChangeRequestName"`: The name of the change request associated with the runbook
+- `"change_request_name"`: The name of the change request associated with the runbook
   workflow to be run.
-- `"ClientToken"`: The user-provided idempotency token. The token must be unique, is case
+- `"client_token"`: The user-provided idempotency token. The token must be unique, is case
   insensitive, enforces the UUID format, and can't be reused.
-- `"DocumentVersion"`: The version of the change template document to run during the
+- `"document_version"`: The version of the change template document to run during the
   runbook workflow.
-- `"Parameters"`: A key-value map of parameters that match the declared parameters in the
+- `"parameters"`: A key-value map of parameters that match the declared parameters in the
   change template document.
-- `"ScheduledEndTime"`: The time that the requester expects the runbook workflow related to
-  the change request to complete. The time is an estimate only that the requester provides
+- `"scheduled_end_time"`: The time that the requester expects the runbook workflow related
+  to the change request to complete. The time is an estimate only that the requester provides
   for reviewers.
-- `"ScheduledTime"`: The date and time specified in the change request to run the
+- `"scheduled_time"`: The date and time specified in the change request to run the
   Automation runbooks.  The Automation runbooks specified for the runbook workflow can't run
   until all required approvals for the change request have been received.
-- `"Tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
+- `"tags"`: Optional metadata that you assign to a resource. You can specify a maximum of
   five tags for a change request. Tags enable you to categorize a resource in different ways,
   such as by purpose, owner, or environment. For example, you might want to tag a change
   request to identify an environment or target Amazon Web Services Region. In this case, you
@@ -5483,21 +4447,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Key=Region,Value=us-east-2
 """
 function start_change_request_execution(
-    DocumentName, Runbooks; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentName, Runbooks; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "StartChangeRequestExecution",
-        Dict{String,Any}("DocumentName" => DocumentName, "Runbooks" => Runbooks);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_change_request_execution(
-    DocumentName,
-    Runbooks,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "StartChangeRequestExecution",
         Dict{String,Any}(
@@ -5513,8 +4465,7 @@ function start_change_request_execution(
 end
 
 """
-    start_session(target)
-    start_session(target, params::Dict{String,<:Any})
+    start_session(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Initiates a connection to a target (for example, an instance) for a Session Manager
 session. Returns a URL and token that can be used to open a WebSocket connection for
@@ -5529,24 +4480,17 @@ Web Services Tools for PowerShell on Windows local machines.
 - `target`: The instance to connect to for the session.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentName"`: The name of the SSM document to define the parameters and plugin
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_name"`: The name of the SSM document to define the parameters and plugin
   settings for the session. For example, SSM-SessionManagerRunShell. You can call the
   GetDocument API to verify the document exists before attempting to start a session. If no
   document name is provided, a shell to the instance is launched by default.
-- `"Parameters"`: Reserved for future use.
+- `"parameters"`: Reserved for future use.
+- `"reason"`: The reason for connecting to the instance. This value is included in the
+  details for the Amazon CloudWatch Events event created when you start the session.
 """
-function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "StartSession",
-        Dict{String,Any}("Target" => Target);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_session(
-    Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function start_session(Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "StartSession",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
@@ -5556,8 +4500,7 @@ function start_session(
 end
 
 """
-    stop_automation_execution(automation_execution_id)
-    stop_automation_execution(automation_execution_id, params::Dict{String,<:Any})
+    stop_automation_execution(automation_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stop an Automation that is currently running.
 
@@ -5565,25 +4508,14 @@ Stop an Automation that is currently running.
 - `automation_execution_id`: The execution ID of the Automation to stop.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Type"`: The stop request type. Valid types include the following: Cancel and Complete.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"type"`: The stop request type. Valid types include the following: Cancel and Complete.
   The default type is Cancel.
 """
 function stop_automation_execution(
-    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    AutomationExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "StopAutomationExecution",
-        Dict{String,Any}("AutomationExecutionId" => AutomationExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_automation_execution(
-    AutomationExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "StopAutomationExecution",
         Dict{String,Any}(
@@ -5599,8 +4531,7 @@ function stop_automation_execution(
 end
 
 """
-    terminate_session(session_id)
-    terminate_session(session_id, params::Dict{String,<:Any})
+    terminate_session(session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently ends a session and closes the data connection between the Session Manager
 client and SSM Agent on the instance. A terminated session isn't be resumed.
@@ -5609,19 +4540,10 @@ client and SSM Agent on the instance. A terminated session isn't be resumed.
 - `session_id`: The ID of the session to terminate.
 
 """
-function terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "TerminateSession",
-        Dict{String,Any}("SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function terminate_session(
-    SessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "TerminateSession",
         Dict{String,Any}(
@@ -5633,8 +4555,7 @@ function terminate_session(
 end
 
 """
-    unlabel_parameter_version(labels, name, parameter_version)
-    unlabel_parameter_version(labels, name, parameter_version, params::Dict{String,<:Any})
+    unlabel_parameter_version(labels, name, parameter_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Remove a label or labels from a parameter.
 
@@ -5646,24 +4567,13 @@ Remove a label or labels from a parameter.
 
 """
 function unlabel_parameter_version(
-    Labels, Name, ParameterVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "UnlabelParameterVersion",
-        Dict{String,Any}(
-            "Labels" => Labels, "Name" => Name, "ParameterVersion" => ParameterVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function unlabel_parameter_version(
     Labels,
     Name,
-    ParameterVersion,
-    params::AbstractDict{String};
+    ParameterVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UnlabelParameterVersion",
         Dict{String,Any}(
@@ -5683,8 +4593,7 @@ function unlabel_parameter_version(
 end
 
 """
-    update_association(association_id)
-    update_association(association_id, params::Dict{String,<:Any})
+    update_association(association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an association. You can update the association name and version, the document
 version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output.  In
@@ -5700,36 +4609,37 @@ the association immediately runs against the specified targets.
 - `association_id`: The ID of the association you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplyOnlyAtCronInterval"`: By default, when you update an association, the system runs
-  it immediately after it is updated and then according to the schedule you specified.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apply_only_at_cron_interval"`: By default, when you update an association, the system
+  runs it immediately after it is updated and then according to the schedule you specified.
   Specify this option if you don't want an association to run immediately after you update
   it. This parameter isn't supported for rate expressions. Also, if you specified this option
   when you created the association, you can reset it. To do so, specify the
   no-apply-only-at-cron-interval parameter when you update the association from the command
   line. This parameter forces the association to run immediately after updating it and
   according to the interval specified.
-- `"AssociationName"`: The name of the association that you want to update.
-- `"AssociationVersion"`: This parameter is provided for concurrency control purposes. You
+- `"association_name"`: The name of the association that you want to update.
+- `"association_version"`: This parameter is provided for concurrency control purposes. You
   must specify the latest association version in the service. If you want to ensure that this
   request succeeds, either specify LATEST, or omit this parameter.
-- `"AutomationTargetParameterName"`: Specify the target for the association. This target is
-  required for associations that use an Automation runbook and target resources by using rate
-  controls. Automation is a capability of Amazon Web Services Systems Manager.
-- `"CalendarNames"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
+- `"automation_target_parameter_name"`: Choose the parameter that will define how your
+  automation will branch out. This target is required for associations that use an Automation
+  runbook and target resources by using rate controls. Automation is a capability of Amazon
+  Web Services Systems Manager.
+- `"calendar_names"`: The names or Amazon Resource Names (ARNs) of the Change Calendar type
   documents you want to gate your associations under. The associations only run when that
   change calendar is open. For more information, see Amazon Web Services Systems Manager
   Change Calendar.
-- `"ComplianceSeverity"`: The severity level to assign to the association.
-- `"DocumentVersion"`: The document version you want update for the association.
-- `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
+- `"compliance_severity"`: The severity level to assign to the association.
+- `"document_version"`: The document version you want update for the association.
+- `"max_concurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
   same time. If a new instance starts and attempts to run an association while Systems
   Manager is running MaxConcurrency associations, the association is allowed to run. During
   the next association interval, the new instance will process its association within the
   limit specified for MaxConcurrency.
-- `"MaxErrors"`: The number of errors that are allowed before the system stops sending
+- `"max_errors"`: The number of errors that are allowed before the system stops sending
   requests to run the association on additional targets. You can specify either an absolute
   number of errors, for example 10, or a percentage of the target set, for example 10%. If
   you specify 3, for example, the system stops sending requests when the fourth error is
@@ -5740,7 +4650,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of these executions may fail as well. If you need to ensure that there won't be more than
   max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a
   time.
-- `"Name"`: The name of the SSM Command document or Automation runbook that contains the
+- `"name"`: The name of the SSM Command document or Automation runbook that contains the
   configuration information for the instance. You can specify Amazon Web Services-predefined
   documents, documents you created, or a document that is shared with you from another
   account. For Systems Manager document (SSM document) that are shared with you from other
@@ -5749,13 +4659,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
-- `"OutputLocation"`: An S3 bucket where you want to store the results of this request.
-- `"Parameters"`: The parameters you want to update for the association. If you create a
+- `"output_location"`: An S3 bucket where you want to store the results of this request.
+- `"parameters"`: The parameters you want to update for the association. If you create a
   parameter using Parameter Store, a capability of Amazon Web Services Systems Manager, you
   can reference the parameter using {{ssm:parameter-name}}.
-- `"ScheduleExpression"`: The cron expression used to schedule the association that you
+- `"schedule_expression"`: The cron expression used to schedule the association that you
   want to update.
-- `"SyncCompliance"`: The mode for generating association compliance. You can specify AUTO
+- `"sync_compliance"`: The mode for generating association compliance. You can specify AUTO
   or MANUAL. In AUTO mode, the system uses the status of the association execution to
   determine the compliance status. If the association execution runs successfully, then the
   association is COMPLIANT. If the association execution doesn't run successfully, the
@@ -5764,26 +4674,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   managed by State Manager, a capability of Amazon Web Services Systems Manager. It is
   managed by your direct call to the PutComplianceItems API operation. By default, all
   associations use AUTO mode.
-- `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
+- `"target_locations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   update an association in multiple Regions and multiple accounts.
-- `"Targets"`: The targets of the association.
+- `"targets"`: The targets of the association.
 """
 function update_association(
-    AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateAssociation",
-        Dict{String,Any}("AssociationId" => AssociationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_association(
-    AssociationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateAssociation",
         Dict{String,Any}(
@@ -5795,8 +4694,7 @@ function update_association(
 end
 
 """
-    update_association_status(association_status, instance_id, name)
-    update_association_status(association_status, instance_id, name, params::Dict{String,<:Any})
+    update_association_status(association_status, instance_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the status of the Amazon Web Services Systems Manager document (SSM document)
 associated with the specified instance.  UpdateAssociationStatus is primarily used by the
@@ -5810,26 +4708,13 @@ associations and is only used for associations created with the InstanceId legac
 
 """
 function update_association_status(
-    AssociationStatus, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "UpdateAssociationStatus",
-        Dict{String,Any}(
-            "AssociationStatus" => AssociationStatus,
-            "InstanceId" => InstanceId,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_association_status(
     AssociationStatus,
     InstanceId,
-    Name,
-    params::AbstractDict{String};
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateAssociationStatus",
         Dict{String,Any}(
@@ -5849,8 +4734,7 @@ function update_association_status(
 end
 
 """
-    update_document(content, name)
-    update_document(content, name, params::Dict{String,<:Any})
+    update_document(content, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates one or more values for an SSM document.
 
@@ -5859,36 +4743,26 @@ Updates one or more values for an SSM document.
 - `name`: The name of the SSM document that you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attachments"`: A list of key-value pairs that describe attachments to a version of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attachments"`: A list of key-value pairs that describe attachments to a version of a
   document.
-- `"DisplayName"`: The friendly name of the SSM document that you want to update. This
+- `"display_name"`: The friendly name of the SSM document that you want to update. This
   value can differ for each version of the document. If you don't specify a value for this
   parameter in your request, the existing value is applied to the new document version.
-- `"DocumentFormat"`: Specify the document format for the new document version. Systems
+- `"document_format"`: Specify the document format for the new document version. Systems
   Manager supports JSON and YAML documents. JSON is the default format.
-- `"DocumentVersion"`: The version of the document that you want to update. Currently,
+- `"document_version"`: The version of the document that you want to update. Currently,
   Systems Manager supports updating only the latest version of the document. You can specify
   the version number of the latest version or use the LATEST variable.
-- `"TargetType"`: Specify a new target type for the document.
-- `"VersionName"`: An optional field specifying the version of the artifact you are
+- `"target_type"`: Specify a new target type for the document.
+- `"version_name"`: An optional field specifying the version of the artifact you are
   updating with the document. For example, \"Release 12, Update 6\". This value is unique
   across all versions of a document, and can't be changed.
 """
-function update_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "UpdateDocument",
-        Dict{String,Any}("Content" => Content, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_document(
-    Content,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Content, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateDocument",
         Dict{String,Any}(
@@ -5902,8 +4776,7 @@ function update_document(
 end
 
 """
-    update_document_default_version(document_version, name)
-    update_document_default_version(document_version, name, params::Dict{String,<:Any})
+    update_document_default_version(document_version, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Set the default version of a document.
 
@@ -5914,21 +4787,9 @@ Set the default version of a document.
 
 """
 function update_document_default_version(
-    DocumentVersion, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentVersion, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateDocumentDefaultVersion",
-        Dict{String,Any}("DocumentVersion" => DocumentVersion, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_document_default_version(
-    DocumentVersion,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateDocumentDefaultVersion",
         Dict{String,Any}(
@@ -5944,8 +4805,7 @@ function update_document_default_version(
 end
 
 """
-    update_document_metadata(document_reviews, name)
-    update_document_metadata(document_reviews, name, params::Dict{String,<:Any})
+    update_document_metadata(document_reviews, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates information related to approval reviews for a specific version of a change template
 in Change Manager.
@@ -5955,26 +4815,14 @@ in Change Manager.
 - `name`: The name of the change template for which a version's metadata is to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DocumentVersion"`: The version of a change template in which to update approval
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"document_version"`: The version of a change template in which to update approval
   metadata.
 """
 function update_document_metadata(
-    DocumentReviews, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    DocumentReviews, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateDocumentMetadata",
-        Dict{String,Any}("DocumentReviews" => DocumentReviews, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_document_metadata(
-    DocumentReviews,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateDocumentMetadata",
         Dict{String,Any}(
@@ -5990,8 +4838,7 @@ function update_document_metadata(
 end
 
 """
-    update_maintenance_window(window_id)
-    update_maintenance_window(window_id, params::Dict{String,<:Any})
+    update_maintenance_window(window_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing maintenance window. Only specified parameters are modified.  The value
 you specify for Duration determines the specific end time for the maintenance window based
@@ -6004,52 +4851,41 @@ for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
 - `window_id`: The ID of the maintenance window to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllowUnassociatedTargets"`: Whether targets must be registered with the maintenance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"allow_unassociated_targets"`: Whether targets must be registered with the maintenance
   window before tasks can be defined for those targets.
-- `"Cutoff"`: The number of hours before the end of the maintenance window that Amazon Web
+- `"cutoff"`: The number of hours before the end of the maintenance window that Amazon Web
   Services Systems Manager stops scheduling new tasks for execution.
-- `"Description"`: An optional description for the update request.
-- `"Duration"`: The duration of the maintenance window in hours.
-- `"Enabled"`: Whether the maintenance window is enabled.
-- `"EndDate"`: The date and time, in ISO-8601 Extended format, for when you want the
+- `"description"`: An optional description for the update request.
+- `"duration"`: The duration of the maintenance window in hours.
+- `"enabled"`: Whether the maintenance window is enabled.
+- `"end_date"`: The date and time, in ISO-8601 Extended format, for when you want the
   maintenance window to become inactive. EndDate allows you to set a date and time in the
   future when the maintenance window will no longer run.
-- `"Name"`: The name of the maintenance window.
-- `"Replace"`: If True, then all fields that are required by the CreateMaintenanceWindow
+- `"name"`: The name of the maintenance window.
+- `"replace"`: If True, then all fields that are required by the CreateMaintenanceWindow
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.
-- `"Schedule"`: The schedule of the maintenance window in the form of a cron or rate
+- `"schedule"`: The schedule of the maintenance window in the form of a cron or rate
   expression.
-- `"ScheduleOffset"`: The number of days to wait after the date and time specified by a
+- `"schedule_offset"`: The number of days to wait after the date and time specified by a
   cron expression before running the maintenance window. For example, the following cron
   expression schedules a maintenance window to run the third Tuesday of every month at 11:30
   PM.  cron(30 23 ? * TUE#3 *)  If the schedule offset is 2, the maintenance window won't run
   until two days later.
-- `"ScheduleTimezone"`: The time zone that the scheduled maintenance window executions are
+- `"schedule_timezone"`: The time zone that the scheduled maintenance window executions are
   based on, in Internet Assigned Numbers Authority (IANA) format. For example:
   \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time
   Zone Database on the IANA website.
-- `"StartDate"`: The time zone that the scheduled maintenance window executions are based
+- `"start_date"`: The time zone that the scheduled maintenance window executions are based
   on, in Internet Assigned Numbers Authority (IANA) format. For example:
   \"America/Los_Angeles\", \"UTC\", or \"Asia/Seoul\". For more information, see the Time
   Zone Database on the IANA website.
 """
 function update_maintenance_window(
-    WindowId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateMaintenanceWindow",
-        Dict{String,Any}("WindowId" => WindowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_maintenance_window(
-    WindowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateMaintenanceWindow",
         Dict{String,Any}(
@@ -6061,8 +4897,7 @@ function update_maintenance_window(
 end
 
 """
-    update_maintenance_window_target(window_id, window_target_id)
-    update_maintenance_window_target(window_id, window_target_id, params::Dict{String,<:Any})
+    update_maintenance_window_target(window_id, window_target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the target of an existing maintenance window. You can change the following:   Name
   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported
@@ -6075,32 +4910,20 @@ field isn't modified.
 - `window_target_id`: The target ID to modify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: An optional description for the update.
-- `"Name"`: A name for the update.
-- `"OwnerInformation"`: User-provided value that will be included in any Amazon CloudWatch
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: An optional description for the update.
+- `"name"`: A name for the update.
+- `"owner_information"`: User-provided value that will be included in any Amazon CloudWatch
   Events events raised while running tasks for these targets in this maintenance window.
-- `"Replace"`: If True, then all fields that are required by the
+- `"replace"`: If True, then all fields that are required by the
   RegisterTargetWithMaintenanceWindow operation are also required for this API request.
   Optional fields that aren't specified are set to null.
-- `"Targets"`: The targets to add or replace.
+- `"targets"`: The targets to add or replace.
 """
 function update_maintenance_window_target(
-    WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId, WindowTargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateMaintenanceWindowTarget",
-        Dict{String,Any}("WindowId" => WindowId, "WindowTargetId" => WindowTargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_maintenance_window_target(
-    WindowId,
-    WindowTargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateMaintenanceWindowTarget",
         Dict{String,Any}(
@@ -6118,8 +4941,7 @@ function update_maintenance_window_target(
 end
 
 """
-    update_maintenance_window_task(window_id, window_task_id)
-    update_maintenance_window_task(window_id, window_task_id, params::Dict{String,<:Any})
+    update_maintenance_window_task(window_id, window_task_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies a task assigned to a maintenance window. You can't change the task type, but you
 can change the following values:    TaskARN. For example, you can change a RUN_COMMAND task
@@ -6145,8 +4967,8 @@ OutputS3BucketName value, the values for Comment and NotificationConfig are remo
 - `window_task_id`: The task ID to modify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CutoffBehavior"`: Indicates whether tasks should continue to run after the cutoff time
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cutoff_behavior"`: Indicates whether tasks should continue to run after the cutoff time
   specified in the maintenance windows is reached.     CONTINUE_TASK: When the cutoff time is
   reached, any tasks that are running continue. The default value.    CANCEL_TASK:   For
   Automation, Lambda, Step Functions tasks: When the cutoff time is reached, any task
@@ -6155,46 +4977,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation that attempts to cancel the command associated with the task. However, there is
   no guarantee that the command will be terminated and the underlying process stopped.   The
   status for tasks that are not completed is TIMED_OUT.
-- `"Description"`: The new task description to specify.
-- `"LoggingInfo"`: The new logging location in Amazon S3 to specify.   LoggingInfo has been
-  deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs,
-  instead use the OutputS3BucketName and OutputS3KeyPrefix options in the
+- `"description"`: The new task description to specify.
+- `"logging_info"`: The new logging location in Amazon S3 to specify.   LoggingInfo has
+  been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain
+  logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the
   TaskInvocationParameters structure. For information about how Amazon Web Services Systems
   Manager handles these options for the supported maintenance window task types, see
   MaintenanceWindowTaskInvocationParameters.
-- `"MaxConcurrency"`: The new MaxConcurrency value you want to specify. MaxConcurrency is
+- `"max_concurrency"`: The new MaxConcurrency value you want to specify. MaxConcurrency is
   the number of targets that are allowed to run this task in parallel.  For maintenance
   window tasks without a target specified, you can't supply a value for this option. Instead,
   the system inserts a placeholder value of 1, which may be reported in the response to this
   command. This value doesn't affect the running of your task and can be ignored.
-- `"MaxErrors"`: The new MaxErrors value to specify. MaxErrors is the maximum number of
+- `"max_errors"`: The new MaxErrors value to specify. MaxErrors is the maximum number of
   errors that are allowed before the task stops being scheduled.  For maintenance window
   tasks without a target specified, you can't supply a value for this option. Instead, the
   system inserts a placeholder value of 1, which may be reported in the response to this
   command. This value doesn't affect the running of your task and can be ignored.
-- `"Name"`: The new task name to specify.
-- `"Priority"`: The new task priority to specify. The lower the number, the higher the
+- `"name"`: The new task name to specify.
+- `"priority"`: The new task priority to specify. The lower the number, the higher the
   priority. Tasks that have the same priority are scheduled in parallel.
-- `"Replace"`: If True, then all fields that are required by the
+- `"replace"`: If True, then all fields that are required by the
   RegisterTaskWithMaintenanceWindow operation are also required for this API request.
   Optional fields that aren't specified are set to null.
-- `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
-  Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses your account's service-linked role. If no
-  service-linked role for Systems Manager exists in your account, it is created when you run
-  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in
-  the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
-  Systems Manager     Should I use a service-linked role or a custom service role to run
+- `"service_role_arn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon
+  Web Services Systems Manager to assume when running a maintenance window task. If you do
+  not specify a service role ARN, Systems Manager uses your account's service-linked role. If
+  no service-linked role for Systems Manager exists in your account, it is created when you
+  run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in
+  the in the Amazon Web Services Systems Manager User Guide:    Using service-linked roles
+  for Systems Manager     Should I use a service-linked role or a custom service role to run
   maintenance window tasks?
-- `"Targets"`: The targets (either instances or tags) to modify. Instances are specified
+- `"targets"`: The targets (either instances or tags) to modify. Instances are specified
   using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using
   the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for
   maintenance window Run Command-type tasks. Depending on the task, targets are optional for
   other maintenance window task types (Automation, Lambda, and Step Functions). For more
   information about running tasks that don't specify targets, see Registering maintenance
   window tasks without targets in the Amazon Web Services Systems Manager User Guide.
-- `"TaskArn"`: The task ARN to modify.
-- `"TaskInvocationParameters"`: The parameters that the task should use during execution.
+- `"task_arn"`: The task ARN to modify.
+- `"task_invocation_parameters"`: The parameters that the task should use during execution.
   Populate only the fields that match the task type. All other fields should be empty.  When
   you update a maintenance window task that has options specified in
   TaskInvocationParameters, you must provide again all the TaskInvocationParameters values
@@ -6203,7 +5025,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   values for Comment, NotificationConfig, and OutputS3BucketName. If you update the
   maintenance window task and specify only a different OutputS3BucketName value, the values
   for Comment and NotificationConfig are removed.
-- `"TaskParameters"`: The parameters to modify.   TaskParameters has been deprecated. To
+- `"task_parameters"`: The parameters to modify.   TaskParameters has been deprecated. To
   specify parameters to pass to a task when it runs, instead use the Parameters option in the
   TaskInvocationParameters structure. For information about how Systems Manager handles these
   options for the supported maintenance window task types, see
@@ -6212,21 +5034,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters
 """
 function update_maintenance_window_task(
-    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    WindowId, WindowTaskId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateMaintenanceWindowTask",
-        Dict{String,Any}("WindowId" => WindowId, "WindowTaskId" => WindowTaskId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_maintenance_window_task(
-    WindowId,
-    WindowTaskId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateMaintenanceWindowTask",
         Dict{String,Any}(
@@ -6242,8 +5052,7 @@ function update_maintenance_window_task(
 end
 
 """
-    update_managed_instance_role(iam_role, instance_id)
-    update_managed_instance_role(iam_role, instance_id, params::Dict{String,<:Any})
+    update_managed_instance_role(iam_role, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the Identity and Access Management (IAM) role that is assigned to the on-premises
 instance or virtual machines (VM). IAM roles are first assigned to these hybrid instances
@@ -6255,21 +5064,9 @@ during the activation process. For more information, see CreateActivation.
 
 """
 function update_managed_instance_role(
-    IamRole, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    IamRole, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateManagedInstanceRole",
-        Dict{String,Any}("IamRole" => IamRole, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_managed_instance_role(
-    IamRole,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateManagedInstanceRole",
         Dict{String,Any}(
@@ -6285,8 +5082,7 @@ function update_managed_instance_role(
 end
 
 """
-    update_ops_item(ops_item_id)
-    update_ops_item(ops_item_id, params::Dict{String,<:Any})
+    update_ops_item(ops_item_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM)
 to update an OpsItem. For more information, see Getting started with OpsCenter in the
@@ -6300,60 +5096,52 @@ User Guide.
 - `ops_item_id`: The ID of the OpsItem.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"actual_end_time"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type /aws/changerequest.
-- `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
-  OpsItem type /aws/changerequest.
-- `"Category"`: Specify a new category for an OpsItem.
-- `"Description"`: Update the information about the OpsItem. Provide enough information so
+- `"actual_start_time"`: The time a runbook workflow started. Currently reported only for
+  the OpsItem type /aws/changerequest.
+- `"category"`: Specify a new category for an OpsItem.
+- `"description"`: Update the information about the OpsItem. Provide enough information so
   that users reading this OpsItem for the first time understand the issue.
-- `"Notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
+- `"notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
   sent when this OpsItem is edited or changed.
-- `"OperationalData"`: Add new keys or edit existing key-value pairs of the OperationalData
-  map in the OpsItem object. Operational data is custom data that provides useful reference
-  details about the OpsItem. For example, you can specify log files, error strings, license
-  keys, troubleshooting tips, or other relevant data. You enter operational data as key-value
-  pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20
-  KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon,
-  /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the
-  account or you can restrict search access. Searchable data means that all users with access
-  to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view
-  and search on the specified data. Operational data that isn't searchable is only viewable
-  by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use
-  the /aws/resources key in OperationalData to specify a related resource in the request. Use
-  the /aws/automations key in OperationalData to associate an Automation runbook with the
-  OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
-  OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-- `"OperationalDataToDelete"`: Keys that you want to remove from the OperationalData map.
-- `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
-  Currently supported only for the OpsItem type /aws/changerequest.
-- `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
+- `"operational_data"`: Add new keys or edit existing key-value pairs of the
+  OperationalData map in the OpsItem object. Operational data is custom data that provides
+  useful reference details about the OpsItem. For example, you can specify log files, error
+  strings, license keys, troubleshooting tips, or other relevant data. You enter operational
+  data as key-value pairs. The key has a maximum length of 128 characters. The value has a
+  maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws,
+  amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other
+  users in the account or you can restrict search access. Searchable data means that all
+  users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API
+  operation) can view and search on the specified data. Operational data that isn't
+  searchable is only viewable by users who have access to the OpsItem (as provided by the
+  GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a
+  related resource in the request. Use the /aws/automations key in OperationalData to
+  associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example
+  commands that use these keys, see Creating OpsItems manually in the Amazon Web Services
+  Systems Manager User Guide.
+- `"operational_data_to_delete"`: Keys that you want to remove from the OperationalData map.
+- `"planned_end_time"`: The time specified in a change request for a runbook workflow to
+  end. Currently supported only for the OpsItem type /aws/changerequest.
+- `"planned_start_time"`: The time specified in a change request for a runbook workflow to
   start. Currently supported only for the OpsItem type /aws/changerequest.
-- `"Priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
-- `"RelatedOpsItems"`: One or more OpsItems that share something in common with the current
-  OpsItems. For example, related OpsItems can include OpsItems with similar error messages,
-  impacted resources, or statuses for the impacted resource.
-- `"Severity"`: Specify a new severity for an OpsItem.
-- `"Status"`: The OpsItem status. Status can be Open, In Progress, or Resolved. For more
+- `"priority"`: The importance of this OpsItem in relation to other OpsItems in the system.
+- `"related_ops_items"`: One or more OpsItems that share something in common with the
+  current OpsItems. For example, related OpsItems can include OpsItems with similar error
+  messages, impacted resources, or statuses for the impacted resource.
+- `"severity"`: Specify a new severity for an OpsItem.
+- `"status"`: The OpsItem status. Status can be Open, In Progress, or Resolved. For more
   information, see Editing OpsItem details in the Amazon Web Services Systems Manager User
   Guide.
-- `"Title"`: A short heading that describes the nature of the OpsItem and the impacted
+- `"title"`: A short heading that describes the nature of the OpsItem and the impacted
   resource.
 """
-function update_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm(
-        "UpdateOpsItem",
-        Dict{String,Any}("OpsItemId" => OpsItemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_ops_item(
-    OpsItemId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    OpsItemId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateOpsItem",
         Dict{String,Any}(
@@ -6365,8 +5153,7 @@ function update_ops_item(
 end
 
 """
-    update_ops_metadata(ops_metadata_arn)
-    update_ops_metadata(ops_metadata_arn, params::Dict{String,<:Any})
+    update_ops_metadata(ops_metadata_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in
 Application Manager.
@@ -6375,25 +5162,14 @@ Application Manager.
 - `ops_metadata_arn`: The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KeysToDelete"`: The metadata keys to delete from the OpsMetadata object.
-- `"MetadataToUpdate"`: Metadata to add to an OpsMetadata object.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"keys_to_delete"`: The metadata keys to delete from the OpsMetadata object.
+- `"metadata_to_update"`: Metadata to add to an OpsMetadata object.
 """
 function update_ops_metadata(
-    OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config()
+    OpsMetadataArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateOpsMetadata",
-        Dict{String,Any}("OpsMetadataArn" => OpsMetadataArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_ops_metadata(
-    OpsMetadataArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateOpsMetadata",
         Dict{String,Any}(
@@ -6405,8 +5181,7 @@ function update_ops_metadata(
 end
 
 """
-    update_patch_baseline(baseline_id)
-    update_patch_baseline(baseline_id, params::Dict{String,<:Any})
+    update_patch_baseline(baseline_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies an existing patch baseline. Fields not specified in the request are left
 unchanged.  For information about valid key-value pairs in PatchFilters for each supported
@@ -6416,25 +5191,25 @@ operating system type, see PatchFilter.
 - `baseline_id`: The ID of the patch baseline to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApprovalRules"`: A set of rules used to include patches in the baseline.
-- `"ApprovedPatches"`: A list of explicitly approved patches for the baseline. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"approval_rules"`: A set of rules used to include patches in the baseline.
+- `"approved_patches"`: A list of explicitly approved patches for the baseline. For
   information about accepted formats for lists of approved patches and rejected patches, see
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
-- `"ApprovedPatchesComplianceLevel"`: Assigns a new compliance severity level to an
+- `"approved_patches_compliance_level"`: Assigns a new compliance severity level to an
   existing patch baseline.
-- `"ApprovedPatchesEnableNonSecurity"`: Indicates whether the list of approved patches
+- `"approved_patches_enable_non_security"`: Indicates whether the list of approved patches
   includes non-security updates that should be applied to the instances. The default value is
   false. Applies to Linux instances only.
-- `"Description"`: A description of the patch baseline.
-- `"GlobalFilters"`: A set of global filters used to include patches in the baseline.
-- `"Name"`: The name of the patch baseline.
-- `"RejectedPatches"`: A list of explicitly rejected patches for the baseline. For
+- `"description"`: A description of the patch baseline.
+- `"global_filters"`: A set of global filters used to include patches in the baseline.
+- `"name"`: The name of the patch baseline.
+- `"rejected_patches"`: A list of explicitly rejected patches for the baseline. For
   information about accepted formats for lists of approved patches and rejected patches, see
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
-- `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
+- `"rejected_patches_action"`: The action for Patch Manager to take on patches included in
   the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
   is installed only if it is a dependency of another package. It is considered compliant with
   the patch baseline, and its status is reported as InstalledOther. This is the default
@@ -6442,27 +5217,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   packages that include them as dependencies, aren't installed under any circumstances. If a
   package was installed before it was added to the Rejected patches list, it is considered
   non-compliant with the patch baseline, and its status is reported as InstalledRejected.
-- `"Replace"`: If True, then all fields that are required by the CreatePatchBaseline
+- `"replace"`: If True, then all fields that are required by the CreatePatchBaseline
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.
-- `"Sources"`: Information about the patches to use to update the instances, including
+- `"sources"`: Information about the patches to use to update the instances, including
   target operating systems and source repositories. Applies to Linux instances only.
 """
 function update_patch_baseline(
-    BaselineId; aws_config::AbstractAWSConfig=global_aws_config()
+    BaselineId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdatePatchBaseline",
-        Dict{String,Any}("BaselineId" => BaselineId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_patch_baseline(
-    BaselineId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdatePatchBaseline",
         Dict{String,Any}(
@@ -6474,8 +5238,7 @@ function update_patch_baseline(
 end
 
 """
-    update_resource_data_sync(sync_name, sync_source, sync_type)
-    update_resource_data_sync(sync_name, sync_source, sync_type, params::Dict{String,<:Any})
+    update_resource_data_sync(sync_name, sync_source, sync_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a resource data sync. After you create a resource data sync for a Region, you can't
 change the account options for that sync. For example, if you create a sync in the
@@ -6492,24 +5255,13 @@ SyncFromSource SyncType.
 
 """
 function update_resource_data_sync(
-    SyncName, SyncSource, SyncType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm(
-        "UpdateResourceDataSync",
-        Dict{String,Any}(
-            "SyncName" => SyncName, "SyncSource" => SyncSource, "SyncType" => SyncType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resource_data_sync(
     SyncName,
     SyncSource,
-    SyncType,
-    params::AbstractDict{String};
+    SyncType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateResourceDataSync",
         Dict{String,Any}(
@@ -6529,8 +5281,7 @@ function update_resource_data_sync(
 end
 
 """
-    update_service_setting(setting_id, setting_value)
-    update_service_setting(setting_id, setting_value, params::Dict{String,<:Any})
+    update_service_setting(setting_id, setting_value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  ServiceSetting is an account-level setting for an Amazon Web Services service. This
 setting defines how a user interacts with or uses a service or a feature of a service. For
@@ -6567,21 +5318,9 @@ service setting for the account.
 
 """
 function update_service_setting(
-    SettingId, SettingValue; aws_config::AbstractAWSConfig=global_aws_config()
+    SettingId, SettingValue; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm(
-        "UpdateServiceSetting",
-        Dict{String,Any}("SettingId" => SettingId, "SettingValue" => SettingValue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_service_setting(
-    SettingId,
-    SettingValue,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm(
         "UpdateServiceSetting",
         Dict{String,Any}(

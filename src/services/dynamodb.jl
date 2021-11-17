@@ -4,32 +4,94 @@ using AWS.AWSServices: dynamodb
 using AWS.Compat
 using AWS.UUIDs
 
-"""
-    batch_execute_statement(statements)
-    batch_execute_statement(statements, params::Dict{String,<:Any})
+MAPPING = Dict(
+    "s3_prefix" => "S3Prefix",
+    "global_table_provisioned_write_capacity_units" => "GlobalTableProvisionedWriteCapacityUnits",
+    "exclusive_start_table_name" => "ExclusiveStartTableName",
+    "projection_expression" => "ProjectionExpression",
+    "global_secondary_index_override" => "GlobalSecondaryIndexOverride",
+    "client_token" => "ClientToken",
+    "local_secondary_index_override" => "LocalSecondaryIndexOverride",
+    "region_name" => "RegionName",
+    "key_condition_expression" => "KeyConditionExpression",
+    "local_secondary_indexes" => "LocalSecondaryIndexes",
+    "global_table_provisioned_write_capacity_auto_scaling_settings_update" => "GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate",
+    "ssespecification_override" => "SSESpecificationOverride",
+    "source_table_arn" => "SourceTableArn",
+    "key_conditions" => "KeyConditions",
+    "client_request_token" => "ClientRequestToken",
+    "update_expression" => "UpdateExpression",
+    "exclusive_start_key" => "ExclusiveStartKey",
+    "filter_expression" => "FilterExpression",
+    "parameters" => "Parameters",
+    "condition_expression" => "ConditionExpression",
+    "replica_settings_update" => "ReplicaSettingsUpdate",
+    "provisioned_write_capacity_auto_scaling_update" => "ProvisionedWriteCapacityAutoScalingUpdate",
+    "max_results" => "MaxResults",
+    "global_secondary_index_updates" => "GlobalSecondaryIndexUpdates",
+    "billing_mode_override" => "BillingModeOverride",
+    "use_latest_restorable_time" => "UseLatestRestorableTime",
+    "exclusive_start_backup_arn" => "ExclusiveStartBackupArn",
+    "ssespecification" => "SSESpecification",
+    "scan_filter" => "ScanFilter",
+    "expression_attribute_values" => "ExpressionAttributeValues",
+    "restore_date_time" => "RestoreDateTime",
+    "next_token" => "NextToken",
+    "s3_sse_kms_key_id" => "S3SseKmsKeyId",
+    "backup_type" => "BackupType",
+    "total_segments" => "TotalSegments",
+    "billing_mode" => "BillingMode",
+    "global_table_billing_mode" => "GlobalTableBillingMode",
+    "table_arn" => "TableArn",
+    "expected" => "Expected",
+    "stream_specification" => "StreamSpecification",
+    "export_format" => "ExportFormat",
+    "export_time" => "ExportTime",
+    "provisioned_throughput_override" => "ProvisionedThroughputOverride",
+    "global_table_global_secondary_index_settings_update" => "GlobalTableGlobalSecondaryIndexSettingsUpdate",
+    "attributes_to_get" => "AttributesToGet",
+    "return_item_collection_metrics" => "ReturnItemCollectionMetrics",
+    "replica_updates" => "ReplicaUpdates",
+    "source_table_name" => "SourceTableName",
+    "tags" => "Tags",
+    "time_range_upper_bound" => "TimeRangeUpperBound",
+    "limit" => "Limit",
+    "consistent_read" => "ConsistentRead",
+    "return_values" => "ReturnValues",
+    "scan_index_forward" => "ScanIndexForward",
+    "index_name" => "IndexName",
+    "attribute_definitions" => "AttributeDefinitions",
+    "return_consumed_capacity" => "ReturnConsumedCapacity",
+    "table_name" => "TableName",
+    "query_filter" => "QueryFilter",
+    "global_secondary_indexes" => "GlobalSecondaryIndexes",
+    "provisioned_throughput" => "ProvisionedThroughput",
+    "s3_sse_algorithm" => "S3SseAlgorithm",
+    "conditional_operator" => "ConditionalOperator",
+    "time_range_lower_bound" => "TimeRangeLowerBound",
+    "s3_bucket_owner" => "S3BucketOwner",
+    "select" => "Select",
+    "attribute_updates" => "AttributeUpdates",
+    "segment" => "Segment",
+    "expression_attribute_names" => "ExpressionAttributeNames",
+    "exclusive_start_global_table_name" => "ExclusiveStartGlobalTableName",
+)
 
- This operation allows you to perform batch reads and writes on data stored in DynamoDB,
-using PartiQL.
+"""
+    batch_execute_statement(statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+
+This operation allows you to perform batch reads or writes on data stored in DynamoDB,
+using PartiQL.  The entire batch must consist of either read statements or write
+statements, you cannot mix both in one batch.
 
 # Arguments
-- `statements`:  The list of PartiQL statements representing the batch to run.
+- `statements`: The list of PartiQL statements representing the batch to run.
 
 """
 function batch_execute_statement(
-    Statements; aws_config::AbstractAWSConfig=global_aws_config()
+    Statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "BatchExecuteStatement",
-        Dict{String,Any}("Statements" => Statements);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_execute_statement(
-    Statements,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "BatchExecuteStatement",
         Dict{String,Any}(
@@ -41,8 +103,7 @@ function batch_execute_statement(
 end
 
 """
-    batch_get_item(request_items)
-    batch_get_item(request_items, params::Dict{String,<:Any})
+    batch_get_item(request_items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The BatchGetItem operation returns the attributes of one or more items from one or more
 tables. You identify requested items by primary key. A single operation can retrieve up to
@@ -110,22 +171,13 @@ Working with Tables in the Amazon DynamoDB Developer Guide.
   information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ReturnConsumedCapacity"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"return_consumed_capacity"`:
 """
-function batch_get_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "BatchGetItem",
-        Dict{String,Any}("RequestItems" => RequestItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_item(
-    RequestItems,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    RequestItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "BatchGetItem",
         Dict{String,Any}(
@@ -137,8 +189,7 @@ function batch_get_item(
 end
 
 """
-    batch_write_item(request_items)
-    batch_write_item(request_items, params::Dict{String,<:Any})
+    batch_write_item(request_items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The BatchWriteItem operation puts or deletes multiple items in one or more tables. A single
 call to BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put
@@ -202,26 +253,17 @@ size exceeds 16 MB.
   match those of the schema in the table's attribute definition.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ReturnConsumedCapacity"`:
-- `"ReturnItemCollectionMetrics"`: Determines whether item collection metrics are returned.
-  If set to SIZE, the response includes statistics about item collections, if any, that were
-  modified during the operation are returned in the response. If set to NONE (the default),
-  no statistics are returned.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"return_consumed_capacity"`:
+- `"return_item_collection_metrics"`: Determines whether item collection metrics are
+  returned. If set to SIZE, the response includes statistics about item collections, if any,
+  that were modified during the operation are returned in the response. If set to NONE (the
+  default), no statistics are returned.
 """
-function batch_write_item(RequestItems; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "BatchWriteItem",
-        Dict{String,Any}("RequestItems" => RequestItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_write_item(
-    RequestItems,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    RequestItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "BatchWriteItem",
         Dict{String,Any}(
@@ -233,8 +275,7 @@ function batch_write_item(
 end
 
 """
-    create_backup(backup_name, table_name)
-    create_backup(backup_name, table_name, params::Dict{String,<:Any})
+    create_backup(backup_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a backup for an existing table.  Each time you create an on-demand backup, the
 entire table data is backed up. There is no limit to the number of on-demand backups that
@@ -257,21 +298,9 @@ write capacity
 
 """
 function create_backup(
-    BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupName, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "CreateBackup",
-        Dict{String,Any}("BackupName" => BackupName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_backup(
-    BackupName,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "CreateBackup",
         Dict{String,Any}(
@@ -287,8 +316,7 @@ function create_backup(
 end
 
 """
-    create_global_table(global_table_name, replication_group)
-    create_global_table(global_table_name, replication_group, params::Dict{String,<:Any})
+    create_global_table(global_table_name, replication_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a global table from an existing table. A global table creates a replication
 relationship between two or more DynamoDB tables with the same table name in the provided
@@ -316,23 +344,12 @@ write capacity units to matching secondary indexes across your global table.
 
 """
 function create_global_table(
-    GlobalTableName, ReplicationGroup; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
-        "CreateGlobalTable",
-        Dict{String,Any}(
-            "GlobalTableName" => GlobalTableName, "ReplicationGroup" => ReplicationGroup
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_global_table(
     GlobalTableName,
-    ReplicationGroup,
-    params::AbstractDict{String};
+    ReplicationGroup;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "CreateGlobalTable",
         Dict{String,Any}(
@@ -351,19 +368,19 @@ function create_global_table(
 end
 
 """
-    create_table(attribute_definitions, key_schema, table_name)
-    create_table(attribute_definitions, key_schema, table_name, params::Dict{String,<:Any})
+    create_table(attribute_definitions, key_schema, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-The CreateTable operation adds a new table to your account. In an AWS account, table names
-must be unique within each Region. That is, you can have two tables with same name if you
-create the tables in different Regions.  CreateTable is an asynchronous operation. Upon
-receiving a CreateTable request, DynamoDB immediately returns a response with a TableStatus
-of CREATING. After the table is created, DynamoDB sets the TableStatus to ACTIVE. You can
-perform read and write operations only on an ACTIVE table.  You can optionally define
-secondary indexes on the new table, as part of the CreateTable operation. If you want to
-create multiple tables with secondary indexes on them, you must create the tables
-sequentially. Only one table with secondary indexes can be in the CREATING state at any
-given time. You can use the DescribeTable action to check the table status.
+The CreateTable operation adds a new table to your account. In an Amazon Web Services
+account, table names must be unique within each Region. That is, you can have two tables
+with same name if you create the tables in different Regions.  CreateTable is an
+asynchronous operation. Upon receiving a CreateTable request, DynamoDB immediately returns
+a response with a TableStatus of CREATING. After the table is created, DynamoDB sets the
+TableStatus to ACTIVE. You can perform read and write operations only on an ACTIVE table.
+You can optionally define secondary indexes on the new table, as part of the CreateTable
+operation. If you want to create multiple tables with secondary indexes on them, you must
+create the tables sequentially. Only one table with secondary indexes can be in the
+CREATING state at any given time. You can use the DescribeTable action to check the table
+status.
 
 # Arguments
 - `attribute_definitions`: An array of attributes that describe the key schema for the
@@ -387,13 +404,13 @@ given time. You can use the DescribeTable action to check the table status.
 - `table_name`: The name of the table to create.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BillingMode"`: Controls how you are charged for read and write throughput and how you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"billing_mode"`: Controls how you are charged for read and write throughput and how you
   manage capacity. This setting can be changed later.    PROVISIONED - We recommend using
   PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned
   Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
   PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
-- `"GlobalSecondaryIndexes"`: One or more global secondary indexes (the maximum is 20) to
+- `"global_secondary_indexes"`: One or more global secondary indexes (the maximum is 20) to
   be created on the table. Each global secondary index in the array includes the following:
    IndexName - The name of the global secondary index. Must be unique only for this table.
    KeySchema - Specifies the key schema for the global secondary index.    Projection -
@@ -410,7 +427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributes when determining the total.      ProvisionedThroughput - The provisioned
   throughput settings for the global secondary index, consisting of read and write capacity
   units.
-- `"LocalSecondaryIndexes"`: One or more local secondary indexes (the maximum is 5) to be
+- `"local_secondary_indexes"`: One or more local secondary indexes (the maximum is 5) to be
   created on the table. Each index is scoped to a given partition key value. There is a 10 GB
   size limit per partition key value; otherwise, the size of a local secondary index is
   unconstrained. Each local secondary index in the array includes the following:    IndexName
@@ -428,14 +445,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across all of the secondary indexes, must not exceed 100. If you project the same attribute
   into two different indexes, this counts as two distinct attributes when determining the
   total.
-- `"ProvisionedThroughput"`: Represents the provisioned throughput settings for a specified
-  table or index. The settings can be modified using the UpdateTable operation.  If you set
-  BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as
-  PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum
+- `"provisioned_throughput"`: Represents the provisioned throughput settings for a
+  specified table or index. The settings can be modified using the UpdateTable operation.  If
+  you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode
+  as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum
   provisioned throughput values, see Service, Account, and Table Quotas in the Amazon
   DynamoDB Developer Guide.
-- `"SSESpecification"`: Represents the settings used to enable server-side encryption.
-- `"StreamSpecification"`: The settings for DynamoDB Streams on the table. These settings
+- `"ssespecification"`: Represents the settings used to enable server-side encryption.
+- `"stream_specification"`: The settings for DynamoDB Streams on the table. These settings
   consist of:    StreamEnabled - Indicates whether DynamoDB Streams is to be enabled (true)
   or disabled (false).    StreamViewType - When an item in the table is modified,
   StreamViewType determines what information is written to the table's stream. Valid values
@@ -444,7 +461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was
   modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item
   images of the item are written to the stream.
-- `"Tags"`: A list of key-value pairs to label the table. For more information, see Tagging
+- `"tags"`: A list of key-value pairs to label the table. For more information, see Tagging
   for DynamoDB.
 """
 function create_table(
@@ -452,25 +469,9 @@ function create_table(
     KeySchema,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return dynamodb(
-        "CreateTable",
-        Dict{String,Any}(
-            "AttributeDefinitions" => AttributeDefinitions,
-            "KeySchema" => KeySchema,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_table(
-    AttributeDefinitions,
-    KeySchema,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "CreateTable",
         Dict{String,Any}(
@@ -490,8 +491,7 @@ function create_table(
 end
 
 """
-    delete_backup(backup_arn)
-    delete_backup(backup_arn, params::Dict{String,<:Any})
+    delete_backup(backup_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing backup of a table. You can call DeleteBackup at a maximum rate of 10
 times per second.
@@ -500,19 +500,10 @@ times per second.
 - `backup_arn`: The ARN associated with the backup.
 
 """
-function delete_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteBackup",
-        Dict{String,Any}("BackupArn" => BackupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_backup(
-    BackupArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    BackupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DeleteBackup",
         Dict{String,Any}(
@@ -524,8 +515,7 @@ function delete_backup(
 end
 
 """
-    delete_item(key, table_name)
-    delete_item(key, table_name, params::Dict{String,<:Any})
+    delete_item(key, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a single item in a table by primary key. You can perform a conditional delete
 operation that deletes the item if it exists, or if it has an expected attribute value. In
@@ -545,19 +535,19 @@ Otherwise, the item is not deleted.
 - `table_name`: The name of the table from which to delete the item.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionExpression"`: A condition that must be satisfied in order for a conditional
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"condition_expression"`: A condition that must be satisfied in order for a conditional
   DeleteItem to succeed. An expression can contain any of the following:   Functions:
   attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size
   These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt;
   | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more
   information about condition expressions, see Condition Expressions in the Amazon DynamoDB
   Developer Guide.
-- `"ConditionalOperator"`: This is a legacy parameter. Use ConditionExpression instead. For
-  more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-- `"Expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
+- `"conditional_operator"`: This is a legacy parameter. Use ConditionExpression instead.
+  For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+- `"expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
   information, see Expected in the Amazon DynamoDB Developer Guide.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -572,7 +562,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information on expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ExpressionAttributeValues"`: One or more values that can be substituted in an
+- `"expression_attribute_values"`: One or more values that can be substituted in an
   expression. Use the : (colon) character in an expression to dereference an attribute value.
   For example, suppose that you wanted to check whether the value of the ProductStatus
   attribute was one of the following:   Available | Backordered | Discontinued  You would
@@ -581,32 +571,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \":disc\":{\"S\":\"Discontinued\"} }  You could then use these values in an expression,
   such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression
   attribute values, see Condition Expressions in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
-- `"ReturnItemCollectionMetrics"`: Determines whether item collection metrics are returned.
-  If set to SIZE, the response includes statistics about item collections, if any, that were
-  modified during the operation are returned in the response. If set to NONE (the default),
-  no statistics are returned.
-- `"ReturnValues"`: Use ReturnValues if you want to get the item attributes as they
+- `"return_consumed_capacity"`:
+- `"return_item_collection_metrics"`: Determines whether item collection metrics are
+  returned. If set to SIZE, the response includes statistics about item collections, if any,
+  that were modified during the operation are returned in the response. If set to NONE (the
+  default), no statistics are returned.
+- `"return_values"`: Use ReturnValues if you want to get the item attributes as they
   appeared before they were deleted. For DeleteItem, the valid values are:    NONE - If
   ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This
   setting is the default for ReturnValues.)    ALL_OLD - The content of the old item is
   returned.    The ReturnValues parameter is used by several DynamoDB operations; however,
   DeleteItem does not recognize any values other than NONE or ALL_OLD.
 """
-function delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_item(
-    Key,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DeleteItem",
         Dict{String,Any}(
@@ -620,8 +600,7 @@ function delete_item(
 end
 
 """
-    delete_table(table_name)
-    delete_table(table_name, params::Dict{String,<:Any})
+    delete_table(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The DeleteTable operation deletes a table and all of its items. After a DeleteTable
 request, the specified table is in the DELETING state until DynamoDB completes the
@@ -639,19 +618,10 @@ on that table goes into the DISABLED state, and the stream is automatically dele
 - `table_name`: The name of the table to delete.
 
 """
-function delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DeleteTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_table(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DeleteTable",
         Dict{String,Any}(
@@ -663,8 +633,7 @@ function delete_table(
 end
 
 """
-    describe_backup(backup_arn)
-    describe_backup(backup_arn, params::Dict{String,<:Any})
+    describe_backup(backup_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an existing backup of a table. You can call DescribeBackup at a maximum rate of
 10 times per second.
@@ -673,19 +642,10 @@ Describes an existing backup of a table. You can call DescribeBackup at a maximu
 - `backup_arn`: The Amazon Resource Name (ARN) associated with the backup.
 
 """
-function describe_backup(BackupArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeBackup",
-        Dict{String,Any}("BackupArn" => BackupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_backup(
-    BackupArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    BackupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeBackup",
         Dict{String,Any}(
@@ -697,8 +657,7 @@ function describe_backup(
 end
 
 """
-    describe_continuous_backups(table_name)
-    describe_continuous_backups(table_name, params::Dict{String,<:Any})
+    describe_continuous_backups(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Checks the status of continuous backups and point in time recovery on the specified table.
 Continuous backups are ENABLED on all tables at table creation. If point in time recovery
@@ -715,20 +674,9 @@ time during the last 35 days.  You can call DescribeContinuousBackups at a maxim
 
 """
 function describe_continuous_backups(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeContinuousBackups",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_continuous_backups(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeContinuousBackups",
         Dict{String,Any}(
@@ -740,8 +688,7 @@ function describe_continuous_backups(
 end
 
 """
-    describe_contributor_insights(table_name)
-    describe_contributor_insights(table_name, params::Dict{String,<:Any})
+    describe_contributor_insights(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about contributor insights, for a given table or global secondary index.
 
@@ -749,24 +696,13 @@ Returns information about contributor insights, for a given table or global seco
 - `table_name`: The name of the table to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IndexName"`: The name of the global secondary index to describe, if applicable.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"index_name"`: The name of the global secondary index to describe, if applicable.
 """
 function describe_contributor_insights(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeContributorInsights",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_contributor_insights(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeContributorInsights",
         Dict{String,Any}(
@@ -778,28 +714,20 @@ function describe_contributor_insights(
 end
 
 """
-    describe_endpoints()
-    describe_endpoints(params::Dict{String,<:Any})
+    describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the regional endpoint information.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_export(export_arn)
-    describe_export(export_arn, params::Dict{String,<:Any})
+    describe_export(export_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an existing table export.
 
@@ -807,19 +735,10 @@ Describes an existing table export.
 - `export_arn`: The Amazon Resource Name (ARN) associated with the export.
 
 """
-function describe_export(ExportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeExport",
-        Dict{String,Any}("ExportArn" => ExportArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_export(
-    ExportArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ExportArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeExport",
         Dict{String,Any}(
@@ -831,8 +750,7 @@ function describe_export(
 end
 
 """
-    describe_global_table(global_table_name)
-    describe_global_table(global_table_name, params::Dict{String,<:Any})
+    describe_global_table(global_table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the specified global table.  This operation only applies to
 Version 2017.11.29 of global tables. If you are using global tables Version 2019.11.21 you
@@ -843,20 +761,9 @@ can use DescribeTable instead.
 
 """
 function describe_global_table(
-    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeGlobalTable",
-        Dict{String,Any}("GlobalTableName" => GlobalTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_global_table(
-    GlobalTableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeGlobalTable",
         Dict{String,Any}(
@@ -870,8 +777,7 @@ function describe_global_table(
 end
 
 """
-    describe_global_table_settings(global_table_name)
-    describe_global_table_settings(global_table_name, params::Dict{String,<:Any})
+    describe_global_table_settings(global_table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes Region-specific settings for a global table.  This operation only applies to
 Version 2017.11.29 of global tables.
@@ -881,20 +787,9 @@ Version 2017.11.29 of global tables.
 
 """
 function describe_global_table_settings(
-    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeGlobalTableSettings",
-        Dict{String,Any}("GlobalTableName" => GlobalTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_global_table_settings(
-    GlobalTableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeGlobalTableSettings",
         Dict{String,Any}(
@@ -908,8 +803,7 @@ function describe_global_table_settings(
 end
 
 """
-    describe_kinesis_streaming_destination(table_name)
-    describe_kinesis_streaming_destination(table_name, params::Dict{String,<:Any})
+    describe_kinesis_streaming_destination(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the status of Kinesis streaming.
 
@@ -918,20 +812,9 @@ Returns information about the status of Kinesis streaming.
 
 """
 function describe_kinesis_streaming_destination(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeKinesisStreamingDestination",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_kinesis_streaming_destination(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeKinesisStreamingDestination",
         Dict{String,Any}(
@@ -943,57 +826,49 @@ function describe_kinesis_streaming_destination(
 end
 
 """
-    describe_limits()
-    describe_limits(params::Dict{String,<:Any})
+    describe_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Returns the current provisioned-capacity quotas for your AWS account in a Region, both for
-the Region as a whole and for any one DynamoDB table that you create there. When you
-establish an AWS account, the account has initial quotas on the maximum read capacity units
-and write capacity units that you can provision across all of your DynamoDB tables in a
-given Region. Also, there are per-table quotas that apply when you create a table there.
-For more information, see Service, Account, and Table Quotas page in the Amazon DynamoDB
-Developer Guide. Although you can increase these quotas by filing a case at AWS Support
-Center, obtaining the increase is not instantaneous. The DescribeLimits action lets you
-write code to compare the capacity you are currently using to those quotas imposed by your
-account so that you have enough time to apply for an increase before you hit a quota. For
-example, you could use one of the AWS SDKs to do the following:   Call DescribeLimits for a
-particular Region to obtain your current account quotas on provisioned capacity there.
-Create a variable to hold the aggregate read capacity units provisioned for all your tables
-in that Region, and one to hold the aggregate write capacity units. Zero them both.   Call
-ListTables to obtain a list of all your DynamoDB tables.   For each table name listed by
-ListTables, do the following:   Call DescribeTable with the table name.   Use the data
-returned by DescribeTable to add the read capacity units and write capacity units
-provisioned for the table itself to your variables.   If the table has one or more global
-secondary indexes (GSIs), loop over these GSIs and add their provisioned capacity values to
-your variables as well.     Report the account quotas for that Region returned by
-DescribeLimits, along with the total current provisioned capacity levels you have
-calculated.   This will let you see whether you are getting close to your account-level
-quotas. The per-table quotas apply only when you are creating a new table. They restrict
-the sum of the provisioned capacity of the new table itself and all its global secondary
-indexes. For existing tables and their GSIs, DynamoDB doesn't let you increase provisioned
-capacity extremely rapidly, but the only quota that applies is that the aggregate
-provisioned capacity over all your tables and GSIs cannot exceed either of the per-account
-quotas.   DescribeLimits should only be called periodically. You can expect throttling
-errors if you call it more than once in a minute.  The DescribeLimits Request element has
-no content.
+Returns the current provisioned-capacity quotas for your Amazon Web Services account in a
+Region, both for the Region as a whole and for any one DynamoDB table that you create
+there. When you establish an Amazon Web Services account, the account has initial quotas on
+the maximum read capacity units and write capacity units that you can provision across all
+of your DynamoDB tables in a given Region. Also, there are per-table quotas that apply when
+you create a table there. For more information, see Service, Account, and Table Quotas page
+in the Amazon DynamoDB Developer Guide. Although you can increase these quotas by filing a
+case at Amazon Web Services Support Center, obtaining the increase is not instantaneous.
+The DescribeLimits action lets you write code to compare the capacity you are currently
+using to those quotas imposed by your account so that you have enough time to apply for an
+increase before you hit a quota. For example, you could use one of the Amazon Web Services
+SDKs to do the following:   Call DescribeLimits for a particular Region to obtain your
+current account quotas on provisioned capacity there.   Create a variable to hold the
+aggregate read capacity units provisioned for all your tables in that Region, and one to
+hold the aggregate write capacity units. Zero them both.   Call ListTables to obtain a list
+of all your DynamoDB tables.   For each table name listed by ListTables, do the following:
+ Call DescribeTable with the table name.   Use the data returned by DescribeTable to add
+the read capacity units and write capacity units provisioned for the table itself to your
+variables.   If the table has one or more global secondary indexes (GSIs), loop over these
+GSIs and add their provisioned capacity values to your variables as well.     Report the
+account quotas for that Region returned by DescribeLimits, along with the total current
+provisioned capacity levels you have calculated.   This will let you see whether you are
+getting close to your account-level quotas. The per-table quotas apply only when you are
+creating a new table. They restrict the sum of the provisioned capacity of the new table
+itself and all its global secondary indexes. For existing tables and their GSIs, DynamoDB
+doesn't let you increase provisioned capacity extremely rapidly, but the only quota that
+applies is that the aggregate provisioned capacity over all your tables and GSIs cannot
+exceed either of the per-account quotas.   DescribeLimits should only be called
+periodically. You can expect throttling errors if you call it more than once in a minute.
+The DescribeLimits Request element has no content.
 
 """
-function describe_limits(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeLimits"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_limits(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_limits(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeLimits", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_table(table_name)
-    describe_table(table_name, params::Dict{String,<:Any})
+    describe_table(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the table, including the current status of the table, when it was
 created, the primary key schema, and any indexes on the table.  If you issue a
@@ -1006,19 +881,10 @@ few seconds, and then try the DescribeTable request again.
 - `table_name`: The name of the table to describe.
 
 """
-function describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_table(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeTable",
         Dict{String,Any}(
@@ -1030,8 +896,7 @@ function describe_table(
 end
 
 """
-    describe_table_replica_auto_scaling(table_name)
-    describe_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
+    describe_table_replica_auto_scaling(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes auto scaling settings across replicas of the global table at once.  This
 operation only applies to Version 2019.11.21 of global tables.
@@ -1041,20 +906,9 @@ operation only applies to Version 2019.11.21 of global tables.
 
 """
 function describe_table_replica_auto_scaling(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DescribeTableReplicaAutoScaling",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_table_replica_auto_scaling(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeTableReplicaAutoScaling",
         Dict{String,Any}(
@@ -1066,8 +920,7 @@ function describe_table_replica_auto_scaling(
 end
 
 """
-    describe_time_to_live(table_name)
-    describe_time_to_live(table_name, params::Dict{String,<:Any})
+    describe_time_to_live(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gives a description of the Time to Live (TTL) status on the specified table.
 
@@ -1075,19 +928,10 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 - `table_name`: The name of the table to be described.
 
 """
-function describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "DescribeTimeToLive",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_time_to_live(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DescribeTimeToLive",
         Dict{String,Any}(
@@ -1099,8 +943,7 @@ function describe_time_to_live(
 end
 
 """
-    disable_kinesis_streaming_destination(stream_arn, table_name)
-    disable_kinesis_streaming_destination(stream_arn, table_name, params::Dict{String,<:Any})
+    disable_kinesis_streaming_destination(stream_arn, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops replication from the DynamoDB table to the Kinesis data stream. This is done without
 deleting either of the resources.
@@ -1111,21 +954,9 @@ deleting either of the resources.
 
 """
 function disable_kinesis_streaming_destination(
-    StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "DisableKinesisStreamingDestination",
-        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_kinesis_streaming_destination(
-    StreamArn,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "DisableKinesisStreamingDestination",
         Dict{String,Any}(
@@ -1141,8 +972,7 @@ function disable_kinesis_streaming_destination(
 end
 
 """
-    enable_kinesis_streaming_destination(stream_arn, table_name)
-    enable_kinesis_streaming_destination(stream_arn, table_name, params::Dict{String,<:Any})
+    enable_kinesis_streaming_destination(stream_arn, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts table data replication to the specified Kinesis data stream at a timestamp chosen
 during the enable workflow. If this operation doesn't return results immediately, use
@@ -1155,21 +985,9 @@ ACTIVE.
 
 """
 function enable_kinesis_streaming_destination(
-    StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "EnableKinesisStreamingDestination",
-        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_kinesis_streaming_destination(
-    StreamArn,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "EnableKinesisStreamingDestination",
         Dict{String,Any}(
@@ -1185,36 +1003,26 @@ function enable_kinesis_streaming_destination(
 end
 
 """
-    execute_statement(statement)
-    execute_statement(statement, params::Dict{String,<:Any})
+    execute_statement(statement; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
- This operation allows you to perform reads and singleton writes on data stored in
-DynamoDB, using PartiQL.
+This operation allows you to perform reads and singleton writes on data stored in DynamoDB,
+using PartiQL.
 
 # Arguments
-- `statement`:  The PartiQL statement representing the operation to run.
+- `statement`: The PartiQL statement representing the operation to run.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsistentRead"`:  The consistency of a read operation. If set to true, then a strongly
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"consistent_read"`: The consistency of a read operation. If set to true, then a strongly
   consistent read is used; otherwise, an eventually consistent read is used.
-- `"NextToken"`:  Set this value to get remaining results, if NextToken was returned in the
+- `"next_token"`: Set this value to get remaining results, if NextToken was returned in the
   statement response.
-- `"Parameters"`:  The parameters for the PartiQL statement, if any.
+- `"parameters"`: The parameters for the PartiQL statement, if any.
 """
-function execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ExecuteStatement",
-        Dict{String,Any}("Statement" => Statement);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function execute_statement(
-    Statement,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Statement; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ExecuteStatement",
         Dict{String,Any}(
@@ -1226,39 +1034,26 @@ function execute_statement(
 end
 
 """
-    execute_transaction(transact_statements)
-    execute_transaction(transact_statements, params::Dict{String,<:Any})
+    execute_transaction(transact_statements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
- This operation allows you to perform transactional reads or writes on data stored in
-DynamoDB, using PartiQL.
+This operation allows you to perform transactional reads or writes on data stored in
+DynamoDB, using PartiQL.  The entire transaction must consist of either read statements or
+write statements, you cannot mix both in one transaction. The EXISTS function is an
+exception and can be used to check the condition of specific attributes of the item in a
+similar manner to ConditionCheck in the TransactWriteItems API.
 
 # Arguments
-- `transact_statements`:  The list of PartiQL statements representing the transaction to
-  run.
+- `transact_statements`: The list of PartiQL statements representing the transaction to run.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`:  Set this value to get remaining results, if NextToken was
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Set this value to get remaining results, if NextToken was
   returned in the statement response.
 """
 function execute_transaction(
-    TransactStatements; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactStatements; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "ExecuteTransaction",
-        Dict{String,Any}(
-            "TransactStatements" => TransactStatements,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function execute_transaction(
-    TransactStatements,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ExecuteTransaction",
         Dict{String,Any}(
@@ -1266,7 +1061,7 @@ function execute_transaction(
                 _merge,
                 Dict{String,Any}(
                     "TransactStatements" => TransactStatements,
-                    "ClientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1277,8 +1072,7 @@ function execute_transaction(
 end
 
 """
-    export_table_to_point_in_time(s3_bucket, table_arn)
-    export_table_to_point_in_time(s3_bucket, table_arn, params::Dict{String,<:Any})
+    export_table_to_point_in_time(s3_bucket, table_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports table data to an S3 bucket. The table must have point in time recovery enabled, and
 you can export data from any time within the point in time recovery window.
@@ -1288,8 +1082,8 @@ you can export data from any time within the point in time recovery window.
 - `table_arn`: The Amazon Resource Name (ARN) associated with the table to export.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Providing a ClientToken makes the call to ExportTableToPointInTimeInput
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Providing a ClientToken makes the call to ExportTableToPointInTimeInput
   idempotent, meaning that multiple identical calls have the same effect as one single call.
   A client token is valid for 8 hours after the first request that uses it is completed.
   After 8 hours, any request with the same client token is treated as a new request. Do not
@@ -1297,38 +1091,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might not be idempotent. If you submit a request with the same client token but a change in
   other parameters within the 8-hour idempotency window, DynamoDB returns an
   IdempotentParameterMismatch exception.
-- `"ExportFormat"`: The format for the exported data. Valid values for ExportFormat are
+- `"export_format"`: The format for the exported data. Valid values for ExportFormat are
   DYNAMODB_JSON or ION.
-- `"ExportTime"`: Time in the past from which to export table data. The table export will
+- `"export_time"`: Time in the past from which to export table data. The table export will
   be a snapshot of the table's state at this point in time.
-- `"S3BucketOwner"`: The ID of the AWS account that owns the bucket the export will be
-  stored in.
-- `"S3Prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
+- `"s3_bucket_owner"`: The ID of the Amazon Web Services account that owns the bucket the
+  export will be stored in.
+- `"s3_prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
   exported snapshot.
-- `"S3SseAlgorithm"`: Type of encryption used on the bucket where export data will be
+- `"s3_sse_algorithm"`: Type of encryption used on the bucket where export data will be
   stored. Valid values for S3SseAlgorithm are:    AES256 - server-side encryption with Amazon
-  S3 managed keys    KMS - server-side encryption with AWS KMS managed keys
-- `"S3SseKmsKeyId"`: The ID of the AWS KMS managed key used to encrypt the S3 bucket where
+  S3 managed keys    KMS - server-side encryption with KMS managed keys
+- `"s3_sse_kms_key_id"`: The ID of the KMS managed key used to encrypt the S3 bucket where
   export data will be stored (if applicable).
 """
 function export_table_to_point_in_time(
-    S3Bucket, TableArn; aws_config::AbstractAWSConfig=global_aws_config()
+    S3Bucket, TableArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "ExportTableToPointInTime",
-        Dict{String,Any}(
-            "S3Bucket" => S3Bucket, "TableArn" => TableArn, "ClientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_table_to_point_in_time(
-    S3Bucket,
-    TableArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ExportTableToPointInTime",
         Dict{String,Any}(
@@ -1337,7 +1117,7 @@ function export_table_to_point_in_time(
                 Dict{String,Any}(
                     "S3Bucket" => S3Bucket,
                     "TableArn" => TableArn,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1348,8 +1128,7 @@ function export_table_to_point_in_time(
 end
 
 """
-    get_item(key, table_name)
-    get_item(key, table_name, params::Dict{String,<:Any})
+    get_item(key, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The GetItem operation returns a set of attributes for the item with the given primary key.
 If there is no matching item, GetItem does not return any data and there will be no Item
@@ -1367,13 +1146,13 @@ always returns the last updated value.
 - `table_name`: The name of the table containing the requested item.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributesToGet"`: This is a legacy parameter. Use ProjectionExpression instead. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes_to_get"`: This is a legacy parameter. Use ProjectionExpression instead. For
   more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
-- `"ConsistentRead"`: Determines the read consistency model: If set to true, then the
+- `"consistent_read"`: Determines the read consistency model: If set to true, then the
   operation uses strongly consistent reads; otherwise, the operation uses eventually
   consistent reads.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -1388,28 +1167,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information on expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ProjectionExpression"`: A string that identifies one or more attributes to retrieve
+- `"projection_expression"`: A string that identifies one or more attributes to retrieve
   from the table. These attributes can include scalars, sets, or elements of a JSON document.
   The attributes in the expression must be separated by commas. If no attribute names are
   specified, then all attributes are returned. If any of the requested attributes are not
   found, they do not appear in the result. For more information, see Specifying Item
   Attributes in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
+- `"return_consumed_capacity"`:
 """
-function get_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "GetItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_item(
-    Key,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "GetItem",
         Dict{String,Any}(
@@ -1423,65 +1192,55 @@ function get_item(
 end
 
 """
-    list_backups()
-    list_backups(params::Dict{String,<:Any})
+    list_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-List backups associated with an AWS account. To list backups for a given table, specify
-TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items
-in a page. You can also specify a maximum number of entries to be returned in a page.  In
-the request, start time is inclusive, but end time is exclusive. Note that these boundaries
-are for the time at which the original backup was requested. You can call ListBackups a
-maximum of five times per second.
+List backups associated with an Amazon Web Services account. To list backups for a given
+table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB
+worth of items in a page. You can also specify a maximum number of entries to be returned
+in a page. In the request, start time is inclusive, but end time is exclusive. Note that
+these boundaries are for the time at which the original backup was requested. You can call
+ListBackups a maximum of five times per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BackupType"`: The backups from the table specified by BackupType are listed. Where
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"backup_type"`: The backups from the table specified by BackupType are listed. Where
   BackupType can be:    USER - On-demand backup created by you.    SYSTEM - On-demand backup
   automatically created by DynamoDB.    ALL - All types of on-demand backups (USER and
   SYSTEM).
-- `"ExclusiveStartBackupArn"`:  LastEvaluatedBackupArn is the Amazon Resource Name (ARN) of
-  the backup last evaluated when the current page of results was returned, inclusive of the
-  current page of results. This value may be specified as the ExclusiveStartBackupArn of a
-  new ListBackups operation in order to fetch the next page of results.
-- `"Limit"`: Maximum number of backups to return at once.
-- `"TableName"`: The backups from the table specified by TableName are listed.
-- `"TimeRangeLowerBound"`: Only backups created after this time are listed.
+- `"exclusive_start_backup_arn"`:  LastEvaluatedBackupArn is the Amazon Resource Name (ARN)
+  of the backup last evaluated when the current page of results was returned, inclusive of
+  the current page of results. This value may be specified as the ExclusiveStartBackupArn of
+  a new ListBackups operation in order to fetch the next page of results.
+- `"limit"`: Maximum number of backups to return at once.
+- `"table_name"`: The backups from the table specified by TableName are listed.
+- `"time_range_lower_bound"`: Only backups created after this time are listed.
   TimeRangeLowerBound is inclusive.
-- `"TimeRangeUpperBound"`: Only backups created before this time are listed.
+- `"time_range_upper_bound"`: Only backups created before this time are listed.
   TimeRangeUpperBound is exclusive.
 """
-function list_backups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_backups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_backups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListBackups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_contributor_insights()
-    list_contributor_insights(params::Dict{String,<:Any})
+    list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of ContributorInsightsSummary for a table and all its global secondary
 indexes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Maximum number of results to return per page.
-- `"NextToken"`: A token to for the desired page, if there is one.
-- `"TableName"`: The name of the table.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of results to return per page.
+- `"next_token"`: A token to for the desired page, if there is one.
+- `"table_name"`: The name of the table.
 """
-function list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ListContributorInsights"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_contributor_insights(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_contributor_insights(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListContributorInsights",
         params;
@@ -1491,90 +1250,72 @@ function list_contributor_insights(
 end
 
 """
-    list_exports()
-    list_exports(params::Dict{String,<:Any})
+    list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists completed exports within the past 90 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Maximum number of results to return per page.
-- `"NextToken"`: An optional string that, if supplied, must be copied from the output of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of results to return per page.
+- `"next_token"`: An optional string that, if supplied, must be copied from the output of a
   previous call to ListExports. When provided in this manner, the API fetches the next page
   of results.
-- `"TableArn"`: The Amazon Resource Name (ARN) associated with the exported table.
+- `"table_arn"`: The Amazon Resource Name (ARN) associated with the exported table.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_exports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListExports", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_global_tables()
-    list_global_tables(params::Dict{String,<:Any})
+    list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all global tables that have a replica in the specified Region.  This operation only
 applies to Version 2017.11.29 of global tables.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartGlobalTableName"`: The first global table name that this operation will
-  evaluate.
-- `"Limit"`: The maximum number of table names to return, if the parameter is not specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_global_table_name"`: The first global table name that this operation
+  will evaluate.
+- `"limit"`: The maximum number of table names to return, if the parameter is not specified
   DynamoDB defaults to 100. If the number of global tables DynamoDB finds reaches this limit,
   it stops the operation and returns the table names collected up to that point, with a table
   name in the LastEvaluatedGlobalTableName to apply in a subsequent operation to the
   ExclusiveStartGlobalTableName parameter.
-- `"RegionName"`: Lists the global tables in a specific Region.
+- `"region_name"`: Lists the global tables in a specific Region.
 """
-function list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "ListGlobalTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_global_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_global_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListGlobalTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tables()
-    list_tables(params::Dict{String,<:Any})
+    list_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of table names associated with the current account and endpoint. The
 output from ListTables is paginated, with each page returning a maximum of 100 table names.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveStartTableName"`: The first table name that this operation will evaluate. Use
-  the value that was returned for LastEvaluatedTableName in a previous operation, so that you
-  can obtain the next page of results.
-- `"Limit"`: A maximum number of table names to return. If this parameter is not specified,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_start_table_name"`: The first table name that this operation will evaluate.
+  Use the value that was returned for LastEvaluatedTableName in a previous operation, so that
+  you can obtain the next page of results.
+- `"limit"`: A maximum number of table names to return. If this parameter is not specified,
   the limit is 100.
 """
-function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb("ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_tables(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_of_resource(resource_arn)
-    list_tags_of_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_of_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all tags on an Amazon DynamoDB resource. You can call ListTagsOfResource up to 10
 times per second, per account. For an overview on tagging DynamoDB resources, see Tagging
@@ -1585,26 +1326,15 @@ for DynamoDB in the Amazon DynamoDB Developer Guide.
   Amazon Resource Name (ARN).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: An optional string that, if supplied, must be copied from the output of a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: An optional string that, if supplied, must be copied from the output of a
   previous call to ListTagOfResource. When provided in this manner, this API fetches the next
   page of results.
 """
 function list_tags_of_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "ListTagsOfResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_of_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "ListTagsOfResource",
         Dict{String,Any}(
@@ -1616,8 +1346,7 @@ function list_tags_of_resource(
 end
 
 """
-    put_item(item, table_name)
-    put_item(item, table_name, params::Dict{String,<:Any})
+    put_item(item, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new item, or replaces an old item with a new item. If an item that has the same
 primary key as the new item already exists in the specified table, the new item completely
@@ -1625,22 +1354,22 @@ replaces the existing item. You can perform a conditional put operation (add a n
 one with the specified primary key doesn't exist), or replace an existing item if it has
 certain attribute values. You can return the item's attribute values in the same operation,
 using the ReturnValues parameter.  This topic provides general information about the
-PutItem API. For information on how to call the PutItem API using the AWS SDK in specific
-languages, see the following:     PutItem in the AWS Command Line Interface      PutItem in
-the AWS SDK for .NET      PutItem in the AWS SDK for C++      PutItem in the AWS SDK for Go
-     PutItem in the AWS SDK for Java      PutItem in the AWS SDK for JavaScript
-PutItem in the AWS SDK for PHP V3      PutItem in the AWS SDK for Python      PutItem in
-the AWS SDK for Ruby V2     When you add an item, the primary key attributes are the only
-required attributes. Attribute values cannot be null. Empty String and Binary attribute
-values are allowed. Attribute values of type String and Binary must have a length greater
-than zero if the attribute is used as a key attribute for a table or index. Set type
-attributes cannot be empty.  Invalid Requests with empty values will be rejected with a
-ValidationException exception.  To prevent a new item from replacing an existing item, use
-a conditional expression that contains the attribute_not_exists function with the name of
-the attribute being used as the partition key for the table. Since every record must
-contain that attribute, the attribute_not_exists function will only succeed if no matching
-item exists.  For more information about PutItem, see Working with Items in the Amazon
-DynamoDB Developer Guide.
+PutItem API. For information on how to call the PutItem API using the Amazon Web Services
+SDK in specific languages, see the following:     PutItem in the Command Line Interface
+ PutItem in the SDK for .NET      PutItem in the SDK for C++      PutItem in the SDK for Go
+     PutItem in the SDK for Java      PutItem in the SDK for JavaScript      PutItem in the
+SDK for PHP V3      PutItem in the SDK for Python (Boto)      PutItem in the SDK for Ruby
+V2     When you add an item, the primary key attributes are the only required attributes.
+Attribute values cannot be null. Empty String and Binary attribute values are allowed.
+Attribute values of type String and Binary must have a length greater than zero if the
+attribute is used as a key attribute for a table or index. Set type attributes cannot be
+empty.  Invalid Requests with empty values will be rejected with a ValidationException
+exception.  To prevent a new item from replacing an existing item, use a conditional
+expression that contains the attribute_not_exists function with the name of the attribute
+being used as the partition key for the table. Since every record must contain that
+attribute, the attribute_not_exists function will only succeed if no matching item exists.
+For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer
+Guide.
 
 # Arguments
 - `item`: A map of attribute name/value pairs, one for each attribute. Only the primary key
@@ -1657,19 +1386,19 @@ DynamoDB Developer Guide.
 - `table_name`: The name of the table to contain the item.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConditionExpression"`: A condition that must be satisfied in order for a conditional
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"condition_expression"`: A condition that must be satisfied in order for a conditional
   PutItem operation to succeed. An expression can contain any of the following:   Functions:
   attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size
   These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt;
   | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more
   information on condition expressions, see Condition Expressions in the Amazon DynamoDB
   Developer Guide.
-- `"ConditionalOperator"`: This is a legacy parameter. Use ConditionExpression instead. For
-  more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-- `"Expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
+- `"conditional_operator"`: This is a legacy parameter. Use ConditionExpression instead.
+  For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+- `"expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
   information, see Expected in the Amazon DynamoDB Developer Guide.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -1684,7 +1413,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information on expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ExpressionAttributeValues"`: One or more values that can be substituted in an
+- `"expression_attribute_values"`: One or more values that can be substituted in an
   expression. Use the : (colon) character in an expression to dereference an attribute value.
   For example, suppose that you wanted to check whether the value of the ProductStatus
   attribute was one of the following:   Available | Backordered | Discontinued  You would
@@ -1693,33 +1422,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \":disc\":{\"S\":\"Discontinued\"} }  You could then use these values in an expression,
   such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression
   attribute values, see Condition Expressions in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
-- `"ReturnItemCollectionMetrics"`: Determines whether item collection metrics are returned.
-  If set to SIZE, the response includes statistics about item collections, if any, that were
-  modified during the operation are returned in the response. If set to NONE (the default),
-  no statistics are returned.
-- `"ReturnValues"`: Use ReturnValues if you want to get the item attributes as they
+- `"return_consumed_capacity"`:
+- `"return_item_collection_metrics"`: Determines whether item collection metrics are
+  returned. If set to SIZE, the response includes statistics about item collections, if any,
+  that were modified during the operation are returned in the response. If set to NONE (the
+  default), no statistics are returned.
+- `"return_values"`: Use ReturnValues if you want to get the item attributes as they
   appeared before they were updated with the PutItem request. For PutItem, the valid values
   are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is
   returned. (This setting is the default for ReturnValues.)    ALL_OLD - If PutItem overwrote
-  an attribute name-value pair, then the content of the old item is returned.    The
-  ReturnValues parameter is used by several DynamoDB operations; however, PutItem does not
-  recognize any values other than NONE or ALL_OLD.
+  an attribute name-value pair, then the content of the old item is returned.   The values
+  returned are strongly consistent.  The ReturnValues parameter is used by several DynamoDB
+  operations; however, PutItem does not recognize any values other than NONE or ALL_OLD.
 """
-function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "PutItem",
-        Dict{String,Any}("Item" => Item, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_item(
-    Item,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Item, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "PutItem",
         Dict{String,Any}(
@@ -1733,60 +1452,61 @@ function put_item(
 end
 
 """
-    query(table_name)
-    query(table_name, params::Dict{String,<:Any})
+    query(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-The Query operation finds items based on primary key values. You can query any table or
-secondary index that has a composite primary key (a partition key and a sort key).  Use the
-KeyConditionExpression parameter to provide a specific value for the partition key. The
-Query operation will return all of the items from the table or index with that partition
-key value. You can optionally narrow the scope of the Query operation by specifying a sort
-key value and a comparison operator in KeyConditionExpression. To further refine the Query
-results, you can optionally provide a FilterExpression. A FilterExpression determines which
-items within the results should be returned to you. All of the other results are discarded.
-  A Query operation always returns a result set. If no matching items are found, the result
-set will be empty. Queries that do not return results consume the minimum number of read
-capacity units for that type of read operation.    DynamoDB calculates the number of read
-capacity units consumed based on item size, not on the amount of data that is returned to
-an application. The number of capacity units consumed will be the same whether you request
-all of the attributes (the default behavior) or just some of them (using a projection
-expression). The number will also be the same whether or not you use a FilterExpression.
-Query results are always sorted by the sort key value. If the data type of the sort key is
-Number, the results are returned in numeric order; otherwise, the results are returned in
-order of UTF-8 bytes. By default, the sort order is ascending. To reverse the order, set
-the ScanIndexForward parameter to false.   A single Query operation will read up to the
-maximum number of items set (if using the Limit parameter) or a maximum of 1 MB of data and
-then apply any filtering to the results using FilterExpression. If LastEvaluatedKey is
-present in the response, you will need to paginate the result set. For more information,
-see Paginating the Results in the Amazon DynamoDB Developer Guide.   FilterExpression is
-applied after a Query finishes, but before the results are returned. A FilterExpression
-cannot contain partition key or sort key attributes. You need to specify those attributes
-in the KeyConditionExpression.    A Query operation can return an empty result set and a
-LastEvaluatedKey if all the items read for the page of results are filtered out.   You can
-query a table, a local secondary index, or a global secondary index. For a query on a table
-or on a local secondary index, you can set the ConsistentRead parameter to true and obtain
-a strongly consistent result. Global secondary indexes support eventually consistent reads
-only, so do not specify ConsistentRead when querying a global secondary index.
+You must provide the name of the partition key attribute and a single value for that
+attribute. Query returns all items with that partition key value. Optionally, you can
+provide a sort key attribute and use a comparison operator to refine the search results.
+Use the KeyConditionExpression parameter to provide a specific value for the partition key.
+The Query operation will return all of the items from the table or index with that
+partition key value. You can optionally narrow the scope of the Query operation by
+specifying a sort key value and a comparison operator in KeyConditionExpression. To further
+refine the Query results, you can optionally provide a FilterExpression. A FilterExpression
+determines which items within the results should be returned to you. All of the other
+results are discarded.   A Query operation always returns a result set. If no matching
+items are found, the result set will be empty. Queries that do not return results consume
+the minimum number of read capacity units for that type of read operation.    DynamoDB
+calculates the number of read capacity units consumed based on item size, not on the amount
+of data that is returned to an application. The number of capacity units consumed will be
+the same whether you request all of the attributes (the default behavior) or just some of
+them (using a projection expression). The number will also be the same whether or not you
+use a FilterExpression.    Query results are always sorted by the sort key value. If the
+data type of the sort key is Number, the results are returned in numeric order; otherwise,
+the results are returned in order of UTF-8 bytes. By default, the sort order is ascending.
+To reverse the order, set the ScanIndexForward parameter to false.   A single Query
+operation will read up to the maximum number of items set (if using the Limit parameter) or
+a maximum of 1 MB of data and then apply any filtering to the results using
+FilterExpression. If LastEvaluatedKey is present in the response, you will need to paginate
+the result set. For more information, see Paginating the Results in the Amazon DynamoDB
+Developer Guide.   FilterExpression is applied after a Query finishes, but before the
+results are returned. A FilterExpression cannot contain partition key or sort key
+attributes. You need to specify those attributes in the KeyConditionExpression.    A Query
+operation can return an empty result set and a LastEvaluatedKey if all the items read for
+the page of results are filtered out.   You can query a table, a local secondary index, or
+a global secondary index. For a query on a table or on a local secondary index, you can set
+the ConsistentRead parameter to true and obtain a strongly consistent result. Global
+secondary indexes support eventually consistent reads only, so do not specify
+ConsistentRead when querying a global secondary index.
 
 # Arguments
 - `table_name`: The name of the table containing the requested items.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributesToGet"`: This is a legacy parameter. Use ProjectionExpression instead. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes_to_get"`: This is a legacy parameter. Use ProjectionExpression instead. For
   more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
-- `"ConditionalOperator"`: This is a legacy parameter. Use FilterExpression instead. For
+- `"conditional_operator"`: This is a legacy parameter. Use FilterExpression instead. For
   more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-- `"ConsistentRead"`: Determines the read consistency model: If set to true, then the
+- `"consistent_read"`: Determines the read consistency model: If set to true, then the
   operation uses strongly consistent reads; otherwise, the operation uses eventually
   consistent reads. Strongly consistent reads are not supported on global secondary indexes.
   If you query a global secondary index with ConsistentRead set to true, you will receive a
   ValidationException.
-- `"ExclusiveStartKey"`: The primary key of the first item that this operation will
+- `"exclusive_start_key"`: The primary key of the first item that this operation will
   evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
   The data type for ExclusiveStartKey must be String, Number, or Binary. No set data types
   are allowed.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -1801,7 +1521,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information on expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ExpressionAttributeValues"`: One or more values that can be substituted in an
+- `"expression_attribute_values"`: One or more values that can be substituted in an
   expression. Use the : (colon) character in an expression to dereference an attribute value.
   For example, suppose that you wanted to check whether the value of the ProductStatus
   attribute was one of the following:   Available | Backordered | Discontinued  You would
@@ -1810,17 +1530,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \":disc\":{\"S\":\"Discontinued\"} }  You could then use these values in an expression,
   such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression
   attribute values, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
-- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the
+- `"filter_expression"`: A string that contains conditions that DynamoDB applies after the
   Query operation, but before the data is returned to you. Items that do not satisfy the
   FilterExpression criteria are not returned. A FilterExpression does not allow key
   attributes. You cannot define a filter expression based on a partition key or a sort key.
   A FilterExpression is applied after the items have already been read; the process of
   filtering does not consume any additional read capacity units.  For more information, see
   Filter Expressions in the Amazon DynamoDB Developer Guide.
-- `"IndexName"`: The name of an index to query. This index can be any local secondary index
-  or global secondary index on the table. Note that if you use the IndexName parameter, you
-  must also provide TableName.
-- `"KeyConditionExpression"`: The condition that specifies the key values for items to be
+- `"index_name"`: The name of an index to query. This index can be any local secondary
+  index or global secondary index on the table. Note that if you use the IndexName parameter,
+  you must also provide TableName.
+- `"key_condition_expression"`: The condition that specifies the key values for items to be
   retrieved by the Query action. The condition must perform an equality test on a single
   partition key value. The condition can optionally perform one of several comparison tests
   on a single sort key value. This allows Query to retrieve one item with a given partition
@@ -1851,9 +1571,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Reserved Words in the Amazon DynamoDB Developer Guide. For more information on
   ExpressionAttributeNames and ExpressionAttributeValues, see Using Placeholders for
   Attribute Names and Values in the Amazon DynamoDB Developer Guide.
-- `"KeyConditions"`: This is a legacy parameter. Use KeyConditionExpression instead. For
+- `"key_conditions"`: This is a legacy parameter. Use KeyConditionExpression instead. For
   more information, see KeyConditions in the Amazon DynamoDB Developer Guide.
-- `"Limit"`: The maximum number of items to evaluate (not necessarily the number of
+- `"limit"`: The maximum number of items to evaluate (not necessarily the number of
   matching items). If DynamoDB processes the number of items up to the limit while processing
   the results, it stops the operation and returns the matching values up to that point, and a
   key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where
@@ -1861,16 +1581,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limit, it stops the operation and returns the matching values up to the limit, and a key in
   LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more
   information, see Query and Scan in the Amazon DynamoDB Developer Guide.
-- `"ProjectionExpression"`: A string that identifies one or more attributes to retrieve
+- `"projection_expression"`: A string that identifies one or more attributes to retrieve
   from the table. These attributes can include scalars, sets, or elements of a JSON document.
   The attributes in the expression must be separated by commas. If no attribute names are
   specified, then all attributes will be returned. If any of the requested attributes are not
   found, they will not appear in the result. For more information, see Accessing Item
   Attributes in the Amazon DynamoDB Developer Guide.
-- `"QueryFilter"`: This is a legacy parameter. Use FilterExpression instead. For more
+- `"query_filter"`: This is a legacy parameter. Use FilterExpression instead. For more
   information, see QueryFilter in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
-- `"ScanIndexForward"`: Specifies the order for index traversal: If true (default), the
+- `"return_consumed_capacity"`:
+- `"scan_index_forward"`: Specifies the order for index traversal: If true (default), the
   traversal is performed in ascending order; if false, the traversal is performed in
   descending order.  Items with the same partition key value are stored in sorted order by
   sort key. If the sort key data type is Number, the results are stored in numeric order. For
@@ -1879,7 +1599,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns the results in the order in which they are stored (by sort key value). This is the
   default behavior. If ScanIndexForward is false, DynamoDB reads the results in reverse order
   by sort key value, and then returns the results to the client.
-- `"Select"`: The attributes to be returned in the result. You can retrieve all item
+- `"select"`: The attributes to be returned in the result. You can retrieve all item
   attributes, specific item attributes, the count of matching items, or in the case of an
   index, some or all of the attributes projected into the index.    ALL_ATTRIBUTES - Returns
   all of the item attributes from the specified table or index. If you query a local
@@ -1906,19 +1626,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for Select.)  If you use the ProjectionExpression parameter, then the value for
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
 """
-function query(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "Query",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function query(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "Query",
         Dict{String,Any}(
@@ -1930,8 +1639,7 @@ function query(
 end
 
 """
-    restore_table_from_backup(backup_arn, target_table_name)
-    restore_table_from_backup(backup_arn, target_table_name, params::Dict{String,<:Any})
+    restore_table_from_backup(backup_arn, target_table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new table from an existing backup. Any number of users can execute up to 4
 concurrent restores (any type of restore) in a given account.  You can call
@@ -1944,34 +1652,23 @@ CloudWatch metrics and alarms   Tags   Stream settings   Time to Live (TTL) sett
 - `target_table_name`: The name of the new table to which the backup must be restored.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BillingModeOverride"`: The billing mode of the restored table.
-- `"GlobalSecondaryIndexOverride"`: List of global secondary indexes for the restored
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"billing_mode_override"`: The billing mode of the restored table.
+- `"global_secondary_index_override"`: List of global secondary indexes for the restored
   table. The indexes provided should match existing secondary indexes. You can choose to
   exclude some or all of the indexes at the time of restore.
-- `"LocalSecondaryIndexOverride"`: List of local secondary indexes for the restored table.
-  The indexes provided should match existing secondary indexes. You can choose to exclude
-  some or all of the indexes at the time of restore.
-- `"ProvisionedThroughputOverride"`: Provisioned throughput settings for the restored table.
-- `"SSESpecificationOverride"`: The new server-side encryption settings for the restored
+- `"local_secondary_index_override"`: List of local secondary indexes for the restored
+  table. The indexes provided should match existing secondary indexes. You can choose to
+  exclude some or all of the indexes at the time of restore.
+- `"provisioned_throughput_override"`: Provisioned throughput settings for the restored
+  table.
+- `"ssespecification_override"`: The new server-side encryption settings for the restored
   table.
 """
 function restore_table_from_backup(
-    BackupArn, TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()
+    BackupArn, TargetTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "RestoreTableFromBackup",
-        Dict{String,Any}("BackupArn" => BackupArn, "TargetTableName" => TargetTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function restore_table_from_backup(
-    BackupArn,
-    TargetTableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "RestoreTableFromBackup",
         Dict{String,Any}(
@@ -1989,8 +1686,7 @@ function restore_table_from_backup(
 end
 
 """
-    restore_table_to_point_in_time(target_table_name)
-    restore_table_to_point_in_time(target_table_name, params::Dict{String,<:Any})
+    restore_table_to_point_in_time(target_table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Restores the specified table to the specified point in time within
 EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any
@@ -2009,39 +1705,29 @@ settings   Time to Live (TTL) settings   Point in time recovery settings
 - `target_table_name`: The name of the new table to which it must be restored to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BillingModeOverride"`: The billing mode of the restored table.
-- `"GlobalSecondaryIndexOverride"`: List of global secondary indexes for the restored
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"billing_mode_override"`: The billing mode of the restored table.
+- `"global_secondary_index_override"`: List of global secondary indexes for the restored
   table. The indexes provided should match existing secondary indexes. You can choose to
   exclude some or all of the indexes at the time of restore.
-- `"LocalSecondaryIndexOverride"`: List of local secondary indexes for the restored table.
-  The indexes provided should match existing secondary indexes. You can choose to exclude
-  some or all of the indexes at the time of restore.
-- `"ProvisionedThroughputOverride"`: Provisioned throughput settings for the restored table.
-- `"RestoreDateTime"`: Time in the past to restore the table to.
-- `"SSESpecificationOverride"`: The new server-side encryption settings for the restored
+- `"local_secondary_index_override"`: List of local secondary indexes for the restored
+  table. The indexes provided should match existing secondary indexes. You can choose to
+  exclude some or all of the indexes at the time of restore.
+- `"provisioned_throughput_override"`: Provisioned throughput settings for the restored
   table.
-- `"SourceTableArn"`: The DynamoDB table that will be restored. This value is an Amazon
+- `"restore_date_time"`: Time in the past to restore the table to.
+- `"source_table_arn"`: The DynamoDB table that will be restored. This value is an Amazon
   Resource Name (ARN).
-- `"SourceTableName"`: Name of the source table that is being restored.
-- `"UseLatestRestorableTime"`: Restore the table to the latest possible time.
+- `"source_table_name"`: Name of the source table that is being restored.
+- `"ssespecification_override"`: The new server-side encryption settings for the restored
+  table.
+- `"use_latest_restorable_time"`: Restore the table to the latest possible time.
   LatestRestorableDateTime is typically 5 minutes before the current time.
 """
 function restore_table_to_point_in_time(
-    TargetTableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "RestoreTableToPointInTime",
-        Dict{String,Any}("TargetTableName" => TargetTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function restore_table_to_point_in_time(
-    TargetTableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "RestoreTableToPointInTime",
         Dict{String,Any}(
@@ -2055,8 +1741,7 @@ function restore_table_to_point_in_time(
 end
 
 """
-    scan(table_name)
-    scan(table_name, params::Dict{String,<:Any})
+    scan(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The Scan operation returns one or more items and item attributes by accessing every item in
 a table or a secondary index. To have DynamoDB return fewer items, you can provide a
@@ -2082,25 +1767,25 @@ ConsistentRead parameter to true.
   IndexName, the name of the table to which that index belongs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributesToGet"`: This is a legacy parameter. Use ProjectionExpression instead. For
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attributes_to_get"`: This is a legacy parameter. Use ProjectionExpression instead. For
   more information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
-- `"ConditionalOperator"`: This is a legacy parameter. Use FilterExpression instead. For
+- `"conditional_operator"`: This is a legacy parameter. Use FilterExpression instead. For
   more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-- `"ConsistentRead"`: A Boolean value that determines the read consistency model during the
-  scan:   If ConsistentRead is false, then the data returned from Scan might not contain the
-  results from other recently completed write operations (PutItem, UpdateItem, or
+- `"consistent_read"`: A Boolean value that determines the read consistency model during
+  the scan:   If ConsistentRead is false, then the data returned from Scan might not contain
+  the results from other recently completed write operations (PutItem, UpdateItem, or
   DeleteItem).   If ConsistentRead is true, then all of the write operations that completed
   before the Scan began are guaranteed to be contained in the Scan response.   The default
   setting for ConsistentRead is false. The ConsistentRead parameter is not supported on
   global secondary indexes. If you scan a global secondary index with ConsistentRead set to
   true, you will receive a ValidationException.
-- `"ExclusiveStartKey"`: The primary key of the first item that this operation will
+- `"exclusive_start_key"`: The primary key of the first item that this operation will
   evaluate. Use the value that was returned for LastEvaluatedKey in the previous operation.
   The data type for ExclusiveStartKey must be String, Number or Binary. No set data types are
   allowed. In a parallel scan, a Scan request that includes ExclusiveStartKey must specify
   the same segment whose previous Scan returned the corresponding value of LastEvaluatedKey.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -2115,7 +1800,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information on expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ExpressionAttributeValues"`: One or more values that can be substituted in an
+- `"expression_attribute_values"`: One or more values that can be substituted in an
   expression. Use the : (colon) character in an expression to dereference an attribute value.
   For example, suppose that you wanted to check whether the value of the ProductStatus
   attribute was one of the following:   Available | Backordered | Discontinued  You would
@@ -2124,16 +1809,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \":disc\":{\"S\":\"Discontinued\"} }  You could then use these values in an expression,
   such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression
   attribute values, see Condition Expressions in the Amazon DynamoDB Developer Guide.
-- `"FilterExpression"`: A string that contains conditions that DynamoDB applies after the
+- `"filter_expression"`: A string that contains conditions that DynamoDB applies after the
   Scan operation, but before the data is returned to you. Items that do not satisfy the
   FilterExpression criteria are not returned.  A FilterExpression is applied after the items
   have already been read; the process of filtering does not consume any additional read
   capacity units.  For more information, see Filter Expressions in the Amazon DynamoDB
   Developer Guide.
-- `"IndexName"`: The name of a secondary index to scan. This index can be any local
+- `"index_name"`: The name of a secondary index to scan. This index can be any local
   secondary index or global secondary index. Note that if you use the IndexName parameter,
   you must also provide TableName.
-- `"Limit"`: The maximum number of items to evaluate (not necessarily the number of
+- `"limit"`: The maximum number of items to evaluate (not necessarily the number of
   matching items). If DynamoDB processes the number of items up to the limit while processing
   the results, it stops the operation and returns the matching values up to that point, and a
   key in LastEvaluatedKey to apply in a subsequent operation, so that you can pick up where
@@ -2141,16 +1826,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   limit, it stops the operation and returns the matching values up to the limit, and a key in
   LastEvaluatedKey to apply in a subsequent operation to continue the operation. For more
   information, see Working with Queries in the Amazon DynamoDB Developer Guide.
-- `"ProjectionExpression"`: A string that identifies one or more attributes to retrieve
+- `"projection_expression"`: A string that identifies one or more attributes to retrieve
   from the specified table or index. These attributes can include scalars, sets, or elements
   of a JSON document. The attributes in the expression must be separated by commas. If no
   attribute names are specified, then all attributes will be returned. If any of the
   requested attributes are not found, they will not appear in the result. For more
   information, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
-- `"ScanFilter"`: This is a legacy parameter. Use FilterExpression instead. For more
+- `"return_consumed_capacity"`:
+- `"scan_filter"`: This is a legacy parameter. Use FilterExpression instead. For more
   information, see ScanFilter in the Amazon DynamoDB Developer Guide.
-- `"Segment"`: For a parallel Scan request, Segment identifies an individual segment to be
+- `"segment"`: For a parallel Scan request, Segment identifies an individual segment to be
   scanned by an application worker. Segment IDs are zero-based, so the first segment is
   always 0. For example, if you want to use four application threads to scan a table or an
   index, then the first thread specifies a Segment value of 0, the second thread specifies 1,
@@ -2158,7 +1843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   as ExclusiveStartKey with the same segment ID in a subsequent Scan operation. The value for
   Segment must be greater than or equal to 0, and less than the value provided for
   TotalSegments. If you provide Segment, you must also provide TotalSegments.
-- `"Select"`: The attributes to be returned in the result. You can retrieve all item
+- `"select"`: The attributes to be returned in the result. You can retrieve all item
   attributes, specific item attributes, the count of matching items, or in the case of an
   index, some or all of the attributes projected into the index.    ALL_ATTRIBUTES - Returns
   all of the item attributes from the specified table or index. If you query a local
@@ -2184,28 +1869,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying AttributesToGet without any
   value for Select.)  If you use the ProjectionExpression parameter, then the value for
   Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
-- `"TotalSegments"`: For a parallel Scan request, TotalSegments represents the total number
-  of segments into which the Scan operation will be divided. The value of TotalSegments
-  corresponds to the number of application workers that will perform the parallel scan. For
-  example, if you want to use four application threads to scan a table or an index, specify a
-  TotalSegments value of 4. The value for TotalSegments must be greater than or equal to 1,
-  and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan
-  operation will be sequential rather than parallel. If you specify TotalSegments, you must
-  also specify Segment.
+- `"total_segments"`: For a parallel Scan request, TotalSegments represents the total
+  number of segments into which the Scan operation will be divided. The value of
+  TotalSegments corresponds to the number of application workers that will perform the
+  parallel scan. For example, if you want to use four application threads to scan a table or
+  an index, specify a TotalSegments value of 4. The value for TotalSegments must be greater
+  than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value
+  of 1, the Scan operation will be sequential rather than parallel. If you specify
+  TotalSegments, you must also specify Segment.
 """
-function scan(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "Scan",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function scan(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function scan(TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "Scan",
         Dict{String,Any}(
@@ -2217,8 +1891,7 @@ function scan(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associate a set of tags with an Amazon DynamoDB resource. You can then activate these
 user-defined tags so that they appear on the Billing and Cost Management console for cost
@@ -2232,20 +1905,10 @@ DynamoDB Developer Guide.
 - `tags`: The tags to be assigned to the Amazon DynamoDB resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "TagResource",
         Dict{String,Any}(
@@ -2261,46 +1924,34 @@ function tag_resource(
 end
 
 """
-    transact_get_items(transact_items)
-    transact_get_items(transact_items, params::Dict{String,<:Any})
+    transact_get_items(transact_items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  TransactGetItems is a synchronous operation that atomically retrieves multiple items from
 one or more tables (but not from indexes) in a single account and Region. A
 TransactGetItems call can contain up to 25 TransactGetItem objects, each of which contains
 a Get structure that specifies an item to retrieve from a table in the account and Region.
-A call to TransactGetItems cannot retrieve items from tables in more than one AWS account
-or Region. The aggregate size of the items in the transaction cannot exceed 4 MB. DynamoDB
-rejects the entire TransactGetItems request if any of the following is true:   A
-conflicting operation is in the process of updating an item to be read.   There is
-insufficient provisioned capacity for the transaction to be completed.   There is a user
-error, such as an invalid data format.   The aggregate size of the items in the transaction
-cannot exceed 4 MB.
+A call to TransactGetItems cannot retrieve items from tables in more than one Amazon Web
+Services account or Region. The aggregate size of the items in the transaction cannot
+exceed 4 MB. DynamoDB rejects the entire TransactGetItems request if any of the following
+is true:   A conflicting operation is in the process of updating an item to be read.
+There is insufficient provisioned capacity for the transaction to be completed.   There is
+a user error, such as an invalid data format.   The aggregate size of the items in the
+transaction cannot exceed 4 MB.
 
 # Arguments
 - `transact_items`: An ordered array of up to 25 TransactGetItem objects, each of which
   contains a Get structure.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ReturnConsumedCapacity"`: A value of TOTAL causes consumed capacity information to be
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"return_consumed_capacity"`: A value of TOTAL causes consumed capacity information to be
   returned, and a value of NONE prevents that information from being returned. No other value
   is valid.
 """
 function transact_get_items(
-    TransactItems; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "TransactGetItems",
-        Dict{String,Any}("TransactItems" => TransactItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function transact_get_items(
-    TransactItems,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "TransactGetItems",
         Dict{String,Any}(
@@ -2312,29 +1963,28 @@ function transact_get_items(
 end
 
 """
-    transact_write_items(transact_items)
-    transact_write_items(transact_items, params::Dict{String,<:Any})
+    transact_write_items(transact_items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  TransactWriteItems is a synchronous write operation that groups up to 25 action requests.
-These actions can target items in different tables, but not in different AWS accounts or
-Regions, and no two actions can target the same item. For example, you cannot both
-ConditionCheck and Update the same item. The aggregate size of the items in the transaction
-cannot exceed 4 MB. The actions are completed atomically so that either all of them
-succeed, or all of them fail. They are defined by the following objects:    Put  &#x97;
-Initiates a PutItem operation to write a new item. This structure specifies the primary key
-of the item to be written, the name of the table to write it in, an optional condition
+These actions can target items in different tables, but not in different Amazon Web
+Services accounts or Regions, and no two actions can target the same item. For example, you
+cannot both ConditionCheck and Update the same item. The aggregate size of the items in the
+transaction cannot exceed 4 MB. The actions are completed atomically so that either all of
+them succeed, or all of them fail. They are defined by the following objects:    Put  —
+  Initiates a PutItem operation to write a new item. This structure specifies the primary
+key of the item to be written, the name of the table to write it in, an optional condition
 expression that must be satisfied for the write to succeed, a list of the item's
 attributes, and a field indicating whether to retrieve the item's attributes if the
-condition is not met.    Update  &#x97;   Initiates an UpdateItem operation to update an
+condition is not met.    Update  —   Initiates an UpdateItem operation to update an
 existing item. This structure specifies the primary key of the item to be updated, the name
 of the table where it resides, an optional condition expression that must be satisfied for
 the update to succeed, an expression that defines one or more attributes to be updated, and
 a field indicating whether to retrieve the item's attributes if the condition is not met.
- Delete  &#x97;   Initiates a DeleteItem operation to delete an existing item. This
+ Delete  —   Initiates a DeleteItem operation to delete an existing item. This
 structure specifies the primary key of the item to be deleted, the name of the table where
 it resides, an optional condition expression that must be satisfied for the deletion to
 succeed, and a field indicating whether to retrieve the item's attributes if the condition
-is not met.    ConditionCheck  &#x97;   Applies a condition to an item that is not being
+is not met.    ConditionCheck  —   Applies a condition to an item that is not being
 modified by the transaction. This structure specifies the primary key of the item to be
 checked, the name of the table where it resides, a condition expression that must be
 satisfied for the transaction to succeed, and a field indicating whether to retrieve the
@@ -2350,12 +2000,12 @@ is a user error, such as an invalid data format.
 # Arguments
 - `transact_items`: An ordered array of up to 25 TransactWriteItem objects, each of which
   contains a ConditionCheck, Put, Update, or Delete object. These can operate on items in
-  different tables, but the tables must reside in the same AWS account and Region, and no two
-  of them can operate on the same item.
+  different tables, but the tables must reside in the same Amazon Web Services account and
+  Region, and no two of them can operate on the same item.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Providing a ClientRequestToken makes the call to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Providing a ClientRequestToken makes the call to
   TransactWriteItems idempotent, meaning that multiple identical calls have the same effect
   as one single call. Although multiple identical calls using the same client request token
   produce the same result on the server (no side effects), the responses to the calls might
@@ -2368,29 +2018,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the same client token for more than 10 minutes, or the result might not be idempotent.
   If you submit a request with the same client token but a change in other parameters within
   the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
-- `"ReturnConsumedCapacity"`:
-- `"ReturnItemCollectionMetrics"`: Determines whether item collection metrics are returned.
-  If set to SIZE, the response includes statistics about item collections (if any), that were
-  modified during the operation and are returned in the response. If set to NONE (the
-  default), no statistics are returned.
+- `"return_consumed_capacity"`:
+- `"return_item_collection_metrics"`: Determines whether item collection metrics are
+  returned. If set to SIZE, the response includes statistics about item collections (if any),
+  that were modified during the operation and are returned in the response. If set to NONE
+  (the default), no statistics are returned.
 """
 function transact_write_items(
-    TransactItems; aws_config::AbstractAWSConfig=global_aws_config()
+    TransactItems; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "TransactWriteItems",
-        Dict{String,Any}(
-            "TransactItems" => TransactItems, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function transact_write_items(
-    TransactItems,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "TransactWriteItems",
         Dict{String,Any}(
@@ -2398,7 +2035,7 @@ function transact_write_items(
                 _merge,
                 Dict{String,Any}(
                     "TransactItems" => TransactItems,
-                    "ClientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -2409,8 +2046,7 @@ function transact_write_items(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association of tags from an Amazon DynamoDB resource. You can call
 UntagResource up to five times per second, per account.  For an overview on tagging
@@ -2424,21 +2060,9 @@ DynamoDB resources, see Tagging for DynamoDB in the Amazon DynamoDB Developer Gu
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UntagResource",
         Dict{String,Any}(
@@ -2454,8 +2078,7 @@ function untag_resource(
 end
 
 """
-    update_continuous_backups(point_in_time_recovery_specification, table_name)
-    update_continuous_backups(point_in_time_recovery_specification, table_name, params::Dict{String,<:Any})
+    update_continuous_backups(point_in_time_recovery_specification, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  UpdateContinuousBackups enables or disables point in time recovery for the specified
 table. A successful UpdateContinuousBackups call returns the current
@@ -2476,23 +2099,9 @@ function update_continuous_backups(
     PointInTimeRecoverySpecification,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return dynamodb(
-        "UpdateContinuousBackups",
-        Dict{String,Any}(
-            "PointInTimeRecoverySpecification" => PointInTimeRecoverySpecification,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_continuous_backups(
-    PointInTimeRecoverySpecification,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateContinuousBackups",
         Dict{String,Any}(
@@ -2511,38 +2120,30 @@ function update_continuous_backups(
 end
 
 """
-    update_contributor_insights(contributor_insights_action, table_name)
-    update_contributor_insights(contributor_insights_action, table_name, params::Dict{String,<:Any})
+    update_contributor_insights(contributor_insights_action, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Updates the status for contributor insights for a specific table or index.
+Updates the status for contributor insights for a specific table or index. CloudWatch
+Contributor Insights for DynamoDB graphs display the partition key and (if applicable) sort
+key of frequently accessed items and frequently throttled items in plaintext. If you
+require the use of AWS Key Management Service (KMS) to encrypt this table’s partition key
+and sort key data with an AWS managed key or customer managed key, you should not enable
+CloudWatch Contributor Insights for DynamoDB for this table.
 
 # Arguments
 - `contributor_insights_action`: Represents the contributor insights action.
 - `table_name`: The name of the table.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IndexName"`: The global secondary index name, if applicable.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"index_name"`: The global secondary index name, if applicable.
 """
 function update_contributor_insights(
-    ContributorInsightsAction, TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
-        "UpdateContributorInsights",
-        Dict{String,Any}(
-            "ContributorInsightsAction" => ContributorInsightsAction,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_contributor_insights(
     ContributorInsightsAction,
-    TableName,
-    params::AbstractDict{String};
+    TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateContributorInsights",
         Dict{String,Any}(
@@ -2561,8 +2162,7 @@ function update_contributor_insights(
 end
 
 """
-    update_global_table(global_table_name, replica_updates)
-    update_global_table(global_table_name, replica_updates, params::Dict{String,<:Any})
+    update_global_table(global_table_name, replica_updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or removes replicas in the specified global table. The global table must already exist
 to be able to use this operation. Any replica to be added must be empty, have the same name
@@ -2582,23 +2182,12 @@ provisioned and maximum write capacity units.
 
 """
 function update_global_table(
-    GlobalTableName, ReplicaUpdates; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
-        "UpdateGlobalTable",
-        Dict{String,Any}(
-            "GlobalTableName" => GlobalTableName, "ReplicaUpdates" => ReplicaUpdates
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_global_table(
     GlobalTableName,
-    ReplicaUpdates,
-    params::AbstractDict{String};
+    ReplicaUpdates;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateGlobalTable",
         Dict{String,Any}(
@@ -2616,8 +2205,7 @@ function update_global_table(
 end
 
 """
-    update_global_table_settings(global_table_name)
-    update_global_table_settings(global_table_name, params::Dict{String,<:Any})
+    update_global_table_settings(global_table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates settings for a global table.
 
@@ -2625,37 +2213,26 @@ Updates settings for a global table.
 - `global_table_name`: The name of the global table
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalTableBillingMode"`: The billing mode of the global table. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_table_billing_mode"`: The billing mode of the global table. If
   GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity
   billing mode.    PROVISIONED - We recommend using PROVISIONED for predictable workloads.
   PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend
   using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to
   On-Demand Mode.
-- `"GlobalTableGlobalSecondaryIndexSettingsUpdate"`: Represents the settings of a global
-  secondary index for a global table that will be modified.
-- `"GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"`: Auto scaling settings
-  for managing provisioned write capacity for the global table.
-- `"GlobalTableProvisionedWriteCapacityUnits"`: The maximum number of writes consumed per
-  second before DynamoDB returns a ThrottlingException.
-- `"ReplicaSettingsUpdate"`: Represents the settings for a global table in a Region that
+- `"global_table_global_secondary_index_settings_update"`: Represents the settings of a
+  global secondary index for a global table that will be modified.
+- `"global_table_provisioned_write_capacity_auto_scaling_settings_update"`: Auto scaling
+  settings for managing provisioned write capacity for the global table.
+- `"global_table_provisioned_write_capacity_units"`: The maximum number of writes consumed
+  per second before DynamoDB returns a ThrottlingException.
+- `"replica_settings_update"`: Represents the settings for a global table in a Region that
   will be modified.
 """
 function update_global_table_settings(
-    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config()
+    GlobalTableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "UpdateGlobalTableSettings",
-        Dict{String,Any}("GlobalTableName" => GlobalTableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_global_table_settings(
-    GlobalTableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateGlobalTableSettings",
         Dict{String,Any}(
@@ -2669,8 +2246,7 @@ function update_global_table_settings(
 end
 
 """
-    update_item(key, table_name)
-    update_item(key, table_name, params::Dict{String,<:Any})
+    update_item(key, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Edits an existing item's attributes, or adds a new item to the table if it does not already
 exist. You can put, delete, or add attribute values. You can also perform a conditional
@@ -2688,21 +2264,21 @@ ReturnValues parameter.
 - `table_name`: The name of the table containing the item to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributeUpdates"`: This is a legacy parameter. Use UpdateExpression instead. For more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attribute_updates"`: This is a legacy parameter. Use UpdateExpression instead. For more
   information, see AttributeUpdates in the Amazon DynamoDB Developer Guide.
-- `"ConditionExpression"`: A condition that must be satisfied in order for a conditional
+- `"condition_expression"`: A condition that must be satisfied in order for a conditional
   update to succeed. An expression can contain any of the following:   Functions:
   attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size
   These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt;
   | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more
   information about condition expressions, see Specifying Conditions in the Amazon DynamoDB
   Developer Guide.
-- `"ConditionalOperator"`: This is a legacy parameter. Use ConditionExpression instead. For
-  more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
-- `"Expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
+- `"conditional_operator"`: This is a legacy parameter. Use ConditionExpression instead.
+  For more information, see ConditionalOperator in the Amazon DynamoDB Developer Guide.
+- `"expected"`: This is a legacy parameter. Use ConditionExpression instead. For more
   information, see Expected in the Amazon DynamoDB Developer Guide.
-- `"ExpressionAttributeNames"`: One or more substitution tokens for attribute names in an
+- `"expression_attribute_names"`: One or more substitution tokens for attribute names in an
   expression. The following are some use cases for using ExpressionAttributeNames:   To
   access an attribute whose name conflicts with a DynamoDB reserved word.   To create a
   placeholder for repeating occurrences of an attribute name in an expression.   To prevent
@@ -2717,7 +2293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute values, which are placeholders for the actual value at runtime.  For more
   information about expression attribute names, see Specifying Item Attributes in the Amazon
   DynamoDB Developer Guide.
-- `"ExpressionAttributeValues"`: One or more values that can be substituted in an
+- `"expression_attribute_values"`: One or more values that can be substituted in an
   expression. Use the : (colon) character in an expression to dereference an attribute value.
   For example, suppose that you wanted to check whether the value of the ProductStatus
   attribute was one of the following:   Available | Backordered | Discontinued  You would
@@ -2726,12 +2302,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \":disc\":{\"S\":\"Discontinued\"} }  You could then use these values in an expression,
   such as this:  ProductStatus IN (:avail, :back, :disc)  For more information on expression
   attribute values, see Condition Expressions in the Amazon DynamoDB Developer Guide.
-- `"ReturnConsumedCapacity"`:
-- `"ReturnItemCollectionMetrics"`: Determines whether item collection metrics are returned.
-  If set to SIZE, the response includes statistics about item collections, if any, that were
-  modified during the operation are returned in the response. If set to NONE (the default),
-  no statistics are returned.
-- `"ReturnValues"`: Use ReturnValues if you want to get the item attributes as they appear
+- `"return_consumed_capacity"`:
+- `"return_item_collection_metrics"`: Determines whether item collection metrics are
+  returned. If set to SIZE, the response includes statistics about item collections, if any,
+  that were modified during the operation are returned in the response. If set to NONE (the
+  default), no statistics are returned.
+- `"return_values"`: Use ReturnValues if you want to get the item attributes as they appear
   before or after they are updated. For UpdateItem, the valid values are:    NONE - If
   ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This
   setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the
@@ -2742,7 +2318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.   There is no additional cost associated with requesting a return value aside
   from the small network and processing overhead of receiving a larger response. No read
   capacity units are consumed. The values returned are strongly consistent.
-- `"UpdateExpression"`: An expression that defines one or more attributes to be updated,
+- `"update_expression"`: An expression that defines one or more attributes to be updated,
   the action to be performed on them, and new values for them. The following action values
   are available for UpdateExpression.    SET - Adds one or more attributes and values to an
   item. If any of these attributes already exist, they are replaced by the new values. You
@@ -2783,20 +2359,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information on update expressions, see Modifying Items and Attributes in the Amazon
   DynamoDB Developer Guide.
 """
-function update_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "UpdateItem",
-        Dict{String,Any}("Key" => Key, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_item(
-    Key,
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Key, TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateItem",
         Dict{String,Any}(
@@ -2810,8 +2376,7 @@ function update_item(
 end
 
 """
-    update_table(table_name)
-    update_table(table_name, params::Dict{String,<:Any})
+    update_table(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams
 settings for a given table. You can only perform one of the following operations at once:
@@ -2827,11 +2392,11 @@ the UpdateTable operation is complete.
 - `table_name`: The name of the table to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributeDefinitions"`: An array of attributes that describe the key schema for the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attribute_definitions"`: An array of attributes that describe the key schema for the
   table and indexes. If you are adding a new global secondary index to the table,
   AttributeDefinitions must include the key element(s) of the new index.
-- `"BillingMode"`: Controls how you are charged for read and write throughput and how you
+- `"billing_mode"`: Controls how you are charged for read and write throughput and how you
   manage capacity. When switching from pay-per-request to provisioned capacity, initial
   provisioned capacity values must be set. The initial provisioned capacity values are
   estimated based on the consumed read and write capacity of your table and global secondary
@@ -2839,35 +2404,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.
   PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
   PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
-- `"GlobalSecondaryIndexUpdates"`: An array of one or more global secondary indexes for the
-  table. For each index in the array, you can request one action:    Create - add a new
+- `"global_secondary_index_updates"`: An array of one or more global secondary indexes for
+  the table. For each index in the array, you can request one action:    Create - add a new
   global secondary index to the table.    Update - modify the provisioned throughput settings
   of an existing global secondary index.    Delete - remove a global secondary index from the
   table.   You can create or delete only one global secondary index per UpdateTable
   operation. For more information, see Managing Global Secondary Indexes in the Amazon
   DynamoDB Developer Guide.
-- `"ProvisionedThroughput"`: The new provisioned throughput settings for the specified
+- `"provisioned_throughput"`: The new provisioned throughput settings for the specified
   table or index.
-- `"ReplicaUpdates"`: A list of replica update actions (create, delete, or update) for the
+- `"replica_updates"`: A list of replica update actions (create, delete, or update) for the
   table.  This property only applies to Version 2019.11.21 of global tables.
-- `"SSESpecification"`: The new server-side encryption settings for the specified table.
-- `"StreamSpecification"`: Represents the DynamoDB Streams configuration for the table.
+- `"ssespecification"`: The new server-side encryption settings for the specified table.
+- `"stream_specification"`: Represents the DynamoDB Streams configuration for the table.
   You receive a ResourceInUseException if you try to enable a stream on a table that already
   has a stream, or if you try to disable a stream on a table that doesn't have a stream.
 """
-function update_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb(
-        "UpdateTable",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_table(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateTable",
         Dict{String,Any}(
@@ -2879,8 +2435,7 @@ function update_table(
 end
 
 """
-    update_table_replica_auto_scaling(table_name)
-    update_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
+    update_table_replica_auto_scaling(table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates auto scaling settings on your global tables at once.  This operation only applies
 to Version 2019.11.21 of global tables.
@@ -2889,28 +2444,17 @@ to Version 2019.11.21 of global tables.
 - `table_name`: The name of the global table to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalSecondaryIndexUpdates"`: Represents the auto scaling settings of the global
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_secondary_index_updates"`: Represents the auto scaling settings of the global
   secondary indexes of the replica to be updated.
-- `"ProvisionedWriteCapacityAutoScalingUpdate"`:
-- `"ReplicaUpdates"`: Represents the auto scaling settings of replicas of the table that
+- `"provisioned_write_capacity_auto_scaling_update"`:
+- `"replica_updates"`: Represents the auto scaling settings of replicas of the table that
   will be modified.
 """
 function update_table_replica_auto_scaling(
-    TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    TableName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return dynamodb(
-        "UpdateTableReplicaAutoScaling",
-        Dict{String,Any}("TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_table_replica_auto_scaling(
-    TableName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateTableReplicaAutoScaling",
         Dict{String,Any}(
@@ -2922,8 +2466,7 @@ function update_table_replica_auto_scaling(
 end
 
 """
-    update_time_to_live(table_name, time_to_live_specification)
-    update_time_to_live(table_name, time_to_live_specification, params::Dict{String,<:Any})
+    update_time_to_live(table_name, time_to_live_specification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The UpdateTimeToLive method enables or disables Time to Live (TTL) for the specified table.
 A successful UpdateTimeToLive call returns the current TimeToLiveSpecification. It can take
@@ -2949,23 +2492,12 @@ Guide.
 
 """
 function update_time_to_live(
-    TableName, TimeToLiveSpecification; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return dynamodb(
-        "UpdateTimeToLive",
-        Dict{String,Any}(
-            "TableName" => TableName, "TimeToLiveSpecification" => TimeToLiveSpecification
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_time_to_live(
     TableName,
-    TimeToLiveSpecification,
-    params::AbstractDict{String};
+    TimeToLiveSpecification;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return dynamodb(
         "UpdateTimeToLive",
         Dict{String,Any}(

@@ -4,9 +4,43 @@ using AWS.AWSServices: databrew
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "job_name" => "jobName",
+    "steps" => "Steps",
+    "max_capacity" => "MaxCapacity",
+    "recipe_reference" => "RecipeReference",
+    "view_frame" => "ViewFrame",
+    "log_subscription" => "LogSubscription",
+    "next_token" => "nextToken",
+    "format_options" => "FormatOptions",
+    "max_retries" => "MaxRetries",
+    "recipe_step" => "RecipeStep",
+    "configuration" => "Configuration",
+    "outputs" => "Outputs",
+    "format" => "Format",
+    "database_outputs" => "DatabaseOutputs",
+    "path_options" => "PathOptions",
+    "sample" => "Sample",
+    "description" => "Description",
+    "max_results" => "maxResults",
+    "encryption_key_arn" => "EncryptionKeyArn",
+    "client_session_id" => "ClientSessionId",
+    "dataset_name" => "datasetName",
+    "step_index" => "StepIndex",
+    "assume_control" => "AssumeControl",
+    "job_names" => "JobNames",
+    "recipe_version" => "recipeVersion",
+    "timeout" => "Timeout",
+    "data_catalog_outputs" => "DataCatalogOutputs",
+    "encryption_mode" => "EncryptionMode",
+    "job_sample" => "JobSample",
+    "preview" => "Preview",
+    "tags" => "Tags",
+    "project_name" => "projectName",
+)
+
 """
-    batch_delete_recipe_version(recipe_versions, name)
-    batch_delete_recipe_version(recipe_versions, name, params::Dict{String,<:Any})
+    batch_delete_recipe_version(recipe_versions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes one or more versions of a recipe at a time. The entire request will be rejected if:
   The recipe does not exist.   There is an invalid version identifier in the list of
@@ -26,22 +60,9 @@ LATEST_WORKING will be listed as partial failure in the response.
 
 """
 function batch_delete_recipe_version(
-    RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config()
+    RecipeVersions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "POST",
-        "/recipes/$(name)/batchDeleteRecipeVersion",
-        Dict{String,Any}("RecipeVersions" => RecipeVersions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_recipe_version(
-    RecipeVersions,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/recipes/$(name)/batchDeleteRecipeVersion",
@@ -54,8 +75,7 @@ function batch_delete_recipe_version(
 end
 
 """
-    create_dataset(input, name)
-    create_dataset(input, name, params::Dict{String,<:Any})
+    create_dataset(input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new DataBrew dataset.
 
@@ -65,28 +85,17 @@ Creates a new DataBrew dataset.
   a-z, 0-9), hyphen (-), period (.), and space.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
-- `"FormatOptions"`:
-- `"PathOptions"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
+- `"format_options"`:
+- `"path_options"`: A set of options that defines how DataBrew interprets an Amazon S3 path
   of the dataset.
-- `"Tags"`: Metadata tags to apply to this dataset.
+- `"tags"`: Metadata tags to apply to this dataset.
 """
-function create_dataset(Input, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/datasets",
-        Dict{String,Any}("Input" => Input, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dataset(
-    Input,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Input, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/datasets",
@@ -99,8 +108,7 @@ function create_dataset(
 end
 
 """
-    create_profile_job(dataset_name, name, output_location, role_arn)
-    create_profile_job(dataset_name, name, output_location, role_arn, params::Dict{String,<:Any})
+    create_profile_job(dataset_name, name, output_location, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new job to analyze a dataset and create its data profile.
 
@@ -113,26 +121,26 @@ Creates a new job to analyze a dataset and create its data profile.
   role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration"`: Configuration for profile jobs. Used to select columns, do
   evaluations, and override default parameters of evaluations. When configuration is null,
   the profile job will run with default settings.
-- `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
-  protect the job.
-- `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side
+- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
+  to protect the job.
+- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
+    SSE-KMS - SSE-KMS - Server-side encryption with KMS-managed keys.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"JobSample"`: Sample configuration for profile jobs only. Determines the number of rows
+- `"job_sample"`: Sample configuration for profile jobs only. Determines the number of rows
   on which the profile job will be executed. If a JobSample value is not provided, the
   default value will be used. The default value is CUSTOM_ROWS for the mode parameter and
   20000 for the size parameter.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
+- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
-- `"MaxCapacity"`: The maximum number of nodes that DataBrew can use when the job processes
-  data.
-- `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
-- `"Tags"`: Metadata tags to apply to this job.
-- `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `"max_capacity"`: The maximum number of nodes that DataBrew can use when the job
+  processes data.
+- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
+- `"tags"`: Metadata tags to apply to this job.
+- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
 function create_profile_job(
@@ -141,28 +149,9 @@ function create_profile_job(
     OutputLocation,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return databrew(
-        "POST",
-        "/profileJobs",
-        Dict{String,Any}(
-            "DatasetName" => DatasetName,
-            "Name" => Name,
-            "OutputLocation" => OutputLocation,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_profile_job(
-    DatasetName,
-    Name,
-    OutputLocation,
-    RoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/profileJobs",
@@ -184,8 +173,7 @@ function create_profile_job(
 end
 
 """
-    create_project(dataset_name, name, recipe_name, role_arn)
-    create_project(dataset_name, name, recipe_name, role_arn, params::Dict{String,<:Any})
+    create_project(dataset_name, name, recipe_name, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new DataBrew project.
 
@@ -198,9 +186,9 @@ Creates a new DataBrew project.
   role to be assumed for this request.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Sample"`:
-- `"Tags"`: Metadata tags to apply to this project.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sample"`:
+- `"tags"`: Metadata tags to apply to this project.
 """
 function create_project(
     DatasetName,
@@ -208,28 +196,9 @@ function create_project(
     RecipeName,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return databrew(
-        "POST",
-        "/projects",
-        Dict{String,Any}(
-            "DatasetName" => DatasetName,
-            "Name" => Name,
-            "RecipeName" => RecipeName,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_project(
-    DatasetName,
-    Name,
-    RecipeName,
-    RoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/projects",
@@ -251,8 +220,7 @@ function create_project(
 end
 
 """
-    create_recipe(name, steps)
-    create_recipe(name, steps, params::Dict{String,<:Any})
+    create_recipe(name, steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new DataBrew recipe.
 
@@ -263,25 +231,14 @@ Creates a new DataBrew recipe.
   consists of one recipe action and (optionally) an array of condition expressions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the recipe.
-- `"Tags"`: Metadata tags to apply to this recipe.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the recipe.
+- `"tags"`: Metadata tags to apply to this recipe.
 """
-function create_recipe(Name, Steps; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/recipes",
-        Dict{String,Any}("Name" => Name, "Steps" => Steps);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_recipe(
-    Name,
-    Steps,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/recipes",
@@ -294,8 +251,7 @@ function create_recipe(
 end
 
 """
-    create_recipe_job(name, role_arn)
-    create_recipe_job(name, role_arn, params::Dict{String,<:Any})
+    create_recipe_job(name, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new job to transform input data, using steps defined in an existing Glue DataBrew
 recipe
@@ -307,45 +263,34 @@ recipe
   role to be assumed when DataBrew runs the job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
-  from running the job.
-- `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_catalog_outputs"`: One or more artifacts that represent the Glue Data Catalog
+  output from running the job.
+- `"database_outputs"`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write to.
-- `"DatasetName"`: The name of the dataset that this job processes.
-- `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
-  protect the job.
-- `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+- `"dataset_name"`: The name of the dataset that this job processes.
+- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
+  to protect the job.
+- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
+    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
+- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
-- `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
+- `"max_capacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
-- `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
-- `"Outputs"`: One or more artifacts that represent the output from running the job.
-- `"ProjectName"`: Either the name of an existing project, or a combination of a recipe and
-  a dataset to associate with the recipe.
-- `"RecipeReference"`:
-- `"Tags"`: Metadata tags to apply to this job.
-- `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
+- `"outputs"`: One or more artifacts that represent the output from running the job.
+- `"project_name"`: Either the name of an existing project, or a combination of a recipe
+  and a dataset to associate with the recipe.
+- `"recipe_reference"`:
+- `"tags"`: Metadata tags to apply to this job.
+- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-function create_recipe_job(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/recipeJobs",
-        Dict{String,Any}("Name" => Name, "RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_recipe_job(
-    Name,
-    RoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/recipeJobs",
@@ -360,8 +305,7 @@ function create_recipe_job(
 end
 
 """
-    create_schedule(cron_expression, name)
-    create_schedule(cron_expression, name, params::Dict{String,<:Any})
+    create_schedule(cron_expression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date
 and time, or at regular intervals.
@@ -373,27 +317,14 @@ and time, or at regular intervals.
   0-9), hyphen (-), period (.), and space.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobNames"`: The name or names of one or more jobs to be run.
-- `"Tags"`: Metadata tags to apply to this schedule.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_names"`: The name or names of one or more jobs to be run.
+- `"tags"`: Metadata tags to apply to this schedule.
 """
 function create_schedule(
-    CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CronExpression, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "POST",
-        "/schedules",
-        Dict{String,Any}("CronExpression" => CronExpression, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_schedule(
-    CronExpression,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/schedules",
@@ -410,8 +341,7 @@ function create_schedule(
 end
 
 """
-    delete_dataset(name)
-    delete_dataset(name, params::Dict{String,<:Any})
+    delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a dataset from DataBrew.
 
@@ -419,17 +349,8 @@ Deletes a dataset from DataBrew.
 - `name`: The name of the dataset to be deleted.
 
 """
-function delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "DELETE",
-        "/datasets/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_dataset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/datasets/$(name)",
@@ -440,8 +361,7 @@ function delete_dataset(
 end
 
 """
-    delete_job(name)
-    delete_job(name, params::Dict{String,<:Any})
+    delete_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified DataBrew job.
 
@@ -449,14 +369,8 @@ Deletes the specified DataBrew job.
 - `name`: The name of the job to be deleted.
 
 """
-function delete_job(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "DELETE", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_job(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/jobs/$(name)",
@@ -467,8 +381,7 @@ function delete_job(
 end
 
 """
-    delete_project(name)
-    delete_project(name, params::Dict{String,<:Any})
+    delete_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing DataBrew project.
 
@@ -476,17 +389,8 @@ Deletes an existing DataBrew project.
 - `name`: The name of the project to be deleted.
 
 """
-function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "DELETE",
-        "/projects/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/projects/$(name)",
@@ -497,8 +401,7 @@ function delete_project(
 end
 
 """
-    delete_recipe_version(name, recipe_version)
-    delete_recipe_version(name, recipe_version, params::Dict{String,<:Any})
+    delete_recipe_version(name, recipe_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a single version of a DataBrew recipe.
 
@@ -509,21 +412,9 @@ Deletes a single version of a DataBrew recipe.
 
 """
 function delete_recipe_version(
-    name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    name, recipeVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "DELETE",
-        "/recipes/$(name)/recipeVersion/$(recipeVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_recipe_version(
-    name,
-    recipeVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/recipes/$(name)/recipeVersion/$(recipeVersion)",
@@ -534,8 +425,7 @@ function delete_recipe_version(
 end
 
 """
-    delete_schedule(name)
-    delete_schedule(name, params::Dict{String,<:Any})
+    delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified DataBrew schedule.
 
@@ -543,17 +433,8 @@ Deletes the specified DataBrew schedule.
 - `name`: The name of the schedule to be deleted.
 
 """
-function delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "DELETE",
-        "/schedules/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_schedule(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/schedules/$(name)",
@@ -564,8 +445,7 @@ function delete_schedule(
 end
 
 """
-    describe_dataset(name)
-    describe_dataset(name, params::Dict{String,<:Any})
+    describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the definition of a specific DataBrew dataset.
 
@@ -573,14 +453,10 @@ Returns the definition of a specific DataBrew dataset.
 - `name`: The name of the dataset to be described.
 
 """
-function describe_dataset(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/datasets/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_dataset(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/datasets/$(name)",
@@ -591,8 +467,7 @@ function describe_dataset(
 end
 
 """
-    describe_job(name)
-    describe_job(name, params::Dict{String,<:Any})
+    describe_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the definition of a specific DataBrew job.
 
@@ -600,14 +475,8 @@ Returns the definition of a specific DataBrew job.
 - `name`: The name of the job to be described.
 
 """
-function describe_job(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/jobs/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_job(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_job(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/jobs/$(name)",
@@ -618,8 +487,7 @@ function describe_job(
 end
 
 """
-    describe_job_run(name, run_id)
-    describe_job_run(name, run_id, params::Dict{String,<:Any})
+    describe_job_run(name, run_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Represents one run of a DataBrew job.
 
@@ -628,20 +496,10 @@ Represents one run of a DataBrew job.
 - `run_id`: The unique identifier of the job run.
 
 """
-function describe_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET",
-        "/jobs/$(name)/jobRun/$(runId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_job_run(
-    name,
-    runId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/jobs/$(name)/jobRun/$(runId)",
@@ -652,8 +510,7 @@ function describe_job_run(
 end
 
 """
-    describe_project(name)
-    describe_project(name, params::Dict{String,<:Any})
+    describe_project(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the definition of a specific DataBrew project.
 
@@ -661,14 +518,10 @@ Returns the definition of a specific DataBrew project.
 - `name`: The name of the project to be described.
 
 """
-function describe_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/projects/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_project(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/projects/$(name)",
@@ -679,8 +532,7 @@ function describe_project(
 end
 
 """
-    describe_recipe(name)
-    describe_recipe(name, params::Dict{String,<:Any})
+    describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the definition of a specific DataBrew recipe corresponding to a particular version.
 
@@ -688,18 +540,12 @@ Returns the definition of a specific DataBrew recipe corresponding to a particul
 - `name`: The name of the recipe to be described.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"recipeVersion"`: The recipe version identifier. If this parameter isn't specified, then
-  the latest published version is returned.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"recipe_version"`: The recipe version identifier. If this parameter isn't specified,
+  then the latest published version is returned.
 """
-function describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/recipes/$(name)",
@@ -710,8 +556,7 @@ function describe_recipe(
 end
 
 """
-    describe_schedule(name)
-    describe_schedule(name, params::Dict{String,<:Any})
+    describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the definition of a specific DataBrew schedule.
 
@@ -719,14 +564,10 @@ Returns the definition of a specific DataBrew schedule.
 - `name`: The name of the schedule to be described.
 
 """
-function describe_schedule(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/schedules/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_schedule(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/schedules/$(name)",
@@ -737,32 +578,24 @@ function describe_schedule(
 end
 
 """
-    list_datasets()
-    list_datasets(params::Dict{String,<:Any})
+    list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the DataBrew datasets.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/datasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_datasets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET", "/datasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_job_runs(name)
-    list_job_runs(name, params::Dict{String,<:Any})
+    list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the previous runs of a particular DataBrew job.
 
@@ -770,21 +603,12 @@ Lists all of the previous runs of a particular DataBrew job.
 - `name`: The name of the job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET",
-        "/jobs/$(name)/jobRuns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_job_runs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_job_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/jobs/$(name)/jobRuns",
@@ -795,60 +619,47 @@ function list_job_runs(
 end
 
 """
-    list_jobs()
-    list_jobs(params::Dict{String,<:Any})
+    list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the DataBrew jobs that are defined.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"datasetName"`: The name of a dataset. Using this parameter indicates to return only
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dataset_name"`: The name of a dataset. Using this parameter indicates to return only
   those jobs that act on the specified dataset.
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: A token generated by DataBrew that specifies where to continue pagination
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: A token generated by DataBrew that specifies where to continue pagination
   if a previous request was truncated. To get the next set of pages, pass in the NextToken
   value from the response object of the previous page call.
-- `"projectName"`: The name of a project. Using this parameter indicates to return only
+- `"project_name"`: The name of a project. Using this parameter indicates to return only
   those jobs that are associated with the specified project.
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_projects()
-    list_projects(params::Dict{String,<:Any})
+    list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the DataBrew projects that are defined.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_projects(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_recipe_versions(name)
-    list_recipe_versions(name, params::Dict{String,<:Any})
+    list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
 
@@ -856,22 +667,14 @@ Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
 - `name`: The name of the recipe for which to return version information.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_recipe_versions(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET",
-        "/recipeVersions",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_recipe_versions(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/recipeVersions",
@@ -882,60 +685,45 @@ function list_recipe_versions(
 end
 
 """
-    list_recipes()
-    list_recipes(params::Dict{String,<:Any})
+    list_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the DataBrew recipes that are defined.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
-- `"recipeVersion"`: Return only those recipes with a version identifier of LATEST_WORKING
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
+- `"recipe_version"`: Return only those recipes with a version identifier of LATEST_WORKING
   or LATEST_PUBLISHED. If RecipeVersion is omitted, ListRecipes returns all of the
   LATEST_PUBLISHED recipe versions. Valid values: LATEST_WORKING | LATEST_PUBLISHED
 """
-function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/recipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_recipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET", "/recipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_schedules()
-    list_schedules(params::Dict{String,<:Any})
+    list_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the DataBrew schedules that are defined.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"jobName"`: The name of the job that these schedules apply to.
-- `"maxResults"`: The maximum number of results to return in this request.
-- `"nextToken"`: The token returned by a previous call to retrieve the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_name"`: The name of the job that these schedules apply to.
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "GET", "/schedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_schedules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_schedules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET", "/schedules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the tags for a DataBrew resource.
 
@@ -945,20 +733,9 @@ Lists all the tags for a DataBrew resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "GET",
         "/tags/$(ResourceArn)",
@@ -969,8 +746,7 @@ function list_tags_for_resource(
 end
 
 """
-    publish_recipe(name)
-    publish_recipe(name, params::Dict{String,<:Any})
+    publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Publishes a new version of a DataBrew recipe.
 
@@ -978,21 +754,12 @@ Publishes a new version of a DataBrew recipe.
 - `name`: The name of the recipe to be published.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the recipe to be published, for this version of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the recipe to be published, for this version of the
   recipe.
 """
-function publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/recipes/$(name)/publishRecipe";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function publish_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function publish_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/recipes/$(name)/publishRecipe",
@@ -1003,8 +770,7 @@ function publish_recipe(
 end
 
 """
-    send_project_session_action(name)
-    send_project_session_action(name, params::Dict{String,<:Any})
+    send_project_session_action(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Performs a recipe step within an interactive DataBrew session that's currently open.
 
@@ -1012,29 +778,20 @@ Performs a recipe step within an interactive DataBrew session that's currently o
 - `name`: The name of the project to apply the action to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientSessionId"`: A unique identifier for an interactive session that's currently open
-  and ready for work. The action will be performed on this session.
-- `"Preview"`: If true, the result of the recipe step will be returned, but not applied.
-- `"RecipeStep"`:
-- `"StepIndex"`: The index from which to preview a step. This index is used to preview the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_session_id"`: A unique identifier for an interactive session that's currently
+  open and ready for work. The action will be performed on this session.
+- `"preview"`: If true, the result of the recipe step will be returned, but not applied.
+- `"recipe_step"`:
+- `"step_index"`: The index from which to preview a step. This index is used to preview the
   result of steps that have already been applied, so that the resulting view frame is from
   earlier in the view frame stack.
-- `"ViewFrame"`:
+- `"view_frame"`:
 """
 function send_project_session_action(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "PUT",
-        "/projects/$(name)/sendProjectSessionAction";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_project_session_action(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/projects/$(name)/sendProjectSessionAction",
@@ -1045,8 +802,7 @@ function send_project_session_action(
 end
 
 """
-    start_job_run(name)
-    start_job_run(name, params::Dict{String,<:Any})
+    start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs a DataBrew job.
 
@@ -1054,17 +810,8 @@ Runs a DataBrew job.
 - `name`: The name of the job to be run.
 
 """
-function start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/jobs/$(name)/startJobRun";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_job_run(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function start_job_run(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/jobs/$(name)/startJobRun",
@@ -1075,8 +822,7 @@ function start_job_run(
 end
 
 """
-    start_project_session(name)
-    start_project_session(name, params::Dict{String,<:Any})
+    start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an interactive session, enabling you to manipulate data in a DataBrew project.
 
@@ -1084,21 +830,14 @@ Creates an interactive session, enabling you to manipulate data in a DataBrew pr
 - `name`: The name of the project to act upon.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssumeControl"`: A value that, if true, enables you to take control of a session, even
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"assume_control"`: A value that, if true, enables you to take control of a session, even
   if a different client is currently accessing the project.
 """
-function start_project_session(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "PUT",
-        "/projects/$(name)/startProjectSession";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_project_session(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/projects/$(name)/startProjectSession",
@@ -1109,8 +848,7 @@ function start_project_session(
 end
 
 """
-    stop_job_run(name, run_id)
-    stop_job_run(name, run_id, params::Dict{String,<:Any})
+    stop_job_run(name, run_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a particular run of a job.
 
@@ -1119,20 +857,10 @@ Stops a particular run of a job.
 - `run_id`: The ID of the job run to be stopped.
 
 """
-function stop_job_run(name, runId; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/jobs/$(name)/jobRun/$(runId)/stopJobRun";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_job_run(
-    name,
-    runId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    name, runId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/jobs/$(name)/jobRun/$(runId)/stopJobRun",
@@ -1143,8 +871,7 @@ function stop_job_run(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or
 schedule.
@@ -1156,21 +883,10 @@ schedule.
 - `tags`: One or more tags to be assigned to the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1181,8 +897,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes metadata tags from a DataBrew resource.
 
@@ -1193,22 +908,9 @@ Removes metadata tags from a DataBrew resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "DELETE",
         "/tags/$(ResourceArn)",
@@ -1219,8 +921,7 @@ function untag_resource(
 end
 
 """
-    update_dataset(input, name)
-    update_dataset(input, name, params::Dict{String,<:Any})
+    update_dataset(input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of an existing DataBrew dataset.
 
@@ -1229,27 +930,16 @@ Modifies the definition of an existing DataBrew dataset.
 - `name`: The name of the dataset to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
-- `"FormatOptions"`:
-- `"PathOptions"`: A set of options that defines how DataBrew interprets an Amazon S3 path
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"format"`: The file format of a dataset that is created from an Amazon S3 file or folder.
+- `"format_options"`:
+- `"path_options"`: A set of options that defines how DataBrew interprets an Amazon S3 path
   of the dataset.
 """
-function update_dataset(Input, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "PUT",
-        "/datasets/$(name)",
-        Dict{String,Any}("Input" => Input);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_dataset(
-    Input,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Input, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/datasets/$(name)",
@@ -1260,8 +950,7 @@ function update_dataset(
 end
 
 """
-    update_profile_job(output_location, role_arn, name)
-    update_profile_job(output_location, role_arn, name, params::Dict{String,<:Any})
+    update_profile_job(output_location, role_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of an existing profile job.
 
@@ -1272,45 +961,35 @@ Modifies the definition of an existing profile job.
 - `name`: The name of the job to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`: Configuration for profile jobs. Used to select columns, do
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration"`: Configuration for profile jobs. Used to select columns, do
   evaluations, and override default parameters of evaluations. When configuration is null,
   the profile job will run with default settings.
-- `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
-  protect the job.
-- `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
+  to protect the job.
+- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
+    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"JobSample"`: Sample configuration for Profile Jobs only. Determines the number of rows
+- `"job_sample"`: Sample configuration for Profile Jobs only. Determines the number of rows
   on which the Profile job will be executed. If a JobSample value is not provided for profile
   jobs, the default value will be used. The default value is CUSTOM_ROWS for the mode
   parameter and 20000 for the size parameter.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
+- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
-- `"MaxCapacity"`: The maximum number of compute nodes that DataBrew can use when the job
+- `"max_capacity"`: The maximum number of compute nodes that DataBrew can use when the job
   processes data.
-- `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
-- `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
+- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
 function update_profile_job(
-    OutputLocation, RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return databrew(
-        "PUT",
-        "/profileJobs/$(name)",
-        Dict{String,Any}("OutputLocation" => OutputLocation, "RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_profile_job(
     OutputLocation,
     RoleArn,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/profileJobs/$(name)",
@@ -1327,8 +1006,7 @@ function update_profile_job(
 end
 
 """
-    update_project(role_arn, name)
-    update_project(role_arn, name, params::Dict{String,<:Any})
+    update_project(role_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of an existing DataBrew project.
 
@@ -1337,24 +1015,13 @@ Modifies the definition of an existing DataBrew project.
 - `name`: The name of the project to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Sample"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sample"`:
 """
-function update_project(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "PUT",
-        "/projects/$(name)",
-        Dict{String,Any}("RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_project(
-    RoleArn,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/projects/$(name)",
@@ -1365,8 +1032,7 @@ function update_project(
 end
 
 """
-    update_recipe(name)
-    update_recipe(name, params::Dict{String,<:Any})
+    update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
 
@@ -1374,19 +1040,13 @@ Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
 - `name`: The name of the recipe to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the recipe.
-- `"Steps"`: One or more steps to be performed by the recipe. Each step consists of an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the recipe.
+- `"steps"`: One or more steps to be performed by the recipe. Each step consists of an
   action, and the conditions under which the action should succeed.
 """
-function update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "PUT", "/recipes/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_recipe(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_recipe(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/recipes/$(name)",
@@ -1397,8 +1057,7 @@ function update_recipe(
 end
 
 """
-    update_recipe_job(role_arn, name)
-    update_recipe_job(role_arn, name, params::Dict{String,<:Any})
+    update_recipe_job(role_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of an existing DataBrew recipe job.
 
@@ -1408,40 +1067,29 @@ Modifies the definition of an existing DataBrew recipe job.
 - `name`: The name of the job to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataCatalogOutputs"`: One or more artifacts that represent the Glue Data Catalog output
-  from running the job.
-- `"DatabaseOutputs"`: Represents a list of JDBC database output objects which defines the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_catalog_outputs"`: One or more artifacts that represent the Glue Data Catalog
+  output from running the job.
+- `"database_outputs"`: Represents a list of JDBC database output objects which defines the
   output destination for a DataBrew recipe job to write into.
-- `"EncryptionKeyArn"`: The Amazon Resource Name (ARN) of an encryption key that is used to
-  protect the job.
-- `"EncryptionMode"`: The encryption mode for the job, which can be one of the following:
-   SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
+- `"encryption_key_arn"`: The Amazon Resource Name (ARN) of an encryption key that is used
+  to protect the job.
+- `"encryption_mode"`: The encryption mode for the job, which can be one of the following:
+    SSE-KMS - Server-side encryption with keys managed by KMS.    SSE-S3 - Server-side
   encryption with keys managed by Amazon S3.
-- `"LogSubscription"`: Enables or disables Amazon CloudWatch logging for the job. If
+- `"log_subscription"`: Enables or disables Amazon CloudWatch logging for the job. If
   logging is enabled, CloudWatch writes one log stream for each job run.
-- `"MaxCapacity"`: The maximum number of nodes that DataBrew can consume when the job
+- `"max_capacity"`: The maximum number of nodes that DataBrew can consume when the job
   processes data.
-- `"MaxRetries"`: The maximum number of times to retry the job after a job run fails.
-- `"Outputs"`: One or more artifacts that represent the output from running the job.
-- `"Timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
+- `"max_retries"`: The maximum number of times to retry the job after a job run fails.
+- `"outputs"`: One or more artifacts that represent the output from running the job.
+- `"timeout"`: The job's timeout in minutes. A job that attempts to run longer than this
   timeout period ends with a status of TIMEOUT.
 """
-function update_recipe_job(RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return databrew(
-        "PUT",
-        "/recipeJobs/$(name)",
-        Dict{String,Any}("RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_recipe_job(
-    RoleArn,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    RoleArn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/recipeJobs/$(name)",
@@ -1452,8 +1100,7 @@ function update_recipe_job(
 end
 
 """
-    update_schedule(cron_expression, name)
-    update_schedule(cron_expression, name, params::Dict{String,<:Any})
+    update_schedule(cron_expression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the definition of an existing DataBrew schedule.
 
@@ -1463,26 +1110,13 @@ Modifies the definition of an existing DataBrew schedule.
 - `name`: The name of the schedule to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobNames"`: The name or names of one or more jobs to be run for this schedule.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_names"`: The name or names of one or more jobs to be run for this schedule.
 """
 function update_schedule(
-    CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config()
+    CronExpression, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return databrew(
-        "PUT",
-        "/schedules/$(name)",
-        Dict{String,Any}("CronExpression" => CronExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_schedule(
-    CronExpression,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return databrew(
         "PUT",
         "/schedules/$(name)",

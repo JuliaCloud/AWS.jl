@@ -4,9 +4,17 @@ using AWS.AWSServices: migrationhub_config
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "control_id" => "ControlId",
+    "dry_run" => "DryRun",
+    "target" => "Target",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+    "home_region" => "HomeRegion",
+)
+
 """
-    create_home_region_control(home_region, target)
-    create_home_region_control(home_region, target, params::Dict{String,<:Any})
+    create_home_region_control(home_region, target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API sets up the home region for the calling account only.
 
@@ -16,26 +24,14 @@ This API sets up the home region for the calling account only.
   always of type ACCOUNT.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DryRun"`: Optional Boolean flag to indicate whether any effect should take place. It
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dry_run"`: Optional Boolean flag to indicate whether any effect should take place. It
   tests whether the caller has permission to make the call.
 """
 function create_home_region_control(
-    HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config()
+    HomeRegion, Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return migrationhub_config(
-        "CreateHomeRegionControl",
-        Dict{String,Any}("HomeRegion" => HomeRegion, "Target" => Target);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_home_region_control(
-    HomeRegion,
-    Target,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return migrationhub_config(
         "CreateHomeRegionControl",
         Dict{String,Any}(
@@ -51,31 +47,26 @@ function create_home_region_control(
 end
 
 """
-    describe_home_region_controls()
-    describe_home_region_controls(params::Dict{String,<:Any})
+    describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API permits filtering on the ControlId and HomeRegion fields.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ControlId"`: The ControlID is a unique identifier string of your HomeRegionControl
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"control_id"`: The ControlID is a unique identifier string of your HomeRegionControl
   object.
-- `"HomeRegion"`: The name of the home region you'd like to view.
-- `"MaxResults"`: The maximum number of filtering results to display per page.
-- `"NextToken"`: If a NextToken was returned by a previous call, more results are
+- `"home_region"`: The name of the home region you'd like to view.
+- `"max_results"`: The maximum number of filtering results to display per page.
+- `"next_token"`: If a NextToken was returned by a previous call, more results are
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
-- `"Target"`: The target parameter specifies the identifier to which the home region is
+- `"target"`: The target parameter specifies the identifier to which the home region is
   applied, which is always of type ACCOUNT. It applies the home region to the current ACCOUNT.
 """
-function describe_home_region_controls(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migrationhub_config(
-        "DescribeHomeRegionControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_home_region_controls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_home_region_controls(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return migrationhub_config(
         "DescribeHomeRegionControls",
         params;
@@ -85,8 +76,7 @@ function describe_home_region_controls(
 end
 
 """
-    get_home_region()
-    get_home_region(params::Dict{String,<:Any})
+    get_home_region(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the calling account’s home region, if configured. This API is used by other AWS
 services to determine the regional endpoint for calling AWS Application Discovery Service
@@ -95,14 +85,8 @@ Application Discovery Service and AWS Migration Hub APIs, to obtain the account'
 Hub home region.
 
 """
-function get_home_region(; aws_config::AbstractAWSConfig=global_aws_config())
-    return migrationhub_config(
-        "GetHomeRegion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_home_region(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_home_region(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return migrationhub_config(
         "GetHomeRegion", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )

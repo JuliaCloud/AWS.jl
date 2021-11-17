@@ -4,9 +4,18 @@ using AWS.AWSServices: qldb
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "deletion_protection" => "DeletionProtection",
+    "kms_key" => "KmsKey",
+    "digest_tip_address" => "DigestTipAddress",
+    "exclusive_end_time" => "ExclusiveEndTime",
+    "next_token" => "next_token",
+    "tags" => "Tags",
+    "max_results" => "max_results",
+)
+
 """
-    cancel_journal_kinesis_stream(name, stream_id)
-    cancel_journal_kinesis_stream(name, stream_id, params::Dict{String,<:Any})
+    cancel_journal_kinesis_stream(name, stream_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current
 status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream
@@ -20,21 +29,9 @@ this limit expires.
 
 """
 function cancel_journal_kinesis_stream(
-    name, streamId; aws_config::AbstractAWSConfig=global_aws_config()
+    name, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "DELETE",
-        "/ledgers/$(name)/journal-kinesis-streams/$(streamId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_journal_kinesis_stream(
-    name,
-    streamId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "DELETE",
         "/ledgers/$(name)/journal-kinesis-streams/$(streamId)",
@@ -45,8 +42,7 @@ function cancel_journal_kinesis_stream(
 end
 
 """
-    create_ledger(name, permissions_mode)
-    create_ledger(name, permissions_mode, params::Dict{String,<:Any})
+    create_ledger(name, permissions_mode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new ledger in your account in the current Region.
 
@@ -70,47 +66,34 @@ Creates a new ledger in your account in the current Region.
   the security of your ledger data.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deletion_protection"`: The flag that prevents a ledger from being deleted by any user.
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
   protection is enabled, you must first disable it before you can delete the ledger. You can
   disable it by calling the UpdateLedger operation to set the flag to false.
-- `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
-  in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
-  Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
-  Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
-  Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric
-  customer managed KMS key: Use the specified KMS key in your account that you create, own,
-  and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
-  symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
-  customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
-  or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
-  different account, you must use the key ARN or alias ARN. For example:   Key ID:
-  1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
+- `"kms_key"`: The key in Key Management Service (KMS) to use for encryption of data at
+  rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB
+  Developer Guide. Use one of the following options to specify this parameter:
+  AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your
+  behalf.    Undefined: By default, use an Amazon Web Services owned KMS key.    A valid
+  symmetric customer managed KMS key: Use the specified KMS key in your account that you
+  create, own, and manage. Amazon QLDB does not support asymmetric keys. For more
+  information, see Using symmetric and asymmetric keys in the Key Management Service
+  Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon
+  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a key in a different account, you must use the key ARN or alias ARN.
+  For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   For more information, see Key identifiers (KeyId) in the Key Management Service Developer
   Guide.
-- `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
+- `"tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
 function create_ledger(
-    Name, PermissionsMode; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, PermissionsMode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "POST",
-        "/ledgers",
-        Dict{String,Any}("Name" => Name, "PermissionsMode" => PermissionsMode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_ledger(
-    Name,
-    PermissionsMode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers",
@@ -127,8 +110,7 @@ function create_ledger(
 end
 
 """
-    delete_ledger(name)
-    delete_ledger(name, params::Dict{String,<:Any})
+    delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a ledger and all of its contents. This action is irreversible. If deletion
 protection is enabled, you must first disable it before you can delete the ledger. You can
@@ -138,14 +120,8 @@ disable it by calling the UpdateLedger operation to set the flag to false.
 - `name`: The name of the ledger that you want to delete.
 
 """
-function delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "DELETE", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_ledger(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "DELETE",
         "/ledgers/$(name)",
@@ -156,8 +132,7 @@ function delete_ledger(
 end
 
 """
-    describe_journal_kinesis_stream(name, stream_id)
-    describe_journal_kinesis_stream(name, stream_id, params::Dict{String,<:Any})
+    describe_journal_kinesis_stream(name, stream_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns detailed information about a given Amazon QLDB journal stream. The output includes
 the Amazon Resource Name (ARN), stream name, current status, creation time, and the
@@ -172,21 +147,9 @@ QLDB Developer Guide.
 
 """
 function describe_journal_kinesis_stream(
-    name, streamId; aws_config::AbstractAWSConfig=global_aws_config()
+    name, streamId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "GET",
-        "/ledgers/$(name)/journal-kinesis-streams/$(streamId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_journal_kinesis_stream(
-    name,
-    streamId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/ledgers/$(name)/journal-kinesis-streams/$(streamId)",
@@ -197,8 +160,7 @@ function describe_journal_kinesis_stream(
 end
 
 """
-    describe_journal_s3_export(export_id, name)
-    describe_journal_s3_export(export_id, name, params::Dict{String,<:Any})
+    describe_journal_s3_export(export_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a journal export job, including the ledger name, export ID,
 creation time, current status, and the parameters of the original export creation request.
@@ -214,21 +176,9 @@ doesn't exist, then throws ResourceNotFoundException.
 
 """
 function describe_journal_s3_export(
-    exportId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    exportId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "GET",
-        "/ledgers/$(name)/journal-s3-exports/$(exportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_journal_s3_export(
-    exportId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/ledgers/$(name)/journal-s3-exports/$(exportId)",
@@ -239,8 +189,7 @@ function describe_journal_s3_export(
 end
 
 """
-    describe_ledger(name)
-    describe_ledger(name, params::Dict{String,<:Any})
+    describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a ledger, including its state, permissions mode, encryption at
 rest settings, and when it was created.
@@ -249,14 +198,8 @@ rest settings, and when it was created.
 - `name`: The name of the ledger that you want to describe.
 
 """
-function describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "GET", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_ledger(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/ledgers/$(name)",
@@ -267,8 +210,7 @@ function describe_ledger(
 end
 
 """
-    export_journal_to_s3(exclusive_end_time, inclusive_start_time, role_arn, s3_export_configuration, name)
-    export_journal_to_s3(exclusive_end_time, inclusive_start_time, role_arn, s3_export_configuration, name, params::Dict{String,<:Any})
+    export_journal_to_s3(exclusive_end_time, inclusive_start_time, role_arn, s3_export_configuration, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports journal contents within a date and time range from a ledger into a specified Amazon
 Simple Storage Service (Amazon S3) bucket. The data is written as files in Amazon Ion
@@ -304,29 +246,9 @@ function export_journal_to_s3(
     S3ExportConfiguration,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return qldb(
-        "POST",
-        "/ledgers/$(name)/journal-s3-exports",
-        Dict{String,Any}(
-            "ExclusiveEndTime" => ExclusiveEndTime,
-            "InclusiveStartTime" => InclusiveStartTime,
-            "RoleArn" => RoleArn,
-            "S3ExportConfiguration" => S3ExportConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function export_journal_to_s3(
-    ExclusiveEndTime,
-    InclusiveStartTime,
-    RoleArn,
-    S3ExportConfiguration,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers/$(name)/journal-s3-exports",
@@ -348,8 +270,7 @@ function export_journal_to_s3(
 end
 
 """
-    get_block(block_address, name)
-    get_block(block_address, name, params::Dict{String,<:Any})
+    get_block(block_address, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a block object at a specified address in a journal. Also returns a proof of the
 specified block for verification if DigestTipAddress is provided. For information about the
@@ -366,26 +287,15 @@ throws InvalidParameterException.
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DigestTipAddress"`: The latest block location covered by the digest for which to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"digest_tip_address"`: The latest block location covered by the digest for which to
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
-function get_block(BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "POST",
-        "/ledgers/$(name)/block",
-        Dict{String,Any}("BlockAddress" => BlockAddress);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_block(
-    BlockAddress,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    BlockAddress, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers/$(name)/block",
@@ -398,8 +308,7 @@ function get_block(
 end
 
 """
-    get_digest(name)
-    get_digest(name, params::Dict{String,<:Any})
+    get_digest(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the digest of a ledger at the latest committed block in the journal. The response
 includes a 256-bit hash value and a block address.
@@ -408,17 +317,8 @@ includes a 256-bit hash value and a block address.
 - `name`: The name of the ledger.
 
 """
-function get_digest(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "POST",
-        "/ledgers/$(name)/digest";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_digest(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_digest(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers/$(name)/digest",
@@ -429,8 +329,7 @@ function get_digest(
 end
 
 """
-    get_revision(block_address, document_id, name)
-    get_revision(block_address, document_id, name, params::Dict{String,<:Any})
+    get_revision(block_address, document_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a revision data object for a specified document ID and block address. Also returns
 a proof of the specified revision for verification if DigestTipAddress is provided.
@@ -444,29 +343,19 @@ a proof of the specified revision for verification if DigestTipAddress is provid
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DigestTipAddress"`: The latest block location covered by the digest for which to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"digest_tip_address"`: The latest block location covered by the digest for which to
   request a proof. An address is an Amazon Ion structure that has two fields: strandId and
   sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49}.
 """
 function get_revision(
-    BlockAddress, DocumentId, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return qldb(
-        "POST",
-        "/ledgers/$(name)/revision",
-        Dict{String,Any}("BlockAddress" => BlockAddress, "DocumentId" => DocumentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_revision(
     BlockAddress,
     DocumentId,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers/$(name)/revision",
@@ -485,8 +374,7 @@ function get_revision(
 end
 
 """
-    list_journal_kinesis_streams_for_ledger(name)
-    list_journal_kinesis_streams_for_ledger(name, params::Dict{String,<:Any})
+    list_journal_kinesis_streams_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The
 output of each stream descriptor includes the same details that are returned by
@@ -499,7 +387,7 @@ all the items by calling ListJournalKinesisStreamsForLedger multiple times.
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"max_results"`: The maximum number of results to return in a single
   ListJournalKinesisStreamsForLedger request. (The actual number of results returned might be
   fewer.)
@@ -508,18 +396,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListJournalKinesisStreamsForLedger call, you should use that value as input here.
 """
 function list_journal_kinesis_streams_for_ledger(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "GET",
-        "/ledgers/$(name)/journal-kinesis-streams";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_journal_kinesis_streams_for_ledger(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/ledgers/$(name)/journal-kinesis-streams",
@@ -530,8 +409,7 @@ function list_journal_kinesis_streams_for_ledger(
 end
 
 """
-    list_journal_s3_exports()
-    list_journal_s3_exports(params::Dict{String,<:Any})
+    list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of journal export job descriptions for all ledgers that are associated
 with the current account and Region. This action returns a maximum of MaxResults items, and
@@ -540,21 +418,17 @@ multiple times. This action does not return any expired export jobs. For more in
 see Export job expiration in the Amazon QLDB Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"max_results"`: The maximum number of results to return in a single ListJournalS3Exports
   request. (The actual number of results returned might be fewer.)
 - `"next_token"`: A pagination token, indicating that you want to retrieve the next page of
   results. If you received a value for NextToken in the response from a previous
   ListJournalS3Exports call, then you should use that value as input here.
 """
-function list_journal_s3_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "GET", "/journal-s3-exports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_journal_s3_exports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_journal_s3_exports(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/journal-s3-exports",
@@ -565,8 +439,7 @@ function list_journal_s3_exports(
 end
 
 """
-    list_journal_s3_exports_for_ledger(name)
-    list_journal_s3_exports_for_ledger(name, params::Dict{String,<:Any})
+    list_journal_s3_exports_for_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of journal export job descriptions for a specified ledger. This action
 returns a maximum of MaxResults items, and is paginated so that you can retrieve all the
@@ -578,7 +451,7 @@ Developer Guide.
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"max_results"`: The maximum number of results to return in a single
   ListJournalS3ExportsForLedger request. (The actual number of results returned might be
   fewer.)
@@ -587,18 +460,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListJournalS3ExportsForLedger call, then you should use that value as input here.
 """
 function list_journal_s3_exports_for_ledger(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "GET",
-        "/ledgers/$(name)/journal-s3-exports";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_journal_s3_exports_for_ledger(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/ledgers/$(name)/journal-s3-exports",
@@ -609,35 +473,29 @@ function list_journal_s3_exports_for_ledger(
 end
 
 """
-    list_ledgers()
-    list_ledgers(params::Dict{String,<:Any})
+    list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of ledger summaries that are associated with the current account and
 Region. This action returns a maximum of 100 items and is paginated so that you can
 retrieve all the items by calling ListLedgers multiple times.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"max_results"`: The maximum number of results to return in a single ListLedgers request.
   (The actual number of results returned might be fewer.)
 - `"next_token"`: A pagination token, indicating that you want to retrieve the next page of
   results. If you received a value for NextToken in the response from a previous ListLedgers
   call, then you should use that value as input here.
 """
-function list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb("GET", "/ledgers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_ledgers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_ledgers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET", "/ledgers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all tags for a specified Amazon QLDB resource.
 
@@ -647,20 +505,9 @@ Returns all tags for a specified Amazon QLDB resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "GET",
         "/tags/$(resourceArn)",
@@ -671,8 +518,7 @@ function list_tags_for_resource(
 end
 
 """
-    stream_journal_to_kinesis(inclusive_start_time, kinesis_configuration, role_arn, stream_name, name)
-    stream_journal_to_kinesis(inclusive_start_time, kinesis_configuration, role_arn, stream_name, name, params::Dict{String,<:Any})
+    stream_journal_to_kinesis(inclusive_start_time, kinesis_configuration, role_arn, stream_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document
 revision that is committed to the ledger's journal and delivers the data to a specified
@@ -697,12 +543,12 @@ Amazon Kinesis Data Streams resource.
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExclusiveEndTime"`: The exclusive date and time that specifies when the stream ends. If
-  you don't define this parameter, the stream runs indefinitely until you cancel it. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"exclusive_end_time"`: The exclusive date and time that specifies when the stream ends.
+  If you don't define this parameter, the stream runs indefinitely until you cancel it. The
   ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time
   (UTC). For example: 2019-06-13T21:36:34Z.
-- `"Tags"`: The key-value pairs to add as tags to the stream that you want to create. Tag
+- `"tags"`: The key-value pairs to add as tags to the stream that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
 function stream_journal_to_kinesis(
@@ -712,29 +558,9 @@ function stream_journal_to_kinesis(
     StreamName,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return qldb(
-        "POST",
-        "/ledgers/$(name)/journal-kinesis-streams",
-        Dict{String,Any}(
-            "InclusiveStartTime" => InclusiveStartTime,
-            "KinesisConfiguration" => KinesisConfiguration,
-            "RoleArn" => RoleArn,
-            "StreamName" => StreamName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stream_journal_to_kinesis(
-    InclusiveStartTime,
-    KinesisConfiguration,
-    RoleArn,
-    StreamName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/ledgers/$(name)/journal-kinesis-streams",
@@ -756,8 +582,7 @@ function stream_journal_to_kinesis(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(tags, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to a specified Amazon QLDB resource. A resource can have up to 50
 tags. If you try to create more than 50 tags for a resource, your request fails and returns
@@ -771,21 +596,10 @@ an error.
   example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Tags,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "POST",
         "/tags/$(resourceArn)",
@@ -796,8 +610,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a specified Amazon QLDB resource. You can specify up to 50
 tag keys to remove.
@@ -809,22 +622,9 @@ tag keys to remove.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -835,8 +635,7 @@ function untag_resource(
 end
 
 """
-    update_ledger(name)
-    update_ledger(name, params::Dict{String,<:Any})
+    update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates properties on a ledger.
 
@@ -844,18 +643,18 @@ Updates properties on a ledger.
 - `name`: The name of the ledger.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deletion_protection"`: The flag that prevents a ledger from being deleted by any user.
   If not provided on ledger creation, this feature is enabled (true) by default. If deletion
   protection is enabled, you must first disable it before you can delete the ledger. You can
   disable it by calling the UpdateLedger operation to set the flag to false.
-- `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
-  in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
-  Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
-  Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
-  Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer
-  managed KMS key: Use the specified KMS key in your account that you create, own, and
-  manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
+- `"kms_key"`: The key in Key Management Service (KMS) to use for encryption of data at
+  rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB
+  Developer Guide. Use one of the following options to specify this parameter:
+  AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your
+  behalf.    Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric
+  customer managed KMS key: Use the specified KMS key in your account that you create, own,
+  and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
   symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
   customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
   or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
@@ -866,14 +665,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Key identifiers (KeyId) in the Key Management Service Developer
   Guide.
 """
-function update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return qldb(
-        "PATCH", "/ledgers/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_ledger(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "PATCH",
         "/ledgers/$(name)",
@@ -884,8 +677,7 @@ function update_ledger(
 end
 
 """
-    update_ledger_permissions_mode(permissions_mode, name)
-    update_ledger_permissions_mode(permissions_mode, name, params::Dict{String,<:Any})
+    update_ledger_permissions_mode(permissions_mode, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the permissions mode of a ledger.  Before you switch to the STANDARD permissions
 mode, you must first create all required IAM policies and table tags to avoid disruption to
@@ -911,22 +703,9 @@ QLDB Developer Guide.
 
 """
 function update_ledger_permissions_mode(
-    PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config()
+    PermissionsMode, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return qldb(
-        "PATCH",
-        "/ledgers/$(name)/permissions-mode",
-        Dict{String,Any}("PermissionsMode" => PermissionsMode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_ledger_permissions_mode(
-    PermissionsMode,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return qldb(
         "PATCH",
         "/ledgers/$(name)/permissions-mode",

@@ -4,9 +4,25 @@ using AWS.AWSServices: synthetics
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "execution_role_arn" => "ExecutionRoleArn",
+    "code" => "Code",
+    "artifact_config" => "ArtifactConfig",
+    "failure_retention_period_in_days" => "FailureRetentionPeriodInDays",
+    "next_token" => "NextToken",
+    "schedule" => "Schedule",
+    "visual_reference" => "VisualReference",
+    "artifact_s3_location" => "ArtifactS3Location",
+    "max_results" => "MaxResults",
+    "runtime_version" => "RuntimeVersion",
+    "vpc_config" => "VpcConfig",
+    "success_retention_period_in_days" => "SuccessRetentionPeriodInDays",
+    "run_config" => "RunConfig",
+    "tags" => "Tags",
+)
+
 """
-    create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule)
-    create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule, params::Dict{String,<:Any})
+    create_canary(artifact_s3_location, code, execution_role_arn, name, runtime_version, schedule; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a canary. Canaries are scripts that monitor your endpoints and APIs from the
 outside-in. Canaries help you check the availability and latency of your web services and
@@ -45,23 +61,23 @@ Canaries.
   and when these test runs are to stop.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"artifact_config"`: A structure that contains the configuration for canary artifacts,
   including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
   S3.
-- `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
-  this canary. If you omit this field, the default of 31 days is used. The valid range is 1
-  to 455 days.
-- `"RunConfig"`: A structure that contains the configuration for individual canary runs,
-  such as timeout value.
-- `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
+- `"failure_retention_period_in_days"`: The number of days to retain data about failed runs
   of this canary. If you omit this field, the default of 31 days is used. The valid range is
   1 to 455 days.
-- `"Tags"`: A list of key-value pairs to associate with the canary. You can associate as
+- `"run_config"`: A structure that contains the configuration for individual canary runs,
+  such as timeout value.
+- `"success_retention_period_in_days"`: The number of days to retain data about successful
+  runs of this canary. If you omit this field, the default of 31 days is used. The valid
+  range is 1 to 455 days.
+- `"tags"`: A list of key-value pairs to associate with the canary. You can associate as
   many as 50 tags with a canary. Tags can help you organize and categorize your resources.
   You can also use them to scope user permissions, by granting a user permission to access or
   change only the resources that have certain tag values.
-- `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
+- `"vpc_config"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more information,
   see  Running a Canary in a VPC.
 """
@@ -73,32 +89,9 @@ function create_canary(
     RuntimeVersion,
     Schedule;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return synthetics(
-        "POST",
-        "/canary",
-        Dict{String,Any}(
-            "ArtifactS3Location" => ArtifactS3Location,
-            "Code" => Code,
-            "ExecutionRoleArn" => ExecutionRoleArn,
-            "Name" => Name,
-            "RuntimeVersion" => RuntimeVersion,
-            "Schedule" => Schedule,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_canary(
-    ArtifactS3Location,
-    Code,
-    ExecutionRoleArn,
-    Name,
-    RuntimeVersion,
-    Schedule,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/canary",
@@ -122,8 +115,7 @@ function create_canary(
 end
 
 """
-    delete_canary(name)
-    delete_canary(name, params::Dict{String,<:Any})
+    delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently deletes the specified canary. When you delete a canary, resources used and
 created by the canary are not automatically deleted. After you delete a canary that you do
@@ -144,14 +136,8 @@ canary.
   canaries, use DescribeCanaries.
 
 """
-function delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "DELETE", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "DELETE",
         "/canary/$(name)",
@@ -162,8 +148,7 @@ function delete_canary(
 end
 
 """
-    describe_canaries()
-    describe_canaries(params::Dict{String,<:Any})
+    describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation returns a list of the canaries in your account, along with full details
 about each canary. This operation does not have resource-level authorization, so if a user
@@ -172,48 +157,37 @@ deny policy can only be used to restrict access to all canaries. It cannot be us
 specific resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specify this parameter to limit how many canaries are returned each time
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specify this parameter to limit how many canaries are returned each time
   you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is
   used.
-- `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent operation to retrieve the next set of results.
+- `"next_token"`: A token that indicates that there is more data available. You can use
+  this token in a subsequent operation to retrieve the next set of results.
 """
-function describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST", "/canaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_canaries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_canaries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST", "/canaries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_canaries_last_run()
-    describe_canaries_last_run(params::Dict{String,<:Any})
+    describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use this operation to see information from the most recent run of each canary that you have
 created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specify this parameter to limit how many runs are returned each time you
   use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
-- `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent DescribeCanaries operation to retrieve the next set of results.
+- `"next_token"`: A token that indicates that there is more data available. You can use
+  this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
 """
-function describe_canaries_last_run(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST", "/canaries/last-run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_canaries_last_run(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_canaries_last_run(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/canaries/last-run",
@@ -224,28 +198,24 @@ function describe_canaries_last_run(
 end
 
 """
-    describe_runtime_versions()
-    describe_runtime_versions(params::Dict{String,<:Any})
+    describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Synthetics canary runtime versions. For more information, see  Canary
 Runtime Versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specify this parameter to limit how many runs are returned each time you
   use the DescribeRuntimeVersions operation. If you omit this parameter, the default of 100
   is used.
-- `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
+- `"next_token"`: A token that indicates that there is more data available. You can use
+  this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of
+  results.
 """
-function describe_runtime_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST", "/runtime-versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_runtime_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_runtime_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/runtime-versions",
@@ -256,8 +226,7 @@ function describe_runtime_versions(
 end
 
 """
-    get_canary(name)
-    get_canary(name, params::Dict{String,<:Any})
+    get_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves complete information about one canary. You must specify the name of the canary
 that you want. To get a list of canaries and their names, use DescribeCanaries.
@@ -266,14 +235,8 @@ that you want. To get a list of canaries and their names, use DescribeCanaries.
 - `name`: The name of the canary that you want details for.
 
 """
-function get_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "GET", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "GET",
         "/canary/$(name)",
@@ -284,8 +247,7 @@ function get_canary(
 end
 
 """
-    get_canary_runs(name)
-    get_canary_runs(name, params::Dict{String,<:Any})
+    get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of runs for a specified canary.
 
@@ -293,23 +255,14 @@ Retrieves a list of runs for a specified canary.
 - `name`: The name of the canary that you want to see runs for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specify this parameter to limit how many runs are returned each time you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specify this parameter to limit how many runs are returned each time you
   use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
-- `"NextToken"`: A token that indicates that there is more data available. You can use this
-  token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
+- `"next_token"`: A token that indicates that there is more data available. You can use
+  this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
 """
-function get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST",
-        "/canary/$(name)/runs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_canary_runs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_canary_runs(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/canary/$(name)/runs",
@@ -320,8 +273,7 @@ function get_canary_runs(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays the tags associated with a canary.
 
@@ -331,20 +283,9 @@ Displays the tags associated with a canary.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return synthetics(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "GET",
         "/tags/$(resourceArn)",
@@ -355,8 +296,7 @@ function list_tags_for_resource(
 end
 
 """
-    start_canary(name)
-    start_canary(name, params::Dict{String,<:Any})
+    start_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use this operation to run a canary that has already been created. The frequency of the
 canary runs is determined by the value of the canary's Schedule. To see a canary's
@@ -367,17 +307,8 @@ schedule, use GetCanary.
   DescribeCanaries.
 
 """
-function start_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST",
-        "/canary/$(name)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function start_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/canary/$(name)/start",
@@ -388,8 +319,7 @@ function start_canary(
 end
 
 """
-    stop_canary(name)
-    stop_canary(name, params::Dict{String,<:Any})
+    stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops the canary to prevent all future runs. If the canary is currently running, Synthetics
 stops waiting for the current run of the specified canary to complete. The run that is in
@@ -402,17 +332,8 @@ again with the canary’s current schedule at any point in the future.
   use DescribeCanaries.
 
 """
-function stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST",
-        "/canary/$(name)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function stop_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/canary/$(name)/stop",
@@ -423,8 +344,7 @@ function stop_canary(
 end
 
 """
-    tag_resource(tags, resource_arn)
-    tag_resource(tags, resource_arn, params::Dict{String,<:Any})
+    tag_resource(tags, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns one or more tags (key-value pairs) to the specified canary.  Tags can help you
 organize and categorize your resources. You can also use them to scope user permissions, by
@@ -442,21 +362,10 @@ associate as many as 50 tags with a canary.
   canary is arn:aws:synthetics:Region:account-id:canary:canary-name .
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Tags,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "POST",
         "/tags/$(resourceArn)",
@@ -467,8 +376,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from the specified canary.
 
@@ -479,22 +387,9 @@ Removes one or more tags from the specified canary.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return synthetics(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -505,8 +400,7 @@ function untag_resource(
 end
 
 """
-    update_canary(name)
-    update_canary(name, params::Dict{String,<:Any})
+    update_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use this operation to change the settings of a canary that has already been created. You
 can't use this operation to update the tags of an existing canary. To change the tags of an
@@ -518,50 +412,44 @@ existing canary, use TagResource.
   been created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ArtifactConfig"`: A structure that contains the configuration for canary artifacts,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"artifact_config"`: A structure that contains the configuration for canary artifacts,
   including the encryption-at-rest settings for artifacts that the canary uploads to Amazon
   S3.
-- `"ArtifactS3Location"`: The location in Amazon S3 where Synthetics stores artifacts from
-  the test runs of this canary. Artifacts include the log file, screenshots, and HAR files.
-  The name of the S3 bucket can't include a period (.).
-- `"Code"`: A structure that includes the entry point from which the canary should start
+- `"artifact_s3_location"`: The location in Amazon S3 where Synthetics stores artifacts
+  from the test runs of this canary. Artifacts include the log file, screenshots, and HAR
+  files. The name of the S3 bucket can't include a period (.).
+- `"code"`: A structure that includes the entry point from which the canary should start
   running your script. If the script is stored in an S3 bucket, the bucket name, key, and
   version are also included.
-- `"ExecutionRoleArn"`: The ARN of the IAM role to be used to run the canary. This role
+- `"execution_role_arn"`: The ARN of the IAM role to be used to run the canary. This role
   must already exist, and must include lambda.amazonaws.com as a principal in the trust
   policy. The role must also have the following permissions:    s3:PutObject
   s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData
   logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream
-- `"FailureRetentionPeriodInDays"`: The number of days to retain data about failed runs of
-  this canary.
-- `"RunConfig"`: A structure that contains the timeout value that is used for each
+- `"failure_retention_period_in_days"`: The number of days to retain data about failed runs
+  of this canary.
+- `"run_config"`: A structure that contains the timeout value that is used for each
   individual run of the canary.
-- `"RuntimeVersion"`: Specifies the runtime version to use for the canary. For a list of
+- `"runtime_version"`: Specifies the runtime version to use for the canary. For a list of
   valid runtime versions and for more information about runtime versions, see  Canary Runtime
   Versions.
-- `"Schedule"`: A structure that contains information about how often the canary is to run,
+- `"schedule"`: A structure that contains information about how often the canary is to run,
   and when these runs are to stop.
-- `"SuccessRetentionPeriodInDays"`: The number of days to retain data about successful runs
-  of this canary.
-- `"VisualReference"`: Defines the screenshots to use as the baseline for comparisons
+- `"success_retention_period_in_days"`: The number of days to retain data about successful
+  runs of this canary.
+- `"visual_reference"`: Defines the screenshots to use as the baseline for comparisons
   during visual monitoring comparisons during future runs of this canary. If you omit this
   parameter, no changes are made to any baseline screenshots that the canary might be using
   already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2
   runtime or later. For more information, see  Visual monitoring and  Visual monitoring
   blueprint
-- `"VpcConfig"`: If this canary is to test an endpoint in a VPC, this structure contains
+- `"vpc_config"`: If this canary is to test an endpoint in a VPC, this structure contains
   information about the subnet and security groups of the VPC endpoint. For more information,
   see  Running a Canary in a VPC.
 """
-function update_canary(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return synthetics(
-        "PATCH", "/canary/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_canary(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_canary(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return synthetics(
         "PATCH",
         "/canary/$(name)",

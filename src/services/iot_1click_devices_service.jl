@@ -4,9 +4,18 @@ using AWS.AWSServices: iot_1click_devices_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "device_method" => "deviceMethod",
+    "device_type" => "deviceType",
+    "device_method_parameters" => "deviceMethodParameters",
+    "enabled" => "enabled",
+    "tags" => "tags",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    claim_devices_by_claim_code(claim_code)
-    claim_devices_by_claim_code(claim_code, params::Dict{String,<:Any})
+    claim_devices_by_claim_code(claim_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds device(s) to your account (i.e., claim one or more devices) if and only if you
 received a claim code with the device(s).
@@ -17,20 +26,9 @@ received a claim code with the device(s).
 
 """
 function claim_devices_by_claim_code(
-    claimCode; aws_config::AbstractAWSConfig=global_aws_config()
+    claimCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_devices_service(
-        "PUT",
-        "/claims/$(claimCode)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function claim_devices_by_claim_code(
-    claimCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "PUT",
         "/claims/$(claimCode)",
@@ -41,8 +39,7 @@ function claim_devices_by_claim_code(
 end
 
 """
-    describe_device(device_id)
-    describe_device(device_id, params::Dict{String,<:Any})
+    describe_device(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a device ID, returns a DescribeDeviceResponse object describing the
  details of the
@@ -52,19 +49,10 @@ device.
 - `device_id`: The unique identifier of the device.
 
 """
-function describe_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "GET",
-        "/devices/$(deviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_device(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "GET",
         "/devices/$(deviceId)",
@@ -75,8 +63,7 @@ function describe_device(
 end
 
 """
-    finalize_device_claim(device_id)
-    finalize_device_claim(device_id, params::Dict{String,<:Any})
+    finalize_device_claim(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a device ID, finalizes the claim request for the associated device.
  Claiming a
@@ -90,24 +77,15 @@ device.
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A collection of key/value pairs defining the resource tags. For example, {
   \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS
   Tagging Strategies.
 """
-function finalize_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "PUT",
-        "/devices/$(deviceId)/finalize-claim";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function finalize_device_claim(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "PUT",
         "/devices/$(deviceId)/finalize-claim",
@@ -118,8 +96,7 @@ function finalize_device_claim(
 end
 
 """
-    get_device_methods(device_id)
-    get_device_methods(device_id, params::Dict{String,<:Any})
+    get_device_methods(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a device ID, returns the invokable methods associated with the device.
 
@@ -127,19 +104,10 @@ Given a device ID, returns the invokable methods associated with the device.
 - `device_id`: The unique identifier of the device.
 
 """
-function get_device_methods(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "GET",
-        "/devices/$(deviceId)/methods";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_device_methods(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "GET",
         "/devices/$(deviceId)/methods",
@@ -150,8 +118,7 @@ function get_device_methods(
 end
 
 """
-    initiate_device_claim(device_id)
-    initiate_device_claim(device_id, params::Dict{String,<:Any})
+    initiate_device_claim(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a device ID, initiates a claim request for the associated device.
  Claiming a device
@@ -165,19 +132,10 @@ device.
 - `device_id`: The unique identifier of the device.
 
 """
-function initiate_device_claim(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "PUT",
-        "/devices/$(deviceId)/initiate-claim";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function initiate_device_claim(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "PUT",
         "/devices/$(deviceId)/initiate-claim",
@@ -188,8 +146,7 @@ function initiate_device_claim(
 end
 
 """
-    invoke_device_method(device_id)
-    invoke_device_method(device_id, params::Dict{String,<:Any})
+    invoke_device_method(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a device ID, issues a request to invoke a named device method (with possible
 parameters). See the \"Example POST\" code snippet below.
@@ -198,24 +155,15 @@ parameters). See the \"Example POST\" code snippet below.
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deviceMethod"`: The device method to invoke.
-- `"deviceMethodParameters"`: A JSON encoded string containing the device method request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"device_method"`: The device method to invoke.
+- `"device_method_parameters"`: A JSON encoded string containing the device method request
   parameters.
 """
-function invoke_device_method(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "POST",
-        "/devices/$(deviceId)/methods";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function invoke_device_method(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "POST",
         "/devices/$(deviceId)/methods",
@@ -226,8 +174,7 @@ function invoke_device_method(
 end
 
 """
-    list_device_events(device_id, from_time_stamp, to_time_stamp)
-    list_device_events(device_id, from_time_stamp, to_time_stamp, params::Dict{String,<:Any})
+    list_device_events(device_id, from_time_stamp, to_time_stamp; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Using a device ID, returns a DeviceEventsResponse object containing an
  array of events for
@@ -243,30 +190,20 @@ the device.
  2018-03-28T15:45:12.880Z
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per request. If not set, a
   default value of
  100 is used.
-- `"nextToken"`: The token to retrieve the next set of results.
+- `"next_token"`: The token to retrieve the next set of results.
 """
-function list_device_events(
-    deviceId, fromTimeStamp, toTimeStamp; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iot_1click_devices_service(
-        "GET",
-        "/devices/$(deviceId)/events",
-        Dict{String,Any}("fromTimeStamp" => fromTimeStamp, "toTimeStamp" => toTimeStamp);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_device_events(
     deviceId,
     fromTimeStamp,
-    toTimeStamp,
-    params::AbstractDict{String};
+    toTimeStamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "GET",
         "/devices/$(deviceId)/events",
@@ -285,35 +222,27 @@ function list_device_events(
 end
 
 """
-    list_devices()
-    list_devices(params::Dict{String,<:Any})
+    list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the 1-Click compatible devices associated with your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deviceType"`: The type of the device, such as \"button\".
-- `"maxResults"`: The maximum number of results to return per request. If not set, a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"device_type"`: The type of the device, such as \"button\".
+- `"max_results"`: The maximum number of results to return per request. If not set, a
   default value of
  100 is used.
-- `"nextToken"`: The token to retrieve the next set of results.
+- `"next_token"`: The token to retrieve the next set of results.
 """
-function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_devices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags associated with the specified resource ARN.
 
@@ -322,20 +251,9 @@ Lists the tags associated with the specified resource ARN.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_devices_service(
-        "GET",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "GET",
         "/tags/$(resource-arn)",
@@ -346,8 +264,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource-arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates the tags associated with the resource ARN. See AWS IoT 1-Click Service
 Limits for the maximum number of tags allowed per
@@ -360,21 +277,10 @@ Limits for the maximum number of tags allowed per
   Tagging Strategies.
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resource_arn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "POST",
         "/tags/$(resource-arn)",
@@ -385,8 +291,7 @@ function tag_resource(
 end
 
 """
-    unclaim_device(device_id)
-    unclaim_device(device_id, params::Dict{String,<:Any})
+    unclaim_device(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a device from your AWS account using its device ID.
 
@@ -394,19 +299,10 @@ Disassociates a device from your AWS account using its device ID.
 - `device_id`: The unique identifier of the device.
 
 """
-function unclaim_device(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "PUT",
-        "/devices/$(deviceId)/unclaim";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function unclaim_device(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "PUT",
         "/devices/$(deviceId)/unclaim",
@@ -417,8 +313,7 @@ function unclaim_device(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Using tag keys, deletes the tags (key/value pairs) associated with the specified
  resource
@@ -430,22 +325,9 @@ ARN.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_1click_devices_service(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "DELETE",
         "/tags/$(resource-arn)",
@@ -456,8 +338,7 @@ function untag_resource(
 end
 
 """
-    update_device_state(device_id)
-    update_device_state(device_id, params::Dict{String,<:Any})
+    update_device_state(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Using a Boolean value (true or false), this operation
  enables or disables the device given
@@ -467,23 +348,14 @@ a device ID.
 - `device_id`: The unique identifier of the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"enabled"`: If true, the device is enabled. If false, the device is
  disabled.
 """
-function update_device_state(deviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_1click_devices_service(
-        "PUT",
-        "/devices/$(deviceId)/state";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_device_state(
-    deviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    deviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_1click_devices_service(
         "PUT",
         "/devices/$(deviceId)/state",

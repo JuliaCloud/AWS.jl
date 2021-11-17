@@ -4,9 +4,16 @@ using AWS.AWSServices: iotfleethub
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "application_description" => "applicationDescription",
+    "client_token" => "clientToken",
+    "tags" => "tags",
+    "next_token" => "nextToken",
+    "application_name" => "applicationName",
+)
+
 """
-    create_application(application_name, role_arn)
-    create_application(application_name, role_arn, params::Dict{String,<:Any})
+    create_application(application_name, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
 Device Management is in public preview and is subject to change.
@@ -17,35 +24,18 @@ Device Management is in public preview and is subject to change.
   AWS IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string .
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationDescription"`: An optional description of the web application.
-- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_description"`: An optional description of the web application.
+- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 - `"tags"`: A set of key/value pairs that you can use to manage the web application
   resource.
 """
 function create_application(
-    applicationName, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationName, roleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "POST",
-        "/applications",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "roleArn" => roleArn,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_application(
-    applicationName,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "POST",
         "/applications",
@@ -55,7 +45,7 @@ function create_application(
                 Dict{String,Any}(
                     "applicationName" => applicationName,
                     "roleArn" => roleArn,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -66,8 +56,7 @@ function create_application(
 end
 
 """
-    delete_application(application_id)
-    delete_application(application_id, params::Dict{String,<:Any})
+    delete_application(application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
 Device Management is in public preview and is subject to change.
@@ -76,32 +65,20 @@ Device Management is in public preview and is subject to change.
 - `application_id`: The unique Id of the web application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
 function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "DELETE",
-        "/applications/$(applicationId)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_application(
-    applicationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "DELETE",
         "/applications/$(applicationId)",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -109,8 +86,7 @@ function delete_application(
 end
 
 """
-    describe_application(application_id)
-    describe_application(application_id, params::Dict{String,<:Any})
+    describe_application(application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a Fleet Hub for AWS IoT Device Management web application.  Fleet
 Hub for AWS IoT Device Management is in public preview and is subject to change.
@@ -120,20 +96,9 @@ Hub for AWS IoT Device Management is in public preview and is subject to change.
 
 """
 function describe_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "GET",
-        "/applications/$(applicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application(
-    applicationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "GET",
         "/applications/$(applicationId)",
@@ -144,25 +109,18 @@ function describe_application(
 end
 
 """
-    list_applications()
-    list_applications(params::Dict{String,<:Any})
+    list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current
 account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to
 change.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A token used to get the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: A token used to get the next set of results.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotfleethub(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "GET",
         "/applications",
@@ -173,8 +131,7 @@ function list_applications(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified resource.  Fleet Hub for AWS IoT Device Management is in
 public preview and is subject to change.
@@ -184,20 +141,9 @@ public preview and is subject to change.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "GET",
         "/tags/$(resourceArn)",
@@ -208,8 +154,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds to or modifies the tags of the specified resource. Tags are metadata which can be used
 to manage a resource.  Fleet Hub for AWS IoT Device Management is in public preview and is
@@ -220,21 +165,10 @@ subject to change.
 - `tags`: The new or modified tags for the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotfleethub(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "POST",
         "/tags/$(resourceArn)",
@@ -245,8 +179,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags (metadata) from the resource.  Fleet Hub for AWS IoT Device
 Management is in public preview and is subject to change.
@@ -257,22 +190,9 @@ Management is in public preview and is subject to change.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -283,8 +203,7 @@ function untag_resource(
 end
 
 """
-    update_application(application_id)
-    update_application(application_id, params::Dict{String,<:Any})
+    update_application(application_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates information about a Fleet Hub for a AWS IoT Device Management web application.
 Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
@@ -293,34 +212,22 @@ Fleet Hub for AWS IoT Device Management is in public preview and is subject to c
 - `application_id`: The unique Id of the web application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationDescription"`: An optional description of the web application.
-- `"applicationName"`: The name of the web application.
-- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_description"`: An optional description of the web application.
+- `"application_name"`: The name of the web application.
+- `"client_token"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
 """
 function update_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iotfleethub(
-        "PATCH",
-        "/applications/$(applicationId)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application(
-    applicationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iotfleethub(
         "PATCH",
         "/applications/$(applicationId)",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

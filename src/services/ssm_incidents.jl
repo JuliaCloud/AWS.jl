@@ -4,9 +4,37 @@ using AWS.AWSServices: ssm_incidents
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "incident_template_summary" => "incidentTemplateSummary",
+    "notification_targets" => "notificationTargets",
+    "next_token" => "nextToken",
+    "engagements" => "engagements",
+    "event_time" => "eventTime",
+    "event_data" => "eventData",
+    "sort_order" => "sortOrder",
+    "actions" => "actions",
+    "status" => "status",
+    "sort_by" => "sortBy",
+    "trigger_details" => "triggerDetails",
+    "incident_template_notification_targets" => "incidentTemplateNotificationTargets",
+    "event_type" => "eventType",
+    "max_results" => "maxResults",
+    "chat_channel" => "chatChannel",
+    "summary" => "summary",
+    "client_token" => "clientToken",
+    "related_items" => "relatedItems",
+    "filters" => "filters",
+    "impact" => "impact",
+    "display_name" => "displayName",
+    "incident_template_impact" => "incidentTemplateImpact",
+    "title" => "title",
+    "tags" => "tags",
+    "incident_template_dedupe_string" => "incidentTemplateDedupeString",
+    "incident_template_title" => "incidentTemplateTitle",
+)
+
 """
-    create_replication_set(regions)
-    create_replication_set(regions, params::Dict{String,<:Any})
+    create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A replication set replicates and encrypts your data to the provided Regions with the
 provided KMS key.
@@ -16,29 +44,21 @@ provided KMS key.
   three Regions in your replication set.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
 """
-function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/createReplicationSet",
-        Dict{String,Any}("regions" => regions, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_replication_set(
-    regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    regions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/createReplicationSet",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("regions" => regions, "clientToken" => string(uuid4())),
+                Dict{String,Any}("regions" => regions, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -48,8 +68,7 @@ function create_replication_set(
 end
 
 """
-    create_response_plan(incident_template, name)
-    create_response_plan(incident_template, name, params::Dict{String,<:Any})
+    create_response_plan(incident_template, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a response plan that automates the initial response to incidents. A response plan
 engages contacts, starts chat channel collaboration, and initiates runbooks at the
@@ -60,37 +79,21 @@ beginning of an incident.
 - `name`: The short format name of the response plan. Can't include spaces.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"actions"`: The actions that the response plan starts at the beginning of an incident.
-- `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident.
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+- `"chat_channel"`: The Chatbot chat channel used for collaboration during an incident.
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"displayName"`: The long format of the response plan name. This field can contain spaces.
+- `"display_name"`: The long format of the response plan name. This field can contain
+  spaces.
 - `"engagements"`: The contacts and escalation plans that the response plan engages during
   an incident.
 - `"tags"`: A list of tags that you are adding to the response plan.
 """
 function create_response_plan(
-    incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/createResponsePlan",
-        Dict{String,Any}(
-            "incidentTemplate" => incidentTemplate,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_response_plan(
-    incidentTemplate,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/createResponsePlan",
@@ -100,7 +103,7 @@ function create_response_plan(
                 Dict{String,Any}(
                     "incidentTemplate" => incidentTemplate,
                     "name" => name,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -111,8 +114,7 @@ function create_response_plan(
 end
 
 """
-    create_timeline_event(event_data, event_time, event_type, incident_record_arn)
-    create_timeline_event(event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
+    create_timeline_event(event_data, event_time, event_type, incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a custom timeline event on the incident details page of an incident record.
 Timeline events are automatically created by Incident Manager, marking key moment during an
@@ -128,8 +130,8 @@ automatically detected by Incident Manager.
   event will be added.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the action is called only once with the specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the action is called only once with the specified
   details.
 """
 function create_timeline_event(
@@ -138,29 +140,9 @@ function create_timeline_event(
     eventType,
     incidentRecordArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm_incidents(
-        "POST",
-        "/createTimelineEvent",
-        Dict{String,Any}(
-            "eventData" => eventData,
-            "eventTime" => eventTime,
-            "eventType" => eventType,
-            "incidentRecordArn" => incidentRecordArn,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_timeline_event(
-    eventData,
-    eventTime,
-    eventType,
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/createTimelineEvent",
@@ -172,7 +154,7 @@ function create_timeline_event(
                     "eventTime" => eventTime,
                     "eventType" => eventType,
                     "incidentRecordArn" => incidentRecordArn,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -183,8 +165,7 @@ function create_timeline_event(
 end
 
 """
-    delete_incident_record(arn)
-    delete_incident_record(arn, params::Dict{String,<:Any})
+    delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an incident record from Incident Manager.
 
@@ -192,18 +173,10 @@ Delete an incident record from Incident Manager.
 - `arn`: The Amazon Resource Name (ARN) of the incident record you are deleting.
 
 """
-function delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/deleteIncidentRecord",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/deleteIncidentRecord",
@@ -214,8 +187,7 @@ function delete_incident_record(
 end
 
 """
-    delete_replication_set(arn)
-    delete_replication_set(arn, params::Dict{String,<:Any})
+    delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes all Regions in your replication set. Deleting the replication set deletes all
 Incident Manager data.
@@ -224,18 +196,10 @@ Incident Manager data.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you're deleting.
 
 """
-function delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/deleteReplicationSet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_replication_set(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/deleteReplicationSet",
@@ -246,8 +210,7 @@ function delete_replication_set(
 end
 
 """
-    delete_resource_policy(policy_id, resource_arn)
-    delete_resource_policy(policy_id, resource_arn, params::Dict{String,<:Any})
+    delete_resource_policy(policy_id, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the resource policy that Resource Access Manager uses to share your Incident
 Manager resource.
@@ -259,22 +222,9 @@ Manager resource.
 
 """
 function delete_resource_policy(
-    policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/deleteResourcePolicy",
-        Dict{String,Any}("policyId" => policyId, "resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_policy(
-    policyId,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/deleteResourcePolicy",
@@ -291,8 +241,7 @@ function delete_resource_policy(
 end
 
 """
-    delete_response_plan(arn)
-    delete_response_plan(arn, params::Dict{String,<:Any})
+    delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch
 alarms and EventBridge events from creating an incident with this response plan.
@@ -301,18 +250,10 @@ alarms and EventBridge events from creating an incident with this response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-function delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/deleteResponsePlan",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/deleteResponsePlan",
@@ -323,8 +264,7 @@ function delete_response_plan(
 end
 
 """
-    delete_timeline_event(event_id, incident_record_arn)
-    delete_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
+    delete_timeline_event(event_id, incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a timeline event from an incident.
 
@@ -336,22 +276,9 @@ Deletes a timeline event from an incident.
 
 """
 function delete_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/deleteTimelineEvent",
-        Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_timeline_event(
-    eventId,
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/deleteTimelineEvent",
@@ -370,8 +297,7 @@ function delete_timeline_event(
 end
 
 """
-    get_incident_record(arn)
-    get_incident_record(arn, params::Dict{String,<:Any})
+    get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details for the specified incident record.
 
@@ -379,18 +305,10 @@ Returns the details for the specified incident record.
 - `arn`: The Amazon Resource Name (ARN) of the incident record.
 
 """
-function get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "GET",
-        "/getIncidentRecord",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "GET",
         "/getIncidentRecord",
@@ -401,8 +319,7 @@ function get_incident_record(
 end
 
 """
-    get_replication_set(arn)
-    get_replication_set(arn, params::Dict{String,<:Any})
+    get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve your Incident Manager replication set.
 
@@ -410,18 +327,10 @@ Retrieve your Incident Manager replication set.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you want to retrieve.
 
 """
-function get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "GET",
-        "/getReplicationSet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_replication_set(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "GET",
         "/getReplicationSet",
@@ -432,8 +341,7 @@ function get_replication_set(
 end
 
 """
-    get_resource_policies(resource_arn)
-    get_resource_policies(resource_arn, params::Dict{String,<:Any})
+    get_resource_policies(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the resource policies attached to the specified response plan.
 
@@ -442,26 +350,14 @@ Retrieves the resource policies attached to the specified response plan.
   resource policy.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of resource policies to display per page of results.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of resource policies to display per page of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
 function get_resource_policies(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/getResourcePolicies",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_policies(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/getResourcePolicies",
@@ -474,8 +370,7 @@ function get_resource_policies(
 end
 
 """
-    get_response_plan(arn)
-    get_response_plan(arn, params::Dict{String,<:Any})
+    get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the details of the specified response plan.
 
@@ -483,18 +378,10 @@ Retrieves the details of the specified response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-function get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "GET",
-        "/getResponsePlan",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "GET",
         "/getResponsePlan",
@@ -505,8 +392,7 @@ function get_response_plan(
 end
 
 """
-    get_timeline_event(event_id, incident_record_arn)
-    get_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
+    get_timeline_event(event_id, incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a timeline event based on its ID and incident record.
 
@@ -518,22 +404,9 @@ Retrieves a timeline event based on its ID and incident record.
 
 """
 function get_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "GET",
-        "/getTimelineEvent",
-        Dict{String,Any}("eventId" => eventId, "incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_timeline_event(
-    eventId,
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "GET",
         "/getTimelineEvent",
@@ -552,14 +425,13 @@ function get_timeline_event(
 end
 
 """
-    list_incident_records()
-    list_incident_records(params::Dict{String,<:Any})
+    list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all incident records in your account. Use this command to retrieve the Amazon
 Resource Name (ARN) of the incident record you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Filters the list of incident records through which you are searching. You
   can filter on the following keys:    creationTime     impact     status     createdBy
   Note the following when deciding how to use Filters:   If you don't specify a Filter, the
@@ -567,20 +439,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request, the response returns incident records that match all filters.   If you specify a
   filter with more than one value, the response returns incident records that match any of
   the values provided.
-- `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"max_results"`: The maximum number of results per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/listIncidentRecords";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_incident_records(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_incident_records(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/listIncidentRecords",
@@ -591,8 +456,7 @@ function list_incident_records(
 end
 
 """
-    list_related_items(incident_record_arn)
-    list_related_items(incident_record_arn, params::Dict{String,<:Any})
+    list_related_items(incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all related items for an incident record.
 
@@ -601,26 +465,14 @@ List all related items for an incident record.
   the listed related items.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of related items per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of related items per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
 function list_related_items(
-    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/listRelatedItems",
-        Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_related_items(
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/listRelatedItems",
@@ -635,27 +487,19 @@ function list_related_items(
 end
 
 """
-    list_replication_sets()
-    list_replication_sets(params::Dict{String,<:Any})
+    list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists details about the replication set configured in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/listReplicationSets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_replication_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_replication_sets(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/listReplicationSets",
@@ -666,24 +510,17 @@ function list_replication_sets(
 end
 
 """
-    list_response_plans()
-    list_response_plans(params::Dict{String,<:Any})
+    list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all response plans in your account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of response plans per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of response plans per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_response_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/listResponsePlans",
@@ -694,8 +531,7 @@ function list_response_plans(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags that are attached to the specified response plan.
 
@@ -704,20 +540,9 @@ Lists the tags that are attached to the specified response plan.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "GET",
         "/tags/$(resourceArn)",
@@ -728,8 +553,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_timeline_events(incident_record_arn)
-    list_timeline_events(incident_record_arn, params::Dict{String,<:Any})
+    list_timeline_events(incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists timeline events for the specified incident record.
 
@@ -738,7 +562,7 @@ Lists timeline events for the specified incident record.
   timeline event.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
   can filter timeline events using the following keys:    eventTime     eventType    Note the
   following when deciding how to use Filters:   If you don't specify a Filter, the response
@@ -746,28 +570,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response returns timeline events that match all filters.   If you specify a filter with
   more than one value, the response returns timeline events that match any of the values
   provided.
-- `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
-- `"sortBy"`: Sort by the specified key value pair.
-- `"sortOrder"`: Sorts the order of timeline events by the value specified in the sortBy
+- `"max_results"`: The maximum number of results per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
+- `"sort_by"`: Sort by the specified key value pair.
+- `"sort_order"`: Sorts the order of timeline events by the value specified in the sortBy
   field.
 """
 function list_timeline_events(
-    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/listTimelineEvents",
-        Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_timeline_events(
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/listTimelineEvents",
@@ -782,8 +594,7 @@ function list_timeline_events(
 end
 
 """
-    put_resource_policy(policy, resource_arn)
-    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+    put_resource_policy(policy, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a resource policy to the specified response plan.
 
@@ -794,22 +605,9 @@ Adds a resource policy to the specified response plan.
 
 """
 function put_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/putResourcePolicy",
-        Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resource_policy(
-    policy,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/putResourcePolicy",
@@ -826,8 +624,7 @@ function put_resource_policy(
 end
 
 """
-    start_incident(response_plan_arn)
-    start_incident(response_plan_arn, params::Dict{String,<:Any})
+    start_incident(response_plan_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
 
@@ -836,8 +633,8 @@ Used to start an incident from CloudWatch alarms, EventBridge events, or manuall
   summary, chat channels, Amazon SNS topics, runbooks, title, and impact of the incident.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"impact"`: Defines the impact to the customers. Providing an impact overwrites the
   impact provided by a response plan.  Possible impacts:     1 - Critical impact, this
@@ -846,28 +643,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   impact, the application is providing reduced service to customers.    4 - Low impact,
   customer might aren't impacted by the problem yet.    5 - No impact, customers aren't
   currently impacted but urgent action is needed to avoid impact.
-- `"relatedItems"`: Add related items to the incident for other responders to use. Related
+- `"related_items"`: Add related items to the incident for other responders to use. Related
   items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
 - `"title"`: Provide a title for the incident. Providing a title overwrites the title
   provided by the response plan.
-- `"triggerDetails"`: Details of what created the incident record in Incident Manager.
+- `"trigger_details"`: Details of what created the incident record in Incident Manager.
 """
-function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/startIncident",
-        Dict{String,Any}(
-            "responsePlanArn" => responsePlanArn, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_incident(
-    responsePlanArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/startIncident",
@@ -875,7 +660,7 @@ function start_incident(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "responsePlanArn" => responsePlanArn, "clientToken" => string(uuid4())
+                    "responsePlanArn" => responsePlanArn, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -886,8 +671,7 @@ function start_incident(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a tag to a response plan.
 
@@ -897,21 +681,10 @@ Adds a tag to a response plan.
 - `tags`: A list of tags that you are adding to the response plan.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/tags/$(resourceArn)",
@@ -922,8 +695,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a tag from a resource.
 
@@ -934,22 +706,9 @@ Removes a tag from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -960,8 +719,7 @@ function untag_resource(
 end
 
 """
-    update_deletion_protection(arn, deletion_protected)
-    update_deletion_protection(arn, deletion_protected, params::Dict{String,<:Any})
+    update_deletion_protection(arn, deletion_protected; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update deletion protection to either allow or deny deletion of the final Region in a
 replication set.
@@ -972,31 +730,14 @@ replication set.
   account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
 """
 function update_deletion_protection(
-    arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/updateDeletionProtection",
-        Dict{String,Any}(
-            "arn" => arn,
-            "deletionProtected" => deletionProtected,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_deletion_protection(
-    arn,
-    deletionProtected,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateDeletionProtection",
@@ -1006,7 +747,7 @@ function update_deletion_protection(
                 Dict{String,Any}(
                     "arn" => arn,
                     "deletionProtected" => deletionProtected,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1017,8 +758,7 @@ function update_deletion_protection(
 end
 
 """
-    update_incident_record(arn)
-    update_incident_record(arn, params::Dict{String,<:Any})
+    update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update the details of an incident record. You can use this operation to update an incident
 record from the defined chat channel. For more information about using actions in chat
@@ -1028,9 +768,9 @@ channels, see Interacting through chat.
 - `arn`: The Amazon Resource Name (ARN) of the incident record you are updating.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"chatChannel"`: The Chatbot chat channel where responders can collaborate.
-- `"clientToken"`: A token that ensures that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"chat_channel"`: The Chatbot chat channel where responders can collaborate.
+- `"client_token"`: A token that ensures that the operation is called only once with the
   specified details.
 - `"impact"`: Defines the impact of the incident to customers and applications. Providing
   an impact overwrites the impact provided by the response plan.  Possible impacts:     1 -
@@ -1039,32 +779,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the application is providing reduced service to customers.    4 - Low impact, customer
   aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted
   but urgent action is needed to avoid impact.
-- `"notificationTargets"`: The Amazon SNS targets that are notified when updates are made
+- `"notification_targets"`: The Amazon SNS targets that are notified when updates are made
   to an incident. Using multiple SNS topics creates redundancy in the event that a Region is
   down during the incident.
 - `"status"`: The status of the incident. An incident can be Open or Resolved.
 - `"summary"`: A longer description of what occurred during the incident.
 - `"title"`: A brief description of the incident.
 """
-function update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/updateIncidentRecord",
-        Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateIncidentRecord",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4())),
+                Dict{String,Any}("arn" => arn, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -1074,8 +806,7 @@ function update_incident_record(
 end
 
 """
-    update_related_items(incident_record_arn, related_items_update)
-    update_related_items(incident_record_arn, related_items_update, params::Dict{String,<:Any})
+    update_related_items(incident_record_arn, related_items_update; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add or remove related items from the related items tab of an incident record.
 
@@ -1085,31 +816,17 @@ Add or remove related items from the related items tab of an incident record.
 - `related_items_update`: Details about the item you are adding or deleting.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
 """
 function update_related_items(
-    incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_incidents(
-        "POST",
-        "/updateRelatedItems",
-        Dict{String,Any}(
-            "incidentRecordArn" => incidentRecordArn,
-            "relatedItemsUpdate" => relatedItemsUpdate,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_related_items(
     incidentRecordArn,
-    relatedItemsUpdate,
-    params::AbstractDict{String};
+    relatedItemsUpdate;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateRelatedItems",
@@ -1119,7 +836,7 @@ function update_related_items(
                 Dict{String,Any}(
                     "incidentRecordArn" => incidentRecordArn,
                     "relatedItemsUpdate" => relatedItemsUpdate,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1130,8 +847,7 @@ function update_related_items(
 end
 
 """
-    update_replication_set(actions, arn)
-    update_replication_set(actions, arn, params::Dict{String,<:Any})
+    update_replication_set(actions, arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add or delete Regions from your replication set.
 
@@ -1140,29 +856,14 @@ Add or delete Regions from your replication set.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you're updating.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
 """
 function update_replication_set(
-    actions, arn; aws_config::AbstractAWSConfig=global_aws_config()
+    actions, arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/updateReplicationSet",
-        Dict{String,Any}(
-            "actions" => actions, "arn" => arn, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_replication_set(
-    actions,
-    arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateReplicationSet",
@@ -1170,7 +871,7 @@ function update_replication_set(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "actions" => actions, "arn" => arn, "clientToken" => string(uuid4())
+                    "actions" => actions, "arn" => arn, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -1181,8 +882,7 @@ function update_replication_set(
 end
 
 """
-    update_response_plan(arn)
-    update_response_plan(arn, params::Dict{String,<:Any})
+    update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified response plan.
 
@@ -1190,47 +890,39 @@ Updates the specified response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"actions"`: The actions that this response plan takes at the beginning of an incident.
-- `"chatChannel"`: The Chatbot chat channel used for collaboration during an incident. Use
+- `"chat_channel"`: The Chatbot chat channel used for collaboration during an incident. Use
   the empty structure to remove the chat channel from the response plan.
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"displayName"`: The long format name of the response plan. The display name can't
+- `"display_name"`: The long format name of the response plan. The display name can't
   contain spaces.
 - `"engagements"`: The contacts and escalation plans that Incident Manager engages at the
   start of the incident.
-- `"incidentTemplateDedupeString"`: The string Incident Manager uses to prevent duplicate
-  incidents from being created by the same incident in the same account.
-- `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
+- `"incident_template_dedupe_string"`: The string Incident Manager uses to prevent
+  duplicate incidents from being created by the same incident in the same account.
+- `"incident_template_impact"`: Defines the impact to the customers. Providing an impact
   overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact
      4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
-- `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
+- `"incident_template_notification_targets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
-- `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
+- `"incident_template_summary"`: A brief summary of the incident. This typically contains
   what has happened, what's currently happening, and next steps.
-- `"incidentTemplateTitle"`: The short format name of the incident. The title can't contain
-  spaces.
+- `"incident_template_title"`: The short format name of the incident. The title can't
+  contain spaces.
 """
-function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_incidents(
-        "POST",
-        "/updateResponsePlan",
-        Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateResponsePlan",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("arn" => arn, "clientToken" => string(uuid4())),
+                Dict{String,Any}("arn" => arn, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -1240,8 +932,7 @@ function update_response_plan(
 end
 
 """
-    update_timeline_event(event_id, incident_record_arn)
-    update_timeline_event(event_id, incident_record_arn, params::Dict{String,<:Any})
+    update_timeline_event(event_id, incident_record_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a timeline event. You can update events of type Custom Event.
 
@@ -1252,34 +943,17 @@ Updates a timeline event. You can update events of type Custom Event.
   timeline event.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"eventData"`: A short description of the event.
-- `"eventTime"`: The time that the event occurred.
-- `"eventType"`: The type of the event. You can update events of type Custom Event.
+- `"event_data"`: A short description of the event.
+- `"event_time"`: The time that the event occurred.
+- `"event_type"`: The type of the event. You can update events of type Custom Event.
 """
 function update_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_incidents(
-        "POST",
-        "/updateTimelineEvent",
-        Dict{String,Any}(
-            "eventId" => eventId,
-            "incidentRecordArn" => incidentRecordArn,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_timeline_event(
-    eventId,
-    incidentRecordArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_incidents(
         "POST",
         "/updateTimelineEvent",
@@ -1289,7 +963,7 @@ function update_timeline_event(
                 Dict{String,Any}(
                     "eventId" => eventId,
                     "incidentRecordArn" => incidentRecordArn,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),

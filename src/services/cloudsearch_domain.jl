@@ -4,9 +4,24 @@ using AWS.AWSServices: cloudsearch_domain
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "stats" => "stats",
+    "partial" => "partial",
+    "query_options" => "q.options",
+    "facet" => "facet",
+    "start" => "start",
+    "size" => "size",
+    "filter_query" => "fq",
+    "highlight" => "highlight",
+    "cursor" => "cursor",
+    "query_parser" => "q.parser",
+    "sort" => "sort",
+    "expr" => "expr",
+    "return" => "return",
+)
+
 """
-    search(q)
-    search(q, params::Dict{String,<:Any})
+    search(q; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of documents that match the specified search criteria. How you specify the
 search criteria depends on which query parser you use. Amazon CloudSearch supports four
@@ -31,7 +46,7 @@ displayed on the domain dashboard in the Amazon CloudSearch console.
   in the Amazon CloudSearch Developer Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"cursor"`: Retrieves a cursor value you can use to page through large result sets. Use
   the size parameter to control the number of hits to include in each response. You can
   specify either the cursor or start parameter in a request; they are mutually exclusive. To
@@ -75,13 +90,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the sort option to bucket to sort the facet values numerically by year, with earliest year
   listed first.   {\"year\":{\"sort\":\"bucket\"}}  For more information, see Getting and
   Using Facet Information in the Amazon CloudSearch Developer Guide.
-- `"fq"`: Specifies a structured query that filters the results of a search without
-  affecting how the results are scored and sorted. You use filterQuery in conjunction with
-  the query parameter to filter the documents that match the constraints specified in the
-  query parameter. Specifying a filter controls only which matching documents are included in
-  the results, it has no effect on how they are scored and sorted. The filterQuery parameter
-  supports the full structured query syntax.  For more information about using filters, see
-  Filtering Matching Documents in the Amazon CloudSearch Developer Guide.
+- `"filter_query"`: Specifies a structured query that filters the results of a search
+  without affecting how the results are scored and sorted. You use filterQuery in conjunction
+  with the query parameter to filter the documents that match the constraints specified in
+  the query parameter. Specifying a filter controls only which matching documents are
+  included in the results, it has no effect on how they are scored and sorted. The
+  filterQuery parameter supports the full structured query syntax.  For more information
+  about using filters, see Filtering Matching Documents in the Amazon CloudSearch Developer
+  Guide.
 - `"highlight"`: Retrieves highlights for matches in the specified text or text-array
   fields. Each specified field must be highlight enabled in the domain configuration. The
   fields and options are specified in JSON using the form
@@ -109,7 +125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   experience. For example, rather than displaying no results, you could display the partial
   results and a message indicating that the results might be incomplete due to a temporary
   system outage.
-- `"q.options"`: Configures options for the query parser specified in the queryParser
+- `"query_options"`: Configures options for the query parser specified in the queryParser
   parameter. You specify the options in JSON using the following form
   {\"OPTION1\":\"VALUE1\",\"OPTION2\":VALUE2\"...\"OPTIONN\":\"VALUEN\"}. The options you can
   configure vary according to which parser you use:  defaultOperator: The default operator
@@ -174,16 +190,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tieBreaker to 0 to disregard all but the highest scoring field (pure max):
   \"tieBreaker\":0. Set to 1 to sum the scores from all fields (pure sum): \"tieBreaker\":1.
   Valid values: 0.0 to 1.0. Default: 0.0. Valid for: dismax.
-- `"q.parser"`: Specifies which query parser to use to process the request. If queryParser
-  is not specified, Amazon CloudSearch uses the simple query parser.  Amazon CloudSearch
-  supports four query parsers:   simple: perform simple searches of text and text-array
-  fields. By default, the simple query parser searches all text and text-array fields. You
-  can specify which fields to search by with the queryOptions parameter. If you prefix a
-  search term with a plus sign (+) documents must contain the term to be considered a match.
-  (This is the default, unless you configure the default operator with the queryOptions
-  parameter.) You can use the - (NOT), | (OR), and * (wildcard) operators to exclude
-  particular terms, find results that match any of the specified terms, or search for a
-  prefix. To search for a phrase rather than individual terms, enclose the phrase in double
+- `"query_parser"`: Specifies which query parser to use to process the request. If
+  queryParser is not specified, Amazon CloudSearch uses the simple query parser.  Amazon
+  CloudSearch supports four query parsers:   simple: perform simple searches of text and
+  text-array fields. By default, the simple query parser searches all text and text-array
+  fields. You can specify which fields to search by with the queryOptions parameter. If you
+  prefix a search term with a plus sign (+) documents must contain the term to be considered
+  a match. (This is the default, unless you configure the default operator with the
+  queryOptions parameter.) You can use the - (NOT), | (OR), and * (wildcard) operators to
+  exclude particular terms, find results that match any of the specified terms, or search for
+  a prefix. To search for a phrase rather than individual terms, enclose the phrase in double
   quotes. For more information, see Searching for Text in the Amazon CloudSearch Developer
   Guide.   structured: perform advanced searches by combining multiple expressions to define
   the search criteria. You can also search within particular fields, search for values and
@@ -216,18 +232,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
-function search(q; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch_domain(
-        "GET",
-        "/2013-01-01/search?format=sdk&pretty=true",
-        Dict{String,Any}("q" => q);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search(
-    q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function search(q; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch_domain(
         "GET",
         "/2013-01-01/search?format=sdk&pretty=true",
@@ -238,8 +244,7 @@ function search(
 end
 
 """
-    suggest(q, suggester)
-    suggest(q, suggester, params::Dict{String,<:Any})
+    suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves autocomplete suggestions for a partial query string. You can use suggestions
 enable you to display likely matches before users finish typing. In Amazon CloudSearch,
@@ -258,24 +263,11 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 - `suggester`: Specifies the name of the suggester to use to find suggested matches.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
-function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch_domain(
-        "GET",
-        "/2013-01-01/suggest?format=sdk&pretty=true",
-        Dict{String,Any}("q" => q, "suggester" => suggester);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function suggest(
-    q,
-    suggester,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch_domain(
         "GET",
         "/2013-01-01/suggest?format=sdk&pretty=true",
@@ -288,8 +280,7 @@ function suggest(
 end
 
 """
-    upload_documents(content-_type, documents)
-    upload_documents(content-_type, documents, params::Dict{String,<:Any})
+    upload_documents(content-_type, documents; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Posts a batch of documents to a search domain for indexing. A document batch is a
 collection of add and delete operations that represent the documents you want to add,
@@ -315,25 +306,9 @@ Amazon CloudSearch Developer Guide.
 
 """
 function upload_documents(
-    Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()
+    Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return cloudsearch_domain(
-        "POST",
-        "/2013-01-01/documents/batch?format=sdk",
-        Dict{String,Any}(
-            "documents" => documents,
-            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upload_documents(
-    Content_Type,
-    documents,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return cloudsearch_domain(
         "POST",
         "/2013-01-01/documents/batch?format=sdk",

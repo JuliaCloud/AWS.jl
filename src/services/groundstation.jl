@@ -4,9 +4,24 @@ using AWS.AWSServices: groundstation
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "contact_post_pass_duration_seconds" => "contactPostPassDurationSeconds",
+    "next_token" => "nextToken",
+    "ground_station" => "groundStation",
+    "name" => "name",
+    "dataflow_edges" => "dataflowEdges",
+    "mission_profile_arn" => "missionProfileArn",
+    "max_results" => "maxResults",
+    "tracking_config_arn" => "trackingConfigArn",
+    "contact_pre_pass_duration_seconds" => "contactPrePassDurationSeconds",
+    "minimum_viable_contact_duration_seconds" => "minimumViableContactDurationSeconds",
+    "satellite_arn" => "satelliteArn",
+    "satellite_id" => "satelliteId",
+    "tags" => "tags",
+)
+
 """
-    cancel_contact(contact_id)
-    cancel_contact(contact_id, params::Dict{String,<:Any})
+    cancel_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels a contact with a specified contact ID.
 
@@ -14,19 +29,10 @@ Cancels a contact with a specified contact ID.
 - `contact_id`: UUID of a contact.
 
 """
-function cancel_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "DELETE",
-        "/contact/$(contactId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_contact(
-    contactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    contactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "DELETE",
         "/contact/$(contactId)",
@@ -37,8 +43,7 @@ function cancel_contact(
 end
 
 """
-    create_config(config_data, name)
-    create_config(config_data, name, params::Dict{String,<:Any})
+    create_config(config_data, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Config with the specified configData parameters. Only one type of configData can
 be specified.
@@ -48,24 +53,13 @@ be specified.
 - `name`: Name of a Config.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Tags assigned to a Config.
 """
-function create_config(configData, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "POST",
-        "/config",
-        Dict{String,Any}("configData" => configData, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_config(
-    configData,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    configData, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/config",
@@ -80,8 +74,7 @@ function create_config(
 end
 
 """
-    create_dataflow_endpoint_group(endpoint_details)
-    create_dataflow_endpoint_group(endpoint_details, params::Dict{String,<:Any})
+    create_dataflow_endpoint_group(endpoint_details; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects.
 The name field in each endpoint is used in your mission profile DataflowEndpointConfig to
@@ -92,25 +85,13 @@ DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the
 - `endpoint_details`: Endpoint details of each endpoint in the dataflow endpoint group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group(
-    endpointDetails; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointDetails; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "POST",
-        "/dataflowEndpointGroup",
-        Dict{String,Any}("endpointDetails" => endpointDetails);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_dataflow_endpoint_group(
-    endpointDetails,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/dataflowEndpointGroup",
@@ -125,8 +106,7 @@ function create_dataflow_endpoint_group(
 end
 
 """
-    create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn)
-    create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn, params::Dict{String,<:Any})
+    create_mission_profile(dataflow_edges, minimum_viable_contact_duration_seconds, name, tracking_config_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level
 list of strings has two elements: a from ARN and a to ARN.
@@ -141,11 +121,11 @@ list of strings has two elements: a from ARN and a to ARN.
 - `tracking_config_arn`: ARN of a tracking Config.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
-- `"contactPrePassDurationSeconds"`: Amount of time prior to contact start you’d like to
-  receive a CloudWatch event indicating an upcoming pass.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"contact_post_pass_duration_seconds"`: Amount of time after a contact ends that you’d
+  like to receive a CloudWatch event indicating the pass has finished.
+- `"contact_pre_pass_duration_seconds"`: Amount of time prior to contact start you’d like
+  to receive a CloudWatch event indicating an upcoming pass.
 - `"tags"`: Tags assigned to a mission profile.
 """
 function create_mission_profile(
@@ -154,28 +134,9 @@ function create_mission_profile(
     name,
     trackingConfigArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return groundstation(
-        "POST",
-        "/missionprofile",
-        Dict{String,Any}(
-            "dataflowEdges" => dataflowEdges,
-            "minimumViableContactDurationSeconds" => minimumViableContactDurationSeconds,
-            "name" => name,
-            "trackingConfigArn" => trackingConfigArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_mission_profile(
-    dataflowEdges,
-    minimumViableContactDurationSeconds,
-    name,
-    trackingConfigArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/missionprofile",
@@ -198,8 +159,7 @@ function create_mission_profile(
 end
 
 """
-    delete_config(config_id, config_type)
-    delete_config(config_id, config_type, params::Dict{String,<:Any})
+    delete_config(config_id, config_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Config.
 
@@ -209,21 +169,9 @@ Deletes a Config.
 
 """
 function delete_config(
-    configId, configType; aws_config::AbstractAWSConfig=global_aws_config()
+    configId, configType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "DELETE",
-        "/config/$(configType)/$(configId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_config(
-    configId,
-    configType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "DELETE",
         "/config/$(configType)/$(configId)",
@@ -234,8 +182,7 @@ function delete_config(
 end
 
 """
-    delete_dataflow_endpoint_group(dataflow_endpoint_group_id)
-    delete_dataflow_endpoint_group(dataflow_endpoint_group_id, params::Dict{String,<:Any})
+    delete_dataflow_endpoint_group(dataflow_endpoint_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a dataflow endpoint group.
 
@@ -244,20 +191,9 @@ Deletes a dataflow endpoint group.
 
 """
 function delete_dataflow_endpoint_group(
-    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "DELETE",
-        "/dataflowEndpointGroup/$(dataflowEndpointGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_dataflow_endpoint_group(
-    dataflowEndpointGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "DELETE",
         "/dataflowEndpointGroup/$(dataflowEndpointGroupId)",
@@ -268,8 +204,7 @@ function delete_dataflow_endpoint_group(
 end
 
 """
-    delete_mission_profile(mission_profile_id)
-    delete_mission_profile(mission_profile_id, params::Dict{String,<:Any})
+    delete_mission_profile(mission_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a mission profile.
 
@@ -278,20 +213,9 @@ Deletes a mission profile.
 
 """
 function delete_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "DELETE",
-        "/missionprofile/$(missionProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_mission_profile(
-    missionProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "DELETE",
         "/missionprofile/$(missionProfileId)",
@@ -302,8 +226,7 @@ function delete_mission_profile(
 end
 
 """
-    describe_contact(contact_id)
-    describe_contact(contact_id, params::Dict{String,<:Any})
+    describe_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an existing contact.
 
@@ -311,19 +234,10 @@ Describes an existing contact.
 - `contact_id`: UUID of a contact.
 
 """
-function describe_contact(contactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET",
-        "/contact/$(contactId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_contact(
-    contactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    contactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/contact/$(contactId)",
@@ -334,8 +248,7 @@ function describe_contact(
 end
 
 """
-    get_config(config_id, config_type)
-    get_config(config_id, config_type, params::Dict{String,<:Any})
+    get_config(config_id, config_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns Config information. Only one Config response can be returned.
 
@@ -344,20 +257,10 @@ Returns Config information. Only one Config response can be returned.
 - `config_type`: Type of a Config.
 
 """
-function get_config(configId, configType; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET",
-        "/config/$(configType)/$(configId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_config(
-    configId,
-    configType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    configId, configType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/config/$(configType)/$(configId)",
@@ -368,8 +271,7 @@ function get_config(
 end
 
 """
-    get_dataflow_endpoint_group(dataflow_endpoint_group_id)
-    get_dataflow_endpoint_group(dataflow_endpoint_group_id, params::Dict{String,<:Any})
+    get_dataflow_endpoint_group(dataflow_endpoint_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the dataflow endpoint group.
 
@@ -378,20 +280,9 @@ Returns the dataflow endpoint group.
 
 """
 function get_dataflow_endpoint_group(
-    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    dataflowEndpointGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "GET",
-        "/dataflowEndpointGroup/$(dataflowEndpointGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_dataflow_endpoint_group(
-    dataflowEndpointGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/dataflowEndpointGroup/$(dataflowEndpointGroupId)",
@@ -402,8 +293,7 @@ function get_dataflow_endpoint_group(
 end
 
 """
-    get_minute_usage(month, year)
-    get_minute_usage(month, year, params::Dict{String,<:Any})
+    get_minute_usage(month, year; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the number of minutes used by account.
 
@@ -412,21 +302,10 @@ Returns the number of minutes used by account.
 - `year`: The year being requested, in the format of YYYY.
 
 """
-function get_minute_usage(month, year; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "POST",
-        "/minute-usage",
-        Dict{String,Any}("month" => month, "year" => year);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_minute_usage(
-    month,
-    year,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    month, year; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/minute-usage",
@@ -439,8 +318,7 @@ function get_minute_usage(
 end
 
 """
-    get_mission_profile(mission_profile_id)
-    get_mission_profile(mission_profile_id, params::Dict{String,<:Any})
+    get_mission_profile(mission_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a mission profile.
 
@@ -449,20 +327,9 @@ Returns a mission profile.
 
 """
 function get_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "GET",
-        "/missionprofile/$(missionProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_mission_profile(
-    missionProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/missionprofile/$(missionProfileId)",
@@ -473,8 +340,7 @@ function get_mission_profile(
 end
 
 """
-    get_satellite(satellite_id)
-    get_satellite(satellite_id, params::Dict{String,<:Any})
+    get_satellite(satellite_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a satellite.
 
@@ -482,19 +348,10 @@ Returns a satellite.
 - `satellite_id`: UUID of a satellite.
 
 """
-function get_satellite(satelliteId; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET",
-        "/satellite/$(satelliteId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_satellite(
-    satelliteId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    satelliteId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/satellite/$(satelliteId)",
@@ -505,33 +362,25 @@ function get_satellite(
 end
 
 """
-    list_configs()
-    list_configs(params::Dict{String,<:Any})
+    list_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Config objects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of Configs returned.
-- `"nextToken"`: Next token returned in the request of a previous ListConfigs call. Used to
-  get the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of Configs returned.
+- `"next_token"`: Next token returned in the request of a previous ListConfigs call. Used
+  to get the next page of results.
 """
-function list_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET", "/config"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET", "/config", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_contacts(end_time, start_time, status_list)
-    list_contacts(end_time, start_time, status_list, params::Dict{String,<:Any})
+    list_contacts(end_time, start_time, status_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of contacts. If statusList contains AVAILABLE, the request must include
 groundStation, missionprofileArn, and satelliteArn.
@@ -542,34 +391,22 @@ groundStation, missionprofileArn, and satelliteArn.
 - `status_list`: Status of a contact reservation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"groundStation"`: Name of a ground station.
-- `"maxResults"`: Maximum number of contacts returned.
-- `"missionProfileArn"`: ARN of a mission profile.
-- `"nextToken"`: Next token returned in the request of a previous ListContacts call. Used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ground_station"`: Name of a ground station.
+- `"max_results"`: Maximum number of contacts returned.
+- `"mission_profile_arn"`: ARN of a mission profile.
+- `"next_token"`: Next token returned in the request of a previous ListContacts call. Used
   to get the next page of results.
-- `"satelliteArn"`: ARN of a satellite.
+- `"satellite_arn"`: ARN of a satellite.
 """
-function list_contacts(
-    endTime, startTime, statusList; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return groundstation(
-        "POST",
-        "/contacts",
-        Dict{String,Any}(
-            "endTime" => endTime, "startTime" => startTime, "statusList" => statusList
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contacts(
     endTime,
     startTime,
-    statusList,
-    params::AbstractDict{String};
+    statusList;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/contacts",
@@ -590,28 +427,20 @@ function list_contacts(
 end
 
 """
-    list_dataflow_endpoint_groups()
-    list_dataflow_endpoint_groups(params::Dict{String,<:Any})
+    list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of DataflowEndpoint groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of dataflow endpoint groups returned.
-- `"nextToken"`: Next token returned in the request of a previous
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of dataflow endpoint groups returned.
+- `"next_token"`: Next token returned in the request of a previous
   ListDataflowEndpointGroups call. Used to get the next page of results.
 """
-function list_dataflow_endpoint_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET",
-        "/dataflowEndpointGroup";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_dataflow_endpoint_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_dataflow_endpoint_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/dataflowEndpointGroup",
@@ -622,26 +451,21 @@ function list_dataflow_endpoint_groups(
 end
 
 """
-    list_ground_stations()
-    list_ground_stations(params::Dict{String,<:Any})
+    list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of ground stations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of ground stations returned.
-- `"nextToken"`: Next token that can be supplied in the next call to get the next page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of ground stations returned.
+- `"next_token"`: Next token that can be supplied in the next call to get the next page of
   ground stations.
-- `"satelliteId"`: Satellite ID to retrieve on-boarded ground stations.
+- `"satellite_id"`: Satellite ID to retrieve on-boarded ground stations.
 """
-function list_ground_stations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET", "/groundstation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_ground_stations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_ground_stations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/groundstation",
@@ -652,25 +476,20 @@ function list_ground_stations(
 end
 
 """
-    list_mission_profiles()
-    list_mission_profiles(params::Dict{String,<:Any})
+    list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of mission profiles.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of mission profiles returned.
-- `"nextToken"`: Next token returned in the request of a previous ListMissionProfiles call.
-  Used to get the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of mission profiles returned.
+- `"next_token"`: Next token returned in the request of a previous ListMissionProfiles
+  call. Used to get the next page of results.
 """
-function list_mission_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET", "/missionprofile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_mission_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_mission_profiles(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/missionprofile",
@@ -681,33 +500,25 @@ function list_mission_profiles(
 end
 
 """
-    list_satellites()
-    list_satellites(params::Dict{String,<:Any})
+    list_satellites(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of satellites.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of satellites returned.
-- `"nextToken"`: Next token that can be supplied in the next call to get the next page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of satellites returned.
+- `"next_token"`: Next token that can be supplied in the next call to get the next page of
   satellites.
 """
-function list_satellites(; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "GET", "/satellite"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_satellites(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_satellites(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET", "/satellite", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of tags for a specified resource.
 
@@ -716,20 +527,9 @@ Returns a list of tags for a specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "GET",
         "/tags/$(resourceArn)",
@@ -740,8 +540,7 @@ function list_tags_for_resource(
 end
 
 """
-    reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time)
-    reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time, params::Dict{String,<:Any})
+    reserve_contact(end_time, ground_station, mission_profile_arn, satellite_arn, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reserves a contact using specified parameters.
 
@@ -753,7 +552,7 @@ Reserves a contact using specified parameters.
 - `start_time`: Start time of a contact.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Tags assigned to a contact.
 """
 function reserve_contact(
@@ -763,30 +562,9 @@ function reserve_contact(
     satelliteArn,
     startTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return groundstation(
-        "POST",
-        "/contact",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "groundStation" => groundStation,
-            "missionProfileArn" => missionProfileArn,
-            "satelliteArn" => satelliteArn,
-            "startTime" => startTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reserve_contact(
-    endTime,
-    groundStation,
-    missionProfileArn,
-    satelliteArn,
-    startTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/contact",
@@ -809,8 +587,7 @@ function reserve_contact(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns a tag to a resource.
 
@@ -819,21 +596,10 @@ Assigns a tag to a resource.
 - `tags`: Tags assigned to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return groundstation(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "POST",
         "/tags/$(resourceArn)",
@@ -844,8 +610,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deassigns a resource tag.
 
@@ -855,22 +620,9 @@ Deassigns a resource tag.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -881,8 +633,7 @@ function untag_resource(
 end
 
 """
-    update_config(config_data, config_id, config_type, name)
-    update_config(config_data, config_id, config_type, name, params::Dict{String,<:Any})
+    update_config(config_data, config_id, config_type, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the Config used when scheduling contacts. Updating a Config will not update the
 execution parameters for existing future contacts scheduled with this Config.
@@ -900,23 +651,9 @@ function update_config(
     configType,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return groundstation(
-        "PUT",
-        "/config/$(configType)/$(configId)",
-        Dict{String,Any}("configData" => configData, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_config(
-    configData,
-    configId,
-    configType,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "PUT",
         "/config/$(configType)/$(configId)",
@@ -931,8 +668,7 @@ function update_config(
 end
 
 """
-    update_mission_profile(mission_profile_id)
-    update_mission_profile(mission_profile_id, params::Dict{String,<:Any})
+    update_mission_profile(mission_profile_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a mission profile. Updating a mission profile will not update the execution
 parameters for existing future contacts.
@@ -941,34 +677,23 @@ parameters for existing future contacts.
 - `mission_profile_id`: UUID of a mission profile.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
-- `"contactPrePassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
-- `"dataflowEdges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"contact_post_pass_duration_seconds"`: Amount of time after a contact ends that you’d
+  like to receive a CloudWatch event indicating the pass has finished.
+- `"contact_pre_pass_duration_seconds"`: Amount of time after a contact ends that you’d
+  like to receive a CloudWatch event indicating the pass has finished.
+- `"dataflow_edges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
   Config and a to Config.
-- `"minimumViableContactDurationSeconds"`: Smallest amount of time in seconds that you’d
-  like to see for an available contact. AWS Ground Station will not present you with contacts
-  shorter than this duration.
+- `"minimum_viable_contact_duration_seconds"`: Smallest amount of time in seconds that
+  you’d like to see for an available contact. AWS Ground Station will not present you with
+  contacts shorter than this duration.
 - `"name"`: Name of a mission profile.
-- `"trackingConfigArn"`: ARN of a tracking Config.
+- `"tracking_config_arn"`: ARN of a tracking Config.
 """
 function update_mission_profile(
-    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    missionProfileId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return groundstation(
-        "PUT",
-        "/missionprofile/$(missionProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_mission_profile(
-    missionProfileId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return groundstation(
         "PUT",
         "/missionprofile/$(missionProfileId)",

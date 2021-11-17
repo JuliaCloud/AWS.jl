@@ -4,9 +4,37 @@ using AWS.AWSServices: elasticsearch_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "snapshot_options" => "SnapshotOptions",
+    "advanced_options" => "AdvancedOptions",
+    "vpcoptions" => "VPCOptions",
+    "elasticsearch_cluster_config" => "ElasticsearchClusterConfig",
+    "encryption_at_rest_options" => "EncryptionAtRestOptions",
+    "instance_count" => "InstanceCount",
+    "reserved_elasticsearch_instance_offering_id" => "offeringId",
+    "node_to_node_encryption_options" => "NodeToNodeEncryptionOptions",
+    "next_token" => "nextToken",
+    "domain_endpoint_options" => "DomainEndpointOptions",
+    "log_publishing_options" => "LogPublishingOptions",
+    "engine_type" => "engineType",
+    "domain_name" => "domainName",
+    "max_results" => "maxResults",
+    "cognito_options" => "CognitoOptions",
+    "auto_tune_options" => "AutoTuneOptions",
+    "tag_list" => "TagList",
+    "advanced_security_options" => "AdvancedSecurityOptions",
+    "access_policies" => "AccessPolicies",
+    "filters" => "Filters",
+    "reserved_elasticsearch_instance_id" => "reservationId",
+    "package_description" => "PackageDescription",
+    "perform_check_only" => "PerformCheckOnly",
+    "elasticsearch_version" => "ElasticsearchVersion",
+    "commit_message" => "CommitMessage",
+    "ebsoptions" => "EBSOptions",
+)
+
 """
-    accept_inbound_cross_cluster_search_connection(connection_id)
-    accept_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    accept_inbound_cross_cluster_search_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the destination domain owner to accept an inbound cross-cluster search connection
 request.
@@ -16,20 +44,9 @@ request.
 
 """
 function accept_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function accept_inbound_cross_cluster_search_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept",
@@ -40,8 +57,7 @@ function accept_inbound_cross_cluster_search_connection(
 end
 
 """
-    add_tags(arn, tag_list)
-    add_tags(arn, tag_list, params::Dict{String,<:Any})
+    add_tags(arn, tag_list; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key
 value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon
@@ -52,21 +68,10 @@ Elasticsearch Service Domains for more information.
 - `tag_list`:  List of Tag that need to be added for the Elasticsearch domain.
 
 """
-function add_tags(ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/tags",
-        Dict{String,Any}("ARN" => ARN, "TagList" => TagList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_tags(
-    ARN,
-    TagList,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ARN, TagList; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/tags",
@@ -79,8 +84,7 @@ function add_tags(
 end
 
 """
-    associate_package(domain_name, package_id)
-    associate_package(domain_name, package_id, params::Dict{String,<:Any})
+    associate_package(domain_name, package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a package with an Amazon ES domain.
 
@@ -91,21 +95,9 @@ Associates a package with an Amazon ES domain.
 
 """
 function associate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_package(
-    DomainName,
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)",
@@ -116,8 +108,7 @@ function associate_package(
 end
 
 """
-    cancel_elasticsearch_service_software_update(domain_name)
-    cancel_elasticsearch_service_software_update(domain_name, params::Dict{String,<:Any})
+    cancel_elasticsearch_service_software_update(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels a scheduled service software update for an Amazon ES domain. You can only perform
 this operation before the AutomatedUpdateDate and when the UpdateStatus is in the
@@ -129,21 +120,9 @@ PENDING_UPDATE state.
 
 """
 function cancel_elasticsearch_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/serviceSoftwareUpdate/cancel",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_elasticsearch_service_software_update(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/serviceSoftwareUpdate/cancel",
@@ -156,8 +135,7 @@ function cancel_elasticsearch_service_software_update(
 end
 
 """
-    create_elasticsearch_domain(domain_name)
-    create_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
+    create_elasticsearch_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Elasticsearch domain. For more information, see Creating Elasticsearch
 Domains in the Amazon Elasticsearch Service Developer Guide.
@@ -169,51 +147,39 @@ Domains in the Amazon Elasticsearch Service Developer Guide.
   0-9, and - (hyphen).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`:  IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`:  Option to allow references to indices in an HTTP request body. Must
-  be false when configuring access to individual sub-resources. By default, the value is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_policies"`:  IAM access policy as a JSON-formatted string.
+- `"advanced_options"`:  Option to allow references to indices in an HTTP request body.
+  Must be false when configuring access to individual sub-resources. By default, the value is
   true. See Configuration Advanced Options for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for Kibana
+- `"advanced_security_options"`: Specifies advanced security options.
+- `"auto_tune_options"`: Specifies Auto-Tune options.
+- `"cognito_options"`: Options to specify the Cognito user and identity pools for Kibana
   authentication. For more information, see Amazon Cognito Authentication for Kibana.
-- `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
+- `"domain_endpoint_options"`: Options to specify configuration that will be applied to the
   domain endpoint.
-- `"EBSOptions"`: Options to enable, disable and specify the type and size of EBS storage
+- `"ebsoptions"`: Options to enable, disable and specify the type and size of EBS storage
   volumes.
-- `"ElasticsearchClusterConfig"`: Configuration options for an Elasticsearch domain.
+- `"elasticsearch_cluster_config"`: Configuration options for an Elasticsearch domain.
   Specifies the instance type and number of instances in the domain cluster.
-- `"ElasticsearchVersion"`: String of format X.Y to specify version for the Elasticsearch
+- `"elasticsearch_version"`: String of format X.Y to specify version for the Elasticsearch
   domain eg. \"1.5\" or \"2.3\". For more information, see Creating Elasticsearch Domains in
   the Amazon Elasticsearch Service Developer Guide.
-- `"EncryptionAtRestOptions"`: Specifies the Encryption At Rest Options.
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of Elasticsearch log.
-- `"NodeToNodeEncryptionOptions"`: Specifies the NodeToNodeEncryptionOptions.
-- `"SnapshotOptions"`: Option to set time, in UTC format, of the daily automated snapshot.
+- `"encryption_at_rest_options"`: Specifies the Encryption At Rest Options.
+- `"log_publishing_options"`: Map of LogType and LogPublishingOption, each containing
+  options to publish a given type of Elasticsearch log.
+- `"node_to_node_encryption_options"`: Specifies the NodeToNodeEncryptionOptions.
+- `"snapshot_options"`: Option to set time, in UTC format, of the daily automated snapshot.
   Default value is 0 hours.
-- `"TagList"`: A list of Tag added during domain creation.
-- `"VPCOptions"`: Options to specify the subnets and security groups for VPC endpoint. For
+- `"tag_list"`: A list of Tag added during domain creation.
+- `"vpcoptions"`: Options to specify the subnets and security groups for VPC endpoint. For
   more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service
   Domains
 """
 function create_elasticsearch_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/domain",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_elasticsearch_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/domain",
@@ -226,8 +192,7 @@ function create_elasticsearch_domain(
 end
 
 """
-    create_outbound_cross_cluster_search_connection(connection_alias, destination_domain_info, source_domain_info)
-    create_outbound_cross_cluster_search_connection(connection_alias, destination_domain_info, source_domain_info, params::Dict{String,<:Any})
+    create_outbound_cross_cluster_search_connection(connection_alias, destination_domain_info, source_domain_info; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new cross-cluster search connection from a source domain to a destination domain.
 
@@ -244,26 +209,9 @@ function create_outbound_cross_cluster_search_connection(
     DestinationDomainInfo,
     SourceDomainInfo;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/ccs/outboundConnection",
-        Dict{String,Any}(
-            "ConnectionAlias" => ConnectionAlias,
-            "DestinationDomainInfo" => DestinationDomainInfo,
-            "SourceDomainInfo" => SourceDomainInfo,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_outbound_cross_cluster_search_connection(
-    ConnectionAlias,
-    DestinationDomainInfo,
-    SourceDomainInfo,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/ccs/outboundConnection",
@@ -284,8 +232,7 @@ function create_outbound_cross_cluster_search_connection(
 end
 
 """
-    create_package(package_name, package_source, package_type)
-    create_package(package_name, package_source, package_type, params::Dict{String,<:Any})
+    create_package(package_name, package_source, package_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a package for use with Amazon ES domains.
 
@@ -295,34 +242,17 @@ Create a package for use with Amazon ES domains.
 - `package_type`: Type of package. Currently supports only TXT-DICTIONARY.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PackageDescription"`: Description of the package.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"package_description"`: Description of the package.
 """
 function create_package(
     PackageName,
     PackageSource,
     PackageType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages",
-        Dict{String,Any}(
-            "PackageName" => PackageName,
-            "PackageSource" => PackageSource,
-            "PackageType" => PackageType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_package(
-    PackageName,
-    PackageSource,
-    PackageType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages",
@@ -343,8 +273,7 @@ function create_package(
 end
 
 """
-    delete_elasticsearch_domain(domain_name)
-    delete_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
+    delete_elasticsearch_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently deletes the specified Elasticsearch domain and all of its data. Once a domain
 is deleted, it cannot be recovered.
@@ -354,20 +283,9 @@ is deleted, it cannot be recovered.
 
 """
 function delete_elasticsearch_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/domain/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_elasticsearch_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/domain/$(DomainName)",
@@ -378,8 +296,7 @@ function delete_elasticsearch_domain(
 end
 
 """
-    delete_elasticsearch_service_role()
-    delete_elasticsearch_service_role(params::Dict{String,<:Any})
+    delete_elasticsearch_service_role(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the service-linked role that Elasticsearch Service uses to manage and maintain VPC
 domains. Role deletion will fail if any existing VPC domains use the role. You must delete
@@ -388,18 +305,9 @@ Role in VPC Endpoints for Amazon Elasticsearch Service Domains.
 
 """
 function delete_elasticsearch_service_role(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/role";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_elasticsearch_service_role(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/role",
@@ -410,8 +318,7 @@ function delete_elasticsearch_service_role(
 end
 
 """
-    delete_inbound_cross_cluster_search_connection(connection_id)
-    delete_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    delete_inbound_cross_cluster_search_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the destination domain owner to delete an existing inbound cross-cluster search
 connection.
@@ -421,20 +328,9 @@ connection.
 
 """
 function delete_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_inbound_cross_cluster_search_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)",
@@ -445,8 +341,7 @@ function delete_inbound_cross_cluster_search_connection(
 end
 
 """
-    delete_outbound_cross_cluster_search_connection(connection_id)
-    delete_outbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    delete_outbound_cross_cluster_search_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the source domain owner to delete an existing outbound cross-cluster search
 connection.
@@ -456,20 +351,9 @@ connection.
 
 """
 function delete_outbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_outbound_cross_cluster_search_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)",
@@ -480,8 +364,7 @@ function delete_outbound_cross_cluster_search_connection(
 end
 
 """
-    delete_package(package_id)
-    delete_package(package_id, params::Dict{String,<:Any})
+    delete_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete the package.
 
@@ -490,19 +373,10 @@ Delete the package.
   find this value.
 
 """
-function delete_package(PackageID; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "DELETE",
-        "/2015-01-01/packages/$(PackageID)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_package(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "DELETE",
         "/2015-01-01/packages/$(PackageID)",
@@ -513,8 +387,7 @@ function delete_package(
 end
 
 """
-    describe_domain_auto_tunes(domain_name)
-    describe_domain_auto_tunes(domain_name, params::Dict{String,<:Any})
+    describe_domain_auto_tunes(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides scheduled Auto-Tune action details for the Elasticsearch domain, such as Auto-Tune
 action type, description, severity, and scheduled date.
@@ -523,27 +396,16 @@ action type, description, severity, and scheduled date.
 - `domain_name`: Specifies the domain name for which you want Auto-Tune action details.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`: NextToken is sent in case the earlier API call results contain the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
 function describe_domain_auto_tunes(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/domain/$(DomainName)/autoTunes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_domain_auto_tunes(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/autoTunes",
@@ -554,8 +416,7 @@ function describe_domain_auto_tunes(
 end
 
 """
-    describe_elasticsearch_domain(domain_name)
-    describe_elasticsearch_domain(domain_name, params::Dict{String,<:Any})
+    describe_elasticsearch_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns domain configuration information about the specified Elasticsearch domain,
 including the domain ID, domain endpoint, and domain ARN.
@@ -565,20 +426,9 @@ including the domain ID, domain endpoint, and domain ARN.
 
 """
 function describe_elasticsearch_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/domain/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_elasticsearch_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)",
@@ -589,8 +439,7 @@ function describe_elasticsearch_domain(
 end
 
 """
-    describe_elasticsearch_domain_config(domain_name)
-    describe_elasticsearch_domain_config(domain_name, params::Dict{String,<:Any})
+    describe_elasticsearch_domain_config(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides cluster configuration information about the specified Elasticsearch domain, such
 as the state, creation date, update version, and update date for cluster options.
@@ -600,20 +449,9 @@ as the state, creation date, update version, and update date for cluster options
 
 """
 function describe_elasticsearch_domain_config(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/domain/$(DomainName)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_elasticsearch_domain_config(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/domain/$(DomainName)/config",
@@ -624,8 +462,7 @@ function describe_elasticsearch_domain_config(
 end
 
 """
-    describe_elasticsearch_domains(domain_names)
-    describe_elasticsearch_domains(domain_names, params::Dict{String,<:Any})
+    describe_elasticsearch_domains(domain_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns domain configuration information about the specified Elasticsearch domains,
 including the domain ID, domain endpoint, and domain ARN.
@@ -635,21 +472,9 @@ including the domain ID, domain endpoint, and domain ARN.
 
 """
 function describe_elasticsearch_domains(
-    DomainNames; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/domain-info",
-        Dict{String,Any}("DomainNames" => DomainNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_elasticsearch_domains(
-    DomainNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/domain-info",
@@ -662,8 +487,7 @@ function describe_elasticsearch_domains(
 end
 
 """
-    describe_elasticsearch_instance_type_limits(elasticsearch_version, instance_type)
-    describe_elasticsearch_instance_type_limits(elasticsearch_version, instance_type, params::Dict{String,<:Any})
+    describe_elasticsearch_instance_type_limits(elasticsearch_version, instance_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Describe Elasticsearch Limits for a given InstanceType and ElasticsearchVersion. When
 modifying existing Domain, specify the  DomainName  to know what Limits are supported for
@@ -675,27 +499,18 @@ modifying.
   Limits  are needed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:  DomainName represents the name of the Domain that we are trying to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`:  DomainName represents the name of the Domain that we are trying to
   modify. This should be present only if we are querying for Elasticsearch  Limits  for
   existing domain.
 """
 function describe_elasticsearch_instance_type_limits(
-    ElasticsearchVersion, InstanceType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_elasticsearch_instance_type_limits(
     ElasticsearchVersion,
-    InstanceType,
-    params::AbstractDict{String};
+    InstanceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)",
@@ -706,35 +521,25 @@ function describe_elasticsearch_instance_type_limits(
 end
 
 """
-    describe_inbound_cross_cluster_search_connections()
-    describe_inbound_cross_cluster_search_connections(params::Dict{String,<:Any})
+    describe_inbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the inbound cross-cluster search connections for a destination domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  A list of filters used to match properties for inbound cross-cluster search
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`:  A list of filters used to match properties for inbound cross-cluster search
   connection. Available Filter names for this operation are:
   cross-cluster-search-connection-id source-domain-info.domain-name
   source-domain-info.owner-id source-domain-info.region destination-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`:  NextToken is sent in case the earlier API call results contain the
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`:  NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
 function describe_inbound_cross_cluster_search_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/ccs/inboundConnection/search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_inbound_cross_cluster_search_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/ccs/inboundConnection/search",
@@ -745,36 +550,26 @@ function describe_inbound_cross_cluster_search_connections(
 end
 
 """
-    describe_outbound_cross_cluster_search_connections()
-    describe_outbound_cross_cluster_search_connections(params::Dict{String,<:Any})
+    describe_outbound_cross_cluster_search_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the outbound cross-cluster search connections for a source domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`:  A list of filters used to match properties for outbound cross-cluster
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`:  A list of filters used to match properties for outbound cross-cluster
   search connection. Available Filter names for this operation are:
   cross-cluster-search-connection-id destination-domain-info.domain-name
   destination-domain-info.owner-id destination-domain-info.region
   source-domain-info.domain-name
-- `"MaxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"NextToken"`:  NextToken is sent in case the earlier API call results contain the
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`:  NextToken is sent in case the earlier API call results contain the
   NextToken. It is used for pagination.
 """
 function describe_outbound_cross_cluster_search_connections(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/ccs/outboundConnection/search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_outbound_cross_cluster_search_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/ccs/outboundConnection/search",
@@ -785,30 +580,20 @@ function describe_outbound_cross_cluster_search_connections(
 end
 
 """
-    describe_packages()
-    describe_packages(params::Dict{String,<:Any})
+    describe_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes all packages available to Amazon ES. Includes options for filtering, limiting the
 number of results, and pagination.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: Only returns packages that match the DescribePackagesFilterList values.
-- `"MaxResults"`: Limits results to a maximum number of packages.
-- `"NextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: Only returns packages that match the DescribePackagesFilterList values.
+- `"max_results"`: Limits results to a maximum number of packages.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
-function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages/describe";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_packages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/describe",
@@ -819,33 +604,24 @@ function describe_packages(
 end
 
 """
-    describe_reserved_elasticsearch_instance_offerings()
-    describe_reserved_elasticsearch_instance_offerings(params::Dict{String,<:Any})
+    describe_reserved_elasticsearch_instance_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists available reserved Elasticsearch instance offerings.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: NextToken should be sent in case if earlier API call produced result
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: NextToken should be sent in case if earlier API call produced result
   containing NextToken. It is used for pagination.
-- `"offeringId"`: The offering identifier filter value. Use this parameter to show only the
-  available offering that matches the specified reservation identifier.
+- `"reserved_elasticsearch_instance_offering_id"`: The offering identifier filter value.
+  Use this parameter to show only the available offering that matches the specified
+  reservation identifier.
 """
 function describe_reserved_elasticsearch_instance_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/reservedInstanceOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_elasticsearch_instance_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/reservedInstanceOfferings",
@@ -856,33 +632,24 @@ function describe_reserved_elasticsearch_instance_offerings(
 end
 
 """
-    describe_reserved_elasticsearch_instances()
-    describe_reserved_elasticsearch_instances(params::Dict{String,<:Any})
+    describe_reserved_elasticsearch_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about reserved Elasticsearch instances for this account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Set this value to limit the number of results returned. If not specified,
-  defaults to 100.
-- `"nextToken"`: NextToken should be sent in case if earlier API call produced result
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Set this value to limit the number of results returned. If not
+  specified, defaults to 100.
+- `"next_token"`: NextToken should be sent in case if earlier API call produced result
   containing NextToken. It is used for pagination.
-- `"reservationId"`: The reserved instance identifier filter value. Use this parameter to
-  show only the reservation that matches the specified reserved Elasticsearch instance ID.
+- `"reserved_elasticsearch_instance_id"`: The reserved instance identifier filter value.
+  Use this parameter to show only the reservation that matches the specified reserved
+  Elasticsearch instance ID.
 """
 function describe_reserved_elasticsearch_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/reservedInstances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_elasticsearch_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/reservedInstances",
@@ -893,8 +660,7 @@ function describe_reserved_elasticsearch_instances(
 end
 
 """
-    dissociate_package(domain_name, package_id)
-    dissociate_package(domain_name, package_id, params::Dict{String,<:Any})
+    dissociate_package(domain_name, package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Dissociates a package from the Amazon ES domain.
 
@@ -905,21 +671,9 @@ Dissociates a package from the Amazon ES domain.
 
 """
 function dissociate_package(
-    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function dissociate_package(
-    DomainName,
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)",
@@ -930,29 +684,19 @@ function dissociate_package(
 end
 
 """
-    get_compatible_elasticsearch_versions()
-    get_compatible_elasticsearch_versions(params::Dict{String,<:Any})
+    get_compatible_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of upgrade compatible Elastisearch versions. You can optionally pass a
 DomainName  to get all upgrade compatible Elasticsearch versions for that specific domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`:
 """
 function get_compatible_elasticsearch_versions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/compatibleVersions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_compatible_elasticsearch_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/compatibleVersions",
@@ -963,8 +707,7 @@ function get_compatible_elasticsearch_versions(
 end
 
 """
-    get_package_version_history(package_id)
-    get_package_version_history(package_id, params::Dict{String,<:Any})
+    get_package_version_history(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of versions of the package, along with their creation time and commit
 message.
@@ -973,26 +716,15 @@ message.
 - `package_id`: Returns an audit history of versions of the package.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of versions.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits results to a maximum number of versions.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function get_package_version_history(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/packages/$(PackageID)/history";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_history(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/history",
@@ -1003,8 +735,7 @@ function get_package_version_history(
 end
 
 """
-    get_upgrade_history(domain_name)
-    get_upgrade_history(domain_name, params::Dict{String,<:Any})
+    get_upgrade_history(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the complete history of the last 10 upgrades that were performed on the domain.
 
@@ -1012,23 +743,14 @@ Retrieves the complete history of the last 10 upgrades that were performed on th
 - `domain_name`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function get_upgrade_history(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/upgradeDomain/$(DomainName)/history";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_upgrade_history(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/history",
@@ -1039,8 +761,7 @@ function get_upgrade_history(
 end
 
 """
-    get_upgrade_status(domain_name)
-    get_upgrade_status(domain_name, params::Dict{String,<:Any})
+    get_upgrade_status(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the latest status of the last upgrade or upgrade eligibility check that was
 performed on the domain.
@@ -1049,19 +770,10 @@ performed on the domain.
 - `domain_name`:
 
 """
-function get_upgrade_status(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/upgradeDomain/$(DomainName)/status";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_upgrade_status(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/upgradeDomain/$(DomainName)/status",
@@ -1072,24 +784,17 @@ function get_upgrade_status(
 end
 
 """
-    list_domain_names()
-    list_domain_names(params::Dict{String,<:Any})
+    list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the name of all Elasticsearch domains owned by the current user's account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"engineType"`:  Optional parameter to filter the output by domain engine type.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"engine_type"`:  Optional parameter to filter the output by domain engine type.
   Acceptable values are 'Elasticsearch' and 'OpenSearch'.
 """
-function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "GET", "/2015-01-01/domain"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_domain_names(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_domain_names(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/domain",
@@ -1100,8 +805,7 @@ function list_domain_names(
 end
 
 """
-    list_domains_for_package(package_id)
-    list_domains_for_package(package_id, params::Dict{String,<:Any})
+    list_domains_for_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all Amazon ES domains associated with the package.
 
@@ -1109,26 +813,15 @@ Lists all Amazon ES domains associated with the package.
 - `package_id`: The package for which to list domains.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of domains.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits results to a maximum number of domains.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function list_domains_for_package(
-    PackageID; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/packages/$(PackageID)/domains";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_domains_for_package(
-    PackageID,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/packages/$(PackageID)/domains",
@@ -1139,8 +832,7 @@ function list_domains_for_package(
 end
 
 """
-    list_elasticsearch_instance_types(elasticsearch_version)
-    list_elasticsearch_instance_types(elasticsearch_version, params::Dict{String,<:Any})
+    list_elasticsearch_instance_types(elasticsearch_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all Elasticsearch instance types that are supported for given ElasticsearchVersion
 
@@ -1149,30 +841,19 @@ List all Elasticsearch instance types that are supported for given Elasticsearch
   elasticsearch instance types are needed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`: DomainName represents the name of the Domain that we are trying to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_name"`: DomainName represents the name of the Domain that we are trying to
   modify. This should be present only if we are querying for list of available Elasticsearch
   instance types when modifying existing domain.
-- `"maxResults"`:  Set this value to limit the number of results returned. Value provided
+- `"max_results"`:  Set this value to limit the number of results returned. Value provided
   must be greater than 30 else it wont be honored.
-- `"nextToken"`: NextToken should be sent in case if earlier API call produced result
+- `"next_token"`: NextToken should be sent in case if earlier API call produced result
   containing NextToken. It is used for pagination.
 """
 function list_elasticsearch_instance_types(
-    ElasticsearchVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ElasticsearchVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_elasticsearch_instance_types(
-    ElasticsearchVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)",
@@ -1183,28 +864,20 @@ function list_elasticsearch_instance_types(
 end
 
 """
-    list_elasticsearch_versions()
-    list_elasticsearch_versions(params::Dict{String,<:Any})
+    list_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all supported Elasticsearch versions
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  Set this value to limit the number of results returned. Value provided
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  Set this value to limit the number of results returned. Value provided
   must be greater than 10 else it wont be honored.
-- `"nextToken"`:
+- `"next_token"`:
 """
-function list_elasticsearch_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/es/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_elasticsearch_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_elasticsearch_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/es/versions",
@@ -1215,8 +888,7 @@ function list_elasticsearch_versions(
 end
 
 """
-    list_packages_for_domain(domain_name)
-    list_packages_for_domain(domain_name, params::Dict{String,<:Any})
+    list_packages_for_domain(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all packages associated with the Amazon ES domain.
 
@@ -1224,26 +896,15 @@ Lists all packages associated with the Amazon ES domain.
 - `domain_name`: The name of the domain for which you want to list associated packages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Limits results to a maximum number of packages.
-- `"nextToken"`: Used for pagination. Only necessary if a previous API call includes a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Limits results to a maximum number of packages.
+- `"next_token"`: Used for pagination. Only necessary if a previous API call includes a
   non-null NextToken value. If provided, returns results for the next page.
 """
 function list_packages_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/domain/$(DomainName)/packages";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_packages_for_domain(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/domain/$(DomainName)/packages",
@@ -1254,8 +915,7 @@ function list_packages_for_domain(
 end
 
 """
-    list_tags(arn)
-    list_tags(arn, params::Dict{String,<:Any})
+    list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns all tags for the given Elasticsearch domain.
 
@@ -1264,18 +924,8 @@ Returns all tags for the given Elasticsearch domain.
   you want to view.
 
 """
-function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "GET",
-        "/2015-01-01/tags/",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_tags(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "GET",
         "/2015-01-01/tags/",
@@ -1286,8 +936,7 @@ function list_tags(
 end
 
 """
-    purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id)
-    purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id, params::Dict{String,<:Any})
+    purchase_reserved_elasticsearch_instance_offering(reservation_name, reserved_elasticsearch_instance_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to purchase reserved Elasticsearch instances.
 
@@ -1297,32 +946,16 @@ Allows you to purchase reserved Elasticsearch instances.
   instance offering to purchase.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"InstanceCount"`: The number of Elasticsearch instances to reserve.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"instance_count"`: The number of Elasticsearch instances to reserve.
 """
 function purchase_reserved_elasticsearch_instance_offering(
     ReservationName,
     ReservedElasticsearchInstanceOfferingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/purchaseReservedInstanceOffering",
-        Dict{String,Any}(
-            "ReservationName" => ReservationName,
-            "ReservedElasticsearchInstanceOfferingId" =>
-                ReservedElasticsearchInstanceOfferingId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function purchase_reserved_elasticsearch_instance_offering(
-    ReservationName,
-    ReservedElasticsearchInstanceOfferingId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/purchaseReservedInstanceOffering",
@@ -1343,8 +976,7 @@ function purchase_reserved_elasticsearch_instance_offering(
 end
 
 """
-    reject_inbound_cross_cluster_search_connection(connection_id)
-    reject_inbound_cross_cluster_search_connection(connection_id, params::Dict{String,<:Any})
+    reject_inbound_cross_cluster_search_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows the destination domain owner to reject an inbound cross-cluster search connection
 request.
@@ -1354,20 +986,9 @@ request.
 
 """
 function reject_inbound_cross_cluster_search_connection(
-    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    ConnectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "PUT",
-        "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reject_inbound_cross_cluster_search_connection(
-    ConnectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "PUT",
         "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject",
@@ -1378,8 +999,7 @@ function reject_inbound_cross_cluster_search_connection(
 end
 
 """
-    remove_tags(arn, tag_keys)
-    remove_tags(arn, tag_keys, params::Dict{String,<:Any})
+    remove_tags(arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified set of tags from the specified Elasticsearch domain.
 
@@ -1390,21 +1010,10 @@ Removes the specified set of tags from the specified Elasticsearch domain.
   domain.
 
 """
-function remove_tags(ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/tags-removal",
-        Dict{String,Any}("ARN" => ARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_tags(
-    ARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/tags-removal",
@@ -1417,8 +1026,7 @@ function remove_tags(
 end
 
 """
-    start_elasticsearch_service_software_update(domain_name)
-    start_elasticsearch_service_software_update(domain_name, params::Dict{String,<:Any})
+    start_elasticsearch_service_software_update(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Schedules a service software update for an Amazon ES domain.
 
@@ -1428,21 +1036,9 @@ Schedules a service software update for an Amazon ES domain.
 
 """
 function start_elasticsearch_service_software_update(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/serviceSoftwareUpdate/start",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_elasticsearch_service_software_update(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/serviceSoftwareUpdate/start",
@@ -1455,8 +1051,7 @@ function start_elasticsearch_service_software_update(
 end
 
 """
-    update_elasticsearch_domain_config(domain_name)
-    update_elasticsearch_domain_config(domain_name, params::Dict{String,<:Any})
+    update_elasticsearch_domain_config(domain_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the cluster configuration of the specified Elasticsearch domain, setting as
 setting the instance type and the number of instances.
@@ -1465,45 +1060,34 @@ setting the instance type and the number of instances.
 - `domain_name`: The name of the Elasticsearch domain that you are updating.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessPolicies"`: IAM access policy as a JSON-formatted string.
-- `"AdvancedOptions"`: Modifies the advanced option to allow references to indices in an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_policies"`: IAM access policy as a JSON-formatted string.
+- `"advanced_options"`: Modifies the advanced option to allow references to indices in an
   HTTP request body. Must be false when configuring access to individual sub-resources. By
   default, the value is true. See Configuration Advanced Options for more information.
-- `"AdvancedSecurityOptions"`: Specifies advanced security options.
-- `"AutoTuneOptions"`: Specifies Auto-Tune options.
-- `"CognitoOptions"`: Options to specify the Cognito user and identity pools for Kibana
+- `"advanced_security_options"`: Specifies advanced security options.
+- `"auto_tune_options"`: Specifies Auto-Tune options.
+- `"cognito_options"`: Options to specify the Cognito user and identity pools for Kibana
   authentication. For more information, see Amazon Cognito Authentication for Kibana.
-- `"DomainEndpointOptions"`: Options to specify configuration that will be applied to the
+- `"domain_endpoint_options"`: Options to specify configuration that will be applied to the
   domain endpoint.
-- `"EBSOptions"`: Specify the type and size of the EBS volume that you want to use.
-- `"ElasticsearchClusterConfig"`: The type and number of instances to instantiate for the
+- `"ebsoptions"`: Specify the type and size of the EBS volume that you want to use.
+- `"elasticsearch_cluster_config"`: The type and number of instances to instantiate for the
   domain cluster.
-- `"EncryptionAtRestOptions"`: Specifies the Encryption At Rest Options.
-- `"LogPublishingOptions"`: Map of LogType and LogPublishingOption, each containing options
-  to publish a given type of Elasticsearch log.
-- `"NodeToNodeEncryptionOptions"`: Specifies the NodeToNodeEncryptionOptions.
-- `"SnapshotOptions"`: Option to set the time, in UTC format, for the daily automated
+- `"encryption_at_rest_options"`: Specifies the Encryption At Rest Options.
+- `"log_publishing_options"`: Map of LogType and LogPublishingOption, each containing
+  options to publish a given type of Elasticsearch log.
+- `"node_to_node_encryption_options"`: Specifies the NodeToNodeEncryptionOptions.
+- `"snapshot_options"`: Option to set the time, in UTC format, for the daily automated
   snapshot. Default value is 0 hours.
-- `"VPCOptions"`: Options to specify the subnets and security groups for VPC endpoint. For
+- `"vpcoptions"`: Options to specify the subnets and security groups for VPC endpoint. For
   more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service
   Domains
 """
 function update_elasticsearch_domain_config(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/domain/$(DomainName)/config";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_elasticsearch_domain_config(
-    DomainName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/domain/$(DomainName)/config",
@@ -1514,8 +1098,7 @@ function update_elasticsearch_domain_config(
 end
 
 """
-    update_package(package_id, package_source)
-    update_package(package_id, package_source, params::Dict{String,<:Any})
+    update_package(package_id, package_source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a package for use with Amazon ES domains.
 
@@ -1524,28 +1107,15 @@ Updates a package for use with Amazon ES domains.
 - `package_source`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CommitMessage"`: An info message for the new version which will be shown as part of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"commit_message"`: An info message for the new version which will be shown as part of
   GetPackageVersionHistoryResponse.
-- `"PackageDescription"`: New description of the package.
+- `"package_description"`: New description of the package.
 """
 function update_package(
-    PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageID, PackageSource; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/packages/update",
-        Dict{String,Any}("PackageID" => PackageID, "PackageSource" => PackageSource);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package(
-    PackageID,
-    PackageSource,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/packages/update",
@@ -1564,8 +1134,7 @@ function update_package(
 end
 
 """
-    upgrade_elasticsearch_domain(domain_name, target_version)
-    upgrade_elasticsearch_domain(domain_name, target_version, params::Dict{String,<:Any})
+    upgrade_elasticsearch_domain(domain_name, target_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to either upgrade your domain or perform an Upgrade eligibility check to a
 compatible Elasticsearch version.
@@ -1575,27 +1144,14 @@ compatible Elasticsearch version.
 - `target_version`: The version of Elasticsearch that you intend to upgrade the domain to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PerformCheckOnly"`:  This flag, when set to True, indicates that an Upgrade Eligibility
-  Check needs to be performed. This will not actually perform the Upgrade.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"perform_check_only"`:  This flag, when set to True, indicates that an Upgrade
+  Eligibility Check needs to be performed. This will not actually perform the Upgrade.
 """
 function upgrade_elasticsearch_domain(
-    DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, TargetVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticsearch_service(
-        "POST",
-        "/2015-01-01/es/upgradeDomain",
-        Dict{String,Any}("DomainName" => DomainName, "TargetVersion" => TargetVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function upgrade_elasticsearch_domain(
-    DomainName,
-    TargetVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticsearch_service(
         "POST",
         "/2015-01-01/es/upgradeDomain",

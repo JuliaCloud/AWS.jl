@@ -4,9 +4,27 @@ using AWS.AWSServices: schemas
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "schema_name_prefix" => "schemaNamePrefix",
+    "next_token" => "nextToken",
+    "cross_account" => "CrossAccount",
+    "description" => "Description",
+    "source_arn_prefix" => "sourceArnPrefix",
+    "content" => "Content",
+    "scope" => "scope",
+    "client_token_id" => "ClientTokenId",
+    "discoverer_id_prefix" => "discovererIdPrefix",
+    "registry_name_prefix" => "registryNamePrefix",
+    "registry_name" => "registryName",
+    "revision_id" => "RevisionId",
+    "tags" => "tags",
+    "schema_version" => "schemaVersion",
+    "type" => "Type",
+    "limit" => "limit",
+)
+
 """
-    create_discoverer(source_arn)
-    create_discoverer(source_arn, params::Dict{String,<:Any})
+    create_discoverer(source_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a discoverer.
 
@@ -14,26 +32,16 @@ Creates a discoverer.
 - `source_arn`: The ARN of the event bus.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cross_account"`: Support discovery of schemas in events sent to the bus from another
   account. (default: true).
-- `"Description"`: A description for the discoverer.
+- `"description"`: A description for the discoverer.
 - `"tags"`: Tags associated with the resource.
 """
-function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "POST",
-        "/v1/discoverers",
-        Dict{String,Any}("SourceArn" => SourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_discoverer(
-    SourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/discoverers",
@@ -46,8 +54,7 @@ function create_discoverer(
 end
 
 """
-    create_registry(registry_name)
-    create_registry(registry_name, params::Dict{String,<:Any})
+    create_registry(registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a registry.
 
@@ -55,23 +62,14 @@ Creates a registry.
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the registry to be created.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the registry to be created.
 - `"tags"`: Tags to associate with the registry.
 """
-function create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "POST",
-        "/v1/registries/name/$(registryName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_registry(
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/registries/name/$(registryName)",
@@ -82,8 +80,7 @@ function create_registry(
 end
 
 """
-    create_schema(content, type, registry_name, schema_name)
-    create_schema(content, type, registry_name, schema_name, params::Dict{String,<:Any})
+    create_schema(content, type, registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a schema definition. Inactive schemas will be deleted after two years.
 
@@ -94,8 +91,8 @@ Creates a schema definition. Inactive schemas will be deleted after two years.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the schema.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the schema.
 - `"tags"`: Tags associated with the schema.
 """
 function create_schema(
@@ -104,23 +101,9 @@ function create_schema(
     registryName,
     schemaName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return schemas(
-        "POST",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
-        Dict{String,Any}("Content" => Content, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_schema(
-    Content,
-    Type,
-    registryName,
-    schemaName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
@@ -135,8 +118,7 @@ function create_schema(
 end
 
 """
-    delete_discoverer(discoverer_id)
-    delete_discoverer(discoverer_id, params::Dict{String,<:Any})
+    delete_discoverer(discoverer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a discoverer.
 
@@ -144,19 +126,10 @@ Deletes a discoverer.
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "DELETE",
-        "/v1/discoverers/id/$(discovererId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_discoverer(
-    discovererId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/v1/discoverers/id/$(discovererId)",
@@ -167,8 +140,7 @@ function delete_discoverer(
 end
 
 """
-    delete_registry(registry_name)
-    delete_registry(registry_name, params::Dict{String,<:Any})
+    delete_registry(registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Registry.
 
@@ -176,19 +148,10 @@ Deletes a Registry.
 - `registry_name`: The name of the registry.
 
 """
-function delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "DELETE",
-        "/v1/registries/name/$(registryName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_registry(
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/v1/registries/name/$(registryName)",
@@ -199,23 +162,18 @@ function delete_registry(
 end
 
 """
-    delete_resource_policy()
-    delete_resource_policy(params::Dict{String,<:Any})
+    delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete the resource-based policy attached to the specified registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryName"`: The name of the registry.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"registry_name"`: The name of the registry.
 """
-function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "DELETE", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_resource_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_resource_policy(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/v1/policy",
@@ -226,8 +184,7 @@ function delete_resource_policy(
 end
 
 """
-    delete_schema(registry_name, schema_name)
-    delete_schema(registry_name, schema_name, params::Dict{String,<:Any})
+    delete_schema(registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a schema definition.
 
@@ -237,21 +194,9 @@ Delete a schema definition.
 
 """
 function delete_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "DELETE",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_schema(
-    registryName,
-    schemaName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
@@ -262,8 +207,7 @@ function delete_schema(
 end
 
 """
-    delete_schema_version(registry_name, schema_name, schema_version)
-    delete_schema_version(registry_name, schema_name, schema_version, params::Dict{String,<:Any})
+    delete_schema_version(registry_name, schema_name, schema_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete the schema version definition
 
@@ -278,21 +222,9 @@ function delete_schema_version(
     schemaName,
     schemaVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return schemas(
-        "DELETE",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_schema_version(
-    registryName,
-    schemaName,
-    schemaVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)",
@@ -303,8 +235,7 @@ function delete_schema_version(
 end
 
 """
-    describe_code_binding(language, registry_name, schema_name)
-    describe_code_binding(language, registry_name, schema_name, params::Dict{String,<:Any})
+    describe_code_binding(language, registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describe the code binding URI.
 
@@ -314,26 +245,17 @@ Describe the code binding URI.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schemaVersion"`: Specifying this limits the results to only this schema version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"schema_version"`: Specifying this limits the results to only this schema version.
 """
-function describe_code_binding(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_code_binding(
     language,
     registryName,
-    schemaName,
-    params::AbstractDict{String};
+    schemaName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
@@ -344,8 +266,7 @@ function describe_code_binding(
 end
 
 """
-    describe_discoverer(discoverer_id)
-    describe_discoverer(discoverer_id, params::Dict{String,<:Any})
+    describe_discoverer(discoverer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the discoverer.
 
@@ -354,20 +275,9 @@ Describes the discoverer.
 
 """
 function describe_discoverer(
-    discovererId; aws_config::AbstractAWSConfig=global_aws_config()
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "GET",
-        "/v1/discoverers/id/$(discovererId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_discoverer(
-    discovererId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/discoverers/id/$(discovererId)",
@@ -378,8 +288,7 @@ function describe_discoverer(
 end
 
 """
-    describe_registry(registry_name)
-    describe_registry(registry_name, params::Dict{String,<:Any})
+    describe_registry(registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the registry.
 
@@ -387,19 +296,10 @@ Describes the registry.
 - `registry_name`: The name of the registry.
 
 """
-function describe_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_registry(
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)",
@@ -410,8 +310,7 @@ function describe_registry(
 end
 
 """
-    describe_schema(registry_name, schema_name)
-    describe_schema(registry_name, schema_name, params::Dict{String,<:Any})
+    describe_schema(registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve the schema definition.
 
@@ -420,25 +319,13 @@ Retrieve the schema definition.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schemaVersion"`: Specifying this limits the results to only this schema version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"schema_version"`: Specifying this limits the results to only this schema version.
 """
 function describe_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_schema(
-    registryName,
-    schemaName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
@@ -449,8 +336,7 @@ function describe_schema(
 end
 
 """
-    export_schema(registry_name, schema_name, type)
-    export_schema(registry_name, schema_name, type, params::Dict{String,<:Any})
+    export_schema(registry_name, schema_name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 
 
@@ -460,27 +346,17 @@ end
 - `type`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schemaVersion"`: Specifying this limits the results to only this schema version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"schema_version"`: Specifying this limits the results to only this schema version.
 """
-function export_schema(
-    registryName, schemaName, type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
-        Dict{String,Any}("type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_schema(
     registryName,
     schemaName,
-    type,
-    params::AbstractDict{String};
+    type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/export",
@@ -491,8 +367,7 @@ function export_schema(
 end
 
 """
-    get_code_binding_source(language, registry_name, schema_name)
-    get_code_binding_source(language, registry_name, schema_name, params::Dict{String,<:Any})
+    get_code_binding_source(language, registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the code binding source URI.
 
@@ -502,26 +377,17 @@ Get the code binding source URI.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schemaVersion"`: Specifying this limits the results to only this schema version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"schema_version"`: Specifying this limits the results to only this schema version.
 """
-function get_code_binding_source(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_code_binding_source(
     language,
     registryName,
-    schemaName,
-    params::AbstractDict{String};
+    schemaName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source",
@@ -532,8 +398,7 @@ function get_code_binding_source(
 end
 
 """
-    get_discovered_schema(events, type)
-    get_discovered_schema(events, type, params::Dict{String,<:Any})
+    get_discovered_schema(events, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the discovered schema that was generated based on sampled events.
 
@@ -545,22 +410,9 @@ Get the discovered schema that was generated based on sampled events.
 
 """
 function get_discovered_schema(
-    Events, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Events, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "POST",
-        "/v1/discover",
-        Dict{String,Any}("Events" => Events, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_discovered_schema(
-    Events,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/discover",
@@ -573,53 +425,39 @@ function get_discovered_schema(
 end
 
 """
-    get_resource_policy()
-    get_resource_policy(params::Dict{String,<:Any})
+    get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the resource-based policy attached to a given registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryName"`: The name of the registry.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"registry_name"`: The name of the registry.
 """
-function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "GET", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_resource_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET", "/v1/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_discoverers()
-    list_discoverers(params::Dict{String,<:Any})
+    list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the discoverers.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"discovererIdPrefix"`: Specifying this limits the results to only those discoverer IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"discoverer_id_prefix"`: Specifying this limits the results to only those discoverer IDs
   that start with the specified prefix.
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
+- `"next_token"`: The token that specifies the next page of results to return. To request
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
-- `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start
+- `"source_arn_prefix"`: Specifying this limits the results to only those ARNs that start
   with the specified prefix.
 """
-function list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "GET", "/v1/discoverers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_discoverers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/discoverers",
@@ -630,30 +468,23 @@ function list_discoverers(
 end
 
 """
-    list_registries()
-    list_registries(params::Dict{String,<:Any})
+    list_registries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the registries.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
+- `"next_token"`: The token that specifies the next page of results to return. To request
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
-- `"registryNamePrefix"`: Specifying this limits the results to only those registry names
+- `"registry_name_prefix"`: Specifying this limits the results to only those registry names
   that start with the specified prefix.
 - `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or
   the ones provided by AWS.
 """
-function list_registries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "GET", "/v1/registries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_registries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_registries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries",
@@ -664,8 +495,7 @@ function list_registries(
 end
 
 """
-    list_schema_versions(registry_name, schema_name)
-    list_schema_versions(registry_name, schema_name, params::Dict{String,<:Any})
+    list_schema_versions(registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of the schema versions and related information.
 
@@ -674,28 +504,16 @@ Provides a list of the schema versions and related information.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
+- `"next_token"`: The token that specifies the next page of results to return. To request
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
 """
 function list_schema_versions(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_schema_versions(
-    registryName,
-    schemaName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions",
@@ -706,8 +524,7 @@ function list_schema_versions(
 end
 
 """
-    list_schemas(registry_name)
-    list_schemas(registry_name, params::Dict{String,<:Any})
+    list_schemas(registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the schemas.
 
@@ -715,27 +532,18 @@ List the schemas.
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
+- `"next_token"`: The token that specifies the next page of results to return. To request
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
-- `"schemaNamePrefix"`: Specifying this limits the results to only those schema names that
-  start with the specified prefix.
+- `"schema_name_prefix"`: Specifying this limits the results to only those schema names
+  that start with the specified prefix.
 """
-function list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_schemas(
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas",
@@ -746,8 +554,7 @@ function list_schemas(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get tags for resource.
 
@@ -756,20 +563,9 @@ Get tags for resource.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "GET",
-        "/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/tags/$(resource-arn)",
@@ -780,8 +576,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_code_binding(language, registry_name, schema_name)
-    put_code_binding(language, registry_name, schema_name, params::Dict{String,<:Any})
+    put_code_binding(language, registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Put code binding URI
 
@@ -791,26 +586,17 @@ Put code binding URI
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"schemaVersion"`: Specifying this limits the results to only this schema version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"schema_version"`: Specifying this limits the results to only this schema version.
 """
-function put_code_binding(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return schemas(
-        "POST",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_code_binding(
     language,
     registryName,
-    schemaName,
-    params::AbstractDict{String};
+    schemaName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)",
@@ -821,8 +607,7 @@ function put_code_binding(
 end
 
 """
-    put_resource_policy(policy)
-    put_resource_policy(policy, params::Dict{String,<:Any})
+    put_resource_policy(policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The name of the policy.
 
@@ -830,22 +615,14 @@ The name of the policy.
 - `policy`: The resource-based policy.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RevisionId"`: The revision ID of the policy.
-- `"registryName"`: The name of the registry.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"registry_name"`: The name of the registry.
+- `"revision_id"`: The revision ID of the policy.
 """
-function put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "PUT",
-        "/v1/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
-    Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "PUT",
         "/v1/policy",
@@ -856,8 +633,7 @@ function put_resource_policy(
 end
 
 """
-    search_schemas(keywords, registry_name)
-    search_schemas(keywords, registry_name, params::Dict{String,<:Any})
+    search_schemas(keywords, registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Search the schemas
 
@@ -867,29 +643,16 @@ Search the schemas
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"limit"`:
-- `"nextToken"`: The token that specifies the next page of results to return. To request
+- `"next_token"`: The token that specifies the next page of results to return. To request
   the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be
   shared with other accounts.
 """
 function search_schemas(
-    keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()
+    keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "GET",
-        "/v1/registries/name/$(registryName)/schemas/search",
-        Dict{String,Any}("keywords" => keywords);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_schemas(
-    keywords,
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas/search",
@@ -902,8 +665,7 @@ function search_schemas(
 end
 
 """
-    start_discoverer(discoverer_id)
-    start_discoverer(discoverer_id, params::Dict{String,<:Any})
+    start_discoverer(discoverer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts the discoverer
 
@@ -911,19 +673,10 @@ Starts the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "POST",
-        "/v1/discoverers/id/$(discovererId)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_discoverer(
-    discovererId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/discoverers/id/$(discovererId)/start",
@@ -934,8 +687,7 @@ function start_discoverer(
 end
 
 """
-    stop_discoverer(discoverer_id)
-    stop_discoverer(discoverer_id, params::Dict{String,<:Any})
+    stop_discoverer(discoverer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops the discoverer
 
@@ -943,19 +695,10 @@ Stops the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "POST",
-        "/v1/discoverers/id/$(discovererId)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_discoverer(
-    discovererId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/v1/discoverers/id/$(discovererId)/stop",
@@ -966,8 +709,7 @@ function stop_discoverer(
 end
 
 """
-    tag_resource(resource-arn, tags)
-    tag_resource(resource-arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource-arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add tags to a resource.
 
@@ -976,21 +718,10 @@ Add tags to a resource.
 - `tags`: Tags associated with the resource.
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "POST",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resource_arn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "POST",
         "/tags/$(resource-arn)",
@@ -1001,8 +732,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource-arn, tag_keys)
-    untag_resource(resource-arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from a resource.
 
@@ -1012,22 +742,9 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "DELETE",
-        "/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "DELETE",
         "/tags/$(resource-arn)",
@@ -1038,8 +755,7 @@ function untag_resource(
 end
 
 """
-    update_discoverer(discoverer_id)
-    update_discoverer(discoverer_id, params::Dict{String,<:Any})
+    update_discoverer(discoverer_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the discoverer
 
@@ -1047,24 +763,15 @@ Updates the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CrossAccount"`: Support discovery of schemas in events sent to the bus from another
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cross_account"`: Support discovery of schemas in events sent to the bus from another
   account. (default: true)
-- `"Description"`: The description of the discoverer to update.
+- `"description"`: The description of the discoverer to update.
 """
-function update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "PUT",
-        "/v1/discoverers/id/$(discovererId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_discoverer(
-    discovererId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    discovererId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "PUT",
         "/v1/discoverers/id/$(discovererId)",
@@ -1075,8 +782,7 @@ function update_discoverer(
 end
 
 """
-    update_registry(registry_name)
-    update_registry(registry_name, params::Dict{String,<:Any})
+    update_registry(registry_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a registry.
 
@@ -1084,22 +790,13 @@ Updates a registry.
 - `registry_name`: The name of the registry.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the registry to update.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the registry to update.
 """
-function update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return schemas(
-        "PUT",
-        "/v1/registries/name/$(registryName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_registry(
-    registryName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    registryName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "PUT",
         "/v1/registries/name/$(registryName)",
@@ -1110,8 +807,7 @@ function update_registry(
 end
 
 """
-    update_schema(registry_name, schema_name)
-    update_schema(registry_name, schema_name, params::Dict{String,<:Any})
+    update_schema(registry_name, schema_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the schema definition Inactive schemas will be deleted after two years.
 
@@ -1120,34 +816,23 @@ Updates the schema definition Inactive schemas will be deleted after two years.
 - `schema_name`: The name of the schema.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientTokenId"`: The ID of the client token.
-- `"Content"`: The source of the schema definition.
-- `"Description"`: The description of the schema.
-- `"Type"`: The schema type for the events schema.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token_id"`: The ID of the client token.
+- `"content"`: The source of the schema definition.
+- `"description"`: The description of the schema.
+- `"type"`: The schema type for the events schema.
 """
 function update_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return schemas(
-        "PUT",
-        "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
-        Dict{String,Any}("ClientTokenId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_schema(
-    registryName,
-    schemaName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return schemas(
         "PUT",
         "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClientTokenId" => string(uuid4())), params)
+            mergewith(
+                _merge, Dict{String,Any}("client_token_id" => string(uuid4())), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

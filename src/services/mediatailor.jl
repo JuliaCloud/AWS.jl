@@ -4,9 +4,33 @@ using AWS.AWSServices: mediatailor
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "default_segment_delivery_configuration" => "DefaultSegmentDeliveryConfiguration",
+    "ad_decision_server_url" => "AdDecisionServerUrl",
+    "avail_suppression" => "AvailSuppression",
+    "transcode_profile_name" => "TranscodeProfileName",
+    "ad_breaks" => "AdBreaks",
+    "next_token" => "nextToken",
+    "manifest_processing_rules" => "ManifestProcessingRules",
+    "live_pre_roll_configuration" => "LivePreRollConfiguration",
+    "name" => "Name",
+    "duration_minutes" => "durationMinutes",
+    "slate_ad_url" => "SlateAdUrl",
+    "personalization_threshold_seconds" => "PersonalizationThresholdSeconds",
+    "max_results" => "maxResults",
+    "bumper" => "Bumper",
+    "dash_configuration" => "DashConfiguration",
+    "filler_slate" => "FillerSlate",
+    "stream_id" => "StreamId",
+    "access_configuration" => "AccessConfiguration",
+    "configuration_aliases" => "ConfigurationAliases",
+    "video_content_source_url" => "VideoContentSourceUrl",
+    "tags" => "tags",
+    "cdn_configuration" => "CdnConfiguration",
+)
+
 """
-    configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name)
-    configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name, params::Dict{String,<:Any})
+    configure_logs_for_playback_configuration(percent_enabled, playback_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Configures Amazon CloudWatch log settings for a playback configuration.
 
@@ -24,24 +48,9 @@ function configure_logs_for_playback_configuration(
     PercentEnabled,
     PlaybackConfigurationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediatailor(
-        "PUT",
-        "/configureLogs/playbackConfiguration",
-        Dict{String,Any}(
-            "PercentEnabled" => PercentEnabled,
-            "PlaybackConfigurationName" => PlaybackConfigurationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function configure_logs_for_playback_configuration(
-    PercentEnabled,
-    PlaybackConfigurationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/configureLogs/playbackConfiguration",
@@ -61,8 +70,7 @@ function configure_logs_for_playback_configuration(
 end
 
 """
-    create_channel(outputs, playback_mode, channel_name)
-    create_channel(outputs, playback_mode, channel_name, params::Dict{String,<:Any})
+    create_channel(outputs, playback_mode, channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a channel.
 
@@ -75,29 +83,19 @@ Creates a channel.
 - `channel_name`: The identifier for the channel you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filler_slate"`: The slate used to fill gaps between programs in the schedule. You must
   configure filler slate if your channel uses a LINEAR PlaybackMode.
 - `"tags"`: The tags to assign to the channel.
 """
 function create_channel(
-    Outputs, PlaybackMode, channelName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "POST",
-        "/channel/$(channelName)",
-        Dict{String,Any}("Outputs" => Outputs, "PlaybackMode" => PlaybackMode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_channel(
     Outputs,
     PlaybackMode,
-    channelName,
-    params::AbstractDict{String};
+    channelName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/channel/$(channelName)",
@@ -114,8 +112,7 @@ function create_channel(
 end
 
 """
-    create_prefetch_schedule(consumption, name, playback_configuration_name, retrieval)
-    create_prefetch_schedule(consumption, name, playback_configuration_name, retrieval, params::Dict{String,<:Any})
+    create_prefetch_schedule(consumption, name, playback_configuration_name, retrieval; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new prefetch schedule for the specified playback configuration.
 
@@ -131,8 +128,8 @@ Creates a new prefetch schedule for the specified playback configuration.
   for each ad break.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamId"`: An optional stream identifier that MediaTailor uses to prefetch ads for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_id"`: An optional stream identifier that MediaTailor uses to prefetch ads for
   multiple streams that use the same playback configuration. If StreamId is specified,
   MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not
   specified, MediaTailor returns all of the prefetch schedules for the playback
@@ -144,23 +141,9 @@ function create_prefetch_schedule(
     PlaybackConfigurationName,
     Retrieval;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediatailor(
-        "POST",
-        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
-        Dict{String,Any}("Consumption" => Consumption, "Retrieval" => Retrieval);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_prefetch_schedule(
-    Consumption,
-    Name,
-    PlaybackConfigurationName,
-    Retrieval,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
@@ -177,8 +160,7 @@ function create_prefetch_schedule(
 end
 
 """
-    create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name)
-    create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name, params::Dict{String,<:Any})
+    create_program(schedule_configuration, source_location_name, vod_source_name, channel_name, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a program.
 
@@ -190,8 +172,8 @@ Creates a program.
 - `program_name`: The identifier for the program you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AdBreaks"`: The ad break configuration settings.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ad_breaks"`: The ad break configuration settings.
 """
 function create_program(
     ScheduleConfiguration,
@@ -200,28 +182,9 @@ function create_program(
     channelName,
     programName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediatailor(
-        "POST",
-        "/channel/$(channelName)/program/$(programName)",
-        Dict{String,Any}(
-            "ScheduleConfiguration" => ScheduleConfiguration,
-            "SourceLocationName" => SourceLocationName,
-            "VodSourceName" => VodSourceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_program(
-    ScheduleConfiguration,
-    SourceLocationName,
-    VodSourceName,
-    channelName,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/channel/$(channelName)/program/$(programName)",
@@ -242,8 +205,7 @@ function create_program(
 end
 
 """
-    create_source_location(http_configuration, source_location_name)
-    create_source_location(http_configuration, source_location_name, params::Dict{String,<:Any})
+    create_source_location(http_configuration, source_location_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a source location on a specific channel.
 
@@ -252,30 +214,20 @@ Creates a source location on a specific channel.
 - `source_location_name`: The identifier for the source location you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessConfiguration"`: Access configuration parameters. Configures the type of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_configuration"`: Access configuration parameters. Configures the type of
   authentication used to access content from your source location.
-- `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the server that
-  serves segments.
+- `"default_segment_delivery_configuration"`: The optional configuration for the server
+  that serves segments.
 - `"tags"`: The tags to assign to the source location.
 """
 function create_source_location(
-    HttpConfiguration, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "POST",
-        "/sourceLocation/$(sourceLocationName)",
-        Dict{String,Any}("HttpConfiguration" => HttpConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_source_location(
     HttpConfiguration,
-    sourceLocationName,
-    params::AbstractDict{String};
+    sourceLocationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/sourceLocation/$(sourceLocationName)",
@@ -290,8 +242,7 @@ function create_source_location(
 end
 
 """
-    create_vod_source(http_package_configurations, source_location_name, vod_source_name)
-    create_vod_source(http_package_configurations, source_location_name, vod_source_name, params::Dict{String,<:Any})
+    create_vod_source(http_package_configurations, source_location_name, vod_source_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates name for a specific VOD source in a source location.
 
@@ -302,7 +253,7 @@ Creates name for a specific VOD source in a source location.
 - `vod_source_name`: The identifier for the VOD source you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: The tags to assign to the VOD source.
 """
 function create_vod_source(
@@ -310,22 +261,9 @@ function create_vod_source(
     sourceLocationName,
     vodSourceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediatailor(
-        "POST",
-        "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",
-        Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_vod_source(
-    HttpPackageConfigurations,
-    sourceLocationName,
-    vodSourceName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",
@@ -342,8 +280,7 @@ function create_vod_source(
 end
 
 """
-    delete_channel(channel_name)
-    delete_channel(channel_name, params::Dict{String,<:Any})
+    delete_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a channel. You must stop the channel before it can be deleted.
 
@@ -351,19 +288,10 @@ Deletes a channel. You must stop the channel before it can be deleted.
 - `channel_name`: The identifier for the channel you are working on.
 
 """
-function delete_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "DELETE",
-        "/channel/$(channelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/channel/$(channelName)",
@@ -374,8 +302,7 @@ function delete_channel(
 end
 
 """
-    delete_channel_policy(channel_name)
-    delete_channel_policy(channel_name, params::Dict{String,<:Any})
+    delete_channel_policy(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a channel's IAM policy.
 
@@ -384,20 +311,9 @@ Deletes a channel's IAM policy.
 
 """
 function delete_channel_policy(
-    channelName; aws_config::AbstractAWSConfig=global_aws_config()
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "DELETE",
-        "/channel/$(channelName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_channel_policy(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/channel/$(channelName)/policy",
@@ -408,8 +324,7 @@ function delete_channel_policy(
 end
 
 """
-    delete_playback_configuration(name)
-    delete_playback_configuration(name, params::Dict{String,<:Any})
+    delete_playback_configuration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the playback configuration for the specified name.
 
@@ -418,18 +333,9 @@ Deletes the playback configuration for the specified name.
 
 """
 function delete_playback_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "DELETE",
-        "/playbackConfiguration/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_playback_configuration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/playbackConfiguration/$(Name)",
@@ -440,8 +346,7 @@ function delete_playback_configuration(
 end
 
 """
-    delete_prefetch_schedule(name, playback_configuration_name)
-    delete_prefetch_schedule(name, playback_configuration_name, params::Dict{String,<:Any})
+    delete_prefetch_schedule(name, playback_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a prefetch schedule for a specific playback configuration. If you call
 DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404
@@ -453,21 +358,12 @@ status code.
 
 """
 function delete_prefetch_schedule(
-    Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "DELETE",
-        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_prefetch_schedule(
     Name,
-    PlaybackConfigurationName,
-    params::AbstractDict{String};
+    PlaybackConfigurationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
@@ -478,8 +374,7 @@ function delete_prefetch_schedule(
 end
 
 """
-    delete_program(channel_name, program_name)
-    delete_program(channel_name, program_name, params::Dict{String,<:Any})
+    delete_program(channel_name, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specific program on a specific channel.
 
@@ -489,21 +384,9 @@ Deletes a specific program on a specific channel.
 
 """
 function delete_program(
-    channelName, programName; aws_config::AbstractAWSConfig=global_aws_config()
+    channelName, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "DELETE",
-        "/channel/$(channelName)/program/$(programName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_program(
-    channelName,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/channel/$(channelName)/program/$(programName)",
@@ -514,8 +397,7 @@ function delete_program(
 end
 
 """
-    delete_source_location(source_location_name)
-    delete_source_location(source_location_name, params::Dict{String,<:Any})
+    delete_source_location(source_location_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a source location on a specific channel.
 
@@ -524,20 +406,9 @@ Deletes a source location on a specific channel.
 
 """
 function delete_source_location(
-    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "DELETE",
-        "/sourceLocation/$(sourceLocationName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_source_location(
-    sourceLocationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/sourceLocation/$(sourceLocationName)",
@@ -548,8 +419,7 @@ function delete_source_location(
 end
 
 """
-    delete_vod_source(source_location_name, vod_source_name)
-    delete_vod_source(source_location_name, vod_source_name, params::Dict{String,<:Any})
+    delete_vod_source(source_location_name, vod_source_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specific VOD source in a specific source location.
 
@@ -559,21 +429,12 @@ Deletes a specific VOD source in a specific source location.
 
 """
 function delete_vod_source(
-    sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "DELETE",
-        "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_vod_source(
     sourceLocationName,
-    vodSourceName,
-    params::AbstractDict{String};
+    vodSourceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",
@@ -584,8 +445,7 @@ function delete_vod_source(
 end
 
 """
-    describe_channel(channel_name)
-    describe_channel(channel_name, params::Dict{String,<:Any})
+    describe_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the properties of a specific channel.
 
@@ -593,19 +453,10 @@ Describes the properties of a specific channel.
 - `channel_name`: The identifier for the channel you are working on.
 
 """
-function describe_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET",
-        "/channel/$(channelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/channel/$(channelName)",
@@ -616,8 +467,7 @@ function describe_channel(
 end
 
 """
-    describe_program(channel_name, program_name)
-    describe_program(channel_name, program_name, params::Dict{String,<:Any})
+    describe_program(channel_name, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the properties of the requested program.
 
@@ -627,21 +477,9 @@ Retrieves the properties of the requested program.
 
 """
 function describe_program(
-    channelName, programName; aws_config::AbstractAWSConfig=global_aws_config()
+    channelName, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "GET",
-        "/channel/$(channelName)/program/$(programName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_program(
-    channelName,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/channel/$(channelName)/program/$(programName)",
@@ -652,8 +490,7 @@ function describe_program(
 end
 
 """
-    describe_source_location(source_location_name)
-    describe_source_location(source_location_name, params::Dict{String,<:Any})
+    describe_source_location(source_location_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the properties of the requested source location.
 
@@ -662,20 +499,9 @@ Retrieves the properties of the requested source location.
 
 """
 function describe_source_location(
-    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "GET",
-        "/sourceLocation/$(sourceLocationName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_source_location(
-    sourceLocationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/sourceLocation/$(sourceLocationName)",
@@ -686,8 +512,7 @@ function describe_source_location(
 end
 
 """
-    describe_vod_source(source_location_name, vod_source_name)
-    describe_vod_source(source_location_name, vod_source_name, params::Dict{String,<:Any})
+    describe_vod_source(source_location_name, vod_source_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides details about a specific VOD source in a specific source location.
 
@@ -697,21 +522,12 @@ Provides details about a specific VOD source in a specific source location.
 
 """
 function describe_vod_source(
-    sourceLocationName, vodSourceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "GET",
-        "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_vod_source(
     sourceLocationName,
-    vodSourceName,
-    params::AbstractDict{String};
+    vodSourceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",
@@ -722,8 +538,7 @@ function describe_vod_source(
 end
 
 """
-    get_channel_policy(channel_name)
-    get_channel_policy(channel_name, params::Dict{String,<:Any})
+    get_channel_policy(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a channel's IAM policy.
 
@@ -731,19 +546,10 @@ Retrieves information about a channel's IAM policy.
 - `channel_name`: The identifier for the channel you are working on.
 
 """
-function get_channel_policy(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET",
-        "/channel/$(channelName)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_channel_policy(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/channel/$(channelName)/policy",
@@ -754,8 +560,7 @@ function get_channel_policy(
 end
 
 """
-    get_channel_schedule(channel_name)
-    get_channel_schedule(channel_name, params::Dict{String,<:Any})
+    get_channel_schedule(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about your channel's schedule.
 
@@ -763,29 +568,18 @@ Retrieves information about your channel's schedule.
 - `channel_name`: The identifier for the channel you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"durationMinutes"`: The schedule duration in minutes. The maximum duration is 4320
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration_minutes"`: The schedule duration in minutes. The maximum duration is 4320
   minutes (three days).
-- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
-  is 100.
-- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+- `"max_results"`: Upper bound on number of records to return. The maximum number of
+  results is 100.
+- `"next_token"`: Pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
 function get_channel_schedule(
-    channelName; aws_config::AbstractAWSConfig=global_aws_config()
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "GET",
-        "/channel/$(channelName)/schedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_channel_schedule(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/channel/$(channelName)/schedule",
@@ -796,8 +590,7 @@ function get_channel_schedule(
 end
 
 """
-    get_playback_configuration(name)
-    get_playback_configuration(name, params::Dict{String,<:Any})
+    get_playback_configuration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the playback configuration for the specified name.
 
@@ -805,17 +598,10 @@ Returns the playback configuration for the specified name.
 - `name`: The identifier for the playback configuration.
 
 """
-function get_playback_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET",
-        "/playbackConfiguration/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_playback_configuration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/playbackConfiguration/$(Name)",
@@ -826,8 +612,7 @@ function get_playback_configuration(
 end
 
 """
-    get_prefetch_schedule(name, playback_configuration_name)
-    get_prefetch_schedule(name, playback_configuration_name, params::Dict{String,<:Any})
+    get_prefetch_schedule(name, playback_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the prefetch schedule for a specific playback configuration. If
 you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP
@@ -839,21 +624,12 @@ you call GetPrefetchSchedule on an expired prefetch schedule, MediaTailor return
 
 """
 function get_prefetch_schedule(
-    Name, PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "GET",
-        "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_prefetch_schedule(
     Name,
-    PlaybackConfigurationName,
-    params::AbstractDict{String};
+    PlaybackConfigurationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/prefetchSchedule/$(PlaybackConfigurationName)/$(Name)",
@@ -864,8 +640,7 @@ function get_prefetch_schedule(
 end
 
 """
-    list_alerts(resource_arn)
-    list_alerts(resource_arn, params::Dict{String,<:Any})
+    list_alerts(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of alerts for the given resource.
 
@@ -873,26 +648,16 @@ Returns a list of alerts for the given resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
-  is 100.
-- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return. The maximum number of
+  results is 100.
+- `"next_token"`: Pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_alerts(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET",
-        "/alerts",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_alerts(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/alerts",
@@ -905,34 +670,26 @@ function list_alerts(
 end
 
 """
-    list_channels()
-    list_channels(params::Dict{String,<:Any})
+    list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of channels that are associated with this account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
-  is 100.
-- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return. The maximum number of
+  results is 100.
+- `"next_token"`: Pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET", "/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET", "/channels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_playback_configurations()
-    list_playback_configurations(params::Dict{String,<:Any})
+    list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can
 specify a maximum number of configurations to return at a time. The default maximum is 50.
@@ -941,22 +698,15 @@ maximum, it provides parameters in the response that you can use to retrieve the
 pageful.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Maximum number of records to return.
-- `"NextToken"`: Pagination token returned by the GET list request when results exceed the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of records to return.
+- `"next_token"`: Pagination token returned by the GET list request when results exceed the
   maximum allowed. Use the token to fetch the next page of results.
 """
-function list_playback_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET",
-        "/playbackConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_playback_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_playback_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/playbackConfigurations",
@@ -967,8 +717,7 @@ function list_playback_configurations(
 end
 
 """
-    list_prefetch_schedules(playback_configuration_name)
-    list_prefetch_schedules(playback_configuration_name, params::Dict{String,<:Any})
+    list_prefetch_schedules(playback_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new prefetch schedule.
 
@@ -976,35 +725,24 @@ Creates a new prefetch schedule.
 - `playback_configuration_name`: The name of the playback configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of prefetch schedules that you want MediaTailor to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of prefetch schedules that you want MediaTailor to
   return in response to the current request. If the playback configuration has more than
   MaxResults prefetch schedules, use the value of NextToken in the response to get the next
   page of results.
-- `"NextToken"`: (Optional) If the playback configuration has more than MaxResults prefetch
-  schedules, use NextToken to get the second and subsequent pages of results. For the first
-  ListPrefetchSchedulesRequest request, omit this value. For the second and subsequent
-  requests, get the value of NextToken from the previous response and specify that value for
-  NextToken in the request. If the previous response didn't include a NextToken element,
-  there are no more prefetch schedules to get.
-- `"StreamId"`: An optional filtering parameter whereby MediaTailor filters the prefetch
+- `"next_token"`: (Optional) If the playback configuration has more than MaxResults
+  prefetch schedules, use NextToken to get the second and subsequent pages of results. For
+  the first ListPrefetchSchedulesRequest request, omit this value. For the second and
+  subsequent requests, get the value of NextToken from the previous response and specify that
+  value for NextToken in the request. If the previous response didn't include a NextToken
+  element, there are no more prefetch schedules to get.
+- `"stream_id"`: An optional filtering parameter whereby MediaTailor filters the prefetch
   schedules to include only specific streams.
 """
 function list_prefetch_schedules(
-    PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
+    PlaybackConfigurationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "POST",
-        "/prefetchSchedule/$(PlaybackConfigurationName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_prefetch_schedules(
-    PlaybackConfigurationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/prefetchSchedule/$(PlaybackConfigurationName)",
@@ -1015,26 +753,21 @@ function list_prefetch_schedules(
 end
 
 """
-    list_source_locations()
-    list_source_locations(params::Dict{String,<:Any})
+    list_source_locations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of source locations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
-  is 100.
-- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return. The maximum number of
+  results is 100.
+- `"next_token"`: Pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
-function list_source_locations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "GET", "/sourceLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_source_locations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_source_locations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/sourceLocations",
@@ -1045,8 +778,7 @@ function list_source_locations(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the tags assigned to the specified playback configuration resource.
 
@@ -1056,20 +788,9 @@ Returns a list of the tags assigned to the specified playback configuration reso
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/tags/$(ResourceArn)",
@@ -1080,8 +801,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_vod_sources(source_location_name)
-    list_vod_sources(source_location_name, params::Dict{String,<:Any})
+    list_vod_sources(source_location_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the VOD sources in a source location.
 
@@ -1089,27 +809,16 @@ Lists all the VOD sources in a source location.
 - `source_location_name`: The identifier for the source location you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Upper bound on number of records to return. The maximum number of results
-  is 100.
-- `"nextToken"`: Pagination token from the GET list request. Use the token to fetch the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Upper bound on number of records to return. The maximum number of
+  results is 100.
+- `"next_token"`: Pagination token from the GET list request. Use the token to fetch the
   next page of results.
 """
 function list_vod_sources(
-    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "GET",
-        "/sourceLocation/$(sourceLocationName)/vodSources";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_vod_sources(
-    sourceLocationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "GET",
         "/sourceLocation/$(sourceLocationName)/vodSources",
@@ -1120,8 +829,7 @@ function list_vod_sources(
 end
 
 """
-    put_channel_policy(policy, channel_name)
-    put_channel_policy(policy, channel_name, params::Dict{String,<:Any})
+    put_channel_policy(policy, channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an IAM policy for the channel.
 
@@ -1131,22 +839,9 @@ Creates an IAM policy for the channel.
 
 """
 function put_channel_policy(
-    Policy, channelName; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "PUT",
-        "/channel/$(channelName)/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_channel_policy(
-    Policy,
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/channel/$(channelName)/policy",
@@ -1157,64 +852,56 @@ function put_channel_policy(
 end
 
 """
-    put_playback_configuration()
-    put_playback_configuration(params::Dict{String,<:Any})
+    put_playback_configuration(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a new playback configuration to AWS Elemental MediaTailor.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AdDecisionServerUrl"`: The URL for the ad decision server (ADS). This includes the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"ad_decision_server_url"`: The URL for the ad decision server (ADS). This includes the
   specification of static parameters and placeholders for dynamic parameters. AWS Elemental
   MediaTailor substitutes player-specific and session-specific parameters as needed when
   calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum
   length is 25,000 characters.
-- `"AvailSuppression"`: The configuration for avail suppression, also known as ad
+- `"avail_suppression"`: The configuration for avail suppression, also known as ad
   suppression. For more information about ad suppression, see Ad Suppression.
-- `"Bumper"`: The configuration for bumpers. Bumpers are short audio or video clips that
+- `"bumper"`: The configuration for bumpers. Bumpers are short audio or video clips that
   play at the start or before the end of an ad break. To learn more about bumpers, see
   Bumpers.
-- `"CdnConfiguration"`: The configuration for using a content delivery network (CDN), like
+- `"cdn_configuration"`: The configuration for using a content delivery network (CDN), like
   Amazon CloudFront, for content and ad segment management.
-- `"ConfigurationAliases"`: The player parameters and aliases used as dynamic variables
+- `"configuration_aliases"`: The player parameters and aliases used as dynamic variables
   during session initialization. For more information, see Domain Variables.
-- `"DashConfiguration"`: The configuration for DASH content.
-- `"LivePreRollConfiguration"`: The configuration for pre-roll ad insertion.
-- `"ManifestProcessingRules"`: The configuration for manifest processing rules. Manifest
+- `"dash_configuration"`: The configuration for DASH content.
+- `"live_pre_roll_configuration"`: The configuration for pre-roll ad insertion.
+- `"manifest_processing_rules"`: The configuration for manifest processing rules. Manifest
   processing rules enable customization of the personalized manifests created by MediaTailor.
-- `"Name"`: The identifier for the playback configuration.
-- `"PersonalizationThresholdSeconds"`: Defines the maximum duration of underfilled ad time
-  (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds the
-  personalization threshold, then the personalization of the ad break is abandoned and the
-  underlying content is shown. This feature applies to ad replacement in live and VOD
+- `"name"`: The identifier for the playback configuration.
+- `"personalization_threshold_seconds"`: Defines the maximum duration of underfilled ad
+  time (in seconds) allowed in an ad break. If the duration of underfilled ad time exceeds
+  the personalization threshold, then the personalization of the ad break is abandoned and
+  the underlying content is shown. This feature applies to ad replacement in live and VOD
   streams, rather than ad insertion, because it relies on an underlying content stream. For
   more information about ad break behavior, including ad replacement and insertion, see Ad
   Behavior in AWS Elemental MediaTailor.
-- `"SlateAdUrl"`: The URL for a high-quality video asset to transcode and use to fill in
+- `"slate_ad_url"`: The URL for a high-quality video asset to transcode and use to fill in
   time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in
   media content. Configuring the slate is optional for non-VPAID configurations. For VPAID,
   the slate is required because MediaTailor provides it in the slots that are designated for
   dynamic ad content. The slate must be a high-quality asset that contains both audio and
   video.
-- `"TranscodeProfileName"`: The name that is used to associate this playback configuration
-  with a custom transcode profile. This overrides the dynamic transcoding defaults of
-  MediaTailor. Use this only if you have already set up custom profiles with the help of AWS
-  Support.
-- `"VideoContentSourceUrl"`: The URL prefix for the parent manifest for the stream, minus
-  the asset ID. The maximum length is 512 characters.
 - `"tags"`: The tags to assign to the playback configuration.
+- `"transcode_profile_name"`: The name that is used to associate this playback
+  configuration with a custom transcode profile. This overrides the dynamic transcoding
+  defaults of MediaTailor. Use this only if you have already set up custom profiles with the
+  help of AWS Support.
+- `"video_content_source_url"`: The URL prefix for the parent manifest for the stream,
+  minus the asset ID. The maximum length is 512 characters.
 """
-function put_playback_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "PUT",
-        "/playbackConfiguration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_playback_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function put_playback_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/playbackConfiguration",
@@ -1225,8 +912,7 @@ function put_playback_configuration(
 end
 
 """
-    start_channel(channel_name)
-    start_channel(channel_name, params::Dict{String,<:Any})
+    start_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a specific channel.
 
@@ -1234,19 +920,10 @@ Starts a specific channel.
 - `channel_name`: The identifier for the channel you are working on.
 
 """
-function start_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "PUT",
-        "/channel/$(channelName)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_channel(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/channel/$(channelName)/start",
@@ -1257,8 +934,7 @@ function start_channel(
 end
 
 """
-    stop_channel(channel_name)
-    stop_channel(channel_name, params::Dict{String,<:Any})
+    stop_channel(channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a specific channel.
 
@@ -1266,19 +942,10 @@ Stops a specific channel.
 - `channel_name`: The identifier for the channel you are working on.
 
 """
-function stop_channel(channelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "PUT",
-        "/channel/$(channelName)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_channel(
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/channel/$(channelName)/stop",
@@ -1289,8 +956,7 @@ function stop_channel(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds tags to the specified playback configuration resource. You can specify one or more
 tags to add.
@@ -1301,21 +967,10 @@ tags to add.
 - `tags`: A comma-separated list of tag key:value pairs.
 
 """
-function tag_resource(ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mediatailor(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1326,8 +981,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified playback configuration resource. You can specify one or
 more tags to remove.
@@ -1340,22 +994,9 @@ more tags to remove.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "DELETE",
         "/tags/$(ResourceArn)",
@@ -1366,8 +1007,7 @@ function untag_resource(
 end
 
 """
-    update_channel(outputs, channel_name)
-    update_channel(outputs, channel_name, params::Dict{String,<:Any})
+    update_channel(outputs, channel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing channel.
 
@@ -1377,22 +1017,9 @@ Updates an existing channel.
 
 """
 function update_channel(
-    Outputs, channelName; aws_config::AbstractAWSConfig=global_aws_config()
+    Outputs, channelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return mediatailor(
-        "PUT",
-        "/channel/$(channelName)",
-        Dict{String,Any}("Outputs" => Outputs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_channel(
-    Outputs,
-    channelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/channel/$(channelName)",
@@ -1403,8 +1030,7 @@ function update_channel(
 end
 
 """
-    update_source_location(http_configuration, source_location_name)
-    update_source_location(http_configuration, source_location_name, params::Dict{String,<:Any})
+    update_source_location(http_configuration, source_location_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a source location on a specific channel.
 
@@ -1413,29 +1039,19 @@ Updates a source location on a specific channel.
 - `source_location_name`: The identifier for the source location you are working on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessConfiguration"`: Access configuration parameters. Configures the type of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_configuration"`: Access configuration parameters. Configures the type of
   authentication used to access content from your source location.
-- `"DefaultSegmentDeliveryConfiguration"`: The optional configuration for the host server
-  that serves segments.
+- `"default_segment_delivery_configuration"`: The optional configuration for the host
+  server that serves segments.
 """
 function update_source_location(
-    HttpConfiguration, sourceLocationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mediatailor(
-        "PUT",
-        "/sourceLocation/$(sourceLocationName)",
-        Dict{String,Any}("HttpConfiguration" => HttpConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_source_location(
     HttpConfiguration,
-    sourceLocationName,
-    params::AbstractDict{String};
+    sourceLocationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/sourceLocation/$(sourceLocationName)",
@@ -1450,8 +1066,7 @@ function update_source_location(
 end
 
 """
-    update_vod_source(http_package_configurations, source_location_name, vod_source_name)
-    update_vod_source(http_package_configurations, source_location_name, vod_source_name, params::Dict{String,<:Any})
+    update_vod_source(http_package_configurations, source_location_name, vod_source_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a specific VOD source in a specific source location.
 
@@ -1467,22 +1082,9 @@ function update_vod_source(
     sourceLocationName,
     vodSourceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return mediatailor(
-        "PUT",
-        "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",
-        Dict{String,Any}("HttpPackageConfigurations" => HttpPackageConfigurations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_vod_source(
-    HttpPackageConfigurations,
-    sourceLocationName,
-    vodSourceName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return mediatailor(
         "PUT",
         "/sourceLocation/$(sourceLocationName)/vodSource/$(vodSourceName)",

@@ -4,9 +4,18 @@ using AWS.AWSServices: iot_data_plane
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "shadow_name" => "name",
+    "qos" => "qos",
+    "retain" => "retain",
+    "payload" => "payload",
+    "page_size" => "pageSize",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    delete_thing_shadow(thing_name)
-    delete_thing_shadow(thing_name, params::Dict{String,<:Any})
+    delete_thing_shadow(thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the shadow for the specified thing. Requires permission to access the
 DeleteThingShadow action. For more information, see DeleteThingShadow in the IoT Developer
@@ -16,22 +25,13 @@ Guide.
 - `thing_name`: The name of the thing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: The name of the shadow.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"shadow_name"`: The name of the shadow.
 """
-function delete_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_data_plane(
-        "DELETE",
-        "/things/$(thingName)/shadow";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_thing_shadow(
-    thingName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "DELETE",
         "/things/$(thingName)/shadow",
@@ -42,8 +42,7 @@ function delete_thing_shadow(
 end
 
 """
-    get_retained_message(topic)
-    get_retained_message(topic, params::Dict{String,<:Any})
+    get_retained_message(topic; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the details of a single retained message for the specified topic. This action returns
 the message payload of the retained message, which can incur messaging costs. To list only
@@ -55,17 +54,10 @@ Core pricing - Messaging.
 - `topic`: The topic name of the retained message to retrieve.
 
 """
-function get_retained_message(topic; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_data_plane(
-        "GET",
-        "/retainedMessage/$(topic)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_retained_message(
-    topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    topic; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "GET",
         "/retainedMessage/$(topic)",
@@ -76,8 +68,7 @@ function get_retained_message(
 end
 
 """
-    get_thing_shadow(thing_name)
-    get_thing_shadow(thing_name, params::Dict{String,<:Any})
+    get_thing_shadow(thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the shadow for the specified thing. Requires permission to access the GetThingShadow
 action. For more information, see GetThingShadow in the IoT Developer Guide.
@@ -86,22 +77,13 @@ action. For more information, see GetThingShadow in the IoT Developer Guide.
 - `thing_name`: The name of the thing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: The name of the shadow.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"shadow_name"`: The name of the shadow.
 """
-function get_thing_shadow(thingName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_data_plane(
-        "GET",
-        "/things/$(thingName)/shadow";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_thing_shadow(
-    thingName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "GET",
         "/things/$(thingName)/shadow",
@@ -112,8 +94,7 @@ function get_thing_shadow(
 end
 
 """
-    list_named_shadows_for_thing(thing_name)
-    list_named_shadows_for_thing(thing_name, params::Dict{String,<:Any})
+    list_named_shadows_for_thing(thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the shadows for the specified thing. Requires permission to access the
 ListNamedShadowsForThing action.
@@ -122,25 +103,14 @@ ListNamedShadowsForThing action.
 - `thing_name`: The name of the thing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: The token to retrieve the next set of results.
-- `"pageSize"`: The result page size.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The token to retrieve the next set of results.
+- `"page_size"`: The result page size.
 """
 function list_named_shadows_for_thing(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_data_plane(
-        "GET",
-        "/api/things/shadow/ListNamedShadowsForThing/$(thingName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_named_shadows_for_thing(
-    thingName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "GET",
         "/api/things/shadow/ListNamedShadowsForThing/$(thingName)",
@@ -151,8 +121,7 @@ function list_named_shadows_for_thing(
 end
 
 """
-    list_retained_messages()
-    list_retained_messages(params::Dict{String,<:Any})
+    list_retained_messages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists summary information about the retained messages stored for the account. This action
 returns only the topic names of the retained messages. It doesn't return any message
@@ -163,19 +132,15 @@ ListRetainedMessages action. For more information about messaging costs, see IoT
 pricing - Messaging.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return at one time.
-- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return at one time.
+- `"next_token"`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
 """
-function list_retained_messages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_data_plane(
-        "GET", "/retainedMessage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_retained_messages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_retained_messages(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "GET",
         "/retainedMessage",
@@ -186,8 +151,7 @@ function list_retained_messages(
 end
 
 """
-    publish(topic)
-    publish(topic, params::Dict{String,<:Any})
+    publish(topic; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Publishes an MQTT message. Requires permission to access the Publish action. For more
 information about MQTT messages, see MQTT Protocol in the IoT Developer Guide. For more
@@ -197,7 +161,7 @@ information about messaging costs, see IoT Core pricing - Messaging.
 - `topic`: The name of the MQTT topic.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"payload"`: The message body. MQTT accepts text, binary, and empty (null) message
   payloads. Publishing an empty (null) payload with retain = true deletes the retained
   message identified by topic from IoT Core.
@@ -206,14 +170,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message is published. Setting the RETAIN flag causes the message to be retained and sent to
   new subscribers to the topic. Valid values: true | false  Default value: false
 """
-function publish(topic; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_data_plane(
-        "POST", "/topics/$(topic)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function publish(
-    topic, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function publish(topic; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "POST",
         "/topics/$(topic)",
@@ -224,8 +182,7 @@ function publish(
 end
 
 """
-    update_thing_shadow(payload, thing_name)
-    update_thing_shadow(payload, thing_name, params::Dict{String,<:Any})
+    update_thing_shadow(payload, thing_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the shadow for the specified thing. Requires permission to access the
 UpdateThingShadow action. For more information, see UpdateThingShadow in the IoT Developer
@@ -236,26 +193,13 @@ Guide.
 - `thing_name`: The name of the thing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"name"`: The name of the shadow.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"shadow_name"`: The name of the shadow.
 """
 function update_thing_shadow(
-    payload, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    payload, thingName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_data_plane(
-        "POST",
-        "/things/$(thingName)/shadow",
-        Dict{String,Any}("payload" => payload);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_thing_shadow(
-    payload,
-    thingName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_data_plane(
         "POST",
         "/things/$(thingName)/shadow",

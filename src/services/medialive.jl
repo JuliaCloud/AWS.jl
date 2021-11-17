@@ -4,9 +4,56 @@ using AWS.AWSServices: medialive
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "codec" => "codec",
+    "deletes" => "deletes",
+    "cdi_input_specification" => "cdiInputSpecification",
+    "special_feature" => "specialFeature",
+    "destinations" => "destinations",
+    "vpc" => "vpc",
+    "channel_configuration" => "channelConfiguration",
+    "input_devices" => "inputDevices",
+    "channel_class" => "channelClass",
+    "multiplex_settings" => "multiplexSettings",
+    "name" => "name",
+    "channel_ids" => "channelIds",
+    "target_region" => "targetRegion",
+    "max_results" => "maxResults",
+    "maximum_framerate" => "maximumFramerate",
+    "input_security_groups" => "inputSecurityGroups",
+    "reserved" => "reserved",
+    "creates" => "creates",
+    "multiplex_ids" => "multiplexIds",
+    "log_level" => "logLevel",
+    "media_connect_flows" => "mediaConnectFlows",
+    "input_security_group_ids" => "inputSecurityGroupIds",
+    "next_token" => "nextToken",
+    "encoder_settings" => "encoderSettings",
+    "multiplex_program_settings" => "multiplexProgramSettings",
+    "role_arn" => "roleArn",
+    "request_id" => "requestId",
+    "id" => "id",
+    "resolution" => "resolution",
+    "transfer_message" => "transferMessage",
+    "start" => "start",
+    "hd_device_settings" => "hdDeviceSettings",
+    "tags" => "tags",
+    "sources" => "sources",
+    "resource_type" => "resourceType",
+    "maximum_bitrate" => "maximumBitrate",
+    "input_ids" => "inputIds",
+    "duration" => "duration",
+    "input_specification" => "inputSpecification",
+    "whitelist_rules" => "whitelistRules",
+    "input_attachments" => "inputAttachments",
+    "video_quality" => "videoQuality",
+    "uhd_device_settings" => "uhdDeviceSettings",
+    "target_customer_id" => "targetCustomerId",
+    "type" => "type",
+)
+
 """
-    accept_input_device_transfer(input_device_id)
-    accept_input_device_transfer(input_device_id, params::Dict{String,<:Any})
+    accept_input_device_transfer(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accept an incoming input device transfer. The ownership of the device will transfer to your
 AWS account.
@@ -17,20 +64,9 @@ AWS account.
 
 """
 function accept_input_device_transfer(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "POST",
-        "/prod/inputDevices/$(inputDeviceId)/accept";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function accept_input_device_transfer(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/accept",
@@ -41,26 +77,19 @@ function accept_input_device_transfer(
 end
 
 """
-    batch_delete()
-    batch_delete(params::Dict{String,<:Any})
+    batch_delete(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts delete of resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"channelIds"`: List of channel IDs
-- `"inputIds"`: List of input IDs
-- `"inputSecurityGroupIds"`: List of input security group IDs
-- `"multiplexIds"`: List of multiplex IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_ids"`: List of channel IDs
+- `"input_ids"`: List of input IDs
+- `"input_security_group_ids"`: List of input security group IDs
+- `"multiplex_ids"`: List of multiplex IDs
 """
-function batch_delete(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST", "/prod/batch/delete"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function batch_delete(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function batch_delete(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/batch/delete",
@@ -71,24 +100,17 @@ function batch_delete(
 end
 
 """
-    batch_start()
-    batch_start(params::Dict{String,<:Any})
+    batch_start(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts existing resources
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"channelIds"`: List of channel IDs
-- `"multiplexIds"`: List of multiplex IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_ids"`: List of channel IDs
+- `"multiplex_ids"`: List of multiplex IDs
 """
-function batch_start(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST", "/prod/batch/start"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function batch_start(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function batch_start(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/batch/start",
@@ -99,24 +121,17 @@ function batch_start(
 end
 
 """
-    batch_stop()
-    batch_stop(params::Dict{String,<:Any})
+    batch_stop(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops running resources
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"channelIds"`: List of channel IDs
-- `"multiplexIds"`: List of multiplex IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_ids"`: List of channel IDs
+- `"multiplex_ids"`: List of multiplex IDs
 """
-function batch_stop(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST", "/prod/batch/stop"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function batch_stop(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function batch_stop(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/batch/stop",
@@ -127,8 +142,7 @@ function batch_stop(
 end
 
 """
-    batch_update_schedule(channel_id)
-    batch_update_schedule(channel_id, params::Dict{String,<:Any})
+    batch_update_schedule(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a channel schedule
 
@@ -136,23 +150,14 @@ Update a channel schedule
 - `channel_id`: Id of the channel whose schedule is being updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"creates"`: Schedule actions to create in the schedule.
 - `"deletes"`: Schedule actions to delete from the schedule.
 """
-function batch_update_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "PUT",
-        "/prod/channels/$(channelId)/schedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_schedule(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/channels/$(channelId)/schedule",
@@ -163,8 +168,7 @@ function batch_update_schedule(
 end
 
 """
-    cancel_input_device_transfer(input_device_id)
-    cancel_input_device_transfer(input_device_id, params::Dict{String,<:Any})
+    cancel_input_device_transfer(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancel an input device transfer that you have requested.
 
@@ -174,20 +178,9 @@ Cancel an input device transfer that you have requested.
 
 """
 function cancel_input_device_transfer(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "POST",
-        "/prod/inputDevices/$(inputDeviceId)/cancel";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_input_device_transfer(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/cancel",
@@ -198,24 +191,17 @@ function cancel_input_device_transfer(
 end
 
 """
-    claim_device()
-    claim_device(params::Dict{String,<:Any})
+    claim_device(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Send a request to claim an AWS Elemental device that you have purchased from a third-party
 vendor. After the request succeeds, you will own the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"id"`: The id of the device you want to claim.
 """
-function claim_device(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST", "/prod/claimDevice"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function claim_device(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function claim_device(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/claimDevice",
@@ -226,48 +212,37 @@ function claim_device(
 end
 
 """
-    create_channel()
-    create_channel(params::Dict{String,<:Any})
+    create_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new channel
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"cdiInputSpecification"`: Specification of CDI inputs for this channel
-- `"channelClass"`: The class for this channel. STANDARD for a channel with two pipelines
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cdi_input_specification"`: Specification of CDI inputs for this channel
+- `"channel_class"`: The class for this channel. STANDARD for a channel with two pipelines
   or SINGLE_PIPELINE for a channel with one pipeline.
 - `"destinations"`:
-- `"encoderSettings"`:
-- `"inputAttachments"`: List of input attachments for channel.
-- `"inputSpecification"`: Specification of network and file inputs for this channel
-- `"logLevel"`: The log level to write to CloudWatch Logs.
+- `"encoder_settings"`:
+- `"input_attachments"`: List of input attachments for channel.
+- `"input_specification"`: Specification of network and file inputs for this channel
+- `"log_level"`: The log level to write to CloudWatch Logs.
 - `"name"`: Name of channel.
-- `"requestId"`: Unique request ID to be specified. This is needed to prevent retries
+- `"request_id"`: Unique request ID to be specified. This is needed to prevent retries
   from
 creating multiple resources.
 - `"reserved"`: Deprecated field that's only usable by whitelisted customers.
-- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
+- `"role_arn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
   the Channel.
 - `"tags"`: A collection of key-value pairs.
 - `"vpc"`: Settings for the VPC outputs
 """
-function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/channels",
-        Dict{String,Any}("requestId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_channel(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_channel(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/channels",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("request_id" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -275,28 +250,27 @@ function create_channel(
 end
 
 """
-    create_input()
-    create_input(params::Dict{String,<:Any})
+    create_input(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create an input
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"destinations"`: Destination settings for PUSH type inputs.
-- `"inputDevices"`: Settings for the devices.
-- `"inputSecurityGroups"`: A list of security groups referenced by IDs to attach to the
+- `"input_devices"`: Settings for the devices.
+- `"input_security_groups"`: A list of security groups referenced by IDs to attach to the
   input.
-- `"mediaConnectFlows"`: A list of the MediaConnect Flows that you want to use in this
+- `"media_connect_flows"`: A list of the MediaConnect Flows that you want to use in this
   input. You can specify as few as one
 Flow and presently, as many as two. The only
   requirement is when you have more than one is that each Flow is in a
 separate Availability
   Zone as this ensures your EML input is redundant to AZ issues.
 - `"name"`: Name of the input.
-- `"requestId"`: Unique identifier of the request to ensure the request is handled
+- `"request_id"`: Unique identifier of the request to ensure the request is handled
 exactly
   once in case of retries.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
+- `"role_arn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
 - `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs
 exactly
@@ -307,23 +281,13 @@ Only specify sources for PULL type Inputs. Leave
 - `"type"`:
 - `"vpc"`:
 """
-function create_input(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/inputs",
-        Dict{String,Any}("requestId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_input(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_input(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputs",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("request_id" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -331,27 +295,19 @@ function create_input(
 end
 
 """
-    create_input_security_group()
-    create_input_security_group(params::Dict{String,<:Any})
+    create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Input Security Group
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A collection of key-value pairs.
-- `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
+- `"whitelist_rules"`: List of IPv4 CIDR addresses to whitelist
 """
-function create_input_security_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/inputSecurityGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_input_security_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function create_input_security_group(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputSecurityGroups",
@@ -362,8 +318,7 @@ function create_input_security_group(
 end
 
 """
-    create_multiplex(availability_zones, multiplex_settings, name, request_id)
-    create_multiplex(availability_zones, multiplex_settings, name, request_id, params::Dict{String,<:Any})
+    create_multiplex(availability_zones, multiplex_settings, name, request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new multiplex.
 
@@ -376,7 +331,7 @@ Create a new multiplex.
 resources.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A collection of key-value pairs.
 """
 function create_multiplex(
@@ -385,28 +340,9 @@ function create_multiplex(
     name,
     requestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return medialive(
-        "POST",
-        "/prod/multiplexes",
-        Dict{String,Any}(
-            "availabilityZones" => availabilityZones,
-            "multiplexSettings" => multiplexSettings,
-            "name" => name,
-            "requestId" => requestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_multiplex(
-    availabilityZones,
-    multiplexSettings,
-    name,
-    requestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/multiplexes",
@@ -428,8 +364,7 @@ function create_multiplex(
 end
 
 """
-    create_multiplex_program(multiplex_id, multiplex_program_settings, program_name, request_id)
-    create_multiplex_program(multiplex_id, multiplex_program_settings, program_name, request_id, params::Dict{String,<:Any})
+    create_multiplex_program(multiplex_id, multiplex_program_settings, program_name, request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new program in the multiplex.
 
@@ -447,27 +382,9 @@ function create_multiplex_program(
     programName,
     requestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return medialive(
-        "POST",
-        "/prod/multiplexes/$(multiplexId)/programs",
-        Dict{String,Any}(
-            "multiplexProgramSettings" => multiplexProgramSettings,
-            "programName" => programName,
-            "requestId" => requestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_multiplex_program(
-    multiplexId,
-    multiplexProgramSettings,
-    programName,
-    requestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/multiplexes/$(multiplexId)/programs",
@@ -488,8 +405,7 @@ function create_multiplex_program(
 end
 
 """
-    create_partner_input(input_id)
-    create_partner_input(input_id, params::Dict{String,<:Any})
+    create_partner_input(input_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a partner input
 
@@ -497,29 +413,21 @@ Create a partner input
 - `input_id`: Unique ID of the input.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"requestId"`: Unique identifier of the request to ensure the request is handled
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"request_id"`: Unique identifier of the request to ensure the request is handled
 exactly
   once in case of retries.
 - `"tags"`: A collection of key-value pairs.
 """
-function create_partner_input(inputId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/inputs/$(inputId)/partners",
-        Dict{String,Any}("requestId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_partner_input(
-    inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputs/$(inputId)/partners",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("requestId" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("request_id" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -527,8 +435,7 @@ function create_partner_input(
 end
 
 """
-    create_tags(resource-arn)
-    create_tags(resource-arn, params::Dict{String,<:Any})
+    create_tags(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create tags for a resource
 
@@ -536,22 +443,13 @@ Create tags for a resource
 - `resource-arn`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`:
 """
-function create_tags(resource_arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_tags(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/tags/$(resource-arn)",
@@ -562,8 +460,7 @@ function create_tags(
 end
 
 """
-    delete_channel(channel_id)
-    delete_channel(channel_id, params::Dict{String,<:Any})
+    delete_channel(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts deletion of channel. The associated outputs are also deleted.
 
@@ -571,19 +468,10 @@ Starts deletion of channel. The associated outputs are also deleted.
 - `channel_id`: Unique ID of the channel.
 
 """
-function delete_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "DELETE",
-        "/prod/channels/$(channelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/channels/$(channelId)",
@@ -594,8 +482,7 @@ function delete_channel(
 end
 
 """
-    delete_input(input_id)
-    delete_input(input_id, params::Dict{String,<:Any})
+    delete_input(input_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the input end point
 
@@ -603,17 +490,8 @@ Deletes the input end point
 - `input_id`: Unique ID of the input
 
 """
-function delete_input(inputId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "DELETE",
-        "/prod/inputs/$(inputId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_input(
-    inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/inputs/$(inputId)",
@@ -624,8 +502,7 @@ function delete_input(
 end
 
 """
-    delete_input_security_group(input_security_group_id)
-    delete_input_security_group(input_security_group_id, params::Dict{String,<:Any})
+    delete_input_security_group(input_security_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Input Security Group
 
@@ -634,20 +511,9 @@ Deletes an Input Security Group
 
 """
 function delete_input_security_group(
-    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "DELETE",
-        "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_input_security_group(
-    inputSecurityGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
@@ -658,8 +524,7 @@ function delete_input_security_group(
 end
 
 """
-    delete_multiplex(multiplex_id)
-    delete_multiplex(multiplex_id, params::Dict{String,<:Any})
+    delete_multiplex(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a multiplex. The multiplex must be idle.
 
@@ -667,19 +532,10 @@ Delete a multiplex. The multiplex must be idle.
 - `multiplex_id`: The ID of the multiplex.
 
 """
-function delete_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "DELETE",
-        "/prod/multiplexes/$(multiplexId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_multiplex(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/multiplexes/$(multiplexId)",
@@ -690,8 +546,7 @@ function delete_multiplex(
 end
 
 """
-    delete_multiplex_program(multiplex_id, program_name)
-    delete_multiplex_program(multiplex_id, program_name, params::Dict{String,<:Any})
+    delete_multiplex_program(multiplex_id, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a program from a multiplex.
 
@@ -701,21 +556,9 @@ Delete a program from a multiplex.
 
 """
 function delete_multiplex_program(
-    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()
+    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "DELETE",
-        "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_multiplex_program(
-    multiplexId,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
@@ -726,8 +569,7 @@ function delete_multiplex_program(
 end
 
 """
-    delete_reservation(reservation_id)
-    delete_reservation(reservation_id, params::Dict{String,<:Any})
+    delete_reservation(reservation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an expired reservation.
 
@@ -736,20 +578,9 @@ Delete an expired reservation.
 
 """
 function delete_reservation(
-    reservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "DELETE",
-        "/prod/reservations/$(reservationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_reservation(
-    reservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/reservations/$(reservationId)",
@@ -760,8 +591,7 @@ function delete_reservation(
 end
 
 """
-    delete_schedule(channel_id)
-    delete_schedule(channel_id, params::Dict{String,<:Any})
+    delete_schedule(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete all schedule actions on a channel.
 
@@ -769,19 +599,10 @@ Delete all schedule actions on a channel.
 - `channel_id`: Id of the channel whose schedule is being deleted.
 
 """
-function delete_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "DELETE",
-        "/prod/channels/$(channelId)/schedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_schedule(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/channels/$(channelId)/schedule",
@@ -792,8 +613,7 @@ function delete_schedule(
 end
 
 """
-    delete_tags(resource-arn, tag_keys)
-    delete_tags(resource-arn, tag_keys, params::Dict{String,<:Any})
+    delete_tags(resource-arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags for a resource
 
@@ -803,22 +623,9 @@ Removes tags for a resource
 
 """
 function delete_tags(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "DELETE",
-        "/prod/tags/$(resource-arn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_tags(
-    resource_arn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "DELETE",
         "/prod/tags/$(resource-arn)",
@@ -829,8 +636,7 @@ function delete_tags(
 end
 
 """
-    describe_channel(channel_id)
-    describe_channel(channel_id, params::Dict{String,<:Any})
+    describe_channel(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets details about a channel
 
@@ -838,19 +644,10 @@ Gets details about a channel
 - `channel_id`: channel ID
 
 """
-function describe_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/channels/$(channelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/channels/$(channelId)",
@@ -861,8 +658,7 @@ function describe_channel(
 end
 
 """
-    describe_input(input_id)
-    describe_input(input_id, params::Dict{String,<:Any})
+    describe_input(input_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces details about an input
 
@@ -870,17 +666,10 @@ Produces details about an input
 - `input_id`: Unique ID of the input
 
 """
-function describe_input(inputId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/inputs/$(inputId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_input(
-    inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputs/$(inputId)",
@@ -891,8 +680,7 @@ function describe_input(
 end
 
 """
-    describe_input_device(input_device_id)
-    describe_input_device(input_device_id, params::Dict{String,<:Any})
+    describe_input_device(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the details for the input device
 
@@ -901,20 +689,9 @@ Gets the details for the input device
 
 """
 function describe_input_device(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/inputDevices/$(inputDeviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_input_device(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputDevices/$(inputDeviceId)",
@@ -925,8 +702,7 @@ function describe_input_device(
 end
 
 """
-    describe_input_device_thumbnail(accept, input_device_id)
-    describe_input_device_thumbnail(accept, input_device_id, params::Dict{String,<:Any})
+    describe_input_device_thumbnail(accept, input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the latest thumbnail data for the input device.
 
@@ -936,22 +712,9 @@ Get the latest thumbnail data for the input device.
 
 """
 function describe_input_device_thumbnail(
-    accept, inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    accept, inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/inputDevices/$(inputDeviceId)/thumbnailData",
-        Dict{String,Any}("headers" => Dict{String,Any}("accept" => accept));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_input_device_thumbnail(
-    accept,
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputDevices/$(inputDeviceId)/thumbnailData",
@@ -968,8 +731,7 @@ function describe_input_device_thumbnail(
 end
 
 """
-    describe_input_security_group(input_security_group_id)
-    describe_input_security_group(input_security_group_id, params::Dict{String,<:Any})
+    describe_input_security_group(input_security_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces a summary of an Input Security Group
 
@@ -978,20 +740,9 @@ Produces a summary of an Input Security Group
 
 """
 function describe_input_security_group(
-    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_input_security_group(
-    inputSecurityGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
@@ -1002,8 +753,7 @@ function describe_input_security_group(
 end
 
 """
-    describe_multiplex(multiplex_id)
-    describe_multiplex(multiplex_id, params::Dict{String,<:Any})
+    describe_multiplex(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets details about a multiplex.
 
@@ -1011,19 +761,10 @@ Gets details about a multiplex.
 - `multiplex_id`: The ID of the multiplex.
 
 """
-function describe_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/multiplexes/$(multiplexId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_multiplex(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/multiplexes/$(multiplexId)",
@@ -1034,8 +775,7 @@ function describe_multiplex(
 end
 
 """
-    describe_multiplex_program(multiplex_id, program_name)
-    describe_multiplex_program(multiplex_id, program_name, params::Dict{String,<:Any})
+    describe_multiplex_program(multiplex_id, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the details for a program in a multiplex.
 
@@ -1045,21 +785,9 @@ Get the details for a program in a multiplex.
 
 """
 function describe_multiplex_program(
-    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()
+    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_multiplex_program(
-    multiplexId,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
@@ -1070,8 +798,7 @@ function describe_multiplex_program(
 end
 
 """
-    describe_offering(offering_id)
-    describe_offering(offering_id, params::Dict{String,<:Any})
+    describe_offering(offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get details for an offering.
 
@@ -1079,19 +806,10 @@ Get details for an offering.
 - `offering_id`: Unique offering ID, e.g. '87654321'
 
 """
-function describe_offering(offeringId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/offerings/$(offeringId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_offering(
-    offeringId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    offeringId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/offerings/$(offeringId)",
@@ -1102,8 +820,7 @@ function describe_offering(
 end
 
 """
-    describe_reservation(reservation_id)
-    describe_reservation(reservation_id, params::Dict{String,<:Any})
+    describe_reservation(reservation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get details for a reservation.
 
@@ -1112,20 +829,9 @@ Get details for a reservation.
 
 """
 function describe_reservation(
-    reservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/reservations/$(reservationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reservation(
-    reservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/reservations/$(reservationId)",
@@ -1136,8 +842,7 @@ function describe_reservation(
 end
 
 """
-    describe_schedule(channel_id)
-    describe_schedule(channel_id, params::Dict{String,<:Any})
+    describe_schedule(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a channel schedule
 
@@ -1145,23 +850,14 @@ Get a channel schedule
 - `channel_id`: Id of the channel whose schedule is being updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function describe_schedule(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/channels/$(channelId)/schedule";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_schedule(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/channels/$(channelId)/schedule",
@@ -1172,24 +868,17 @@ function describe_schedule(
 end
 
 """
-    list_channels()
-    list_channels(params::Dict{String,<:Any})
+    list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces list of channels that have been created
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_channels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/channels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_channels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_channels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/channels",
@@ -1200,8 +889,7 @@ function list_channels(
 end
 
 """
-    list_input_device_transfers(transfer_type)
-    list_input_device_transfers(transfer_type, params::Dict{String,<:Any})
+    list_input_device_transfers(transfer_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List input devices that are currently being transferred. List input devices that you are
 transferring from your AWS account or input devices that another AWS account is
@@ -1211,26 +899,14 @@ transferring to you.
 - `transfer_type`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
 function list_input_device_transfers(
-    transferType; aws_config::AbstractAWSConfig=global_aws_config()
+    transferType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/inputDeviceTransfers",
-        Dict{String,Any}("transferType" => transferType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_input_device_transfers(
-    transferType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputDeviceTransfers",
@@ -1243,24 +919,17 @@ function list_input_device_transfers(
 end
 
 """
-    list_input_devices()
-    list_input_devices(params::Dict{String,<:Any})
+    list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List input devices
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/inputDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_input_devices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_input_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputDevices",
@@ -1271,27 +940,19 @@ function list_input_devices(
 end
 
 """
-    list_input_security_groups()
-    list_input_security_groups(params::Dict{String,<:Any})
+    list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces a list of Input Security Groups for an account
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_input_security_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET",
-        "/prod/inputSecurityGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_input_security_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_input_security_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputSecurityGroups",
@@ -1302,24 +963,17 @@ function list_input_security_groups(
 end
 
 """
-    list_inputs()
-    list_inputs(params::Dict{String,<:Any})
+    list_inputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces list of inputs that have been created
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/inputs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_inputs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_inputs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/inputs",
@@ -1330,8 +984,7 @@ function list_inputs(
 end
 
 """
-    list_multiplex_programs(multiplex_id)
-    list_multiplex_programs(multiplex_id, params::Dict{String,<:Any})
+    list_multiplex_programs(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the programs that currently exist for a specific multiplex.
 
@@ -1339,25 +992,14 @@ List the programs that currently exist for a specific multiplex.
 - `multiplex_id`: The ID of the multiplex that the programs belong to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to return.
-- `"nextToken"`: The token to retrieve the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return.
+- `"next_token"`: The token to retrieve the next page of results.
 """
 function list_multiplex_programs(
-    multiplexId; aws_config::AbstractAWSConfig=global_aws_config()
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/multiplexes/$(multiplexId)/programs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_multiplex_programs(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/multiplexes/$(multiplexId)/programs",
@@ -1368,24 +1010,17 @@ function list_multiplex_programs(
 end
 
 """
-    list_multiplexes()
-    list_multiplexes(params::Dict{String,<:Any})
+    list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve a list of the existing multiplexes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of items to return.
-- `"nextToken"`: The token to retrieve the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return.
+- `"next_token"`: The token to retrieve the next page of results.
 """
-function list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/multiplexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_multiplexes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_multiplexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/multiplexes",
@@ -1396,35 +1031,28 @@ function list_multiplexes(
 end
 
 """
-    list_offerings()
-    list_offerings(params::Dict{String,<:Any})
+    list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List offerings available for purchase.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"channelClass"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
-- `"channelConfiguration"`: Filter to offerings that match the configuration of an existing
-  channel, e.g. '2345678' (a channel ID)
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_class"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
+- `"channel_configuration"`: Filter to offerings that match the configuration of an
+  existing channel, e.g. '2345678' (a channel ID)
 - `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
 - `"duration"`: Filter by offering duration, e.g. '12'
-- `"maxResults"`:
-- `"maximumBitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
-- `"maximumFramerate"`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
-- `"nextToken"`:
+- `"max_results"`:
+- `"maximum_bitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
+- `"maximum_framerate"`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
+- `"next_token"`:
 - `"resolution"`: Filter by resolution, 'SD', 'HD', 'FHD', or 'UHD'
-- `"resourceType"`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
-- `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
-- `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
+- `"resource_type"`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
+- `"special_feature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
+- `"video_quality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
-function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/offerings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/offerings",
@@ -1435,32 +1063,25 @@ function list_offerings(
 end
 
 """
-    list_reservations()
-    list_reservations(params::Dict{String,<:Any})
+    list_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List purchased reservations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"channelClass"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"channel_class"`: Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
 - `"codec"`: Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
-- `"maxResults"`:
-- `"maximumBitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
-- `"maximumFramerate"`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
-- `"nextToken"`:
+- `"max_results"`:
+- `"maximum_bitrate"`: Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
+- `"maximum_framerate"`: Filter by framerate, 'MAX_30_FPS' or 'MAX_60_FPS'
+- `"next_token"`:
 - `"resolution"`: Filter by resolution, 'SD', 'HD', 'FHD', or 'UHD'
-- `"resourceType"`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
-- `"specialFeature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
-- `"videoQuality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
+- `"resource_type"`: Filter by resource type, 'INPUT', 'OUTPUT', 'MULTIPLEX', or 'CHANNEL'
+- `"special_feature"`: Filter by special feature, 'ADVANCED_AUDIO' or 'AUDIO_NORMALIZATION'
+- `"video_quality"`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 """
-function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "GET", "/prod/reservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_reservations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_reservations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/reservations",
@@ -1471,8 +1092,7 @@ function list_reservations(
 end
 
 """
-    list_tags_for_resource(resource-arn)
-    list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource-arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Produces list of tags that have been created for a resource
 
@@ -1481,20 +1101,9 @@ Produces list of tags that have been created for a resource
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "GET",
-        "/prod/tags/$(resource-arn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resource_arn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "GET",
         "/prod/tags/$(resource-arn)",
@@ -1505,8 +1114,7 @@ function list_tags_for_resource(
 end
 
 """
-    purchase_offering(count, offering_id)
-    purchase_offering(count, offering_id, params::Dict{String,<:Any})
+    purchase_offering(count, offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Purchase an offering and create a reservation.
 
@@ -1515,9 +1123,9 @@ Purchase an offering and create a reservation.
 - `offering_id`: Offering to purchase, e.g. '87654321'
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"name"`: Name for the new reservation
-- `"requestId"`: Unique request ID to be specified. This is needed to prevent retries from
+- `"request_id"`: Unique request ID to be specified. This is needed to prevent retries from
   creating multiple resources.
 - `"start"`: Requested reservation start time (UTC) in ISO-8601 format. The specified time
   must be between the first day of the current month and one year from now. If no value is
@@ -1525,29 +1133,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A collection of key-value pairs
 """
 function purchase_offering(
-    count, offeringId; aws_config::AbstractAWSConfig=global_aws_config()
+    count, offeringId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "POST",
-        "/prod/offerings/$(offeringId)/purchase",
-        Dict{String,Any}("count" => count, "requestId" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function purchase_offering(
-    count,
-    offeringId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/offerings/$(offeringId)/purchase",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("count" => count, "requestId" => string(uuid4())),
+                Dict{String,Any}("count" => count, "request_id" => string(uuid4())),
                 params,
             ),
         );
@@ -1557,8 +1152,7 @@ function purchase_offering(
 end
 
 """
-    reject_input_device_transfer(input_device_id)
-    reject_input_device_transfer(input_device_id, params::Dict{String,<:Any})
+    reject_input_device_transfer(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reject the transfer of the specified input device to your AWS account.
 
@@ -1568,20 +1162,9 @@ Reject the transfer of the specified input device to your AWS account.
 
 """
 function reject_input_device_transfer(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "POST",
-        "/prod/inputDevices/$(inputDeviceId)/reject";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reject_input_device_transfer(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/reject",
@@ -1592,8 +1175,7 @@ function reject_input_device_transfer(
 end
 
 """
-    start_channel(channel_id)
-    start_channel(channel_id, params::Dict{String,<:Any})
+    start_channel(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an existing channel
 
@@ -1601,19 +1183,10 @@ Starts an existing channel
 - `channel_id`: A request to start a channel
 
 """
-function start_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/channels/$(channelId)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_channel(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/channels/$(channelId)/start",
@@ -1624,8 +1197,7 @@ function start_channel(
 end
 
 """
-    start_multiplex(multiplex_id)
-    start_multiplex(multiplex_id, params::Dict{String,<:Any})
+    start_multiplex(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Start (run) the multiplex. Starting the multiplex does not start the channels. You must
 explicitly start each channel.
@@ -1634,19 +1206,10 @@ explicitly start each channel.
 - `multiplex_id`: The ID of the multiplex.
 
 """
-function start_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/multiplexes/$(multiplexId)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_multiplex(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/multiplexes/$(multiplexId)/start",
@@ -1657,8 +1220,7 @@ function start_multiplex(
 end
 
 """
-    stop_channel(channel_id)
-    stop_channel(channel_id, params::Dict{String,<:Any})
+    stop_channel(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a running channel
 
@@ -1666,19 +1228,10 @@ Stops a running channel
 - `channel_id`: A request to stop a running channel
 
 """
-function stop_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/channels/$(channelId)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_channel(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/channels/$(channelId)/stop",
@@ -1689,8 +1242,7 @@ function stop_channel(
 end
 
 """
-    stop_multiplex(multiplex_id)
-    stop_multiplex(multiplex_id, params::Dict{String,<:Any})
+    stop_multiplex(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a running multiplex. If the multiplex isn't running, this action has no effect.
 
@@ -1698,19 +1250,10 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 - `multiplex_id`: The ID of the multiplex.
 
 """
-function stop_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "POST",
-        "/prod/multiplexes/$(multiplexId)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_multiplex(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/multiplexes/$(multiplexId)/stop",
@@ -1721,8 +1264,7 @@ function stop_multiplex(
 end
 
 """
-    transfer_input_device(input_device_id)
-    transfer_input_device(input_device_id, params::Dict{String,<:Any})
+    transfer_input_device(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Start an input device transfer to another AWS account. After you make the request, the
 other account must accept or reject the transfer.
@@ -1731,27 +1273,16 @@ other account must accept or reject the transfer.
 - `input_device_id`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"targetCustomerId"`: The AWS account ID (12 digits) for the recipient of the device
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"target_customer_id"`: The AWS account ID (12 digits) for the recipient of the device
   transfer.
-- `"targetRegion"`: The target AWS region to transfer the device.
-- `"transferMessage"`: An optional message for the recipient. Maximum 280 characters.
+- `"target_region"`: The target AWS region to transfer the device.
+- `"transfer_message"`: An optional message for the recipient. Maximum 280 characters.
 """
 function transfer_input_device(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "POST",
-        "/prod/inputDevices/$(inputDeviceId)/transfer";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function transfer_input_device(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/transfer",
@@ -1762,8 +1293,7 @@ function transfer_input_device(
 end
 
 """
-    update_channel(channel_id)
-    update_channel(channel_id, params::Dict{String,<:Any})
+    update_channel(channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a channel.
 
@@ -1771,31 +1301,22 @@ Updates a channel.
 - `channel_id`: channel ID
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"cdiInputSpecification"`: Specification of CDI inputs for this channel
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cdi_input_specification"`: Specification of CDI inputs for this channel
 - `"destinations"`: A list of output destinations for this channel.
-- `"encoderSettings"`: The encoder settings for this channel.
-- `"inputAttachments"`:
-- `"inputSpecification"`: Specification of network and file inputs for this channel
-- `"logLevel"`: The log level to write to CloudWatch Logs.
+- `"encoder_settings"`: The encoder settings for this channel.
+- `"input_attachments"`:
+- `"input_specification"`: Specification of network and file inputs for this channel
+- `"log_level"`: The log level to write to CloudWatch Logs.
 - `"name"`: The name of the channel.
-- `"roleArn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
+- `"role_arn"`: An optional Amazon Resource Name (ARN) of the role to assume when running
   the Channel. If you do not specify this on an update call but the role was previously set
   that role will be removed.
 """
-function update_channel(channelId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "PUT",
-        "/prod/channels/$(channelId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_channel(
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/channels/$(channelId)",
@@ -1806,8 +1327,7 @@ function update_channel(
 end
 
 """
-    update_channel_class(channel_class, channel_id)
-    update_channel_class(channel_class, channel_id, params::Dict{String,<:Any})
+    update_channel_class(channel_class, channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the class of the channel.
 
@@ -1816,26 +1336,13 @@ Changes the class of the channel.
 - `channel_id`: Channel Id of the channel whose class should be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"destinations"`: A list of output destinations for this channel.
 """
 function update_channel_class(
-    channelClass, channelId; aws_config::AbstractAWSConfig=global_aws_config()
+    channelClass, channelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "PUT",
-        "/prod/channels/$(channelId)/channelClass",
-        Dict{String,Any}("channelClass" => channelClass);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_channel_class(
-    channelClass,
-    channelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/channels/$(channelId)/channelClass",
@@ -1848,8 +1355,7 @@ function update_channel_class(
 end
 
 """
-    update_input(input_id)
-    update_input(input_id, params::Dict{String,<:Any})
+    update_input(input_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an input.
 
@@ -1857,19 +1363,19 @@ Updates an input.
 - `input_id`: Unique ID of the input.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"destinations"`: Destination settings for PUSH type inputs.
-- `"inputDevices"`: Settings for the devices.
-- `"inputSecurityGroups"`: A list of security groups referenced by IDs to attach to the
+- `"input_devices"`: Settings for the devices.
+- `"input_security_groups"`: A list of security groups referenced by IDs to attach to the
   input.
-- `"mediaConnectFlows"`: A list of the MediaConnect Flow ARNs that you want to use as the
+- `"media_connect_flows"`: A list of the MediaConnect Flow ARNs that you want to use as the
   source of the input. You can specify as few as one
 Flow and presently, as many as two. The
   only requirement is when you have more than one is that each Flow is in a
 separate
   Availability Zone as this ensures your EML input is redundant to AZ issues.
 - `"name"`: Name of the input.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
+- `"role_arn"`: The Amazon Resource Name (ARN) of the role this input assumes during and
   after creation.
 - `"sources"`: The source URLs for a PULL-type input. Every PULL type input needs
 exactly
@@ -1877,17 +1383,8 @@ exactly
 Only specify sources for PULL type Inputs. Leave
   Destinations empty.
 """
-function update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "PUT",
-        "/prod/inputs/$(inputId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_input(
-    inputId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/inputs/$(inputId)",
@@ -1898,8 +1395,7 @@ function update_input(
 end
 
 """
-    update_input_device(input_device_id)
-    update_input_device(input_device_id, params::Dict{String,<:Any})
+    update_input_device(input_device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the parameters for the input device.
 
@@ -1907,26 +1403,15 @@ Updates the parameters for the input device.
 - `input_device_id`: The unique ID of the input device. For example, hd-123456789abcdef.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"hdDeviceSettings"`: The settings that you want to apply to the HD input device.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"hd_device_settings"`: The settings that you want to apply to the HD input device.
 - `"name"`: The name that you assigned to this input device (not the unique ID).
-- `"uhdDeviceSettings"`: The settings that you want to apply to the UHD input device.
+- `"uhd_device_settings"`: The settings that you want to apply to the UHD input device.
 """
 function update_input_device(
-    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "PUT",
-        "/prod/inputDevices/$(inputDeviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_input_device(
-    inputDeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/inputDevices/$(inputDeviceId)",
@@ -1937,8 +1422,7 @@ function update_input_device(
 end
 
 """
-    update_input_security_group(input_security_group_id)
-    update_input_security_group(input_security_group_id, params::Dict{String,<:Any})
+    update_input_security_group(input_security_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update an Input Security Group's Whilelists.
 
@@ -1946,25 +1430,14 @@ Update an Input Security Group's Whilelists.
 - `input_security_group_id`: The id of the Input Security Group to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A collection of key-value pairs.
-- `"whitelistRules"`: List of IPv4 CIDR addresses to whitelist
+- `"whitelist_rules"`: List of IPv4 CIDR addresses to whitelist
 """
 function update_input_security_group(
-    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    inputSecurityGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "PUT",
-        "/prod/inputSecurityGroups/$(inputSecurityGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_input_security_group(
-    inputSecurityGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/inputSecurityGroups/$(inputSecurityGroupId)",
@@ -1975,8 +1448,7 @@ function update_input_security_group(
 end
 
 """
-    update_multiplex(multiplex_id)
-    update_multiplex(multiplex_id, params::Dict{String,<:Any})
+    update_multiplex(multiplex_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a multiplex.
 
@@ -1984,23 +1456,14 @@ Updates a multiplex.
 - `multiplex_id`: ID of the multiplex to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"multiplexSettings"`: The new settings for a multiplex.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"multiplex_settings"`: The new settings for a multiplex.
 - `"name"`: Name of the multiplex.
 """
-function update_multiplex(multiplexId; aws_config::AbstractAWSConfig=global_aws_config())
-    return medialive(
-        "PUT",
-        "/prod/multiplexes/$(multiplexId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_multiplex(
-    multiplexId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    multiplexId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/multiplexes/$(multiplexId)",
@@ -2011,8 +1474,7 @@ function update_multiplex(
 end
 
 """
-    update_multiplex_program(multiplex_id, program_name)
-    update_multiplex_program(multiplex_id, program_name, params::Dict{String,<:Any})
+    update_multiplex_program(multiplex_id, program_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a program in a multiplex.
 
@@ -2021,25 +1483,13 @@ Update a program in a multiplex.
 - `program_name`: The name of the program to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"multiplexProgramSettings"`: The new settings for a multiplex program.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"multiplex_program_settings"`: The new settings for a multiplex program.
 """
 function update_multiplex_program(
-    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config()
+    multiplexId, programName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "PUT",
-        "/prod/multiplexes/$(multiplexId)/programs/$(programName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_multiplex_program(
-    multiplexId,
-    programName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/multiplexes/$(multiplexId)/programs/$(programName)",
@@ -2050,8 +1500,7 @@ function update_multiplex_program(
 end
 
 """
-    update_reservation(reservation_id)
-    update_reservation(reservation_id, params::Dict{String,<:Any})
+    update_reservation(reservation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update reservation.
 
@@ -2059,24 +1508,13 @@ Update reservation.
 - `reservation_id`: Unique reservation ID, e.g. '1234567'
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"name"`: Name of the reservation
 """
 function update_reservation(
-    reservationId; aws_config::AbstractAWSConfig=global_aws_config()
+    reservationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return medialive(
-        "PUT",
-        "/prod/reservations/$(reservationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_reservation(
-    reservationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return medialive(
         "PUT",
         "/prod/reservations/$(reservationId)",

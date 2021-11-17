@@ -4,9 +4,26 @@ using AWS.AWSServices: wisdom
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "rendering_configuration" => "renderingConfiguration",
+    "source_configuration" => "sourceConfiguration",
+    "server_side_encryption_configuration" => "serverSideEncryptionConfiguration",
+    "next_token" => "nextToken",
+    "wait_time_seconds" => "waitTimeSeconds",
+    "description" => "description",
+    "max_results" => "maxResults",
+    "client_token" => "clientToken",
+    "remove_override_link_out_uri" => "removeOverrideLinkOutUri",
+    "override_link_out_uri" => "overrideLinkOutUri",
+    "revision_id" => "revisionId",
+    "title" => "title",
+    "tags" => "tags",
+    "metadata" => "metadata",
+    "upload_id" => "uploadId",
+)
+
 """
-    create_assistant(name, type)
-    create_assistant(name, type, params::Dict{String,<:Any})
+    create_assistant(name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Connect Wisdom assistant.
 
@@ -15,28 +32,17 @@ Creates an Amazon Connect Wisdom assistant.
 - `type`: The type of assistant.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"description"`: The description of the assistant.
-- `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
+- `"server_side_encryption_configuration"`: The KMS key used for encryption.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
-function create_assistant(name, type; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "POST",
-        "/assistants",
-        Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_assistant(
-    name,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants",
@@ -44,7 +50,7 @@ function create_assistant(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "name" => name, "type" => type, "clientToken" => string(uuid4())
+                    "name" => name, "type" => type, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -55,8 +61,7 @@ function create_assistant(
 end
 
 """
-    create_assistant_association(assistant_id, association, association_type)
-    create_assistant_association(assistant_id, association, association_type, params::Dict{String,<:Any})
+    create_assistant_association(assistant_id, association, association_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between an Amazon Connect Wisdom assistant and another resource.
 Currently, the only supported association is with a knowledge base. An assistant can have
@@ -69,8 +74,8 @@ only a single association.
 - `association_type`: The type of association.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
@@ -79,26 +84,9 @@ function create_assistant_association(
     association,
     associationType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/associations",
-        Dict{String,Any}(
-            "association" => association,
-            "associationType" => associationType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_assistant_association(
-    assistantId,
-    association,
-    associationType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants/$(assistantId)/associations",
@@ -108,7 +96,7 @@ function create_assistant_association(
                 Dict{String,Any}(
                     "association" => association,
                     "associationType" => associationType,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -119,8 +107,7 @@ function create_assistant_association(
 end
 
 """
-    create_content(knowledge_base_id, name, upload_id)
-    create_content(knowledge_base_id, name, upload_id, params::Dict{String,<:Any})
+    create_content(knowledge_base_id, name, upload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates Wisdom content. Before to calling this API, use StartContentUpload to upload an
 asset.
@@ -135,38 +122,26 @@ asset.
   StartContentUpload.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
   Wisdom, you can store an external version identifier as metadata to utilize for determining
   drift.
-- `"overrideLinkOutUri"`: The URI you want to use for the article. If the knowledge base
+- `"override_link_out_uri"`: The URI you want to use for the article. If the knowledge base
   has a templateUri, setting this argument overrides it for this piece of content.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 - `"title"`: The title of the content. If not set, the title is equal to the name.
 """
 function create_content(
-    knowledgeBaseId, name, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents",
-        Dict{String,Any}(
-            "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_content(
     knowledgeBaseId,
     name,
-    uploadId,
-    params::AbstractDict{String};
+    uploadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/contents",
@@ -174,7 +149,9 @@ function create_content(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "name" => name, "uploadId" => uploadId, "clientToken" => string(uuid4())
+                    "name" => name,
+                    "uploadId" => uploadId,
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -185,8 +162,7 @@ function create_content(
 end
 
 """
-    create_knowledge_base(knowledge_base_type, name)
-    create_knowledge_base(knowledge_base_type, name, params::Dict{String,<:Any})
+    create_knowledge_base(knowledge_base_type, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a knowledge base.  When using this API, you cannot reuse Amazon AppIntegrations
 DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you
@@ -212,37 +188,20 @@ CreateKnowledgeBase.&lt;/p&gt; &lt;/li&gt; &lt;/ol&gt; &lt;/note&gt;
 - `name`: The name of the knowledge base.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"description"`: The description.
-- `"renderingConfiguration"`: Information about how to render the content.
-- `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
-- `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
-  for EXTERNAL knowledge bases.
+- `"rendering_configuration"`: Information about how to render the content.
+- `"server_side_encryption_configuration"`: The KMS key used for encryption.
+- `"source_configuration"`: The source of the knowledge base content. Only set this
+  argument for EXTERNAL knowledge bases.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_knowledge_base(
-    knowledgeBaseType, name; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseType, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "POST",
-        "/knowledgeBases",
-        Dict{String,Any}(
-            "knowledgeBaseType" => knowledgeBaseType,
-            "name" => name,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_knowledge_base(
-    knowledgeBaseType,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases",
@@ -252,7 +211,7 @@ function create_knowledge_base(
                 Dict{String,Any}(
                     "knowledgeBaseType" => knowledgeBaseType,
                     "name" => name,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -263,8 +222,7 @@ function create_knowledge_base(
 end
 
 """
-    create_session(assistant_id, name)
-    create_session(assistant_id, name, params::Dict{String,<:Any})
+    create_session(assistant_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a session. A session is a contextual container used for generating recommendations.
 Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
@@ -275,36 +233,23 @@ Amazon Connect creates a new Wisdom session for each contact on which Wisdom is 
 - `name`: The name of the session.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 - `"description"`: The description.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_session(
-    assistantId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions",
-        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_session(
-    assistantId,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants/$(assistantId)/sessions",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("name" => name, "clientToken" => string(uuid4())),
+                Dict{String,Any}("name" => name, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -314,8 +259,7 @@ function create_session(
 end
 
 """
-    delete_assistant(assistant_id)
-    delete_assistant(assistant_id, params::Dict{String,<:Any})
+    delete_assistant(assistant_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an assistant.
 
@@ -324,19 +268,10 @@ Deletes an assistant.
   URLs cannot contain the ARN.
 
 """
-function delete_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_assistant(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    assistantId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/assistants/$(assistantId)",
@@ -347,8 +282,7 @@ function delete_assistant(
 end
 
 """
-    delete_assistant_association(assistant_association_id, assistant_id)
-    delete_assistant_association(assistant_association_id, assistant_id, params::Dict{String,<:Any})
+    delete_assistant_association(assistant_association_id, assistant_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an assistant association.
 
@@ -360,21 +294,12 @@ Deletes an assistant association.
 
 """
 function delete_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "DELETE",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_assistant_association(
     assistantAssociationId,
-    assistantId,
-    params::AbstractDict{String};
+    assistantId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
@@ -385,8 +310,7 @@ function delete_assistant_association(
 end
 
 """
-    delete_content(content_id, knowledge_base_id)
-    delete_content(content_id, knowledge_base_id, params::Dict{String,<:Any})
+    delete_content(content_id, knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the content.
 
@@ -398,21 +322,9 @@ Deletes the content.
 
 """
 function delete_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
@@ -423,8 +335,7 @@ function delete_content(
 end
 
 """
-    delete_knowledge_base(knowledge_base_id)
-    delete_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
+    delete_knowledge_base(knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the knowledge base.  When you use this API to delete an external knowledge base
 such as Salesforce or ServiceNow, you must also delete the Amazon AppIntegrations
@@ -439,20 +350,9 @@ Reference.
 
 """
 function delete_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)",
@@ -463,8 +363,7 @@ function delete_knowledge_base(
 end
 
 """
-    get_assistant(assistant_id)
-    get_assistant(assistant_id, params::Dict{String,<:Any})
+    get_assistant(assistant_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an assistant.
 
@@ -473,19 +372,10 @@ Retrieves information about an assistant.
   URLs cannot contain the ARN.
 
 """
-function get_assistant(assistantId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_assistant(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    assistantId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/assistants/$(assistantId)",
@@ -496,8 +386,7 @@ function get_assistant(
 end
 
 """
-    get_assistant_association(assistant_association_id, assistant_id)
-    get_assistant_association(assistant_association_id, assistant_id, params::Dict{String,<:Any})
+    get_assistant_association(assistant_association_id, assistant_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an assistant association.
 
@@ -509,21 +398,12 @@ Retrieves information about an assistant association.
 
 """
 function get_assistant_association(
-    assistantAssociationId, assistantId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations/$(assistantAssociationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_assistant_association(
     assistantAssociationId,
-    assistantId,
-    params::AbstractDict{String};
+    assistantId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/associations/$(assistantAssociationId)",
@@ -534,8 +414,7 @@ function get_assistant_association(
 end
 
 """
-    get_content(content_id, knowledge_base_id)
-    get_content(content_id, knowledge_base_id, params::Dict{String,<:Any})
+    get_content(content_id, knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves content, including a pre-signed URL to download the content.
 
@@ -547,21 +426,9 @@ Retrieves content, including a pre-signed URL to download the content.
 
 """
 function get_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
@@ -572,8 +439,7 @@ function get_content(
 end
 
 """
-    get_content_summary(content_id, knowledge_base_id)
-    get_content_summary(content_id, knowledge_base_id, params::Dict{String,<:Any})
+    get_content_summary(content_id, knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves summary information about the content.
 
@@ -585,21 +451,9 @@ Retrieves summary information about the content.
 
 """
 function get_content_summary(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_content_summary(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)/summary",
@@ -610,8 +464,7 @@ function get_content_summary(
 end
 
 """
-    get_knowledge_base(knowledge_base_id)
-    get_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
+    get_knowledge_base(knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the knowledge base.
 
@@ -621,20 +474,9 @@ Retrieves information about the knowledge base.
 
 """
 function get_knowledge_base(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_knowledge_base(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)",
@@ -645,8 +487,7 @@ function get_knowledge_base(
 end
 
 """
-    get_recommendations(assistant_id, session_id)
-    get_recommendations(assistant_id, session_id, params::Dict{String,<:Any})
+    get_recommendations(assistant_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves recommendations for the specified session. To avoid retrieving the same
 recommendations in subsequent calls, use NotifyRecommendationsReceived. This API supports
@@ -661,29 +502,17 @@ against an assistant, use QueryAssistant.
   contain the ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"waitTimeSeconds"`: The duration (in seconds) for which the call waits for a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"wait_time_seconds"`: The duration (in seconds) for which the call waits for a
   recommendation to be made available before returning. If a recommendation is available, the
   call returns sooner than WaitTimeSeconds. If no messages are available and the wait time
   expires, the call returns successfully with an empty list.
 """
 function get_recommendations(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_recommendations(
-    assistantId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations",
@@ -694,8 +523,7 @@ function get_recommendations(
 end
 
 """
-    get_session(assistant_id, session_id)
-    get_session(assistant_id, session_id, params::Dict{String,<:Any})
+    get_session(assistant_id, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information for a specified session.
 
@@ -707,21 +535,9 @@ Retrieves information for a specified session.
 
 """
 function get_session(
-    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, sessionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_session(
-    assistantId,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/sessions/$(sessionId)",
@@ -732,8 +548,7 @@ function get_session(
 end
 
 """
-    list_assistant_associations(assistant_id)
-    list_assistant_associations(assistant_id, params::Dict{String,<:Any})
+    list_assistant_associations(assistant_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists information about assistant associations.
 
@@ -742,26 +557,15 @@ Lists information about assistant associations.
   URLs cannot contain the ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_assistant_associations(
-    assistantId; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/assistants/$(assistantId)/associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_assistant_associations(
-    assistantId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/assistants/$(assistantId)/associations",
@@ -772,33 +576,25 @@ function list_assistant_associations(
 end
 
 """
-    list_assistants()
-    list_assistants(params::Dict{String,<:Any})
+    list_assistants(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists information about assistants.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_assistants(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "GET", "/assistants"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_assistants(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_assistants(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET", "/assistants", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_contents(knowledge_base_id)
-    list_contents(knowledge_base_id, params::Dict{String,<:Any})
+    list_contents(knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the content.
 
@@ -807,24 +603,15 @@ Lists the content.
   the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contents(knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "GET",
-        "/knowledgeBases/$(knowledgeBaseId)/contents";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contents(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)/contents",
@@ -835,25 +622,20 @@ function list_contents(
 end
 
 """
-    list_knowledge_bases()
-    list_knowledge_bases(params::Dict{String,<:Any})
+    list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the knowledge bases.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_knowledge_bases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "GET", "/knowledgeBases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_knowledge_bases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_knowledge_bases(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/knowledgeBases",
@@ -864,8 +646,7 @@ function list_knowledge_bases(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified resource.
 
@@ -874,20 +655,9 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "GET",
         "/tags/$(resourceArn)",
@@ -898,8 +668,7 @@ function list_tags_for_resource(
 end
 
 """
-    notify_recommendations_received(assistant_id, recommendation_ids, session_id)
-    notify_recommendations_received(assistant_id, recommendation_ids, session_id, params::Dict{String,<:Any})
+    notify_recommendations_received(assistant_id, recommendation_ids, session_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified recommendations from the specified assistant's queue of newly
 available recommendations. You can use this API in conjunction with GetRecommendations and
@@ -918,22 +687,9 @@ function notify_recommendations_received(
     recommendationIds,
     sessionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
-        Dict{String,Any}("recommendationIds" => recommendationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function notify_recommendations_received(
-    assistantId,
-    recommendationIds,
-    sessionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants/$(assistantId)/sessions/$(sessionId)/recommendations/notify",
@@ -948,8 +704,7 @@ function notify_recommendations_received(
 end
 
 """
-    query_assistant(assistant_id, query_text)
-    query_assistant(assistant_id, query_text, params::Dict{String,<:Any})
+    query_assistant(assistant_id, query_text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Performs a manual search against the specified assistant. To retrieve recommendations for
 an assistant, use GetRecommendations.
@@ -960,28 +715,15 @@ an assistant, use GetRecommendations.
 - `query_text`: The text to search for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function query_assistant(
-    assistantId, queryText; aws_config::AbstractAWSConfig=global_aws_config()
+    assistantId, queryText; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/query",
-        Dict{String,Any}("queryText" => queryText);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query_assistant(
-    assistantId,
-    queryText,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants/$(assistantId)/query",
@@ -994,8 +736,7 @@ function query_assistant(
 end
 
 """
-    remove_knowledge_base_template_uri(knowledge_base_id)
-    remove_knowledge_base_template_uri(knowledge_base_id, params::Dict{String,<:Any})
+    remove_knowledge_base_template_uri(knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a URI template from a knowledge base.
 
@@ -1005,20 +746,9 @@ Removes a URI template from a knowledge base.
 
 """
 function remove_knowledge_base_template_uri(
-    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "DELETE",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_knowledge_base_template_uri(
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",
@@ -1029,8 +759,7 @@ function remove_knowledge_base_template_uri(
 end
 
 """
-    search_content(knowledge_base_id, search_expression)
-    search_content(knowledge_base_id, search_expression, params::Dict{String,<:Any})
+    search_content(knowledge_base_id, search_expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Searches for content in a specified knowledge base. Can be used to get a specific content
 resource by its name.
@@ -1041,28 +770,18 @@ resource by its name.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function search_content(
-    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/search",
-        Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_content(
     knowledgeBaseId,
-    searchExpression,
-    params::AbstractDict{String};
+    searchExpression;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/search",
@@ -1077,8 +796,7 @@ function search_content(
 end
 
 """
-    search_sessions(assistant_id, search_expression)
-    search_sessions(assistant_id, search_expression, params::Dict{String,<:Any})
+    search_sessions(assistant_id, search_expression; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Searches for sessions.
 
@@ -1088,28 +806,18 @@ Searches for sessions.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function search_sessions(
-    assistantId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/assistants/$(assistantId)/searchSessions",
-        Dict{String,Any}("searchExpression" => searchExpression);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_sessions(
     assistantId,
-    searchExpression,
-    params::AbstractDict{String};
+    searchExpression;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/assistants/$(assistantId)/searchSessions",
@@ -1124,8 +832,7 @@ function search_sessions(
 end
 
 """
-    start_content_upload(content_type, knowledge_base_id)
-    start_content_upload(content_type, knowledge_base_id, params::Dict{String,<:Any})
+    start_content_upload(content_type, knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a URL to upload content to a knowledge base. To upload content, first make a PUT
 request to the returned URL with your file, making sure to include the required headers.
@@ -1139,22 +846,12 @@ an existing resource. You can only upload content to a knowledge base of type CU
 
 """
 function start_content_upload(
-    contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/upload",
-        Dict{String,Any}("contentType" => contentType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_content_upload(
     contentType,
-    knowledgeBaseId,
-    params::AbstractDict{String};
+    knowledgeBaseId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/upload",
@@ -1167,8 +864,7 @@ function start_content_upload(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified resource.
 
@@ -1177,21 +873,10 @@ Adds the specified tags to the specified resource.
 - `tags`: The tags used to organize, track, or control access for this resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return wisdom(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/tags/$(resourceArn)",
@@ -1202,8 +887,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from the specified resource.
 
@@ -1213,22 +897,9 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -1239,8 +910,7 @@ function untag_resource(
 end
 
 """
-    update_content(content_id, knowledge_base_id)
-    update_content(content_id, knowledge_base_id, params::Dict{String,<:Any})
+    update_content(content_id, knowledge_base_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates information about the content.
 
@@ -1251,39 +921,27 @@ Updates information about the content.
   the ARN
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
   Wisdom, you can store an external version identifier as metadata to utilize for determining
   drift.
-- `"overrideLinkOutUri"`: The URI for the article. If the knowledge base has a templateUri,
-  setting this argument overrides it for this piece of content. To remove an existing
-  overrideLinkOurUri, exclude this argument and set removeOverrideLinkOutUri to true.
-- `"removeOverrideLinkOutUri"`: Unset the existing overrideLinkOutUri if it exists.
-- `"revisionId"`: The revisionId of the content resource to update, taken from an earlier
+- `"override_link_out_uri"`: The URI for the article. If the knowledge base has a
+  templateUri, setting this argument overrides it for this piece of content. To remove an
+  existing overrideLinkOurUri, exclude this argument and set removeOverrideLinkOutUri to true.
+- `"remove_override_link_out_uri"`: Unset the existing overrideLinkOutUri if it exists.
+- `"revision_id"`: The revisionId of the content resource to update, taken from an earlier
   call to GetContent, GetContentSummary, SearchContent, or ListContents. If included, this
   argument acts as an optimistic lock to ensure content was not modified since it was last
   read. If it has been modified, this API throws a PreconditionFailedException.
 - `"title"`: The title of the content.
-- `"uploadId"`: A pointer to the uploaded asset. This value is returned by
+- `"upload_id"`: A pointer to the uploaded asset. This value is returned by
   StartContentUpload.
 """
 function update_content(
-    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+    contentId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_content(
-    contentId,
-    knowledgeBaseId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
@@ -1294,8 +952,7 @@ function update_content(
 end
 
 """
-    update_knowledge_base_template_uri(knowledge_base_id, template_uri)
-    update_knowledge_base_template_uri(knowledge_base_id, template_uri, params::Dict{String,<:Any})
+    update_knowledge_base_template_uri(knowledge_base_id, template_uri; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the template URI of a knowledge base. This is only supported for knowledge bases of
 type EXTERNAL. Include a single variable in {variable} format; this interpolated by Wisdom
@@ -1310,22 +967,12 @@ https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*{Id}*/vie
 
 """
 function update_knowledge_base_template_uri(
-    knowledgeBaseId, templateUri; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wisdom(
-        "POST",
-        "/knowledgeBases/$(knowledgeBaseId)/templateUri",
-        Dict{String,Any}("templateUri" => templateUri);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_knowledge_base_template_uri(
     knowledgeBaseId,
-    templateUri,
-    params::AbstractDict{String};
+    templateUri;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/templateUri",

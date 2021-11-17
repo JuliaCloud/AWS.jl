@@ -4,9 +4,12 @@ using AWS.AWSServices: timestream_query
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "client_token" => "ClientToken", "max_rows" => "MaxRows", "next_token" => "NextToken"
+)
+
 """
-    cancel_query(query_id)
-    cancel_query(query_id, params::Dict{String,<:Any})
+    cancel_query(query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Cancels a query that has been issued. Cancellation is guaranteed only if the query has not
 completed execution before the cancellation request was issued. Because cancellation is an
@@ -18,17 +21,8 @@ indicating that the query has already been canceled.
   of QueryResult.
 
 """
-function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_query(
-        "CancelQuery",
-        Dict{String,Any}("QueryId" => QueryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_query(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function cancel_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_query(
         "CancelQuery",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
@@ -38,8 +32,7 @@ function cancel_query(
 end
 
 """
-    describe_endpoints()
-    describe_endpoints(params::Dict{String,<:Any})
+    describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 DescribeEndpoints returns a list of available endpoints to make Timestream API calls
 against. This API is available through both Write and Query. Because Timestream’s SDKs
@@ -51,22 +44,15 @@ information on how to use DescribeEndpoints, see The Endpoint Discovery Pattern 
 APIs.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_query(
-        "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_query(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    query(query_string)
-    query(query_string, params::Dict{String,<:Any})
+    query(query_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Query is a synchronous operation that enables you to execute a query. Query will timeout
 after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60
@@ -77,8 +63,8 @@ information, see Quotas in the Timestream Developer Guide.
 - `query_string`:  The query to be executed by Timestream.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`:  Unique, case-sensitive string of up to 64 ASCII characters that you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`:  Unique, case-sensitive string of up to 64 ASCII characters that you
   specify when you make a Query request. Providing a ClientToken makes the call to Query
   idempotent, meaning that multiple identical calls have the same effect as one single call.
   Your query request will fail in the following cases:    If you submit a request with the
@@ -86,32 +72,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the same client token but a change in other parameters within the 5-minute idempotency
   window.     After 4 hours, any request with the same client token is treated as a new
   request.
-- `"MaxRows"`:  The total number of rows to return in the output. If the total number of
+- `"max_rows"`:  The total number of rows to return in the output. If the total number of
   rows available is more than the value specified, a NextToken is provided in the command's
   output. To resume pagination, provide the NextToken value in the starting-token argument of
   a subsequent command.
-- `"NextToken"`:  A pagination token passed to get a set of results.
+- `"next_token"`:  A pagination token passed to get a set of results.
 """
-function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_query(
-        "Query",
-        Dict{String,Any}("QueryString" => QueryString, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query(
-    QueryString,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function query(QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return timestream_query(
         "Query",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "QueryString" => QueryString, "ClientToken" => string(uuid4())
+                    "QueryString" => QueryString, "client_token" => string(uuid4())
                 ),
                 params,
             ),

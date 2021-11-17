@@ -4,9 +4,16 @@ using AWS.AWSServices: service_quotas
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "aws_region" => "AwsRegion",
+    "service_code" => "ServiceCode",
+    "status" => "Status",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+)
+
 """
-    associate_service_quota_template()
-    associate_service_quota_template(params::Dict{String,<:Any})
+    associate_service_quota_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates your quota request template with your organization. When a new account is
 created in your organization, the quota increase requests in the template are automatically
@@ -15,17 +22,9 @@ your template.
 
 """
 function associate_service_quota_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "AssociateServiceQuotaTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_service_quota_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "AssociateServiceQuotaTemplate",
         params;
@@ -35,8 +34,7 @@ function associate_service_quota_template(
 end
 
 """
-    delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code)
-    delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code, params::Dict{String,<:Any})
+    delete_service_quota_increase_request_from_template(aws_region, quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the quota increase request for the specified quota from your quota request template.
 
@@ -47,24 +45,13 @@ Deletes the quota increase request for the specified quota from your quota reque
 
 """
 function delete_service_quota_increase_request_from_template(
-    AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return service_quotas(
-        "DeleteServiceQuotaIncreaseRequestFromTemplate",
-        Dict{String,Any}(
-            "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_service_quota_increase_request_from_template(
     AwsRegion,
     QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
+    ServiceCode;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "DeleteServiceQuotaIncreaseRequestFromTemplate",
         Dict{String,Any}(
@@ -84,8 +71,7 @@ function delete_service_quota_increase_request_from_template(
 end
 
 """
-    disassociate_service_quota_template()
-    disassociate_service_quota_template(params::Dict{String,<:Any})
+    disassociate_service_quota_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables your quota request template. After a template is disabled, the quota increase
 requests in the template are not applied to new accounts in your organization. Disabling a
@@ -93,17 +79,9 @@ quota request template does not apply its quota increase requests.
 
 """
 function disassociate_service_quota_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "DisassociateServiceQuotaTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_service_quota_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "DisassociateServiceQuotaTemplate",
         params;
@@ -113,24 +91,15 @@ function disassociate_service_quota_template(
 end
 
 """
-    get_association_for_service_quota_template()
-    get_association_for_service_quota_template(params::Dict{String,<:Any})
+    get_association_for_service_quota_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the status of the association for the quota request template.
 
 """
 function get_association_for_service_quota_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "GetAssociationForServiceQuotaTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_association_for_service_quota_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "GetAssociationForServiceQuotaTemplate",
         params;
@@ -140,8 +109,7 @@ function get_association_for_service_quota_template(
 end
 
 """
-    get_awsdefault_service_quota(quota_code, service_code)
-    get_awsdefault_service_quota(quota_code, service_code, params::Dict{String,<:Any})
+    get_awsdefault_service_quota(quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the default value for the specified quota. The default value does not reflect any
 quota increases.
@@ -152,21 +120,9 @@ quota increases.
 
 """
 function get_awsdefault_service_quota(
-    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "GetAWSDefaultServiceQuota",
-        Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_awsdefault_service_quota(
-    QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "GetAWSDefaultServiceQuota",
         Dict{String,Any}(
@@ -182,8 +138,7 @@ function get_awsdefault_service_quota(
 end
 
 """
-    get_requested_service_quota_change(request_id)
-    get_requested_service_quota_change(request_id, params::Dict{String,<:Any})
+    get_requested_service_quota_change(request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the specified quota increase request.
 
@@ -192,20 +147,9 @@ Retrieves information about the specified quota increase request.
 
 """
 function get_requested_service_quota_change(
-    RequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    RequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "GetRequestedServiceQuotaChange",
-        Dict{String,Any}("RequestId" => RequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_requested_service_quota_change(
-    RequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "GetRequestedServiceQuotaChange",
         Dict{String,Any}(
@@ -217,8 +161,7 @@ function get_requested_service_quota_change(
 end
 
 """
-    get_service_quota(quota_code, service_code)
-    get_service_quota(quota_code, service_code, params::Dict{String,<:Any})
+    get_service_quota(quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the applied quota value for the specified quota. For some quotas, only the
 default values are available. If the applied quota value is not available for a quota, the
@@ -230,21 +173,9 @@ quota is not retrieved.
 
 """
 function get_service_quota(
-    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "GetServiceQuota",
-        Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_service_quota(
-    QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "GetServiceQuota",
         Dict{String,Any}(
@@ -260,8 +191,7 @@ function get_service_quota(
 end
 
 """
-    get_service_quota_increase_request_from_template(aws_region, quota_code, service_code)
-    get_service_quota_increase_request_from_template(aws_region, quota_code, service_code, params::Dict{String,<:Any})
+    get_service_quota_increase_request_from_template(aws_region, quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the specified quota increase request in your quota request
 template.
@@ -273,24 +203,13 @@ template.
 
 """
 function get_service_quota_increase_request_from_template(
-    AwsRegion, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return service_quotas(
-        "GetServiceQuotaIncreaseRequestFromTemplate",
-        Dict{String,Any}(
-            "AwsRegion" => AwsRegion, "QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_service_quota_increase_request_from_template(
     AwsRegion,
     QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
+    ServiceCode;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "GetServiceQuotaIncreaseRequestFromTemplate",
         Dict{String,Any}(
@@ -310,8 +229,7 @@ function get_service_quota_increase_request_from_template(
 end
 
 """
-    list_awsdefault_service_quotas(service_code)
-    list_awsdefault_service_quotas(service_code, params::Dict{String,<:Any})
+    list_awsdefault_service_quotas(service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the default values for the quotas for the specified AWS service. A default value does
 not reflect any quota increases.
@@ -320,26 +238,15 @@ not reflect any quota increases.
 - `service_code`: The service identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 """
 function list_awsdefault_service_quotas(
-    ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "ListAWSDefaultServiceQuotas",
-        Dict{String,Any}("ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_awsdefault_service_quotas(
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListAWSDefaultServiceQuotas",
         Dict{String,Any}(
@@ -351,31 +258,22 @@ function list_awsdefault_service_quotas(
 end
 
 """
-    list_requested_service_quota_change_history()
-    list_requested_service_quota_change_history(params::Dict{String,<:Any})
+    list_requested_service_quota_change_history(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the quota increase requests for the specified service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
-- `"ServiceCode"`: The service identifier.
-- `"Status"`: The status of the quota increase request.
+- `"next_token"`: The token for the next page of results.
+- `"service_code"`: The service identifier.
+- `"status"`: The status of the quota increase request.
 """
 function list_requested_service_quota_change_history(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "ListRequestedServiceQuotaChangeHistory";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_requested_service_quota_change_history(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListRequestedServiceQuotaChangeHistory",
         params;
@@ -385,8 +283,7 @@ function list_requested_service_quota_change_history(
 end
 
 """
-    list_requested_service_quota_change_history_by_quota(quota_code, service_code)
-    list_requested_service_quota_change_history_by_quota(quota_code, service_code, params::Dict{String,<:Any})
+    list_requested_service_quota_change_history_by_quota(quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the quota increase requests for the specified quota.
 
@@ -395,28 +292,16 @@ Retrieves the quota increase requests for the specified quota.
 - `service_code`: The service identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
-- `"Status"`: The status value of the quota increase request.
+- `"next_token"`: The token for the next page of results.
+- `"status"`: The status value of the quota increase request.
 """
 function list_requested_service_quota_change_history_by_quota(
-    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+    QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "ListRequestedServiceQuotaChangeHistoryByQuota",
-        Dict{String,Any}("QuotaCode" => QuotaCode, "ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_requested_service_quota_change_history_by_quota(
-    QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListRequestedServiceQuotaChangeHistoryByQuota",
         Dict{String,Any}(
@@ -432,31 +317,22 @@ function list_requested_service_quota_change_history_by_quota(
 end
 
 """
-    list_service_quota_increase_requests_in_template()
-    list_service_quota_increase_requests_in_template(params::Dict{String,<:Any})
+    list_service_quota_increase_requests_in_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the quota increase requests in the specified quota request template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AwsRegion"`: The AWS Region.
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"aws_region"`: The AWS Region.
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
-- `"ServiceCode"`: The service identifier.
+- `"next_token"`: The token for the next page of results.
+- `"service_code"`: The service identifier.
 """
 function list_service_quota_increase_requests_in_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "ListServiceQuotaIncreaseRequestsInTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_service_quota_increase_requests_in_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListServiceQuotaIncreaseRequestsInTemplate",
         params;
@@ -466,8 +342,7 @@ function list_service_quota_increase_requests_in_template(
 end
 
 """
-    list_service_quotas(service_code)
-    list_service_quotas(service_code, params::Dict{String,<:Any})
+    list_service_quotas(service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the applied quota values for the specified AWS service. For some quotas, only the
 default values are available. If the applied quota value is not available for a quota, the
@@ -477,24 +352,15 @@ quota is not retrieved.
 - `service_code`: The service identifier.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 """
-function list_service_quotas(ServiceCode; aws_config::AbstractAWSConfig=global_aws_config())
-    return service_quotas(
-        "ListServiceQuotas",
-        Dict{String,Any}("ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_quotas(
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListServiceQuotas",
         Dict{String,Any}(
@@ -506,33 +372,25 @@ function list_service_quotas(
 end
 
 """
-    list_services()
-    list_services(params::Dict{String,<:Any})
+    list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the names and codes for the services integrated with Service Quotas.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, if any, make another call with the token returned from this call.
-- `"NextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return service_quotas(
-        "ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the tags assigned to the specified applied quota.
 
@@ -544,20 +402,9 @@ Returns a list of the tags assigned to the specified applied quota.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -569,8 +416,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_service_quota_increase_request_into_template(aws_region, desired_value, quota_code, service_code)
-    put_service_quota_increase_request_into_template(aws_region, desired_value, quota_code, service_code, params::Dict{String,<:Any})
+    put_service_quota_increase_request_into_template(aws_region, desired_value, quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a quota increase request to your quota request template.
 
@@ -587,27 +433,9 @@ function put_service_quota_increase_request_into_template(
     QuotaCode,
     ServiceCode;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return service_quotas(
-        "PutServiceQuotaIncreaseRequestIntoTemplate",
-        Dict{String,Any}(
-            "AwsRegion" => AwsRegion,
-            "DesiredValue" => DesiredValue,
-            "QuotaCode" => QuotaCode,
-            "ServiceCode" => ServiceCode,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_service_quota_increase_request_into_template(
-    AwsRegion,
-    DesiredValue,
-    QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "PutServiceQuotaIncreaseRequestIntoTemplate",
         Dict{String,Any}(
@@ -628,8 +456,7 @@ function put_service_quota_increase_request_into_template(
 end
 
 """
-    request_service_quota_increase(desired_value, quota_code, service_code)
-    request_service_quota_increase(desired_value, quota_code, service_code, params::Dict{String,<:Any})
+    request_service_quota_increase(desired_value, quota_code, service_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Submits a quota increase request for the specified quota.
 
@@ -640,26 +467,13 @@ Submits a quota increase request for the specified quota.
 
 """
 function request_service_quota_increase(
-    DesiredValue, QuotaCode, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return service_quotas(
-        "RequestServiceQuotaIncrease",
-        Dict{String,Any}(
-            "DesiredValue" => DesiredValue,
-            "QuotaCode" => QuotaCode,
-            "ServiceCode" => ServiceCode,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function request_service_quota_increase(
     DesiredValue,
     QuotaCode,
-    ServiceCode,
-    params::AbstractDict{String};
+    ServiceCode;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "RequestServiceQuotaIncrease",
         Dict{String,Any}(
@@ -679,8 +493,7 @@ function request_service_quota_increase(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds tags to the specified applied quota. You can include one or more tags to add to the
 quota.
@@ -692,20 +505,10 @@ quota.
 - `tags`: The tags that you want to add to the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return service_quotas(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "TagResource",
         Dict{String,Any}(
@@ -721,8 +524,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified applied quota. You can specify one or more tags to remove.
 
@@ -735,21 +537,9 @@ Removes tags from the specified applied quota. You can specify one or more tags 
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return service_quotas(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return service_quotas(
         "UntagResource",
         Dict{String,Any}(

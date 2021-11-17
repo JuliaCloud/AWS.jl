@@ -4,9 +4,40 @@ using AWS.AWSServices: robomaker
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "generation_job" => "generationJob",
+    "compute" => "compute",
+    "current_revision_id" => "currentRevisionId",
+    "application_version" => "applicationVersion",
+    "image_digest" => "imageDigest",
+    "environment" => "environment",
+    "next_token" => "nextToken",
+    "client_request_token" => "clientRequestToken",
+    "deployment_config" => "deploymentConfig",
+    "world_tags" => "worldTags",
+    "version_qualifier" => "versionQualifier",
+    "name" => "name",
+    "rendering_engine" => "renderingEngine",
+    "data_sources" => "dataSources",
+    "max_results" => "maxResults",
+    "robot_applications" => "robotApplications",
+    "logging_config" => "loggingConfig",
+    "output_location" => "outputLocation",
+    "simulation_applications" => "simulationApplications",
+    "vpc_config" => "vpcConfig",
+    "filters" => "filters",
+    "batch_policy" => "batchPolicy",
+    "s3_etags" => "s3Etags",
+    "failure_behavior" => "failureBehavior",
+    "template" => "template",
+    "template_body" => "templateBody",
+    "tags" => "tags",
+    "sources" => "sources",
+    "template_location" => "templateLocation",
+)
+
 """
-    batch_delete_worlds(worlds)
-    batch_delete_worlds(worlds, params::Dict{String,<:Any})
+    batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes one or more worlds in a batch operation.
 
@@ -14,18 +45,10 @@ Deletes one or more worlds in a batch operation.
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to delete.
 
 """
-function batch_delete_worlds(worlds; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/batchDeleteWorlds",
-        Dict{String,Any}("worlds" => worlds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_worlds(
-    worlds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/batchDeleteWorlds",
@@ -36,8 +59,7 @@ function batch_delete_worlds(
 end
 
 """
-    batch_describe_simulation_job(jobs)
-    batch_describe_simulation_job(jobs, params::Dict{String,<:Any})
+    batch_describe_simulation_job(jobs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes one or more simulation jobs.
 
@@ -46,19 +68,9 @@ Describes one or more simulation jobs.
 
 """
 function batch_describe_simulation_job(
-    jobs; aws_config::AbstractAWSConfig=global_aws_config()
+    jobs; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/batchDescribeSimulationJob",
-        Dict{String,Any}("jobs" => jobs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_describe_simulation_job(
-    jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/batchDescribeSimulationJob",
@@ -69,8 +81,7 @@ function batch_describe_simulation_job(
 end
 
 """
-    cancel_deployment_job(job)
-    cancel_deployment_job(job, params::Dict{String,<:Any})
+    cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the specified deployment job.
 
@@ -78,18 +89,10 @@ Cancels the specified deployment job.
 - `job`: The deployment job ARN to cancel.
 
 """
-function cancel_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelDeploymentJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_deployment_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/cancelDeploymentJob",
@@ -100,8 +103,7 @@ function cancel_deployment_job(
 end
 
 """
-    cancel_simulation_job(job)
-    cancel_simulation_job(job, params::Dict{String,<:Any})
+    cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the specified simulation job.
 
@@ -109,18 +111,10 @@ Cancels the specified simulation job.
 - `job`: The simulation job ARN to cancel.
 
 """
-function cancel_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_simulation_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/cancelSimulationJob",
@@ -131,8 +125,7 @@ function cancel_simulation_job(
 end
 
 """
-    cancel_simulation_job_batch(batch)
-    cancel_simulation_job_batch(batch, params::Dict{String,<:Any})
+    cancel_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels a simulation job batch. When you cancel a simulation job batch, you are also
 cancelling all of the active simulation jobs created as part of the batch.
@@ -142,19 +135,9 @@ cancelling all of the active simulation jobs created as part of the batch.
 
 """
 function cancel_simulation_job_batch(
-    batch; aws_config::AbstractAWSConfig=global_aws_config()
+    batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/cancelSimulationJobBatch",
-        Dict{String,Any}("batch" => batch);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_simulation_job_batch(
-    batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/cancelSimulationJobBatch",
@@ -165,8 +148,7 @@ function cancel_simulation_job_batch(
 end
 
 """
-    cancel_world_export_job(job)
-    cancel_world_export_job(job, params::Dict{String,<:Any})
+    cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the specified export job.
 
@@ -174,18 +156,10 @@ Cancels the specified export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to cancel.
 
 """
-function cancel_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelWorldExportJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_world_export_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/cancelWorldExportJob",
@@ -196,8 +170,7 @@ function cancel_world_export_job(
 end
 
 """
-    cancel_world_generation_job(job)
-    cancel_world_generation_job(job, params::Dict{String,<:Any})
+    cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels the specified world generator job.
 
@@ -205,18 +178,10 @@ Cancels the specified world generator job.
 - `job`: The Amazon Resource Name (arn) of the world generator job to cancel.
 
 """
-function cancel_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/cancelWorldGenerationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_world_generation_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/cancelWorldGenerationJob",
@@ -227,8 +192,7 @@ function cancel_world_generation_job(
 end
 
 """
-    create_deployment_job(client_request_token, deployment_application_configs, fleet)
-    create_deployment_job(client_request_token, deployment_application_configs, fleet, params::Dict{String,<:Any})
+    create_deployment_job(client_request_token, deployment_application_configs, fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deploys a specific version of a robot application to robots in a fleet. The robot
 application must have a numbered applicationVersion for consistency reasons. To create a
@@ -243,8 +207,8 @@ accessible.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet to deploy.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deploymentConfig"`: The requested deployment configuration.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"deployment_config"`: The requested deployment configuration.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job.
 """
@@ -253,26 +217,9 @@ function create_deployment_job(
     deploymentApplicationConfigs,
     fleet;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return robomaker(
-        "POST",
-        "/createDeploymentJob",
-        Dict{String,Any}(
-            "clientRequestToken" => clientRequestToken,
-            "deploymentApplicationConfigs" => deploymentApplicationConfigs,
-            "fleet" => fleet,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_deployment_job(
-    clientRequestToken,
-    deploymentApplicationConfigs,
-    fleet,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createDeploymentJob",
@@ -293,8 +240,7 @@ function create_deployment_job(
 end
 
 """
-    create_fleet(name)
-    create_fleet(name, params::Dict{String,<:Any})
+    create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a fleet, a logical group of robots running the same robot application.
 
@@ -302,21 +248,11 @@ Creates a fleet, a logical group of robots running the same robot application.
 - `name`: The name of the fleet.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the fleet.
 """
-function create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/createFleet",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_fleet(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_fleet(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createFleet",
@@ -327,8 +263,7 @@ function create_fleet(
 end
 
 """
-    create_robot(architecture, greengrass_group_id, name)
-    create_robot(architecture, greengrass_group_id, name, params::Dict{String,<:Any})
+    create_robot(architecture, greengrass_group_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a robot.
 
@@ -338,31 +273,17 @@ Creates a robot.
 - `name`: The name for the robot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A map that contains tag keys and tag values that are attached to the robot.
 """
 function create_robot(
-    architecture, greengrassGroupId, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
-        "POST",
-        "/createRobot",
-        Dict{String,Any}(
-            "architecture" => architecture,
-            "greengrassGroupId" => greengrassGroupId,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_robot(
     architecture,
     greengrassGroupId,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createRobot",
@@ -383,8 +304,7 @@ function create_robot(
 end
 
 """
-    create_robot_application(name, robot_software_suite)
-    create_robot_application(name, robot_software_suite, params::Dict{String,<:Any})
+    create_robot_application(name, robot_software_suite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a robot application.
 
@@ -394,7 +314,7 @@ Creates a robot application.
   application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"environment"`: The object that contains that URI of the Docker image that you use for
   your robot application.
 - `"sources"`: The sources of the robot application.
@@ -402,22 +322,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application.
 """
 function create_robot_application(
-    name, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
+    name, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/createRobotApplication",
-        Dict{String,Any}("name" => name, "robotSoftwareSuite" => robotSoftwareSuite);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_robot_application(
-    name,
-    robotSoftwareSuite,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createRobotApplication",
@@ -436,8 +343,7 @@ function create_robot_application(
 end
 
 """
-    create_robot_application_version(application)
-    create_robot_application_version(application, params::Dict{String,<:Any})
+    create_robot_application_version(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a version of a robot application.
 
@@ -445,30 +351,18 @@ Creates a version of a robot application.
 - `application`: The application information for the robot application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"currentRevisionId"`: The current revision id for the robot application. If you provide
-  a value and it matches the latest revision ID, a new version will be created.
-- `"imageDigest"`: A SHA256 identifier for the Docker image that you use for your robot
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_revision_id"`: The current revision id for the robot application. If you
+  provide a value and it matches the latest revision ID, a new version will be created.
+- `"image_digest"`: A SHA256 identifier for the Docker image that you use for your robot
   application.
-- `"s3Etags"`: The Amazon S3 identifier for the zip file bundle that you use for your robot
-  application.
+- `"s3_etags"`: The Amazon S3 identifier for the zip file bundle that you use for your
+  robot application.
 """
 function create_robot_application_version(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/createRobotApplicationVersion",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_robot_application_version(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createRobotApplicationVersion",
@@ -481,8 +375,7 @@ function create_robot_application_version(
 end
 
 """
-    create_simulation_application(name, robot_software_suite, simulation_software_suite)
-    create_simulation_application(name, robot_software_suite, simulation_software_suite, params::Dict{String,<:Any})
+    create_simulation_application(name, robot_software_suite, simulation_software_suite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a simulation application.
 
@@ -494,10 +387,10 @@ Creates a simulation application.
   application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"environment"`: The object that contains the Docker image URI used to create your
   simulation application.
-- `"renderingEngine"`: The rendering engine for the simulation application.
+- `"rendering_engine"`: The rendering engine for the simulation application.
 - `"sources"`: The sources of the simulation application.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   application.
@@ -507,26 +400,9 @@ function create_simulation_application(
     robotSoftwareSuite,
     simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return robomaker(
-        "POST",
-        "/createSimulationApplication",
-        Dict{String,Any}(
-            "name" => name,
-            "robotSoftwareSuite" => robotSoftwareSuite,
-            "simulationSoftwareSuite" => simulationSoftwareSuite,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_simulation_application(
-    name,
-    robotSoftwareSuite,
-    simulationSoftwareSuite,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createSimulationApplication",
@@ -547,8 +423,7 @@ function create_simulation_application(
 end
 
 """
-    create_simulation_application_version(application)
-    create_simulation_application_version(application, params::Dict{String,<:Any})
+    create_simulation_application_version(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a simulation application with a specific revision id.
 
@@ -556,30 +431,18 @@ Creates a simulation application with a specific revision id.
 - `application`: The application information for the simulation application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"currentRevisionId"`: The current revision id for the simulation application. If you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_revision_id"`: The current revision id for the simulation application. If you
   provide a value and it matches the latest revision ID, a new version will be created.
-- `"imageDigest"`: The SHA256 digest used to identify the Docker image URI used to created
+- `"image_digest"`: The SHA256 digest used to identify the Docker image URI used to created
   the simulation application.
-- `"s3Etags"`: The Amazon S3 eTag identifier for the zip file bundle that you use to create
-  the simulation application.
+- `"s3_etags"`: The Amazon S3 eTag identifier for the zip file bundle that you use to
+  create the simulation application.
 """
 function create_simulation_application_version(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/createSimulationApplicationVersion",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_simulation_application_version(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createSimulationApplicationVersion",
@@ -592,8 +455,7 @@ function create_simulation_application_version(
 end
 
 """
-    create_simulation_job(iam_role, max_job_duration_in_seconds)
-    create_simulation_job(iam_role, max_job_duration_in_seconds, params::Dict{String,<:Any})
+    create_simulation_job(iam_role, max_job_duration_in_seconds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They
 will no longer be accessible.
@@ -607,48 +469,34 @@ will no longer be accessible.
   status will transition to Completed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"compute"`: Compute information for the simulation job.
-- `"dataSources"`: Specify data sources to mount read-only files from S3 into your
+- `"data_sources"`: Specify data sources to mount read-only files from S3 into your
   simulation. These files are available under /opt/robomaker/datasources/data_source_name.
   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
   
-- `"failureBehavior"`: The failure behavior the simulation job.  Continue  Leaves the
+- `"failure_behavior"`: The failure behavior the simulation job.  Continue  Leaves the
   instance running for its maximum timeout duration after a 4XX error code.  Fail  Stop the
   simulation job and terminate the instance.
-- `"loggingConfig"`: The logging configuration.
-- `"outputLocation"`: Location for output files generated by the simulation job.
-- `"robotApplications"`: The robot application to use in the simulation job.
-- `"simulationApplications"`: The simulation application to use in the simulation job.
+- `"logging_config"`: The logging configuration.
+- `"output_location"`: Location for output files generated by the simulation job.
+- `"robot_applications"`: The robot application to use in the simulation job.
+- `"simulation_applications"`: The simulation application to use in the simulation job.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the simulation
   job.
-- `"vpcConfig"`: If your simulation job accesses resources in a VPC, you provide this
+- `"vpc_config"`: If your simulation job accesses resources in a VPC, you provide this
   parameter identifying the list of security group IDs and subnet IDs. These must belong to
   the same VPC. You must provide at least one security group and one subnet ID.
 """
 function create_simulation_job(
-    iamRole, maxJobDurationInSeconds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
-        "POST",
-        "/createSimulationJob",
-        Dict{String,Any}(
-            "iamRole" => iamRole,
-            "maxJobDurationInSeconds" => maxJobDurationInSeconds,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_simulation_job(
     iamRole,
-    maxJobDurationInSeconds,
-    params::AbstractDict{String};
+    maxJobDurationInSeconds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createSimulationJob",
@@ -658,7 +506,7 @@ function create_simulation_job(
                 Dict{String,Any}(
                     "iamRole" => iamRole,
                     "maxJobDurationInSeconds" => maxJobDurationInSeconds,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -669,8 +517,7 @@ function create_simulation_job(
 end
 
 """
-    create_world_export_job(iam_role, output_location, worlds)
-    create_world_export_job(iam_role, output_location, worlds, params::Dict{String,<:Any})
+    create_world_export_job(iam_role, output_location, worlds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a world export job.
 
@@ -681,35 +528,20 @@ Creates a world export job.
 - `worlds`: A list of Amazon Resource Names (arns) that correspond to worlds to export.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
   export job.
 """
 function create_world_export_job(
-    iamRole, outputLocation, worlds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
-        "POST",
-        "/createWorldExportJob",
-        Dict{String,Any}(
-            "iamRole" => iamRole,
-            "outputLocation" => outputLocation,
-            "worlds" => worlds,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_world_export_job(
     iamRole,
     outputLocation,
-    worlds,
-    params::AbstractDict{String};
+    worlds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createWorldExportJob",
@@ -720,7 +552,7 @@ function create_world_export_job(
                     "iamRole" => iamRole,
                     "outputLocation" => outputLocation,
                     "worlds" => worlds,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -731,8 +563,7 @@ function create_world_export_job(
 end
 
 """
-    create_world_generation_job(template, world_count)
-    create_world_generation_job(template, world_count, params::Dict{String,<:Any})
+    create_world_generation_job(template, world_count; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates worlds using the specified template.
 
@@ -742,35 +573,18 @@ Creates worlds using the specified template.
 - `world_count`: Information about the world count.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
   generator job.
-- `"worldTags"`: A map that contains tag keys and tag values that are attached to the
+- `"world_tags"`: A map that contains tag keys and tag values that are attached to the
   generated worlds.
 """
 function create_world_generation_job(
-    template, worldCount; aws_config::AbstractAWSConfig=global_aws_config()
+    template, worldCount; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/createWorldGenerationJob",
-        Dict{String,Any}(
-            "template" => template,
-            "worldCount" => worldCount,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_world_generation_job(
-    template,
-    worldCount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createWorldGenerationJob",
@@ -780,7 +594,7 @@ function create_world_generation_job(
                 Dict{String,Any}(
                     "template" => template,
                     "worldCount" => worldCount,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -791,32 +605,24 @@ function create_world_generation_job(
 end
 
 """
-    create_world_template()
-    create_world_template(params::Dict{String,<:Any})
+    create_world_template(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a world template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"name"`: The name of the world template.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the world
   template.
-- `"templateBody"`: The world template body.
-- `"templateLocation"`: The location of the world template.
+- `"template_body"`: The world template body.
+- `"template_location"`: The location of the world template.
 """
-function create_world_template(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/createWorldTemplate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_world_template(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function create_world_template(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/createWorldTemplate",
@@ -827,8 +633,7 @@ function create_world_template(
 end
 
 """
-    delete_fleet(fleet)
-    delete_fleet(fleet, params::Dict{String,<:Any})
+    delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a fleet.
 
@@ -836,18 +641,8 @@ Deletes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-function delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deleteFleet",
-        Dict{String,Any}("fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_fleet(
-    fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deleteFleet",
@@ -858,8 +653,7 @@ function delete_fleet(
 end
 
 """
-    delete_robot(robot)
-    delete_robot(robot, params::Dict{String,<:Any})
+    delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a robot.
 
@@ -867,18 +661,8 @@ Deletes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deleteRobot",
-        Dict{String,Any}("robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_robot(
-    robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deleteRobot",
@@ -889,8 +673,7 @@ function delete_robot(
 end
 
 """
-    delete_robot_application(application)
-    delete_robot_application(application, params::Dict{String,<:Any})
+    delete_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a robot application.
 
@@ -898,25 +681,13 @@ Deletes a robot application.
 - `application`: The Amazon Resource Name (ARN) of the the robot application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationVersion"`: The version of the robot application to delete.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_version"`: The version of the robot application to delete.
 """
 function delete_robot_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/deleteRobotApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_robot_application(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deleteRobotApplication",
@@ -929,8 +700,7 @@ function delete_robot_application(
 end
 
 """
-    delete_simulation_application(application)
-    delete_simulation_application(application, params::Dict{String,<:Any})
+    delete_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a simulation application.
 
@@ -938,25 +708,13 @@ Deletes a simulation application.
 - `application`: The application information for the simulation application to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationVersion"`: The version of the simulation application to delete.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_version"`: The version of the simulation application to delete.
 """
 function delete_simulation_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/deleteSimulationApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_simulation_application(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deleteSimulationApplication",
@@ -969,8 +727,7 @@ function delete_simulation_application(
 end
 
 """
-    delete_world_template(template)
-    delete_world_template(template, params::Dict{String,<:Any})
+    delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a world template.
 
@@ -978,20 +735,10 @@ Deletes a world template.
 - `template`: The Amazon Resource Name (arn) of the world template you want to delete.
 
 """
-function delete_world_template(template; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deleteWorldTemplate",
-        Dict{String,Any}("template" => template);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_world_template(
-    template,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deleteWorldTemplate",
@@ -1004,8 +751,7 @@ function delete_world_template(
 end
 
 """
-    deregister_robot(fleet, robot)
-    deregister_robot(fleet, robot, params::Dict{String,<:Any})
+    deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deregisters a robot.
 
@@ -1014,21 +760,10 @@ Deregisters a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function deregister_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/deregisterRobot",
-        Dict{String,Any}("fleet" => fleet, "robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_robot(
-    fleet,
-    robot,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/deregisterRobot",
@@ -1041,8 +776,7 @@ function deregister_robot(
 end
 
 """
-    describe_deployment_job(job)
-    describe_deployment_job(job, params::Dict{String,<:Any})
+    describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a deployment job.
 
@@ -1050,18 +784,10 @@ Describes a deployment job.
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
 
 """
-function describe_deployment_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeDeploymentJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_deployment_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeDeploymentJob",
@@ -1072,8 +798,7 @@ function describe_deployment_job(
 end
 
 """
-    describe_fleet(fleet)
-    describe_fleet(fleet, params::Dict{String,<:Any})
+    describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a fleet.
 
@@ -1081,18 +806,8 @@ Describes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-function describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeFleet",
-        Dict{String,Any}("fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_fleet(
-    fleet, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_fleet(fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeFleet",
@@ -1103,8 +818,7 @@ function describe_fleet(
 end
 
 """
-    describe_robot(robot)
-    describe_robot(robot, params::Dict{String,<:Any})
+    describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a robot.
 
@@ -1112,18 +826,8 @@ Describes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
 """
-function describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeRobot",
-        Dict{String,Any}("robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_robot(
-    robot, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_robot(robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeRobot",
@@ -1134,8 +838,7 @@ function describe_robot(
 end
 
 """
-    describe_robot_application(application)
-    describe_robot_application(application, params::Dict{String,<:Any})
+    describe_robot_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a robot application.
 
@@ -1143,25 +846,13 @@ Describes a robot application.
 - `application`: The Amazon Resource Name (ARN) of the robot application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationVersion"`: The version of the robot application to describe.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_version"`: The version of the robot application to describe.
 """
 function describe_robot_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/describeRobotApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_robot_application(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeRobotApplication",
@@ -1174,8 +865,7 @@ function describe_robot_application(
 end
 
 """
-    describe_simulation_application(application)
-    describe_simulation_application(application, params::Dict{String,<:Any})
+    describe_simulation_application(application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a simulation application.
 
@@ -1183,25 +873,13 @@ Describes a simulation application.
 - `application`: The application information for the simulation application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationVersion"`: The version of the simulation application to describe.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_version"`: The version of the simulation application to describe.
 """
 function describe_simulation_application(
-    application; aws_config::AbstractAWSConfig=global_aws_config()
+    application; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/describeSimulationApplication",
-        Dict{String,Any}("application" => application);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_simulation_application(
-    application,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeSimulationApplication",
@@ -1214,8 +892,7 @@ function describe_simulation_application(
 end
 
 """
-    describe_simulation_job(job)
-    describe_simulation_job(job, params::Dict{String,<:Any})
+    describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a simulation job.
 
@@ -1223,18 +900,10 @@ Describes a simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
 """
-function describe_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_simulation_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeSimulationJob",
@@ -1245,8 +914,7 @@ function describe_simulation_job(
 end
 
 """
-    describe_simulation_job_batch(batch)
-    describe_simulation_job_batch(batch, params::Dict{String,<:Any})
+    describe_simulation_job_batch(batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a simulation job batch.
 
@@ -1255,19 +923,9 @@ Describes a simulation job batch.
 
 """
 function describe_simulation_job_batch(
-    batch; aws_config::AbstractAWSConfig=global_aws_config()
+    batch; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/describeSimulationJobBatch",
-        Dict{String,Any}("batch" => batch);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_simulation_job_batch(
-    batch, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeSimulationJobBatch",
@@ -1278,8 +936,7 @@ function describe_simulation_job_batch(
 end
 
 """
-    describe_world(world)
-    describe_world(world, params::Dict{String,<:Any})
+    describe_world(world; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a world.
 
@@ -1287,18 +944,8 @@ Describes a world.
 - `world`: The Amazon Resource Name (arn) of the world you want to describe.
 
 """
-function describe_world(world; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeWorld",
-        Dict{String,Any}("world" => world);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_world(
-    world, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_world(world; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeWorld",
@@ -1309,8 +956,7 @@ function describe_world(
 end
 
 """
-    describe_world_export_job(job)
-    describe_world_export_job(job, params::Dict{String,<:Any})
+    describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a world export job.
 
@@ -1318,18 +964,10 @@ Describes a world export job.
 - `job`: The Amazon Resource Name (arn) of the world export job to describe.
 
 """
-function describe_world_export_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/describeWorldExportJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_world_export_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeWorldExportJob",
@@ -1340,8 +978,7 @@ function describe_world_export_job(
 end
 
 """
-    describe_world_generation_job(job)
-    describe_world_generation_job(job, params::Dict{String,<:Any})
+    describe_world_generation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a world generation job.
 
@@ -1350,19 +987,9 @@ Describes a world generation job.
 
 """
 function describe_world_generation_job(
-    job; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/describeWorldGenerationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_world_generation_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeWorldGenerationJob",
@@ -1373,8 +1000,7 @@ function describe_world_generation_job(
 end
 
 """
-    describe_world_template(template)
-    describe_world_template(template, params::Dict{String,<:Any})
+    describe_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a world template.
 
@@ -1383,21 +1009,9 @@ Describes a world template.
 
 """
 function describe_world_template(
-    template; aws_config::AbstractAWSConfig=global_aws_config()
+    template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/describeWorldTemplate",
-        Dict{String,Any}("template" => template);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_world_template(
-    template,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/describeWorldTemplate",
@@ -1410,27 +1024,19 @@ function describe_world_template(
 end
 
 """
-    get_world_template_body()
-    get_world_template_body(params::Dict{String,<:Any})
+    get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the world template body.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"generationJob"`: The Amazon Resource Name (arn) of the world generator job.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"generation_job"`: The Amazon Resource Name (arn) of the world generator job.
 - `"template"`: The Amazon Resource Name (arn) of the world template.
 """
-function get_world_template_body(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/getWorldTemplateBody";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_world_template_body(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_world_template_body(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/getWorldTemplateBody",
@@ -1441,41 +1047,33 @@ function get_world_template_body(
 end
 
 """
-    list_deployment_jobs()
-    list_deployment_jobs(params::Dict{String,<:Any})
+    list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of deployment jobs for a fleet. You can optionally provide filters to
 retrieve specific deployment jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. The filter names status and fleetName are
   supported. When filtering, you must use the complete value of the filtered item. You can
   use up to three filters, but they must be for the same named item. For example, if you are
   looking for items with the status InProgress or the status Pending.
-- `"maxResults"`: When this parameter is used, ListDeploymentJobs only returns maxResults
+- `"max_results"`: When this parameter is used, ListDeploymentJobs only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another ListDeploymentJobs request with the
   returned nextToken value. This value can be between 1 and 200. If this parameter is not
   used, then ListDeploymentJobs returns up to 200 results and a nextToken value if
   applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListDeploymentJobs again and assign that token to the request
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_deployment_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listDeploymentJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_deployment_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_deployment_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listDeploymentJobs",
@@ -1486,22 +1084,21 @@ function list_deployment_jobs(
 end
 
 """
-    list_fleets()
-    list_fleets(params::Dict{String,<:Any})
+    list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. The filter name name is supported. When
   filtering, you must use the complete value of the filtered item. You can use up to three
   filters.
-- `"maxResults"`: When this parameter is used, ListFleets only returns maxResults results
+- `"max_results"`: When this parameter is used, ListFleets only returns maxResults results
   in a single page along with a nextToken response element. The remaining results of the
   initial request can be seen by sending another ListFleets request with the returned
   nextToken value. This value can be between 1 and 200. If this parameter is not used, then
   ListFleets returns up to 200 results and a nextToken value if applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListFleets again and assign that token to the request object's
   nextToken parameter. If there are no remaining results, the previous response object's
@@ -1509,14 +1106,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is only used to retrieve the next items in a list and not for other programmatic
   purposes.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_fleets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listFleets",
@@ -1527,41 +1118,33 @@ function list_fleets(
 end
 
 """
-    list_robot_applications()
-    list_robot_applications(params::Dict{String,<:Any})
+    list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of robot application. You can optionally provide filters to retrieve
 specific robot applications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. The filter name name is supported. When
   filtering, you must use the complete value of the filtered item. You can use up to three
   filters.
-- `"maxResults"`: When this parameter is used, ListRobotApplications only returns
+- `"max_results"`: When this parameter is used, ListRobotApplications only returns
   maxResults results in a single page along with a nextToken response element. The remaining
   results of the initial request can be seen by sending another ListRobotApplications request
   with the returned nextToken value. This value can be between 1 and 100. If this parameter
   is not used, then ListRobotApplications returns up to 100 results and a nextToken value if
   applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListRobotApplications again and assign that token to the request
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
-- `"versionQualifier"`: The version qualifier of the robot application.
+- `"version_qualifier"`: The version qualifier of the robot application.
 """
-function list_robot_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listRobotApplications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_robot_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_robot_applications(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listRobotApplications",
@@ -1572,36 +1155,29 @@ function list_robot_applications(
 end
 
 """
-    list_robots()
-    list_robots(params::Dict{String,<:Any})
+    list_robots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of robots. You can optionally provide filters to retrieve specific robots.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. The filter names status and fleetName are
   supported. When filtering, you must use the complete value of the filtered item. You can
   use up to three filters, but they must be for the same named item. For example, if you are
   looking for items with the status Registered or the status Available.
-- `"maxResults"`: When this parameter is used, ListRobots only returns maxResults results
+- `"max_results"`: When this parameter is used, ListRobots only returns maxResults results
   in a single page along with a nextToken response element. The remaining results of the
   initial request can be seen by sending another ListRobots request with the returned
   nextToken value. This value can be between 1 and 200. If this parameter is not used, then
   ListRobots returns up to 200 results and a nextToken value if applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListRobots again and assign that token to the request object's
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
-function list_robots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listRobots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_robots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_robots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listRobots",
@@ -1612,41 +1188,33 @@ function list_robots(
 end
 
 """
-    list_simulation_applications()
-    list_simulation_applications(params::Dict{String,<:Any})
+    list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of simulation applications. You can optionally provide filters to retrieve
 specific simulation applications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional list of filters to limit results. The filter name name is
   supported. When filtering, you must use the complete value of the filtered item. You can
   use up to three filters.
-- `"maxResults"`: When this parameter is used, ListSimulationApplications only returns
+- `"max_results"`: When this parameter is used, ListSimulationApplications only returns
   maxResults results in a single page along with a nextToken response element. The remaining
   results of the initial request can be seen by sending another ListSimulationApplications
   request with the returned nextToken value. This value can be between 1 and 100. If this
   parameter is not used, then ListSimulationApplications returns up to 100 results and a
   nextToken value if applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListSimulationApplications again and assign that token to the
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
-- `"versionQualifier"`: The version qualifier of the simulation application.
+- `"version_qualifier"`: The version qualifier of the simulation application.
 """
-function list_simulation_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listSimulationApplications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_simulation_applications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_simulation_applications(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listSimulationApplications",
@@ -1657,36 +1225,28 @@ function list_simulation_applications(
 end
 
 """
-    list_simulation_job_batches()
-    list_simulation_job_batches(params::Dict{String,<:Any})
+    list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list simulation job batches. You can optionally provide filters to retrieve
 specific simulation batch jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results.
-- `"maxResults"`: When this parameter is used, ListSimulationJobBatches only returns
+- `"max_results"`: When this parameter is used, ListSimulationJobBatches only returns
   maxResults results in a single page along with a nextToken response element. The remaining
   results of the initial request can be seen by sending another ListSimulationJobBatches
   request with the returned nextToken value.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListSimulationJobBatches again and assign that token to the
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
-function list_simulation_job_batches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listSimulationJobBatches";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_simulation_job_batches(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_simulation_job_batches(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listSimulationJobBatches",
@@ -1697,42 +1257,34 @@ function list_simulation_job_batches(
 end
 
 """
-    list_simulation_jobs()
-    list_simulation_jobs(params::Dict{String,<:Any})
+    list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of simulation jobs. You can optionally provide filters to retrieve specific
 simulation jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. The filter names status and
   simulationApplicationName and robotApplicationName are supported. When filtering, you must
   use the complete value of the filtered item. You can use up to three filters, but they must
   be for the same named item. For example, if you are looking for items with the status
   Preparing or the status Running.
-- `"maxResults"`: When this parameter is used, ListSimulationJobs only returns maxResults
+- `"max_results"`: When this parameter is used, ListSimulationJobs only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another ListSimulationJobs request with the
   returned nextToken value. This value can be between 1 and 1000. If this parameter is not
   used, then ListSimulationJobs returns up to 1000 results and a nextToken value if
   applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListSimulationJobs again and assign that token to the request
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_simulation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listSimulationJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_simulation_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_simulation_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listSimulationJobs",
@@ -1743,8 +1295,7 @@ function list_simulation_jobs(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags on a AWS RoboMaker resource.
 
@@ -1753,20 +1304,9 @@ Lists all tags on a AWS RoboMaker resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "GET",
         "/tags/$(resourceArn)",
@@ -1777,38 +1317,30 @@ function list_tags_for_resource(
 end
 
 """
-    list_world_export_jobs()
-    list_world_export_jobs(params::Dict{String,<:Any})
+    list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists world export jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. You can use generationJobId and
   templateId.
-- `"maxResults"`: When this parameter is used, ListWorldExportJobs only returns maxResults
+- `"max_results"`: When this parameter is used, ListWorldExportJobs only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another ListWorldExportJobs request with the
   returned nextToken value. This value can be between 1 and 100. If this parameter is not
   used, then ListWorldExportJobs returns up to 100 results and a nextToken value if
   applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListWorldExportJobs again and assign that token to the request
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_world_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldExportJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_world_export_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_world_export_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listWorldExportJobs",
@@ -1819,37 +1351,29 @@ function list_world_export_jobs(
 end
 
 """
-    list_world_generation_jobs()
-    list_world_generation_jobs(params::Dict{String,<:Any})
+    list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists world generator jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. You can use status and templateId.
-- `"maxResults"`: When this parameter is used, ListWorldGeneratorJobs only returns
+- `"max_results"`: When this parameter is used, ListWorldGeneratorJobs only returns
   maxResults results in a single page along with a nextToken response element. The remaining
   results of the initial request can be seen by sending another ListWorldGeneratorJobs
   request with the returned nextToken value. This value can be between 1 and 100. If this
   parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a
   nextToken value if applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListWorldGenerationJobsRequest again and assign that token to the
   request object's nextToken parameter. If there are no remaining results, the previous
   response object's NextToken parameter is set to null.
 """
-function list_world_generation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldGenerationJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_world_generation_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_world_generation_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listWorldGenerationJobs",
@@ -1860,36 +1384,28 @@ function list_world_generation_jobs(
 end
 
 """
-    list_world_templates()
-    list_world_templates(params::Dict{String,<:Any})
+    list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists world templates.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: When this parameter is used, ListWorldTemplates only returns maxResults
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: When this parameter is used, ListWorldTemplates only returns maxResults
   results in a single page along with a nextToken response element. The remaining results of
   the initial request can be seen by sending another ListWorldTemplates request with the
   returned nextToken value. This value can be between 1 and 100. If this parameter is not
   used, then ListWorldTemplates returns up to 100 results and a nextToken value if
   applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListWorldTemplates again and assign that token to the request
   object's nextToken parameter. If there are no remaining results, the previous response
   object's NextToken parameter is set to null.
 """
-function list_world_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/listWorldTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_world_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_world_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listWorldTemplates",
@@ -1900,33 +1416,26 @@ function list_world_templates(
 end
 
 """
-    list_worlds()
-    list_worlds(params::Dict{String,<:Any})
+    list_worlds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists worlds.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Optional filters to limit results. You can use status.
-- `"maxResults"`: When this parameter is used, ListWorlds only returns maxResults results
+- `"max_results"`: When this parameter is used, ListWorlds only returns maxResults results
   in a single page along with a nextToken response element. The remaining results of the
   initial request can be seen by sending another ListWorlds request with the returned
   nextToken value. This value can be between 1 and 100. If this parameter is not used, then
   ListWorlds returns up to 100 results and a nextToken value if applicable.
-- `"nextToken"`: If the previous paginated request did not return all of the remaining
+- `"next_token"`: If the previous paginated request did not return all of the remaining
   results, the response object's nextToken parameter value is set to a token. To retrieve the
   next set of results, call ListWorlds again and assign that token to the request object's
   nextToken parameter. If there are no remaining results, the previous response object's
   NextToken parameter is set to null.
 """
-function list_worlds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST", "/listWorlds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_worlds(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_worlds(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/listWorlds",
@@ -1937,8 +1446,7 @@ function list_worlds(
 end
 
 """
-    register_robot(fleet, robot)
-    register_robot(fleet, robot, params::Dict{String,<:Any})
+    register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a robot with a fleet.
 
@@ -1947,21 +1455,10 @@ Registers a robot with a fleet.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-function register_robot(fleet, robot; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/registerRobot",
-        Dict{String,Any}("fleet" => fleet, "robot" => robot);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_robot(
-    fleet,
-    robot,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    fleet, robot; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/registerRobot",
@@ -1974,8 +1471,7 @@ function register_robot(
 end
 
 """
-    restart_simulation_job(job)
-    restart_simulation_job(job, params::Dict{String,<:Any})
+    restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Restarts a running simulation job.
 
@@ -1983,18 +1479,10 @@ Restarts a running simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job.
 
 """
-function restart_simulation_job(job; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/restartSimulationJob",
-        Dict{String,Any}("job" => job);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function restart_simulation_job(
-    job, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    job; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/restartSimulationJob",
@@ -2005,8 +1493,7 @@ function restart_simulation_job(
 end
 
 """
-    start_simulation_job_batch(create_simulation_job_requests)
-    start_simulation_job_batch(create_simulation_job_requests, params::Dict{String,<:Any})
+    start_simulation_job_batch(create_simulation_job_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts a new simulation job batch. The batch is defined using one or more
 SimulationJobRequest objects.
@@ -2016,32 +1503,19 @@ SimulationJobRequest objects.
   batch.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"batchPolicy"`: The batch policy.
-- `"clientRequestToken"`: Unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"batch_policy"`: The batch policy.
+- `"client_request_token"`: Unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request.
 - `"tags"`: A map that contains tag keys and tag values that are attached to the deployment
   job batch.
 """
 function start_simulation_job_batch(
-    createSimulationJobRequests; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
-        "POST",
-        "/startSimulationJobBatch",
-        Dict{String,Any}(
-            "createSimulationJobRequests" => createSimulationJobRequests,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_simulation_job_batch(
-    createSimulationJobRequests,
-    params::AbstractDict{String};
+    createSimulationJobRequests;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/startSimulationJobBatch",
@@ -2050,7 +1524,7 @@ function start_simulation_job_batch(
                 _merge,
                 Dict{String,Any}(
                     "createSimulationJobRequests" => createSimulationJobRequests,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -2061,8 +1535,7 @@ function start_simulation_job_batch(
 end
 
 """
-    sync_deployment_job(client_request_token, fleet)
-    sync_deployment_job(client_request_token, fleet, params::Dict{String,<:Any})
+    sync_deployment_job(client_request_token, fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were
 added after a deployment.
@@ -2074,22 +1547,9 @@ added after a deployment.
 
 """
 function sync_deployment_job(
-    clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config()
+    clientRequestToken, fleet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "POST",
-        "/syncDeploymentJob",
-        Dict{String,Any}("clientRequestToken" => clientRequestToken, "fleet" => fleet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function sync_deployment_job(
-    clientRequestToken,
-    fleet,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/syncDeploymentJob",
@@ -2108,8 +1568,7 @@ function sync_deployment_job(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag
 value. Tag keys and tag values are both required, but tag values can be empty strings.  For
@@ -2122,21 +1581,10 @@ Restrictions in the AWS Billing and Cost Management User Guide.
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/tags/$(resourceArn)",
@@ -2147,8 +1595,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag,
 specify the tag key. To change the tag value of an existing tag key, use  TagResource .
@@ -2161,22 +1608,9 @@ specify the tag key. To change the tag value of an existing tag key, use  TagRes
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return robomaker(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -2187,8 +1621,7 @@ function untag_resource(
 end
 
 """
-    update_robot_application(application, robot_software_suite)
-    update_robot_application(application, robot_software_suite, params::Dict{String,<:Any})
+    update_robot_application(application, robot_software_suite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a robot application.
 
@@ -2198,30 +1631,18 @@ Updates a robot application.
   application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"currentRevisionId"`: The revision id for the robot application.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_revision_id"`: The revision id for the robot application.
 - `"environment"`: The object that contains the Docker image URI for your robot application.
 - `"sources"`: The sources of the robot application.
 """
 function update_robot_application(
-    application, robotSoftwareSuite; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return robomaker(
-        "POST",
-        "/updateRobotApplication",
-        Dict{String,Any}(
-            "application" => application, "robotSoftwareSuite" => robotSoftwareSuite
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_robot_application(
     application,
-    robotSoftwareSuite,
-    params::AbstractDict{String};
+    robotSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/updateRobotApplication",
@@ -2240,8 +1661,7 @@ function update_robot_application(
 end
 
 """
-    update_simulation_application(application, robot_software_suite, simulation_software_suite)
-    update_simulation_application(application, robot_software_suite, simulation_software_suite, params::Dict{String,<:Any})
+    update_simulation_application(application, robot_software_suite, simulation_software_suite; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a simulation application.
 
@@ -2252,11 +1672,11 @@ Updates a simulation application.
   application.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"currentRevisionId"`: The revision id for the robot application.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_revision_id"`: The revision id for the robot application.
 - `"environment"`: The object that contains the Docker image URI for your simulation
   application.
-- `"renderingEngine"`: The rendering engine for the simulation application.
+- `"rendering_engine"`: The rendering engine for the simulation application.
 - `"sources"`: The sources of the simulation application.
 """
 function update_simulation_application(
@@ -2264,26 +1684,9 @@ function update_simulation_application(
     robotSoftwareSuite,
     simulationSoftwareSuite;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return robomaker(
-        "POST",
-        "/updateSimulationApplication",
-        Dict{String,Any}(
-            "application" => application,
-            "robotSoftwareSuite" => robotSoftwareSuite,
-            "simulationSoftwareSuite" => simulationSoftwareSuite,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_simulation_application(
-    application,
-    robotSoftwareSuite,
-    simulationSoftwareSuite,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/updateSimulationApplication",
@@ -2304,8 +1707,7 @@ function update_simulation_application(
 end
 
 """
-    update_world_template(template)
-    update_world_template(template, params::Dict{String,<:Any})
+    update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a world template.
 
@@ -2313,25 +1715,15 @@ Updates a world template.
 - `template`: The Amazon Resource Name (arn) of the world template to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"name"`: The name of the template.
-- `"templateBody"`: The world template body.
-- `"templateLocation"`: The location of the world template.
+- `"template_body"`: The world template body.
+- `"template_location"`: The location of the world template.
 """
-function update_world_template(template; aws_config::AbstractAWSConfig=global_aws_config())
-    return robomaker(
-        "POST",
-        "/updateWorldTemplate",
-        Dict{String,Any}("template" => template);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_world_template(
-    template,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return robomaker(
         "POST",
         "/updateWorldTemplate",

@@ -4,9 +4,17 @@ using AWS.AWSServices: pi
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "period_in_seconds" => "PeriodInSeconds",
+    "requested_dimensions" => "RequestedDimensions",
+    "filter" => "Filter",
+    "partition_by" => "PartitionBy",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+)
+
 """
-    describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time)
-    describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time, params::Dict{String,<:Any})
+    describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For a specific time period, retrieve the top N dimension keys for a metric.  Each response
 element returns a maximum of 500 bytes. For larger elements, such as SQL statements, only
@@ -41,19 +49,19 @@ the first 500 bytes are returned.
   The value for StartTime must be earlier than the value for EndTime.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: One or more filters to apply in the request. Restrictions:   Any number of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: One or more filters to apply in the request. Restrictions:   Any number of
   filters by the same dimension, as specified in the GroupBy or Partition parameters.   A
   single filter for any other dimension in this dimension group.
-- `"MaxResults"`: The maximum number of items to return in the response. If more items
+- `"max_results"`: The maximum number of items to return in the response. If more items
   exist than the specified MaxRecords value, a pagination token is included in the response
   so that the remaining results can be retrieved.
-- `"NextToken"`: An optional pagination token provided by a previous request. If this
+- `"next_token"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxRecords.
-- `"PartitionBy"`: For each dimension specified in GroupBy, specify a secondary dimension
+- `"partition_by"`: For each dimension specified in GroupBy, specify a secondary dimension
   to further subdivide the partition keys in the response.
-- `"PeriodInSeconds"`: The granularity, in seconds, of the data points returned from
+- `"period_in_seconds"`: The granularity, in seconds, of the data points returned from
   Performance Insights. A period can be as short as one second, or as long as one day (86400
   seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)
   3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then
@@ -68,31 +76,9 @@ function describe_dimension_keys(
     ServiceType,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pi(
-        "DescribeDimensionKeys",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "GroupBy" => GroupBy,
-            "Identifier" => Identifier,
-            "Metric" => Metric,
-            "ServiceType" => ServiceType,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_dimension_keys(
-    EndTime,
-    GroupBy,
-    Identifier,
-    Metric,
-    ServiceType,
-    StartTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pi(
         "DescribeDimensionKeys",
         Dict{String,Any}(
@@ -115,8 +101,7 @@ function describe_dimension_keys(
 end
 
 """
-    get_dimension_key_details(group, group_identifier, identifier, service_type)
-    get_dimension_key_details(group, group_identifier, identifier, service_type, params::Dict{String,<:Any})
+    get_dimension_key_details(group, group_identifier, identifier, service_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the attributes of the specified dimension group for a DB instance or data source. For
 example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the
@@ -136,8 +121,8 @@ text.
   valid value is RDS.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RequestedDimensions"`: A list of dimensions to retrieve the detail data for within the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"requested_dimensions"`: A list of dimensions to retrieve the detail data for within the
   given dimension group. For the dimension group db.sql, specify either the full dimension
   name db.sql.statement or the short dimension name statement. If you don't specify this
   parameter, Performance Insights returns all dimension data within the specified dimension
@@ -149,27 +134,9 @@ function get_dimension_key_details(
     Identifier,
     ServiceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pi(
-        "GetDimensionKeyDetails",
-        Dict{String,Any}(
-            "Group" => Group,
-            "GroupIdentifier" => GroupIdentifier,
-            "Identifier" => Identifier,
-            "ServiceType" => ServiceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_dimension_key_details(
-    Group,
-    GroupIdentifier,
-    Identifier,
-    ServiceType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pi(
         "GetDimensionKeyDetails",
         Dict{String,Any}(
@@ -190,8 +157,7 @@ function get_dimension_key_details(
 end
 
 """
-    get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time)
-    get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time, params::Dict{String,<:Any})
+    get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve Performance Insights metrics for a set of data sources, over a time period. You
 can provide specific dimension groups and dimensions, and provide aggregation and filtering
@@ -215,14 +181,14 @@ elements, such as SQL statements, only the first 500 bytes are returned.
   StartTime must be earlier than the value for EndTime.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of items to return in the response. If more items
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of items to return in the response. If more items
   exist than the specified MaxRecords value, a pagination token is included in the response
   so that the remaining results can be retrieved.
-- `"NextToken"`: An optional pagination token provided by a previous request. If this
+- `"next_token"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxRecords.
-- `"PeriodInSeconds"`: The granularity, in seconds, of the data points returned from
+- `"period_in_seconds"`: The granularity, in seconds, of the data points returned from
   Performance Insights. A period can be as short as one second, or as long as one day (86400
   seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)
   3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then
@@ -236,29 +202,9 @@ function get_resource_metrics(
     ServiceType,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return pi(
-        "GetResourceMetrics",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "Identifier" => Identifier,
-            "MetricQueries" => MetricQueries,
-            "ServiceType" => ServiceType,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resource_metrics(
-    EndTime,
-    Identifier,
-    MetricQueries,
-    ServiceType,
-    StartTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return pi(
         "GetResourceMetrics",
         Dict{String,Any}(

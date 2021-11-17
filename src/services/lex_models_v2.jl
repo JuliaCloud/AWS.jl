@@ -4,9 +4,46 @@ using AWS.AWSServices: lex_models_v2
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "parent_slot_type_signature" => "parentSlotTypeSignature",
+    "multiple_values_setting" => "multipleValuesSetting",
+    "sample_utterances" => "sampleUtterances",
+    "dialog_code_hook" => "dialogCodeHook",
+    "test_bot_alias_tags" => "testBotAliasTags",
+    "next_token" => "nextToken",
+    "bot_alias_locale_settings" => "botAliasLocaleSettings",
+    "expected_revision_id" => "expectedRevisionId",
+    "file_password" => "filePassword",
+    "kendra_configuration" => "kendraConfiguration",
+    "sort_by" => "sortBy",
+    "session_id" => "sessionId",
+    "description" => "description",
+    "max_results" => "maxResults",
+    "skip_resource_in_use_check" => "skipResourceInUseCheck",
+    "output_contexts" => "outputContexts",
+    "sentiment_analysis_settings" => "sentimentAnalysisSettings",
+    "parent_intent_signature" => "parentIntentSignature",
+    "fulfillment_code_hook" => "fulfillmentCodeHook",
+    "condition" => "condition",
+    "input_contexts" => "inputContexts",
+    "filters" => "filters",
+    "conversation_log_settings" => "conversationLogSettings",
+    "intent_confirmation_setting" => "intentConfirmationSetting",
+    "slot_priorities" => "slotPriorities",
+    "intent_closing_setting" => "intentClosingSetting",
+    "slot_type_values" => "slotTypeValues",
+    "bot_id" => "botId",
+    "bot_version" => "botVersion",
+    "voice_settings" => "voiceSettings",
+    "locale_id" => "localeId",
+    "tags" => "tags",
+    "bot_tags" => "botTags",
+    "obfuscation_setting" => "obfuscationSetting",
+    "bot_alias_id" => "botAliasId",
+)
+
 """
-    build_bot_locale(bot_id, bot_version, locale_id)
-    build_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+    build_bot_locale(bot_id, bot_version, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Builds a bot, its intents, and its slot types into a specific locale. A bot can be built
 into multiple locales. At runtime the locale is used to choose a specific build of the bot.
@@ -22,22 +59,13 @@ into multiple locales. At runtime the locale is used to choose a specific build 
 
 """
 function build_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function build_bot_locale(
     botId,
     botVersion,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
@@ -48,8 +76,7 @@ function build_bot_locale(
 end
 
 """
-    create_bot(bot_name, data_privacy, idle_session_ttlin_seconds, role_arn)
-    create_bot(bot_name, data_privacy, idle_session_ttlin_seconds, role_arn, params::Dict{String,<:Any})
+    create_bot(bot_name, data_privacy, idle_session_ttlin_seconds, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Lex conversational bot.
 
@@ -67,14 +94,14 @@ Creates an Amazon Lex conversational bot.
   the bot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botTags"`: A list of tags to add to the bot. You can only add tags when you create a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_tags"`: A list of tags to add to the bot. You can only add tags when you create a
   bot. You can't use the UpdateBot operation to update tags. To update tags, use the
   TagResource operation.
 - `"description"`: A description of the bot. It appears in lists to help you identify a
   particular bot.
-- `"testBotAliasTags"`: A list of tags to add to the test alias for a bot. You can only add
-  tags when you create a bot. You can't use the UpdateAlias operation to update tags. To
+- `"test_bot_alias_tags"`: A list of tags to add to the test alias for a bot. You can only
+  add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To
   update tags on the test alias, use the TagResource operation.
 """
 function create_bot(
@@ -83,28 +110,9 @@ function create_bot(
     idleSessionTTLInSeconds,
     roleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/",
-        Dict{String,Any}(
-            "botName" => botName,
-            "dataPrivacy" => dataPrivacy,
-            "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
-            "roleArn" => roleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_bot(
-    botName,
-    dataPrivacy,
-    idleSessionTTLInSeconds,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/",
@@ -126,8 +134,7 @@ function create_bot(
 end
 
 """
-    create_bot_alias(bot_alias_name, bot_id)
-    create_bot_alias(bot_alias_name, bot_id, params::Dict{String,<:Any})
+    create_bot_alias(bot_alias_name, bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an alias for the specified version of a bot. Use an alias to enable you to change
 the version of a bot without updating applications that use the bot. For example, you can
@@ -138,40 +145,27 @@ create an alias called \"PROD\" that your applications use to call the Amazon Le
 - `bot_id`: The unique identifier of the bot that the alias applies to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botAliasLocaleSettings"`: Maps configuration information to a specific locale. You can
-  use this parameter to specify a specific Lambda function to run different functions in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_alias_locale_settings"`: Maps configuration information to a specific locale. You
+  can use this parameter to specify a specific Lambda function to run different functions in
   different locales.
-- `"botVersion"`: The version of the bot that this alias points to. You can use the
+- `"bot_version"`: The version of the bot that this alias points to. You can use the
   operation to change the bot version associated with the alias.
-- `"conversationLogSettings"`: Specifies whether Amazon Lex logs text and audio for a
+- `"conversation_log_settings"`: Specifies whether Amazon Lex logs text and audio for a
   conversation with the bot. When you enable conversation logs, text logs store text input,
   transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs
   store audio input in Amazon S3.
 - `"description"`: A description of the alias. Use this description to help identify the
   alias.
-- `"sentimentAnalysisSettings"`:
+- `"sentiment_analysis_settings"`:
 - `"tags"`: A list of tags to add to the bot alias. You can only add tags when you create
   an alias, you can't use the UpdateBotAlias operation to update the tags on a bot alias. To
   update tags, use the TagResource operation.
 """
 function create_bot_alias(
-    botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botaliases/",
-        Dict{String,Any}("botAliasName" => botAliasName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_bot_alias(
-    botAliasName,
-    botId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botaliases/",
@@ -184,8 +178,7 @@ function create_bot_alias(
 end
 
 """
-    create_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold)
-    create_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold, params::Dict{String,<:Any})
+    create_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a locale in the bot. The locale contains the intents and slot types that the bot
 uses in conversations with users in the specified language and locale. You must add a
@@ -208,10 +201,10 @@ locale to a bot before you can add intents and slot types to the bot.
   IntentA   IntentB   IntentC
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the bot locale. Use this to help identify the bot
   locale in lists.
-- `"voiceSettings"`: The Amazon Polly voice ID that Amazon Lex uses for voice interaction
+- `"voice_settings"`: The Amazon Polly voice ID that Amazon Lex uses for voice interaction
   with the user.
 """
 function create_bot_locale(
@@ -220,26 +213,9 @@ function create_bot_locale(
     localeId,
     nluIntentConfidenceThreshold;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
-        Dict{String,Any}(
-            "localeId" => localeId,
-            "nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_bot_locale(
-    botId,
-    botVersion,
-    localeId,
-    nluIntentConfidenceThreshold,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
@@ -259,8 +235,7 @@ function create_bot_locale(
 end
 
 """
-    create_bot_version(bot_id, bot_version_locale_specification)
-    create_bot_version(bot_id, bot_version_locale_specification, params::Dict{String,<:Any})
+    create_bot_version(bot_id, bot_version_locale_specification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new version of the bot based on the DRAFT version. If the DRAFT version of this
 resource hasn't changed since you created the last version, Amazon Lex doesn't create a new
@@ -275,27 +250,17 @@ Amazon Lex sets the version to 1. Subsequent versions increment by 1.
   version to the new version.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the version. Use the description to help identify the
   version in lists.
 """
 function create_bot_version(
-    botId, botVersionLocaleSpecification; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/",
-        Dict{String,Any}("botVersionLocaleSpecification" => botVersionLocaleSpecification);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_bot_version(
     botId,
-    botVersionLocaleSpecification,
-    params::AbstractDict{String};
+    botVersionLocaleSpecification;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/",
@@ -314,8 +279,7 @@ function create_bot_version(
 end
 
 """
-    create_export(file_format, resource_specification)
-    create_export(file_format, resource_specification, params::Dict{String,<:Any})
+    create_export(file_format, resource_specification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a zip archive containing the contents of a bot or a bot locale. The archive
 contains a directory structure that contains JSON files that define the bot. You can create
@@ -330,30 +294,18 @@ bots
   locale. You can only specify one type of resource to export.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filePassword"`: An password to use to encrypt the exported archive. Using a password is
-  optional, but you should encrypt the archive to protect the data in transit between Amazon
-  Lex and your local computer.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"file_password"`: An password to use to encrypt the exported archive. Using a password
+  is optional, but you should encrypt the archive to protect the data in transit between
+  Amazon Lex and your local computer.
 """
 function create_export(
-    fileFormat, resourceSpecification; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "PUT",
-        "/exports/",
-        Dict{String,Any}(
-            "fileFormat" => fileFormat, "resourceSpecification" => resourceSpecification
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_export(
     fileFormat,
-    resourceSpecification,
-    params::AbstractDict{String};
+    resourceSpecification;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/exports/",
@@ -373,8 +325,7 @@ function create_export(
 end
 
 """
-    create_intent(bot_id, bot_version, intent_name, locale_id)
-    create_intent(bot_id, bot_version, intent_name, locale_id, params::Dict{String,<:Any})
+    create_intent(bot_id, bot_version, intent_name, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an intent. To define the interaction between the user and your bot, you define one
 or more intents. For example, for a pizza ordering bot you would create an OrderPizza
@@ -401,22 +352,22 @@ additional activity. For example, \"Do you want a drink with your pizza?\"
   information, see Supported languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the intent. Use the description to help identify the
   intent in lists.
-- `"dialogCodeHook"`: Specifies that Amazon Lex invokes the alias Lambda function for each
-  user input. You can invoke this Lambda function to personalize user interaction. For
+- `"dialog_code_hook"`: Specifies that Amazon Lex invokes the alias Lambda function for
+  each user input. You can invoke this Lambda function to personalize user interaction. For
   example, suppose that your bot determines that the user's name is John. You Lambda function
   might retrieve John's information from a backend database and prepopulate some of the
   values. For example, if you find that John is gluten intolerant, you might set the
   corresponding intent slot, glutenIntolerant to true. You might find John's phone number and
   set the corresponding session attribute.
-- `"fulfillmentCodeHook"`: Specifies that Amazon Lex invokes the alias Lambda function when
-  the intent is ready for fulfillment. You can invoke this function to complete the bot's
-  transaction with the user. For example, in a pizza ordering bot, the Lambda function can
-  look up the closest pizza restaurant to the customer's location and then place an order on
-  the customer's behalf.
-- `"inputContexts"`: A list of contexts that must be active for this intent to be
+- `"fulfillment_code_hook"`: Specifies that Amazon Lex invokes the alias Lambda function
+  when the intent is ready for fulfillment. You can invoke this function to complete the
+  bot's transaction with the user. For example, in a pizza ordering bot, the Lambda function
+  can look up the closest pizza restaurant to the customer's location and then place an order
+  on the customer's behalf.
+- `"input_contexts"`: A list of contexts that must be active for this intent to be
   considered by Amazon Lex. When an intent has an input context list, Amazon Lex only
   considers using the intent in an interaction with the user when the specified contexts are
   included in the active context list for the session. If the contexts are not active, then
@@ -425,26 +376,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with different input contexts that respond to the same utterances, only the intent with the
   active context will respond. An intent may have up to 5 input contexts. If an intent has
   multiple input contexts, all of the contexts must be active to consider the intent.
-- `"intentClosingSetting"`: Sets the response that Amazon Lex sends to the user when the
+- `"intent_closing_setting"`: Sets the response that Amazon Lex sends to the user when the
   intent is closed.
-- `"intentConfirmationSetting"`: Provides prompts that Amazon Lex sends to the user to
+- `"intent_confirmation_setting"`: Provides prompts that Amazon Lex sends to the user to
   confirm the completion of an intent. If the user answers \"no,\" the settings contain a
   statement that is sent to the user to end the intent.
-- `"kendraConfiguration"`: Configuration information required to use the
+- `"kendra_configuration"`: Configuration information required to use the
   AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. The
   AMAZON.KendraSearchIntent intent is called when Amazon Lex can't determine another intent
   to invoke.
-- `"outputContexts"`: A lists of contexts that the intent activates when it is fulfilled.
+- `"output_contexts"`: A lists of contexts that the intent activates when it is fulfilled.
   You can use an output context to indicate the intents that Amazon Lex should consider for
   the next turn of the conversation with a customer.  When you use the outputContextsList
   property, all of the contexts specified in the list are activated when the intent is
   fulfilled. You can set up to 10 output contexts. You can also set the number of
   conversation turns that the context should be active, or the length of time that the
   context should be active.
-- `"parentIntentSignature"`: A unique identifier for the built-in intent to base this
+- `"parent_intent_signature"`: A unique identifier for the built-in intent to base this
   intent on.
-- `"sampleUtterances"`: An array of strings that a user might say to signal the intent. For
-  example, \"I want a pizza\", or \"I want a {PizzaSize} pizza\".  In an utterance, slot
+- `"sample_utterances"`: An array of strings that a user might say to signal the intent.
+  For example, \"I want a pizza\", or \"I want a {PizzaSize} pizza\".  In an utterance, slot
   names are enclosed in curly braces (\"{\", \"}\") to indicate where they should be
   displayed in the utterance shown to the user..
 """
@@ -454,23 +405,9 @@ function create_intent(
     intentName,
     localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
-        Dict{String,Any}("intentName" => intentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_intent(
-    botId,
-    botVersion,
-    intentName,
-    localeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
@@ -483,8 +420,7 @@ function create_intent(
 end
 
 """
-    create_resource_policy(policy, resource_arn)
-    create_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+    create_resource_policy(policy, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new resource policy with the specified policy statements.
 
@@ -498,22 +434,9 @@ Creates a new resource policy with the specified policy statements.
 
 """
 function create_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "POST",
-        "/policy/$(resourceArn)/",
-        Dict{String,Any}("policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resource_policy(
-    policy,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/policy/$(resourceArn)/",
@@ -524,8 +447,7 @@ function create_resource_policy(
 end
 
 """
-    create_resource_policy_statement(action, effect, principal, resource_arn, statement_id)
-    create_resource_policy_statement(action, effect, principal, resource_arn, statement_id, params::Dict{String,<:Any})
+    create_resource_policy_statement(action, effect, principal, resource_arn, statement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a new resource policy statement to a bot or bot alias. If a resource policy exists,
 the statement is added to the current resource policy. If a policy doesn't exist, a new
@@ -547,12 +469,12 @@ access.
   policy elements: Sid.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"condition"`: Specifies a condition when the policy is in effect. If the principal of
   the policy is a service principal, you must provide two condition blocks, one with a
   SourceAccount global condition key and one with a SourceArn global condition key. For more
   information, see IAM JSON policy elements: Condition .
-- `"expectedRevisionId"`: The identifier of the revision of the policy to edit. If this
+- `"expected_revision_id"`: The identifier of the revision of the policy to edit. If this
   revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you
   don't specify a revision, Amazon Lex overwrites the contents of the policy with the new
   values.
@@ -564,29 +486,9 @@ function create_resource_policy_statement(
     resourceArn,
     statementId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "POST",
-        "/policy/$(resourceArn)/statements/",
-        Dict{String,Any}(
-            "action" => action,
-            "effect" => effect,
-            "principal" => principal,
-            "statementId" => statementId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resource_policy_statement(
-    action,
-    effect,
-    principal,
-    resourceArn,
-    statementId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/policy/$(resourceArn)/statements/",
@@ -608,8 +510,7 @@ function create_resource_policy_statement(
 end
 
 """
-    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting)
-    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting, params::Dict{String,<:Any})
+    create_slot(bot_id, bot_version, intent_id, locale_id, slot_name, slot_type_id, value_elicitation_setting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example,
 an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot,
@@ -630,14 +531,14 @@ you define one or more utterances that Amazon Lex uses to elicit a response from
   elicit a response that provides the value for the slot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the slot. Use this to help identify the slot in lists.
-- `"multipleValuesSetting"`: Indicates whether the slot returns multiple values in one
+- `"multiple_values_setting"`: Indicates whether the slot returns multiple values in one
   response. Multi-value slots are only available in the en-US locale. If you set this value
   to true in any other locale, Amazon Lex throws a ValidationException.  If the
   multipleValuesSetting is not set, the default value is false.
-- `"obfuscationSetting"`: Determines how slot values are used in Amazon CloudWatch logs. If
-  the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are
+- `"obfuscation_setting"`: Determines how slot values are used in Amazon CloudWatch logs.
+  If the value of the obfuscationSetting parameter is DefaultObfuscation, slot values are
   obfuscated in the log output. If the value is None, the actual value is present in the log
   output. The default is to obfuscate values in the CloudWatch logs.
 """
@@ -650,30 +551,9 @@ function create_slot(
     slotTypeId,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
-        Dict{String,Any}(
-            "slotName" => slotName,
-            "slotTypeId" => slotTypeId,
-            "valueElicitationSetting" => valueElicitationSetting,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_slot(
-    botId,
-    botVersion,
-    intentId,
-    localeId,
-    slotName,
-    slotTypeId,
-    valueElicitationSetting,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
@@ -694,8 +574,7 @@ function create_slot(
 end
 
 """
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting)
-    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    create_slot_type(bot_id, bot_version, locale_id, slot_type_name, value_selection_setting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a custom slot type  To create a custom slot type, specify a name for the slot type
 and a set of enumeration values, the values that a slot of this type can assume.
@@ -717,15 +596,15 @@ and a set of enumeration values, the values that a slot of this type can assume.
   specify the valueSelectionSetting parameter, the default is OriginalValue.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the slot type. Use the description to help identify the
   slot type in lists.
-- `"parentSlotTypeSignature"`: The built-in slot type used as a parent of this slot type.
-  When you define a parent slot type, the new slot type has the configuration of the parent
-  slot type. Only AMAZON.AlphaNumeric is supported.
-- `"slotTypeValues"`: A list of SlotTypeValue objects that defines the values that the slot
-  type can take. Each value can have a list of synonyms, additional values that help train
-  the machine learning model about the values that it resolves for a slot.
+- `"parent_slot_type_signature"`: The built-in slot type used as a parent of this slot
+  type. When you define a parent slot type, the new slot type has the configuration of the
+  parent slot type. Only AMAZON.AlphaNumeric is supported.
+- `"slot_type_values"`: A list of SlotTypeValue objects that defines the values that the
+  slot type can take. Each value can have a list of synonyms, additional values that help
+  train the machine learning model about the values that it resolves for a slot.
 """
 function create_slot_type(
     botId,
@@ -734,26 +613,9 @@ function create_slot_type(
     slotTypeName,
     valueSelectionSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_slot_type(
-    botId,
-    botVersion,
-    localeId,
-    slotTypeName,
-    valueSelectionSetting,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
@@ -773,21 +635,14 @@ function create_slot_type(
 end
 
 """
-    create_upload_url()
-    create_upload_url(params::Dict{String,<:Any})
+    create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot
 or a bot locale.
 
 """
-function create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST", "/createuploadurl/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_upload_url(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_upload_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/createuploadurl/",
@@ -798,8 +653,7 @@ function create_upload_url(
 end
 
 """
-    delete_bot(bot_id)
-    delete_bot(bot_id, params::Dict{String,<:Any})
+    delete_bot(bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes all versions of a bot, including the Draft version. To delete a specific version,
 use the DeleteBotVersion operation. When you delete a bot, all of the resources contained
@@ -812,18 +666,12 @@ skipResourceInUseCheck parameter to true.
 - `bot_id`: The identifier of the bot to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: When true, Amazon Lex doesn't check to see if another
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"skip_resource_in_use_check"`: When true, Amazon Lex doesn't check to see if another
   resource, such as an alias, is using the bot before it is deleted.
 """
-function delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "DELETE", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_bot(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/",
@@ -834,8 +682,7 @@ function delete_bot(
 end
 
 """
-    delete_bot_alias(bot_alias_id, bot_id)
-    delete_bot_alias(bot_alias_id, bot_id, params::Dict{String,<:Any})
+    delete_bot_alias(bot_alias_id, bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified bot alias.
 
@@ -844,26 +691,14 @@ Deletes the specified bot alias.
 - `bot_id`: The unique identifier of the bot associated with the alias to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: When this parameter is true, Amazon Lex doesn't check to see
-  if any other resource is using the alias before it is deleted.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"skip_resource_in_use_check"`: When this parameter is true, Amazon Lex doesn't check to
+  see if any other resource is using the alias before it is deleted.
 """
 function delete_bot_alias(
-    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botaliases/$(botAliasId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bot_alias(
-    botAliasId,
-    botId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botaliases/$(botAliasId)/",
@@ -874,8 +709,7 @@ function delete_bot_alias(
 end
 
 """
-    delete_bot_locale(bot_id, bot_version, locale_id)
-    delete_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+    delete_bot_locale(bot_id, bot_version, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types
 defined for the locale are also deleted.
@@ -888,22 +722,13 @@ defined for the locale are also deleted.
 
 """
 function delete_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bot_locale(
     botId,
     botVersion,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
@@ -914,8 +739,7 @@ function delete_bot_locale(
 end
 
 """
-    delete_bot_version(bot_id, bot_version)
-    delete_bot_version(bot_id, bot_version, params::Dict{String,<:Any})
+    delete_bot_version(bot_id, bot_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a specific version of a bot. To delete all version of a bot, use the DeleteBot
 operation.
@@ -925,28 +749,16 @@ operation.
 - `bot_version`: The version of the bot to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, the DeleteBotVersion operations throws a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"skip_resource_in_use_check"`: By default, the DeleteBotVersion operations throws a
   ResourceInUseException exception if you try to delete a bot version that has an alias
   pointing at it. Set the skipResourceInUseCheck parameter to true to skip this check and
   remove the version even if an alias points to it.
 """
 function delete_bot_version(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bot_version(
-    botId,
-    botVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/",
@@ -957,8 +769,7 @@ function delete_bot_version(
 end
 
 """
-    delete_export(export_id)
-    delete_export(export_id, params::Dict{String,<:Any})
+    delete_export(export_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a previous export and the associated files stored in an S3 bucket.
 
@@ -966,19 +777,10 @@ Removes a previous export and the associated files stored in an S3 bucket.
 - `export_id`: The unique identifier of the export to delete.
 
 """
-function delete_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "DELETE",
-        "/exports/$(exportId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_export(
-    exportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    exportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/exports/$(exportId)/",
@@ -989,8 +791,7 @@ function delete_export(
 end
 
 """
-    delete_import(import_id)
-    delete_import(import_id, params::Dict{String,<:Any})
+    delete_import(import_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a previous import and the associated file stored in an S3 bucket.
 
@@ -998,19 +799,10 @@ Removes a previous import and the associated file stored in an S3 bucket.
 - `import_id`: The unique identifier of the import to delete.
 
 """
-function delete_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "DELETE",
-        "/imports/$(importId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_import(
-    importId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    importId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/imports/$(importId)/",
@@ -1021,8 +813,7 @@ function delete_import(
 end
 
 """
-    delete_intent(bot_id, bot_version, intent_id, locale_id)
-    delete_intent(bot_id, bot_version, intent_id, locale_id, params::Dict{String,<:Any})
+    delete_intent(bot_id, bot_version, intent_id, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified intent. Deleting an intent also deletes the slots associated with the
 intent.
@@ -1037,23 +828,14 @@ intent.
 
 """
 function delete_intent(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_intent(
     botId,
     botVersion,
     intentId,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
@@ -1064,8 +846,7 @@ function delete_intent(
 end
 
 """
-    delete_resource_policy(resource_arn)
-    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+    delete_resource_policy(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy
 attached, Amazon Lex returns an exception.
@@ -1075,26 +856,15 @@ attached, Amazon Lex returns an exception.
   resource policy attached.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"expectedRevisionId"`: The identifier of the revision to edit. If this ID doesn't match
-  the current revision number, Amazon Lex returns an exception If you don't specify a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"expected_revision_id"`: The identifier of the revision to edit. If this ID doesn't
+  match the current revision number, Amazon Lex returns an exception If you don't specify a
   revision ID, Amazon Lex will delete the current policy.
 """
 function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "DELETE",
-        "/policy/$(resourceArn)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_policy(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/policy/$(resourceArn)/",
@@ -1105,8 +875,7 @@ function delete_resource_policy(
 end
 
 """
-    delete_resource_policy_statement(resource_arn, statement_id)
-    delete_resource_policy_statement(resource_arn, statement_id, params::Dict{String,<:Any})
+    delete_resource_policy_statement(resource_arn, statement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a policy statement from a resource policy. If you delete the last statement from a
 policy, the policy is deleted. If you specify a statement ID that doesn't exist in the
@@ -1119,28 +888,16 @@ exception.
 - `statement_id`: The name of the statement (SID) to delete from the policy.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"expectedRevisionId"`: The identifier of the revision of the policy to delete the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"expected_revision_id"`: The identifier of the revision of the policy to delete the
   statement from. If this revision ID doesn't match the current revision ID, Amazon Lex
   throws an exception. If you don't specify a revision, Amazon Lex removes the current
   contents of the statement.
 """
 function delete_resource_policy_statement(
-    resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, statementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "DELETE",
-        "/policy/$(resourceArn)/statements/$(statementId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_policy_statement(
-    resourceArn,
-    statementId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/policy/$(resourceArn)/statements/$(statementId)/",
@@ -1151,8 +908,7 @@ function delete_resource_policy_statement(
 end
 
 """
-    delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
-    delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id, params::Dict{String,<:Any})
+    delete_slot(bot_id, bot_version, intent_id, locale_id, slot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified slot from an intent.
 
@@ -1173,23 +929,9 @@ function delete_slot(
     localeId,
     slotId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_slot(
-    botId,
-    botVersion,
-    intentId,
-    localeId,
-    slotId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
@@ -1200,8 +942,7 @@ function delete_slot(
 end
 
 """
-    delete_slot_type(bot_id, bot_version, locale_id, slot_type_id)
-    delete_slot_type(bot_id, bot_version, locale_id, slot_type_id, params::Dict{String,<:Any})
+    delete_slot_type(bot_id, bot_version, locale_id, slot_type_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws
 a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck
@@ -1216,8 +957,8 @@ parameter to true.
 - `slot_type_id`: The identifier of the slot type to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, the DeleteSlotType operations throws a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"skip_resource_in_use_check"`: By default, the DeleteSlotType operations throws a
   ResourceInUseException exception if you try to delete a slot type used by a slot. Set the
   skipResourceInUseCheck parameter to true to skip this check and remove the slot type even
   if a slot uses it.
@@ -1228,22 +969,9 @@ function delete_slot_type(
     localeId,
     slotTypeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_slot_type(
-    botId,
-    botVersion,
-    localeId,
-    slotTypeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
@@ -1254,8 +982,7 @@ function delete_slot_type(
 end
 
 """
-    delete_utterances(bot_id)
-    delete_utterances(bot_id, params::Dict{String,<:Any})
+    delete_utterances(bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot.
 Utterances are stored for 15 days for use with the operation, and then stored indefinitely
@@ -1269,24 +996,17 @@ ListAggregatedUtterances operation are deleted after 15 days.
 - `bot_id`: The unique identifier of the bot that contains the utterances.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"localeId"`: The identifier of the language and locale where the utterances were
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"locale_id"`: The identifier of the language and locale where the utterances were
   collected. The string must match one of the supported locales. For more information, see
   Supported languages.
-- `"sessionId"`: The unique identifier of the session with the user. The ID is returned in
+- `"session_id"`: The unique identifier of the session with the user. The ID is returned in
   the response from the and operations.
 """
-function delete_utterances(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "DELETE",
-        "/bots/$(botId)/utterances/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_utterances(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/bots/$(botId)/utterances/",
@@ -1297,8 +1017,7 @@ function delete_utterances(
 end
 
 """
-    describe_bot(bot_id)
-    describe_bot(bot_id, params::Dict{String,<:Any})
+    describe_bot(bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides metadata information about a bot.
 
@@ -1306,14 +1025,8 @@ Provides metadata information about a bot.
 - `bot_id`: The unique identifier of the bot to describe.
 
 """
-function describe_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "GET", "/bots/$(botId)/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_bot(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_bot(botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/",
@@ -1324,8 +1037,7 @@ function describe_bot(
 end
 
 """
-    describe_bot_alias(bot_alias_id, bot_id)
-    describe_bot_alias(bot_alias_id, bot_id, params::Dict{String,<:Any})
+    describe_bot_alias(bot_alias_id, bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about a specific bot alias.
 
@@ -1335,21 +1047,9 @@ Get information about a specific bot alias.
 
 """
 function describe_bot_alias(
-    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+    botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botaliases/$(botAliasId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_bot_alias(
-    botAliasId,
-    botId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botaliases/$(botAliasId)/",
@@ -1360,8 +1060,7 @@ function describe_bot_alias(
 end
 
 """
-    describe_bot_locale(bot_id, bot_version, locale_id)
-    describe_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+    describe_bot_locale(bot_id, bot_version, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the settings that a bot has for a specific locale.
 
@@ -1373,22 +1072,13 @@ Describes the settings that a bot has for a specific locale.
 
 """
 function describe_bot_locale(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_bot_locale(
     botId,
     botVersion,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
@@ -1399,8 +1089,7 @@ function describe_bot_locale(
 end
 
 """
-    describe_bot_version(bot_id, bot_version)
-    describe_bot_version(bot_id, bot_version, params::Dict{String,<:Any})
+    describe_bot_version(bot_id, bot_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides metadata about a version of a bot.
 
@@ -1410,21 +1099,9 @@ Provides metadata about a version of a bot.
 
 """
 function describe_bot_version(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_bot_version(
-    botId,
-    botVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/",
@@ -1435,8 +1112,7 @@ function describe_bot_version(
 end
 
 """
-    describe_export(export_id)
-    describe_export(export_id, params::Dict{String,<:Any})
+    describe_export(export_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specific export.
 
@@ -1444,19 +1120,10 @@ Gets information about a specific export.
 - `export_id`: The unique identifier of the export to describe.
 
 """
-function describe_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "GET",
-        "/exports/$(exportId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_export(
-    exportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    exportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/exports/$(exportId)/",
@@ -1467,8 +1134,7 @@ function describe_export(
 end
 
 """
-    describe_import(import_id)
-    describe_import(import_id, params::Dict{String,<:Any})
+    describe_import(import_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specific import.
 
@@ -1476,19 +1142,10 @@ Gets information about a specific import.
 - `import_id`: The unique identifier of the import to describe.
 
 """
-function describe_import(importId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "GET",
-        "/imports/$(importId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_import(
-    importId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    importId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/imports/$(importId)/",
@@ -1499,8 +1156,7 @@ function describe_import(
 end
 
 """
-    describe_intent(bot_id, bot_version, intent_id, locale_id)
-    describe_intent(bot_id, bot_version, intent_id, locale_id, params::Dict{String,<:Any})
+    describe_intent(bot_id, bot_version, intent_id, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns metadata about an intent.
 
@@ -1514,23 +1170,14 @@ Returns metadata about an intent.
 
 """
 function describe_intent(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_intent(
     botId,
     botVersion,
     intentId,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
@@ -1541,8 +1188,7 @@ function describe_intent(
 end
 
 """
-    describe_resource_policy(resource_arn)
-    describe_resource_policy(resource_arn, params::Dict{String,<:Any})
+    describe_resource_policy(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the resource policy and policy revision for a bot or bot alias.
 
@@ -1552,20 +1198,9 @@ Gets the resource policy and policy revision for a bot or bot alias.
 
 """
 function describe_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "GET",
-        "/policy/$(resourceArn)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_resource_policy(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/policy/$(resourceArn)/",
@@ -1576,8 +1211,7 @@ function describe_resource_policy(
 end
 
 """
-    describe_slot(bot_id, bot_version, intent_id, locale_id, slot_id)
-    describe_slot(bot_id, bot_version, intent_id, locale_id, slot_id, params::Dict{String,<:Any})
+    describe_slot(bot_id, bot_version, intent_id, locale_id, slot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets metadata information about a slot.
 
@@ -1598,23 +1232,9 @@ function describe_slot(
     localeId,
     slotId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_slot(
-    botId,
-    botVersion,
-    intentId,
-    localeId,
-    slotId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
@@ -1625,8 +1245,7 @@ function describe_slot(
 end
 
 """
-    describe_slot_type(bot_id, bot_version, locale_id, slot_type_id)
-    describe_slot_type(bot_id, bot_version, locale_id, slot_type_id, params::Dict{String,<:Any})
+    describe_slot_type(bot_id, bot_version, locale_id, slot_type_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets metadata information about a slot type.
 
@@ -1645,22 +1264,9 @@ function describe_slot_type(
     localeId,
     slotTypeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "GET",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_slot_type(
-    botId,
-    botVersion,
-    localeId,
-    slotTypeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
@@ -1671,8 +1277,7 @@ function describe_slot_type(
 end
 
 """
-    list_aggregated_utterances(aggregation_duration, bot_id, locale_id)
-    list_aggregated_utterances(aggregation_duration, bot_id, locale_id, params::Dict{String,<:Any})
+    list_aggregated_utterances(aggregation_duration, bot_id, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of utterances that users have sent to the bot. Utterances are aggregated by
 the text of the utterance. For example, all instances where customers used the phrase \"I
@@ -1693,43 +1298,31 @@ out of participating in improving Amazon Lex.
   collected. For more information, see Supported languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botAliasId"`: The identifier of the bot alias associated with this request. If you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_alias_id"`: The identifier of the bot alias associated with this request. If you
   specify the bot alias, you can't specify the bot version.
-- `"botVersion"`: The identifier of the bot version associated with this request. If you
+- `"bot_version"`: The identifier of the bot version associated with this request. If you
   specify the bot version, you can't specify the bot alias.
 - `"filters"`: Provides the specification of a filter used to limit the utterances in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
-- `"maxResults"`: The maximum number of utterances to return in each page of results. If
+- `"max_results"`: The maximum number of utterances to return in each page of results. If
   there are fewer results than the maximum page size, only the actual number of results are
   returned. If you don't specify the maxResults parameter, 1,000 results are returned.
-- `"nextToken"`: If the response from the ListAggregatedUtterances operation contains more
+- `"next_token"`: If the response from the ListAggregatedUtterances operation contains more
   results that specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Specifies sorting parameters for the list of utterances. You can sort by the
+- `"sort_by"`: Specifies sorting parameters for the list of utterances. You can sort by the
   hit count, the missed count, or the number of distinct sessions the utterance appeared in.
 """
 function list_aggregated_utterances(
-    aggregationDuration, botId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/aggregatedutterances/",
-        Dict{String,Any}(
-            "aggregationDuration" => aggregationDuration, "localeId" => localeId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_aggregated_utterances(
     aggregationDuration,
     botId,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/aggregatedutterances/",
@@ -1748,8 +1341,7 @@ function list_aggregated_utterances(
 end
 
 """
-    list_bot_aliases(bot_id)
-    list_bot_aliases(bot_id, params::Dict{String,<:Any})
+    list_bot_aliases(bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of aliases for the specified bot.
 
@@ -1757,24 +1349,18 @@ Gets a list of aliases for the specified bot.
 - `bot_id`: The identifier of the bot to list aliases for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of aliases to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListBotAliases operation contains more results
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of aliases to return in each page of results. If
+  there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"next_token"`: If the response from the ListBotAliases operation contains more results
   than specified in the maxResults parameter, a token is returned in the response. Use that
   token in the nextToken parameter to return the next page of results.
 """
-function list_bot_aliases(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botaliases/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_bot_aliases(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botaliases/",
@@ -1785,8 +1371,7 @@ function list_bot_aliases(
 end
 
 """
-    list_bot_locales(bot_id, bot_version)
-    list_bot_locales(bot_id, bot_version, params::Dict{String,<:Any})
+    list_bot_locales(bot_id, bot_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of locales for the specified bot.
 
@@ -1795,34 +1380,23 @@ Gets a list of locales for the specified bot.
 - `bot_version`: The version of the bot to list locales for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Provides the specification for a filter used to limit the response to only
   those locales that match the filter specification. You can only specify one filter and one
   value to filter on.
-- `"maxResults"`: The maximum number of aliases to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListBotLocales operation contains more results
+- `"max_results"`: The maximum number of aliases to return in each page of results. If
+  there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"next_token"`: If the response from the ListBotLocales operation contains more results
   than specified in the maxResults parameter, a token is returned in the response. Use that
   token as the nextToken parameter to return the next page of results.
-- `"sortBy"`: Specifies sorting parameters for the list of locales. You can sort by locale
+- `"sort_by"`: Specifies sorting parameters for the list of locales. You can sort by locale
   name in ascending or descending order.
 """
 function list_bot_locales(
-    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_bot_locales(
-    botId,
-    botVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/",
@@ -1833,8 +1407,7 @@ function list_bot_locales(
 end
 
 """
-    list_bot_versions(bot_id)
-    list_bot_versions(bot_id, params::Dict{String,<:Any})
+    list_bot_versions(bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about all of the versions of a bot. The ListBotVersions operation returns
 a summary of each version of a bot. For example, if a bot has three numbered versions, the
@@ -1846,27 +1419,20 @@ DRAFT version.
 - `bot_id`: The identifier of the bot to list versions for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of versions to return in each page of results. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of versions to return in each page of results. If
   there are fewer results than the max page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response to the ListBotVersion operation contains more results than
-  specified in the maxResults parameter, a token is returned in the response. Use that token
-  in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Specifies sorting parameters for the list of versions. You can specify that
+- `"next_token"`: If the response to the ListBotVersion operation contains more results
+  than specified in the maxResults parameter, a token is returned in the response. Use that
+  token in the nextToken parameter to return the next page of results.
+- `"sort_by"`: Specifies sorting parameters for the list of versions. You can specify that
   the list be sorted by version name in either ascending or descending order.
 """
-function list_bot_versions(botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_bot_versions(
-    botId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    botId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/",
@@ -1877,41 +1443,33 @@ function list_bot_versions(
 end
 
 """
-    list_bots()
-    list_bots(params::Dict{String,<:Any})
+    list_bots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of available bots.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Provides the specification of a filter used to limit the bots in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
-- `"maxResults"`: The maximum number of bots to return in each page of results. If there
+- `"max_results"`: The maximum number of bots to return in each page of results. If there
   are fewer results than the maximum page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListBots operation contains more results than
+- `"next_token"`: If the response from the ListBots operation contains more results than
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Specifies sorting parameters for the list of bots. You can specify that the
+- `"sort_by"`: Specifies sorting parameters for the list of bots. You can specify that the
   list be sorted by bot name in ascending or descending order.
 """
-function list_bots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST", "/bots/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_bots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_bots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST", "/bots/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_built_in_intents(locale_id)
-    list_built_in_intents(locale_id, params::Dict{String,<:Any})
+    list_built_in_intents(locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of built-in intents provided by Amazon Lex that you can use in your bot.  To
 use a built-in intent as a the base for your own intent, include the built-in intent
@@ -1923,30 +1481,21 @@ For more information, see CreateIntent.
   must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of built-in intents to return in each page of results.
-  If there are fewer results than the max page size, only the actual number of results are
-  returned.
-- `"nextToken"`: If the response from the ListBuiltInIntents operation contains more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of built-in intents to return in each page of
+  results. If there are fewer results than the max page size, only the actual number of
+  results are returned.
+- `"next_token"`: If the response from the ListBuiltInIntents operation contains more
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Specifies sorting parameters for the list of built-in intents. You can
+- `"sort_by"`: Specifies sorting parameters for the list of built-in intents. You can
   specify that the list be sorted by the built-in intent signature in either ascending or
   descending order.
 """
-function list_built_in_intents(localeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST",
-        "/builtins/locales/$(localeId)/intents/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_built_in_intents(
-    localeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    localeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/builtins/locales/$(localeId)/intents/",
@@ -1957,8 +1506,7 @@ function list_built_in_intents(
 end
 
 """
-    list_built_in_slot_types(locale_id)
-    list_built_in_slot_types(locale_id, params::Dict{String,<:Any})
+    list_built_in_slot_types(locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of built-in slot types that meet the specified criteria.
 
@@ -1968,32 +1516,21 @@ Gets a list of built-in slot types that meet the specified criteria.
   languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of built-in slot types to return in each page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of built-in slot types to return in each page of
   results. If there are fewer results than the max page size, only the actual number of
   results are returned.
-- `"nextToken"`: If the response from the ListBuiltInSlotTypes operation contains more
+- `"next_token"`: If the response from the ListBuiltInSlotTypes operation contains more
   results than specified in the maxResults parameter, a token is returned in the response.
   Use that token in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the ListBuiltInSlotTypes
+- `"sort_by"`: Determines the sort order for the response from the ListBuiltInSlotTypes
   operation. You can choose to sort by the slot type signature in either ascending or
   descending order.
 """
 function list_built_in_slot_types(
-    localeId; aws_config::AbstractAWSConfig=global_aws_config()
+    localeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "POST",
-        "/builtins/locales/$(localeId)/slottypes/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_built_in_slot_types(
-    localeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/builtins/locales/$(localeId)/slottypes/",
@@ -2004,76 +1541,63 @@ function list_built_in_slot_types(
 end
 
 """
-    list_exports()
-    list_exports(params::Dict{String,<:Any})
+    list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
-- `"botVersion"`: The version of the bot to list exports for.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_id"`: The unique identifier that Amazon Lex assigned to the bot.
+- `"bot_version"`: The version of the bot to list exports for.
 - `"filters"`: Provides the specification of a filter used to limit the exports in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
-- `"maxResults"`: The maximum number of exports to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListExports operation contains more results that
+- `"max_results"`: The maximum number of exports to return in each page of results. If
+  there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"next_token"`: If the response from the ListExports operation contains more results that
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the field that the list of exports is sorted by. You can sort by
+- `"sort_by"`: Determines the field that the list of exports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST", "/exports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_exports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST", "/exports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_imports()
-    list_imports(params::Dict{String,<:Any})
+    list_imports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botId"`: The unique identifier that Amazon Lex assigned to the bot.
-- `"botVersion"`: The version of the bot to list imports for.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_id"`: The unique identifier that Amazon Lex assigned to the bot.
+- `"bot_version"`: The version of the bot to list imports for.
 - `"filters"`: Provides the specification of a filter used to limit the bots in the
   response to only those that match the filter specification. You can only specify one filter
   and one string to filter on.
-- `"maxResults"`: The maximum number of imports to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListImports operation contains more results than
+- `"max_results"`: The maximum number of imports to return in each page of results. If
+  there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"next_token"`: If the response from the ListImports operation contains more results than
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the field that the list of imports is sorted by. You can sort by
+- `"sort_by"`: Determines the field that the list of imports is sorted by. You can sort by
   the LastUpdatedDateTime field in ascending or descending order.
 """
-function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST", "/imports/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_imports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_imports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST", "/imports/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_intents(bot_id, bot_version, locale_id)
-    list_intents(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+    list_intents(bot_id, bot_version, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a list of intents that meet the specified criteria.
 
@@ -2084,36 +1608,28 @@ Get a list of intents that meet the specified criteria.
   must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Provides the specification of a filter used to limit the intents in the
   response to only those that match the filter specification. You can only specify one filter
   and only one string to filter on.
-- `"maxResults"`: The maximum number of intents to return in each page of results. If there
-  are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListIntents operation contains more results than
+- `"max_results"`: The maximum number of intents to return in each page of results. If
+  there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"next_token"`: If the response from the ListIntents operation contains more results than
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the ListIntents operation.
+- `"sort_by"`: Determines the sort order for the response from the ListIntents operation.
   You can choose to sort by the intent name or last updated date in either ascending or
   descending order.
 """
 function list_intents(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_intents(
     botId,
     botVersion,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/",
@@ -2124,8 +1640,7 @@ function list_intents(
 end
 
 """
-    list_slot_types(bot_id, bot_version, locale_id)
-    list_slot_types(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+    list_slot_types(bot_id, bot_version, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of slot types that match the specified criteria.
 
@@ -2137,37 +1652,28 @@ Gets a list of slot types that match the specified criteria.
   languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Provides the specification of a filter used to limit the slot types in the
   response to only those that match the filter specification. You can only specify one filter
   and only one string to filter on.
-- `"maxResults"`: The maximum number of slot types to return in each page of results. If
+- `"max_results"`: The maximum number of slot types to return in each page of results. If
   there are fewer results than the max page size, only the actual number of results are
   returned.
-- `"nextToken"`: If the response from the ListSlotTypes operation contains more results
+- `"next_token"`: If the response from the ListSlotTypes operation contains more results
   than specified in the maxResults parameter, a token is returned in the response. Use that
   token in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the ListSlotTypes operation.
+- `"sort_by"`: Determines the sort order for the response from the ListSlotTypes operation.
   You can choose to sort by the slot type name or last updated date in either ascending or
   descending order.
 """
 function list_slot_types(
-    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_slot_types(
     botId,
     botVersion,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/",
@@ -2178,8 +1684,7 @@ function list_slot_types(
 end
 
 """
-    list_slots(bot_id, bot_version, intent_id, locale_id)
-    list_slots(bot_id, bot_version, intent_id, locale_id, params::Dict{String,<:Any})
+    list_slots(bot_id, bot_version, intent_id, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of slots that match the specified criteria.
 
@@ -2191,37 +1696,28 @@ Gets a list of slots that match the specified criteria.
   must match one of the supported locales. For more information, see Supported languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Provides the specification of a filter used to limit the slots in the
   response to only those that match the filter specification. You can only specify one filter
   and only one string to filter on.
-- `"maxResults"`: The maximum number of slots to return in each page of results. If there
+- `"max_results"`: The maximum number of slots to return in each page of results. If there
   are fewer results than the max page size, only the actual number of results are returned.
-- `"nextToken"`: If the response from the ListSlots operation contains more results than
+- `"next_token"`: If the response from the ListSlots operation contains more results than
   specified in the maxResults parameter, a token is returned in the response. Use that token
   in the nextToken parameter to return the next page of results.
-- `"sortBy"`: Determines the sort order for the response from the ListSlots operation. You
+- `"sort_by"`: Determines the sort order for the response from the ListSlots operation. You
   can choose to sort by the slot name or last updated date in either ascending or descending
   order.
 """
 function list_slots(
-    botId, botVersion, intentId, localeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "POST",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_slots(
     botId,
     botVersion,
     intentId,
-    localeId,
-    params::AbstractDict{String};
+    localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/",
@@ -2232,8 +1728,7 @@ function list_slots(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels
 can have tags associated with them.
@@ -2243,20 +1738,9 @@ can have tags associated with them.
 
 """
 function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "GET",
-        "/tags/$(resourceARN)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "GET",
         "/tags/$(resourceARN)",
@@ -2267,8 +1751,7 @@ function list_tags_for_resource(
 end
 
 """
-    start_import(import_id, merge_strategy, resource_specification)
-    start_import(import_id, merge_strategy, resource_specification, params::Dict{String,<:Any})
+    start_import(import_id, merge_strategy, resource_specification; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
 
@@ -2281,8 +1764,8 @@ Starts importing a bot or bot locale from a zip archive that you uploaded to an 
 - `resource_specification`: Parameters for creating the bot or bot locale.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filePassword"`: The password used to encrypt the zip archive that contains the bot or
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"file_password"`: The password used to encrypt the zip archive that contains the bot or
   bot locale definition. You should always encrypt the zip archive to protect it during
   transit between your site and Amazon Lex.
 """
@@ -2291,26 +1774,9 @@ function start_import(
     mergeStrategy,
     resourceSpecification;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/imports/",
-        Dict{String,Any}(
-            "importId" => importId,
-            "mergeStrategy" => mergeStrategy,
-            "resourceSpecification" => resourceSpecification,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_import(
-    importId,
-    mergeStrategy,
-    resourceSpecification,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/imports/",
@@ -2331,8 +1797,7 @@ function start_import(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified resource. If a tag key already exists, the
 existing value is replaced with the new value.
@@ -2344,21 +1809,10 @@ existing value is replaced with the new value.
   existing value is replaced with the new value.
 
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "POST",
-        "/tags/$(resourceARN)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceARN,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "POST",
         "/tags/$(resourceARN)",
@@ -2369,8 +1823,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from a bot, bot alias, or bot channel.
 
@@ -2381,22 +1834,9 @@ Removes tags from a bot, bot alias, or bot channel.
 
 """
 function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "DELETE",
-        "/tags/$(resourceARN)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceARN,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "DELETE",
         "/tags/$(resourceARN)",
@@ -2407,8 +1847,7 @@ function untag_resource(
 end
 
 """
-    update_bot(bot_id, bot_name, data_privacy, idle_session_ttlin_seconds, role_arn)
-    update_bot(bot_id, bot_name, data_privacy, idle_session_ttlin_seconds, role_arn, params::Dict{String,<:Any})
+    update_bot(bot_id, bot_name, data_privacy, idle_session_ttlin_seconds, role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration of an existing bot.
 
@@ -2428,7 +1867,7 @@ Updates the configuration of an existing bot.
   the bot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A description of the bot.
 """
 function update_bot(
@@ -2438,29 +1877,9 @@ function update_bot(
     idleSessionTTLInSeconds,
     roleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/",
-        Dict{String,Any}(
-            "botName" => botName,
-            "dataPrivacy" => dataPrivacy,
-            "idleSessionTTLInSeconds" => idleSessionTTLInSeconds,
-            "roleArn" => roleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_bot(
-    botId,
-    botName,
-    dataPrivacy,
-    idleSessionTTLInSeconds,
-    roleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/",
@@ -2482,8 +1901,7 @@ function update_bot(
 end
 
 """
-    update_bot_alias(bot_alias_id, bot_alias_name, bot_id)
-    update_bot_alias(bot_alias_id, bot_alias_name, bot_id, params::Dict{String,<:Any})
+    update_bot_alias(bot_alias_id, bot_alias_name, bot_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration of an existing bot alias.
 
@@ -2493,33 +1911,23 @@ Updates the configuration of an existing bot alias.
 - `bot_id`: The identifier of the bot with the updated alias.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"botAliasLocaleSettings"`: The new Lambda functions to use in each locale for the bot
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bot_alias_locale_settings"`: The new Lambda functions to use in each locale for the bot
   alias.
-- `"botVersion"`: The new bot version to assign to the bot alias.
-- `"conversationLogSettings"`: The new settings for storing conversation logs in Amazon
+- `"bot_version"`: The new bot version to assign to the bot alias.
+- `"conversation_log_settings"`: The new settings for storing conversation logs in Amazon
   CloudWatch Logs and Amazon S3 buckets.
 - `"description"`: The new description to assign to the bot alias.
-- `"sentimentAnalysisSettings"`:
+- `"sentiment_analysis_settings"`:
 """
-function update_bot_alias(
-    botAliasId, botAliasName, botId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botaliases/$(botAliasId)/",
-        Dict{String,Any}("botAliasName" => botAliasName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_bot_alias(
     botAliasId,
     botAliasName,
-    botId,
-    params::AbstractDict{String};
+    botId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botaliases/$(botAliasId)/",
@@ -2532,8 +1940,7 @@ function update_bot_alias(
 end
 
 """
-    update_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold)
-    update_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold, params::Dict{String,<:Any})
+    update_bot_locale(bot_id, bot_version, locale_id, nlu_intent_confidence_threshold; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the settings that a bot has for a specific locale.
 
@@ -2548,10 +1955,10 @@ Updates the settings that a bot has for a specific locale.
   intents for an utterance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The new description of the locale.
-- `"voiceSettings"`: The new Amazon Polly voice Amazon Lex should use for voice interaction
-  with the user.
+- `"voice_settings"`: The new Amazon Polly voice Amazon Lex should use for voice
+  interaction with the user.
 """
 function update_bot_locale(
     botId,
@@ -2559,23 +1966,9 @@ function update_bot_locale(
     localeId,
     nluIntentConfidenceThreshold;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
-        Dict{String,Any}("nluIntentConfidenceThreshold" => nluIntentConfidenceThreshold);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_bot_locale(
-    botId,
-    botVersion,
-    localeId,
-    nluIntentConfidenceThreshold,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/",
@@ -2594,8 +1987,7 @@ function update_bot_locale(
 end
 
 """
-    update_export(export_id)
-    update_export(export_id, params::Dict{String,<:Any})
+    update_export(export_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the password used to protect an export zip archive. The password is not required.
 If you don't supply a password, Amazon Lex generates a zip file that is not protected by a
@@ -2606,22 +1998,13 @@ operation.
 - `export_id`: The unique identifier Amazon Lex assigned to the export.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filePassword"`: The new password to use to encrypt the export zip archive.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"file_password"`: The new password to use to encrypt the export zip archive.
 """
-function update_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return lex_models_v2(
-        "PUT",
-        "/exports/$(exportId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_export(
-    exportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    exportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/exports/$(exportId)/",
@@ -2632,8 +2015,7 @@ function update_export(
 end
 
 """
-    update_intent(bot_id, bot_version, intent_id, intent_name, locale_id)
-    update_intent(bot_id, bot_version, intent_id, intent_name, locale_id, params::Dict{String,<:Any})
+    update_intent(bot_id, bot_version, intent_id, intent_name, locale_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the settings for an intent.
 
@@ -2647,26 +2029,26 @@ Updates the settings for an intent.
   languages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The new description of the intent.
-- `"dialogCodeHook"`: The new Lambda function to use between each turn of the conversation
-  with the bot.
-- `"fulfillmentCodeHook"`: The new Lambda function to call when all of the intents required
-  slots are provided and the intent is ready for fulfillment.
-- `"inputContexts"`: A new list of contexts that must be active in order for Amazon Lex to
+- `"dialog_code_hook"`: The new Lambda function to use between each turn of the
+  conversation with the bot.
+- `"fulfillment_code_hook"`: The new Lambda function to call when all of the intents
+  required slots are provided and the intent is ready for fulfillment.
+- `"input_contexts"`: A new list of contexts that must be active in order for Amazon Lex to
   consider the intent.
-- `"intentClosingSetting"`: The new response that Amazon Lex sends the user when the intent
-  is closed.
-- `"intentConfirmationSetting"`: New prompts that Amazon Lex sends to the user to confirm
+- `"intent_closing_setting"`: The new response that Amazon Lex sends the user when the
+  intent is closed.
+- `"intent_confirmation_setting"`: New prompts that Amazon Lex sends to the user to confirm
   the completion of an intent.
-- `"kendraConfiguration"`: New configuration settings for connecting to an Amazon Kendra
+- `"kendra_configuration"`: New configuration settings for connecting to an Amazon Kendra
   index.
-- `"outputContexts"`: A new list of contexts that Amazon Lex activates when the intent is
+- `"output_contexts"`: A new list of contexts that Amazon Lex activates when the intent is
   fulfilled.
-- `"parentIntentSignature"`: The signature of the new built-in intent to use as the parent
-  of this intent.
-- `"sampleUtterances"`: New utterances used to invoke the intent.
-- `"slotPriorities"`: A new list of slots and their priorities that are contained by the
+- `"parent_intent_signature"`: The signature of the new built-in intent to use as the
+  parent of this intent.
+- `"sample_utterances"`: New utterances used to invoke the intent.
+- `"slot_priorities"`: A new list of slots and their priorities that are contained by the
   intent.
 """
 function update_intent(
@@ -2676,24 +2058,9 @@ function update_intent(
     intentName,
     localeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
-        Dict{String,Any}("intentName" => intentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_intent(
-    botId,
-    botVersion,
-    intentId,
-    intentName,
-    localeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/",
@@ -2706,8 +2073,7 @@ function update_intent(
 end
 
 """
-    update_resource_policy(policy, resource_arn)
-    update_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+    update_resource_policy(policy, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces the existing resource policy for a bot or bot alias with a new one. If the policy
 doesn't exist, Amazon Lex returns an exception.
@@ -2721,29 +2087,16 @@ doesn't exist, Amazon Lex returns an exception.
   policy is attached to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"expectedRevisionId"`: The identifier of the revision of the policy to update. If this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"expected_revision_id"`: The identifier of the revision of the policy to update. If this
   revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you
   don't specify a revision, Amazon Lex overwrites the contents of the policy with the new
   values.
 """
 function update_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return lex_models_v2(
-        "PUT",
-        "/policy/$(resourceArn)/",
-        Dict{String,Any}("policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resource_policy(
-    policy,
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/policy/$(resourceArn)/",
@@ -2754,8 +2107,7 @@ function update_resource_policy(
 end
 
 """
-    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting)
-    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting, params::Dict{String,<:Any})
+    update_slot(bot_id, bot_version, intent_id, locale_id, slot_id, slot_name, slot_type_id, value_elicitation_setting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the settings for a slot.
 
@@ -2772,13 +2124,13 @@ Updates the settings for a slot.
   elicit a response the provides a value for the slot.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The new description for the slot.
-- `"multipleValuesSetting"`: Determines whether the slot accepts multiple values in one
+- `"multiple_values_setting"`: Determines whether the slot accepts multiple values in one
   response. Multiple value slots are only available in the en-US locale. If you set this
   value to true in any other locale, Amazon Lex throws a ValidationException. If the
   multipleValuesSetting is not set, the default value is false.
-- `"obfuscationSetting"`: New settings that determine how slot values are formatted in
+- `"obfuscation_setting"`: New settings that determine how slot values are formatted in
   Amazon CloudWatch logs.
 """
 function update_slot(
@@ -2791,31 +2143,9 @@ function update_slot(
     slotTypeId,
     valueElicitationSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
-        Dict{String,Any}(
-            "slotName" => slotName,
-            "slotTypeId" => slotTypeId,
-            "valueElicitationSetting" => valueElicitationSetting,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_slot(
-    botId,
-    botVersion,
-    intentId,
-    localeId,
-    slotId,
-    slotName,
-    slotTypeId,
-    valueElicitationSetting,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/intents/$(intentId)/slots/$(slotId)/",
@@ -2836,8 +2166,7 @@ function update_slot(
 end
 
 """
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting)
-    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting, params::Dict{String,<:Any})
+    update_slot_type(bot_id, bot_version, locale_id, slot_type_id, slot_type_name, value_selection_setting; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration of an existing slot type.
 
@@ -2853,11 +2182,11 @@ Updates the configuration of an existing slot type.
   value from the list of slot type values.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The new description of the slot type.
-- `"parentSlotTypeSignature"`: The new built-in slot type that should be used as the parent
-  of this slot type.
-- `"slotTypeValues"`: A new list of values and their optional synonyms that define the
+- `"parent_slot_type_signature"`: The new built-in slot type that should be used as the
+  parent of this slot type.
+- `"slot_type_values"`: A new list of values and their optional synonyms that define the
   values that the slot type can take.
 """
 function update_slot_type(
@@ -2868,27 +2197,9 @@ function update_slot_type(
     slotTypeName,
     valueSelectionSetting;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return lex_models_v2(
-        "PUT",
-        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
-        Dict{String,Any}(
-            "slotTypeName" => slotTypeName, "valueSelectionSetting" => valueSelectionSetting
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_slot_type(
-    botId,
-    botVersion,
-    localeId,
-    slotTypeId,
-    slotTypeName,
-    valueSelectionSetting,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return lex_models_v2(
         "PUT",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",

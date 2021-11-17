@@ -4,9 +4,35 @@ using AWS.AWSServices: savingsplans
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "descriptions" => "descriptions",
+    "savings_plan_ids" => "savingsPlanIds",
+    "service_codes" => "serviceCodes",
+    "plan_types" => "planTypes",
+    "savings_plan_payment_options" => "savingsPlanPaymentOptions",
+    "next_token" => "nextToken",
+    "states" => "states",
+    "operations" => "operations",
+    "upfront_payment_amount" => "upfrontPaymentAmount",
+    "savings_plan_types" => "savingsPlanTypes",
+    "offering_ids" => "offeringIds",
+    "durations" => "durations",
+    "savings_plan_offering_ids" => "savingsPlanOfferingIds",
+    "max_results" => "maxResults",
+    "usage_types" => "usageTypes",
+    "currencies" => "currencies",
+    "client_token" => "clientToken",
+    "payment_options" => "paymentOptions",
+    "product_type" => "productType",
+    "savings_plan_arns" => "savingsPlanArns",
+    "filters" => "filters",
+    "products" => "products",
+    "tags" => "tags",
+    "purchase_time" => "purchaseTime",
+)
+
 """
-    create_savings_plan(commitment, savings_plan_offering_id)
-    create_savings_plan(commitment, savings_plan_offering_id, params::Dict{String,<:Any})
+    create_savings_plan(commitment, savings_plan_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Savings Plan.
 
@@ -16,37 +42,23 @@ Creates a Savings Plan.
 - `savings_plan_offering_id`: The ID of the offering.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"purchaseTime"`: The time at which to purchase the Savings Plan, in UTC format
+- `"purchase_time"`: The time at which to purchase the Savings Plan, in UTC format
   (YYYY-MM-DDTHH:MM:SSZ).
 - `"tags"`: One or more tags.
-- `"upfrontPaymentAmount"`: The up-front payment amount. This is a whole number between 50
-  and 99 percent of the total value of the Savings Plan. This parameter is supported only if
-  the payment option is Partial Upfront.
+- `"upfront_payment_amount"`: The up-front payment amount. This is a whole number between
+  50 and 99 percent of the total value of the Savings Plan. This parameter is supported only
+  if the payment option is Partial Upfront.
 """
 function create_savings_plan(
-    commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
-        "POST",
-        "/CreateSavingsPlan",
-        Dict{String,Any}(
-            "commitment" => commitment,
-            "savingsPlanOfferingId" => savingsPlanOfferingId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_savings_plan(
     commitment,
-    savingsPlanOfferingId,
-    params::AbstractDict{String};
+    savingsPlanOfferingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/CreateSavingsPlan",
@@ -56,7 +68,7 @@ function create_savings_plan(
                 Dict{String,Any}(
                     "commitment" => commitment,
                     "savingsPlanOfferingId" => savingsPlanOfferingId,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -67,8 +79,7 @@ function create_savings_plan(
 end
 
 """
-    delete_queued_savings_plan(savings_plan_id)
-    delete_queued_savings_plan(savings_plan_id, params::Dict{String,<:Any})
+    delete_queued_savings_plan(savings_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the queued purchase for the specified Savings Plan.
 
@@ -77,21 +88,9 @@ Deletes the queued purchase for the specified Savings Plan.
 
 """
 function delete_queued_savings_plan(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/DeleteQueuedSavingsPlan",
-        Dict{String,Any}("savingsPlanId" => savingsPlanId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_queued_savings_plan(
-    savingsPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/DeleteQueuedSavingsPlan",
@@ -104,8 +103,7 @@ function delete_queued_savings_plan(
 end
 
 """
-    describe_savings_plan_rates(savings_plan_id)
-    describe_savings_plan_rates(savings_plan_id, params::Dict{String,<:Any})
+    describe_savings_plan_rates(savings_plan_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified Savings Plans rates.
 
@@ -113,28 +111,16 @@ Describes the specified Savings Plans rates.
 - `savings_plan_id`: The ID of the Savings Plan.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: The filters.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
-- `"nextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 """
 function describe_savings_plan_rates(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlanRates",
-        Dict{String,Any}("savingsPlanId" => savingsPlanId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_savings_plan_rates(
-    savingsPlanId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/DescribeSavingsPlanRates",
@@ -147,32 +133,24 @@ function describe_savings_plan_rates(
 end
 
 """
-    describe_savings_plans()
-    describe_savings_plans(params::Dict{String,<:Any})
+    describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified Savings Plans.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: The filters.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
-- `"nextToken"`: The token for the next page of results.
-- `"savingsPlanArns"`: The Amazon Resource Names (ARN) of the Savings Plans.
-- `"savingsPlanIds"`: The IDs of the Savings Plans.
+- `"next_token"`: The token for the next page of results.
+- `"savings_plan_arns"`: The Amazon Resource Names (ARN) of the Savings Plans.
+- `"savings_plan_ids"`: The IDs of the Savings Plans.
 - `"states"`: The states.
 """
-function describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlans";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_savings_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_savings_plans(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/DescribeSavingsPlans",
@@ -183,38 +161,28 @@ function describe_savings_plans(
 end
 
 """
-    describe_savings_plans_offering_rates()
-    describe_savings_plans_offering_rates(params::Dict{String,<:Any})
+    describe_savings_plans_offering_rates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified Savings Plans offering rates.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: The filters.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
-- `"nextToken"`: The token for the next page of results.
+- `"next_token"`: The token for the next page of results.
 - `"operations"`: The specific AWS operation for the line item in the billing report.
 - `"products"`: The AWS products.
-- `"savingsPlanOfferingIds"`: The IDs of the offerings.
-- `"savingsPlanPaymentOptions"`: The payment options.
-- `"savingsPlanTypes"`: The plan types.
-- `"serviceCodes"`: The services.
-- `"usageTypes"`: The usage details of the line item in the billing report.
+- `"savings_plan_offering_ids"`: The IDs of the offerings.
+- `"savings_plan_payment_options"`: The payment options.
+- `"savings_plan_types"`: The plan types.
+- `"service_codes"`: The services.
+- `"usage_types"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offering_rates(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlansOfferingRates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_savings_plans_offering_rates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/DescribeSavingsPlansOfferingRates",
@@ -225,41 +193,31 @@ function describe_savings_plans_offering_rates(
 end
 
 """
-    describe_savings_plans_offerings()
-    describe_savings_plans_offerings(params::Dict{String,<:Any})
+    describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified Savings Plans offerings.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"currencies"`: The currencies.
 - `"descriptions"`: The descriptions.
 - `"durations"`: The durations, in seconds.
 - `"filters"`: The filters.
-- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+- `"max_results"`: The maximum number of results to return with a single call. To retrieve
   additional results, make another call with the returned token value.
-- `"nextToken"`: The token for the next page of results.
-- `"offeringIds"`: The IDs of the offerings.
+- `"next_token"`: The token for the next page of results.
+- `"offering_ids"`: The IDs of the offerings.
 - `"operations"`: The specific AWS operation for the line item in the billing report.
-- `"paymentOptions"`: The payment options.
-- `"planTypes"`: The plan type.
-- `"productType"`: The product type.
-- `"serviceCodes"`: The services.
-- `"usageTypes"`: The usage details of the line item in the billing report.
+- `"payment_options"`: The payment options.
+- `"plan_types"`: The plan type.
+- `"product_type"`: The product type.
+- `"service_codes"`: The services.
+- `"usage_types"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlansOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_savings_plans_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/DescribeSavingsPlansOfferings",
@@ -270,8 +228,7 @@ function describe_savings_plans_offerings(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified resource.
 
@@ -280,21 +237,9 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/ListTagsForResource",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/ListTagsForResource",
@@ -307,8 +252,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified resource.
 
@@ -318,21 +262,10 @@ Adds the specified tags to the specified resource.
   \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return savingsplans(
-        "POST",
-        "/TagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/TagResource",
@@ -349,8 +282,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from the specified resource.
 
@@ -360,22 +292,9 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return savingsplans(
-        "POST",
-        "/UntagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return savingsplans(
         "POST",
         "/UntagResource",

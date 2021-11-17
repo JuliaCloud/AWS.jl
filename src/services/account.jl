@@ -4,9 +4,10 @@ using AWS.AWSServices: account
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("account_id" => "AccountId")
+
 """
-    delete_alternate_contact(alternate_contact_type)
-    delete_alternate_contact(alternate_contact_type, params::Dict{String,<:Any})
+    delete_alternate_contact(alternate_contact_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified alternate contact from an Amazon Web Services account. For complete
 details about how to use the alternate contact operations, see Access or updating the
@@ -16,8 +17,8 @@ alternate contacts.
 - `alternate_contact_type`: Specifies which of the alternate contacts to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
   account that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
@@ -31,21 +32,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function delete_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return account(
-        "POST",
-        "/deleteAlternateContact",
-        Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_alternate_contact(
-    AlternateContactType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return account(
         "POST",
         "/deleteAlternateContact",
@@ -62,8 +51,7 @@ function delete_alternate_contact(
 end
 
 """
-    get_alternate_contact(alternate_contact_type)
-    get_alternate_contact(alternate_contact_type, params::Dict{String,<:Any})
+    get_alternate_contact(alternate_contact_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the specified alternate contact attached to an Amazon Web Services account. For
 complete details about how to use the alternate contact operations, see Access or updating
@@ -73,8 +61,8 @@ the alternate contacts.
 - `alternate_contact_type`: Specifies which alternate contact you want to retrieve.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
   account that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
@@ -88,21 +76,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_alternate_contact(
-    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+    AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return account(
-        "POST",
-        "/getAlternateContact",
-        Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_alternate_contact(
-    AlternateContactType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return account(
         "POST",
         "/getAlternateContact",
@@ -119,8 +95,7 @@ function get_alternate_contact(
 end
 
 """
-    put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title)
-    put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title, params::Dict{String,<:Any})
+    put_alternate_contact(alternate_contact_type, email_address, name, phone_number, title; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the specified alternate contact attached to an Amazon Web Services account. For
 complete details about how to use the alternate contact operations, see Access or updating
@@ -134,8 +109,8 @@ the alternate contacts.
 - `title`: Specifies a title for the alternate contact.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountId"`: Specifies the 12 digit account ID number of the Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_id"`: Specifies the 12 digit account ID number of the Amazon Web Services
   account that you want to access or modify with this operation. If you do not specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
@@ -155,30 +130,9 @@ function put_alternate_contact(
     PhoneNumber,
     Title;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return account(
-        "POST",
-        "/putAlternateContact",
-        Dict{String,Any}(
-            "AlternateContactType" => AlternateContactType,
-            "EmailAddress" => EmailAddress,
-            "Name" => Name,
-            "PhoneNumber" => PhoneNumber,
-            "Title" => Title,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_alternate_contact(
-    AlternateContactType,
-    EmailAddress,
-    Name,
-    PhoneNumber,
-    Title,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return account(
         "POST",
         "/putAlternateContact",

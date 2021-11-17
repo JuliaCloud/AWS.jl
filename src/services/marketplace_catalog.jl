@@ -4,9 +4,17 @@ using AWS.AWSServices: marketplace_catalog
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "sort" => "Sort",
+    "change_set_name" => "ChangeSetName",
+    "next_token" => "NextToken",
+    "client_request_token" => "ClientRequestToken",
+    "filter_list" => "FilterList",
+    "max_results" => "MaxResults",
+)
+
 """
-    cancel_change_set(catalog, change_set_id)
-    cancel_change_set(catalog, change_set_id, params::Dict{String,<:Any})
+    cancel_change_set(catalog, change_set_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used to cancel an open change request. Must be sent before the status of the request
 changes to APPLYING, the final stage of completing your change request. You can describe a
@@ -19,22 +27,9 @@ change during the 60-day request history retention period for API calls.
 
 """
 function cancel_change_set(
-    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_catalog(
-        "PATCH",
-        "/CancelChangeSet",
-        Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_change_set(
-    catalog,
-    changeSetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "PATCH",
         "/CancelChangeSet",
@@ -51,8 +46,7 @@ function cancel_change_set(
 end
 
 """
-    describe_change_set(catalog, change_set_id)
-    describe_change_set(catalog, change_set_id, params::Dict{String,<:Any})
+    describe_change_set(catalog, change_set_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides information about a given change set.
 
@@ -63,22 +57,9 @@ Provides information about a given change set.
 
 """
 function describe_change_set(
-    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, changeSetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_catalog(
-        "GET",
-        "/DescribeChangeSet",
-        Dict{String,Any}("catalog" => catalog, "changeSetId" => changeSetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_change_set(
-    catalog,
-    changeSetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "GET",
         "/DescribeChangeSet",
@@ -95,8 +76,7 @@ function describe_change_set(
 end
 
 """
-    describe_entity(catalog, entity_id)
-    describe_entity(catalog, entity_id, params::Dict{String,<:Any})
+    describe_entity(catalog, entity_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the metadata and content of the entity.
 
@@ -106,22 +86,9 @@ Returns the metadata and content of the entity.
 
 """
 function describe_entity(
-    catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config()
+    catalog, entityId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_catalog(
-        "GET",
-        "/DescribeEntity",
-        Dict{String,Any}("catalog" => catalog, "entityId" => entityId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_entity(
-    catalog,
-    entityId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "GET",
         "/DescribeEntity",
@@ -138,8 +105,7 @@ function describe_entity(
 end
 
 """
-    list_change_sets(catalog)
-    list_change_sets(catalog, params::Dict{String,<:Any})
+    list_change_sets(catalog; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the list of change sets owned by the account being used to make the call. You can
 filter this list by providing any combination of entityId, ChangeSetName, and status. If
@@ -151,27 +117,19 @@ API calls.
 - `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FilterList"`: An array of filter objects.
-- `"MaxResults"`: The maximum number of results returned by a single call. This value must
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter_list"`: An array of filter objects.
+- `"max_results"`: The maximum number of results returned by a single call. This value must
   be provided in the next call to retrieve the next set of results. By default, this value is
   20.
-- `"NextToken"`: The token value retrieved from a previous call to access the next page of
+- `"next_token"`: The token value retrieved from a previous call to access the next page of
   results.
-- `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
+- `"sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
-function list_change_sets(Catalog; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_catalog(
-        "POST",
-        "/ListChangeSets",
-        Dict{String,Any}("Catalog" => Catalog);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_change_sets(
-    Catalog, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "POST",
         "/ListChangeSets",
@@ -182,8 +140,7 @@ function list_change_sets(
 end
 
 """
-    list_entities(catalog, entity_type)
-    list_entities(catalog, entity_type, params::Dict{String,<:Any})
+    list_entities(catalog, entity_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides the list of entities of a given type.
 
@@ -192,32 +149,19 @@ Provides the list of entities of a given type.
 - `entity_type`: The type of entities to retrieve.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FilterList"`: An array of filter objects. Each filter object contains two attributes,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter_list"`: An array of filter objects. Each filter object contains two attributes,
   filterName and filterValues.
-- `"MaxResults"`: Specifies the upper limit of the elements on a single page. If a value
+- `"max_results"`: Specifies the upper limit of the elements on a single page. If a value
   isn't provided, the default value is 20.
-- `"NextToken"`: The value of the next token, if it exists. Null if there are no more
+- `"next_token"`: The value of the next token, if it exists. Null if there are no more
   results.
-- `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
+- `"sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities(
-    Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog, EntityType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_catalog(
-        "POST",
-        "/ListEntities",
-        Dict{String,Any}("Catalog" => Catalog, "EntityType" => EntityType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_entities(
-    Catalog,
-    EntityType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "POST",
         "/ListEntities",
@@ -234,8 +178,7 @@ function list_entities(
 end
 
 """
-    start_change_set(catalog, change_set)
-    start_change_set(catalog, change_set, params::Dict{String,<:Any})
+    start_change_set(catalog, change_set; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation allows you to request changes for your entities. Within a single ChangeSet,
 you cannot start the same change type against the same entity multiple times. Additionally,
@@ -252,28 +195,15 @@ working with change sets, see  Working with change sets.
 - `change_set`: Array of change object.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChangeSetName"`: Optional case sensitive string of up to 100 ASCII characters. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"change_set_name"`: Optional case sensitive string of up to 100 ASCII characters. The
   change set name can be used to filter the list of change sets.
-- `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
+- `"client_request_token"`: A unique token to identify the request to ensure idempotency.
 """
 function start_change_set(
-    Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()
+    Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return marketplace_catalog(
-        "POST",
-        "/StartChangeSet",
-        Dict{String,Any}("Catalog" => Catalog, "ChangeSet" => ChangeSet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_change_set(
-    Catalog,
-    ChangeSet,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return marketplace_catalog(
         "POST",
         "/StartChangeSet",

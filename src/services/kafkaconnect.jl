@@ -4,9 +4,19 @@ using AWS.AWSServices: kafkaconnect
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "description" => "description",
+    "connector_description" => "connectorDescription",
+    "current_version" => "currentVersion",
+    "worker_configuration" => "workerConfiguration",
+    "next_token" => "nextToken",
+    "connector_name_prefix" => "connectorNamePrefix",
+    "max_results" => "maxResults",
+    "log_delivery" => "logDelivery",
+)
+
 """
-    create_connector(capacity, connector_configuration, connector_name, kafka_cluster, kafka_cluster_client_authentication, kafka_cluster_encryption_in_transit, kafka_connect_version, plugins, service_execution_role_arn)
-    create_connector(capacity, connector_configuration, connector_name, kafka_cluster, kafka_cluster_client_authentication, kafka_cluster_encryption_in_transit, kafka_connect_version, plugins, service_execution_role_arn, params::Dict{String,<:Any})
+    create_connector(capacity, connector_configuration, connector_name, kafka_cluster, kafka_cluster_client_authentication, kafka_cluster_encryption_in_transit, kafka_connect_version, plugins, service_execution_role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a connector using the specified properties.
 
@@ -30,10 +40,10 @@ Creates a connector using the specified properties.
   destination must have permissions that allow it to write to the S3 destination bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"connectorDescription"`: A summary description of the connector.
-- `"logDelivery"`: Details about log delivery.
-- `"workerConfiguration"`: Specifies which worker configuration to use with the connector.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connector_description"`: A summary description of the connector.
+- `"log_delivery"`: Details about log delivery.
+- `"worker_configuration"`: Specifies which worker configuration to use with the connector.
 """
 function create_connector(
     capacity,
@@ -46,38 +56,9 @@ function create_connector(
     plugins,
     serviceExecutionRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kafkaconnect(
-        "POST",
-        "/v1/connectors",
-        Dict{String,Any}(
-            "capacity" => capacity,
-            "connectorConfiguration" => connectorConfiguration,
-            "connectorName" => connectorName,
-            "kafkaCluster" => kafkaCluster,
-            "kafkaClusterClientAuthentication" => kafkaClusterClientAuthentication,
-            "kafkaClusterEncryptionInTransit" => kafkaClusterEncryptionInTransit,
-            "kafkaConnectVersion" => kafkaConnectVersion,
-            "plugins" => plugins,
-            "serviceExecutionRoleArn" => serviceExecutionRoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_connector(
-    capacity,
-    connectorConfiguration,
-    connectorName,
-    kafkaCluster,
-    kafkaClusterClientAuthentication,
-    kafkaClusterEncryptionInTransit,
-    kafkaConnectVersion,
-    plugins,
-    serviceExecutionRoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "POST",
         "/v1/connectors",
@@ -104,8 +85,7 @@ function create_connector(
 end
 
 """
-    create_custom_plugin(content_type, location, name)
-    create_custom_plugin(content_type, location, name, params::Dict{String,<:Any})
+    create_custom_plugin(content_type, location, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a custom plugin using the specified properties.
 
@@ -115,29 +95,17 @@ Creates a custom plugin using the specified properties.
 - `name`: The name of the custom plugin.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A summary description of the custom plugin.
 """
 function create_custom_plugin(
-    contentType, location, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kafkaconnect(
-        "POST",
-        "/v1/custom-plugins",
-        Dict{String,Any}(
-            "contentType" => contentType, "location" => location, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_custom_plugin(
     contentType,
     location,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "POST",
         "/v1/custom-plugins",
@@ -156,8 +124,7 @@ function create_custom_plugin(
 end
 
 """
-    create_worker_configuration(name, properties_file_content)
-    create_worker_configuration(name, properties_file_content, params::Dict{String,<:Any})
+    create_worker_configuration(name, properties_file_content; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a worker configuration using the specified properties.
 
@@ -166,26 +133,16 @@ Creates a worker configuration using the specified properties.
 - `properties_file_content`: Base64 encoded contents of connect-distributed.properties file.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: A summary description of the worker configuration.
 """
 function create_worker_configuration(
-    name, propertiesFileContent; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kafkaconnect(
-        "POST",
-        "/v1/worker-configurations",
-        Dict{String,Any}("name" => name, "propertiesFileContent" => propertiesFileContent);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_worker_configuration(
     name,
-    propertiesFileContent,
-    params::AbstractDict{String};
+    propertiesFileContent;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "POST",
         "/v1/worker-configurations",
@@ -204,8 +161,7 @@ function create_worker_configuration(
 end
 
 """
-    delete_connector(connector_arn)
-    delete_connector(connector_arn, params::Dict{String,<:Any})
+    delete_connector(connector_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified connector.
 
@@ -213,22 +169,13 @@ Deletes the specified connector.
 - `connector_arn`: The Amazon Resource Name (ARN) of the connector that you want to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"currentVersion"`: The current version of the connector that you want to delete.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"current_version"`: The current version of the connector that you want to delete.
 """
-function delete_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect(
-        "DELETE",
-        "/v1/connectors/$(connectorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connector(
-    connectorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "DELETE",
         "/v1/connectors/$(connectorArn)",
@@ -239,8 +186,7 @@ function delete_connector(
 end
 
 """
-    describe_connector(connector_arn)
-    describe_connector(connector_arn, params::Dict{String,<:Any})
+    describe_connector(connector_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns summary information about the connector.
 
@@ -249,19 +195,10 @@ Returns summary information about the connector.
   describe.
 
 """
-function describe_connector(connectorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect(
-        "GET",
-        "/v1/connectors/$(connectorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_connector(
-    connectorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/connectors/$(connectorArn)",
@@ -272,8 +209,7 @@ function describe_connector(
 end
 
 """
-    describe_custom_plugin(custom_plugin_arn)
-    describe_custom_plugin(custom_plugin_arn, params::Dict{String,<:Any})
+    describe_custom_plugin(custom_plugin_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A summary description of the custom plugin.
 
@@ -282,20 +218,9 @@ A summary description of the custom plugin.
 
 """
 function describe_custom_plugin(
-    customPluginArn; aws_config::AbstractAWSConfig=global_aws_config()
+    customPluginArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kafkaconnect(
-        "GET",
-        "/v1/custom-plugins/$(customPluginArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_custom_plugin(
-    customPluginArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/custom-plugins/$(customPluginArn)",
@@ -306,8 +231,7 @@ function describe_custom_plugin(
 end
 
 """
-    describe_worker_configuration(worker_configuration_arn)
-    describe_worker_configuration(worker_configuration_arn, params::Dict{String,<:Any})
+    describe_worker_configuration(worker_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a worker configuration.
 
@@ -317,20 +241,9 @@ Returns information about a worker configuration.
 
 """
 function describe_worker_configuration(
-    workerConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    workerConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kafkaconnect(
-        "GET",
-        "/v1/worker-configurations/$(workerConfigurationArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_worker_configuration(
-    workerConfigurationArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/worker-configurations/$(workerConfigurationArn)",
@@ -341,30 +254,23 @@ function describe_worker_configuration(
 end
 
 """
-    list_connectors()
-    list_connectors(params::Dict{String,<:Any})
+    list_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all the connectors in this account and Region. The list is limited to
 connectors whose name starts with the specified prefix. The response also includes a
 description of each of the listed connectors.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"connectorNamePrefix"`: The name prefix that you want to use to search for and list
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connector_name_prefix"`: The name prefix that you want to use to search for and list
   connectors.
-- `"maxResults"`: The maximum number of connectors to list in one response.
-- `"nextToken"`: If the response of a ListConnectors operation is truncated, it will
+- `"max_results"`: The maximum number of connectors to list in one response.
+- `"next_token"`: If the response of a ListConnectors operation is truncated, it will
   include a NextToken. Send this NextToken in a subsequent request to continue listing from
   where the previous operation left off.
 """
-function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect(
-        "GET", "/v1/connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_connectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/connectors",
@@ -375,26 +281,19 @@ function list_connectors(
 end
 
 """
-    list_custom_plugins()
-    list_custom_plugins(params::Dict{String,<:Any})
+    list_custom_plugins(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all of the custom plugins in this account and Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of custom plugins to list in one response.
-- `"nextToken"`: If the response of a ListCustomPlugins operation is truncated, it will
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of custom plugins to list in one response.
+- `"next_token"`: If the response of a ListCustomPlugins operation is truncated, it will
   include a NextToken. Send this NextToken in a subsequent request to continue listing from
   where the previous operation left off.
 """
-function list_custom_plugins(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect(
-        "GET", "/v1/custom-plugins"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_custom_plugins(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_custom_plugins(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/custom-plugins",
@@ -405,29 +304,21 @@ function list_custom_plugins(
 end
 
 """
-    list_worker_configurations()
-    list_worker_configurations(params::Dict{String,<:Any})
+    list_worker_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all of the worker configurations in this account and Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of worker configurations to list in one response.
-- `"nextToken"`: If the response of a ListWorkerConfigurations operation is truncated, it
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of worker configurations to list in one response.
+- `"next_token"`: If the response of a ListWorkerConfigurations operation is truncated, it
   will include a NextToken. Send this NextToken in a subsequent request to continue listing
   from where the previous operation left off.
 """
-function list_worker_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kafkaconnect(
-        "GET",
-        "/v1/worker-configurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_worker_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_worker_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "GET",
         "/v1/worker-configurations",
@@ -438,8 +329,7 @@ function list_worker_configurations(
 end
 
 """
-    update_connector(capacity, connector_arn, current_version)
-    update_connector(capacity, connector_arn, current_version, params::Dict{String,<:Any})
+    update_connector(capacity, connector_arn, current_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified connector.
 
@@ -454,22 +344,9 @@ function update_connector(
     connectorArn,
     currentVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kafkaconnect(
-        "PUT",
-        "/v1/connectors/$(connectorArn)",
-        Dict{String,Any}("capacity" => capacity, "currentVersion" => currentVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_connector(
-    capacity,
-    connectorArn,
-    currentVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kafkaconnect(
         "PUT",
         "/v1/connectors/$(connectorArn)",

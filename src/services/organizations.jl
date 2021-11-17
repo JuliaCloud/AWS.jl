@@ -4,9 +4,25 @@ using AWS.AWSServices: organizations
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "feature_set" => "FeatureSet",
+    "target_id" => "TargetId",
+    "filter" => "Filter",
+    "next_token" => "NextToken",
+    "states" => "States",
+    "name" => "Name",
+    "notes" => "Notes",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "iam_user_access_to_billing" => "IamUserAccessToBilling",
+    "role_name" => "RoleName",
+    "content" => "Content",
+    "service_principal" => "ServicePrincipal",
+    "tags" => "Tags",
+)
+
 """
-    accept_handshake(handshake_id)
-    accept_handshake(handshake_id, params::Dict{String,<:Any})
+    accept_handshake(handshake_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends a response to the originator of a handshake agreeing to the action proposed by the
 handshake request. This operation can be called only by the following principals when they
@@ -30,19 +46,10 @@ results of relevant APIs for only 30 days. After that, it's deleted.
   letters or digits.
 
 """
-function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "AcceptHandshake",
-        Dict{String,Any}("HandshakeId" => HandshakeId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_handshake(
-    HandshakeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "AcceptHandshake",
         Dict{String,Any}(
@@ -54,8 +61,7 @@ function accept_handshake(
 end
 
 """
-    attach_policy(policy_id, target_id)
-    attach_policy(policy_id, target_id, params::Dict{String,<:Any})
+    attach_policy(policy_id, target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches a policy to a root, an organizational unit (OU), or an individual account. How the
 policy affects accounts depends on the type of policy. Refer to the AWS Organizations User
@@ -80,21 +86,9 @@ only from the organization's management account.
 
 """
 function attach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "AttachPolicy",
-        Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_policy(
-    PolicyId,
-    TargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "AttachPolicy",
         Dict{String,Any}(
@@ -110,8 +104,7 @@ function attach_policy(
 end
 
 """
-    cancel_handshake(handshake_id)
-    cancel_handshake(handshake_id, params::Dict{String,<:Any})
+    cancel_handshake(handshake_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Cancels a handshake. Canceling a handshake sets the handshake state to CANCELED. This
 operation can be called only from the account that originated the handshake. The recipient
@@ -126,19 +119,10 @@ that, it's deleted.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CancelHandshake",
-        Dict{String,Any}("HandshakeId" => HandshakeId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_handshake(
-    HandshakeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CancelHandshake",
         Dict{String,Any}(
@@ -150,8 +134,7 @@ function cancel_handshake(
 end
 
 """
-    create_account(account_name, email)
-    create_account(account_name, email, params::Dict{String,<:Any})
+    create_account(account_name, email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an AWS account that is automatically a member of the organization whose credentials
 made the request. This is an asynchronous request that AWS performs in the background.
@@ -203,15 +186,15 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   remove an account that was created with an invalid email address.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IamUserAccessToBilling"`: If set to ALLOW, the new account enables IAM users to access
-  account billing information if they have the required permissions. If set to DENY, only the
-  root user of the new account can access account billing information. For more information,
-  see Activating Access to the Billing and Cost Management Console in the AWS Billing and
-  Cost Management User Guide. If you don't specify this parameter, the value defaults to
-  ALLOW, and IAM users and roles with the required permissions can access billing information
-  for the new account.
-- `"RoleName"`: (Optional) The name of an IAM role that AWS Organizations automatically
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"iam_user_access_to_billing"`: If set to ALLOW, the new account enables IAM users to
+  access account billing information if they have the required permissions. If set to DENY,
+  only the root user of the new account can access account billing information. For more
+  information, see Activating Access to the Billing and Cost Management Console in the AWS
+  Billing and Cost Management User Guide. If you don't specify this parameter, the value
+  defaults to ALLOW, and IAM users and roles with the required permissions can access billing
+  information for the new account.
+- `"role_name"`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member account. This role trusts the management account, allowing
   users in the management account to assume the role, as permitted by the management account
   administrator. The role has administrator permissions in the new member account. If you
@@ -222,7 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this
   parameter. The pattern can include uppercase letters, lowercase letters, digits with no
   spaces, and any of the following characters: =,.@-
-- `"Tags"`: A list of tags that you want to attach to the newly created account. For each
+- `"tags"`: A list of tags that you want to attach to the newly created account. For each
   tag in the list, you must specify both a tag key and a value. You can set the value to an
   empty string, but you can't set it to null. For more information about tagging, see Tagging
   AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
@@ -230,21 +213,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails and the account is not created.
 """
 function create_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "CreateAccount",
-        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_account(
-    AccountName,
-    Email,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CreateAccount",
         Dict{String,Any}(
@@ -260,8 +231,7 @@ function create_account(
 end
 
 """
-    create_gov_cloud_account(account_name, email)
-    create_gov_cloud_account(account_name, email, params::Dict{String,<:Any})
+    create_gov_cloud_account(account_name, email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This action is available if all of the following are true:   You're authorized to create
 accounts in the AWS GovCloud (US) Region. For more information on the AWS GovCloud (US)
@@ -337,15 +307,15 @@ switch for an account, see Granting Access to Your Billing Information and Tools
   the AWS GovCloud (US) Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IamUserAccessToBilling"`: If set to ALLOW, the new linked account in the commercial
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"iam_user_access_to_billing"`: If set to ALLOW, the new linked account in the commercial
   Region enables IAM users to access account billing information if they have the required
   permissions. If set to DENY, only the root user of the new account can access account
   billing information. For more information, see Activating Access to the Billing and Cost
   Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify
   this parameter, the value defaults to ALLOW, and IAM users and roles with the required
   permissions can access billing information for the new account.
-- `"RoleName"`: (Optional) The name of an IAM role that AWS Organizations automatically
+- `"role_name"`: (Optional) The name of an IAM role that AWS Organizations automatically
   preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the
   commercial Region. This role trusts the management account, allowing users in the
   management account to assume the role, as permitted by the management account
@@ -357,7 +327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can
   include uppercase letters, lowercase letters, digits with no spaces, and any of the
   following characters: =,.@-
-- `"Tags"`: A list of tags that you want to attach to the newly created account. These tags
+- `"tags"`: A list of tags that you want to attach to the newly created account. These tags
   are attached to the commercial account associated with the GovCloud account, and not to the
   GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource
   operation in the GovCloud region after the new GovCloud account exists. For each tag in the
@@ -368,21 +338,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails and the account is not created.
 """
 function create_gov_cloud_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "CreateGovCloudAccount",
-        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_gov_cloud_account(
-    AccountName,
-    Email,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CreateGovCloudAccount",
         Dict{String,Any}(
@@ -398,8 +356,7 @@ function create_gov_cloud_account(
 end
 
 """
-    create_organization()
-    create_organization(params::Dict{String,<:Any})
+    create_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an AWS organization. The account whose user is calling the CreateOrganization
 operation automatically becomes the management account of the new organization. This
@@ -413,9 +370,9 @@ CONSOLIDATED_BILLING\", no policy types are enabled by default, and you can't us
 organization policies
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FeatureSet"`: Specifies the feature set supported by the new organization. Each feature
-  set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"feature_set"`: Specifies the feature set supported by the new organization. Each
+  feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
   accounts have their bills consolidated to and paid by the management account. For more
   information, see Consolidated billing in the AWS Organizations User Guide.   The
   consolidated billing feature subset isn't available for organizations in the AWS GovCloud
@@ -424,22 +381,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the organization. For more information, see All features in the AWS Organizations User
   Guide.
 """
-function create_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CreateOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    create_organizational_unit(name, parent_id)
-    create_organizational_unit(name, parent_id, params::Dict{String,<:Any})
+    create_organizational_unit(name, parent_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an organizational unit (OU) within a root or parent OU. An OU is a container for
 accounts that enables you to organize your accounts to apply policies according to your
@@ -460,8 +410,8 @@ organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags that you want to attach to the newly created OU. For each tag in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags that you want to attach to the newly created OU. For each tag in
   the list, you must specify both a tag key and a value. You can set the value to an empty
   string, but you can't set it to null. For more information about tagging, see Tagging AWS
   Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
@@ -469,21 +419,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails and the OU is not created.
 """
 function create_organizational_unit(
-    Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "CreateOrganizationalUnit",
-        Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_organizational_unit(
-    Name,
-    ParentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CreateOrganizationalUnit",
         Dict{String,Any}(
@@ -497,8 +435,7 @@ function create_organizational_unit(
 end
 
 """
-    create_policy(content, description, name, type)
-    create_policy(content, description, name, type, params::Dict{String,<:Any})
+    create_policy(content, description, name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a policy of a specified type that you can attach to a root, an organizational unit
 (OU), or an individual AWS account. For more information about policies and their use, see
@@ -516,8 +453,8 @@ organization's management account.
   AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags that you want to attach to the newly created policy. For each
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags that you want to attach to the newly created policy. For each
   tag in the list, you must specify both a tag key and a value. You can set the value to an
   empty string, but you can't set it to null. For more information about tagging, see Tagging
   AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is
@@ -525,28 +462,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails and the policy is not created.
 """
 function create_policy(
-    Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
-        "CreatePolicy",
-        Dict{String,Any}(
-            "Content" => Content,
-            "Description" => Description,
-            "Name" => Name,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_policy(
     Content,
     Description,
     Name,
-    Type,
-    params::AbstractDict{String};
+    Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "CreatePolicy",
         Dict{String,Any}(
@@ -567,8 +490,7 @@ function create_policy(
 end
 
 """
-    decline_handshake(handshake_id)
-    decline_handshake(handshake_id, params::Dict{String,<:Any})
+    decline_handshake(handshake_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Declines a handshake request. This sets the handshake state to DECLINED and effectively
 deactivates the request. This operation can be called only from the account that received
@@ -583,19 +505,10 @@ relevant APIs for only 30 days. After that, it's deleted.
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeclineHandshake",
-        Dict{String,Any}("HandshakeId" => HandshakeId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function decline_handshake(
-    HandshakeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DeclineHandshake",
         Dict{String,Any}(
@@ -607,29 +520,21 @@ function decline_handshake(
 end
 
 """
-    delete_organization()
-    delete_organization(params::Dict{String,<:Any})
+    delete_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the organization. You can delete an organization only by using credentials from the
 management account. The organization must be empty of member accounts.
 
 """
-function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function delete_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DeleteOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    delete_organizational_unit(organizational_unit_id)
-    delete_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
+    delete_organizational_unit(organizational_unit_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an organizational unit (OU) from a root or another OU. You must first remove all
 accounts and child OUs from the OU that you want to delete. This operation can be called
@@ -644,20 +549,9 @@ only from the organization's management account.
 
 """
 function delete_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DeleteOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_organizational_unit(
-    OrganizationalUnitId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DeleteOrganizationalUnit",
         Dict{String,Any}(
@@ -673,8 +567,7 @@ function delete_organizational_unit(
 end
 
 """
-    delete_policy(policy_id)
-    delete_policy(policy_id, params::Dict{String,<:Any})
+    delete_policy(policy_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified policy from your organization. Before you perform this operation, you
 must first detach the policy from all organizational units (OUs), roots, and accounts. This
@@ -687,19 +580,10 @@ operation can be called only from the organization's management account.
   letters, digits, or the underscore character (_).
 
 """
-function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeletePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_policy(
-    PolicyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DeletePolicy",
         Dict{String,Any}(
@@ -711,8 +595,7 @@ function delete_policy(
 end
 
 """
-    deregister_delegated_administrator(account_id, service_principal)
-    deregister_delegated_administrator(account_id, service_principal, params::Dict{String,<:Any})
+    deregister_delegated_administrator(account_id, service_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified member AWS account as a delegated administrator for the specified AWS
 service.  Deregistering a delegated administrator can have unintended impacts on the
@@ -735,21 +618,12 @@ management account.
 
 """
 function deregister_delegated_administrator(
-    AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
-        "DeregisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_delegated_administrator(
     AccountId,
-    ServicePrincipal,
-    params::AbstractDict{String};
+    ServicePrincipal;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DeregisterDelegatedAdministrator",
         Dict{String,Any}(
@@ -767,8 +641,7 @@ function deregister_delegated_administrator(
 end
 
 """
-    describe_account(account_id)
-    describe_account(account_id, params::Dict{String,<:Any})
+    describe_account(account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves AWS Organizations-related information about the specified account. This operation
 can be called only from the organization's management account or by a member account that
@@ -780,19 +653,10 @@ is a delegated administrator for an AWS service.
   regex pattern for an account ID string requires exactly 12 digits.
 
 """
-function describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribeAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_account(
-    AccountId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeAccount",
         Dict{String,Any}(
@@ -804,8 +668,7 @@ function describe_account(
 end
 
 """
-    describe_create_account_status(create_account_request_id)
-    describe_create_account_status(create_account_request_id, params::Dict{String,<:Any})
+    describe_create_account_status(create_account_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the current status of an asynchronous request to create an account. This
 operation can be called only from the organization's management account or by a member
@@ -820,20 +683,9 @@ account that is a delegated administrator for an AWS service.
 
 """
 function describe_create_account_status(
-    CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DescribeCreateAccountStatus",
-        Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_create_account_status(
-    CreateAccountRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeCreateAccountStatus",
         Dict{String,Any}(
@@ -849,8 +701,7 @@ function describe_create_account_status(
 end
 
 """
-    describe_effective_policy(policy_type)
-    describe_effective_policy(policy_type, params::Dict{String,<:Any})
+    describe_effective_policy(policy_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the contents of the effective policy for specified policy type and account. The
 effective policy is the aggregation of any policies of the specified type that the account
@@ -866,26 +717,15 @@ service.
   the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     TAG_POLICY
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TargetId"`: When you're signed in as the management account, specify the ID of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"target_id"`: When you're signed in as the management account, specify the ID of the
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
 function describe_effective_policy(
-    PolicyType; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DescribeEffectivePolicy",
-        Dict{String,Any}("PolicyType" => PolicyType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_effective_policy(
-    PolicyType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeEffectivePolicy",
         Dict{String,Any}(
@@ -897,8 +737,7 @@ function describe_effective_policy(
 end
 
 """
-    describe_handshake(handshake_id)
-    describe_handshake(handshake_id, params::Dict{String,<:Any})
+    describe_handshake(handshake_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a previously requested handshake. The handshake ID comes from
 the response to the original InviteAccountToOrganization operation that generated the
@@ -913,19 +752,10 @@ operation can be called from any account in the organization.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribeHandshake",
-        Dict{String,Any}("HandshakeId" => HandshakeId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_handshake(
-    HandshakeId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    HandshakeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeHandshake",
         Dict{String,Any}(
@@ -937,8 +767,7 @@ function describe_handshake(
 end
 
 """
-    describe_organization()
-    describe_organization(params::Dict{String,<:Any})
+    describe_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the organization that the user's account belongs to. This
 operation can be called from any account in the organization.  Even if a policy type is
@@ -947,14 +776,10 @@ with DisablePolicyType. Use ListRoots to see the status of policy types for a sp
 root.
 
 """
-function describe_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeOrganization",
         params;
@@ -964,8 +789,7 @@ function describe_organization(
 end
 
 """
-    describe_organizational_unit(organizational_unit_id)
-    describe_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
+    describe_organizational_unit(organizational_unit_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an organizational unit (OU). This operation can be called only
 from the organization's management account or by a member account that is a delegated
@@ -980,20 +804,9 @@ administrator for an AWS service.
 
 """
 function describe_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DescribeOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_organizational_unit(
-    OrganizationalUnitId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribeOrganizationalUnit",
         Dict{String,Any}(
@@ -1009,8 +822,7 @@ function describe_organizational_unit(
 end
 
 """
-    describe_policy(policy_id)
-    describe_policy(policy_id, params::Dict{String,<:Any})
+    describe_policy(policy_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about a policy. This operation can be called only from the
 organization's management account or by a member account that is a delegated administrator
@@ -1023,19 +835,10 @@ for an AWS service.
   letters, digits, or the underscore character (_).
 
 """
-function describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_policy(
-    PolicyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DescribePolicy",
         Dict{String,Any}(
@@ -1047,8 +850,7 @@ function describe_policy(
 end
 
 """
-    detach_policy(policy_id, target_id)
-    detach_policy(policy_id, target_id, params::Dict{String,<:Any})
+    detach_policy(policy_id, target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches a policy from a target root, organizational unit (OU), or account.  If the policy
 being detached is a service control policy (SCP), the changes to permissions for AWS
@@ -1079,21 +881,9 @@ only from the organization's management account.
 
 """
 function detach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DetachPolicy",
-        Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_policy(
-    PolicyId,
-    TargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DetachPolicy",
         Dict{String,Any}(
@@ -1109,8 +899,7 @@ function detach_policy(
 end
 
 """
-    disable_awsservice_access(service_principal)
-    disable_awsservice_access(service_principal, params::Dict{String,<:Any})
+    disable_awsservice_access(service_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the integration of an AWS service (the service that is specified by
 ServicePrincipal) with AWS Organizations. When you disable integration, the specified
@@ -1154,20 +943,9 @@ This operation can be called only from the organization's management account.
 
 """
 function disable_awsservice_access(
-    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DisableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_awsservice_access(
-    ServicePrincipal,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DisableAWSServiceAccess",
         Dict{String,Any}(
@@ -1181,8 +959,7 @@ function disable_awsservice_access(
 end
 
 """
-    disable_policy_type(policy_type, root_id)
-    disable_policy_type(policy_type, root_id, params::Dict{String,<:Any})
+    disable_policy_type(policy_type, root_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables an organizational policy type in a root. A policy of a certain type can be
 attached to entities in a root only if that type is enabled in the root. After you perform
@@ -1206,21 +983,9 @@ DescribeOrganization.
 
 """
 function disable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "DisablePolicyType",
-        Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disable_policy_type(
-    PolicyType,
-    RootId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "DisablePolicyType",
         Dict{String,Any}(
@@ -1236,8 +1001,7 @@ function disable_policy_type(
 end
 
 """
-    enable_all_features()
-    enable_all_features(params::Dict{String,<:Any})
+    enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables all features in an organization. This enables the use of organization policies that
 can restrict the services and actions that can be called in each account. Until you enable
@@ -1261,22 +1025,15 @@ account administrators are aware of this. This operation can be called only from
 organization's management account.
 
 """
-function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function enable_all_features(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "EnableAllFeatures", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    enable_awsservice_access(service_principal)
-    enable_awsservice_access(service_principal, params::Dict{String,<:Any})
+    enable_awsservice_access(service_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the integration of an AWS service (the service that is specified by
 ServicePrincipal) with AWS Organizations. When you enable integration, you allow the
@@ -1299,20 +1056,9 @@ organization's management account and only if the organization has enabled all f
 
 """
 function enable_awsservice_access(
-    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+    ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "EnableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_awsservice_access(
-    ServicePrincipal,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "EnableAWSServiceAccess",
         Dict{String,Any}(
@@ -1326,8 +1072,7 @@ function enable_awsservice_access(
 end
 
 """
-    enable_policy_type(policy_type, root_id)
-    enable_policy_type(policy_type, root_id, params::Dict{String,<:Any})
+    enable_policy_type(policy_type, root_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables a policy type in a root. After you enable a policy type in a root, you can attach
 policies of that type to the root, any organizational unit (OU), or account in that root.
@@ -1348,21 +1093,9 @@ available policy types in the organization, use DescribeOrganization.
 
 """
 function enable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "EnablePolicyType",
-        Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function enable_policy_type(
-    PolicyType,
-    RootId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "EnablePolicyType",
         Dict{String,Any}(
@@ -1378,8 +1111,7 @@ function enable_policy_type(
 end
 
 """
-    invite_account_to_organization(target)
-    invite_account_to_organization(target, params::Dict{String,<:Any})
+    invite_account_to_organization(target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends an invitation to another account to join your organization as a member account. AWS
 Organizations sends email on your behalf to the email address that is associated with the
@@ -1406,10 +1138,10 @@ permission. This operation can be called only from the organization's management
   Id=diego@example.com,Type=EMAIL
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Notes"`: Additional information that you want to include in the generated email to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"notes"`: Additional information that you want to include in the generated email to the
   recipient account owner.
-- `"Tags"`: A list of tags that you want to attach to the account when it becomes a member
+- `"tags"`: A list of tags that you want to attach to the account when it becomes a member
   of the organization. For each tag in the list, you must specify both a tag key and a value.
   You can set the value to an empty string, but you can't set it to null. For more
   information about tagging, see Tagging AWS Organizations resources in the AWS Organizations
@@ -1423,18 +1155,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   invitations are not sent.
 """
 function invite_account_to_organization(
-    Target; aws_config::AbstractAWSConfig=global_aws_config()
+    Target; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "InviteAccountToOrganization",
-        Dict{String,Any}("Target" => Target);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function invite_account_to_organization(
-    Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "InviteAccountToOrganization",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Target" => Target), params));
@@ -1444,8 +1167,7 @@ function invite_account_to_organization(
 end
 
 """
-    leave_organization()
-    leave_organization(params::Dict{String,<:Any})
+    leave_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes a member account from its parent organization. This version of the operation is
 performed by the account that wants to leave. To remove a member account as a user in the
@@ -1477,22 +1199,15 @@ removed from its organization. If you get an error that indicates that a wait pe
 required, then try again in a few days.
 
 """
-function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function leave_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "LeaveOrganization", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_accounts()
-    list_accounts(params::Dict{String,<:Any})
+    list_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the accounts in the organization. To request only the accounts in a specified
 root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always
@@ -1504,8 +1219,8 @@ management account or by a member account that is a delegated administrator for 
 service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1513,27 +1228,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListAccounts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_accounts_for_parent(parent_id)
-    list_accounts_for_parent(parent_id, params::Dict{String,<:Any})
+    list_accounts_for_parent(parent_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the accounts in an organization that are contained by the specified target root or
 organizational unit (OU). If you specify the root, you get a list of all the accounts that
@@ -1551,8 +1259,8 @@ administrator for an AWS service.
   whose accounts you want to list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1560,26 +1268,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_accounts_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+    ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListAccountsForParent",
-        Dict{String,Any}("ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_accounts_for_parent(
-    ParentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListAccountsForParent",
         Dict{String,Any}(
@@ -1591,8 +1288,7 @@ function list_accounts_for_parent(
 end
 
 """
-    list_awsservice_access_for_organization()
-    list_awsservice_access_for_organization(params::Dict{String,<:Any})
+    list_awsservice_access_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the AWS services that you enabled to integrate with your organization.
 After a service on this list creates the resources that it requires for the integration, it
@@ -1604,8 +1300,8 @@ organization's management account or by a member account that is a delegated adm
 for an AWS service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1613,23 +1309,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_awsservice_access_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListAWSServiceAccessForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_awsservice_access_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListAWSServiceAccessForOrganization",
         params;
@@ -1639,8 +1327,7 @@ function list_awsservice_access_for_organization(
 end
 
 """
-    list_children(child_type, parent_id)
-    list_children(child_type, parent_id, params::Dict{String,<:Any})
+    list_children(child_type, parent_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the organizational units (OUs) or accounts that are contained in the specified
 parent OU or root. This operation, along with ListParents enables you to traverse the tree
@@ -1661,8 +1348,8 @@ delegated administrator for an AWS service.
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1670,27 +1357,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_children(
-    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListChildren",
-        Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_children(
-    ChildType,
-    ParentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListChildren",
         Dict{String,Any}(
@@ -1706,8 +1381,7 @@ function list_children(
 end
 
 """
-    list_create_account_status()
-    list_create_account_status(params::Dict{String,<:Any})
+    list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the account creation requests that match the specified status that is currently being
 tracked for the organization.  Always check the NextToken response parameter for a null
@@ -1718,8 +1392,8 @@ only from the organization's management account or by a member account that is a
 administrator for an AWS service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1727,21 +1401,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `"States"`: A list of one or more states that you want included in the response. If this
+- `"states"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
-function list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListCreateAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_create_account_status(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_create_account_status(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListCreateAccountStatus",
         params;
@@ -1751,16 +1421,15 @@ function list_create_account_status(
 end
 
 """
-    list_delegated_administrators()
-    list_delegated_administrators(params::Dict{String,<:Any})
+    list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the AWS accounts that are designated as delegated administrators in this
 organization. This operation can be called only from the organization's management account
 or by a member account that is a delegated administrator for an AWS service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1768,25 +1437,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
-- `"ServicePrincipal"`: Specifies a service principal name. If specified, then the
+- `"service_principal"`: Specifies a service principal name. If specified, then the
   operation lists the delegated administrators only for the specified service. If you don't
   specify a service principal, the operation lists all delegated administrators for all
   services in your organization.
 """
-function list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListDelegatedAdministrators";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_delegated_administrators(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_delegated_administrators(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListDelegatedAdministrators",
         params;
@@ -1796,8 +1459,7 @@ function list_delegated_administrators(
 end
 
 """
-    list_delegated_services_for_account(account_id)
-    list_delegated_services_for_account(account_id, params::Dict{String,<:Any})
+    list_delegated_services_for_account(account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the AWS services for which the specified account is a delegated administrator. This
 operation can be called only from the organization's management account or by a member
@@ -1808,8 +1470,8 @@ account that is a delegated administrator for an AWS service.
   organization.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1817,26 +1479,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_delegated_services_for_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListDelegatedServicesForAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_delegated_services_for_account(
-    AccountId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListDelegatedServicesForAccount",
         Dict{String,Any}(
@@ -1848,8 +1499,7 @@ function list_delegated_services_for_account(
 end
 
 """
-    list_handshakes_for_account()
-    list_handshakes_for_account(params::Dict{String,<:Any})
+    list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the current handshakes that are associated with the account of the requesting user.
 Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for
@@ -1861,14 +1511,14 @@ there are no more results to display.  This operation can be called from any acc
 organization.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filters the handshakes that you want included in the response. The default is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Filters the handshakes that you want included in the response. The default is
   all types. Use the ActionType element to limit the output to only a specified type, such as
   INVITE, ENABLE_ALL_FEATURES, or APPROVE_ALL_FEATURES. Alternatively, for the
   ENABLE_ALL_FEATURES handshake that generates a separate child handshake for each member
   account, you can specify ParentHandshakeId to see only the handshakes that were generated
   by that parent request.
-- `"MaxResults"`: The total number of results that you want included on each page of the
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1876,19 +1526,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListHandshakesForAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_handshakes_for_account(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_handshakes_for_account(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListHandshakesForAccount",
         params;
@@ -1898,8 +1544,7 @@ function list_handshakes_for_account(
 end
 
 """
-    list_handshakes_for_organization()
-    list_handshakes_for_organization(params::Dict{String,<:Any})
+    list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the handshakes that are associated with the organization that the requesting user is
 part of. The ListHandshakesForOrganization operation returns a list of handshake
@@ -1914,14 +1559,14 @@ management account or by a member account that is a delegated administrator for 
 service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: A filter of the handshakes that you want included in the response. The
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: A filter of the handshakes that you want included in the response. The
   default is all types. Use the ActionType element to limit the output to only a specified
   type, such as INVITE, ENABLE-ALL-FEATURES, or APPROVE-ALL-FEATURES. Alternatively, for the
   ENABLE-ALL-FEATURES handshake that generates a separate child handshake for each member
   account, you can specify the ParentHandshakeId to see only the handshakes that were
   generated by that parent request.
-- `"MaxResults"`: The total number of results that you want included on each page of the
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1929,23 +1574,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_handshakes_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListHandshakesForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_handshakes_for_organization(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListHandshakesForOrganization",
         params;
@@ -1955,8 +1592,7 @@ function list_handshakes_for_organization(
 end
 
 """
-    list_organizational_units_for_parent(parent_id)
-    list_organizational_units_for_parent(parent_id, params::Dict{String,<:Any})
+    list_organizational_units_for_parent(parent_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the organizational units (OUs) in a parent organizational unit or root.  Always check
 the NextToken response parameter for a null value when calling a List* operation. These
@@ -1974,8 +1610,8 @@ account or by a member account that is a delegated administrator for an AWS serv
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -1983,26 +1619,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_organizational_units_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+    ParentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListOrganizationalUnitsForParent",
-        Dict{String,Any}("ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_organizational_units_for_parent(
-    ParentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListOrganizationalUnitsForParent",
         Dict{String,Any}(
@@ -2014,8 +1639,7 @@ function list_organizational_units_for_parent(
 end
 
 """
-    list_parents(child_id)
-    list_parents(child_id, params::Dict{String,<:Any})
+    list_parents(child_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the root or organizational units (OUs) that serve as the immediate parent of the
 specified child OU or account. This operation, along with ListChildren enables you to
@@ -2036,8 +1660,8 @@ child can have only a single parent.
   dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -2045,22 +1669,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListParents",
-        Dict{String,Any}("ChildId" => ChildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_parents(
-    ChildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListParents",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ChildId" => ChildId), params));
@@ -2070,8 +1685,7 @@ function list_parents(
 end
 
 """
-    list_policies(filter)
-    list_policies(filter, params::Dict{String,<:Any})
+    list_policies(filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the list of all policies in an organization of a specified type.  Always check
 the NextToken response parameter for a null value when calling a List* operation. These
@@ -2086,8 +1700,8 @@ account or by a member account that is a delegated administrator for an AWS serv
   SERVICE_CONTROL_POLICY     TAG_POLICY
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -2095,22 +1709,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListPolicies",
-        Dict{String,Any}("Filter" => Filter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_policies(
-    Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListPolicies",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filter" => Filter), params));
@@ -2120,8 +1725,7 @@ function list_policies(
 end
 
 """
-    list_policies_for_target(filter, target_id)
-    list_policies_for_target(filter, target_id, params::Dict{String,<:Any})
+    list_policies_for_target(filter, target_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the policies that are directly attached to the specified target root, organizational
 unit (OU), or account. You must specify the policy type that you want included in the
@@ -2145,8 +1749,8 @@ for an AWS service.
   by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -2154,27 +1758,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_policies_for_target(
-    Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+    Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListPoliciesForTarget",
-        Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_policies_for_target(
-    Filter,
-    TargetId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListPoliciesForTarget",
         Dict{String,Any}(
@@ -2188,8 +1780,7 @@ function list_policies_for_target(
 end
 
 """
-    list_roots()
-    list_roots(params::Dict{String,<:Any})
+    list_roots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the roots that are defined in the current organization.  Always check the NextToken
 response parameter for a null value when calling a List* operation. These operations can
@@ -2203,8 +1794,8 @@ Individual policy types can then be enabled and disabled in a root. To see the a
 of a policy type in an organization, use DescribeOrganization.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -2212,27 +1803,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_roots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_roots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_roots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListRoots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_id)
-    list_tags_for_resource(resource_id, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists tags that are attached to the specified resource. You can attach tags to the
 following resources in AWS Organizations.   AWS account   Organization root
@@ -2249,27 +1833,16 @@ for an AWS service.
   p-12abcdefg3
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2281,8 +1854,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_targets_for_policy(policy_id)
-    list_targets_for_policy(policy_id, params::Dict{String,<:Any})
+    list_targets_for_policy(policy_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the roots, organizational units (OUs), and accounts that the specified policy is
 attached to.  Always check the NextToken response parameter for a null value when calling a
@@ -2298,8 +1870,8 @@ for an AWS service.
   lowercase or uppercase letters, digits, or the underscore character (_).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The total number of results that you want included on each page of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The total number of results that you want included on each page of the
   response. If you do not include this parameter, it defaults to a value that is specific to
   the operation. If additional items exist beyond the maximum you specify, the NextToken
   response element is present and has a value (is not null). Include that value as the
@@ -2307,26 +1879,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results. Note that Organizations might return fewer results than the maximum even when
   there are more results available. You should check NextToken after every operation to
   ensure that you receive all of the results.
-- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+- `"next_token"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
 function list_targets_for_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "ListTargetsForPolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_targets_for_policy(
-    PolicyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "ListTargetsForPolicy",
         Dict{String,Any}(
@@ -2338,8 +1899,7 @@ function list_targets_for_policy(
 end
 
 """
-    move_account(account_id, destination_parent_id, source_parent_id)
-    move_account(account_id, destination_parent_id, source_parent_id, params::Dict{String,<:Any})
+    move_account(account_id, destination_parent_id, source_parent_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Moves an account from its current source parent root or organizational unit (OU) to the
 specified destination parent root or OU. This operation can be called only from the
@@ -2369,25 +1929,9 @@ function move_account(
     DestinationParentId,
     SourceParentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return organizations(
-        "MoveAccount",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "DestinationParentId" => DestinationParentId,
-            "SourceParentId" => SourceParentId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function move_account(
-    AccountId,
-    DestinationParentId,
-    SourceParentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "MoveAccount",
         Dict{String,Any}(
@@ -2407,8 +1951,7 @@ function move_account(
 end
 
 """
-    register_delegated_administrator(account_id, service_principal)
-    register_delegated_administrator(account_id, service_principal, params::Dict{String,<:Any})
+    register_delegated_administrator(account_id, service_principal; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the specified member account to administer the Organizations features of the
 specified AWS service. It grants read-only access to AWS Organizations service data. The
@@ -2426,21 +1969,12 @@ This operation can be called only from the organization's management account.
 
 """
 function register_delegated_administrator(
-    AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
-        "RegisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_delegated_administrator(
     AccountId,
-    ServicePrincipal,
-    params::AbstractDict{String};
+    ServicePrincipal;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "RegisterDelegatedAdministrator",
         Dict{String,Any}(
@@ -2458,8 +1992,7 @@ function register_delegated_administrator(
 end
 
 """
-    remove_account_from_organization(account_id)
-    remove_account_from_organization(account_id, params::Dict{String,<:Any})
+    remove_account_from_organization(account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified account from the organization. The removed account becomes a
 standalone account that isn't a member of any organization. It's no longer subject to any
@@ -2491,20 +2024,9 @@ outside of an organization do not support tags.
 
 """
 function remove_account_from_organization(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "RemoveAccountFromOrganization",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_account_from_organization(
-    AccountId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "RemoveAccountFromOrganization",
         Dict{String,Any}(
@@ -2516,8 +2038,7 @@ function remove_account_from_organization(
 end
 
 """
-    tag_resource(resource_id, tags)
-    tag_resource(resource_id, tags, params::Dict{String,<:Any})
+    tag_resource(resource_id, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to the specified resource. Currently, you can attach tags to the
 following resources in AWS Organizations.   AWS account   Organization root
@@ -2537,20 +2058,10 @@ organization's management account.
   request fails and the account is not created.
 
 """
-function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "TagResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceId,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "TagResource",
         Dict{String,Any}(
@@ -2564,8 +2075,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_id, tag_keys)
-    untag_resource(resource_id, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_id, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes any tags with the specified keys from the specified resource. You can attach tags
 to the following resources in AWS Organizations.   AWS account   Organization root
@@ -2583,21 +2093,9 @@ organization's management account.
 
 """
 function untag_resource(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "UntagResource",
-        Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceId,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "UntagResource",
         Dict{String,Any}(
@@ -2613,8 +2111,7 @@ function untag_resource(
 end
 
 """
-    update_organizational_unit(organizational_unit_id)
-    update_organizational_unit(organizational_unit_id, params::Dict{String,<:Any})
+    update_organizational_unit(organizational_unit_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Renames the specified organizational unit (OU). The ID and ARN don't change. The child OUs
 and accounts remain in place, and any attached policies of the OU remain attached. This
@@ -2628,26 +2125,15 @@ operation can be called only from the organization's management account.
   second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: The new name that you want to assign to the OU. The regex pattern that is used
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: The new name that you want to assign to the OU. The regex pattern that is used
   to validate this parameter is a string of any of the characters in the ASCII character
   range.
 """
 function update_organizational_unit(
-    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+    OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return organizations(
-        "UpdateOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_organizational_unit(
-    OrganizationalUnitId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "UpdateOrganizationalUnit",
         Dict{String,Any}(
@@ -2663,8 +2149,7 @@ function update_organizational_unit(
 end
 
 """
-    update_policy(policy_id)
-    update_policy(policy_id, params::Dict{String,<:Any})
+    update_policy(policy_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing policy with a new name, description, or content. If you don't supply
 any parameter, that value remains unchanged. You can't change a policy's type. This
@@ -2676,27 +2161,18 @@ operation can be called only from the organization's management account.
   uppercase letters, digits, or the underscore character (_).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Content"`: If provided, the new content for the policy. The text must be correctly
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"content"`: If provided, the new content for the policy. The text must be correctly
   formatted JSON that complies with the syntax for the policy's type. For more information,
   see Service Control Policy Syntax in the AWS Organizations User Guide.
-- `"Description"`: If provided, the new description for the policy.
-- `"Name"`: If provided, the new name for the policy. The regex pattern that is used to
+- `"description"`: If provided, the new description for the policy.
+- `"name"`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
-function update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "UpdatePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_policy(
-    PolicyId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PolicyId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return organizations(
         "UpdatePolicy",
         Dict{String,Any}(

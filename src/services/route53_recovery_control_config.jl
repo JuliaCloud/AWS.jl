@@ -4,9 +4,20 @@ using AWS.AWSServices: route53_recovery_control_config
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "gating_rule_update" => "GatingRuleUpdate",
+    "cluster_arn" => "ClusterArn",
+    "gating_rule" => "GatingRule",
+    "client_token" => "ClientToken",
+    "control_panel_arn" => "ControlPanelArn",
+    "assertion_rule" => "AssertionRule",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+    "assertion_rule_update" => "AssertionRuleUpdate",
+)
+
 """
-    create_cluster(cluster_name)
-    create_cluster(cluster_name, params::Dict{String,<:Any})
+    create_cluster(cluster_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new cluster. A cluster is a set of redundant Regional endpoints against which you
 can run API calls to update or get the state of one or more routing controls. Each cluster
@@ -18,23 +29,13 @@ Amazon Route 53 Application Recovery Controller cluster data plane.
 - `cluster_name`: The name of the cluster.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique client idempotency token.
 """
-function create_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "POST",
-        "/cluster",
-        Dict{String,Any}("ClusterName" => ClusterName, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_cluster(
-    ClusterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClusterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "POST",
         "/cluster",
@@ -42,7 +43,7 @@ function create_cluster(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClusterName" => ClusterName, "ClientToken" => string(uuid4())
+                    "ClusterName" => ClusterName, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -53,8 +54,7 @@ function create_cluster(
 end
 
 """
-    create_control_panel(cluster_arn, control_panel_name)
-    create_control_panel(cluster_arn, control_panel_name, params::Dict{String,<:Any})
+    create_control_panel(cluster_arn, control_panel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new control panel. A control panel represents a group of routing controls that
 can be changed together in a single transaction. You can use a control panel to centrally
@@ -67,30 +67,16 @@ Region.
 - `control_panel_name`: The name of the control panel.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique client idempotency token.
 """
 function create_control_panel(
-    ClusterArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_control_config(
-        "POST",
-        "/controlpanel",
-        Dict{String,Any}(
-            "ClusterArn" => ClusterArn,
-            "ControlPanelName" => ControlPanelName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_control_panel(
     ClusterArn,
-    ControlPanelName,
-    params::AbstractDict{String};
+    ControlPanelName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "POST",
         "/controlpanel",
@@ -100,7 +86,7 @@ function create_control_panel(
                 Dict{String,Any}(
                     "ClusterArn" => ClusterArn,
                     "ControlPanelName" => ControlPanelName,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -111,8 +97,7 @@ function create_control_panel(
 end
 
 """
-    create_routing_control(cluster_arn, routing_control_name)
-    create_routing_control(cluster_arn, routing_control_name, params::Dict{String,<:Any})
+    create_routing_control(cluster_arn, routing_control_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new routing control. A routing control has one of two states: ON and OFF. You can
 map the routing control state to the state of an Amazon Route 53 health check, which can be
@@ -126,32 +111,18 @@ Controller.
 - `routing_control_name`: The name of the routing control.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: Unique client idempotency token.
-- `"ControlPanelArn"`: The Amazon Resource Name (ARN) of the control panel that includes
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique client idempotency token.
+- `"control_panel_arn"`: The Amazon Resource Name (ARN) of the control panel that includes
   the routing control.
 """
 function create_routing_control(
-    ClusterArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_control_config(
-        "POST",
-        "/routingcontrol",
-        Dict{String,Any}(
-            "ClusterArn" => ClusterArn,
-            "RoutingControlName" => RoutingControlName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_routing_control(
     ClusterArn,
-    RoutingControlName,
-    params::AbstractDict{String};
+    RoutingControlName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "POST",
         "/routingcontrol",
@@ -161,7 +132,7 @@ function create_routing_control(
                 Dict{String,Any}(
                     "ClusterArn" => ClusterArn,
                     "RoutingControlName" => RoutingControlName,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -172,8 +143,7 @@ function create_routing_control(
 end
 
 """
-    create_safety_rule()
-    create_safety_rule(params::Dict{String,<:Any})
+    create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a safety rule in a control panel. Safety rules let you add safeguards around
 enabling and disabling routing controls, to help prevent unexpected outcomes. There are two
@@ -186,28 +156,18 @@ Application Recovery Controller allows a set of routing control state changes to
 complete against the set of target controls.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssertionRule"`:
-- `"ClientToken"`: Unique client idempotency token.
-- `"GatingRule"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"assertion_rule"`:
+- `"client_token"`: Unique client idempotency token.
+- `"gating_rule"`:
 """
-function create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "POST",
-        "/safetyrule",
-        Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_safety_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "POST",
         "/safetyrule",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -215,8 +175,7 @@ function create_safety_rule(
 end
 
 """
-    delete_cluster(cluster_arn)
-    delete_cluster(cluster_arn, params::Dict{String,<:Any})
+    delete_cluster(cluster_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a cluster.
 
@@ -224,19 +183,10 @@ Delete a cluster.
 - `cluster_arn`: The Amazon Resource Name (ARN) of the cluster that you're deleting.
 
 """
-function delete_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "DELETE",
-        "/cluster/$(ClusterArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_cluster(
-    ClusterArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "DELETE",
         "/cluster/$(ClusterArn)",
@@ -247,8 +197,7 @@ function delete_cluster(
 end
 
 """
-    delete_control_panel(control_panel_arn)
-    delete_control_panel(control_panel_arn, params::Dict{String,<:Any})
+    delete_control_panel(control_panel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a control panel.
 
@@ -258,20 +207,9 @@ Deletes a control panel.
 
 """
 function delete_control_panel(
-    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "DELETE",
-        "/controlpanel/$(ControlPanelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_control_panel(
-    ControlPanelArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "DELETE",
         "/controlpanel/$(ControlPanelArn)",
@@ -282,8 +220,7 @@ function delete_control_panel(
 end
 
 """
-    delete_routing_control(routing_control_arn)
-    delete_routing_control(routing_control_arn, params::Dict{String,<:Any})
+    delete_routing_control(routing_control_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a routing control.
 
@@ -293,20 +230,9 @@ Deletes a routing control.
 
 """
 function delete_routing_control(
-    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "DELETE",
-        "/routingcontrol/$(RoutingControlArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_routing_control(
-    RoutingControlArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "DELETE",
         "/routingcontrol/$(RoutingControlArn)",
@@ -317,8 +243,7 @@ function delete_routing_control(
 end
 
 """
-    delete_safety_rule(safety_rule_arn)
-    delete_safety_rule(safety_rule_arn, params::Dict{String,<:Any})
+    delete_safety_rule(safety_rule_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a safety rule./&gt;
 
@@ -327,20 +252,9 @@ Deletes a safety rule./&gt;
 
 """
 function delete_safety_rule(
-    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "DELETE",
-        "/safetyrule/$(SafetyRuleArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_safety_rule(
-    SafetyRuleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "DELETE",
         "/safetyrule/$(SafetyRuleArn)",
@@ -351,8 +265,7 @@ function delete_safety_rule(
 end
 
 """
-    describe_cluster(cluster_arn)
-    describe_cluster(cluster_arn, params::Dict{String,<:Any})
+    describe_cluster(cluster_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Display the details about a cluster. The response includes the cluster name, endpoints,
 status, and Amazon Resource Name (ARN).
@@ -362,19 +275,10 @@ status, and Amazon Resource Name (ARN).
   for.
 
 """
-function describe_cluster(ClusterArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "GET",
-        "/cluster/$(ClusterArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_cluster(
-    ClusterArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClusterArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/cluster/$(ClusterArn)",
@@ -385,8 +289,7 @@ function describe_cluster(
 end
 
 """
-    describe_control_panel(control_panel_arn)
-    describe_control_panel(control_panel_arn, params::Dict{String,<:Any})
+    describe_control_panel(control_panel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays details about a control panel.
 
@@ -396,20 +299,9 @@ Displays details about a control panel.
 
 """
 function describe_control_panel(
-    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/controlpanel/$(ControlPanelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_control_panel(
-    ControlPanelArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/controlpanel/$(ControlPanelArn)",
@@ -420,8 +312,7 @@ function describe_control_panel(
 end
 
 """
-    describe_routing_control(routing_control_arn)
-    describe_routing_control(routing_control_arn, params::Dict{String,<:Any})
+    describe_routing_control(routing_control_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays details about a routing control. A routing control has one of two states: ON and
 OFF. You can map the routing control state to the state of an Amazon Route 53 health check,
@@ -435,20 +326,9 @@ Controller.
 
 """
 function describe_routing_control(
-    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/routingcontrol/$(RoutingControlArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_routing_control(
-    RoutingControlArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/routingcontrol/$(RoutingControlArn)",
@@ -459,8 +339,7 @@ function describe_routing_control(
 end
 
 """
-    describe_safety_rule(safety_rule_arn)
-    describe_safety_rule(safety_rule_arn, params::Dict{String,<:Any})
+    describe_safety_rule(safety_rule_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the safety rules (that is, the assertion rules and gating rules) for the routing
 controls in a control panel.
@@ -470,20 +349,9 @@ controls in a control panel.
 
 """
 function describe_safety_rule(
-    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    SafetyRuleArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/safetyrule/$(SafetyRuleArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_safety_rule(
-    SafetyRuleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/safetyrule/$(SafetyRuleArn)",
@@ -494,8 +362,7 @@ function describe_safety_rule(
 end
 
 """
-    list_associated_route53_health_checks(routing_control_arn)
-    list_associated_route53_health_checks(routing_control_arn, params::Dict{String,<:Any})
+    list_associated_route53_health_checks(routing_control_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of all Amazon Route 53 health checks associated with a specific routing
 control.
@@ -505,25 +372,14 @@ control.
   getting details for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of objects that you want to return with this call.
-- `"NextToken"`: The token that identifies which batch of results you want to see.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of objects that you want to return with this call.
+- `"next_token"`: The token that identifies which batch of results you want to see.
 """
 function list_associated_route53_health_checks(
-    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_associated_route53_health_checks(
-    RoutingControlArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/routingcontrol/$(RoutingControlArn)/associatedRoute53HealthChecks",
@@ -534,49 +390,35 @@ function list_associated_route53_health_checks(
 end
 
 """
-    list_clusters()
-    list_clusters(params::Dict{String,<:Any})
+    list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of all the clusters in an account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of objects that you want to return with this call.
-- `"NextToken"`: The token that identifies which batch of results you want to see.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of objects that you want to return with this call.
+- `"next_token"`: The token that identifies which batch of results you want to see.
 """
-function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "GET", "/cluster"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET", "/cluster", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_control_panels()
-    list_control_panels(params::Dict{String,<:Any})
+    list_control_panels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of control panels for a cluster.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClusterArn"`: The Amazon Resource Name (ARN) of a cluster.
-- `"MaxResults"`: The number of objects that you want to return with this call.
-- `"NextToken"`: The token that identifies which batch of results you want to see.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cluster_arn"`: The Amazon Resource Name (ARN) of a cluster.
+- `"max_results"`: The number of objects that you want to return with this call.
+- `"next_token"`: The token that identifies which batch of results you want to see.
 """
-function list_control_panels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "GET", "/controlpanels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_control_panels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_control_panels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/controlpanels",
@@ -587,8 +429,7 @@ function list_control_panels(
 end
 
 """
-    list_routing_controls(control_panel_arn)
-    list_routing_controls(control_panel_arn, params::Dict{String,<:Any})
+    list_routing_controls(control_panel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of routing controls for a control panel. A routing control is an Amazon
 Route 53 Application Recovery Controller construct that has one of two states: ON and OFF.
@@ -600,25 +441,14 @@ which can be used to control routing.
   getting routing control details for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of objects that you want to return with this call.
-- `"NextToken"`: The token that identifies which batch of results you want to see.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of objects that you want to return with this call.
+- `"next_token"`: The token that identifies which batch of results you want to see.
 """
 function list_routing_controls(
-    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/controlpanel/$(ControlPanelArn)/routingcontrols";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_routing_controls(
-    ControlPanelArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/controlpanel/$(ControlPanelArn)/routingcontrols",
@@ -629,8 +459,7 @@ function list_routing_controls(
 end
 
 """
-    list_safety_rules(control_panel_arn)
-    list_safety_rules(control_panel_arn, params::Dict{String,<:Any})
+    list_safety_rules(control_panel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the safety rules (the assertion rules and gating rules) that you've defined for the
 routing controls in a control panel.
@@ -640,25 +469,14 @@ routing controls in a control panel.
   getting details for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of objects that you want to return with this call.
-- `"NextToken"`: The token that identifies which batch of results you want to see.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of objects that you want to return with this call.
+- `"next_token"`: The token that identifies which batch of results you want to see.
 """
 function list_safety_rules(
-    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ControlPanelArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_control_config(
-        "GET",
-        "/controlpanel/$(ControlPanelArn)/safetyrules";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_safety_rules(
-    ControlPanelArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "GET",
         "/controlpanel/$(ControlPanelArn)/safetyrules",
@@ -669,8 +487,7 @@ function list_safety_rules(
 end
 
 """
-    update_control_panel(control_panel_arn, control_panel_name)
-    update_control_panel(control_panel_arn, control_panel_name, params::Dict{String,<:Any})
+    update_control_panel(control_panel_arn, control_panel_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a control panel. The only update you can make to a control panel is to change the
 name of the control panel.
@@ -681,24 +498,12 @@ name of the control panel.
 
 """
 function update_control_panel(
-    ControlPanelArn, ControlPanelName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_control_config(
-        "PUT",
-        "/controlpanel",
-        Dict{String,Any}(
-            "ControlPanelArn" => ControlPanelArn, "ControlPanelName" => ControlPanelName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_control_panel(
     ControlPanelArn,
-    ControlPanelName,
-    params::AbstractDict{String};
+    ControlPanelName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "PUT",
         "/controlpanel",
@@ -718,8 +523,7 @@ function update_control_panel(
 end
 
 """
-    update_routing_control(routing_control_arn, routing_control_name)
-    update_routing_control(routing_control_arn, routing_control_name, params::Dict{String,<:Any})
+    update_routing_control(routing_control_arn, routing_control_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a routing control. You can only update the name of the routing control. To get or
 update the routing control state, see the Recovery Cluster (data plane) API actions for
@@ -731,25 +535,12 @@ Amazon Route 53 Application Recovery Controller.
 
 """
 function update_routing_control(
-    RoutingControlArn, RoutingControlName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_control_config(
-        "PUT",
-        "/routingcontrol",
-        Dict{String,Any}(
-            "RoutingControlArn" => RoutingControlArn,
-            "RoutingControlName" => RoutingControlName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_control(
     RoutingControlArn,
-    RoutingControlName,
-    params::AbstractDict{String};
+    RoutingControlName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "PUT",
         "/routingcontrol",
@@ -769,26 +560,19 @@ function update_routing_control(
 end
 
 """
-    update_safety_rule()
-    update_safety_rule(params::Dict{String,<:Any})
+    update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a safety rule (an assertion rule or gating rule) for the routing controls in a
 control panel. You can only update the name and the waiting period for a safety rule. To
 make other updates, delete the safety rule and create a new safety rule.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssertionRuleUpdate"`:
-- `"GatingRuleUpdate"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"assertion_rule_update"`:
+- `"gating_rule_update"`:
 """
-function update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53_recovery_control_config(
-        "PUT", "/safetyrule"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function update_safety_rule(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_safety_rule(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_control_config(
         "PUT", "/safetyrule", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )

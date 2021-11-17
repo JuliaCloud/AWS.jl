@@ -4,9 +4,10 @@ using AWS.AWSServices: connect_contact_lens
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("next_token" => "NextToken", "max_results" => "MaxResults")
+
 """
-    list_realtime_contact_analysis_segments(contact_id, instance_id)
-    list_realtime_contact_analysis_segments(contact_id, instance_id, params::Dict{String,<:Any})
+    list_realtime_contact_analysis_segments(contact_id, instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of analysis segments for a real-time analysis session.
 
@@ -15,28 +16,15 @@ Provides a list of analysis segments for a real-time analysis session.
 - `instance_id`: The identifier of the Amazon Connect instance.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximimum number of results to return per page.
-- `"NextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximimum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_realtime_contact_analysis_segments(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return connect_contact_lens(
-        "POST",
-        "/realtime-contact-analysis/analysis-segments",
-        Dict{String,Any}("ContactId" => ContactId, "InstanceId" => InstanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_realtime_contact_analysis_segments(
-    ContactId,
-    InstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return connect_contact_lens(
         "POST",
         "/realtime-contact-analysis/analysis-segments",

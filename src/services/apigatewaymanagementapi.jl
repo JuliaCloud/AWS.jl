@@ -4,9 +4,10 @@ using AWS.AWSServices: apigatewaymanagementapi
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict{String,String}()
+
 """
-    delete_connection(connection_id)
-    delete_connection(connection_id, params::Dict{String,<:Any})
+    delete_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete the connection with the provided id.
 
@@ -14,19 +15,10 @@ Delete the connection with the provided id.
 - `connection_id`:
 
 """
-function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return apigatewaymanagementapi(
-        "DELETE",
-        "/@connections/$(connectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connection(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apigatewaymanagementapi(
         "DELETE",
         "/@connections/$(connectionId)",
@@ -37,8 +29,7 @@ function delete_connection(
 end
 
 """
-    get_connection(connection_id)
-    get_connection(connection_id, params::Dict{String,<:Any})
+    get_connection(connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get information about the connection with the provided id.
 
@@ -46,19 +37,10 @@ Get information about the connection with the provided id.
 - `connection_id`:
 
 """
-function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return apigatewaymanagementapi(
-        "GET",
-        "/@connections/$(connectionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_connection(
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apigatewaymanagementapi(
         "GET",
         "/@connections/$(connectionId)",
@@ -69,8 +51,7 @@ function get_connection(
 end
 
 """
-    post_to_connection(data, connection_id)
-    post_to_connection(data, connection_id, params::Dict{String,<:Any})
+    post_to_connection(data, connection_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends the provided data to the specified connection.
 
@@ -80,22 +61,9 @@ Sends the provided data to the specified connection.
 
 """
 function post_to_connection(
-    Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apigatewaymanagementapi(
-        "POST",
-        "/@connections/$(connectionId)",
-        Dict{String,Any}("Data" => Data);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function post_to_connection(
-    Data,
-    connectionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apigatewaymanagementapi(
         "POST",
         "/@connections/$(connectionId)",

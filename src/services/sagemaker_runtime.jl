@@ -4,9 +4,19 @@ using AWS.AWSServices: sagemaker_runtime
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "custom_attributes" => "X-Amzn-SageMaker-Custom-Attributes",
+    "accept" => "Accept",
+    "content_type" => "Content-Type",
+    "target_variant" => "X-Amzn-SageMaker-Target-Variant",
+    "request_ttlseconds" => "X-Amzn-SageMaker-RequestTTLSeconds",
+    "target_model" => "X-Amzn-SageMaker-Target-Model",
+    "target_container_hostname" => "X-Amzn-SageMaker-Target-Container-Hostname",
+    "inference_id" => "X-Amzn-SageMaker-Inference-Id",
+)
+
 """
-    invoke_endpoint(body, endpoint_name)
-    invoke_endpoint(body, endpoint_name, params::Dict{String,<:Any})
+    invoke_endpoint(body, endpoint_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 After you deploy a model into production using Amazon SageMaker hosting services, your
 client applications use this API to get inferences from the model hosted at the specified
@@ -30,52 +40,37 @@ determines the account ID from the authentication token that is supplied by the 
   endpoint using the CreateEndpoint API.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Accept"`: The desired MIME type of the inference in the response.
-- `"Content-Type"`: The MIME type of the input data in the request body.
-- `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
-  for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
-  information is an opaque value that is forwarded verbatim. You could use this value, for
-  example, to provide an ID that you can use to track a request or to provide other metadata
-  that a service endpoint was programmed to process. The value must consist of no more than
-  1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of
-  the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for
-  setting or updating any custom attributes in the response. If your code does not set this
-  value in the response, an empty value is returned. For example, if a custom attribute
-  represents the trace ID, your model can prepend the custom attribute with Trace ID: in your
-  post-processing function. This feature is currently supported in the AWS SDKs but not in
-  the Amazon SageMaker Python SDK.
-- `"X-Amzn-SageMaker-Inference-Id"`: If you provide a value, it is added to the captured
-  data when you enable data capture on the endpoint. For information about data capture, see
-  Capture Data.
-- `"X-Amzn-SageMaker-Target-Container-Hostname"`: If the endpoint hosts multiple containers
-  and is configured to use direct invocation, this parameter specifies the host name of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"accept"`: The desired MIME type of the inference in the response.
+- `"content_type"`: The MIME type of the input data in the request body.
+- `"custom_attributes"`: Provides additional information about a request for an inference
+  submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque
+  value that is forwarded verbatim. You could use this value, for example, to provide an ID
+  that you can use to track a request or to provide other metadata that a service endpoint
+  was programmed to process. The value must consist of no more than 1024 visible US-ASCII
+  characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer
+  Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any
+  custom attributes in the response. If your code does not set this value in the response, an
+  empty value is returned. For example, if a custom attribute represents the trace ID, your
+  model can prepend the custom attribute with Trace ID: in your post-processing function.
+  This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python
+  SDK.
+- `"inference_id"`: If you provide a value, it is added to the captured data when you
+  enable data capture on the endpoint. For information about data capture, see Capture Data.
+- `"target_container_hostname"`: If the endpoint hosts multiple containers and is
+  configured to use direct invocation, this parameter specifies the host name of the
   container to invoke.
-- `"X-Amzn-SageMaker-Target-Model"`: The model to request for inference when invoking a
-  multi-model endpoint.
-- `"X-Amzn-SageMaker-Target-Variant"`: Specify the production variant to send the inference
-  request to when invoking an endpoint that is running two or more variants. Note that this
-  parameter overrides the default behavior for the endpoint, which is to distribute the
-  invocation traffic based on the variant weights. For information about how to use variant
-  targeting to perform a/b testing, see Test models in production
+- `"target_model"`: The model to request for inference when invoking a multi-model endpoint.
+- `"target_variant"`: Specify the production variant to send the inference request to when
+  invoking an endpoint that is running two or more variants. Note that this parameter
+  overrides the default behavior for the endpoint, which is to distribute the invocation
+  traffic based on the variant weights. For information about how to use variant targeting to
+  perform a/b testing, see Test models in production
 """
 function invoke_endpoint(
-    Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+    Body, EndpointName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sagemaker_runtime(
-        "POST",
-        "/endpoints/$(EndpointName)/invocations",
-        Dict{String,Any}("Body" => Body);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function invoke_endpoint(
-    Body,
-    EndpointName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_runtime(
         "POST",
         "/endpoints/$(EndpointName)/invocations",
@@ -86,8 +81,7 @@ function invoke_endpoint(
 end
 
 """
-    invoke_endpoint_async(endpoint_name, x-_amzn-_sage_maker-_input_location)
-    invoke_endpoint_async(endpoint_name, x-_amzn-_sage_maker-_input_location, params::Dict{String,<:Any})
+    invoke_endpoint_async(endpoint_name, x-_amzn-_sage_maker-_input_location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 After you deploy a model into production using Amazon SageMaker hosting services, your
 client applications use this API to get inferences from the model hosted at the specified
@@ -108,49 +102,33 @@ Requests (AWS Signature Version 4) in the Amazon S3 API Reference.
   payload is stored.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amzn-SageMaker-Accept"`: The desired MIME type of the inference in the response.
-- `"X-Amzn-SageMaker-Content-Type"`: The MIME type of the input data in the request body.
-- `"X-Amzn-SageMaker-Custom-Attributes"`: Provides additional information about a request
-  for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The
-  information is an opaque value that is forwarded verbatim. You could use this value, for
-  example, to provide an ID that you can use to track a request or to provide other metadata
-  that a service endpoint was programmed to process. The value must consist of no more than
-  1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of
-  the Hypertext Transfer Protocol (HTTP/1.1).  The code in your model is responsible for
-  setting or updating any custom attributes in the response. If your code does not set this
-  value in the response, an empty value is returned. For example, if a custom attribute
-  represents the trace ID, your model can prepend the custom attribute with Trace ID: in your
-  post-processing function.  This feature is currently supported in the AWS SDKs but not in
-  the Amazon SageMaker Python SDK.
-- `"X-Amzn-SageMaker-Inference-Id"`: The identifier for the inference request. Amazon
-  SageMaker will generate an identifier for you if none is specified.
-- `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
-  queue before it is marked as expired.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"accept"`: The desired MIME type of the inference in the response.
+- `"content_type"`: The MIME type of the input data in the request body.
+- `"custom_attributes"`: Provides additional information about a request for an inference
+  submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque
+  value that is forwarded verbatim. You could use this value, for example, to provide an ID
+  that you can use to track a request or to provide other metadata that a service endpoint
+  was programmed to process. The value must consist of no more than 1024 visible US-ASCII
+  characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer
+  Protocol (HTTP/1.1).  The code in your model is responsible for setting or updating any
+  custom attributes in the response. If your code does not set this value in the response, an
+  empty value is returned. For example, if a custom attribute represents the trace ID, your
+  model can prepend the custom attribute with Trace ID: in your post-processing function.
+  This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python
+  SDK.
+- `"inference_id"`: The identifier for the inference request. Amazon SageMaker will
+  generate an identifier for you if none is specified.
+- `"request_ttlseconds"`: Maximum age in seconds a request can be in the queue before it is
+  marked as expired.
 """
 function invoke_endpoint_async(
     EndpointName,
     X_Amzn_SageMaker_InputLocation;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sagemaker_runtime(
-        "POST",
-        "/endpoints/$(EndpointName)/async-invocations",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}(
-                "X-Amzn-SageMaker-InputLocation" => X_Amzn_SageMaker_InputLocation
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function invoke_endpoint_async(
-    EndpointName,
-    X_Amzn_SageMaker_InputLocation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_runtime(
         "POST",
         "/endpoints/$(EndpointName)/async-invocations",

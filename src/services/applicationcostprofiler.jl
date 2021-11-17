@@ -4,9 +4,10 @@ using AWS.AWSServices: applicationcostprofiler
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("next_token" => "nextToken", "max_results" => "maxResults")
+
 """
-    delete_report_definition(report_id)
-    delete_report_definition(report_id, params::Dict{String,<:Any})
+    delete_report_definition(report_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified report definition in AWS Application Cost Profiler. This stops the
 report from being generated.
@@ -16,20 +17,9 @@ report from being generated.
 
 """
 function delete_report_definition(
-    reportId; aws_config::AbstractAWSConfig=global_aws_config()
+    reportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return applicationcostprofiler(
-        "DELETE",
-        "/reportDefinition/$(reportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_report_definition(
-    reportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "DELETE",
         "/reportDefinition/$(reportId)",
@@ -40,8 +30,7 @@ function delete_report_definition(
 end
 
 """
-    get_report_definition(report_id)
-    get_report_definition(report_id, params::Dict{String,<:Any})
+    get_report_definition(report_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the definition of a report already configured in AWS Application Cost Profiler.
 
@@ -49,19 +38,10 @@ Retrieves the definition of a report already configured in AWS Application Cost 
 - `report_id`: ID of the report to retrieve.
 
 """
-function get_report_definition(reportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return applicationcostprofiler(
-        "GET",
-        "/reportDefinition/$(reportId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_report_definition(
-    reportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    reportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "GET",
         "/reportDefinition/$(reportId)",
@@ -72,8 +52,7 @@ function get_report_definition(
 end
 
 """
-    import_application_usage(source_s3_location)
-    import_application_usage(source_s3_location, params::Dict{String,<:Any})
+    import_application_usage(source_s3_location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data
 must already exist in the S3 location. As part of the action, AWS Application Cost Profiler
@@ -85,21 +64,9 @@ asynchronously.
 
 """
 function import_application_usage(
-    sourceS3Location; aws_config::AbstractAWSConfig=global_aws_config()
+    sourceS3Location; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return applicationcostprofiler(
-        "POST",
-        "/importApplicationUsage",
-        Dict{String,Any}("sourceS3Location" => sourceS3Location);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_application_usage(
-    sourceS3Location,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "POST",
         "/importApplicationUsage",
@@ -114,25 +81,20 @@ function import_application_usage(
 end
 
 """
-    list_report_definitions()
-    list_report_definitions(params::Dict{String,<:Any})
+    list_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of all reports and their configurations for your AWS account. The maximum
 number of reports is one.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return.
-- `"nextToken"`: The token value from a previous call to access the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return.
+- `"next_token"`: The token value from a previous call to access the next page of results.
 """
-function list_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return applicationcostprofiler(
-        "GET", "/reportDefinition"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_report_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_report_definitions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "GET",
         "/reportDefinition",
@@ -143,8 +105,7 @@ function list_report_definitions(
 end
 
 """
-    put_report_definition(destination_s3_location, format, report_description, report_frequency, report_id)
-    put_report_definition(destination_s3_location, format, report_description, report_frequency, report_id, params::Dict{String,<:Any})
+    put_report_definition(destination_s3_location, format, report_description, report_frequency, report_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates the report definition for a report in Application Cost Profiler.
 
@@ -165,30 +126,9 @@ function put_report_definition(
     reportFrequency,
     reportId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return applicationcostprofiler(
-        "POST",
-        "/reportDefinition",
-        Dict{String,Any}(
-            "destinationS3Location" => destinationS3Location,
-            "format" => format,
-            "reportDescription" => reportDescription,
-            "reportFrequency" => reportFrequency,
-            "reportId" => reportId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_report_definition(
-    destinationS3Location,
-    format,
-    reportDescription,
-    reportFrequency,
-    reportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "POST",
         "/reportDefinition",
@@ -211,8 +151,7 @@ function put_report_definition(
 end
 
 """
-    update_report_definition(destination_s3_location, format, report_description, report_frequency, report_id)
-    update_report_definition(destination_s3_location, format, report_description, report_frequency, report_id, params::Dict{String,<:Any})
+    update_report_definition(destination_s3_location, format, report_description, report_frequency, report_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates existing report in AWS Application Cost Profiler.
 
@@ -232,29 +171,9 @@ function update_report_definition(
     reportFrequency,
     reportId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return applicationcostprofiler(
-        "PUT",
-        "/reportDefinition/$(reportId)",
-        Dict{String,Any}(
-            "destinationS3Location" => destinationS3Location,
-            "format" => format,
-            "reportDescription" => reportDescription,
-            "reportFrequency" => reportFrequency,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_report_definition(
-    destinationS3Location,
-    format,
-    reportDescription,
-    reportFrequency,
-    reportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return applicationcostprofiler(
         "PUT",
         "/reportDefinition/$(reportId)",

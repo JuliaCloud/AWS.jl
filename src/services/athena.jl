@@ -4,9 +4,25 @@ using AWS.AWSServices: athena
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "configuration_updates" => "ConfigurationUpdates",
+    "next_token" => "NextToken",
+    "client_request_token" => "ClientRequestToken",
+    "result_configuration" => "ResultConfiguration",
+    "state" => "State",
+    "configuration" => "Configuration",
+    "parameters" => "Parameters",
+    "work_group" => "WorkGroup",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "expression" => "Expression",
+    "query_execution_context" => "QueryExecutionContext",
+    "recursive_delete_option" => "RecursiveDeleteOption",
+    "tags" => "Tags",
+)
+
 """
-    batch_get_named_query(named_query_ids)
-    batch_get_named_query(named_query_ids, params::Dict{String,<:Any})
+    batch_get_named_query(named_query_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of a single named query or a list of up to 50 queries, which you
 provide as an array of query ID strings. Requires you to have access to the workgroup in
@@ -22,20 +38,9 @@ IDs.
 
 """
 function batch_get_named_query(
-    NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config()
+    NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "BatchGetNamedQuery",
-        Dict{String,Any}("NamedQueryIds" => NamedQueryIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_named_query(
-    NamedQueryIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "BatchGetNamedQuery",
         Dict{String,Any}(
@@ -47,8 +52,7 @@ function batch_get_named_query(
 end
 
 """
-    batch_get_query_execution(query_execution_ids)
-    batch_get_query_execution(query_execution_ids, params::Dict{String,<:Any})
+    batch_get_query_execution(query_execution_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of a single query execution or a list of up to 50 query executions,
 which you provide as an array of query execution ID strings. Requires you to have access to
@@ -61,20 +65,9 @@ BatchGetNamedQueryInput to get details about named queries.
 
 """
 function batch_get_query_execution(
-    QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "BatchGetQueryExecution",
-        Dict{String,Any}("QueryExecutionIds" => QueryExecutionIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_query_execution(
-    QueryExecutionIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "BatchGetQueryExecution",
         Dict{String,Any}(
@@ -88,8 +81,7 @@ function batch_get_query_execution(
 end
 
 """
-    create_data_catalog(name, type)
-    create_data_catalog(name, type, params::Dict{String,<:Any})
+    create_data_catalog(name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates (registers) a data catalog with the specified name and properties. Catalogs created
 are visible to all users of the same Amazon Web Services account.
@@ -102,9 +94,9 @@ are visible to all users of the same Amazon Web Services account.
   external hive metastore, or GLUE for an Glue Data Catalog.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the data catalog to be created.
-- `"Parameters"`: Specifies the Lambda function or functions to use for creating the data
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the data catalog to be created.
+- `"parameters"`: Specifies the Lambda function or functions to use for creating the data
   catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
   catalog type, use the following syntax. The metadata-function parameter is required. The
   sdk-version parameter is optional and defaults to the currently supported version.
@@ -122,22 +114,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AwsDataCatalog must be run on Athena engine version 2.   In Regions where Athena engine
   version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT
   error.
-- `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
+- `"tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
-function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "CreateDataCatalog",
-        Dict{String,Any}("Name" => Name, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_catalog(
-    Name,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "CreateDataCatalog",
         Dict{String,Any}(
@@ -149,8 +131,7 @@ function create_data_catalog(
 end
 
 """
-    create_named_query(database, name, query_string)
-    create_named_query(database, name, query_string, params::Dict{String,<:Any})
+    create_named_query(database, name, query_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a named query in the specified workgroup. Requires that you have access to the
 workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and
@@ -162,39 +143,25 @@ Code Samples in the Amazon Athena User Guide.
 - `query_string`: The contents of the query with all query statements.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique case-sensitive string used to ensure the request to
   create the query is idempotent (executes only once). If another CreateNamedQuery request is
   received, the same response is returned and another query is not created. If a parameter
   has changed, for example, the QueryString, an error is returned.  This token is listed as
   not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
   or the Amazon Web Services CLI, you must provide this token or the action will fail.
-- `"Description"`: The query description.
-- `"WorkGroup"`: The name of the workgroup in which the named query is being created.
+- `"description"`: The query description.
+- `"work_group"`: The name of the workgroup in which the named query is being created.
 """
-function create_named_query(
-    Database, Name, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return athena(
-        "CreateNamedQuery",
-        Dict{String,Any}(
-            "Database" => Database,
-            "Name" => Name,
-            "QueryString" => QueryString,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_named_query(
     Database,
     Name,
-    QueryString,
-    params::AbstractDict{String};
+    QueryString;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "CreateNamedQuery",
         Dict{String,Any}(
@@ -204,7 +171,7 @@ function create_named_query(
                     "Database" => Database,
                     "Name" => Name,
                     "QueryString" => QueryString,
-                    "ClientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -215,8 +182,7 @@ function create_named_query(
 end
 
 """
-    create_prepared_statement(query_statement, statement_name, work_group)
-    create_prepared_statement(query_statement, statement_name, work_group, params::Dict{String,<:Any})
+    create_prepared_statement(query_statement, statement_name, work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a prepared statement for use with SQL queries in Athena.
 
@@ -226,33 +192,17 @@ Creates a prepared statement for use with SQL queries in Athena.
 - `work_group`: The name of the workgroup to which the prepared statement belongs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the prepared statement.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the prepared statement.
 """
 function create_prepared_statement(
     QueryStatement,
     StatementName,
     WorkGroup;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return athena(
-        "CreatePreparedStatement",
-        Dict{String,Any}(
-            "QueryStatement" => QueryStatement,
-            "StatementName" => StatementName,
-            "WorkGroup" => WorkGroup,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_prepared_statement(
-    QueryStatement,
-    StatementName,
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "CreatePreparedStatement",
         Dict{String,Any}(
@@ -272,8 +222,7 @@ function create_prepared_statement(
 end
 
 """
-    create_work_group(name)
-    create_work_group(name, params::Dict{String,<:Any})
+    create_work_group(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a workgroup with the specified name.
 
@@ -281,28 +230,21 @@ Creates a workgroup with the specified name.
 - `name`: The workgroup name.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Configuration"`: The configuration for the workgroup, which includes the location in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration"`: The configuration for the workgroup, which includes the location in
   Amazon S3 where query results are stored, the encryption configuration, if any, used for
   encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the
   workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is
   specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration)
   in the WorkGroupConfiguration override client-side settings. See
   WorkGroupConfigurationEnforceWorkGroupConfiguration.
-- `"Description"`: The workgroup description.
-- `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
+- `"description"`: The workgroup description.
+- `"tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
-function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "CreateWorkGroup",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_work_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "CreateWorkGroup",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -312,8 +254,7 @@ function create_work_group(
 end
 
 """
-    delete_data_catalog(name)
-    delete_data_catalog(name, params::Dict{String,<:Any})
+    delete_data_catalog(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a data catalog.
 
@@ -321,17 +262,10 @@ Deletes a data catalog.
 - `name`: The name of the data catalog to delete.
 
 """
-function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "DeleteDataCatalog",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_data_catalog(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "DeleteDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -341,8 +275,7 @@ function delete_data_catalog(
 end
 
 """
-    delete_named_query(named_query_id)
-    delete_named_query(named_query_id, params::Dict{String,<:Any})
+    delete_named_query(named_query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the named query if you have access to the workgroup in which the query was saved.
 For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples
@@ -352,19 +285,10 @@ in the Amazon Athena User Guide.
 - `named_query_id`: The unique ID of the query to delete.
 
 """
-function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "DeleteNamedQuery",
-        Dict{String,Any}("NamedQueryId" => NamedQueryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_named_query(
-    NamedQueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "DeleteNamedQuery",
         Dict{String,Any}(
@@ -376,8 +300,7 @@ function delete_named_query(
 end
 
 """
-    delete_prepared_statement(statement_name, work_group)
-    delete_prepared_statement(statement_name, work_group, params::Dict{String,<:Any})
+    delete_prepared_statement(statement_name, work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the prepared statement with the specified name from the specified workgroup.
 
@@ -387,21 +310,9 @@ Deletes the prepared statement with the specified name from the specified workgr
 
 """
 function delete_prepared_statement(
-    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "DeletePreparedStatement",
-        Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_prepared_statement(
-    StatementName,
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "DeletePreparedStatement",
         Dict{String,Any}(
@@ -419,8 +330,7 @@ function delete_prepared_statement(
 end
 
 """
-    delete_work_group(work_group)
-    delete_work_group(work_group, params::Dict{String,<:Any})
+    delete_work_group(work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
 
@@ -428,23 +338,14 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
 - `work_group`: The unique name of the workgroup to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"recursive_delete_option"`: The option to delete the workgroup and its contents even if
   the workgroup contains any named queries or query executions.
 """
-function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "DeleteWorkGroup",
-        Dict{String,Any}("WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_work_group(
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "DeleteWorkGroup",
         Dict{String,Any}(
@@ -456,8 +357,7 @@ function delete_work_group(
 end
 
 """
-    get_data_catalog(name)
-    get_data_catalog(name, params::Dict{String,<:Any})
+    get_data_catalog(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the specified data catalog.
 
@@ -465,17 +365,10 @@ Returns the specified data catalog.
 - `name`: The name of the data catalog to return.
 
 """
-function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "GetDataCatalog",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_catalog(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetDataCatalog",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
@@ -485,8 +378,7 @@ function get_data_catalog(
 end
 
 """
-    get_database(catalog_name, database_name)
-    get_database(catalog_name, database_name, params::Dict{String,<:Any})
+    get_database(catalog_name, database_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a database object for the specified database and data catalog.
 
@@ -496,21 +388,9 @@ Returns a database object for the specified database and data catalog.
 
 """
 function get_database(
-    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "GetDatabase",
-        Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_database(
-    CatalogName,
-    DatabaseName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetDatabase",
         Dict{String,Any}(
@@ -528,8 +408,7 @@ function get_database(
 end
 
 """
-    get_named_query(named_query_id)
-    get_named_query(named_query_id, params::Dict{String,<:Any})
+    get_named_query(named_query_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a single query. Requires that you have access to the workgroup in
 which the query was saved.
@@ -538,19 +417,10 @@ which the query was saved.
 - `named_query_id`: The unique ID of the query. Use ListNamedQueries to get query IDs.
 
 """
-function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "GetNamedQuery",
-        Dict{String,Any}("NamedQueryId" => NamedQueryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_named_query(
-    NamedQueryId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetNamedQuery",
         Dict{String,Any}(
@@ -562,8 +432,7 @@ function get_named_query(
 end
 
 """
-    get_prepared_statement(statement_name, work_group)
-    get_prepared_statement(statement_name, work_group, params::Dict{String,<:Any})
+    get_prepared_statement(statement_name, work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the prepared statement with the specified name from the specified workgroup.
 
@@ -573,21 +442,9 @@ Retrieves the prepared statement with the specified name from the specified work
 
 """
 function get_prepared_statement(
-    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "GetPreparedStatement",
-        Dict{String,Any}("StatementName" => StatementName, "WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_prepared_statement(
-    StatementName,
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetPreparedStatement",
         Dict{String,Any}(
@@ -605,8 +462,7 @@ function get_prepared_statement(
 end
 
 """
-    get_query_execution(query_execution_id)
-    get_query_execution(query_execution_id, params::Dict{String,<:Any})
+    get_query_execution(query_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a single execution of a query if you have access to the workgroup
 in which the query ran. Each time a query executes, information about the query execution
@@ -617,20 +473,9 @@ is saved with a unique ID.
 
 """
 function get_query_execution(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "GetQueryExecution",
-        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_query_execution(
-    QueryExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetQueryExecution",
         Dict{String,Any}(
@@ -644,8 +489,7 @@ function get_query_execution(
 end
 
 """
-    get_query_results(query_execution_id)
-    get_query_results(query_execution_id, params::Dict{String,<:Any})
+    get_query_results(query_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Streams the results of a single query execution specified by QueryExecutionId from the
 Athena query results location in Amazon S3. For more information, see Query Results in the
@@ -662,27 +506,16 @@ location are denied.
 - `query_execution_id`: The unique ID of the query execution.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results (rows) to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results (rows) to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
 function get_query_results(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "GetQueryResults",
-        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_query_results(
-    QueryExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetQueryResults",
         Dict{String,Any}(
@@ -696,8 +529,7 @@ function get_query_results(
 end
 
 """
-    get_table_metadata(catalog_name, database_name, table_name)
-    get_table_metadata(catalog_name, database_name, table_name, params::Dict{String,<:Any})
+    get_table_metadata(catalog_name, database_name, table_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns table metadata for the specified catalog, database, and table.
 
@@ -709,26 +541,13 @@ Returns table metadata for the specified catalog, database, and table.
 
 """
 function get_table_metadata(
-    CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return athena(
-        "GetTableMetadata",
-        Dict{String,Any}(
-            "CatalogName" => CatalogName,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_table_metadata(
     CatalogName,
     DatabaseName,
-    TableName,
-    params::AbstractDict{String};
+    TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetTableMetadata",
         Dict{String,Any}(
@@ -748,8 +567,7 @@ function get_table_metadata(
 end
 
 """
-    get_work_group(work_group)
-    get_work_group(work_group, params::Dict{String,<:Any})
+    get_work_group(work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the workgroup with the specified name.
 
@@ -757,19 +575,10 @@ Returns information about the workgroup with the specified name.
 - `work_group`: The name of the workgroup.
 
 """
-function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "GetWorkGroup",
-        Dict{String,Any}("WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_work_group(
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "GetWorkGroup",
         Dict{String,Any}(
@@ -781,34 +590,26 @@ function get_work_group(
 end
 
 """
-    list_data_catalogs()
-    list_data_catalogs(params::Dict{String,<:Any})
+    list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the data catalogs in the current Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the maximum number of data catalogs to return.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the maximum number of data catalogs to return.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_data_catalogs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_databases(catalog_name)
-    list_databases(catalog_name, params::Dict{String,<:Any})
+    list_databases(catalog_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the databases in the specified data catalog.
 
@@ -816,25 +617,16 @@ Lists the databases in the specified data catalog.
 - `catalog_name`: The name of the data catalog that contains the databases to return.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the maximum number of results to return.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the maximum number of results to return.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "ListDatabases",
-        Dict{String,Any}("CatalogName" => CatalogName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_databases(
-    CatalogName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CatalogName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListDatabases",
         Dict{String,Any}(
@@ -846,35 +638,29 @@ function list_databases(
 end
 
 """
-    list_engine_versions()
-    list_engine_versions(params::Dict{String,<:Any})
+    list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of engine versions that are available to choose from, including the Auto
 option.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of engine versions to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of engine versions to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_engine_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_engine_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_named_queries()
-    list_named_queries(params::Dict{String,<:Any})
+    list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of available query IDs only for queries saved in the specified workgroup.
 Requires that you have access to the specified workgroup. If a workgroup is not specified,
@@ -882,30 +668,24 @@ lists the saved queries for the primary workgroup. For code samples using the Am
 Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of queries to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of queries to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
-- `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
-  If a workgroup is not specified, the saved queries for the primary workgroup are returned.
+- `"work_group"`: The name of the workgroup from which the named queries are being
+  returned. If a workgroup is not specified, the saved queries for the primary workgroup are
+  returned.
 """
-function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_named_queries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_prepared_statements(work_group)
-    list_prepared_statements(work_group, params::Dict{String,<:Any})
+    list_prepared_statements(work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the prepared statements in the specfied workgroup.
 
@@ -913,27 +693,16 @@ Lists the prepared statements in the specfied workgroup.
 - `work_group`: The workgroup to list the prepared statements for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
 function list_prepared_statements(
-    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "ListPreparedStatements",
-        Dict{String,Any}("WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_prepared_statements(
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListPreparedStatements",
         Dict{String,Any}(
@@ -945,8 +714,7 @@ function list_prepared_statements(
 end
 
 """
-    list_query_executions()
-    list_query_executions(params::Dict{String,<:Any})
+    list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of available query execution IDs for the queries in the specified
 workgroup. If a workgroup is not specified, returns a list of query execution IDs for the
@@ -955,23 +723,19 @@ For code samples using the Amazon Web Services SDK for Java, see Examples and Co
 in the Amazon Athena User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of query executions to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of query executions to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
-- `"WorkGroup"`: The name of the workgroup from which queries are being returned. If a
+- `"work_group"`: The name of the workgroup from which queries are being returned. If a
   workgroup is not specified, a list of available query execution IDs for the queries in the
   primary workgroup is returned.
 """
-function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_query_executions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_query_executions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListQueryExecutions",
         params;
@@ -981,8 +745,7 @@ function list_query_executions(
 end
 
 """
-    list_table_metadata(catalog_name, database_name)
-    list_table_metadata(catalog_name, database_name, params::Dict{String,<:Any})
+    list_table_metadata(catalog_name, database_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the metadata for the tables in the specified data catalog database.
 
@@ -991,30 +754,18 @@ Lists the metadata for the tables in the specified data catalog database.
 - `database_name`: The name of the database for which table metadata should be returned.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Expression"`: A regex filter that pattern-matches table names. If no expression is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"expression"`: A regex filter that pattern-matches table names. If no expression is
   supplied, metadata for all tables are listed.
-- `"MaxResults"`: Specifies the maximum number of results to return.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+- `"max_results"`: Specifies the maximum number of results to return.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
 function list_table_metadata(
-    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "ListTableMetadata",
-        Dict{String,Any}("CatalogName" => CatalogName, "DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_table_metadata(
-    CatalogName,
-    DatabaseName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListTableMetadata",
         Dict{String,Any}(
@@ -1032,8 +783,7 @@ function list_table_metadata(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags associated with an Athena workgroup or data catalog resource.
 
@@ -1041,28 +791,17 @@ Lists the tags associated with an Athena workgroup or data catalog resource.
 - `resource_arn`: Lists the tags for the resource with the specified ARN.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to be returned per request that lists the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned per request that lists the
   tags for the resource.
-- `"NextToken"`: The token for the next set of results, or null if there are no additional
+- `"next_token"`: The token for the next set of results, or null if there are no additional
   results for this request, where the request lists the tags for the resource with the
   specified ARN.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1074,32 +813,26 @@ function list_tags_for_resource(
 end
 
 """
-    list_work_groups()
-    list_work_groups(params::Dict{String,<:Any})
+    list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists available workgroups for the account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of workgroups to return in this request.
-- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of workgroups to return in this request.
+- `"next_token"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_work_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    start_query_execution(query_string)
-    start_query_execution(query_string, params::Dict{String,<:Any})
+    start_query_execution(query_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Runs the SQL query statements contained in the Query. Requires you to have access to the
 workgroup in which the query ran. Running queries against an external catalog requires
@@ -1110,46 +843,33 @@ SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 - `query_string`: The SQL query statements to be executed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: A unique case-sensitive string used to ensure the request to
   create the query is idempotent (executes only once). If another StartQueryExecution request
   is received, the same response is returned and another query is not created. If a parameter
   has changed, for example, the QueryString, an error is returned.  This token is listed as
   not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
   or the Amazon Web Services CLI, you must provide this token or the action will fail.
-- `"QueryExecutionContext"`: The database within which the query executes.
-- `"ResultConfiguration"`: Specifies information about where and how to save the results of
-  the query execution. If the query runs in a workgroup, then workgroup's settings may
+- `"query_execution_context"`: The database within which the query executes.
+- `"result_configuration"`: Specifies information about where and how to save the results
+  of the query execution. If the query runs in a workgroup, then workgroup's settings may
   override query settings. This affects the query results location. The workgroup settings
   override is specified in EnforceWorkGroupConfiguration (true/false) in the
   WorkGroupConfiguration. See WorkGroupConfigurationEnforceWorkGroupConfiguration.
-- `"WorkGroup"`: The name of the workgroup in which the query is being started.
+- `"work_group"`: The name of the workgroup in which the query is being started.
 """
 function start_query_execution(
-    QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryString; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "StartQueryExecution",
-        Dict{String,Any}(
-            "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_query_execution(
-    QueryString,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "StartQueryExecution",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "QueryString" => QueryString, "ClientRequestToken" => string(uuid4())
+                    "QueryString" => QueryString, "client_request_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -1160,8 +880,7 @@ function start_query_execution(
 end
 
 """
-    stop_query_execution(query_execution_id)
-    stop_query_execution(query_execution_id, params::Dict{String,<:Any})
+    stop_query_execution(query_execution_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a query execution. Requires you to have access to the workgroup in which the query
 ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code
@@ -1172,20 +891,9 @@ Samples in the Amazon Athena User Guide.
 
 """
 function stop_query_execution(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "StopQueryExecution",
-        Dict{String,Any}("QueryExecutionId" => QueryExecutionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_query_execution(
-    QueryExecutionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "StopQueryExecution",
         Dict{String,Any}(
@@ -1199,8 +907,7 @@ function stop_query_execution(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to an Athena resource. A tag is a label that you assign to a
 resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a
@@ -1220,20 +927,10 @@ unique per resource. If you specify more than one tag, separate them by commas.
   workgroup or data catalog resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "TagResource",
         Dict{String,Any}(
@@ -1249,8 +946,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a data catalog or workgroup resource.
 
@@ -1261,21 +957,9 @@ Removes one or more tags from a data catalog or workgroup resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return athena(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "UntagResource",
         Dict{String,Any}(
@@ -1291,8 +975,7 @@ function untag_resource(
 end
 
 """
-    update_data_catalog(name, type)
-    update_data_catalog(name, type, params::Dict{String,<:Any})
+    update_data_catalog(name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the data catalog that has the specified name.
 
@@ -1304,9 +987,9 @@ Updates the data catalog that has the specified name.
   catalog, HIVE for an external hive metastore, or GLUE for an Glue Data Catalog.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: New or modified text that describes the data catalog.
-- `"Parameters"`: Specifies the Lambda function or functions to use for updating the data
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: New or modified text that describes the data catalog.
+- `"parameters"`: Specifies the Lambda function or functions to use for updating the data
   catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data
   catalog type, use the following syntax. The metadata-function parameter is required. The
   sdk-version parameter is optional and defaults to the currently supported version.
@@ -1318,20 +1001,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata and data, use the following syntax to specify your Lambda function.
   function=lambda_arn
 """
-function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "UpdateDataCatalog",
-        Dict{String,Any}("Name" => Name, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_data_catalog(
-    Name,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "UpdateDataCatalog",
         Dict{String,Any}(
@@ -1343,8 +1016,7 @@ function update_data_catalog(
 end
 
 """
-    update_prepared_statement(query_statement, statement_name, work_group)
-    update_prepared_statement(query_statement, statement_name, work_group, params::Dict{String,<:Any})
+    update_prepared_statement(query_statement, statement_name, work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a prepared statement.
 
@@ -1354,33 +1026,17 @@ Updates a prepared statement.
 - `work_group`: The workgroup for the prepared statement.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the prepared statement.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the prepared statement.
 """
 function update_prepared_statement(
     QueryStatement,
     StatementName,
     WorkGroup;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return athena(
-        "UpdatePreparedStatement",
-        Dict{String,Any}(
-            "QueryStatement" => QueryStatement,
-            "StatementName" => StatementName,
-            "WorkGroup" => WorkGroup,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_prepared_statement(
-    QueryStatement,
-    StatementName,
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "UpdatePreparedStatement",
         Dict{String,Any}(
@@ -1400,8 +1056,7 @@ function update_prepared_statement(
 end
 
 """
-    update_work_group(work_group)
-    update_work_group(work_group, params::Dict{String,<:Any})
+    update_work_group(work_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the workgroup with the specified name. The workgroup's name cannot be changed.
 
@@ -1409,25 +1064,16 @@ Updates the workgroup with the specified name. The workgroup's name cannot be ch
 - `work_group`: The specified workgroup that will be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationUpdates"`: The workgroup configuration that will be updated for the given
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_updates"`: The workgroup configuration that will be updated for the given
   workgroup.
-- `"Description"`: The workgroup description.
-- `"State"`: The workgroup state that will be updated for the given workgroup.
+- `"description"`: The workgroup description.
+- `"state"`: The workgroup state that will be updated for the given workgroup.
 """
-function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
-    return athena(
-        "UpdateWorkGroup",
-        Dict{String,Any}("WorkGroup" => WorkGroup);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_work_group(
-    WorkGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return athena(
         "UpdateWorkGroup",
         Dict{String,Any}(

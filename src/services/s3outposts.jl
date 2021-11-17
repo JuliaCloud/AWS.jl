@@ -4,9 +4,15 @@ using AWS.AWSServices: s3outposts
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "access_type" => "AccessType",
+    "customer_owned_ipv4_pool" => "CustomerOwnedIpv4Pool",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    create_endpoint(outpost_id, security_group_id, subnet_id)
-    create_endpoint(outpost_id, security_group_id, subnet_id, params::Dict{String,<:Any})
+    create_endpoint(outpost_id, security_group_id, subnet_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Amazon S3 on Outposts Access Points simplify managing data access at scale for shared
 datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so
@@ -22,35 +28,21 @@ to complete.   Related actions include:    DeleteEndpoint     ListEndpoints
   the Outpost that has the Amazon S3 on Outposts provisioned.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessType"`: The type of access for the on-premise network connectivity for the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_type"`: The type of access for the on-premise network connectivity for the
   Outpost endpoint. To access the endpoint from an on-premises network, you must specify the
   access type and provide the customer owned IPv4 pool.
-- `"CustomerOwnedIpv4Pool"`: The ID of the customer-owned IPv4 pool for the endpoint. IP
+- `"customer_owned_ipv4_pool"`: The ID of the customer-owned IPv4 pool for the endpoint. IP
   addresses will be allocated from this pool for the endpoint.
 """
 function create_endpoint(
-    OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3outposts(
-        "POST",
-        "/S3Outposts/CreateEndpoint",
-        Dict{String,Any}(
-            "OutpostId" => OutpostId,
-            "SecurityGroupId" => SecurityGroupId,
-            "SubnetId" => SubnetId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_endpoint(
     OutpostId,
     SecurityGroupId,
-    SubnetId,
-    params::AbstractDict{String};
+    SubnetId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3outposts(
         "POST",
         "/S3Outposts/CreateEndpoint",
@@ -71,8 +63,7 @@ function create_endpoint(
 end
 
 """
-    delete_endpoint(endpoint_id, outpost_id)
-    delete_endpoint(endpoint_id, outpost_id, params::Dict{String,<:Any})
+    delete_endpoint(endpoint_id, outpost_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Amazon S3 on Outposts Access Points simplify managing data access at scale for shared
 datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so
@@ -87,22 +78,9 @@ include:    CreateEndpoint     ListEndpoints
 
 """
 function delete_endpoint(
-    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3outposts(
-        "DELETE",
-        "/S3Outposts/DeleteEndpoint",
-        Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_endpoint(
-    endpointId,
-    outpostId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3outposts(
         "DELETE",
         "/S3Outposts/DeleteEndpoint",
@@ -119,8 +97,7 @@ function delete_endpoint(
 end
 
 """
-    list_endpoints()
-    list_endpoints(params::Dict{String,<:Any})
+    list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Amazon S3 on Outposts Access Points simplify managing data access at scale for shared
 datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so
@@ -130,21 +107,12 @@ associated with the Outposts.   Related actions include:    CreateEndpoint
 DeleteEndpoint
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The max number of endpoints that can be returned on the request.
-- `"nextToken"`: The next endpoint requested in the list.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The max number of endpoints that can be returned on the request.
+- `"next_token"`: The next endpoint requested in the list.
 """
-function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3outposts(
-        "GET",
-        "/S3Outposts/ListEndpoints";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return s3outposts(
         "GET",
         "/S3Outposts/ListEndpoints",

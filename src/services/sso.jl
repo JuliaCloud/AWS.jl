@@ -4,9 +4,10 @@ using AWS.AWSServices: sso
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("next_token" => "next_token", "max_results" => "max_result")
+
 """
-    get_role_credentials(account_id, role_name, x-amz-sso_bearer_token)
-    get_role_credentials(account_id, role_name, x-amz-sso_bearer_token, params::Dict{String,<:Any})
+    get_role_credentials(account_id, role_name, x-amz-sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the STS short-term credentials for a given role name that is assigned to the user.
 
@@ -22,27 +23,9 @@ function get_role_credentials(
     role_name,
     x_amz_sso_bearer_token;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso(
-        "GET",
-        "/federation/credentials",
-        Dict{String,Any}(
-            "account_id" => account_id,
-            "role_name" => role_name,
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_role_credentials(
-    account_id,
-    role_name,
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso(
         "GET",
         "/federation/credentials",
@@ -65,8 +48,7 @@ function get_role_credentials(
 end
 
 """
-    list_account_roles(account_id, x-amz-sso_bearer_token)
-    list_account_roles(account_id, x-amz-sso_bearer_token, params::Dict{String,<:Any})
+    list_account_roles(account_id, x-amz-sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all roles that are assigned to the user for a given AWS account.
 
@@ -76,32 +58,18 @@ Lists all roles that are assigned to the user for a given AWS account.
   information, see CreateToken in the AWS SSO OIDC API Reference Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"max_result"`: The number of items that clients can request per page.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of items that clients can request per page.
 - `"next_token"`: The page token from the previous response output when you request
   subsequent pages.
 """
 function list_account_roles(
-    account_id, x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso(
-        "GET",
-        "/assignment/roles",
-        Dict{String,Any}(
-            "account_id" => account_id,
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_account_roles(
     account_id,
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
+    x_amz_sso_bearer_token;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso(
         "GET",
         "/assignment/roles",
@@ -123,8 +91,7 @@ function list_account_roles(
 end
 
 """
-    list_accounts(x-amz-sso_bearer_token)
-    list_accounts(x-amz-sso_bearer_token, params::Dict{String,<:Any})
+    list_accounts(x-amz-sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all AWS accounts assigned to the user. These AWS accounts are assigned by the
 administrator of the account. For more information, see Assign User Access in the AWS SSO
@@ -135,30 +102,15 @@ User Guide. This operation returns a paginated response.
   information, see CreateToken in the AWS SSO OIDC API Reference Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"max_result"`: This is the number of items clients can request per page.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: This is the number of items clients can request per page.
 - `"next_token"`: (Optional) When requesting subsequent pages, this is the page token from
   the previous response output.
 """
 function list_accounts(
-    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso(
-        "GET",
-        "/assignment/accounts",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_accounts(
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso(
         "GET",
         "/assignment/accounts",
@@ -179,8 +131,7 @@ function list_accounts(
 end
 
 """
-    logout(x-amz-sso_bearer_token)
-    logout(x-amz-sso_bearer_token, params::Dict{String,<:Any})
+    logout(x-amz-sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the client- and server-side session that is associated with the user.
 
@@ -189,23 +140,10 @@ Removes the client- and server-side session that is associated with the user.
   information, see CreateToken in the AWS SSO OIDC API Reference Guide.
 
 """
-function logout(x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config())
-    return sso(
-        "POST",
-        "/logout",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-sso_bearer_token" => x_amz_sso_bearer_token),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function logout(
-    x_amz_sso_bearer_token,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    x_amz_sso_bearer_token; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return sso(
         "POST",
         "/logout",

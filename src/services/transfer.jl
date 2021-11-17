@@ -4,9 +4,38 @@ using AWS.AWSServices: transfer
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "role" => "Role",
+    "source_ip" => "SourceIp",
+    "on_exception_steps" => "OnExceptionSteps",
+    "next_token" => "NextToken",
+    "workflow_details" => "WorkflowDetails",
+    "home_directory_mappings" => "HomeDirectoryMappings",
+    "certificate" => "Certificate",
+    "host_key" => "HostKey",
+    "identity_provider_type" => "IdentityProviderType",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "protocol_details" => "ProtocolDetails",
+    "home_directory" => "HomeDirectory",
+    "policy" => "Policy",
+    "endpoint_details" => "EndpointDetails",
+    "home_directory_type" => "HomeDirectoryType",
+    "ssh_public_key_body" => "SshPublicKeyBody",
+    "posix_profile" => "PosixProfile",
+    "protocols" => "Protocols",
+    "identity_provider_details" => "IdentityProviderDetails",
+    "logging_role" => "LoggingRole",
+    "domain" => "Domain",
+    "endpoint_type" => "EndpointType",
+    "security_policy_name" => "SecurityPolicyName",
+    "tags" => "Tags",
+    "server_protocol" => "ServerProtocol",
+    "user_password" => "UserPassword",
+)
+
 """
-    create_access(external_id, role, server_id)
-    create_access(external_id, role, server_id, params::Dict{String,<:Any})
+    create_access(external_id, role, server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used by administrators to choose which groups in the directory should have access to upload
 and download files over the enabled protocols using Amazon Web Services Transfer Family.
@@ -34,10 +63,10 @@ CreateAccess to limit the access to the correct set of users who need this abili
   specific server that you added your user to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"home_directory"`: The landing directory (folder) for a user when they log in to the
   server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+- `"home_directory_mappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
   visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
@@ -55,12 +84,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call instead of s3 or efs so you can use the put-object operation. For example, you use the
   following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
   the end of the key name ends in a / for it to be considered a folder.
-- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+- `"home_directory_type"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
   you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
   want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+- `"policy"`: A session policy for your user so that you can use the same IAM role across
   multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
   Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
@@ -70,27 +99,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument. For an example of a session policy, see Example session policy. For more
   information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
-- `"PosixProfile"`:
+- `"posix_profile"`:
 """
 function create_access(
-    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "CreateAccess",
-        Dict{String,Any}(
-            "ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_access(
-    ExternalId,
-    Role,
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "CreateAccess",
         Dict{String,Any}(
@@ -108,8 +122,7 @@ function create_access(
 end
 
 """
-    create_server()
-    create_server(params::Dict{String,<:Any})
+    create_server(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Instantiates an auto-scaling virtual server based on the selected file transfer protocol in
 Amazon Web Services. When you make updates to your file transfer protocol-enabled server or
@@ -117,8 +130,8 @@ when you work with users, use the service-generated ServerId property that is as
 the newly created server.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Certificate"`: The Amazon Resource Name (ARN) of the Amazon Web Services Certificate
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"certificate"`: The Amazon Resource Name (ARN) of the Amazon Web Services Certificate
   Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public
   certificate, see Request a public certificate in the  Amazon Web Services Certificate
   Manager User Guide. To import an existing certificate into ACM, see Importing certificates
@@ -130,16 +143,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be
   a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and
   information about the issuer.
-- `"Domain"`: The domain of the storage system that is used for file transfers. There are
+- `"domain"`: The domain of the storage system that is used for file transfers. There are
   two domains available: Amazon Simple Storage Service (Amazon S3) and Amazon Elastic File
   System (Amazon EFS). The default value is S3.  After the server is created, the domain
   cannot be changed.
-- `"EndpointDetails"`: The virtual private cloud (VPC) endpoint settings that are
+- `"endpoint_details"`: The virtual private cloud (VPC) endpoint settings that are
   configured for your server. When you host your endpoint within your VPC, you can make it
   accessible only to resources within your VPC, or you can attach Elastic IP addresses and
   make it accessible to clients over the internet. Your VPC's default security groups are
   automatically assigned to your endpoint.
-- `"EndpointType"`: The type of endpoint that you want your server to use. You can choose
+- `"endpoint_type"`: The type of endpoint that you want your server to use. You can choose
   to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
   With an endpoint that is hosted in a VPC, you can restrict access to your server and
   resources only within your VPC or choose to make it internet facing by attaching Elastic IP
@@ -153,30 +166,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
   included) with your server's endpoint and use VPC security groups to restrict traffic by
   the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
-- `"HostKey"`: The RSA private key as generated by the ssh-keygen -N \"\" -m PEM -f
+- `"host_key"`: The RSA private key as generated by the ssh-keygen -N \"\" -m PEM -f
   my-new-server-key command.  If you aren't planning to migrate existing users from an
   existing SFTP-enabled server to a new server, don't update the host key. Accidentally
   changing a server's host key can be disruptive.  For more information, see Change the host
   key for your SFTP-enabled server in the Amazon Web Services Transfer Family User Guide.
-- `"IdentityProviderDetails"`: Required when IdentityProviderType is set to
+- `"identity_provider_details"`: Required when IdentityProviderType is set to
   AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information
   required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied
   authentication API, including the API Gateway URL. Not required when IdentityProviderType
   is set to SERVICE_MANAGED.
-- `"IdentityProviderType"`: Specifies the mode of authentication for a server. The default
-  value is SERVICE_MANAGED, which allows you to store and access user credentials within the
-  Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to
-  Active Directory groups in Amazon Web Services Managed Active Directory or Microsoft Active
-  Directory in your on-premises environment or in Amazon Web Services using AD Connectors.
-  This option also requires you to provide a Directory ID using the IdentityProviderDetails
-  parameter. Use the API_GATEWAY value to integrate with an identity provider of your
-  choosing. The API_GATEWAY setting requires you to provide an API Gateway endpoint URL to
-  call for authentication using the IdentityProviderDetails parameter.
-- `"LoggingRole"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
+- `"identity_provider_type"`: Specifies the mode of authentication for a server. The
+  default value is SERVICE_MANAGED, which allows you to store and access user credentials
+  within the Amazon Web Services Transfer Family service. Use AWS_DIRECTORY_SERVICE to
+  provide access to Active Directory groups in Amazon Web Services Managed Active Directory
+  or Microsoft Active Directory in your on-premises environment or in Amazon Web Services
+  using AD Connectors. This option also requires you to provide a Directory ID using the
+  IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity
+  provider of your choosing. The API_GATEWAY setting requires you to provide an API Gateway
+  endpoint URL to call for authentication using the IdentityProviderDetails parameter. Use
+  the LAMBDA value to directly use a Lambda function as your identity provider. If you choose
+  this value, you must specify the ARN for the lambda function in the Function parameter for
+  the IdentityProviderDetails data type.
+- `"logging_role"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
   Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch
   logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your
   CloudWatch logs.
-- `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
+- `"protocols"`: Specifies the file transfer protocol or protocols over which your file
   transfer protocol client can connect to your server's endpoint. The available protocols
   are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS
   (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer
@@ -187,26 +203,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If
   Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
   IdentityProviderType can be set to SERVICE_MANAGED.
-- `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
-  server.
-- `"Tags"`: Key-value pairs that can be used to group and search for servers.
-- `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
+- `"security_policy_name"`: Specifies the name of the security policy that is attached to
+  the server.
+- `"tags"`: Key-value pairs that can be used to group and search for servers.
+- `"workflow_details"`: Specifies the workflow ID for the workflow to assign and the
   execution role used for executing the workflow.
 """
-function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function create_server(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_server(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "CreateServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    create_user(role, server_id, user_name)
-    create_user(role, server_id, user_name, params::Dict{String,<:Any})
+    create_user(role, server_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a user and associates them with an existing file transfer protocol-enabled server.
 You can only create and associate users with servers that have the IdentityProviderType set
@@ -230,10 +241,10 @@ and assign metadata with tags that can be used to group and search for users.
   '@'. The user name can't start with a hyphen, period, or at sign.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"home_directory"`: The landing directory (folder) for a user when they log in to the
   server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+- `"home_directory_mappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
   visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
@@ -251,12 +262,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call instead of s3 or efs so you can use the put-object operation. For example, you use the
   following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
   the end of the key name ends in a / for it to be considered a folder.
-- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+- `"home_directory_type"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
   you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
   want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+- `"policy"`: A session policy for your user so that you can use the same IAM role across
   multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
   Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
@@ -266,33 +277,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument. For an example of a session policy, see Example session policy. For more
   information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
-- `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
+- `"posix_profile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
   (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to
   your Amazon EFS file systems. The POSIX permissions that are set on files and directories
   in Amazon EFS determine the level of access your users get when transferring files into and
   out of your Amazon EFS file systems.
-- `"SshPublicKeyBody"`: The public portion of the Secure Shell (SSH) key used to
+- `"ssh_public_key_body"`: The public portion of the Secure Shell (SSH) key used to
   authenticate the user to the server.
-- `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
+- `"tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
 function create_user(
-    Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "CreateUser",
-        Dict{String,Any}("Role" => Role, "ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user(
-    Role,
-    ServerId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "CreateUser",
         Dict{String,Any}(
@@ -310,8 +308,7 @@ function create_user(
 end
 
 """
-    create_workflow(steps)
-    create_workflow(steps, params::Dict{String,<:Any})
+    create_workflow(steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Allows you to create a workflow with specified steps and step details the workflow invokes
 after file transfer completes. After creating a workflow, you can associate the workflow
@@ -327,26 +324,19 @@ and UpdateServer operations.
   filesystem ID and path.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A textual description for the workflow.
-- `"OnExceptionSteps"`: Specifies the steps (actions) to take if errors are encountered
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A textual description for the workflow.
+- `"on_exception_steps"`: Specifies the steps (actions) to take if errors are encountered
   during execution of the workflow.  For custom steps, the lambda function needs to send
   FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda
   does not send SUCCESS before it times out, the exception steps are executed.
-- `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
+- `"tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
 """
-function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "CreateWorkflow",
-        Dict{String,Any}("Steps" => Steps);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_workflow(
-    Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Steps; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "CreateWorkflow",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Steps" => Steps), params));
@@ -356,8 +346,7 @@ function create_workflow(
 end
 
 """
-    delete_access(external_id, server_id)
-    delete_access(external_id, server_id, params::Dict{String,<:Any})
+    delete_access(external_id, server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to delete the access specified in the ServerID and ExternalID parameters.
 
@@ -375,21 +364,9 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 
 """
 function delete_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "DeleteAccess",
-        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access(
-    ExternalId,
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DeleteAccess",
         Dict{String,Any}(
@@ -405,8 +382,7 @@ function delete_access(
 end
 
 """
-    delete_server(server_id)
-    delete_server(server_id, params::Dict{String,<:Any})
+    delete_server(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the file transfer protocol-enabled server that you specify. No response returns
 from this operation.
@@ -415,19 +391,10 @@ from this operation.
 - `server_id`: A unique system-assigned identifier for a server instance.
 
 """
-function delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_server(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DeleteServer",
         Dict{String,Any}(
@@ -439,8 +406,7 @@ function delete_server(
 end
 
 """
-    delete_ssh_public_key(server_id, ssh_public_key_id, user_name)
-    delete_ssh_public_key(server_id, ssh_public_key_id, user_name, params::Dict{String,<:Any})
+    delete_ssh_public_key(server_id, ssh_public_key_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a user's Secure Shell (SSH) public key.
 
@@ -452,26 +418,13 @@ Deletes a user's Secure Shell (SSH) public key.
 
 """
 function delete_ssh_public_key(
-    ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
-        "DeleteSshPublicKey",
-        Dict{String,Any}(
-            "ServerId" => ServerId,
-            "SshPublicKeyId" => SshPublicKeyId,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_ssh_public_key(
     ServerId,
     SshPublicKeyId,
-    UserName,
-    params::AbstractDict{String};
+    UserName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DeleteSshPublicKey",
         Dict{String,Any}(
@@ -491,8 +444,7 @@ function delete_ssh_public_key(
 end
 
 """
-    delete_user(server_id, user_name)
-    delete_user(server_id, user_name, params::Dict{String,<:Any})
+    delete_user(server_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the user belonging to a file transfer protocol-enabled server you specify. No
 response returns from this operation.  When you delete a user from a server, the user's
@@ -504,20 +456,10 @@ information is lost.
 - `user_name`: A unique string that identifies a user that is being deleted from a server.
 
 """
-function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteUser",
-        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user(
-    ServerId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DeleteUser",
         Dict{String,Any}(
@@ -533,8 +475,7 @@ function delete_user(
 end
 
 """
-    delete_workflow(workflow_id)
-    delete_workflow(workflow_id, params::Dict{String,<:Any})
+    delete_workflow(workflow_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified workflow.
 
@@ -542,19 +483,10 @@ Deletes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteWorkflow",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_workflow(
-    WorkflowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DeleteWorkflow",
         Dict{String,Any}(
@@ -566,8 +498,7 @@ function delete_workflow(
 end
 
 """
-    describe_access(external_id, server_id)
-    describe_access(external_id, server_id, params::Dict{String,<:Any})
+    describe_access(external_id, server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the access that is assigned to the specific file transfer protocol-enabled
 server, as identified by its ServerId property and its ExternalID. The response from this
@@ -589,21 +520,9 @@ was specified.
 
 """
 function describe_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "DescribeAccess",
-        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_access(
-    ExternalId,
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeAccess",
         Dict{String,Any}(
@@ -619,8 +538,7 @@ function describe_access(
 end
 
 """
-    describe_execution(execution_id, workflow_id)
-    describe_execution(execution_id, workflow_id, params::Dict{String,<:Any})
+    describe_execution(execution_id, workflow_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 You can use DescribeExecution to check the details of the execution of the specified
 workflow.
@@ -631,21 +549,9 @@ workflow.
 
 """
 function describe_execution(
-    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "DescribeExecution",
-        Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_execution(
-    ExecutionId,
-    WorkflowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeExecution",
         Dict{String,Any}(
@@ -661,8 +567,7 @@ function describe_execution(
 end
 
 """
-    describe_security_policy(security_policy_name)
-    describe_security_policy(security_policy_name, params::Dict{String,<:Any})
+    describe_security_policy(security_policy_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the security policy that is attached to your file transfer protocol-enabled
 server. The response contains a description of the security policy's properties. For more
@@ -674,20 +579,9 @@ information about security policies, see Working with security policies.
 
 """
 function describe_security_policy(
-    SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "DescribeSecurityPolicy",
-        Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_security_policy(
-    SecurityPolicyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeSecurityPolicy",
         Dict{String,Any}(
@@ -701,8 +595,7 @@ function describe_security_policy(
 end
 
 """
-    describe_server(server_id)
-    describe_server(server_id, params::Dict{String,<:Any})
+    describe_server(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a file transfer protocol-enabled server that you specify by passing the ServerId
 parameter. The response contains a description of a server's properties. When you set
@@ -712,19 +605,10 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 - `server_id`: A system-assigned unique identifier for a server.
 
 """
-function describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DescribeServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_server(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeServer",
         Dict{String,Any}(
@@ -736,8 +620,7 @@ function describe_server(
 end
 
 """
-    describe_user(server_id, user_name)
-    describe_user(server_id, user_name, params::Dict{String,<:Any})
+    describe_user(server_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the user assigned to the specific file transfer protocol-enabled server, as
 identified by its ServerId property. The response from this call returns the properties of
@@ -751,21 +634,9 @@ the user associated with the ServerId value that was specified.
 
 """
 function describe_user(
-    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "DescribeUser",
-        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_user(
-    ServerId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeUser",
         Dict{String,Any}(
@@ -781,8 +652,7 @@ function describe_user(
 end
 
 """
-    describe_workflow(workflow_id)
-    describe_workflow(workflow_id, params::Dict{String,<:Any})
+    describe_workflow(workflow_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the specified workflow.
 
@@ -790,19 +660,10 @@ Describes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DescribeWorkflow",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_workflow(
-    WorkflowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "DescribeWorkflow",
         Dict{String,Any}(
@@ -814,8 +675,7 @@ function describe_workflow(
 end
 
 """
-    import_ssh_public_key(server_id, ssh_public_key_body, user_name)
-    import_ssh_public_key(server_id, ssh_public_key_body, user_name, params::Dict{String,<:Any})
+    import_ssh_public_key(server_id, ssh_public_key_body, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a Secure Shell (SSH) public key to a user account identified by a UserName value
 assigned to the specific file transfer protocol-enabled server, identified by ServerId. The
@@ -828,26 +688,13 @@ response returns the UserName value, the ServerId value, and the name of the Ssh
 
 """
 function import_ssh_public_key(
-    ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
-        "ImportSshPublicKey",
-        Dict{String,Any}(
-            "ServerId" => ServerId,
-            "SshPublicKeyBody" => SshPublicKeyBody,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_ssh_public_key(
     ServerId,
     SshPublicKeyBody,
-    UserName,
-    params::AbstractDict{String};
+    UserName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ImportSshPublicKey",
         Dict{String,Any}(
@@ -867,8 +714,7 @@ function import_ssh_public_key(
 end
 
 """
-    list_accesses(server_id)
-    list_accesses(server_id, params::Dict{String,<:Any})
+    list_accesses(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the details for all the accesses you have on your server.
 
@@ -877,25 +723,16 @@ Lists the details for all the accesses you have on your server.
   it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the maximum number of access SIDs to return.
-- `"NextToken"`: When you can get additional results from the ListAccesses call, a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the maximum number of access SIDs to return.
+- `"next_token"`: When you can get additional results from the ListAccesses call, a
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional accesses.
 """
-function list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListAccesses",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_accesses(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListAccesses",
         Dict{String,Any}(
@@ -907,8 +744,7 @@ function list_accesses(
 end
 
 """
-    list_executions(workflow_id)
-    list_executions(workflow_id, params::Dict{String,<:Any})
+    list_executions(workflow_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all executions for the specified workflow.
 
@@ -916,9 +752,9 @@ Lists all executions for the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the aximum number of executions to return.
-- `"NextToken"`:  ListExecutions returns the NextToken parameter in the output. You can
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the aximum number of executions to return.
+- `"next_token"`:  ListExecutions returns the NextToken parameter in the output. You can
   then pass the NextToken parameter in a subsequent command to continue listing additional
   executions.  This is useful for pagination, for instance. If you have 100 executions for a
   workflow, you might only want to list first 10. If so, callthe API by specifing the
@@ -929,19 +765,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This call returns the next 10 executions, the 11th through the 20th. You can then repeat
   the call until the details for all 100 executions have been returned.
 """
-function list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListExecutions",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_executions(
-    WorkflowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkflowId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListExecutions",
         Dict{String,Any}(
@@ -953,28 +780,23 @@ function list_executions(
 end
 
 """
-    list_security_policies()
-    list_security_policies(params::Dict{String,<:Any})
+    list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the security policies that are attached to your file transfer protocol-enabled
 servers.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the number of security policies to return as a response to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the number of security policies to return as a response to the
   ListSecurityPolicies query.
-- `"NextToken"`: When additional results are obtained from the ListSecurityPolicies
+- `"next_token"`: When additional results are obtained from the ListSecurityPolicies
   command, a NextToken parameter is returned in the output. You can then pass the NextToken
   parameter in a subsequent command to continue listing additional security policies.
 """
-function list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_security_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_security_policies(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListSecurityPolicies",
         params;
@@ -984,34 +806,28 @@ function list_security_policies(
 end
 
 """
-    list_servers()
-    list_servers(params::Dict{String,<:Any})
+    list_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the file transfer protocol-enabled servers that are associated with your Amazon Web
 Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the number of servers to return as a response to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the number of servers to return as a response to the
   ListServers query.
-- `"NextToken"`: When additional results are obtained from the ListServers command, a
+- `"next_token"`: When additional results are obtained from the ListServers command, a
   NextToken parameter is returned in the output. You can then pass the NextToken parameter in
   a subsequent command to continue listing additional servers.
 """
-function list_servers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_servers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_servers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(arn)
-    list_tags_for_resource(arn, params::Dict{String,<:Any})
+    list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The
 resource can be a user, server, or role.
@@ -1022,24 +838,17 @@ resource can be a user, server, or role.
   role.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the number of tags to return as a response to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the number of tags to return as a response to the
   ListTagsForResource request.
-- `"NextToken"`: When you request additional results from the ListTagsForResource
+- `"next_token"`: When you request additional results from the ListTagsForResource
   operation, a NextToken parameter is returned in the input. You can then pass in a
   subsequent command to the NextToken parameter to continue listing additional tags.
 """
-function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListTagsForResource",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_tags_for_resource(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListTagsForResource",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
@@ -1049,8 +858,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_users(server_id)
-    list_users(server_id, params::Dict{String,<:Any})
+    list_users(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the users for a file transfer protocol-enabled server that you specify by passing the
 ServerId parameter.
@@ -1060,26 +868,15 @@ ServerId parameter.
   it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the number of users to return as a response to the ListUsers
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the number of users to return as a response to the ListUsers
   request.
-- `"NextToken"`: When you can get additional results from the ListUsers call, a NextToken
+- `"next_token"`: When you can get additional results from the ListUsers call, a NextToken
   parameter is returned in the output. You can then pass in a subsequent command to the
   NextToken parameter to continue listing additional users.
 """
-function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListUsers",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_users(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListUsers",
         Dict{String,Any}(
@@ -1091,32 +888,26 @@ function list_users(
 end
 
 """
-    list_workflows()
-    list_workflows(params::Dict{String,<:Any})
+    list_workflows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of your workflows.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Specifies the maximum number of workflows to return.
-- `"NextToken"`:  ListWorkflows returns the NextToken parameter in the output. You can then
-  pass the NextToken parameter in a subsequent command to continue listing additional
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Specifies the maximum number of workflows to return.
+- `"next_token"`:  ListWorkflows returns the NextToken parameter in the output. You can
+  then pass the NextToken parameter in a subsequent command to continue listing additional
   workflows.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_workflows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    send_workflow_step_state(execution_id, status, token, workflow_id)
-    send_workflow_step_state(execution_id, status, token, workflow_id, params::Dict{String,<:Any})
+    send_workflow_step_state(execution_id, status, token, workflow_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends a callback for asynchronous custom steps.  The ExecutionId, WorkflowId, and Token are
 passed to the target resource during execution of a custom step of a workflow. You must
@@ -1136,27 +927,9 @@ function send_workflow_step_state(
     Token,
     WorkflowId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return transfer(
-        "SendWorkflowStepState",
-        Dict{String,Any}(
-            "ExecutionId" => ExecutionId,
-            "Status" => Status,
-            "Token" => Token,
-            "WorkflowId" => WorkflowId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_workflow_step_state(
-    ExecutionId,
-    Status,
-    Token,
-    WorkflowId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "SendWorkflowStepState",
         Dict{String,Any}(
@@ -1177,8 +950,7 @@ function send_workflow_step_state(
 end
 
 """
-    start_server(server_id)
-    start_server(server_id, params::Dict{String,<:Any})
+    start_server(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the state of a file transfer protocol-enabled server from OFFLINE to ONLINE. It has
 no impact on a server that is already ONLINE. An ONLINE server can accept and process file
@@ -1190,19 +962,10 @@ indicate an error condition. No response is returned from this call.
 - `server_id`: A system-assigned unique identifier for a server that you start.
 
 """
-function start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "StartServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_server(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "StartServer",
         Dict{String,Any}(
@@ -1214,8 +977,7 @@ function start_server(
 end
 
 """
-    stop_server(server_id)
-    stop_server(server_id, params::Dict{String,<:Any})
+    stop_server(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the state of a file transfer protocol-enabled server from ONLINE to OFFLINE. An
 OFFLINE server cannot accept and process file transfer jobs. Information tied to your
@@ -1230,19 +992,8 @@ this call.
 - `server_id`: A system-assigned unique identifier for a server that you stopped.
 
 """
-function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "StopServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_server(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "StopServer",
         Dict{String,Any}(
@@ -1254,8 +1005,7 @@ function stop_server(
 end
 
 """
-    tag_resource(arn, tags)
-    tag_resource(arn, tags, params::Dict{String,<:Any})
+    tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN).
 Resources are users, servers, roles, and other entities. There is no response returned from
@@ -1268,20 +1018,10 @@ this call.
   resources by type. You can attach this metadata to user accounts for any purpose.
 
 """
-function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "TagResource",
-        Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Arn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "TagResource",
         Dict{String,Any}(
@@ -1293,8 +1033,7 @@ function tag_resource(
 end
 
 """
-    test_identity_provider(server_id, user_name)
-    test_identity_provider(server_id, user_name, params::Dict{String,<:Any})
+    test_identity_provider(server_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 If the IdentityProviderType of a file transfer protocol-enabled server is
 AWS_DIRECTORY_SERVICE or API_Gateway, tests whether your identity provider is set up
@@ -1318,29 +1057,17 @@ Unknown server
 - `user_name`: The name of the user account to be tested.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ServerProtocol"`: The type of file transfer protocol to be tested. The available
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"server_protocol"`: The type of file transfer protocol to be tested. The available
   protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP)   File Transfer Protocol
   Secure (FTPS)   File Transfer Protocol (FTP)
-- `"SourceIp"`: The source IP address of the user account to be tested.
-- `"UserPassword"`: The password of the user account to be tested.
+- `"source_ip"`: The source IP address of the user account to be tested.
+- `"user_password"`: The password of the user account to be tested.
 """
 function test_identity_provider(
-    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "TestIdentityProvider",
-        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function test_identity_provider(
-    ServerId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "TestIdentityProvider",
         Dict{String,Any}(
@@ -1356,8 +1083,7 @@ function test_identity_provider(
 end
 
 """
-    untag_resource(arn, tag_keys)
-    untag_resource(arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN).
 Resources are users, servers, roles, and other entities. No response is returned from this
@@ -1371,20 +1097,10 @@ call.
   search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
-function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UntagResource",
-        Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_resource(
-    Arn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "UntagResource",
         Dict{String,Any}(
@@ -1396,8 +1112,7 @@ function untag_resource(
 end
 
 """
-    update_access(external_id, server_id)
-    update_access(external_id, server_id, params::Dict{String,<:Any})
+    update_access(external_id, server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to update parameters for the access specified in the ServerID and ExternalID
 parameters.
@@ -1416,10 +1131,10 @@ parameters.
   specific server that you added your user to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"home_directory"`: The landing directory (folder) for a user when they log in to the
   server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+- `"home_directory_mappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
   visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
@@ -1437,12 +1152,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call instead of s3 or efs so you can use the put-object operation. For example, you use the
   following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
   the end of the key name ends in a / for it to be considered a folder.
-- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+- `"home_directory_type"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
   you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
   want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+- `"policy"`: A session policy for your user so that you can use the same IAM role across
   multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
   Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
@@ -1451,8 +1166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Name (ARN) of the policy. You save the policy as a JSON blob and pass it in the Policy
   argument. For an example of a session policy, see Example session policy. For more
   information, see AssumeRole in the Amazon Web ServicesSecurity Token Service API Reference.
-- `"PosixProfile"`:
-- `"Role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+- `"posix_profile"`:
+- `"role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
   users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
   role determine the level of access that you want to provide your users when transferring
   files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
@@ -1460,21 +1175,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your users' transfer requests.
 """
 function update_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return transfer(
-        "UpdateAccess",
-        Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_access(
-    ExternalId,
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "UpdateAccess",
         Dict{String,Any}(
@@ -1490,8 +1193,7 @@ function update_access(
 end
 
 """
-    update_server(server_id)
-    update_server(server_id, params::Dict{String,<:Any})
+    update_server(server_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the file transfer protocol-enabled server's properties after that server has been
 created. The UpdateServer call returns the ServerId of the server you updated.
@@ -1501,8 +1203,8 @@ created. The UpdateServer call returns the ServerId of the server you updated.
   account is assigned to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Certificate"`: The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"certificate"`: The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate
   Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public
   certificate, see Request a public certificate in the  Amazon Web ServicesCertificate
   Manager User Guide. To import an existing certificate into ACM, see Importing certificates
@@ -1514,12 +1216,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bit (EC_secp384r1)   Elliptic Prime Curve 521 bit (EC_secp521r1)    The certificate must be
   a valid SSL/TLS X.509 version 3 certificate with FQDN or IP address specified and
   information about the issuer.
-- `"EndpointDetails"`: The virtual private cloud (VPC) endpoint settings that are
+- `"endpoint_details"`: The virtual private cloud (VPC) endpoint settings that are
   configured for your server. When you host your endpoint within your VPC, you can make it
   accessible only to resources within your VPC, or you can attach Elastic IP addresses and
   make it accessible to clients over the internet. Your VPC's default security groups are
   automatically assigned to your endpoint.
-- `"EndpointType"`: The type of endpoint that you want your server to use. You can choose
+- `"endpoint_type"`: The type of endpoint that you want your server to use. You can choose
   to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC.
   With an endpoint that is hosted in a VPC, you can restrict access to your server and
   resources only within your VPC or choose to make it internet facing by attaching Elastic IP
@@ -1533,22 +1235,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP
   included) with your server's endpoint and use VPC security groups to restrict traffic by
   the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
-- `"HostKey"`: The RSA private key as generated by ssh-keygen -N \"\" -m PEM -f
+- `"host_key"`: The RSA private key as generated by ssh-keygen -N \"\" -m PEM -f
   my-new-server-key.  If you aren't planning to migrate existing users from an existing
   server to a new server, don't update the host key. Accidentally changing a server's host
   key can be disruptive.  For more information, see Change the host key for your SFTP-enabled
   server in the Amazon Web ServicesTransfer Family User Guide.
-- `"IdentityProviderDetails"`: An array containing all of the information required to call
-  a customer's authentication API method.
-- `"LoggingRole"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
+- `"identity_provider_details"`: An array containing all of the information required to
+  call a customer's authentication API method.
+- `"logging_role"`: Specifies the Amazon Resource Name (ARN) of the Amazon Web Services
   Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch
   logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your
   CloudWatch logs.
-- `"ProtocolDetails"`:  The protocol settings that are configured for your server.   Use
+- `"protocol_details"`:  The protocol settings that are configured for your server.   Use
   the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a
   single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or
   load balancer.
-- `"Protocols"`: Specifies the file transfer protocol or protocols over which your file
+- `"protocols"`: Specifies the file transfer protocol or protocols over which your file
   transfer protocol client can connect to your server's endpoint. The available protocols
   are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File
   Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol
@@ -1559,24 +1261,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If
   Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
   IdentityProviderType can be set to SERVICE_MANAGED.
-- `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
-  server.
-- `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
+- `"security_policy_name"`: Specifies the name of the security policy that is attached to
+  the server.
+- `"workflow_details"`: Specifies the workflow ID for the workflow to assign and the
   execution role used for executing the workflow.
 """
-function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UpdateServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_server(
-    ServerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "UpdateServer",
         Dict{String,Any}(
@@ -1588,8 +1281,7 @@ function update_server(
 end
 
 """
-    update_user(server_id, user_name)
-    update_user(server_id, user_name, params::Dict{String,<:Any})
+    update_user(server_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns new properties to a user. Parameters you pass modify any or all of the following:
 the home directory, role, and policy for the UserName and ServerId you specify. The
@@ -1605,10 +1297,10 @@ response returns the ServerId and the UserName for the updated user.
   sign.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"home_directory"`: The landing directory (folder) for a user when they log in to the
   server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
-- `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
+- `"home_directory_mappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
   visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a
@@ -1626,12 +1318,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call instead of s3 or efs so you can use the put-object operation. For example, you use the
   following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that
   the end of the key name ends in a / for it to be considered a folder.
-- `"HomeDirectoryType"`: The type of landing directory (folder) you want your users' home
+- `"home_directory_type"`: The type of landing directory (folder) you want your users' home
   directory to be when they log into the server. If you set it to PATH, the user will see the
   absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If
   you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you
   want to make Amazon S3 or EFS paths visible to your users.
-- `"Policy"`: A session policy for your user so that you can use the same IAM role across
+- `"policy"`: A session policy for your user so that you can use the same IAM role across
   multiple users. This policy scopes down user access to portions of their Amazon S3 bucket.
   Variables that you can use inside this policy include {Transfer:UserName},
   {Transfer:HomeDirectory}, and {Transfer:HomeBucket}.  This only applies when the domain of
@@ -1641,32 +1333,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   argument. For an example of a session policy, see Creating a session policy. For more
   information, see AssumeRole in the Amazon Web Services Security Token Service API
   Reference.
-- `"PosixProfile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
+- `"posix_profile"`: Specifies the full POSIX identity, including user ID (Uid), group ID
   (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to
   your Amazon Elastic File Systems (Amazon EFS). The POSIX permissions that are set on files
   and directories in your file system determines the level of access your users get when
   transferring files into and out of your Amazon EFS file systems.
-- `"Role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
+- `"role"`: Specifies the Amazon Resource Name (ARN) of the IAM role that controls your
   users' access to your Amazon S3 bucket or EFS file system. The policies attached to this
   role determine the level of access that you want to provide your users when transferring
   files into and out of your Amazon S3 bucket or EFS file system. The IAM role should also
   contain a trust relationship that allows the server to access your resources when servicing
   your users' transfer requests.
 """
-function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UpdateUser",
-        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user(
-    ServerId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return transfer(
         "UpdateUser",
         Dict{String,Any}(

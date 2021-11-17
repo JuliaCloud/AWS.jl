@@ -254,19 +254,20 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
 
     if haskey(input_shape, "members")
         for (member_key, member_value) in input_shape["members"]
-            parameter_name = _format_name(member_key)
+            parameter_name = _get_parameter_name(member_key, input_shape)
+            julia_param_name = _format_name(member_key)
 
             if !haskey(required_parameters, parameter_name)
                 documentation = _clean_documentation(get(member_value, "documentation", ""))
                 idempotent = get(member_value, "idempotencyToken", false)
 
-                optional_parameters[parameter_name] = LittleDict{String,Union{String,Bool}}(
+                optional_parameters[julia_param_name] = LittleDict{
+                    String,Union{String,Bool}
+                }(
                     "documentation" => documentation, "idempotent" => idempotent
                 )
 
-                if haskey(input_shape["members"][member_key], "locationName")
-                    optional_parameters[parameter_name]["location_name"] = input_shape["members"]["locationName"]
-                end
+                optional_parameters[julia_param_name]["location_name"] = parameter_name
             end
         end
     end
@@ -274,10 +275,25 @@ function _get_function_parameters(input::String, shapes::AbstractDict{String})
     return (sort(required_parameters), sort(optional_parameters))
 end
 
-function add_aws_param_names!(aws_service_param_mapping, optional_parameters)
-    for opt_param in optional_parameters
-        if haskey(opt_param, "location_name")
-            aws_service_param_mapping[opt_param] = opt_param["location_name"]
+function add_aws_param_names!(aws_service_param_mapping, service_name, optional_parameters)
+    # AWS SDK JS has inconsistencies with their API definitions. Certain parameters specify
+    # various capitalizations however the requests themselves actually want different ones.
+
+    # https://github.com/aws/aws-sdk-js/issues/3892
+
+    # Keep track of the proper values in this mapping, using Julia syntax for the keys which
+    # users will specify in their request to the correct values which AWS wants in the
+    # requests.
+    AWS_INCONSISTENCIES = Dict(
+        "s3" => Dict("body" => "body"), "ec2" => Dict("client_token" => "ClientToken")
+    )
+
+    for (julia_param_name, data) in optional_parameters
+        if haskey(AWS_INCONSISTENCIES, service_name) &&
+            haskey(AWS_INCONSISTENCIES[service_name], julia_param_name)
+            aws_service_param_mapping[julia_param_name] = AWS_INCONSISTENCIES[service_name][julia_param_name]
+        else
+            aws_service_param_mapping[julia_param_name] = data["location_name"]
         end
     end
 

@@ -4,9 +4,12 @@ using AWS.AWSServices: marketplace_entitlement_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "filter" => "Filter", "next_token" => "NextToken", "max_results" => "MaxResults"
+)
+
 """
-    get_entitlements(product_code)
-    get_entitlements(product_code, params::Dict{String,<:Any})
+    get_entitlements(product_code; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 GetEntitlements retrieves entitlement values for a given product. The results can be
 filtered based on customer identifier or product dimensions.
@@ -16,29 +19,20 @@ filtered based on customer identifier or product dimensions.
   The product code will be provided by AWS Marketplace when the product listing is created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filter is used to return entitlements for a specific customer or for a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Filter is used to return entitlements for a specific customer or for a
   specific dimension. Filters are described as keys mapped to a lists of values. Filtered
   requests are unioned for each value in the value list, and then intersected for each filter
   key.
-- `"MaxResults"`: The maximum number of items to retrieve from the GetEntitlements
+- `"max_results"`: The maximum number of items to retrieve from the GetEntitlements
   operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
-- `"NextToken"`: For paginated calls to GetEntitlements, pass the NextToken from the
+- `"next_token"`: For paginated calls to GetEntitlements, pass the NextToken from the
   previous GetEntitlementsResult.
 """
-function get_entitlements(ProductCode; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_entitlement_service(
-        "GetEntitlements",
-        Dict{String,Any}("ProductCode" => ProductCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_entitlements(
-    ProductCode,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ProductCode; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return marketplace_entitlement_service(
         "GetEntitlements",
         Dict{String,Any}(

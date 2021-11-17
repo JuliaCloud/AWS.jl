@@ -4,9 +4,31 @@ using AWS.AWSServices: forecast
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "time_zone" => "TimeZone",
+    "perform_hpo" => "PerformHPO",
+    "training_parameters" => "TrainingParameters",
+    "geolocation_format" => "GeolocationFormat",
+    "next_token" => "NextToken",
+    "encryption_config" => "EncryptionConfig",
+    "dataset_arns" => "DatasetArns",
+    "forecast_types" => "ForecastTypes",
+    "algorithm_arn" => "AlgorithmArn",
+    "auto_mloverride_strategy" => "AutoMLOverrideStrategy",
+    "optimization_metric" => "OptimizationMetric",
+    "hpoconfig" => "HPOConfig",
+    "use_geolocation_for_time_zone" => "UseGeolocationForTimeZone",
+    "max_results" => "MaxResults",
+    "perform_auto_ml" => "PerformAutoML",
+    "timestamp_format" => "TimestampFormat",
+    "filters" => "Filters",
+    "data_frequency" => "DataFrequency",
+    "evaluation_parameters" => "EvaluationParameters",
+    "tags" => "Tags",
+)
+
 """
-    create_dataset(dataset_name, dataset_type, domain, schema)
-    create_dataset(dataset_name, dataset_type, domain, schema, params::Dict{String,<:Any})
+    create_dataset(dataset_name, dataset_type, domain, schema; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Forecast dataset. The information about the dataset that you provide
 helps Forecast understand how to consume the data for model training. This includes the
@@ -39,15 +61,15 @@ DescribeDataset operation to get the status.
   for a specific dataset domain and type, see howitworks-domains-ds-types.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataFrequency"`: The frequency of data collection. This parameter is required for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_frequency"`: The frequency of data collection. This parameter is required for
   RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H
   (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
   1min (1 minute). For example, \"D\" indicates every day and \"15min\" indicates every 15
   minutes.
-- `"EncryptionConfig"`: An AWS Key Management Service (KMS) key and the AWS Identity and
+- `"encryption_config"`: An AWS Key Management Service (KMS) key and the AWS Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the key.
-- `"Tags"`: The optional metadata that you apply to the dataset to help you categorize and
+- `"tags"`: The optional metadata that you apply to the dataset to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
     For each resource, each tag key must be unique, and each tag key can have only one value.
@@ -68,27 +90,9 @@ function create_dataset(
     Domain,
     Schema;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return forecast(
-        "CreateDataset",
-        Dict{String,Any}(
-            "DatasetName" => DatasetName,
-            "DatasetType" => DatasetType,
-            "Domain" => Domain,
-            "Schema" => Schema,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_dataset(
-    DatasetName,
-    DatasetType,
-    Domain,
-    Schema,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreateDataset",
         Dict{String,Any}(
@@ -109,8 +113,7 @@ function create_dataset(
 end
 
 """
-    create_dataset_group(dataset_group_name, domain)
-    create_dataset_group(dataset_group_name, domain, params::Dict{String,<:Any})
+    create_dataset_group(dataset_group_name, domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a dataset group, which holds a collection of related datasets. You can add datasets
 to the dataset group when you create the dataset group, or later by using the
@@ -132,10 +135,10 @@ DescribeDatasetGroup operation.
   information, see howitworks-datasets-groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatasetArns"`: An array of Amazon Resource Names (ARNs) of the datasets that you want
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dataset_arns"`: An array of Amazon Resource Names (ARNs) of the datasets that you want
   to include in the dataset group.
-- `"Tags"`: The optional metadata that you apply to the dataset group to help you
+- `"tags"`: The optional metadata that you apply to the dataset group to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
   per resource - 50.   For each resource, each tag key must be unique, and each tag key can
@@ -152,21 +155,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   per resource limit.
 """
 function create_dataset_group(
-    DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "CreateDatasetGroup",
-        Dict{String,Any}("DatasetGroupName" => DatasetGroupName, "Domain" => Domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_dataset_group(
-    DatasetGroupName,
-    Domain,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreateDatasetGroup",
         Dict{String,Any}(
@@ -184,8 +175,7 @@ function create_dataset_group(
 end
 
 """
-    create_dataset_import_job(data_source, dataset_arn, dataset_import_job_name)
-    create_dataset_import_job(data_source, dataset_arn, dataset_import_job_name, params::Dict{String,<:Any})
+    create_dataset_import_job(data_source, dataset_arn, dataset_import_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Imports your training data to an Amazon Forecast dataset. You provide the location of your
 training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon
@@ -217,12 +207,12 @@ operation.
   avoid getting a ResourceAlreadyExistsException exception.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GeolocationFormat"`: The format of the geolocation attribute. The geolocation attribute
-  can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in decimal
-  format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code (US),
-  followed by the 5-digit ZIP code (Example: US_98121).
-- `"Tags"`: The optional metadata that you apply to the dataset import job to help you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"geolocation_format"`: The format of the geolocation attribute. The geolocation
+  attribute can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in
+  decimal format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code
+  (US), followed by the 5-digit ZIP code (Example: US_98121).
+- `"tags"`: The optional metadata that you apply to the dataset import job to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
   per resource - 50.   For each resource, each tag key must be unique, and each tag key can
@@ -237,17 +227,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but the key does not, then Forecast considers it to be a user tag and will count against
   the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
   per resource limit.
-- `"TimeZone"`: A single time zone for every item in your dataset. This option is ideal for
-  datasets with all timestamps within a single time zone, or if all timestamps are normalized
-  to a single time zone.  Refer to the Joda-Time API for a complete list of valid time zone
-  names.
-- `"TimestampFormat"`: The format of timestamps in the dataset. The format that you specify
-  depends on the DataFrequency specified when the dataset was created. The following formats
-  are supported   \"yyyy-MM-dd\" For the following data frequencies: Y, M, W, and D
+- `"time_zone"`: A single time zone for every item in your dataset. This option is ideal
+  for datasets with all timestamps within a single time zone, or if all timestamps are
+  normalized to a single time zone.  Refer to the Joda-Time API for a complete list of valid
+  time zone names.
+- `"timestamp_format"`: The format of timestamps in the dataset. The format that you
+  specify depends on the DataFrequency specified when the dataset was created. The following
+  formats are supported   \"yyyy-MM-dd\" For the following data frequencies: Y, M, W, and D
   \"yyyy-MM-dd HH:mm:ss\" For the following data frequencies: H, 30min, 15min, and 1min; and
   optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects
   the format to be \"yyyy-MM-dd HH:mm:ss\".
-- `"UseGeolocationForTimeZone"`: Automatically derive time zone information from the
+- `"use_geolocation_for_time_zone"`: Automatically derive time zone information from the
   geolocation attribute. This option is ideal for datasets that contain timestamps in
   multiple time zones and those timestamps are expressed in local time.
 """
@@ -256,25 +246,9 @@ function create_dataset_import_job(
     DatasetArn,
     DatasetImportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return forecast(
-        "CreateDatasetImportJob",
-        Dict{String,Any}(
-            "DataSource" => DataSource,
-            "DatasetArn" => DatasetArn,
-            "DatasetImportJobName" => DatasetImportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_dataset_import_job(
-    DataSource,
-    DatasetArn,
-    DatasetImportJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreateDatasetImportJob",
         Dict{String,Any}(
@@ -294,8 +268,7 @@ function create_dataset_import_job(
 end
 
 """
-    create_forecast(forecast_name, predictor_arn)
-    create_forecast(forecast_name, predictor_arn, params::Dict{String,<:Any})
+    create_forecast(forecast_name, predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train
 the predictor. This is known as inference. To retrieve the forecast for a single item at
@@ -315,13 +288,13 @@ DescribeForecast operation to get the status.
   forecast.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForecastTypes"`: The quantiles at which probabilistic forecasts are generated. You can
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"forecast_types"`: The quantiles at which probabilistic forecasts are generated. You can
   currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99
   (increments of .01 only) and mean. The mean forecast is different from the median (0.50)
   when the distribution is not symmetric (for example, Beta and Negative Binomial). The
   default value is [\"0.1\", \"0.5\", \"0.9\"].
-- `"Tags"`: The optional metadata that you apply to the forecast to help you categorize and
+- `"tags"`: The optional metadata that you apply to the forecast to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
     For each resource, each tag key must be unique, and each tag key can have only one value.
@@ -337,21 +310,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the key prefix of aws do not count against your tags per resource limit.
 """
 function create_forecast(
-    ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ForecastName, PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "CreateForecast",
-        Dict{String,Any}("ForecastName" => ForecastName, "PredictorArn" => PredictorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_forecast(
-    ForecastName,
-    PredictorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreateForecast",
         Dict{String,Any}(
@@ -369,8 +330,7 @@ function create_forecast(
 end
 
 """
-    create_forecast_export_job(destination, forecast_arn, forecast_export_job_name)
-    create_forecast_export_job(destination, forecast_arn, forecast_export_job_name, params::Dict{String,<:Any})
+    create_forecast_export_job(destination, forecast_arn, forecast_export_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports a forecast created by the CreateForecast operation to your Amazon Simple Storage
 Service (Amazon S3) bucket. The forecast file name will match the following conventions:
@@ -393,8 +353,8 @@ Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation
 - `forecast_export_job_name`: The name for the forecast export job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The optional metadata that you apply to the forecast export job to help you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: The optional metadata that you apply to the forecast export job to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
   per resource - 50.   For each resource, each tag key must be unique, and each tag key can
@@ -415,25 +375,9 @@ function create_forecast_export_job(
     ForecastArn,
     ForecastExportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return forecast(
-        "CreateForecastExportJob",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "ForecastArn" => ForecastArn,
-            "ForecastExportJobName" => ForecastExportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_forecast_export_job(
-    Destination,
-    ForecastArn,
-    ForecastExportJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreateForecastExportJob",
         Dict{String,Any}(
@@ -453,8 +397,7 @@ function create_forecast_export_job(
 end
 
 """
-    create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name)
-    create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name, params::Dict{String,<:Any})
+    create_predictor(featurization_config, forecast_horizon, input_data_config, predictor_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Amazon Forecast predictor. In the request, provide a dataset group and either
 specify an algorithm or let Amazon Forecast choose an algorithm for you using AutoML. If
@@ -493,40 +436,40 @@ completed. To get the status, use the DescribePredictor operation.
 - `predictor_name`: A name for the predictor.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AlgorithmArn"`: The Amazon Resource Name (ARN) of the algorithm to use for model
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"algorithm_arn"`: The Amazon Resource Name (ARN) of the algorithm to use for model
   training. Required if PerformAutoML is not set to true.  Supported algorithms:
   arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/CNN-QR
   arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS
   arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
-- `"AutoMLOverrideStrategy"`:   The LatencyOptimized AutoML override strategy is only
+- `"auto_mloverride_strategy"`:   The LatencyOptimized AutoML override strategy is only
   available in private beta. Contact AWS Support or your account manager to learn more about
   access privileges.   Used to overide the default AutoML strategy, which is to optimize
   predictor accuracy. To apply an AutoML strategy that minimizes training time, use
   LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
-- `"EncryptionConfig"`: An AWS Key Management Service (KMS) key and the AWS Identity and
+- `"encryption_config"`: An AWS Key Management Service (KMS) key and the AWS Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the key.
-- `"EvaluationParameters"`: Used to override the default evaluation parameters of the
+- `"evaluation_parameters"`: Used to override the default evaluation parameters of the
   specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into
   training data and testing data. The evaluation parameters define how to perform the split
   and the number of iterations.
-- `"ForecastTypes"`: Specifies the forecast types used to train a predictor. You can
+- `"forecast_types"`: Specifies the forecast types used to train a predictor. You can
   specify up to five forecast types. Forecast types can be quantiles from 0.01 to 0.99, by
   increments of 0.01 or higher. You can also specify the mean forecast with mean.  The
   default value is [\"0.10\", \"0.50\", \"0.9\"].
-- `"HPOConfig"`: Provides hyperparameter override values for the algorithm. If you don't
+- `"hpoconfig"`: Provides hyperparameter override values for the algorithm. If you don't
   provide this parameter, Amazon Forecast uses default values. The individual algorithms
   specify which hyperparameters support hyperparameter optimization (HPO). For more
   information, see aws-forecast-choosing-recipes. If you included the HPOConfig object, you
   must set PerformHPO to true.
-- `"OptimizationMetric"`: The accuracy metric used to optimize the predictor.
-- `"PerformAutoML"`: Whether to perform AutoML. When Amazon Forecast performs AutoML, it
+- `"optimization_metric"`: The accuracy metric used to optimize the predictor.
+- `"perform_auto_ml"`: Whether to perform AutoML. When Amazon Forecast performs AutoML, it
   evaluates the algorithms it provides and chooses the best algorithm and configuration for
   your training dataset. The default value is false. In this case, you are required to
   specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML.
   This is a good option if you aren't sure which algorithm is suitable for your training
   data. In this case, PerformHPO must be false.
-- `"PerformHPO"`: Whether to perform hyperparameter optimization (HPO). HPO finds optimal
+- `"perform_hpo"`: Whether to perform hyperparameter optimization (HPO). HPO finds optimal
   hyperparameter values for your training data. The process of performing HPO is known as
   running a hyperparameter tuning job. The default value is false. In this case, Amazon
   Forecast uses default hyperparameter values from the chosen algorithm. To override the
@@ -535,7 +478,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hyperparameters participate in tuning, and the valid range for each tunable hyperparameter.
   In this case, you are required to specify an algorithm and PerformAutoML must be false. The
   following algorithms support HPO:   DeepAR+   CNN-QR
-- `"Tags"`: The optional metadata that you apply to the predictor to help you categorize
+- `"tags"`: The optional metadata that you apply to the predictor to help you categorize
   and organize them. Each tag consists of a key and an optional value, both of which you
   define. The following basic restrictions apply to tags:   Maximum number of tags per
   resource - 50.   For each resource, each tag key must be unique, and each tag key can have
@@ -550,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not, then Forecast considers it to be a user tag and will count against the limit of 50
   tags. Tags with only the key prefix of aws do not count against your tags per resource
   limit.
-- `"TrainingParameters"`: The hyperparameters to override for model training. The
+- `"training_parameters"`: The hyperparameters to override for model training. The
   hyperparameters that you can override are listed in the individual algorithms. For the list
   of supported algorithms, see aws-forecast-choosing-recipes.
 """
@@ -560,27 +503,9 @@ function create_predictor(
     InputDataConfig,
     PredictorName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return forecast(
-        "CreatePredictor",
-        Dict{String,Any}(
-            "FeaturizationConfig" => FeaturizationConfig,
-            "ForecastHorizon" => ForecastHorizon,
-            "InputDataConfig" => InputDataConfig,
-            "PredictorName" => PredictorName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_predictor(
-    FeaturizationConfig,
-    ForecastHorizon,
-    InputDataConfig,
-    PredictorName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreatePredictor",
         Dict{String,Any}(
@@ -601,8 +526,7 @@ function create_predictor(
 end
 
 """
-    create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name)
-    create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name, params::Dict{String,<:Any})
+    create_predictor_backtest_export_job(destination, predictor_arn, predictor_backtest_export_job_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Exports backtest forecasts and accuracy metrics generated by the CreatePredictor operation.
 Two folders containing CSV files are exported to your specified S3 bucket.  The export file
@@ -621,8 +545,8 @@ status, use the DescribePredictorBacktestExportJob operation.
 - `predictor_backtest_export_job_name`: The name for the backtest export job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Optional metadata to help you categorize and organize your backtests. Each tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: Optional metadata to help you categorize and organize your backtests. Each tag
   consists of a key and an optional value, both of which you define. Tag keys and values are
   case sensitive. The following restrictions apply to tags:   For each resource, each tag key
   must be unique and each tag key must have one value.   Maximum number of tags per resource:
@@ -641,25 +565,9 @@ function create_predictor_backtest_export_job(
     PredictorArn,
     PredictorBacktestExportJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return forecast(
-        "CreatePredictorBacktestExportJob",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "PredictorArn" => PredictorArn,
-            "PredictorBacktestExportJobName" => PredictorBacktestExportJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_predictor_backtest_export_job(
-    Destination,
-    PredictorArn,
-    PredictorBacktestExportJobName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "CreatePredictorBacktestExportJob",
         Dict{String,Any}(
@@ -679,8 +587,7 @@ function create_predictor_backtest_export_job(
 end
 
 """
-    delete_dataset(dataset_arn)
-    delete_dataset(dataset_arn, params::Dict{String,<:Any})
+    delete_dataset(dataset_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon Forecast dataset that was created using the CreateDataset operation. You
 can only delete datasets that have a status of ACTIVE or CREATE_FAILED. To get the status
@@ -692,19 +599,10 @@ operation, omitting the deleted dataset's ARN.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-function delete_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeleteDataset",
-        Dict{String,Any}("DatasetArn" => DatasetArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_dataset(
-    DatasetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteDataset",
         Dict{String,Any}(
@@ -716,8 +614,7 @@ function delete_dataset(
 end
 
 """
-    delete_dataset_group(dataset_group_arn)
-    delete_dataset_group(dataset_group_arn, params::Dict{String,<:Any})
+    delete_dataset_group(dataset_group_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a dataset group created using the CreateDatasetGroup operation. You can only delete
 dataset groups that have a status of ACTIVE, CREATE_FAILED, or UPDATE_FAILED. To get the
@@ -729,20 +626,9 @@ group, not the datasets in the group.
 
 """
 function delete_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DeleteDatasetGroup",
-        Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_dataset_group(
-    DatasetGroupArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteDatasetGroup",
         Dict{String,Any}(
@@ -756,8 +642,7 @@ function delete_dataset_group(
 end
 
 """
-    delete_dataset_import_job(dataset_import_job_arn)
-    delete_dataset_import_job(dataset_import_job_arn, params::Dict{String,<:Any})
+    delete_dataset_import_job(dataset_import_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a dataset import job created using the CreateDatasetImportJob operation. You can
 delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED. To get the
@@ -769,20 +654,9 @@ status, use the DescribeDatasetImportJob operation.
 
 """
 function delete_dataset_import_job(
-    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DeleteDatasetImportJob",
-        Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_dataset_import_job(
-    DatasetImportJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteDatasetImportJob",
         Dict{String,Any}(
@@ -798,8 +672,7 @@ function delete_dataset_import_job(
 end
 
 """
-    delete_forecast(forecast_arn)
-    delete_forecast(forecast_arn, params::Dict{String,<:Any})
+    delete_forecast(forecast_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a forecast created using the CreateForecast operation. You can delete only
 forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the
@@ -810,19 +683,10 @@ forecast is deleted, you can no longer query the forecast.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast to delete.
 
 """
-function delete_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeleteForecast",
-        Dict{String,Any}("ForecastArn" => ForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_forecast(
-    ForecastArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteForecast",
         Dict{String,Any}(
@@ -834,8 +698,7 @@ function delete_forecast(
 end
 
 """
-    delete_forecast_export_job(forecast_export_job_arn)
-    delete_forecast_export_job(forecast_export_job_arn, params::Dict{String,<:Any})
+    delete_forecast_export_job(forecast_export_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a forecast export job created using the CreateForecastExportJob operation. You can
 delete only export jobs that have a status of ACTIVE or CREATE_FAILED. To get the status,
@@ -847,20 +710,9 @@ use the DescribeForecastExportJob operation.
 
 """
 function delete_forecast_export_job(
-    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DeleteForecastExportJob",
-        Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_forecast_export_job(
-    ForecastExportJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteForecastExportJob",
         Dict{String,Any}(
@@ -876,8 +728,7 @@ function delete_forecast_export_job(
 end
 
 """
-    delete_predictor(predictor_arn)
-    delete_predictor(predictor_arn, params::Dict{String,<:Any})
+    delete_predictor(predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a predictor created using the CreatePredictor operation. You can delete only
 predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the
@@ -887,19 +738,10 @@ DescribePredictor operation.
 - `predictor_arn`: The Amazon Resource Name (ARN) of the predictor to delete.
 
 """
-function delete_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DeletePredictor",
-        Dict{String,Any}("PredictorArn" => PredictorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_predictor(
-    PredictorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeletePredictor",
         Dict{String,Any}(
@@ -911,8 +753,7 @@ function delete_predictor(
 end
 
 """
-    delete_predictor_backtest_export_job(predictor_backtest_export_job_arn)
-    delete_predictor_backtest_export_job(predictor_backtest_export_job_arn, params::Dict{String,<:Any})
+    delete_predictor_backtest_export_job(predictor_backtest_export_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a predictor backtest export job.
 
@@ -922,20 +763,11 @@ Deletes a predictor backtest export job.
 
 """
 function delete_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
-        "DeletePredictorBacktestExportJob",
-        Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn,
-    params::AbstractDict{String};
+    PredictorBacktestExportJobArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeletePredictorBacktestExportJob",
         Dict{String,Any}(
@@ -953,8 +785,7 @@ function delete_predictor_backtest_export_job(
 end
 
 """
-    delete_resource_tree(resource_arn)
-    delete_resource_tree(resource_arn, params::Dict{String,<:Any})
+    delete_resource_tree(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an entire resource tree. This operation will delete the parent resource and its
 child resources. Child resources are resources that were created from another resource. For
@@ -972,20 +803,9 @@ delete datasets or exported files stored in Amazon S3.
 
 """
 function delete_resource_tree(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DeleteResourceTree",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resource_tree(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DeleteResourceTree",
         Dict{String,Any}(
@@ -997,8 +817,7 @@ function delete_resource_tree(
 end
 
 """
-    describe_dataset(dataset_arn)
-    describe_dataset(dataset_arn, params::Dict{String,<:Any})
+    describe_dataset(dataset_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes an Amazon Forecast dataset created using the CreateDataset operation. In addition
 to listing the parameters specified in the CreateDataset request, this operation includes
@@ -1008,19 +827,10 @@ the following dataset properties:    CreationTime     LastModificationTime     S
 - `dataset_arn`: The Amazon Resource Name (ARN) of the dataset.
 
 """
-function describe_dataset(DatasetArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DescribeDataset",
-        Dict{String,Any}("DatasetArn" => DatasetArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_dataset(
-    DatasetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DatasetArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribeDataset",
         Dict{String,Any}(
@@ -1032,8 +842,7 @@ function describe_dataset(
 end
 
 """
-    describe_dataset_group(dataset_group_arn)
-    describe_dataset_group(dataset_group_arn, params::Dict{String,<:Any})
+    describe_dataset_group(dataset_group_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a dataset group created using the CreateDatasetGroup operation. In addition to
 listing the parameters provided in the CreateDatasetGroup request, this operation includes
@@ -1045,20 +854,9 @@ CreationTime     LastModificationTime     Status
 
 """
 function describe_dataset_group(
-    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DescribeDatasetGroup",
-        Dict{String,Any}("DatasetGroupArn" => DatasetGroupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_dataset_group(
-    DatasetGroupArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribeDatasetGroup",
         Dict{String,Any}(
@@ -1072,8 +870,7 @@ function describe_dataset_group(
 end
 
 """
-    describe_dataset_import_job(dataset_import_job_arn)
-    describe_dataset_import_job(dataset_import_job_arn, params::Dict{String,<:Any})
+    describe_dataset_import_job(dataset_import_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a dataset import job created using the CreateDatasetImportJob operation. In
 addition to listing the parameters provided in the CreateDatasetImportJob request, this
@@ -1086,20 +883,9 @@ about the error.
 
 """
 function describe_dataset_import_job(
-    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetImportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DescribeDatasetImportJob",
-        Dict{String,Any}("DatasetImportJobArn" => DatasetImportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_dataset_import_job(
-    DatasetImportJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribeDatasetImportJob",
         Dict{String,Any}(
@@ -1115,8 +901,7 @@ function describe_dataset_import_job(
 end
 
 """
-    describe_forecast(forecast_arn)
-    describe_forecast(forecast_arn, params::Dict{String,<:Any})
+    describe_forecast(forecast_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a forecast created using the CreateForecast operation. In addition to listing the
 properties provided in the CreateForecast request, this operation lists the following
@@ -1128,19 +913,10 @@ information about the error.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast.
 
 """
-function describe_forecast(ForecastArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DescribeForecast",
-        Dict{String,Any}("ForecastArn" => ForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_forecast(
-    ForecastArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribeForecast",
         Dict{String,Any}(
@@ -1152,8 +928,7 @@ function describe_forecast(
 end
 
 """
-    describe_forecast_export_job(forecast_export_job_arn)
-    describe_forecast_export_job(forecast_export_job_arn, params::Dict{String,<:Any})
+    describe_forecast_export_job(forecast_export_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a forecast export job created using the CreateForecastExportJob operation. In
 addition to listing the properties provided by the user in the CreateForecastExportJob
@@ -1166,20 +941,9 @@ error.
 
 """
 function describe_forecast_export_job(
-    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ForecastExportJobArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "DescribeForecastExportJob",
-        Dict{String,Any}("ForecastExportJobArn" => ForecastExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_forecast_export_job(
-    ForecastExportJobArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribeForecastExportJob",
         Dict{String,Any}(
@@ -1195,8 +959,7 @@ function describe_forecast_export_job(
 end
 
 """
-    describe_predictor(predictor_arn)
-    describe_predictor(predictor_arn, params::Dict{String,<:Any})
+    describe_predictor(predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a predictor created using the CreatePredictor operation. In addition to listing
 the properties provided in the CreatePredictor request, this operation lists the following
@@ -1210,19 +973,10 @@ information about the error.
   information about.
 
 """
-function describe_predictor(PredictorArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "DescribePredictor",
-        Dict{String,Any}("PredictorArn" => PredictorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_predictor(
-    PredictorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribePredictor",
         Dict{String,Any}(
@@ -1234,8 +988,7 @@ function describe_predictor(
 end
 
 """
-    describe_predictor_backtest_export_job(predictor_backtest_export_job_arn)
-    describe_predictor_backtest_export_job(predictor_backtest_export_job_arn, params::Dict{String,<:Any})
+    describe_predictor_backtest_export_job(predictor_backtest_export_job_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes a predictor backtest export job created using the
 CreatePredictorBacktestExportJob operation. In addition to listing the properties provided
@@ -1249,20 +1002,11 @@ an error occurred)
 
 """
 function describe_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
-        "DescribePredictorBacktestExportJob",
-        Dict{String,Any}("PredictorBacktestExportJobArn" => PredictorBacktestExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_predictor_backtest_export_job(
-    PredictorBacktestExportJobArn,
-    params::AbstractDict{String};
+    PredictorBacktestExportJobArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "DescribePredictorBacktestExportJob",
         Dict{String,Any}(
@@ -1280,8 +1024,7 @@ function describe_predictor_backtest_export_job(
 end
 
 """
-    get_accuracy_metrics(predictor_arn)
-    get_accuracy_metrics(predictor_arn, params::Dict{String,<:Any})
+    get_accuracy_metrics(predictor_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides metrics on the accuracy of the models that were trained by the CreatePredictor
 operation. Use metrics to see how well the model performed and to decide whether to use the
@@ -1301,20 +1044,9 @@ that training has completed. To get the status, use the DescribePredictor operat
 
 """
 function get_accuracy_metrics(
-    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config()
+    PredictorArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "GetAccuracyMetrics",
-        Dict{String,Any}("PredictorArn" => PredictorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_accuracy_metrics(
-    PredictorArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "GetAccuracyMetrics",
         Dict{String,Any}(
@@ -1326,8 +1058,7 @@ function get_accuracy_metrics(
 end
 
 """
-    list_dataset_groups()
-    list_dataset_groups(params::Dict{String,<:Any})
+    list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of dataset groups created using the CreateDatasetGroup operation. For each
 dataset group, this operation returns a summary of its properties, including its Amazon
@@ -1335,28 +1066,21 @@ Resource Name (ARN). You can retrieve the complete set of properties by using th
 group ARN with the DescribeDatasetGroup operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListDatasetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_dataset_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_dataset_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListDatasetGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_dataset_import_jobs()
-    list_dataset_import_jobs(params::Dict{String,<:Any})
+    list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of dataset import jobs created using the CreateDatasetImportJob operation.
 For each import job, this operation returns a summary of its properties, including its
@@ -1365,8 +1089,8 @@ ARN with the DescribeDatasetImportJob operation. You can filter the list by prov
 array of Filter objects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An array of filters. For each filter, you provide a condition and a match
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the datasets that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1376,19 +1100,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify
   the following filter:  \"Filters\": [ { \"Condition\": \"IS\", \"Key\": \"Status\",
   \"Value\": \"ACTIVE\" } ]
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_dataset_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListDatasetImportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_dataset_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_dataset_import_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListDatasetImportJobs",
         params;
@@ -1398,34 +1118,28 @@ function list_dataset_import_jobs(
 end
 
 """
-    list_datasets()
-    list_datasets(params::Dict{String,<:Any})
+    list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of datasets created using the CreateDataset operation. For each dataset, a
 summary of its properties, including its Amazon Resource Name (ARN), is returned. To
 retrieve the complete set of properties, use the ARN with the DescribeDataset operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast("ListDatasets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_datasets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListDatasets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_forecast_export_jobs()
-    list_forecast_export_jobs(params::Dict{String,<:Any})
+    list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of forecast export jobs created using the CreateForecastExportJob operation.
 For each forecast export job, this operation returns a summary of its properties, including
@@ -1434,8 +1148,8 @@ with the DescribeForecastExportJob operation. You can filter the list using an a
 Filter objects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An array of filters. For each filter, you provide a condition and a match
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the forecast export jobs that match the statement from the list, respectively. The
   match statement consists of a key and a value.  Filter properties     Condition - The
@@ -1446,19 +1160,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   forecast named electricityforecast, specify the following filter:  \"Filters\": [ {
   \"Condition\": \"IS\", \"Key\": \"ForecastArn\", \"Value\":
   \"arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast\" } ]
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_forecast_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListForecastExportJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_forecast_export_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_forecast_export_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListForecastExportJobs",
         params;
@@ -1468,8 +1178,7 @@ function list_forecast_export_jobs(
 end
 
 """
-    list_forecasts()
-    list_forecasts(params::Dict{String,<:Any})
+    list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of forecasts created using the CreateForecast operation. For each forecast,
 this operation returns a summary of its properties, including its Amazon Resource Name
@@ -1477,8 +1186,8 @@ this operation returns a summary of its properties, including its Amazon Resourc
 DescribeForecast operation. You can filter the list using an array of Filter objects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An array of filters. For each filter, you provide a condition and a match
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the forecasts that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1488,25 +1197,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Value - The value to match.   For example, to list all forecasts whose status is not
   ACTIVE, you would specify:  \"Filters\": [ { \"Condition\": \"IS_NOT\", \"Key\":
   \"Status\", \"Value\": \"ACTIVE\" } ]
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast("ListForecasts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_forecasts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_forecasts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListForecasts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_predictor_backtest_export_jobs()
-    list_predictor_backtest_export_jobs(params::Dict{String,<:Any})
+    list_predictor_backtest_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of predictor backtest export jobs created using the
 CreatePredictorBacktestExportJob operation. This operation returns a summary for each
@@ -1515,8 +1219,8 @@ the complete set of properties for a particular backtest export job, use the ARN
 DescribePredictorBacktestExportJob operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An array of filters. For each filter, provide a condition and a match
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An array of filters. For each filter, provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the predictor backtest export jobs that match the statement from the list. The
   match statement consists of a key and a value.  Filter properties     Condition - The
@@ -1524,23 +1228,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   export jobs that match the statement, specify IS. To exclude matching predictor backtest
   export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values
   are PredictorArn and Status.    Value - The value to match.
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
 function list_predictor_backtest_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "ListPredictorBacktestExportJobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_predictor_backtest_export_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListPredictorBacktestExportJobs",
         params;
@@ -1550,8 +1246,7 @@ function list_predictor_backtest_export_jobs(
 end
 
 """
-    list_predictors()
-    list_predictors(params::Dict{String,<:Any})
+    list_predictors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of predictors created using the CreatePredictor operation. For each
 predictor, this operation returns a summary of its properties, including its Amazon
@@ -1559,8 +1254,8 @@ Resource Name (ARN). You can retrieve the complete set of properties by using th
 the DescribePredictor operation. You can filter the list using an array of Filter objects.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An array of filters. For each filter, you provide a condition and a match
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An array of filters. For each filter, you provide a condition and a match
   statement. The condition is either IS or IS_NOT, which specifies whether to include or
   exclude the predictors that match the statement from the list, respectively. The match
   statement consists of a key and a value.  Filter properties     Condition - The condition
@@ -1570,27 +1265,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to match.   For example, to list all predictors whose status is ACTIVE, you would
   specify:  \"Filters\": [ { \"Condition\": \"IS\", \"Key\": \"Status\", \"Value\":
   \"ACTIVE\" } ]
-- `"MaxResults"`: The number of items to return in the response.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
+- `"max_results"`: The number of items to return in the response.
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
 """
-function list_predictors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "ListPredictors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_predictors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_predictors(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListPredictors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for an Amazon Forecast resource.
 
@@ -1601,20 +1289,9 @@ Lists the tags for an Amazon Forecast resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1626,8 +1303,7 @@ function list_tags_for_resource(
 end
 
 """
-    stop_resource(resource_arn)
-    stop_resource(resource_arn, params::Dict{String,<:Any})
+    stop_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops a resource. The resource undergoes the following states: CREATE_STOPPING and
 CREATE_STOPPED. You cannot resume a resource once it has been stopped. This operation can
@@ -1641,19 +1317,10 @@ Job
   ForecastArn, and ForecastExportJobArn.
 
 """
-function stop_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "StopResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "StopResource",
         Dict{String,Any}(
@@ -1665,8 +1332,7 @@ function stop_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates the specified tags to a resource with the specified resourceArn. If existing
 tags on a resource are not specified in the request parameters, they are not changed. When
@@ -1691,20 +1357,10 @@ a resource is deleted, the tags associated with that resource are also deleted.
   the key prefix of aws do not count against your tags per resource limit.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return forecast(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "TagResource",
         Dict{String,Any}(
@@ -1720,8 +1376,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified tags from a resource.
 
@@ -1733,21 +1388,9 @@ Deletes the specified tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecast(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "UntagResource",
         Dict{String,Any}(
@@ -1763,8 +1406,7 @@ function untag_resource(
 end
 
 """
-    update_dataset_group(dataset_arns, dataset_group_arn)
-    update_dataset_group(dataset_arns, dataset_group_arn, params::Dict{String,<:Any})
+    update_dataset_group(dataset_arns, dataset_group_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces the datasets in a dataset group with the specified datasets.  The Status of the
 dataset group must be ACTIVE before you can use the dataset group to create a predictor.
@@ -1777,23 +1419,12 @@ Use the DescribeDatasetGroup operation to get the status.
 
 """
 function update_dataset_group(
-    DatasetArns, DatasetGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return forecast(
-        "UpdateDatasetGroup",
-        Dict{String,Any}(
-            "DatasetArns" => DatasetArns, "DatasetGroupArn" => DatasetGroupArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_dataset_group(
     DatasetArns,
-    DatasetGroupArn,
-    params::AbstractDict{String};
+    DatasetGroupArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return forecast(
         "UpdateDatasetGroup",
         Dict{String,Any}(

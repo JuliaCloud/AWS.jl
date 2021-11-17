@@ -4,9 +4,30 @@ using AWS.AWSServices: ssm_contacts
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "next_token" => "NextToken",
+    "name" => "Name",
+    "public_subject" => "PublicSubject",
+    "time_range_value" => "TimeRangeValue",
+    "reason" => "Reason",
+    "max_results" => "MaxResults",
+    "idempotency_token" => "IdempotencyToken",
+    "note" => "Note",
+    "accept_code_validation" => "AcceptCodeValidation",
+    "public_content" => "PublicContent",
+    "incident_id" => "IncidentId",
+    "alias_prefix" => "AliasPrefix",
+    "plan" => "Plan",
+    "delivery_address" => "DeliveryAddress",
+    "contact_channel_id" => "ContactChannelId",
+    "display_name" => "DisplayName",
+    "defer_activation" => "DeferActivation",
+    "tags" => "Tags",
+    "type" => "Type",
+)
+
 """
-    accept_page(accept_code, accept_type, page_id)
-    accept_page(accept_code, accept_type, page_id, params::Dict{String,<:Any})
+    accept_page(accept_code, accept_type, page_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used to acknowledge an engagement to a contact channel during an incident.
 
@@ -16,36 +37,25 @@ Used to acknowledge an engagement to a contact channel during an incident.
 - `page_id`: The Amazon Resource Name (ARN) of the engagement to a contact channel.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptCodeValidation"`: An optional field that Incident Manager uses to ENFORCE
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"accept_code_validation"`: An optional field that Incident Manager uses to ENFORCE
   AcceptCode validation when acknowledging an page. Acknowledgement can occur by replying to
   a page, or when entering the AcceptCode in the console. Enforcing AcceptCode validation
   causes Incident Manager to verify that the code entered by the user matches the code sent
   by Incident Manager with the page. Incident Manager can also IGNORE AcceptCode validation.
   Ignoring AcceptCode validation causes Incident Manager to accept any value entered for the
   AcceptCode.
-- `"ContactChannelId"`: The ARN of the contact channel.
-- `"Note"`: Information provided by the user when the user acknowledges the page.
+- `"contact_channel_id"`: The ARN of the contact channel.
+- `"note"`: Information provided by the user when the user acknowledges the page.
 """
-function accept_page(
-    AcceptCode, AcceptType, PageId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_contacts(
-        "AcceptPage",
-        Dict{String,Any}(
-            "AcceptCode" => AcceptCode, "AcceptType" => AcceptType, "PageId" => PageId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_page(
     AcceptCode,
     AcceptType,
-    PageId,
-    params::AbstractDict{String};
+    PageId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "AcceptPage",
         Dict{String,Any}(
@@ -65,8 +75,7 @@ function accept_page(
 end
 
 """
-    activate_contact_channel(activation_code, contact_channel_id)
-    activate_contact_channel(activation_code, contact_channel_id, params::Dict{String,<:Any})
+    activate_contact_channel(activation_code, contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Activates a contact's contact channel. Incident Manager can't engage a contact until the
 contact channel has been activated.
@@ -78,23 +87,12 @@ contact channel has been activated.
 
 """
 function activate_contact_channel(
-    ActivationCode, ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_contacts(
-        "ActivateContactChannel",
-        Dict{String,Any}(
-            "ActivationCode" => ActivationCode, "ContactChannelId" => ContactChannelId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function activate_contact_channel(
     ActivationCode,
-    ContactChannelId,
-    params::AbstractDict{String};
+    ContactChannelId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ActivateContactChannel",
         Dict{String,Any}(
@@ -113,8 +111,7 @@ function activate_contact_channel(
 end
 
 """
-    create_contact(alias, plan, type)
-    create_contact(alias, plan, type, params::Dict{String,<:Any})
+    create_contact(alias, plan, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Contacts are either the contacts that Incident Manager engages during an incident or the
 escalation plans that Incident Manager uses to engage contacts in phases during an
@@ -128,35 +125,17 @@ incident.
 - `type`: To create an escalation plan use ESCALATION. To create a contact use PERSONAL.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DisplayName"`: The full name of the contact or escalation plan.
-- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"display_name"`: The full name of the contact or escalation plan.
+- `"idempotency_token"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"Tags"`: Adds a tag to the target. You can only tag resources created in the first
+- `"tags"`: Adds a tag to the target. You can only tag resources created in the first
   Region of your replication set.
 """
 function create_contact(
-    Alias, Plan, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Alias, Plan, Type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "CreateContact",
-        Dict{String,Any}(
-            "Alias" => Alias,
-            "Plan" => Plan,
-            "Type" => Type,
-            "IdempotencyToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_contact(
-    Alias,
-    Plan,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "CreateContact",
         Dict{String,Any}(
@@ -166,7 +145,7 @@ function create_contact(
                     "Alias" => Alias,
                     "Plan" => Plan,
                     "Type" => Type,
-                    "IdempotencyToken" => string(uuid4()),
+                    "idempotency_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -177,8 +156,7 @@ function create_contact(
 end
 
 """
-    create_contact_channel(contact_id, delivery_address, name, type)
-    create_contact_channel(contact_id, delivery_address, name, type, params::Dict{String,<:Any})
+    create_contact_channel(contact_id, delivery_address, name, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A contact channel is the method that Incident Manager uses to engage your contact.
 
@@ -194,11 +172,11 @@ A contact channel is the method that Incident Manager uses to engage your contac
   EMAIL
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeferActivation"`: If you want to activate the channel at a later time, you can choose
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"defer_activation"`: If you want to activate the channel at a later time, you can choose
   to defer activation. Incident Manager can't engage your contact channel until it has been
   activated.
-- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
+- `"idempotency_token"`: A token ensuring that the operation is called only once with the
   specified details.
 """
 function create_contact_channel(
@@ -207,28 +185,9 @@ function create_contact_channel(
     Name,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ssm_contacts(
-        "CreateContactChannel",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "DeliveryAddress" => DeliveryAddress,
-            "Name" => Name,
-            "Type" => Type,
-            "IdempotencyToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_contact_channel(
-    ContactId,
-    DeliveryAddress,
-    Name,
-    Type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "CreateContactChannel",
         Dict{String,Any}(
@@ -239,7 +198,7 @@ function create_contact_channel(
                     "DeliveryAddress" => DeliveryAddress,
                     "Name" => Name,
                     "Type" => Type,
-                    "IdempotencyToken" => string(uuid4()),
+                    "idempotency_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -250,8 +209,7 @@ function create_contact_channel(
 end
 
 """
-    deactivate_contact_channel(contact_channel_id)
-    deactivate_contact_channel(contact_channel_id, params::Dict{String,<:Any})
+    deactivate_contact_channel(contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 To no longer receive Incident Manager engagements to a contact channel, you can deactivate
 the channel.
@@ -262,20 +220,9 @@ the channel.
 
 """
 function deactivate_contact_channel(
-    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "DeactivateContactChannel",
-        Dict{String,Any}("ContactChannelId" => ContactChannelId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deactivate_contact_channel(
-    ContactChannelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "DeactivateContactChannel",
         Dict{String,Any}(
@@ -289,8 +236,7 @@ function deactivate_contact_channel(
 end
 
 """
-    delete_contact(contact_id)
-    delete_contact(contact_id, params::Dict{String,<:Any})
+    delete_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 To remove a contact from Incident Manager, you can delete the contact. Deleting a contact
 removes them from all escalation plans and related response plans. Deleting an escalation
@@ -301,19 +247,10 @@ its contact channels before you can use it again.
 - `contact_id`: The Amazon Resource Name (ARN) of the contact that you're deleting.
 
 """
-function delete_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "DeleteContact",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_contact(
-    ContactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "DeleteContact",
         Dict{String,Any}(
@@ -325,8 +262,7 @@ function delete_contact(
 end
 
 """
-    delete_contact_channel(contact_channel_id)
-    delete_contact_channel(contact_channel_id, params::Dict{String,<:Any})
+    delete_contact_channel(contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 To no longer receive engagements on a contact channel, you can delete the channel from a
 contact. Deleting the contact channel removes it from the contact's engagement plan. If you
@@ -338,20 +274,9 @@ during an incident.
 
 """
 function delete_contact_channel(
-    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "DeleteContactChannel",
-        Dict{String,Any}("ContactChannelId" => ContactChannelId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_contact_channel(
-    ContactChannelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "DeleteContactChannel",
         Dict{String,Any}(
@@ -365,8 +290,7 @@ function delete_contact_channel(
 end
 
 """
-    describe_engagement(engagement_id)
-    describe_engagement(engagement_id, params::Dict{String,<:Any})
+    describe_engagement(engagement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Incident Manager uses engagements to engage contacts and escalation plans during an
 incident. Use this command to describe the engagement that occurred during an incident.
@@ -376,20 +300,9 @@ incident. Use this command to describe the engagement that occurred during an in
 
 """
 function describe_engagement(
-    EngagementId; aws_config::AbstractAWSConfig=global_aws_config()
+    EngagementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "DescribeEngagement",
-        Dict{String,Any}("EngagementId" => EngagementId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_engagement(
-    EngagementId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "DescribeEngagement",
         Dict{String,Any}(
@@ -401,8 +314,7 @@ function describe_engagement(
 end
 
 """
-    describe_page(page_id)
-    describe_page(page_id, params::Dict{String,<:Any})
+    describe_page(page_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists details of the engagement to a contact channel.
 
@@ -410,17 +322,8 @@ Lists details of the engagement to a contact channel.
 - `page_id`: The ID of the engagement to a contact channel.
 
 """
-function describe_page(PageId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "DescribePage",
-        Dict{String,Any}("PageId" => PageId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_page(
-    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_page(PageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "DescribePage",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
@@ -430,8 +333,7 @@ function describe_page(
 end
 
 """
-    get_contact(contact_id)
-    get_contact(contact_id, params::Dict{String,<:Any})
+    get_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about the specified contact or escalation plan.
 
@@ -439,19 +341,10 @@ Retrieves information about the specified contact or escalation plan.
 - `contact_id`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 
 """
-function get_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "GetContact",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_contact(
-    ContactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "GetContact",
         Dict{String,Any}(
@@ -463,8 +356,7 @@ function get_contact(
 end
 
 """
-    get_contact_channel(contact_channel_id)
-    get_contact_channel(contact_channel_id, params::Dict{String,<:Any})
+    get_contact_channel(contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List details about a specific contact channel.
 
@@ -474,20 +366,9 @@ List details about a specific contact channel.
 
 """
 function get_contact_channel(
-    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "GetContactChannel",
-        Dict{String,Any}("ContactChannelId" => ContactChannelId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_contact_channel(
-    ContactChannelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "GetContactChannel",
         Dict{String,Any}(
@@ -501,8 +382,7 @@ function get_contact_channel(
 end
 
 """
-    get_contact_policy(contact_arn)
-    get_contact_policy(contact_arn, params::Dict{String,<:Any})
+    get_contact_policy(contact_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the resource policies attached to the specified contact or escalation plan.
 
@@ -510,19 +390,10 @@ Retrieves the resource policies attached to the specified contact or escalation 
 - `contact_arn`: The Amazon Resource Name (ARN) of the contact or escalation plan.
 
 """
-function get_contact_policy(ContactArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "GetContactPolicy",
-        Dict{String,Any}("ContactArn" => ContactArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_contact_policy(
-    ContactArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "GetContactPolicy",
         Dict{String,Any}(
@@ -534,8 +405,7 @@ function get_contact_policy(
 end
 
 """
-    list_contact_channels(contact_id)
-    list_contact_channels(contact_id, params::Dict{String,<:Any})
+    list_contact_channels(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all contact channels for the specified contact.
 
@@ -543,23 +413,14 @@ Lists all contact channels for the specified contact.
 - `contact_id`: The Amazon Resource Name (ARN) of the contact.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of contact channels per page.
-- `"NextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of contact channels per page.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_contact_channels(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "ListContactChannels",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_contact_channels(
-    ContactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListContactChannels",
         Dict{String,Any}(
@@ -571,62 +432,48 @@ function list_contact_channels(
 end
 
 """
-    list_contacts()
-    list_contacts(params::Dict{String,<:Any})
+    list_contacts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all contacts and escalation plans in Incident Manager.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AliasPrefix"`: Used to list only contacts who's aliases start with the specified prefix.
-- `"MaxResults"`: The maximum number of contacts and escalation plans per page of results.
-- `"NextToken"`: The pagination token to continue to the next page of results.
-- `"Type"`: The type of contact. A contact is type PERSONAL and an escalation plan is type
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"alias_prefix"`: Used to list only contacts who's aliases start with the specified
+  prefix.
+- `"max_results"`: The maximum number of contacts and escalation plans per page of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
+- `"type"`: The type of contact. A contact is type PERSONAL and an escalation plan is type
   ESCALATION.
 """
-function list_contacts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "ListContacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_contacts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_contacts(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListContacts", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_engagements()
-    list_engagements(params::Dict{String,<:Any})
+    list_engagements(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all engagements that have happened in an incident.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IncidentId"`: The Amazon Resource Name (ARN) of the incident you're listing engagements
-  for.
-- `"MaxResults"`: The maximum number of engagements per page of results.
-- `"NextToken"`: The pagination token to continue to the next page of results.
-- `"TimeRangeValue"`: The time range to lists engagements for an incident.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"incident_id"`: The Amazon Resource Name (ARN) of the incident you're listing
+  engagements for.
+- `"max_results"`: The maximum number of engagements per page of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
+- `"time_range_value"`: The time range to lists engagements for an incident.
 """
-function list_engagements(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "ListEngagements"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_engagements(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_engagements(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListEngagements", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_page_receipts(page_id)
-    list_page_receipts(page_id, params::Dict{String,<:Any})
+    list_page_receipts(page_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all of the engagements to contact channels that have been acknowledged.
 
@@ -634,21 +481,14 @@ Lists all of the engagements to contact channels that have been acknowledged.
 - `page_id`: The Amazon Resource Name (ARN) of the engagement to a specific contact channel.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of acknowledgements per page of results.
-- `"NextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of acknowledgements per page of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_page_receipts(PageId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "ListPageReceipts",
-        Dict{String,Any}("PageId" => PageId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_page_receipts(
-    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    PageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListPageReceipts",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
@@ -658,8 +498,7 @@ function list_page_receipts(
 end
 
 """
-    list_pages_by_contact(contact_id)
-    list_pages_by_contact(contact_id, params::Dict{String,<:Any})
+    list_pages_by_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the engagements to a contact's contact channels.
 
@@ -668,24 +507,15 @@ Lists the engagements to a contact's contact channels.
   engagements for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of engagements to contact channels to list per page of
-  results.
-- `"NextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of engagements to contact channels to list per page
+  of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
-function list_pages_by_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "ListPagesByContact",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_pages_by_contact(
-    ContactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListPagesByContact",
         Dict{String,Any}(
@@ -697,8 +527,7 @@ function list_pages_by_contact(
 end
 
 """
-    list_pages_by_engagement(engagement_id)
-    list_pages_by_engagement(engagement_id, params::Dict{String,<:Any})
+    list_pages_by_engagement(engagement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the engagements to contact channels that occurred by engaging a contact.
 
@@ -706,26 +535,15 @@ Lists the engagements to contact channels that occurred by engaging a contact.
 - `engagement_id`: The Amazon Resource Name (ARN) of the engagement.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of engagements to contact channels to list per page of
-  results.
-- `"NextToken"`: The pagination token to continue to the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of engagements to contact channels to list per page
+  of results.
+- `"next_token"`: The pagination token to continue to the next page of results.
 """
 function list_pages_by_engagement(
-    EngagementId; aws_config::AbstractAWSConfig=global_aws_config()
+    EngagementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "ListPagesByEngagement",
-        Dict{String,Any}("EngagementId" => EngagementId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_pages_by_engagement(
-    EngagementId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListPagesByEngagement",
         Dict{String,Any}(
@@ -737,8 +555,7 @@ function list_pages_by_engagement(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags of an escalation plan or contact.
 
@@ -747,20 +564,9 @@ Lists the tags of an escalation plan or contact.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -772,8 +578,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_contact_policy(contact_arn, policy)
-    put_contact_policy(contact_arn, policy, params::Dict{String,<:Any})
+    put_contact_policy(contact_arn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a resource to the specified contact or escalation plan.
 
@@ -783,21 +588,9 @@ Adds a resource to the specified contact or escalation plan.
 
 """
 function put_contact_policy(
-    ContactArn, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactArn, Policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "PutContactPolicy",
-        Dict{String,Any}("ContactArn" => ContactArn, "Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_contact_policy(
-    ContactArn,
-    Policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "PutContactPolicy",
         Dict{String,Any}(
@@ -813,8 +606,7 @@ function put_contact_policy(
 end
 
 """
-    send_activation_code(contact_channel_id)
-    send_activation_code(contact_channel_id, params::Dict{String,<:Any})
+    send_activation_code(contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends an activation code to a contact channel. The contact can use this code to activate
 the contact channel in the console or with the ActivateChannel operation. Incident Manager
@@ -825,20 +617,9 @@ can't engage a contact channel until it has been activated.
 
 """
 function send_activation_code(
-    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "SendActivationCode",
-        Dict{String,Any}("ContactChannelId" => ContactChannelId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_activation_code(
-    ContactChannelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "SendActivationCode",
         Dict{String,Any}(
@@ -852,8 +633,7 @@ function send_activation_code(
 end
 
 """
-    start_engagement(contact_id, content, sender, subject)
-    start_engagement(contact_id, content, sender, subject, params::Dict{String,<:Any})
+    start_engagement(contact_id, content, sender, subject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an engagement to a contact or escalation plan. The engagement engages each contact
 specified in the incident.
@@ -867,39 +647,24 @@ specified in the incident.
   for engagements to VOICE or EMAIL.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdempotencyToken"`: A token ensuring that the operation is called only once with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"idempotency_token"`: A token ensuring that the operation is called only once with the
   specified details.
-- `"IncidentId"`: The ARN of the incident that the engagement is part of.
-- `"PublicContent"`: The insecure content of the message that was sent to the contact. Use
+- `"incident_id"`: The ARN of the incident that the engagement is part of.
+- `"public_content"`: The insecure content of the message that was sent to the contact. Use
   this field for engagements to SMS.
-- `"PublicSubject"`: The insecure subject of the message that was sent to the contact. Use
+- `"public_subject"`: The insecure subject of the message that was sent to the contact. Use
   this field for engagements to SMS.
 """
-function start_engagement(
-    ContactId, Content, Sender, Subject; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ssm_contacts(
-        "StartEngagement",
-        Dict{String,Any}(
-            "ContactId" => ContactId,
-            "Content" => Content,
-            "Sender" => Sender,
-            "Subject" => Subject,
-            "IdempotencyToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_engagement(
     ContactId,
     Content,
     Sender,
-    Subject,
-    params::AbstractDict{String};
+    Subject;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "StartEngagement",
         Dict{String,Any}(
@@ -910,7 +675,7 @@ function start_engagement(
                     "Content" => Content,
                     "Sender" => Sender,
                     "Subject" => Subject,
-                    "IdempotencyToken" => string(uuid4()),
+                    "idempotency_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -921,8 +686,7 @@ function start_engagement(
 end
 
 """
-    stop_engagement(engagement_id)
-    stop_engagement(engagement_id, params::Dict{String,<:Any})
+    stop_engagement(engagement_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stops an engagement before it finishes the final stage of the escalation plan or engagement
 plan. Further contacts aren't engaged.
@@ -931,22 +695,13 @@ plan. Further contacts aren't engaged.
 - `engagement_id`: The Amazon Resource Name (ARN) of the engagement.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Reason"`: The reason that you're stopping the engagement.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"reason"`: The reason that you're stopping the engagement.
 """
-function stop_engagement(EngagementId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "StopEngagement",
-        Dict{String,Any}("EngagementId" => EngagementId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_engagement(
-    EngagementId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    EngagementId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "StopEngagement",
         Dict{String,Any}(
@@ -958,8 +713,7 @@ function stop_engagement(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tags a contact or escalation plan. You can tag only contacts and escalation plans in the
 first region of your replication set.
@@ -969,20 +723,10 @@ first region of your replication set.
 - `tags`: A list of tags that you are adding to the contact or escalation plan.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceARN,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "TagResource",
         Dict{String,Any}(
@@ -998,8 +742,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from the specified resource.
 
@@ -1009,21 +752,9 @@ Removes tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "UntagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceARN,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "UntagResource",
         Dict{String,Any}(
@@ -1039,8 +770,7 @@ function untag_resource(
 end
 
 """
-    update_contact(contact_id)
-    update_contact(contact_id, params::Dict{String,<:Any})
+    update_contact(contact_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the contact or escalation plan specified.
 
@@ -1049,24 +779,15 @@ Updates the contact or escalation plan specified.
   updating.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DisplayName"`: The full name of the contact or escalation plan.
-- `"Plan"`: A list of stages. A contact has an engagement plan with stages for specified
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"display_name"`: The full name of the contact or escalation plan.
+- `"plan"`: A list of stages. A contact has an engagement plan with stages for specified
   contact channels. An escalation plan uses these stages to contact specified contacts.
 """
-function update_contact(ContactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ssm_contacts(
-        "UpdateContact",
-        Dict{String,Any}("ContactId" => ContactId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_contact(
-    ContactId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ContactId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "UpdateContact",
         Dict{String,Any}(
@@ -1078,8 +799,7 @@ function update_contact(
 end
 
 """
-    update_contact_channel(contact_channel_id)
-    update_contact_channel(contact_channel_id, params::Dict{String,<:Any})
+    update_contact_channel(contact_channel_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a contact's contact channel.
 
@@ -1088,26 +808,15 @@ Updates a contact's contact channel.
   update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryAddress"`: The details that Incident Manager uses when trying to engage the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_address"`: The details that Incident Manager uses when trying to engage the
   contact channel.
-- `"Name"`: The name of the contact channel.
+- `"name"`: The name of the contact channel.
 """
 function update_contact_channel(
-    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactChannelId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ssm_contacts(
-        "UpdateContactChannel",
-        Dict{String,Any}("ContactChannelId" => ContactChannelId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_contact_channel(
-    ContactChannelId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ssm_contacts(
         "UpdateContactChannel",
         Dict{String,Any}(

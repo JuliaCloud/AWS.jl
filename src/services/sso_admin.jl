@@ -4,9 +4,20 @@ using AWS.AWSServices: sso_admin
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "provisioning_status" => "ProvisioningStatus",
+    "target_id" => "TargetId",
+    "filter" => "Filter",
+    "relay_state" => "RelayState",
+    "session_duration" => "SessionDuration",
+    "tags" => "Tags",
+    "next_token" => "NextToken",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+)
+
 """
-    attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
-    attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
+    attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches an IAM managed policy ARN to a permission set.  If the permission set is already
 referenced by one or more account assignments, you will need to call
@@ -27,25 +38,9 @@ function attach_managed_policy_to_permission_set(
     ManagedPolicyArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "AttachManagedPolicyToPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ManagedPolicyArn" => ManagedPolicyArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function attach_managed_policy_to_permission_set(
-    InstanceArn,
-    ManagedPolicyArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "AttachManagedPolicyToPermissionSet",
         Dict{String,Any}(
@@ -65,8 +60,7 @@ function attach_managed_policy_to_permission_set(
 end
 
 """
-    create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
-    create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
+    create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns access to a principal for a specified Amazon Web Services account using a specified
 permission set.  The term principal here refers to a user or group that is defined in
@@ -101,31 +95,9 @@ function create_account_assignment(
     TargetId,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "CreateAccountAssignment",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "PrincipalId" => PrincipalId,
-            "PrincipalType" => PrincipalType,
-            "TargetId" => TargetId,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_account_assignment(
-    InstanceArn,
-    PermissionSetArn,
-    PrincipalId,
-    PrincipalType,
-    TargetId,
-    TargetType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "CreateAccountAssignment",
         Dict{String,Any}(
@@ -148,8 +120,7 @@ function create_account_assignment(
 end
 
 """
-    create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
-    create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
+    create_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables the attributes-based access control (ABAC) feature for the specified Amazon Web
 Services SSO instance. You can also specify new attributes to add to your ABAC
@@ -171,24 +142,9 @@ function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "CreateInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}(
-            "InstanceAccessControlAttributeConfiguration" =>
-                InstanceAccessControlAttributeConfiguration,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_instance_access_control_attribute_configuration(
-    InstanceAccessControlAttributeConfiguration,
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "CreateInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}(
@@ -208,8 +164,7 @@ function create_instance_access_control_attribute_configuration(
 end
 
 """
-    create_permission_set(instance_arn, name)
-    create_permission_set(instance_arn, name, params::Dict{String,<:Any})
+    create_permission_set(instance_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a permission set within a specified SSO instance.  To grant users and groups access
 to Amazon Web Services account resources, use  CreateAccountAssignment .
@@ -221,30 +176,18 @@ to Amazon Web Services account resources, use  CreateAccountAssignment .
 - `name`: The name of the PermissionSet.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the PermissionSet.
-- `"RelayState"`: Used to redirect users within the application during the federation
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the PermissionSet.
+- `"relay_state"`: Used to redirect users within the application during the federation
   authentication process.
-- `"SessionDuration"`: The length of time that the application user sessions are valid in
+- `"session_duration"`: The length of time that the application user sessions are valid in
   the ISO-8601 standard.
-- `"Tags"`: The tags to attach to the new PermissionSet.
+- `"tags"`: The tags to attach to the new PermissionSet.
 """
 function create_permission_set(
-    InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "CreatePermissionSet",
-        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_permission_set(
-    InstanceArn,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "CreatePermissionSet",
         Dict{String,Any}(
@@ -260,8 +203,7 @@ function create_permission_set(
 end
 
 """
-    delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
-    delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
+    delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a principal's access from a specified Amazon Web Services account using a specified
 permission set.
@@ -289,31 +231,9 @@ function delete_account_assignment(
     TargetId,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "DeleteAccountAssignment",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "PrincipalId" => PrincipalId,
-            "PrincipalType" => PrincipalType,
-            "TargetId" => TargetId,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_account_assignment(
-    InstanceArn,
-    PermissionSetArn,
-    PrincipalId,
-    PrincipalType,
-    TargetId,
-    TargetType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DeleteAccountAssignment",
         Dict{String,Any}(
@@ -336,8 +256,7 @@ function delete_account_assignment(
 end
 
 """
-    delete_inline_policy_from_permission_set(instance_arn, permission_set_arn)
-    delete_inline_policy_from_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    delete_inline_policy_from_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the inline policy from a specified permission set.
 
@@ -349,23 +268,12 @@ Deletes the inline policy from a specified permission set.
 
 """
 function delete_inline_policy_from_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "DeleteInlinePolicyFromPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_inline_policy_from_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DeleteInlinePolicyFromPermissionSet",
         Dict{String,Any}(
@@ -383,8 +291,7 @@ function delete_inline_policy_from_permission_set(
 end
 
 """
-    delete_instance_access_control_attribute_configuration(instance_arn)
-    delete_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
+    delete_instance_access_control_attribute_configuration(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables the attributes-based access control (ABAC) feature for the specified Amazon Web
 Services SSO instance and deletes all of the attribute mappings that have been configured.
@@ -397,20 +304,9 @@ ABAC, see Attribute-Based Access Control in the Amazon Web Services SSO User Gui
 
 """
 function delete_instance_access_control_attribute_configuration(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "DeleteInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_instance_access_control_attribute_configuration(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DeleteInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}(
@@ -422,8 +318,7 @@ function delete_instance_access_control_attribute_configuration(
 end
 
 """
-    delete_permission_set(instance_arn, permission_set_arn)
-    delete_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    delete_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified permission set.
 
@@ -435,23 +330,12 @@ Deletes the specified permission set.
 
 """
 function delete_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "DeletePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DeletePermissionSet",
         Dict{String,Any}(
@@ -469,8 +353,7 @@ function delete_permission_set(
 end
 
 """
-    describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
-    describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn, params::Dict{String,<:Any})
+    describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the status of the assignment creation request.
 
@@ -486,23 +369,9 @@ function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "DescribeAccountAssignmentCreationStatus",
-        Dict{String,Any}(
-            "AccountAssignmentCreationRequestId" => AccountAssignmentCreationRequestId,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_account_assignment_creation_status(
-    AccountAssignmentCreationRequestId,
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DescribeAccountAssignmentCreationStatus",
         Dict{String,Any}(
@@ -522,8 +391,7 @@ function describe_account_assignment_creation_status(
 end
 
 """
-    describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn)
-    describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn, params::Dict{String,<:Any})
+    describe_account_assignment_deletion_status(account_assignment_deletion_request_id, instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the status of the assignment deletion request.
 
@@ -539,23 +407,9 @@ function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "DescribeAccountAssignmentDeletionStatus",
-        Dict{String,Any}(
-            "AccountAssignmentDeletionRequestId" => AccountAssignmentDeletionRequestId,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_account_assignment_deletion_status(
-    AccountAssignmentDeletionRequestId,
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DescribeAccountAssignmentDeletionStatus",
         Dict{String,Any}(
@@ -575,8 +429,7 @@ function describe_account_assignment_deletion_status(
 end
 
 """
-    describe_instance_access_control_attribute_configuration(instance_arn)
-    describe_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
+    describe_instance_access_control_attribute_configuration(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the list of Amazon Web Services SSO identity store attributes that have been
 configured to work with attributes-based access control (ABAC) for the specified Amazon Web
@@ -589,20 +442,9 @@ the Amazon Web Services SSO User Guide.
 
 """
 function describe_instance_access_control_attribute_configuration(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "DescribeInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_instance_access_control_attribute_configuration(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DescribeInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}(
@@ -614,8 +456,7 @@ function describe_instance_access_control_attribute_configuration(
 end
 
 """
-    describe_permission_set(instance_arn, permission_set_arn)
-    describe_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    describe_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the details of the permission set.
 
@@ -627,23 +468,12 @@ Gets the details of the permission set.
 
 """
 function describe_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "DescribePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DescribePermissionSet",
         Dict{String,Any}(
@@ -661,8 +491,7 @@ function describe_permission_set(
 end
 
 """
-    describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id)
-    describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id, params::Dict{String,<:Any})
+    describe_permission_set_provisioning_status(instance_arn, provision_permission_set_request_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the status for the given permission set provisioning request.
 
@@ -678,23 +507,9 @@ function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "DescribePermissionSetProvisioningStatus",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_permission_set_provisioning_status(
-    InstanceArn,
-    ProvisionPermissionSetRequestId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DescribePermissionSetProvisioningStatus",
         Dict{String,Any}(
@@ -713,8 +528,7 @@ function describe_permission_set_provisioning_status(
 end
 
 """
-    detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
-    detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
+    detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Detaches the attached IAM managed policy ARN from the specified permission set.
 
@@ -732,25 +546,9 @@ function detach_managed_policy_from_permission_set(
     ManagedPolicyArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "DetachManagedPolicyFromPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ManagedPolicyArn" => ManagedPolicyArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function detach_managed_policy_from_permission_set(
-    InstanceArn,
-    ManagedPolicyArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "DetachManagedPolicyFromPermissionSet",
         Dict{String,Any}(
@@ -770,8 +568,7 @@ function detach_managed_policy_from_permission_set(
 end
 
 """
-    get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
-    get_inline_policy_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    get_inline_policy_for_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Obtains the inline policy assigned to the permission set.
 
@@ -783,23 +580,12 @@ Obtains the inline policy assigned to the permission set.
 
 """
 function get_inline_policy_for_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "GetInlinePolicyForPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_inline_policy_for_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "GetInlinePolicyForPermissionSet",
         Dict{String,Any}(
@@ -817,8 +603,7 @@ function get_inline_policy_for_permission_set(
 end
 
 """
-    list_account_assignment_creation_status(instance_arn)
-    list_account_assignment_creation_status(instance_arn, params::Dict{String,<:Any})
+    list_account_assignment_creation_status(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the status of the Amazon Web Services account assignment creation requests for a
 specified SSO instance.
@@ -829,27 +614,16 @@ specified SSO instance.
   Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filters results based on the passed attribute value.
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Filters results based on the passed attribute value.
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_creation_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListAccountAssignmentCreationStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_account_assignment_creation_status(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListAccountAssignmentCreationStatus",
         Dict{String,Any}(
@@ -861,8 +635,7 @@ function list_account_assignment_creation_status(
 end
 
 """
-    list_account_assignment_deletion_status(instance_arn)
-    list_account_assignment_deletion_status(instance_arn, params::Dict{String,<:Any})
+    list_account_assignment_deletion_status(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the status of the Amazon Web Services account assignment deletion requests for a
 specified SSO instance.
@@ -873,27 +646,16 @@ specified SSO instance.
   Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filters results based on the passed attribute value.
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Filters results based on the passed attribute value.
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignment_deletion_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListAccountAssignmentDeletionStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_account_assignment_deletion_status(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListAccountAssignmentDeletionStatus",
         Dict{String,Any}(
@@ -905,8 +667,7 @@ function list_account_assignment_deletion_status(
 end
 
 """
-    list_account_assignments(account_id, instance_arn, permission_set_arn)
-    list_account_assignments(account_id, instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    list_account_assignments(account_id, instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the assignee of the specified Amazon Web Services account with the specified
 permission set.
@@ -920,9 +681,9 @@ permission set.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_account_assignments(
@@ -930,25 +691,9 @@ function list_account_assignments(
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "ListAccountAssignments",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_account_assignments(
-    AccountId,
-    InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListAccountAssignments",
         Dict{String,Any}(
@@ -968,8 +713,7 @@ function list_account_assignments(
 end
 
 """
-    list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
-    list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the Amazon Web Services accounts where the specified permission set is
 provisioned.
@@ -982,31 +726,20 @@ provisioned.
   Services accounts will be listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the PermissionSet.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the PermissionSet.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
-- `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
-  account.
+- `"provisioning_status"`: The permission set provisioning status for an Amazon Web
+  Services account.
 """
 function list_accounts_for_provisioned_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "ListAccountsForProvisionedPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_accounts_for_provisioned_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListAccountsForProvisionedPermissionSet",
         Dict{String,Any}(
@@ -1024,33 +757,25 @@ function list_accounts_for_provisioned_permission_set(
 end
 
 """
-    list_instances()
-    list_instances(params::Dict{String,<:Any})
+    list_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the SSO instances that the caller has access to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the instance.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the instance.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sso_admin(
-        "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListInstances", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
-    list_managed_policies_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    list_managed_policies_in_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the IAM managed policy that is attached to a specified permission set.
 
@@ -1061,29 +786,18 @@ Lists the IAM managed policy that is attached to a specified permission set.
 - `permission_set_arn`: The ARN of the PermissionSet whose managed policies will be listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the PermissionSet.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the PermissionSet.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_managed_policies_in_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "ListManagedPoliciesInPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_managed_policies_in_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListManagedPoliciesInPermissionSet",
         Dict{String,Any}(
@@ -1101,8 +815,7 @@ function list_managed_policies_in_permission_set(
 end
 
 """
-    list_permission_set_provisioning_status(instance_arn)
-    list_permission_set_provisioning_status(instance_arn, params::Dict{String,<:Any})
+    list_permission_set_provisioning_status(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the status of the permission set provisioning requests for a specified SSO instance.
 
@@ -1112,27 +825,16 @@ Lists the status of the permission set provisioning requests for a specified SSO
   Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: Filters results based on the passed attribute value.
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filter"`: Filters results based on the passed attribute value.
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_set_provisioning_status(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListPermissionSetProvisioningStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_permission_set_provisioning_status(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListPermissionSetProvisioningStatus",
         Dict{String,Any}(
@@ -1144,8 +846,7 @@ function list_permission_set_provisioning_status(
 end
 
 """
-    list_permission_sets(instance_arn)
-    list_permission_sets(instance_arn, params::Dict{String,<:Any})
+    list_permission_sets(instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the PermissionSets in an SSO instance.
 
@@ -1155,26 +856,15 @@ Lists the PermissionSets in an SSO instance.
   Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_permission_sets(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListPermissionSets",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_permission_sets(
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListPermissionSets",
         Dict{String,Any}(
@@ -1186,8 +876,7 @@ function list_permission_sets(
 end
 
 """
-    list_permission_sets_provisioned_to_account(account_id, instance_arn)
-    list_permission_sets_provisioned_to_account(account_id, instance_arn, params::Dict{String,<:Any})
+    list_permission_sets_provisioned_to_account(account_id, instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the permission sets that are provisioned to a specified Amazon Web Services
 account.
@@ -1200,28 +889,16 @@ account.
   Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to display for the assignment.
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to display for the assignment.
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
-- `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
+- `"provisioning_status"`: The status object for the permission set provisioning operation.
 """
 function list_permission_sets_provisioned_to_account(
-    AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListPermissionSetsProvisionedToAccount",
-        Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_permission_sets_provisioned_to_account(
-    AccountId,
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListPermissionSetsProvisionedToAccount",
         Dict{String,Any}(
@@ -1237,8 +914,7 @@ function list_permission_sets_provisioned_to_account(
 end
 
 """
-    list_tags_for_resource(instance_arn, resource_arn)
-    list_tags_for_resource(instance_arn, resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(instance_arn, resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags that are attached to a specified resource.
 
@@ -1249,26 +925,14 @@ Lists the tags that are attached to a specified resource.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
 function list_tags_for_resource(
-    InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sso_admin(
-        "ListTagsForResource",
-        Dict{String,Any}("InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    InstanceArn,
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -1286,8 +950,7 @@ function list_tags_for_resource(
 end
 
 """
-    provision_permission_set(instance_arn, permission_set_arn, target_type)
-    provision_permission_set(instance_arn, permission_set_arn, target_type, params::Dict{String,<:Any})
+    provision_permission_set(instance_arn, permission_set_arn, target_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 The process by which a specified permission set is provisioned to the specified target.
 
@@ -1299,8 +962,8 @@ The process by which a specified permission set is provisioned to the specified 
 - `target_type`: The entity type for which the assignment will be created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TargetId"`: TargetID is an Amazon Web Services account identifier, typically a 10-12
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"target_id"`: TargetID is an Amazon Web Services account identifier, typically a 10-12
   digit string (For example, 123456789012).
 """
 function provision_permission_set(
@@ -1308,25 +971,9 @@ function provision_permission_set(
     PermissionSetArn,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "ProvisionPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function provision_permission_set(
-    InstanceArn,
-    PermissionSetArn,
-    TargetType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "ProvisionPermissionSet",
         Dict{String,Any}(
@@ -1346,8 +993,7 @@ function provision_permission_set(
 end
 
 """
-    put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
-    put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches an IAM inline policy to a permission set.  If the permission set is already
 referenced by one or more account assignments, you will need to call
@@ -1367,25 +1013,9 @@ function put_inline_policy_to_permission_set(
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "PutInlinePolicyToPermissionSet",
-        Dict{String,Any}(
-            "InlinePolicy" => InlinePolicy,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_inline_policy_to_permission_set(
-    InlinePolicy,
-    InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "PutInlinePolicyToPermissionSet",
         Dict{String,Any}(
@@ -1405,8 +1035,7 @@ function put_inline_policy_to_permission_set(
 end
 
 """
-    tag_resource(instance_arn, resource_arn, tags)
-    tag_resource(instance_arn, resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(instance_arn, resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a set of tags with a specified resource.
 
@@ -1419,24 +1048,13 @@ Associates a set of tags with a specified resource.
 
 """
 function tag_resource(
-    InstanceArn, ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "TagResource",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "Tags" => Tags
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
     InstanceArn,
     ResourceArn,
-    Tags,
-    params::AbstractDict{String};
+    Tags;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "TagResource",
         Dict{String,Any}(
@@ -1456,8 +1074,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(instance_arn, resource_arn, tag_keys)
-    untag_resource(instance_arn, resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(instance_arn, resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a set of tags from a specified resource.
 
@@ -1470,24 +1087,13 @@ Disassociates a set of tags from a specified resource.
 
 """
 function untag_resource(
-    InstanceArn, ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "UntagResource",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "TagKeys" => TagKeys
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
     InstanceArn,
     ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
+    TagKeys;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "UntagResource",
         Dict{String,Any}(
@@ -1507,8 +1113,7 @@ function untag_resource(
 end
 
 """
-    update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn)
-    update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn, params::Dict{String,<:Any})
+    update_instance_access_control_attribute_configuration(instance_access_control_attribute_configuration, instance_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the Amazon Web Services SSO identity store attributes that you can use with the
 Amazon Web Services SSO instance for attributes-based access control (ABAC). When using an
@@ -1529,24 +1134,9 @@ function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sso_admin(
-        "UpdateInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}(
-            "InstanceAccessControlAttributeConfiguration" =>
-                InstanceAccessControlAttributeConfiguration,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_instance_access_control_attribute_configuration(
-    InstanceAccessControlAttributeConfiguration,
-    InstanceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "UpdateInstanceAccessControlAttributeConfiguration",
         Dict{String,Any}(
@@ -1566,8 +1156,7 @@ function update_instance_access_control_attribute_configuration(
 end
 
 """
-    update_permission_set(instance_arn, permission_set_arn)
-    update_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
+    update_permission_set(instance_arn, permission_set_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing permission set.
 
@@ -1578,31 +1167,20 @@ Updates an existing permission set.
 - `permission_set_arn`: The ARN of the permission set.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the PermissionSet.
-- `"RelayState"`: Used to redirect users within the application during the federation
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the PermissionSet.
+- `"relay_state"`: Used to redirect users within the application during the federation
   authentication process.
-- `"SessionDuration"`: The length of time that the application user sessions are valid for
+- `"session_duration"`: The length of time that the application user sessions are valid for
   in the ISO-8601 standard.
 """
 function update_permission_set(
-    InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
-        "UpdatePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_permission_set(
     InstanceArn,
-    PermissionSetArn,
-    params::AbstractDict{String};
+    PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sso_admin(
         "UpdatePermissionSet",
         Dict{String,Any}(

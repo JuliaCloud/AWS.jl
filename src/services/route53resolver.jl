@@ -4,9 +4,30 @@ using AWS.AWSServices: route53resolver
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "mutation_protection" => "MutationProtection",
+    "action" => "Action",
+    "target_ips" => "TargetIps",
+    "next_token" => "NextToken",
+    "name" => "Name",
+    "block_override_ttl" => "BlockOverrideTtl",
+    "priority" => "Priority",
+    "sort_order" => "SortOrder",
+    "status" => "Status",
+    "sort_by" => "SortBy",
+    "block_response" => "BlockResponse",
+    "max_results" => "MaxResults",
+    "vpc_id" => "VpcId",
+    "block_override_domain" => "BlockOverrideDomain",
+    "resolver_endpoint_id" => "ResolverEndpointId",
+    "filters" => "Filters",
+    "block_override_dns_type" => "BlockOverrideDnsType",
+    "firewall_rule_group_id" => "FirewallRuleGroupId",
+    "tags" => "Tags",
+)
+
 """
-    associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id)
-    associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id, params::Dict{String,<:Any})
+    associate_firewall_rule_group(creator_request_id, firewall_rule_group_id, name, priority, vpc_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
 
@@ -27,11 +48,11 @@ Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
   group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MutationProtection"`: If enabled, this setting disallows modification or removal of the
-  association, to help prevent against accidentally altering DNS firewall protections. When
-  you create the association, the default setting is DISABLED.
-- `"Tags"`: A list of the tag keys and values that you want to associate with the rule
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"mutation_protection"`: If enabled, this setting disallows modification or removal of
+  the association, to help prevent against accidentally altering DNS firewall protections.
+  When you create the association, the default setting is DISABLED.
+- `"tags"`: A list of the tag keys and values that you want to associate with the rule
   group association.
 """
 function associate_firewall_rule_group(
@@ -41,29 +62,9 @@ function associate_firewall_rule_group(
     Priority,
     VpcId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "AssociateFirewallRuleGroup",
-        Dict{String,Any}(
-            "CreatorRequestId" => CreatorRequestId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-            "Name" => Name,
-            "Priority" => Priority,
-            "VpcId" => VpcId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_firewall_rule_group(
-    CreatorRequestId,
-    FirewallRuleGroupId,
-    Name,
-    Priority,
-    VpcId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "AssociateFirewallRuleGroup",
         Dict{String,Any}(
@@ -85,8 +86,7 @@ function associate_firewall_rule_group(
 end
 
 """
-    associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
-    associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id, params::Dict{String,<:Any})
+    associate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds IP addresses to an inbound or an outbound Resolver endpoint. If you want to add more
 than one IP address, submit one AssociateResolverEndpointIpAddress request for each IP
@@ -102,23 +102,12 @@ DisassociateResolverEndpointIpAddress.
 
 """
 function associate_resolver_endpoint_ip_address(
-    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "AssociateResolverEndpointIpAddress",
-        Dict{String,Any}(
-            "IpAddress" => IpAddress, "ResolverEndpointId" => ResolverEndpointId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_resolver_endpoint_ip_address(
     IpAddress,
-    ResolverEndpointId,
-    params::AbstractDict{String};
+    ResolverEndpointId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "AssociateResolverEndpointIpAddress",
         Dict{String,Any}(
@@ -136,8 +125,7 @@ function associate_resolver_endpoint_ip_address(
 end
 
 """
-    associate_resolver_query_log_config(resolver_query_log_config_id, resource_id)
-    associate_resolver_query_log_config(resolver_query_log_config_id, resource_id, params::Dict{String,<:Any})
+    associate_resolver_query_log_config(resolver_query_log_config_id, resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates an Amazon VPC with a specified query logging configuration. Route 53 Resolver
 logs DNS queries that originate in all of the Amazon VPCs that are associated with a
@@ -155,24 +143,12 @@ DisassociateResolverQueryLogConfig.
 
 """
 function associate_resolver_query_log_config(
-    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "AssociateResolverQueryLogConfig",
-        Dict{String,Any}(
-            "ResolverQueryLogConfigId" => ResolverQueryLogConfigId,
-            "ResourceId" => ResourceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_resolver_query_log_config(
     ResolverQueryLogConfigId,
-    ResourceId,
-    params::AbstractDict{String};
+    ResourceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "AssociateResolverQueryLogConfig",
         Dict{String,Any}(
@@ -191,8 +167,7 @@ function associate_resolver_query_log_config(
 end
 
 """
-    associate_resolver_rule(resolver_rule_id, vpcid)
-    associate_resolver_rule(resolver_rule_id, vpcid, params::Dict{String,<:Any})
+    associate_resolver_rule(resolver_rule_id, vpcid; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates a Resolver rule with a VPC. When you associate a rule with a VPC, Resolver
 forwards all DNS queries for the domain name that is specified in the rule and that
@@ -205,26 +180,14 @@ that are specified in the rule. For more information about rules, see CreateReso
 - `vpcid`: The ID of the VPC that you want to associate the Resolver rule with.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: A name for the association that you're creating between a Resolver rule and a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: A name for the association that you're creating between a Resolver rule and a
   VPC.
 """
 function associate_resolver_rule(
-    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "AssociateResolverRule",
-        Dict{String,Any}("ResolverRuleId" => ResolverRuleId, "VPCId" => VPCId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_resolver_rule(
-    ResolverRuleId,
-    VPCId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "AssociateResolverRule",
         Dict{String,Any}(
@@ -240,8 +203,7 @@ function associate_resolver_rule(
 end
 
 """
-    create_firewall_domain_list(creator_request_id, name)
-    create_firewall_domain_list(creator_request_id, name, params::Dict{String,<:Any})
+    create_firewall_domain_list(creator_request_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the
 domains for the new list with a file, using ImportFirewallDomains, or with domain strings,
@@ -254,26 +216,14 @@ using UpdateFirewallDomains.
 - `name`: A name that lets you identify the domain list to manage and use it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of the tag keys and values that you want to associate with the domain
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of the tag keys and values that you want to associate with the domain
   list.
 """
 function create_firewall_domain_list(
-    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "CreateFirewallDomainList",
-        Dict{String,Any}("CreatorRequestId" => CreatorRequestId, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_firewall_domain_list(
-    CreatorRequestId,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateFirewallDomainList",
         Dict{String,Any}(
@@ -289,8 +239,7 @@ function create_firewall_domain_list(
 end
 
 """
-    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority)
-    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority, params::Dict{String,<:Any})
+    create_firewall_rule(action, creator_request_id, firewall_domain_list_id, firewall_rule_group_id, name, priority; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a single DNS Firewall rule in the specified rule group, using the specified domain
 list.
@@ -315,24 +264,24 @@ list.
   any time.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
-  value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a
-  BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is
-  OVERRIDE.
-- `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"block_override_dns_type"`: The DNS record's type. This determines the format of the
+  record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with
+  a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting
+  is OVERRIDE.
+- `"block_override_domain"`: The custom DNS record to send back in response to the query.
   Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is
   required if the BlockResponse setting is OVERRIDE.
-- `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
-  web browser to cache the provided override record. Used for the rule action BLOCK with a
+- `"block_override_ttl"`: The recommended amount of time, in seconds, for the DNS resolver
+  or web browser to cache the provided override record. Used for the rule action BLOCK with a
   BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is
   OVERRIDE.
-- `"BlockResponse"`: The way that you want DNS Firewall to block the request, used with the
-  rule action setting BLOCK.     NODATA - Respond indicating that the query was successful,
-  but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
-  that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
-  This option requires custom handling details in the rule's BlockOverride* settings.    This
-  setting is required if the rule action setting is BLOCK.
+- `"block_response"`: The way that you want DNS Firewall to block the request, used with
+  the rule action setting BLOCK.     NODATA - Respond indicating that the query was
+  successful, but no response is available for it.    NXDOMAIN - Respond indicating that the
+  domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in
+  the response. This option requires custom handling details in the rule's BlockOverride*
+  settings.    This setting is required if the rule action setting is BLOCK.
 """
 function create_firewall_rule(
     Action,
@@ -342,31 +291,9 @@ function create_firewall_rule(
     Name,
     Priority;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "CreateFirewallRule",
-        Dict{String,Any}(
-            "Action" => Action,
-            "CreatorRequestId" => CreatorRequestId,
-            "FirewallDomainListId" => FirewallDomainListId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-            "Name" => Name,
-            "Priority" => Priority,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_firewall_rule(
-    Action,
-    CreatorRequestId,
-    FirewallDomainListId,
-    FirewallRuleGroupId,
-    Name,
-    Priority,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateFirewallRule",
         Dict{String,Any}(
@@ -389,8 +316,7 @@ function create_firewall_rule(
 end
 
 """
-    create_firewall_rule_group(creator_request_id, name)
-    create_firewall_rule_group(creator_request_id, name, params::Dict{String,<:Any})
+    create_firewall_rule_group(creator_request_id, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You
 can add rules to the new rule group by calling CreateFirewallRule.
@@ -402,26 +328,14 @@ can add rules to the new rule group by calling CreateFirewallRule.
 - `name`: A name that lets you identify the rule group, to manage and use it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of the tag keys and values that you want to associate with the rule
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of the tag keys and values that you want to associate with the rule
   group.
 """
 function create_firewall_rule_group(
-    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CreatorRequestId, Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "CreateFirewallRuleGroup",
-        Dict{String,Any}("CreatorRequestId" => CreatorRequestId, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_firewall_rule_group(
-    CreatorRequestId,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateFirewallRuleGroup",
         Dict{String,Any}(
@@ -437,8 +351,7 @@ function create_firewall_rule_group(
 end
 
 """
-    create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids)
-    create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids, params::Dict{String,<:Any})
+    create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Resolver endpoint. There are two types of Resolver endpoints, inbound and
 outbound:   An inbound Resolver endpoint forwards DNS queries to the DNS service for a VPC
@@ -463,10 +376,10 @@ service for a VPC to your network.
   network.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: A friendly name that lets you easily find a configuration in the Resolver
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: A friendly name that lets you easily find a configuration in the Resolver
   dashboard in the Route 53 console.
-- `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
+- `"tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 function create_resolver_endpoint(
     CreatorRequestId,
@@ -474,27 +387,9 @@ function create_resolver_endpoint(
     IpAddresses,
     SecurityGroupIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "CreateResolverEndpoint",
-        Dict{String,Any}(
-            "CreatorRequestId" => CreatorRequestId,
-            "Direction" => Direction,
-            "IpAddresses" => IpAddresses,
-            "SecurityGroupIds" => SecurityGroupIds,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resolver_endpoint(
-    CreatorRequestId,
-    Direction,
-    IpAddresses,
-    SecurityGroupIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateResolverEndpoint",
         Dict{String,Any}(
@@ -515,8 +410,7 @@ function create_resolver_endpoint(
 end
 
 """
-    create_resolver_query_log_config(creator_request_id, destination_arn, name)
-    create_resolver_query_log_config(creator_request_id, destination_arn, name, params::Dict{String,<:Any})
+    create_resolver_query_log_config(creator_request_id, destination_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Resolver query logging configuration, which defines where you want Resolver to
 save DNS query logs that originate in your VPCs. Resolver can log queries only for VPCs
@@ -543,8 +437,8 @@ associated with the configuration.
 - `name`: The name that you want to give the query logging configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of the tag keys and values that you want to associate with the query
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of the tag keys and values that you want to associate with the query
   logging configuration.
 """
 function create_resolver_query_log_config(
@@ -552,25 +446,9 @@ function create_resolver_query_log_config(
     DestinationArn,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "CreateResolverQueryLogConfig",
-        Dict{String,Any}(
-            "CreatorRequestId" => CreatorRequestId,
-            "DestinationArn" => DestinationArn,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resolver_query_log_config(
-    CreatorRequestId,
-    DestinationArn,
-    Name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateResolverQueryLogConfig",
         Dict{String,Any}(
@@ -590,8 +468,7 @@ function create_resolver_query_log_config(
 end
 
 """
-    create_resolver_rule(creator_request_id, domain_name, rule_type)
-    create_resolver_rule(creator_request_id, domain_name, rule_type, params::Dict{String,<:Any})
+    create_resolver_rule(creator_request_id, domain_name, rule_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries
 pass through, one domain name that you want to forward to your network, and the IP
@@ -615,13 +492,13 @@ addresses of the DNS resolvers in your network.
   RuleType.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: A friendly name that lets you easily find a rule in the Resolver dashboard in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: A friendly name that lets you easily find a rule in the Resolver dashboard in
   the Route 53 console.
-- `"ResolverEndpointId"`: The ID of the outbound Resolver endpoint that you want to use to
-  route DNS queries to the IP addresses that you specify in TargetIps.
-- `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
-- `"TargetIps"`: The IPs that you want Resolver to forward DNS queries to. You can specify
+- `"resolver_endpoint_id"`: The ID of the outbound Resolver endpoint that you want to use
+  to route DNS queries to the IP addresses that you specify in TargetIps.
+- `"tags"`: A list of the tag keys and values that you want to associate with the endpoint.
+- `"target_ips"`: The IPs that you want Resolver to forward DNS queries to. You can specify
   only IPv4 addresses. Separate IP addresses with a space.  TargetIps is available only when
   the value of Rule type is FORWARD.
 """
@@ -630,25 +507,9 @@ function create_resolver_rule(
     DomainName,
     RuleType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "CreateResolverRule",
-        Dict{String,Any}(
-            "CreatorRequestId" => CreatorRequestId,
-            "DomainName" => DomainName,
-            "RuleType" => RuleType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_resolver_rule(
-    CreatorRequestId,
-    DomainName,
-    RuleType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "CreateResolverRule",
         Dict{String,Any}(
@@ -668,8 +529,7 @@ function create_resolver_rule(
 end
 
 """
-    delete_firewall_domain_list(firewall_domain_list_id)
-    delete_firewall_domain_list(firewall_domain_list_id, params::Dict{String,<:Any})
+    delete_firewall_domain_list(firewall_domain_list_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified domain list.
 
@@ -678,20 +538,9 @@ Deletes the specified domain list.
 
 """
 function delete_firewall_domain_list(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DeleteFirewallDomainList",
-        Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_firewall_domain_list(
-    FirewallDomainListId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteFirewallDomainList",
         Dict{String,Any}(
@@ -707,8 +556,7 @@ function delete_firewall_domain_list(
 end
 
 """
-    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
-    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+    delete_firewall_rule(firewall_domain_list_id, firewall_rule_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified firewall rule.
 
@@ -722,23 +570,9 @@ function delete_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "DeleteFirewallRule",
-        Dict{String,Any}(
-            "FirewallDomainListId" => FirewallDomainListId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_firewall_rule(
-    FirewallDomainListId,
-    FirewallRuleGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteFirewallRule",
         Dict{String,Any}(
@@ -757,8 +591,7 @@ function delete_firewall_rule(
 end
 
 """
-    delete_firewall_rule_group(firewall_rule_group_id)
-    delete_firewall_rule_group(firewall_rule_group_id, params::Dict{String,<:Any})
+    delete_firewall_rule_group(firewall_rule_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified firewall rule group.
 
@@ -768,20 +601,9 @@ Deletes the specified firewall rule group.
 
 """
 function delete_firewall_rule_group(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DeleteFirewallRuleGroup",
-        Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_firewall_rule_group(
-    FirewallRuleGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteFirewallRuleGroup",
         Dict{String,Any}(
@@ -797,8 +619,7 @@ function delete_firewall_rule_group(
 end
 
 """
-    delete_resolver_endpoint(resolver_endpoint_id)
-    delete_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
+    delete_resolver_endpoint(resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Resolver endpoint. The effect of deleting a Resolver endpoint depends on whether
 it's an inbound or an outbound Resolver endpoint:    Inbound: DNS queries from your network
@@ -810,20 +631,9 @@ from a VPC are no longer routed to your network.
 
 """
 function delete_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DeleteResolverEndpoint",
-        Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resolver_endpoint(
-    ResolverEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteResolverEndpoint",
         Dict{String,Any}(
@@ -837,8 +647,7 @@ function delete_resolver_endpoint(
 end
 
 """
-    delete_resolver_query_log_config(resolver_query_log_config_id)
-    delete_resolver_query_log_config(resolver_query_log_config_id, params::Dict{String,<:Any})
+    delete_resolver_query_log_config(resolver_query_log_config_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a query logging configuration. When you delete a configuration, Resolver stops
 logging DNS queries for all of the Amazon VPCs that are associated with the configuration.
@@ -858,20 +667,9 @@ configuration, those VPCs are automatically disassociated from the configuration
 
 """
 function delete_resolver_query_log_config(
-    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DeleteResolverQueryLogConfig",
-        Dict{String,Any}("ResolverQueryLogConfigId" => ResolverQueryLogConfigId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resolver_query_log_config(
-    ResolverQueryLogConfigId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteResolverQueryLogConfig",
         Dict{String,Any}(
@@ -887,8 +685,7 @@ function delete_resolver_query_log_config(
 end
 
 """
-    delete_resolver_rule(resolver_rule_id)
-    delete_resolver_rule(resolver_rule_id, params::Dict{String,<:Any})
+    delete_resolver_rule(resolver_rule_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Resolver rule. Before you can delete a Resolver rule, you must disassociate it
 from all the VPCs that you associated the Resolver rule with. For more information, see
@@ -899,20 +696,9 @@ DisassociateResolverRule.
 
 """
 function delete_resolver_rule(
-    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DeleteResolverRule",
-        Dict{String,Any}("ResolverRuleId" => ResolverRuleId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_resolver_rule(
-    ResolverRuleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DeleteResolverRule",
         Dict{String,Any}(
@@ -924,8 +710,7 @@ function delete_resolver_rule(
 end
 
 """
-    disassociate_firewall_rule_group(firewall_rule_group_association_id)
-    disassociate_firewall_rule_group(firewall_rule_group_association_id, params::Dict{String,<:Any})
+    disassociate_firewall_rule_group(firewall_rule_group_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
 
@@ -934,22 +719,11 @@ Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the V
 
 """
 function disassociate_firewall_rule_group(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "DisassociateFirewallRuleGroup",
-        Dict{String,Any}(
-            "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_firewall_rule_group(
-    FirewallRuleGroupAssociationId,
-    params::AbstractDict{String};
+    FirewallRuleGroupAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DisassociateFirewallRuleGroup",
         Dict{String,Any}(
@@ -967,8 +741,7 @@ function disassociate_firewall_rule_group(
 end
 
 """
-    disassociate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id)
-    disassociate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id, params::Dict{String,<:Any})
+    disassociate_resolver_endpoint_ip_address(ip_address, resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes IP addresses from an inbound or an outbound Resolver endpoint. If you want to
 remove more than one IP address, submit one DisassociateResolverEndpointIpAddress request
@@ -982,23 +755,12 @@ AssociateResolverEndpointIpAddress.
 
 """
 function disassociate_resolver_endpoint_ip_address(
-    IpAddress, ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "DisassociateResolverEndpointIpAddress",
-        Dict{String,Any}(
-            "IpAddress" => IpAddress, "ResolverEndpointId" => ResolverEndpointId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_resolver_endpoint_ip_address(
     IpAddress,
-    ResolverEndpointId,
-    params::AbstractDict{String};
+    ResolverEndpointId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DisassociateResolverEndpointIpAddress",
         Dict{String,Any}(
@@ -1016,8 +778,7 @@ function disassociate_resolver_endpoint_ip_address(
 end
 
 """
-    disassociate_resolver_query_log_config(resolver_query_log_config_id, resource_id)
-    disassociate_resolver_query_log_config(resolver_query_log_config_id, resource_id, params::Dict{String,<:Any})
+    disassociate_resolver_query_log_config(resolver_query_log_config_id, resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates a VPC from a query logging configuration.  Before you can delete a query
 logging configuration, you must first disassociate all VPCs from the configuration. If you
@@ -1034,24 +795,12 @@ configuration.   You can stop sharing the configuration.
 
 """
 function disassociate_resolver_query_log_config(
-    ResolverQueryLogConfigId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "DisassociateResolverQueryLogConfig",
-        Dict{String,Any}(
-            "ResolverQueryLogConfigId" => ResolverQueryLogConfigId,
-            "ResourceId" => ResourceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_resolver_query_log_config(
     ResolverQueryLogConfigId,
-    ResourceId,
-    params::AbstractDict{String};
+    ResourceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DisassociateResolverQueryLogConfig",
         Dict{String,Any}(
@@ -1070,8 +819,7 @@ function disassociate_resolver_query_log_config(
 end
 
 """
-    disassociate_resolver_rule(resolver_rule_id, vpcid)
-    disassociate_resolver_rule(resolver_rule_id, vpcid, params::Dict{String,<:Any})
+    disassociate_resolver_rule(resolver_rule_id, vpcid; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between a specified Resolver rule and a specified VPC.  If you
 disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
@@ -1084,21 +832,9 @@ domain name that you specified in the Resolver rule.
 
 """
 function disassociate_resolver_rule(
-    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId, VPCId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "DisassociateResolverRule",
-        Dict{String,Any}("ResolverRuleId" => ResolverRuleId, "VPCId" => VPCId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_resolver_rule(
-    ResolverRuleId,
-    VPCId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "DisassociateResolverRule",
         Dict{String,Any}(
@@ -1114,8 +850,7 @@ function disassociate_resolver_rule(
 end
 
 """
-    get_firewall_config(resource_id)
-    get_firewall_config(resource_id, params::Dict{String,<:Any})
+    get_firewall_config(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the configuration of the firewall behavior provided by DNS Firewall for a single
 VPC from Amazon Virtual Private Cloud (Amazon VPC).
@@ -1124,19 +859,10 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 - `resource_id`: The ID of the VPC from Amazon VPC that the configuration is for.
 
 """
-function get_firewall_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "GetFirewallConfig",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_firewall_config(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetFirewallConfig",
         Dict{String,Any}(
@@ -1148,8 +874,7 @@ function get_firewall_config(
 end
 
 """
-    get_firewall_domain_list(firewall_domain_list_id)
-    get_firewall_domain_list(firewall_domain_list_id, params::Dict{String,<:Any})
+    get_firewall_domain_list(firewall_domain_list_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the specified firewall domain list.
 
@@ -1158,20 +883,9 @@ Retrieves the specified firewall domain list.
 
 """
 function get_firewall_domain_list(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetFirewallDomainList",
-        Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_firewall_domain_list(
-    FirewallDomainListId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetFirewallDomainList",
         Dict{String,Any}(
@@ -1187,8 +901,7 @@ function get_firewall_domain_list(
 end
 
 """
-    get_firewall_rule_group(firewall_rule_group_id)
-    get_firewall_rule_group(firewall_rule_group_id, params::Dict{String,<:Any})
+    get_firewall_rule_group(firewall_rule_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the specified firewall rule group.
 
@@ -1197,20 +910,9 @@ Retrieves the specified firewall rule group.
 
 """
 function get_firewall_rule_group(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetFirewallRuleGroup",
-        Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_firewall_rule_group(
-    FirewallRuleGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetFirewallRuleGroup",
         Dict{String,Any}(
@@ -1226,8 +928,7 @@ function get_firewall_rule_group(
 end
 
 """
-    get_firewall_rule_group_association(firewall_rule_group_association_id)
-    get_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
+    get_firewall_rule_group_association(firewall_rule_group_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one
 rule group. A VPC can have more than one firewall rule group association, and a rule group
@@ -1238,22 +939,11 @@ can be associated with more than one VPC.
 
 """
 function get_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "GetFirewallRuleGroupAssociation",
-        Dict{String,Any}(
-            "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId,
-    params::AbstractDict{String};
+    FirewallRuleGroupAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetFirewallRuleGroupAssociation",
         Dict{String,Any}(
@@ -1271,8 +961,7 @@ function get_firewall_rule_group_association(
 end
 
 """
-    get_firewall_rule_group_policy(arn)
-    get_firewall_rule_group_policy(arn, params::Dict{String,<:Any})
+    get_firewall_rule_group_policy(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
 specified rule group. You can use the policy to share the rule group using Resource Access
@@ -1283,18 +972,9 @@ Manager (RAM).
 
 """
 function get_firewall_rule_group_policy(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetFirewallRuleGroupPolicy",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_firewall_rule_group_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetFirewallRuleGroupPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
@@ -1304,8 +984,7 @@ function get_firewall_rule_group_policy(
 end
 
 """
-    get_resolver_config(resource_id)
-    get_resolver_config(resource_id, params::Dict{String,<:Any})
+    get_resolver_config(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
 Amazon Virtual Private Cloud.
@@ -1314,19 +993,10 @@ Amazon Virtual Private Cloud.
 - `resource_id`: Resource ID of the Amazon VPC that you want to get information about.
 
 """
-function get_resolver_config(ResourceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "GetResolverConfig",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resolver_config(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverConfig",
         Dict{String,Any}(
@@ -1338,8 +1008,7 @@ function get_resolver_config(
 end
 
 """
-    get_resolver_dnssec_config(resource_id)
-    get_resolver_dnssec_config(resource_id, params::Dict{String,<:Any})
+    get_resolver_dnssec_config(resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets DNSSEC validation information for a specified resource.
 
@@ -1348,20 +1017,9 @@ Gets DNSSEC validation information for a specified resource.
 
 """
 function get_resolver_dnssec_config(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverDnssecConfig",
-        Dict{String,Any}("ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_dnssec_config(
-    ResourceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverDnssecConfig",
         Dict{String,Any}(
@@ -1373,8 +1031,7 @@ function get_resolver_dnssec_config(
 end
 
 """
-    get_resolver_endpoint(resolver_endpoint_id)
-    get_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
+    get_resolver_endpoint(resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specified Resolver endpoint, such as whether it's an inbound or an
 outbound Resolver endpoint, and the current status of the endpoint.
@@ -1385,20 +1042,9 @@ outbound Resolver endpoint, and the current status of the endpoint.
 
 """
 function get_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverEndpoint",
-        Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_endpoint(
-    ResolverEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverEndpoint",
         Dict{String,Any}(
@@ -1412,8 +1058,7 @@ function get_resolver_endpoint(
 end
 
 """
-    get_resolver_query_log_config(resolver_query_log_config_id)
-    get_resolver_query_log_config(resolver_query_log_config_id, params::Dict{String,<:Any})
+    get_resolver_query_log_config(resolver_query_log_config_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specified Resolver query logging configuration, such as the number
 of VPCs that the configuration is logging queries for and the location that logs are sent
@@ -1425,20 +1070,9 @@ to.
 
 """
 function get_resolver_query_log_config(
-    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverQueryLogConfigId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverQueryLogConfig",
-        Dict{String,Any}("ResolverQueryLogConfigId" => ResolverQueryLogConfigId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_query_log_config(
-    ResolverQueryLogConfigId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverQueryLogConfig",
         Dict{String,Any}(
@@ -1454,8 +1088,7 @@ function get_resolver_query_log_config(
 end
 
 """
-    get_resolver_query_log_config_association(resolver_query_log_config_association_id)
-    get_resolver_query_log_config_association(resolver_query_log_config_association_id, params::Dict{String,<:Any})
+    get_resolver_query_log_config_association(resolver_query_log_config_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specified association between a Resolver query logging
 configuration and an Amazon VPC. When you associate a VPC with a query logging
@@ -1467,22 +1100,11 @@ configuration, Resolver logs DNS queries that originate in that VPC.
 
 """
 function get_resolver_query_log_config_association(
-    ResolverQueryLogConfigAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "GetResolverQueryLogConfigAssociation",
-        Dict{String,Any}(
-            "ResolverQueryLogConfigAssociationId" => ResolverQueryLogConfigAssociationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_query_log_config_association(
-    ResolverQueryLogConfigAssociationId,
-    params::AbstractDict{String};
+    ResolverQueryLogConfigAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverQueryLogConfigAssociation",
         Dict{String,Any}(
@@ -1501,8 +1123,7 @@ function get_resolver_query_log_config_association(
 end
 
 """
-    get_resolver_query_log_config_policy(arn)
-    get_resolver_query_log_config_policy(arn, params::Dict{String,<:Any})
+    get_resolver_query_log_config_policy(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a query logging policy. A query logging policy specifies the
 Resolver query logging operations and resources that you want to allow another Amazon Web
@@ -1514,18 +1135,9 @@ Services account to be able to use.
 
 """
 function get_resolver_query_log_config_policy(
-    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverQueryLogConfigPolicy",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_query_log_config_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverQueryLogConfigPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
@@ -1535,8 +1147,7 @@ function get_resolver_query_log_config_policy(
 end
 
 """
-    get_resolver_rule(resolver_rule_id)
-    get_resolver_rule(resolver_rule_id, params::Dict{String,<:Any})
+    get_resolver_rule(resolver_rule_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about a specified Resolver rule, such as the domain name that the rule
 forwards DNS queries for and the ID of the outbound Resolver endpoint that the rule is
@@ -1547,20 +1158,9 @@ associated with.
 
 """
 function get_resolver_rule(
-    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverRule",
-        Dict{String,Any}("ResolverRuleId" => ResolverRuleId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_rule(
-    ResolverRuleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverRule",
         Dict{String,Any}(
@@ -1572,8 +1172,7 @@ function get_resolver_rule(
 end
 
 """
-    get_resolver_rule_association(resolver_rule_association_id)
-    get_resolver_rule_association(resolver_rule_association_id, params::Dict{String,<:Any})
+    get_resolver_rule_association(resolver_rule_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about an association between a specified Resolver rule and a VPC. You
 associate a Resolver rule and a VPC using AssociateResolverRule.
@@ -1584,20 +1183,9 @@ associate a Resolver rule and a VPC using AssociateResolverRule.
 
 """
 function get_resolver_rule_association(
-    ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverRuleAssociationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "GetResolverRuleAssociation",
-        Dict{String,Any}("ResolverRuleAssociationId" => ResolverRuleAssociationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_resolver_rule_association(
-    ResolverRuleAssociationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverRuleAssociation",
         Dict{String,Any}(
@@ -1613,8 +1201,7 @@ function get_resolver_rule_association(
 end
 
 """
-    get_resolver_rule_policy(arn)
-    get_resolver_rule_policy(arn, params::Dict{String,<:Any})
+    get_resolver_rule_policy(arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about the Resolver rule policy for a specified rule. A Resolver rule
 policy includes the rule that you want to share with another account, the account that you
@@ -1625,17 +1212,10 @@ to use.
 - `arn`: The ID of the Resolver rule that you want to get the Resolver rule policy for.
 
 """
-function get_resolver_rule_policy(Arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "GetResolverRulePolicy",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resolver_rule_policy(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "GetResolverRulePolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
@@ -1645,8 +1225,7 @@ function get_resolver_rule_policy(
 end
 
 """
-    import_firewall_domains(domain_file_url, firewall_domain_list_id, operation)
-    import_firewall_domains(domain_file_url, firewall_domain_list_id, operation, params::Dict{String,<:Any})
+    import_firewall_domains(domain_file_url, firewall_domain_list_id, operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Imports domain names from a file into a domain list, for use in a DNS firewall rule group.
 Each domain specification in your domain list must satisfy the following requirements:
@@ -1671,25 +1250,9 @@ function import_firewall_domains(
     FirewallDomainListId,
     Operation;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "ImportFirewallDomains",
-        Dict{String,Any}(
-            "DomainFileUrl" => DomainFileUrl,
-            "FirewallDomainListId" => FirewallDomainListId,
-            "Operation" => Operation,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_firewall_domains(
-    DomainFileUrl,
-    FirewallDomainListId,
-    Operation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ImportFirewallDomains",
         Dict{String,Any}(
@@ -1709,33 +1272,28 @@ function import_firewall_domains(
 end
 
 """
-    list_firewall_configs()
-    list_firewall_configs(params::Dict{String,<:Any})
+    list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the firewall configurations that you have defined. DNS Firewall uses the
 configurations to manage firewall behavior for your VPCs.  A single call might return only
 a partial list of the configurations. For information, see MaxResults.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
 """
-function list_firewall_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListFirewallConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_firewall_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_firewall_configs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallConfigs",
         params;
@@ -1745,8 +1303,7 @@ function list_firewall_configs(
 end
 
 """
-    list_firewall_domain_lists()
-    list_firewall_domain_lists(params::Dict{String,<:Any})
+    list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the firewall domain lists that you have defined. For each firewall domain list,
 you can retrieve the domains that are defined for a list by calling ListFirewallDomains.  A
@@ -1754,25 +1311,21 @@ single call to this list operation might return only a partial list of the domai
 For information, see MaxResults.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
 """
-function list_firewall_domain_lists(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListFirewallDomainLists"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_firewall_domain_lists(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_firewall_domain_lists(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallDomainLists",
         params;
@@ -1782,8 +1335,7 @@ function list_firewall_domain_lists(
 end
 
 """
-    list_firewall_domains(firewall_domain_list_id)
-    list_firewall_domains(firewall_domain_list_id, params::Dict{String,<:Any})
+    list_firewall_domains(firewall_domain_list_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the domains that you have defined for the specified firewall domain list.  A
 single call might return only a partial list of the domains. For information, see
@@ -1793,32 +1345,21 @@ MaxResults.
 - `firewall_domain_list_id`: The ID of the domain list whose domains you want to retrieve.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
 """
 function list_firewall_domains(
-    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallDomainListId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListFirewallDomains",
-        Dict{String,Any}("FirewallDomainListId" => FirewallDomainListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_firewall_domains(
-    FirewallDomainListId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallDomains",
         Dict{String,Any}(
@@ -1834,48 +1375,39 @@ function list_firewall_domains(
 end
 
 """
-    list_firewall_rule_group_associations()
-    list_firewall_rule_group_associations(params::Dict{String,<:Any})
+    list_firewall_rule_group_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the firewall rule group associations that you have defined. Each association
 enables DNS filtering for a VPC with one rule group.  A single call might return only a
 partial list of the associations. For information, see MaxResults.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FirewallRuleGroupId"`: The unique identifier of the firewall rule group that you want
-  to retrieve the associations for. Leave this blank to retrieve associations for any rule
-  group.
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"firewall_rule_group_id"`: The unique identifier of the firewall rule group that you
+  want to retrieve the associations for. Leave this blank to retrieve associations for any
+  rule group.
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
-- `"Priority"`: The setting that determines the processing order of the rule group among
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
+- `"priority"`: The setting that determines the processing order of the rule group among
   the rule groups that are associated with a single VPC. DNS Firewall filters VPC traffic
   starting from the rule group with the lowest numeric priority setting.
-- `"Status"`: The association Status setting that you want DNS Firewall to filter on for
+- `"status"`: The association Status setting that you want DNS Firewall to filter on for
   the list. If you don't specify this, then DNS Firewall returns all associations, regardless
   of status.
-- `"VpcId"`: The unique identifier of the VPC that you want to retrieve the associations
+- `"vpc_id"`: The unique identifier of the VPC that you want to retrieve the associations
   for. Leave this blank to retrieve associations for any VPC.
 """
 function list_firewall_rule_group_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListFirewallRuleGroupAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_firewall_rule_group_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallRuleGroupAssociations",
         params;
@@ -1885,33 +1417,28 @@ function list_firewall_rule_group_associations(
 end
 
 """
-    list_firewall_rule_groups()
-    list_firewall_rule_groups(params::Dict{String,<:Any})
+    list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the minimal high-level information for the rule groups that you have defined.  A
 single call might return only a partial list of the rule groups. For information, see
 MaxResults.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
 """
-function list_firewall_rule_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListFirewallRuleGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_firewall_rule_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_firewall_rule_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallRuleGroups",
         params;
@@ -1921,8 +1448,7 @@ function list_firewall_rule_groups(
 end
 
 """
-    list_firewall_rules(firewall_rule_group_id)
-    list_firewall_rules(firewall_rule_group_id, params::Dict{String,<:Any})
+    list_firewall_rules(firewall_rule_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the firewall rules that you have defined for the specified firewall rule group.
 DNS Firewall uses the rules in a rule group to filter DNS network traffic for a VPC.  A
@@ -1933,40 +1459,29 @@ single call might return only a partial list of the rules. For information, see 
   to retrieve the rules for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Action"`: Optional additional filter for the rules to retrieve. The action that DNS
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"action"`: Optional additional filter for the rules to retrieve. The action that DNS
   Firewall should take on a DNS query when it matches one of the domains in the rule's domain
   list:    ALLOW - Permit the request to go through.    ALERT - Permit the request to go
   through but send an alert to the logs.    BLOCK - Disallow the request. If this is
   specified, additional handling details are provided in the rule's BlockResponse setting.
-- `"MaxResults"`: The maximum number of objects that you want Resolver to return for this
+- `"max_results"`: The maximum number of objects that you want Resolver to return for this
   request. If more objects are available, in the response, Resolver provides a NextToken
   value that you can use in a subsequent call to get the next batch of objects. If you don't
   specify a value for MaxResults, Resolver returns up to 100 objects.
-- `"NextToken"`: For the first call to this list request, omit this value. When you request
-  a list of objects, Resolver returns at most the number of objects specified in MaxResults.
-  If more objects are available for retrieval, Resolver returns a NextToken value in the
-  response. To retrieve the next batch of objects, use the token that was returned for the
-  prior request in your next request.
-- `"Priority"`: Optional additional filter for the rules to retrieve. The setting that
+- `"next_token"`: For the first call to this list request, omit this value. When you
+  request a list of objects, Resolver returns at most the number of objects specified in
+  MaxResults. If more objects are available for retrieval, Resolver returns a NextToken value
+  in the response. To retrieve the next batch of objects, use the token that was returned for
+  the prior request in your next request.
+- `"priority"`: Optional additional filter for the rules to retrieve. The setting that
   determines the processing order of the rules in a rule group. DNS Firewall processes the
   rules in a rule group by order of priority, starting from the lowest setting.
 """
 function list_firewall_rules(
-    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    FirewallRuleGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListFirewallRules",
-        Dict{String,Any}("FirewallRuleGroupId" => FirewallRuleGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_firewall_rules(
-    FirewallRuleGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListFirewallRules",
         Dict{String,Any}(
@@ -1982,31 +1497,26 @@ function list_firewall_rules(
 end
 
 """
-    list_resolver_configs()
-    list_resolver_configs(params::Dict{String,<:Any})
+    list_resolver_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the Resolver configurations that you have defined. Route 53 Resolver uses the
 configurations to manage DNS resolution behavior for your VPCs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of Resolver configurations that you want to return in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of Resolver configurations that you want to return in
   the response to a ListResolverConfigs request. If you don't specify a value for MaxResults,
   up to 100 Resolver configurations are returned.
-- `"NextToken"`: (Optional) If the current Amazon Web Services account has more than
+- `"next_token"`: (Optional) If the current Amazon Web Services account has more than
   MaxResults Resolver configurations, use NextToken to get the second and subsequent pages of
   results. For the first ListResolverConfigs request, omit this value. For the second and
   subsequent requests, get the value of NextToken from the previous response and specify that
   value for NextToken in the request.
 """
-function list_resolver_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListResolverConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resolver_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resolver_configs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverConfigs",
         params;
@@ -2016,32 +1526,27 @@ function list_resolver_configs(
 end
 
 """
-    list_resolver_dnssec_configs()
-    list_resolver_dnssec_configs(params::Dict{String,<:Any})
+    list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the configurations for DNSSEC validation that are associated with the current Amazon
 Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of objects.
-- `"MaxResults"`:  Optional: An integer that specifies the maximum number of DNSSEC
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of objects.
+- `"max_results"`:  Optional: An integer that specifies the maximum number of DNSSEC
   configuration results that you want Amazon Route 53 to return. If you don't specify a value
   for MaxResults, Route 53 returns up to 100 configuration per page.
-- `"NextToken"`: (Optional) If the current Amazon Web Services account has more than
+- `"next_token"`: (Optional) If the current Amazon Web Services account has more than
   MaxResults DNSSEC configurations, use NextToken to get the second and subsequent pages of
   results. For the first ListResolverDnssecConfigs request, omit this value. For the second
   and subsequent requests, get the value of NextToken from the previous response and specify
   that value for NextToken in the request.
 """
-function list_resolver_dnssec_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListResolverDnssecConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resolver_dnssec_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resolver_dnssec_configs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverDnssecConfigs",
         params;
@@ -2051,8 +1556,7 @@ function list_resolver_dnssec_configs(
 end
 
 """
-    list_resolver_endpoint_ip_addresses(resolver_endpoint_id)
-    list_resolver_endpoint_ip_addresses(resolver_endpoint_id, params::Dict{String,<:Any})
+    list_resolver_endpoint_ip_addresses(resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the IP addresses for a specified Resolver endpoint.
 
@@ -2061,30 +1565,19 @@ Gets the IP addresses for a specified Resolver endpoint.
   for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of IP addresses that you want to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of IP addresses that you want to return in the
   response to a ListResolverEndpointIpAddresses request. If you don't specify a value for
   MaxResults, Resolver returns up to 100 IP addresses.
-- `"NextToken"`: For the first ListResolverEndpointIpAddresses request, omit this value. If
-  the specified Resolver endpoint has more than MaxResults IP addresses, you can submit
+- `"next_token"`: For the first ListResolverEndpointIpAddresses request, omit this value.
+  If the specified Resolver endpoint has more than MaxResults IP addresses, you can submit
   another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In
   the next request, specify the value of NextToken from the previous response.
 """
 function list_resolver_endpoint_ip_addresses(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListResolverEndpointIpAddresses",
-        Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resolver_endpoint_ip_addresses(
-    ResolverEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverEndpointIpAddresses",
         Dict{String,Any}(
@@ -2098,34 +1591,29 @@ function list_resolver_endpoint_ip_addresses(
 end
 
 """
-    list_resolver_endpoints()
-    list_resolver_endpoints(params::Dict{String,<:Any})
+    list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all the Resolver endpoints that were created using the current Amazon Web Services
 account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of Resolver endpoints, such as
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of Resolver endpoints, such as
   all inbound Resolver endpoints.  If you submit a second or subsequent ListResolverEndpoints
   request and specify the NextToken parameter, you must use the same values for Filters, if
   any, as in the previous request.
-- `"MaxResults"`: The maximum number of Resolver endpoints that you want to return in the
+- `"max_results"`: The maximum number of Resolver endpoints that you want to return in the
   response to a ListResolverEndpoints request. If you don't specify a value for MaxResults,
   Resolver returns up to 100 Resolver endpoints.
-- `"NextToken"`: For the first ListResolverEndpoints request, omit this value. If you have
+- `"next_token"`: For the first ListResolverEndpoints request, omit this value. If you have
   more than MaxResults Resolver endpoints, you can submit another ListResolverEndpoints
   request to get the next group of Resolver endpoints. In the next request, specify the value
   of NextToken from the previous response.
 """
-function list_resolver_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListResolverEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resolver_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_resolver_endpoints(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverEndpoints",
         params;
@@ -2135,26 +1623,25 @@ function list_resolver_endpoints(
 end
 
 """
-    list_resolver_query_log_config_associations()
-    list_resolver_query_log_config_associations(params::Dict{String,<:Any})
+    list_resolver_query_log_config_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists information about associations between Amazon VPCs and query logging configurations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of query logging associations.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of query logging associations.
   If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and
   specify the NextToken parameter, you must use the same values for Filters, if any, as in
   the previous request.
-- `"MaxResults"`: The maximum number of query logging associations that you want to return
+- `"max_results"`: The maximum number of query logging associations that you want to return
   in the response to a ListResolverQueryLogConfigAssociations request. If you don't specify a
   value for MaxResults, Resolver returns up to 100 query logging associations.
-- `"NextToken"`: For the first ListResolverQueryLogConfigAssociations request, omit this
+- `"next_token"`: For the first ListResolverQueryLogConfigAssociations request, omit this
   value. If there are more than MaxResults query logging associations that match the values
   that you specify for Filters, you can submit another ListResolverQueryLogConfigAssociations
   request to get the next group of associations. In the next request, specify the value of
   NextToken from the previous response.
-- `"SortBy"`: The element that you want Resolver to sort query logging associations by.
+- `"sort_by"`: The element that you want Resolver to sort query logging associations by.
   If you submit a second or subsequent ListResolverQueryLogConfigAssociations request and
   specify the NextToken parameter, you must use the same value for SortBy, if any, as in the
   previous request.  Valid values include the following elements:    CreationTime: The ID of
@@ -2173,23 +1660,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   logging association. Here are two common causes:   The specified destination (for example,
   an Amazon S3 bucket) was deleted.   Permissions don't allow sending logs to the
   destination.
-- `"SortOrder"`: If you specified a value for SortBy, the order that you want query logging
-  associations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
+- `"sort_order"`: If you specified a value for SortBy, the order that you want query
+  logging associations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
   subsequent ListResolverQueryLogConfigAssociations request and specify the NextToken
   parameter, you must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_config_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListResolverQueryLogConfigAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resolver_query_log_config_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverQueryLogConfigAssociations",
         params;
@@ -2199,29 +1678,28 @@ function list_resolver_query_log_config_associations(
 end
 
 """
-    list_resolver_query_log_configs()
-    list_resolver_query_log_configs(params::Dict{String,<:Any})
+    list_resolver_query_log_configs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists information about the specified query logging configurations. Each configuration
 defines where you want Resolver to save DNS query logs and specifies the VPCs that you want
 to log queries for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of query logging
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of query logging
   configurations.  If you submit a second or subsequent ListResolverQueryLogConfigs request
   and specify the NextToken parameter, you must use the same values for Filters, if any, as
   in the previous request.
-- `"MaxResults"`: The maximum number of query logging configurations that you want to
+- `"max_results"`: The maximum number of query logging configurations that you want to
   return in the response to a ListResolverQueryLogConfigs request. If you don't specify a
   value for MaxResults, Resolver returns up to 100 query logging configurations.
-- `"NextToken"`: For the first ListResolverQueryLogConfigs request, omit this value. If
+- `"next_token"`: For the first ListResolverQueryLogConfigs request, omit this value. If
   there are more than MaxResults query logging configurations that match the values that you
   specify for Filters, you can submit another ListResolverQueryLogConfigs request to get the
   next group of configurations. In the next request, specify the value of NextToken from the
   previous response.
-- `"SortBy"`: The element that you want Resolver to sort query logging configurations by.
-  If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the
+- `"sort_by"`: The element that you want Resolver to sort query logging configurations by.
+   If you submit a second or subsequent ListResolverQueryLogConfigs request and specify the
   NextToken parameter, you must use the same value for SortBy, if any, as in the previous
   request.  Valid values include the following elements:    Arn: The ARN of the query logging
   configuration    AssociationCount: The number of VPCs that are associated with the
@@ -2240,23 +1718,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FAILED: Resolver either couldn't create or couldn't delete the query logging configuration.
   Here are two common causes:   The specified destination (for example, an Amazon S3 bucket)
   was deleted.   Permissions don't allow sending logs to the destination.
-- `"SortOrder"`: If you specified a value for SortBy, the order that you want query logging
-  configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
+- `"sort_order"`: If you specified a value for SortBy, the order that you want query
+  logging configurations to be listed in, ASCENDING or DESCENDING.  If you submit a second or
   subsequent ListResolverQueryLogConfigs request and specify the NextToken parameter, you
   must use the same value for SortOrder, if any, as in the previous request.
 """
 function list_resolver_query_log_configs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListResolverQueryLogConfigs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resolver_query_log_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverQueryLogConfigs",
         params;
@@ -2266,38 +1736,29 @@ function list_resolver_query_log_configs(
 end
 
 """
-    list_resolver_rule_associations()
-    list_resolver_rule_associations(params::Dict{String,<:Any})
+    list_resolver_rule_associations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the associations that were created between Resolver rules and VPCs using the current
 Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of Resolver rules, such as
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of Resolver rules, such as
   Resolver rules that are associated with the same VPC ID.  If you submit a second or
   subsequent ListResolverRuleAssociations request and specify the NextToken parameter, you
   must use the same values for Filters, if any, as in the previous request.
-- `"MaxResults"`: The maximum number of rule associations that you want to return in the
+- `"max_results"`: The maximum number of rule associations that you want to return in the
   response to a ListResolverRuleAssociations request. If you don't specify a value for
   MaxResults, Resolver returns up to 100 rule associations.
-- `"NextToken"`: For the first ListResolverRuleAssociation request, omit this value. If you
-  have more than MaxResults rule associations, you can submit another
+- `"next_token"`: For the first ListResolverRuleAssociation request, omit this value. If
+  you have more than MaxResults rule associations, you can submit another
   ListResolverRuleAssociation request to get the next group of rule associations. In the next
   request, specify the value of NextToken from the previous response.
 """
 function list_resolver_rule_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListResolverRuleAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_resolver_rule_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverRuleAssociations",
         params;
@@ -2307,41 +1768,33 @@ function list_resolver_rule_associations(
 end
 
 """
-    list_resolver_rules()
-    list_resolver_rules(params::Dict{String,<:Any})
+    list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the Resolver rules that were created using the current Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filters"`: An optional specification to return a subset of Resolver rules, such as all
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"filters"`: An optional specification to return a subset of Resolver rules, such as all
   Resolver rules that are associated with the same Resolver endpoint.  If you submit a second
   or subsequent ListResolverRules request and specify the NextToken parameter, you must use
   the same values for Filters, if any, as in the previous request.
-- `"MaxResults"`: The maximum number of Resolver rules that you want to return in the
+- `"max_results"`: The maximum number of Resolver rules that you want to return in the
   response to a ListResolverRules request. If you don't specify a value for MaxResults,
   Resolver returns up to 100 Resolver rules.
-- `"NextToken"`: For the first ListResolverRules request, omit this value. If you have more
-  than MaxResults Resolver rules, you can submit another ListResolverRules request to get the
-  next group of Resolver rules. In the next request, specify the value of NextToken from the
-  previous response.
+- `"next_token"`: For the first ListResolverRules request, omit this value. If you have
+  more than MaxResults Resolver rules, you can submit another ListResolverRules request to
+  get the next group of Resolver rules. In the next request, specify the value of NextToken
+  from the previous response.
 """
-function list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "ListResolverRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_resolver_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_resolver_rules(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListResolverRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags that you associated with the specified resource.
 
@@ -2350,30 +1803,19 @@ Lists the tags that you associated with the specified resource.
   tags for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of tags that you want to return in the response to a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of tags that you want to return in the response to a
   ListTagsForResource request. If you don't specify a value for MaxResults, Resolver returns
   up to 100 tags.
-- `"NextToken"`: For the first ListTagsForResource request, omit this value. If you have
+- `"next_token"`: For the first ListTagsForResource request, omit this value. If you have
   more than MaxResults tags, you can submit another ListTagsForResource request to get the
   next group of tags for the resource. In the next request, specify the value of NextToken
   from the previous response.
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2385,8 +1827,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_firewall_rule_group_policy(arn, firewall_rule_group_policy)
-    put_firewall_rule_group_policy(arn, firewall_rule_group_policy, params::Dict{String,<:Any})
+    put_firewall_rule_group_policy(arn, firewall_rule_group_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Attaches an Identity and Access Management (Amazon Web Services IAM) policy for sharing the
 rule group. You can use the policy to share the rule group using Resource Access Manager
@@ -2399,23 +1840,12 @@ rule group. You can use the policy to share the rule group using Resource Access
 
 """
 function put_firewall_rule_group_policy(
-    Arn, FirewallRuleGroupPolicy; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "PutFirewallRuleGroupPolicy",
-        Dict{String,Any}(
-            "Arn" => Arn, "FirewallRuleGroupPolicy" => FirewallRuleGroupPolicy
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_firewall_rule_group_policy(
     Arn,
-    FirewallRuleGroupPolicy,
-    params::AbstractDict{String};
+    FirewallRuleGroupPolicy;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "PutFirewallRuleGroupPolicy",
         Dict{String,Any}(
@@ -2433,8 +1863,7 @@ function put_firewall_rule_group_policy(
 end
 
 """
-    put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy)
-    put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy, params::Dict{String,<:Any})
+    put_resolver_query_log_config_policy(arn, resolver_query_log_config_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Specifies an Amazon Web Services account that you want to share a query logging
 configuration with, the query logging configuration that you want to share, and the
@@ -2455,23 +1884,12 @@ operations that you want the account to be able to perform on the configuration.
 
 """
 function put_resolver_query_log_config_policy(
-    Arn, ResolverQueryLogConfigPolicy; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "PutResolverQueryLogConfigPolicy",
-        Dict{String,Any}(
-            "Arn" => Arn, "ResolverQueryLogConfigPolicy" => ResolverQueryLogConfigPolicy
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resolver_query_log_config_policy(
     Arn,
-    ResolverQueryLogConfigPolicy,
-    params::AbstractDict{String};
+    ResolverQueryLogConfigPolicy;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "PutResolverQueryLogConfigPolicy",
         Dict{String,Any}(
@@ -2490,8 +1908,7 @@ function put_resolver_query_log_config_policy(
 end
 
 """
-    put_resolver_rule_policy(arn, resolver_rule_policy)
-    put_resolver_rule_policy(arn, resolver_rule_policy, params::Dict{String,<:Any})
+    put_resolver_rule_policy(arn, resolver_rule_policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Specifies an Amazon Web Services rule that you want to share with another account, the
 account that you want to share the rule with, and the operations that you want the account
@@ -2511,21 +1928,9 @@ to be able to perform on the rule.
 
 """
 function put_resolver_rule_policy(
-    Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, ResolverRulePolicy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "PutResolverRulePolicy",
-        Dict{String,Any}("Arn" => Arn, "ResolverRulePolicy" => ResolverRulePolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_resolver_rule_policy(
-    Arn,
-    ResolverRulePolicy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "PutResolverRulePolicy",
         Dict{String,Any}(
@@ -2541,8 +1946,7 @@ function put_resolver_rule_policy(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to a specified resource.
 
@@ -2554,20 +1958,10 @@ Adds one or more tags to a specified resource.
 - `tags`: The tags that you want to add to the specified resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return route53resolver(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "TagResource",
         Dict{String,Any}(
@@ -2583,8 +1977,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from a specified resource.
 
@@ -2597,21 +1990,9 @@ Removes one or more tags from a specified resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UntagResource",
         Dict{String,Any}(
@@ -2627,8 +2008,7 @@ function untag_resource(
 end
 
 """
-    update_firewall_config(firewall_fail_open, resource_id)
-    update_firewall_config(firewall_fail_open, resource_id, params::Dict{String,<:Any})
+    update_firewall_config(firewall_fail_open, resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the configuration of the firewall behavior provided by DNS Firewall for a single
 VPC from Amazon Virtual Private Cloud (Amazon VPC).
@@ -2646,23 +2026,12 @@ VPC from Amazon Virtual Private Cloud (Amazon VPC).
 
 """
 function update_firewall_config(
-    FirewallFailOpen, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "UpdateFirewallConfig",
-        Dict{String,Any}(
-            "FirewallFailOpen" => FirewallFailOpen, "ResourceId" => ResourceId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_firewall_config(
     FirewallFailOpen,
-    ResourceId,
-    params::AbstractDict{String};
+    ResourceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateFirewallConfig",
         Dict{String,Any}(
@@ -2680,8 +2049,7 @@ function update_firewall_config(
 end
 
 """
-    update_firewall_domains(domains, firewall_domain_list_id, operation)
-    update_firewall_domains(domains, firewall_domain_list_id, operation, params::Dict{String,<:Any})
+    update_firewall_domains(domains, firewall_domain_list_id, operation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the firewall domain list from an array of domain specifications.
 
@@ -2703,25 +2071,9 @@ function update_firewall_domains(
     FirewallDomainListId,
     Operation;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "UpdateFirewallDomains",
-        Dict{String,Any}(
-            "Domains" => Domains,
-            "FirewallDomainListId" => FirewallDomainListId,
-            "Operation" => Operation,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_firewall_domains(
-    Domains,
-    FirewallDomainListId,
-    Operation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateFirewallDomains",
         Dict{String,Any}(
@@ -2741,8 +2093,7 @@ function update_firewall_domains(
 end
 
 """
-    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id)
-    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id, params::Dict{String,<:Any})
+    update_firewall_rule(firewall_domain_list_id, firewall_rule_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified firewall rule.
 
@@ -2751,26 +2102,26 @@ Updates the specified firewall rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group for the rule.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Action"`: The action that DNS Firewall should take on a DNS query when it matches one
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"action"`: The action that DNS Firewall should take on a DNS query when it matches one
   of the domains in the rule's domain list:    ALLOW - Permit the request to go through.
   ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow
   the request. This option requires additional details in the rule's BlockResponse.
-- `"BlockOverrideDnsType"`: The DNS record's type. This determines the format of the record
-  value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a
-  BlockResponse setting of OVERRIDE.
-- `"BlockOverrideDomain"`: The custom DNS record to send back in response to the query.
+- `"block_override_dns_type"`: The DNS record's type. This determines the format of the
+  record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with
+  a BlockResponse setting of OVERRIDE.
+- `"block_override_domain"`: The custom DNS record to send back in response to the query.
   Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
-- `"BlockOverrideTtl"`: The recommended amount of time, in seconds, for the DNS resolver or
-  web browser to cache the provided override record. Used for the rule action BLOCK with a
+- `"block_override_ttl"`: The recommended amount of time, in seconds, for the DNS resolver
+  or web browser to cache the provided override record. Used for the rule action BLOCK with a
   BlockResponse setting of OVERRIDE.
-- `"BlockResponse"`: The way that you want DNS Firewall to block the request. Used for the
+- `"block_response"`: The way that you want DNS Firewall to block the request. Used for the
   rule action setting BLOCK.    NODATA - Respond indicating that the query was successful,
   but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
   that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
   This option requires custom handling details in the rule's BlockOverride* settings.
-- `"Name"`: The name of the rule.
-- `"Priority"`: The setting that determines the processing order of the rule in the rule
+- `"name"`: The name of the rule.
+- `"priority"`: The setting that determines the processing order of the rule in the rule
   group. DNS Firewall processes the rules in a rule group by order of priority, starting from
   the lowest setting. You must specify a unique priority for each rule in a rule group. To
   make it easier to insert rules later, leave space between the numbers, for example, use
@@ -2781,23 +2132,9 @@ function update_firewall_rule(
     FirewallDomainListId,
     FirewallRuleGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53resolver(
-        "UpdateFirewallRule",
-        Dict{String,Any}(
-            "FirewallDomainListId" => FirewallDomainListId,
-            "FirewallRuleGroupId" => FirewallRuleGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_firewall_rule(
-    FirewallDomainListId,
-    FirewallRuleGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateFirewallRule",
         Dict{String,Any}(
@@ -2816,8 +2153,7 @@ function update_firewall_rule(
 end
 
 """
-    update_firewall_rule_group_association(firewall_rule_group_association_id)
-    update_firewall_rule_group_association(firewall_rule_group_association_id, params::Dict{String,<:Any})
+    update_firewall_rule_group_association(firewall_rule_group_association_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS
 filtering for the VPC.
@@ -2826,11 +2162,11 @@ filtering for the VPC.
 - `firewall_rule_group_association_id`: The identifier of the FirewallRuleGroupAssociation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MutationProtection"`: If enabled, this setting disallows modification or removal of the
-  association, to help prevent against accidentally altering DNS firewall protections.
-- `"Name"`: The name of the rule group association.
-- `"Priority"`: The setting that determines the processing order of the rule group among
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"mutation_protection"`: If enabled, this setting disallows modification or removal of
+  the association, to help prevent against accidentally altering DNS firewall protections.
+- `"name"`: The name of the rule group association.
+- `"priority"`: The setting that determines the processing order of the rule group among
   the rule groups that you associate with the specified VPC. DNS Firewall filters VPC traffic
   starting from the rule group with the lowest numeric priority setting.  You must specify a
   unique priority for each rule group that you associate with a single VPC. To make it easier
@@ -2839,22 +2175,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create it.
 """
 function update_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "UpdateFirewallRuleGroupAssociation",
-        Dict{String,Any}(
-            "FirewallRuleGroupAssociationId" => FirewallRuleGroupAssociationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_firewall_rule_group_association(
-    FirewallRuleGroupAssociationId,
-    params::AbstractDict{String};
+    FirewallRuleGroupAssociationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateFirewallRuleGroupAssociation",
         Dict{String,Any}(
@@ -2872,8 +2197,7 @@ function update_firewall_rule_group_association(
 end
 
 """
-    update_resolver_config(autodefined_reverse_flag, resource_id)
-    update_resolver_config(autodefined_reverse_flag, resource_id, params::Dict{String,<:Any})
+    update_resolver_config(autodefined_reverse_flag, resource_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
 Amazon Virtual Private Cloud.
@@ -2888,23 +2212,12 @@ Amazon Virtual Private Cloud.
 
 """
 function update_resolver_config(
-    AutodefinedReverseFlag, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53resolver(
-        "UpdateResolverConfig",
-        Dict{String,Any}(
-            "AutodefinedReverseFlag" => AutodefinedReverseFlag, "ResourceId" => ResourceId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resolver_config(
     AutodefinedReverseFlag,
-    ResourceId,
-    params::AbstractDict{String};
+    ResourceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateResolverConfig",
         Dict{String,Any}(
@@ -2923,8 +2236,7 @@ function update_resolver_config(
 end
 
 """
-    update_resolver_dnssec_config(resource_id, validation)
-    update_resolver_dnssec_config(resource_id, validation, params::Dict{String,<:Any})
+    update_resolver_dnssec_config(resource_id, validation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC
 validation configuration, one is created.
@@ -2938,21 +2250,9 @@ validation configuration, one is created.
 
 """
 function update_resolver_dnssec_config(
-    ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, Validation; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "UpdateResolverDnssecConfig",
-        Dict{String,Any}("ResourceId" => ResourceId, "Validation" => Validation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resolver_dnssec_config(
-    ResourceId,
-    Validation,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateResolverDnssecConfig",
         Dict{String,Any}(
@@ -2968,8 +2268,7 @@ function update_resolver_dnssec_config(
 end
 
 """
-    update_resolver_endpoint(resolver_endpoint_id)
-    update_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
+    update_resolver_endpoint(resolver_endpoint_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the name of an inbound or an outbound Resolver endpoint.
 
@@ -2977,24 +2276,13 @@ Updates the name of an inbound or an outbound Resolver endpoint.
 - `resolver_endpoint_id`: The ID of the Resolver endpoint that you want to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Name"`: The name of the Resolver endpoint that you want to update.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"name"`: The name of the Resolver endpoint that you want to update.
 """
 function update_resolver_endpoint(
-    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+    ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "UpdateResolverEndpoint",
-        Dict{String,Any}("ResolverEndpointId" => ResolverEndpointId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resolver_endpoint(
-    ResolverEndpointId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateResolverEndpoint",
         Dict{String,Any}(
@@ -3008,8 +2296,7 @@ function update_resolver_endpoint(
 end
 
 """
-    update_resolver_rule(config, resolver_rule_id)
-    update_resolver_rule(config, resolver_rule_id, params::Dict{String,<:Any})
+    update_resolver_rule(config, resolver_rule_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates settings for a specified Resolver rule. ResolverRuleId is required, and all other
 parameters are optional. If you don't specify a parameter, it retains its current value.
@@ -3020,21 +2307,9 @@ parameters are optional. If you don't specify a parameter, it retains its curren
 
 """
 function update_resolver_rule(
-    Config, ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    Config, ResolverRuleId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53resolver(
-        "UpdateResolverRule",
-        Dict{String,Any}("Config" => Config, "ResolverRuleId" => ResolverRuleId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_resolver_rule(
-    Config,
-    ResolverRuleId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53resolver(
         "UpdateResolverRule",
         Dict{String,Any}(

@@ -4,9 +4,42 @@ using AWS.AWSServices: nimble
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "types" => "types",
+    "eula_ids" => "eulaIds",
+    "user_role_arn" => "userRoleArn",
+    "script_parameters" => "scriptParameters",
+    "principal_id" => "principalId",
+    "expiration_in_seconds" => "expirationInSeconds",
+    "next_token" => "nextToken",
+    "states" => "states",
+    "configuration" => "configuration",
+    "launch_profile_id" => "launchProfileId",
+    "name" => "name",
+    "studio_component_ids" => "studioComponentIds",
+    "subtype" => "subtype",
+    "owner" => "owner",
+    "ec2_instance_type" => "ec2InstanceType",
+    "description" => "description",
+    "max_results" => "maxResults",
+    "ec2_security_group_ids" => "ec2SecurityGroupIds",
+    "initialization_scripts" => "initializationScripts",
+    "studio_encryption_configuration" => "studioEncryptionConfiguration",
+    "owned_by" => "ownedBy",
+    "client_token" => "X-Amz-Client-Token",
+    "streaming_image_id" => "streamingImageId",
+    "created_by" => "createdBy",
+    "launch_profile_protocol_versions" => "launchProfileProtocolVersions",
+    "session_ids" => "sessionIds",
+    "admin_role_arn" => "adminRoleArn",
+    "stream_configuration" => "streamConfiguration",
+    "display_name" => "displayName",
+    "tags" => "tags",
+    "type" => "type",
+)
+
 """
-    accept_eulas(studio_id)
-    accept_eulas(studio_id, params::Dict{String,<:Any})
+    accept_eulas(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Accept EULAs.
 
@@ -14,33 +47,21 @@ Accept EULAs.
 - `studio_id`: A collection of EULA IDs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
-- `"eulaIds"`: The EULA ID.
+- `"eula_ids"`: The EULA ID.
 """
-function accept_eulas(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/eula-acceptances",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_eulas(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/eula-acceptances",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -48,8 +69,7 @@ function accept_eulas(
 end
 
 """
-    create_launch_profile(ec2_subnet_ids, launch_profile_protocol_versions, name, stream_configuration, studio_component_ids, studio_id)
-    create_launch_profile(ec2_subnet_ids, launch_profile_protocol_versions, name, stream_configuration, studio_component_ids, studio_id, params::Dict{String,<:Any})
+    create_launch_profile(ec2_subnet_ids, launch_profile_protocol_versions, name, stream_configuration, studio_component_ids, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a launch profile.
 
@@ -65,8 +85,8 @@ Create a launch profile.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
@@ -81,32 +101,9 @@ function create_launch_profile(
     studioComponentIds,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/launch-profiles",
-        Dict{String,Any}(
-            "ec2SubnetIds" => ec2SubnetIds,
-            "launchProfileProtocolVersions" => launchProfileProtocolVersions,
-            "name" => name,
-            "streamConfiguration" => streamConfiguration,
-            "studioComponentIds" => studioComponentIds,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_launch_profile(
-    ec2SubnetIds,
-    launchProfileProtocolVersions,
-    name,
-    streamConfiguration,
-    studioComponentIds,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/launch-profiles",
@@ -119,7 +116,7 @@ function create_launch_profile(
                     "name" => name,
                     "streamConfiguration" => streamConfiguration,
                     "studioComponentIds" => studioComponentIds,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -130,8 +127,7 @@ function create_launch_profile(
 end
 
 """
-    create_streaming_image(ec2_image_id, name, studio_id)
-    create_streaming_image(ec2_image_id, name, studio_id, params::Dict{String,<:Any})
+    create_streaming_image(ec2_image_id, name, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a streaming image resource in a studio.
 
@@ -141,8 +137,8 @@ Creates a streaming image resource in a studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: A human-readable description of the streaming image.
@@ -150,27 +146,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function create_streaming_image(
-    ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    ec2ImageId, name, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/streaming-images",
-        Dict{String,Any}(
-            "ec2ImageId" => ec2ImageId,
-            "name" => name,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_streaming_image(
-    ec2ImageId,
-    name,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/streaming-images",
@@ -180,7 +158,7 @@ function create_streaming_image(
                 Dict{String,Any}(
                     "ec2ImageId" => ec2ImageId,
                     "name" => name,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -191,8 +169,7 @@ function create_streaming_image(
 end
 
 """
-    create_streaming_session(studio_id)
-    create_streaming_session(studio_id, params::Dict{String,<:Any})
+    create_streaming_session(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a streaming session in a studio. After invoking this operation, you must poll
 GetStreamingSession until the streaming session is in state READY.
@@ -201,40 +178,26 @@ GetStreamingSession until the streaming session is in state READY.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
-- `"ec2InstanceType"`: The EC2 Instance type used for the streaming session.
-- `"launchProfileId"`: The launch profile ID.
-- `"ownedBy"`: The user ID of the user that owns the streaming session.
-- `"streamingImageId"`: The ID of the streaming image.
+- `"ec2_instance_type"`: The EC2 Instance type used for the streaming session.
+- `"launch_profile_id"`: The launch profile ID.
+- `"owned_by"`: The user ID of the user that owns the streaming session.
+- `"streaming_image_id"`: The ID of the streaming image.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
 """
 function create_streaming_session(
-    studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_streaming_session(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/streaming-sessions",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -242,8 +205,7 @@ function create_streaming_session(
 end
 
 """
-    create_streaming_session_stream(session_id, studio_id)
-    create_streaming_session_stream(session_id, studio_id, params::Dict{String,<:Any})
+    create_streaming_session_stream(session_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a streaming session stream for a streaming session. After invoking this API, invoke
 GetStreamingSessionStream with the returned streamId to poll the resource until it is in
@@ -254,36 +216,21 @@ state READY.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
-- `"expirationInSeconds"`: The expiration time in seconds.
+- `"expiration_in_seconds"`: The expiration time in seconds.
 """
 function create_streaming_session_stream(
-    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_streaming_session_stream(
-    sessionId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -291,8 +238,7 @@ function create_streaming_session_stream(
 end
 
 """
-    create_studio(admin_role_arn, display_name, studio_name, user_role_arn)
-    create_studio(admin_role_arn, display_name, studio_name, user_role_arn, params::Dict{String,<:Any})
+    create_studio(admin_role_arn, display_name, studio_name, user_role_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new Studio. When creating a Studio, two IAM roles must be provided: the admin role
 and the user Role. These roles are assumed by your users when they log in to the Nimble
@@ -319,11 +265,11 @@ studio will no longer be accessible.
   Studio portal.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
-- `"studioEncryptionConfiguration"`: The studio encryption configuration.
+- `"studio_encryption_configuration"`: The studio encryption configuration.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
 """
@@ -333,29 +279,9 @@ function create_studio(
     studioName,
     userRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios",
-        Dict{String,Any}(
-            "adminRoleArn" => adminRoleArn,
-            "displayName" => displayName,
-            "studioName" => studioName,
-            "userRoleArn" => userRoleArn,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_studio(
-    adminRoleArn,
-    displayName,
-    studioName,
-    userRoleArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios",
@@ -367,7 +293,7 @@ function create_studio(
                     "displayName" => displayName,
                     "studioName" => studioName,
                     "userRoleArn" => userRoleArn,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -378,8 +304,7 @@ function create_studio(
 end
 
 """
-    create_studio_component(name, studio_id, type)
-    create_studio_component(name, studio_id, type, params::Dict{String,<:Any})
+    create_studio_component(name, studio_id, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a studio component resource.
 
@@ -389,40 +314,24 @@ Creates a studio component resource.
 - `type`: The type of the studio component.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
-- `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
+- `"ec2_security_group_ids"`: The EC2 security groups that control access to the studio
   component.
-- `"initializationScripts"`: Initialization scripts for studio components.
-- `"scriptParameters"`: Parameters for the studio component scripts.
+- `"initialization_scripts"`: Initialization scripts for studio components.
+- `"script_parameters"`: Parameters for the studio component scripts.
 - `"subtype"`: The specific subtype of a studio component.
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
 """
 function create_studio_component(
-    name, studioId, type; aws_config::AbstractAWSConfig=global_aws_config()
+    name, studioId, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/studio-components",
-        Dict{String,Any}(
-            "name" => name, "type" => type, "X-Amz-Client-Token" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_studio_component(
-    name,
-    studioId,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/studio-components",
@@ -430,7 +339,7 @@ function create_studio_component(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "name" => name, "type" => type, "X-Amz-Client-Token" => string(uuid4())
+                    "name" => name, "type" => type, "client_token" => string(uuid4())
                 ),
                 params,
             ),
@@ -441,8 +350,7 @@ function create_studio_component(
 end
 
 """
-    delete_launch_profile(launch_profile_id, studio_id)
-    delete_launch_profile(launch_profile_id, studio_id, params::Dict{String,<:Any})
+    delete_launch_profile(launch_profile_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Permanently delete a launch profile.
 
@@ -451,35 +359,20 @@ Permanently delete a launch profile.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_launch_profile(
-    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_launch_profile(
-    launchProfileId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -487,8 +380,7 @@ function delete_launch_profile(
 end
 
 """
-    delete_launch_profile_member(launch_profile_id, principal_id, studio_id)
-    delete_launch_profile_member(launch_profile_id, principal_id, studio_id, params::Dict{String,<:Any})
+    delete_launch_profile_member(launch_profile_id, principal_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a user from launch profile membership.
 
@@ -499,8 +391,8 @@ Delete a user from launch profile membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
@@ -509,29 +401,14 @@ function delete_launch_profile_member(
     principalId,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_launch_profile_member(
-    launchProfileId,
-    principalId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -539,8 +416,7 @@ function delete_launch_profile_member(
 end
 
 """
-    delete_streaming_image(streaming_image_id, studio_id)
-    delete_streaming_image(streaming_image_id, studio_id, params::Dict{String,<:Any})
+    delete_streaming_image(streaming_image_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete streaming image.
 
@@ -549,35 +425,20 @@ Delete streaming image.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_image(
-    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_streaming_image(
-    streamingImageId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -585,8 +446,7 @@ function delete_streaming_image(
 end
 
 """
-    delete_streaming_session(session_id, studio_id)
-    delete_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+    delete_streaming_session(session_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes streaming session resource. After invoking this operation, use GetStreamingSession
 to poll the resource until it transitions to a DELETED state. A streaming session will
@@ -597,35 +457,20 @@ count against your streaming session quota until it is marked DELETED.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_streaming_session(
-    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_streaming_session(
-    sessionId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -633,8 +478,7 @@ function delete_streaming_session(
 end
 
 """
-    delete_studio(studio_id)
-    delete_studio(studio_id, params::Dict{String,<:Any})
+    delete_studio(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a studio resource.
 
@@ -642,32 +486,20 @@ Delete a studio resource.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
-function delete_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_studio(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -675,8 +507,7 @@ function delete_studio(
 end
 
 """
-    delete_studio_component(studio_component_id, studio_id)
-    delete_studio_component(studio_component_id, studio_id, params::Dict{String,<:Any})
+    delete_studio_component(studio_component_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a studio component resource.
 
@@ -685,35 +516,23 @@ Deletes a studio component resource.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_component(
-    studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_studio_component(
     studioComponentId,
-    studioId,
-    params::AbstractDict{String};
+    studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -721,8 +540,7 @@ function delete_studio_component(
 end
 
 """
-    delete_studio_member(principal_id, studio_id)
-    delete_studio_member(principal_id, studio_id, params::Dict{String,<:Any})
+    delete_studio_member(principal_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a user from studio membership.
 
@@ -732,35 +550,20 @@ Delete a user from studio membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function delete_studio_member(
-    principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_studio_member(
-    principalId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -768,8 +571,7 @@ function delete_studio_member(
 end
 
 """
-    get_eula(eula_id)
-    get_eula(eula_id, params::Dict{String,<:Any})
+    get_eula(eula_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get Eula.
 
@@ -777,17 +579,8 @@ Get Eula.
 - `eula_id`: The EULA ID.
 
 """
-function get_eula(eulaId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/eulas/$(eulaId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_eula(
-    eulaId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_eula(eulaId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/eulas/$(eulaId)",
@@ -798,8 +591,7 @@ function get_eula(
 end
 
 """
-    get_launch_profile(launch_profile_id, studio_id)
-    get_launch_profile(launch_profile_id, studio_id, params::Dict{String,<:Any})
+    get_launch_profile(launch_profile_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a launch profile.
 
@@ -809,21 +601,9 @@ Get a launch profile.
 
 """
 function get_launch_profile(
-    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch_profile(
-    launchProfileId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
@@ -834,8 +614,7 @@ function get_launch_profile(
 end
 
 """
-    get_launch_profile_details(launch_profile_id, studio_id)
-    get_launch_profile_details(launch_profile_id, studio_id, params::Dict{String,<:Any})
+    get_launch_profile_details(launch_profile_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Launch profile details include the launch profile resource and summary information of
 resources that are used by, or available to, the launch profile. This includes the name and
@@ -848,21 +627,9 @@ description of streaming images that can be used with this launch profile.
 
 """
 function get_launch_profile_details(
-    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch_profile_details(
-    launchProfileId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/details",
@@ -873,8 +640,7 @@ function get_launch_profile_details(
 end
 
 """
-    get_launch_profile_initialization(launch_profile_id, launch_profile_protocol_versions, launch_purpose, platform, studio_id)
-    get_launch_profile_initialization(launch_profile_id, launch_profile_protocol_versions, launch_purpose, platform, studio_id, params::Dict{String,<:Any})
+    get_launch_profile_initialization(launch_profile_id, launch_profile_protocol_versions, launch_purpose, platform, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a launch profile initialization.
 
@@ -894,28 +660,9 @@ function get_launch_profile_initialization(
     platform,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init",
-        Dict{String,Any}(
-            "launchProfileProtocolVersions" => launchProfileProtocolVersions,
-            "launchPurpose" => launchPurpose,
-            "platform" => platform,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch_profile_initialization(
-    launchProfileId,
-    launchProfileProtocolVersions,
-    launchPurpose,
-    platform,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/init",
@@ -936,8 +683,7 @@ function get_launch_profile_initialization(
 end
 
 """
-    get_launch_profile_member(launch_profile_id, principal_id, studio_id)
-    get_launch_profile_member(launch_profile_id, principal_id, studio_id, params::Dict{String,<:Any})
+    get_launch_profile_member(launch_profile_id, principal_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a user persona in launch profile membership.
 
@@ -953,21 +699,9 @@ function get_launch_profile_member(
     principalId,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_launch_profile_member(
-    launchProfileId,
-    principalId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
@@ -978,8 +712,7 @@ function get_launch_profile_member(
 end
 
 """
-    get_streaming_image(streaming_image_id, studio_id)
-    get_streaming_image(streaming_image_id, studio_id, params::Dict{String,<:Any})
+    get_streaming_image(streaming_image_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get streaming image.
 
@@ -989,21 +722,9 @@ Get streaming image.
 
 """
 function get_streaming_image(
-    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_streaming_image(
-    streamingImageId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
@@ -1014,8 +735,7 @@ function get_streaming_image(
 end
 
 """
-    get_streaming_session(session_id, studio_id)
-    get_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+    get_streaming_session(session_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets StreamingSession resource. anvoke this operation to poll for a streaming session state
 while creating or deleting a session.
@@ -1026,21 +746,9 @@ while creating or deleting a session.
 
 """
 function get_streaming_session(
-    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_streaming_session(
-    sessionId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)",
@@ -1051,8 +759,7 @@ function get_streaming_session(
 end
 
 """
-    get_streaming_session_stream(session_id, stream_id, studio_id)
-    get_streaming_session_stream(session_id, stream_id, studio_id, params::Dict{String,<:Any})
+    get_streaming_session_stream(session_id, stream_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a StreamingSessionStream for a streaming session. Invoke this operation to poll the
 resource after invoking CreateStreamingSessionStream. After the StreamingSessionStream
@@ -1066,22 +773,13 @@ streaming client.
 
 """
 function get_streaming_session_stream(
-    sessionId, streamId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_streaming_session_stream(
     sessionId,
     streamId,
-    studioId,
-    params::AbstractDict{String};
+    studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/streams/$(streamId)",
@@ -1092,8 +790,7 @@ function get_streaming_session_stream(
 end
 
 """
-    get_studio(studio_id)
-    get_studio(studio_id, params::Dict{String,<:Any})
+    get_studio(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a Studio resource.
 
@@ -1101,19 +798,8 @@ Get a Studio resource.
 - `studio_id`: The studio ID.
 
 """
-function get_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_studio(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+function get_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)",
@@ -1124,8 +810,7 @@ function get_studio(
 end
 
 """
-    get_studio_component(studio_component_id, studio_id)
-    get_studio_component(studio_component_id, studio_id, params::Dict{String,<:Any})
+    get_studio_component(studio_component_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a studio component resource.
 
@@ -1135,21 +820,12 @@ Gets a studio component resource.
 
 """
 function get_studio_component(
-    studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_studio_component(
     studioComponentId,
-    studioId,
-    params::AbstractDict{String};
+    studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
@@ -1160,8 +836,7 @@ function get_studio_component(
 end
 
 """
-    get_studio_member(principal_id, studio_id)
-    get_studio_member(principal_id, studio_id, params::Dict{String,<:Any})
+    get_studio_member(principal_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a user's membership in a studio.
 
@@ -1172,21 +847,9 @@ Get a user's membership in a studio.
 
 """
 function get_studio_member(
-    principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    principalId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/membership/$(principalId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_studio_member(
-    principalId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/membership/$(principalId)",
@@ -1197,8 +860,7 @@ function get_studio_member(
 end
 
 """
-    list_eula_acceptances(studio_id)
-    list_eula_acceptances(studio_id, params::Dict{String,<:Any})
+    list_eula_acceptances(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List Eula Acceptances.
 
@@ -1206,23 +868,14 @@ List Eula Acceptances.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"eulaIds"`: The list of EULA IDs that have been previously accepted.
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"eula_ids"`: The list of EULA IDs that have been previously accepted.
+- `"next_token"`: The token to request the next page of results.
 """
-function list_eula_acceptances(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/eula-acceptances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_eula_acceptances(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/eula-acceptances",
@@ -1233,24 +886,17 @@ function list_eula_acceptances(
 end
 
 """
-    list_eulas()
-    list_eulas(params::Dict{String,<:Any})
+    list_eulas(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List Eulas.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"eulaIds"`: The list of EULA IDs that should be returned
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"eula_ids"`: The list of EULA IDs that should be returned
+- `"next_token"`: The token to request the next page of results.
 """
-function list_eulas(; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET", "/2020-08-01/eulas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_eulas(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_eulas(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/eulas",
@@ -1261,8 +907,7 @@ function list_eulas(
 end
 
 """
-    list_launch_profile_members(launch_profile_id, studio_id)
-    list_launch_profile_members(launch_profile_id, studio_id, params::Dict{String,<:Any})
+    list_launch_profile_members(launch_profile_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get all users in a given launch profile membership.
 
@@ -1271,26 +916,14 @@ Get all users in a given launch profile membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The max number of results to return in the response.
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The max number of results to return in the response.
+- `"next_token"`: The token to request the next page of results.
 """
 function list_launch_profile_members(
-    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_launch_profile_members(
-    launchProfileId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
@@ -1301,8 +934,7 @@ function list_launch_profile_members(
 end
 
 """
-    list_launch_profiles(studio_id)
-    list_launch_profiles(studio_id, params::Dict{String,<:Any})
+    list_launch_profiles(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all the launch profiles a studio.
 
@@ -1310,26 +942,17 @@ List all the launch profiles a studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The max number of results to return in the response.
-- `"nextToken"`: The token to request the next page of results.
-- `"principalId"`: The principal ID. This currently supports a Amazon Web Services SSO
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The max number of results to return in the response.
+- `"next_token"`: The token to request the next page of results.
+- `"principal_id"`: The principal ID. This currently supports a Amazon Web Services SSO
   UserId.
 - `"states"`: Filter this request to launch profiles in any of the given states.
 """
-function list_launch_profiles(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/launch-profiles";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_launch_profiles(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/launch-profiles",
@@ -1340,8 +963,7 @@ function list_launch_profiles(
 end
 
 """
-    list_streaming_images(studio_id)
-    list_streaming_images(studio_id, params::Dict{String,<:Any})
+    list_streaming_images(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the streaming image resources available to this studio. This list will contain both
 images provided by Amazon Web Services, as well as streaming images that you have created
@@ -1351,23 +973,14 @@ in your studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The token to request the next page of results.
 - `"owner"`: Filter this request to streaming images with the given owner
 """
-function list_streaming_images(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/streaming-images";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_streaming_images(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-images",
@@ -1378,8 +991,7 @@ function list_streaming_images(
 end
 
 """
-    list_streaming_sessions(studio_id)
-    list_streaming_sessions(studio_id, params::Dict{String,<:Any})
+    list_streaming_sessions(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the streaming image resources in a studio.
 
@@ -1387,27 +999,16 @@ Lists the streaming image resources in a studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createdBy"`: Filters the request to streaming sessions created by the given user.
-- `"nextToken"`: The token to request the next page of results.
-- `"ownedBy"`: Filters the request to streaming session owned by the given user
-- `"sessionIds"`: Filters the request to only the provided session IDs.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"created_by"`: Filters the request to streaming sessions created by the given user.
+- `"next_token"`: The token to request the next page of results.
+- `"owned_by"`: Filters the request to streaming session owned by the given user
+- `"session_ids"`: Filters the request to only the provided session IDs.
 """
 function list_streaming_sessions(
-    studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_streaming_sessions(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/streaming-sessions",
@@ -1418,8 +1019,7 @@ function list_streaming_sessions(
 end
 
 """
-    list_studio_components(studio_id)
-    list_studio_components(studio_id, params::Dict{String,<:Any})
+    list_studio_components(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the StudioComponents in a studio.
 
@@ -1427,25 +1027,16 @@ Lists the StudioComponents in a studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The max number of results to return in the response.
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The max number of results to return in the response.
+- `"next_token"`: The token to request the next page of results.
 - `"states"`: Filters the request to studio components that are in one of the given states.
 - `"types"`: Filters the request to studio components that are of one of the given types.
 """
-function list_studio_components(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/studio-components";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_studio_components(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/studio-components",
@@ -1456,8 +1047,7 @@ function list_studio_components(
 end
 
 """
-    list_studio_members(studio_id)
-    list_studio_members(studio_id, params::Dict{String,<:Any})
+    list_studio_members(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get all users in a given studio membership.
 
@@ -1465,23 +1055,14 @@ Get all users in a given studio membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The max number of results to return in the response.
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The max number of results to return in the response.
+- `"next_token"`: The token to request the next page of results.
 """
-function list_studio_members(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET",
-        "/2020-08-01/studios/$(studioId)/membership";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_studio_members(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios/$(studioId)/membership",
@@ -1492,24 +1073,17 @@ function list_studio_members(
 end
 
 """
-    list_studios()
-    list_studios(params::Dict{String,<:Any})
+    list_studios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List studios in your Amazon Web Services account in the requested Amazon Web Services
 Region.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: The token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The token to request the next page of results.
 """
-function list_studios(; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "GET", "/2020-08-01/studios"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_studios(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_studios(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/studios",
@@ -1520,8 +1094,7 @@ function list_studios(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the tags for a resource, given its Amazon Resource Names (ARN). This operation
 supports ARNs for all resource types in Nimble Studio that support tags, including studio,
@@ -1535,20 +1108,9 @@ yourself.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "GET",
-        "/2020-08-01/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "GET",
         "/2020-08-01/tags/$(resourceArn)",
@@ -1559,8 +1121,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_launch_profile_members(identity_store_id, launch_profile_id, members, studio_id)
-    put_launch_profile_members(identity_store_id, launch_profile_id, members, studio_id, params::Dict{String,<:Any})
+    put_launch_profile_members(identity_store_id, launch_profile_id, members, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add/update users with given persona to launch profile membership.
 
@@ -1571,8 +1132,8 @@ Add/update users with given persona to launch profile membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
@@ -1582,27 +1143,9 @@ function put_launch_profile_members(
     members,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "members" => members,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_launch_profile_members(
-    identityStoreId,
-    launchProfileId,
-    members,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership",
@@ -1612,7 +1155,7 @@ function put_launch_profile_members(
                 Dict{String,Any}(
                     "identityStoreId" => identityStoreId,
                     "members" => members,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1623,8 +1166,7 @@ function put_launch_profile_members(
 end
 
 """
-    put_studio_members(identity_store_id, members, studio_id)
-    put_studio_members(identity_store_id, members, studio_id, params::Dict{String,<:Any})
+    put_studio_members(identity_store_id, members, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add/update users with given persona to studio membership.
 
@@ -1634,33 +1176,19 @@ Add/update users with given persona to studio membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function put_studio_members(
-    identityStoreId, members, studioId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/membership",
-        Dict{String,Any}(
-            "identityStoreId" => identityStoreId,
-            "members" => members,
-            "X-Amz-Client-Token" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_studio_members(
     identityStoreId,
     members,
-    studioId,
-    params::AbstractDict{String};
+    studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/membership",
@@ -1670,7 +1198,7 @@ function put_studio_members(
                 Dict{String,Any}(
                     "identityStoreId" => identityStoreId,
                     "members" => members,
-                    "X-Amz-Client-Token" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -1681,8 +1209,7 @@ function put_studio_members(
 end
 
 """
-    start_streaming_session(session_id, studio_id)
-    start_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+    start_streaming_session(session_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Transitions sessions from the STOPPED state into the READY state. The START_IN_PROGRESS
 state is the intermediate state between the STOPPED and READY states.
@@ -1692,35 +1219,20 @@ state is the intermediate state between the STOPPED and READY states.
 - `studio_id`: The studio ID for the StartStreamingSessionRequest.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function start_streaming_session(
-    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_streaming_session(
-    sessionId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/start",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1728,8 +1240,7 @@ function start_streaming_session(
 end
 
 """
-    start_studio_ssoconfiguration_repair(studio_id)
-    start_studio_ssoconfiguration_repair(studio_id, params::Dict{String,<:Any})
+    start_studio_ssoconfiguration_repair(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Repairs the Amazon Web Services SSO configuration for a given studio. If the studio has a
 valid Amazon Web Services SSO configuration currently associated with it, this operation
@@ -1743,34 +1254,20 @@ console to add administrators and users to your studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function start_studio_ssoconfiguration_repair(
-    studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "PUT",
-        "/2020-08-01/studios/$(studioId)/sso-configuration",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_studio_ssoconfiguration_repair(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PUT",
         "/2020-08-01/studios/$(studioId)/sso-configuration",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1778,8 +1275,7 @@ function start_studio_ssoconfiguration_repair(
 end
 
 """
-    stop_streaming_session(session_id, studio_id)
-    stop_streaming_session(session_id, studio_id, params::Dict{String,<:Any})
+    stop_streaming_session(session_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Transitions sessions from the READY state into the STOPPED state. The STOP_IN_PROGRESS
 state is the intermediate state between the READY and STOPPED states.
@@ -1789,35 +1285,20 @@ state is the intermediate state between the READY and STOPPED states.
 - `studio_id`: The studioId for the StopStreamingSessionRequest.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
 function stop_streaming_session(
-    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    sessionId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "POST",
-        "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_streaming_session(
-    sessionId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/studios/$(studioId)/streaming-sessions/$(sessionId)/stop",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1825,8 +1306,7 @@ function stop_streaming_session(
 end
 
 """
-    tag_resource(resource_arn)
-    tag_resource(resource_arn, params::Dict{String,<:Any})
+    tag_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates tags for a resource, given its ARN.
 
@@ -1834,23 +1314,14 @@ Creates tags for a resource, given its ARN.
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource you want to add tags to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: A collection of labels, in the form of key:value pairs, that apply to this
   resource.
 """
-function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "POST",
-        "/2020-08-01/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "POST",
         "/2020-08-01/tags/$(resourceArn)",
@@ -1861,8 +1332,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the tags for a resource.
 
@@ -1873,22 +1343,9 @@ Deletes the tags for a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "DELETE",
-        "/2020-08-01/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "DELETE",
         "/2020-08-01/tags/$(resourceArn)",
@@ -1899,8 +1356,7 @@ function untag_resource(
 end
 
 """
-    update_launch_profile(launch_profile_id, studio_id)
-    update_launch_profile(launch_profile_id, studio_id, params::Dict{String,<:Any})
+    update_launch_profile(launch_profile_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a launch profile.
 
@@ -1909,42 +1365,27 @@ Update a launch profile.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
-- `"launchProfileProtocolVersions"`: The version number of the protocol that is used by the
-  launch profile. The only valid version is \"2021-03-31\".
+- `"launch_profile_protocol_versions"`: The version number of the protocol that is used by
+  the launch profile. The only valid version is \"2021-03-31\".
 - `"name"`: The name for the launch profile.
-- `"streamConfiguration"`: A configuration for a streaming session.
-- `"studioComponentIds"`: Unique identifiers for a collection of studio components that can
-  be used with this launch profile.
+- `"stream_configuration"`: A configuration for a streaming session.
+- `"studio_component_ids"`: Unique identifiers for a collection of studio components that
+  can be used with this launch profile.
 """
 function update_launch_profile(
-    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    launchProfileId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "PATCH",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_launch_profile(
-    launchProfileId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PATCH",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1952,8 +1393,7 @@ function update_launch_profile(
 end
 
 """
-    update_launch_profile_member(launch_profile_id, persona, principal_id, studio_id)
-    update_launch_profile_member(launch_profile_id, persona, principal_id, studio_id, params::Dict{String,<:Any})
+    update_launch_profile_member(launch_profile_id, persona, principal_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a user persona in launch profile membership.
 
@@ -1965,8 +1405,8 @@ Update a user persona in launch profile membership.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 """
@@ -1976,32 +1416,16 @@ function update_launch_profile_member(
     principalId,
     studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return nimble(
-        "PATCH",
-        "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
-        Dict{String,Any}("persona" => persona, "X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_launch_profile_member(
-    launchProfileId,
-    persona,
-    principalId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PATCH",
         "/2020-08-01/studios/$(studioId)/launch-profiles/$(launchProfileId)/membership/$(principalId)",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "persona" => persona, "X-Amz-Client-Token" => string(uuid4())
-                ),
+                Dict{String,Any}("persona" => persona, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -2011,8 +1435,7 @@ function update_launch_profile_member(
 end
 
 """
-    update_streaming_image(streaming_image_id, studio_id)
-    update_streaming_image(streaming_image_id, studio_id, params::Dict{String,<:Any})
+    update_streaming_image(streaming_image_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update streaming image.
 
@@ -2021,37 +1444,22 @@ Update streaming image.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"description"`: The description.
 - `"name"`: The name for the streaming image.
 """
 function update_streaming_image(
-    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
+    streamingImageId, studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return nimble(
-        "PATCH",
-        "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_streaming_image(
-    streamingImageId,
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PATCH",
         "/2020-08-01/studios/$(studioId)/streaming-images/$(streamingImageId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2059,8 +1467,7 @@ function update_streaming_image(
 end
 
 """
-    update_studio(studio_id)
-    update_studio(studio_id, params::Dict{String,<:Any})
+    update_studio(studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a Studio resource. Currently, this operation only supports updating the displayName
 of your studio.
@@ -2069,37 +1476,25 @@ of your studio.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"admin_role_arn"`: The IAM role that Studio Admins will assume when logging in to the
+  Nimble Studio portal.
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
-- `"adminRoleArn"`: The IAM role that Studio Admins will assume when logging in to the
+- `"display_name"`: A friendly name for the studio.
+- `"user_role_arn"`: The IAM role that Studio Users will assume when logging in to the
   Nimble Studio portal.
-- `"displayName"`: A friendly name for the studio.
-- `"userRoleArn"`: The IAM role that Studio Users will assume when logging in to the Nimble
-  Studio portal.
 """
-function update_studio(studioId; aws_config::AbstractAWSConfig=global_aws_config())
-    return nimble(
-        "PATCH",
-        "/2020-08-01/studios/$(studioId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_studio(
-    studioId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    studioId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PATCH",
         "/2020-08-01/studios/$(studioId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2107,8 +1502,7 @@ function update_studio(
 end
 
 """
-    update_studio_component(studio_component_id, studio_id)
-    update_studio_component(studio_component_id, studio_id, params::Dict{String,<:Any})
+    update_studio_component(studio_component_id, studio_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a studio component resource.
 
@@ -2117,44 +1511,32 @@ Updates a studio component resource.
 - `studio_id`: The studio ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"X-Amz-Client-Token"`: Unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If you don’t specify a client token, the AWS SDK
   automatically generates a client token and uses it for the request to ensure idempotency.
 - `"configuration"`: The configuration of the studio component, based on component type.
 - `"description"`: The description.
-- `"ec2SecurityGroupIds"`: The EC2 security groups that control access to the studio
+- `"ec2_security_group_ids"`: The EC2 security groups that control access to the studio
   component.
-- `"initializationScripts"`: Initialization scripts for studio components.
+- `"initialization_scripts"`: Initialization scripts for studio components.
 - `"name"`: The name for the studio component.
-- `"scriptParameters"`: Parameters for the studio component scripts.
+- `"script_parameters"`: Parameters for the studio component scripts.
 - `"subtype"`: The specific subtype of a studio component.
 - `"type"`: The type of the studio component.
 """
 function update_studio_component(
-    studioComponentId, studioId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return nimble(
-        "PATCH",
-        "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
-        Dict{String,Any}("X-Amz-Client-Token" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_studio_component(
     studioComponentId,
-    studioId,
-    params::AbstractDict{String};
+    studioId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return nimble(
         "PATCH",
         "/2020-08-01/studios/$(studioId)/studio-components/$(studioComponentId)",
         Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("X-Amz-Client-Token" => string(uuid4())), params
-            ),
+            mergewith(_merge, Dict{String,Any}("client_token" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

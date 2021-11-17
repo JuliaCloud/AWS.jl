@@ -4,9 +4,10 @@ using AWS.AWSServices: ec2_instance_connect
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("serial_port" => "SerialPort")
+
 """
-    send_serial_console_sshpublic_key(instance_id, sshpublic_key)
-    send_serial_console_sshpublic_key(instance_id, sshpublic_key, params::Dict{String,<:Any})
+    send_serial_console_sshpublic_key(instance_id, sshpublic_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Pushes an SSH public key to the specified EC2 instance. The key remains for 60 seconds,
 which gives you 60 seconds to establish a serial console connection to the instance using
@@ -19,26 +20,14 @@ SSH. For more information, see EC2 Serial Console in the Amazon EC2 User Guide.
   Requirements for key pairs in the Amazon EC2 User Guide.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"serial_port"`: The serial port of the EC2 instance. Currently only port 0 is supported.
   Default: 0
 """
 function send_serial_console_sshpublic_key(
-    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ec2_instance_connect(
-        "SendSerialConsoleSSHPublicKey",
-        Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_serial_console_sshpublic_key(
-    InstanceId,
-    SSHPublicKey,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ec2_instance_connect(
         "SendSerialConsoleSSHPublicKey",
         Dict{String,Any}(
@@ -56,8 +45,7 @@ function send_serial_console_sshpublic_key(
 end
 
 """
-    send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key)
-    send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key, params::Dict{String,<:Any})
+    send_sshpublic_key(availability_zone, instance_id, instance_osuser, sshpublic_key; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Pushes an SSH public key to the specified EC2 instance for use by the specified user. The
 key remains for 60 seconds. For more information, see Connect to your Linux instance using
@@ -78,27 +66,9 @@ function send_sshpublic_key(
     InstanceOSUser,
     SSHPublicKey;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ec2_instance_connect(
-        "SendSSHPublicKey",
-        Dict{String,Any}(
-            "AvailabilityZone" => AvailabilityZone,
-            "InstanceId" => InstanceId,
-            "InstanceOSUser" => InstanceOSUser,
-            "SSHPublicKey" => SSHPublicKey,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_sshpublic_key(
-    AvailabilityZone,
-    InstanceId,
-    InstanceOSUser,
-    SSHPublicKey,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ec2_instance_connect(
         "SendSSHPublicKey",
         Dict{String,Any}(

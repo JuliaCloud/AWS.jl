@@ -4,9 +4,20 @@ using AWS.AWSServices: appintegrations
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "kms_key" => "KmsKey",
+    "name" => "Name",
+    "client_token" => "ClientToken",
+    "source_uri" => "SourceURI",
+    "tags" => "Tags",
+    "next_token" => "nextToken",
+    "description" => "Description",
+    "max_results" => "maxResults",
+    "schedule_config" => "ScheduleConfig",
+)
+
 """
-    create_data_integration(name)
-    create_data_integration(name, params::Dict{String,<:Any})
+    create_data_integration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
 association for a DataIntegration that has been previously associated. Use a different
@@ -16,35 +27,27 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 - `name`: The name of the DataIntegration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"Description"`: A description of the DataIntegration.
-- `"KmsKey"`: The KMS key for the DataIntegration.
-- `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
+- `"description"`: A description of the DataIntegration.
+- `"kms_key"`: The KMS key for the DataIntegration.
+- `"schedule_config"`: The name of the data and how often it should be pulled from the
   source.
-- `"SourceURI"`: The URI of the data source.
-- `"Tags"`: One or more tags.
+- `"source_uri"`: The URI of the data source.
+- `"tags"`: One or more tags.
 """
-function create_data_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "POST",
-        "/dataIntegrations",
-        Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_integration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "POST",
         "/dataIntegrations",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4())),
+                Dict{String,Any}("Name" => Name, "client_token" => string(uuid4())),
                 params,
             ),
         );
@@ -54,8 +57,7 @@ function create_data_integration(
 end
 
 """
-    create_event_integration(event_bridge_bus, event_filter, name)
-    create_event_integration(event_bridge_bus, event_filter, name, params::Dict{String,<:Any})
+    create_event_integration(event_bridge_bus, event_filter, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an EventIntegration, given a specified name, description, and a reference to an
 Amazon EventBridge bus in your account and a partner event source that pushes events to
@@ -68,35 +70,20 @@ the EventIntegration control plane.
 - `name`: The name of the event integration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
-- `"Description"`: The description of the event integration.
-- `"Tags"`: One or more tags.
+- `"description"`: The description of the event integration.
+- `"tags"`: One or more tags.
 """
-function create_event_integration(
-    EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appintegrations(
-        "POST",
-        "/eventIntegrations",
-        Dict{String,Any}(
-            "EventBridgeBus" => EventBridgeBus,
-            "EventFilter" => EventFilter,
-            "Name" => Name,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_event_integration(
     EventBridgeBus,
     EventFilter,
-    Name,
-    params::AbstractDict{String};
+    Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "POST",
         "/eventIntegrations",
@@ -107,7 +94,7 @@ function create_event_integration(
                     "EventBridgeBus" => EventBridgeBus,
                     "EventFilter" => EventFilter,
                     "Name" => Name,
-                    "ClientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -118,8 +105,7 @@ function create_event_integration(
 end
 
 """
-    delete_data_integration(identifier)
-    delete_data_integration(identifier, params::Dict{String,<:Any})
+    delete_data_integration(identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the DataIntegration. Only DataIntegrations that don't have any
 DataIntegrationAssociations can be deleted. Deleting a DataIntegration also deletes the
@@ -133,20 +119,9 @@ CreateDataIntegration API.
 
 """
 function delete_data_integration(
-    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "DELETE",
-        "/dataIntegrations/$(Identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_data_integration(
-    Identifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "DELETE",
         "/dataIntegrations/$(Identifier)",
@@ -157,8 +132,7 @@ function delete_data_integration(
 end
 
 """
-    delete_event_integration(name)
-    delete_event_integration(name, params::Dict{String,<:Any})
+    delete_event_integration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified existing event integration. If the event integration is associated
 with clients, the request is rejected.
@@ -167,17 +141,10 @@ with clients, the request is rejected.
 - `name`: The name of the event integration.
 
 """
-function delete_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "DELETE",
-        "/eventIntegrations/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_event_integration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "DELETE",
         "/eventIntegrations/$(Name)",
@@ -188,8 +155,7 @@ function delete_event_integration(
 end
 
 """
-    get_data_integration(identifier)
-    get_data_integration(identifier, params::Dict{String,<:Any})
+    get_data_integration(identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the DataIntegration.  You cannot create a DataIntegration
 association for a DataIntegration that has been previously associated. Use a different
@@ -199,19 +165,10 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 - `identifier`: A unique identifier.
 
 """
-function get_data_integration(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "GET",
-        "/dataIntegrations/$(Identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_integration(
-    Identifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/dataIntegrations/$(Identifier)",
@@ -222,8 +179,7 @@ function get_data_integration(
 end
 
 """
-    get_event_integration(name)
-    get_event_integration(name, params::Dict{String,<:Any})
+    get_event_integration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the event integration.
 
@@ -231,17 +187,10 @@ Returns information about the event integration.
 - `name`: The name of the event integration.
 
 """
-function get_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "GET",
-        "/eventIntegrations/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_event_integration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/eventIntegrations/$(Name)",
@@ -252,8 +201,7 @@ function get_event_integration(
 end
 
 """
-    list_data_integration_associations(identifier)
-    list_data_integration_associations(identifier, params::Dict{String,<:Any})
+    list_data_integration_associations(identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of DataIntegration associations in the account.  You cannot create
 a DataIntegration association for a DataIntegration that has been previously associated.
@@ -264,26 +212,15 @@ CreateDataIntegration API.
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_data_integration_associations(
-    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "GET",
-        "/dataIntegrations/$(Identifier)/associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_data_integration_associations(
-    Identifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/dataIntegrations/$(Identifier)/associations",
@@ -294,8 +231,7 @@ function list_data_integration_associations(
 end
 
 """
-    list_data_integrations()
-    list_data_integrations(params::Dict{String,<:Any})
+    list_data_integrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of DataIntegrations in the account.  You cannot create a
 DataIntegration association for a DataIntegration that has been previously associated. Use
@@ -303,19 +239,15 @@ a different DataIntegration, or recreate the DataIntegration using the
 CreateDataIntegration API.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_data_integrations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "GET", "/dataIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_data_integrations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_data_integrations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/dataIntegrations",
@@ -326,8 +258,7 @@ function list_data_integrations(
 end
 
 """
-    list_event_integration_associations(name)
-    list_event_integration_associations(name, params::Dict{String,<:Any})
+    list_event_integration_associations(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of event integration associations in the account.
 
@@ -335,24 +266,15 @@ Returns a paginated list of event integration associations in the account.
 - `name`: The name of the event integration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_event_integration_associations(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "GET",
-        "/eventIntegrations/$(Name)/associations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_event_integration_associations(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/eventIntegrations/$(Name)/associations",
@@ -363,25 +285,20 @@ function list_event_integration_associations(
 end
 
 """
-    list_event_integrations()
-    list_event_integrations(params::Dict{String,<:Any})
+    list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a paginated list of event integrations in the account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return per page.
-- `"nextToken"`: The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return per page.
+- `"next_token"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_event_integrations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "GET", "/eventIntegrations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_event_integrations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_event_integrations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/eventIntegrations",
@@ -392,8 +309,7 @@ function list_event_integrations(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the tags for the specified resource.
 
@@ -402,20 +318,9 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "GET",
         "/tags/$(resourceArn)",
@@ -426,8 +331,7 @@ function list_tags_for_resource(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds the specified tags to the specified resource.
 
@@ -436,21 +340,10 @@ Adds the specified tags to the specified resource.
 - `tags`: One or more tags.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "POST",
         "/tags/$(resourceArn)",
@@ -461,8 +354,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the specified tags from the specified resource.
 
@@ -472,22 +364,9 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -498,8 +377,7 @@ function untag_resource(
 end
 
 """
-    update_data_integration(identifier)
-    update_data_integration(identifier, params::Dict{String,<:Any})
+    update_data_integration(identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the description of a DataIntegration.  You cannot create a DataIntegration
 association for a DataIntegration that has been previously associated. Use a different
@@ -509,25 +387,14 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 - `identifier`: A unique identifier for the DataIntegration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description of the DataIntegration.
-- `"Name"`: The name of the DataIntegration.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description of the DataIntegration.
+- `"name"`: The name of the DataIntegration.
 """
 function update_data_integration(
-    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return appintegrations(
-        "PATCH",
-        "/dataIntegrations/$(Identifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_data_integration(
-    Identifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "PATCH",
         "/dataIntegrations/$(Identifier)",
@@ -538,8 +405,7 @@ function update_data_integration(
 end
 
 """
-    update_event_integration(name)
-    update_event_integration(name, params::Dict{String,<:Any})
+    update_event_integration(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the description of an event integration.
 
@@ -547,20 +413,13 @@ Updates the description of an event integration.
 - `name`: The name of the event integration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the event inegration.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The description of the event inegration.
 """
-function update_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appintegrations(
-        "PATCH",
-        "/eventIntegrations/$(Name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_event_integration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return appintegrations(
         "PATCH",
         "/eventIntegrations/$(Name)",

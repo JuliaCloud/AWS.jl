@@ -4,9 +4,43 @@ using AWS.AWSServices: ses
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "from_arn" => "FromArn",
+    "behavior_on_mxfailure" => "BehaviorOnMXFailure",
+    "explanation" => "Explanation",
+    "reply_to_addresses" => "ReplyToAddresses",
+    "from_email_address" => "FromEmailAddress",
+    "next_token" => "NextToken",
+    "mail_from_domain" => "MailFromDomain",
+    "rule_set_name" => "RuleSetName",
+    "failure_redirection_url" => "FailureRedirectionURL",
+    "delivery_options" => "DeliveryOptions",
+    "identity_type" => "IdentityType",
+    "template_content" => "TemplateContent",
+    "destinations" => "Destinations",
+    "max_results" => "MaxResults",
+    "after" => "After",
+    "bounce_sender_arn" => "BounceSenderArn",
+    "template_subject" => "TemplateSubject",
+    "default_tags" => "DefaultTags",
+    "max_items" => "MaxItems",
+    "sns_topic" => "SnsTopic",
+    "return_path_arn" => "ReturnPathArn",
+    "message_dsn" => "MessageDsn",
+    "configuration_set_attribute_names" => "ConfigurationSetAttributeNames",
+    "source" => "Source",
+    "default_template_data" => "DefaultTemplateData",
+    "configuration_set_name" => "ConfigurationSetName",
+    "source_arn" => "SourceArn",
+    "success_redirection_url" => "SuccessRedirectionURL",
+    "template_arn" => "TemplateArn",
+    "return_path" => "ReturnPath",
+    "tags" => "Tags",
+    "enabled" => "Enabled",
+)
+
 """
-    clone_receipt_rule_set(original_rule_set_name, rule_set_name)
-    clone_receipt_rule_set(original_rule_set_name, rule_set_name, params::Dict{String,<:Any})
+    clone_receipt_rule_set(original_rule_set_name, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a receipt rule set by cloning an existing one. All receipt rules and configurations
 are copied to the new receipt rule set and are completely independent of the source rule
@@ -21,23 +55,12 @@ can execute this operation no more than once per second.
 
 """
 function clone_receipt_rule_set(
-    OriginalRuleSetName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "CloneReceiptRuleSet",
-        Dict{String,Any}(
-            "OriginalRuleSetName" => OriginalRuleSetName, "RuleSetName" => RuleSetName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function clone_receipt_rule_set(
     OriginalRuleSetName,
-    RuleSetName,
-    params::AbstractDict{String};
+    RuleSetName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CloneReceiptRuleSet",
         Dict{String,Any}(
@@ -56,8 +79,7 @@ function clone_receipt_rule_set(
 end
 
 """
-    create_configuration_set(configuration_set)
-    create_configuration_set(configuration_set, params::Dict{String,<:Any})
+    create_configuration_set(configuration_set; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a configuration set. Configuration sets enable you to publish email sending events.
 For information about using configuration sets, see the Amazon SES Developer Guide. You can
@@ -68,20 +90,9 @@ execute this operation no more than once per second.
 
 """
 function create_configuration_set(
-    ConfigurationSet; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationSet; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "CreateConfigurationSet",
-        Dict{String,Any}("ConfigurationSet" => ConfigurationSet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_configuration_set(
-    ConfigurationSet,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateConfigurationSet",
         Dict{String,Any}(
@@ -95,8 +106,7 @@ function create_configuration_set(
 end
 
 """
-    create_configuration_set_event_destination(configuration_set_name, event_destination)
-    create_configuration_set_event_destination(configuration_set_name, event_destination, params::Dict{String,<:Any})
+    create_configuration_set_event_destination(configuration_set_name, event_destination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a configuration set event destination.  When you create or update an event
 destination, you must provide one, and only one, destination. The destination can be
@@ -117,23 +127,9 @@ function create_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "CreateConfigurationSetEventDestination",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName,
-            "EventDestination" => EventDestination,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_configuration_set_event_destination(
-    ConfigurationSetName,
-    EventDestination,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateConfigurationSetEventDestination",
         Dict{String,Any}(
@@ -152,8 +148,7 @@ function create_configuration_set_event_destination(
 end
 
 """
-    create_configuration_set_tracking_options(configuration_set_name, tracking_options)
-    create_configuration_set_tracking_options(configuration_set_name, tracking_options, params::Dict{String,<:Any})
+    create_configuration_set_tracking_options(configuration_set_name, tracking_options; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between a configuration set and a custom domain for open and click
 event tracking.  By default, images and links used for tracking open and click events are
@@ -168,24 +163,12 @@ Developer Guide.
 
 """
 function create_configuration_set_tracking_options(
-    ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "CreateConfigurationSetTrackingOptions",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName,
-            "TrackingOptions" => TrackingOptions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_configuration_set_tracking_options(
     ConfigurationSetName,
-    TrackingOptions,
-    params::AbstractDict{String};
+    TrackingOptions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateConfigurationSetTrackingOptions",
         Dict{String,Any}(
@@ -204,8 +187,7 @@ function create_configuration_set_tracking_options(
 end
 
 """
-    create_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject)
-    create_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject, params::Dict{String,<:Any})
+    create_custom_verification_email_template(failure_redirection_url, from_email_address, success_redirection_url, template_content, template_name, template_subject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new custom verification email template. For more information about custom
 verification email templates, see Using Custom Verification Email Templates in the Amazon
@@ -233,31 +215,9 @@ function create_custom_verification_email_template(
     TemplateName,
     TemplateSubject;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "CreateCustomVerificationEmailTemplate",
-        Dict{String,Any}(
-            "FailureRedirectionURL" => FailureRedirectionURL,
-            "FromEmailAddress" => FromEmailAddress,
-            "SuccessRedirectionURL" => SuccessRedirectionURL,
-            "TemplateContent" => TemplateContent,
-            "TemplateName" => TemplateName,
-            "TemplateSubject" => TemplateSubject,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_custom_verification_email_template(
-    FailureRedirectionURL,
-    FromEmailAddress,
-    SuccessRedirectionURL,
-    TemplateContent,
-    TemplateName,
-    TemplateSubject,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateCustomVerificationEmailTemplate",
         Dict{String,Any}(
@@ -280,8 +240,7 @@ function create_custom_verification_email_template(
 end
 
 """
-    create_receipt_filter(filter)
-    create_receipt_filter(filter, params::Dict{String,<:Any})
+    create_receipt_filter(filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new IP address filter. For information about setting up IP address filters, see
 the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -291,17 +250,10 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
   of a name, an IP address range, and whether to allow or block mail from it.
 
 """
-function create_receipt_filter(Filter; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "CreateReceiptFilter",
-        Dict{String,Any}("Filter" => Filter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_receipt_filter(
-    Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Filter; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateReceiptFilter",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Filter" => Filter), params));
@@ -311,8 +263,7 @@ function create_receipt_filter(
 end
 
 """
-    create_receipt_rule(rule, rule_set_name)
-    create_receipt_rule(rule, rule_set_name, params::Dict{String,<:Any})
+    create_receipt_rule(rule, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a receipt rule. For information about setting up receipt rules, see the Amazon SES
 Developer Guide. You can execute this operation no more than once per second.
@@ -323,26 +274,14 @@ Developer Guide. You can execute this operation no more than once per second.
 - `rule_set_name`: The name of the rule set that the receipt rule will be added to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"After"`: The name of an existing rule after which the new rule will be placed. If this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after"`: The name of an existing rule after which the new rule will be placed. If this
   parameter is null, the new rule will be inserted at the beginning of the rule list.
 """
 function create_receipt_rule(
-    Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "CreateReceiptRule",
-        Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_receipt_rule(
-    Rule,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateReceiptRule",
         Dict{String,Any}(
@@ -358,8 +297,7 @@ function create_receipt_rule(
 end
 
 """
-    create_receipt_rule_set(rule_set_name)
-    create_receipt_rule_set(rule_set_name, params::Dict{String,<:Any})
+    create_receipt_rule_set(rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an empty receipt rule set. For information about setting up receipt rule sets, see
 the Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -371,20 +309,9 @@ the Amazon SES Developer Guide. You can execute this operation no more than once
 
 """
 function create_receipt_rule_set(
-    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "CreateReceiptRuleSet",
-        Dict{String,Any}("RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_receipt_rule_set(
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateReceiptRuleSet",
         Dict{String,Any}(
@@ -396,8 +323,7 @@ function create_receipt_rule_set(
 end
 
 """
-    create_template(template)
-    create_template(template, params::Dict{String,<:Any})
+    create_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an email template. Email templates enable you to send personalized email to one or
 more destinations in a single API operation. For more information, see the Amazon SES
@@ -408,19 +334,10 @@ Developer Guide. You can execute this operation no more than once per second.
   text-only part.
 
 """
-function create_template(Template; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "CreateTemplate",
-        Dict{String,Any}("Template" => Template);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_template(
-    Template,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "CreateTemplate",
         Dict{String,Any}(
@@ -432,8 +349,7 @@ function create_template(
 end
 
 """
-    delete_configuration_set(configuration_set_name)
-    delete_configuration_set(configuration_set_name, params::Dict{String,<:Any})
+    delete_configuration_set(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a configuration set. Configuration sets enable you to publish email sending events.
 For information about using configuration sets, see the Amazon SES Developer Guide. You can
@@ -444,20 +360,9 @@ execute this operation no more than once per second.
 
 """
 function delete_configuration_set(
-    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteConfigurationSet",
-        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_configuration_set(
-    ConfigurationSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteConfigurationSet",
         Dict{String,Any}(
@@ -473,8 +378,7 @@ function delete_configuration_set(
 end
 
 """
-    delete_configuration_set_event_destination(configuration_set_name, event_destination_name)
-    delete_configuration_set_event_destination(configuration_set_name, event_destination_name, params::Dict{String,<:Any})
+    delete_configuration_set_event_destination(configuration_set_name, event_destination_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a configuration set event destination. Configuration set event destinations are
 associated with configuration sets, which enable you to publish email sending events. For
@@ -491,23 +395,9 @@ function delete_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestinationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "DeleteConfigurationSetEventDestination",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName,
-            "EventDestinationName" => EventDestinationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_configuration_set_event_destination(
-    ConfigurationSetName,
-    EventDestinationName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteConfigurationSetEventDestination",
         Dict{String,Any}(
@@ -526,8 +416,7 @@ function delete_configuration_set_event_destination(
 end
 
 """
-    delete_configuration_set_tracking_options(configuration_set_name)
-    delete_configuration_set_tracking_options(configuration_set_name, params::Dict{String,<:Any})
+    delete_configuration_set_tracking_options(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an association between a configuration set and a custom domain for open and click
 event tracking. By default, images and links used for tracking open and click events are
@@ -543,20 +432,9 @@ SES-operated domains.
 
 """
 function delete_configuration_set_tracking_options(
-    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteConfigurationSetTrackingOptions",
-        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_configuration_set_tracking_options(
-    ConfigurationSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteConfigurationSetTrackingOptions",
         Dict{String,Any}(
@@ -572,8 +450,7 @@ function delete_configuration_set_tracking_options(
 end
 
 """
-    delete_custom_verification_email_template(template_name)
-    delete_custom_verification_email_template(template_name, params::Dict{String,<:Any})
+    delete_custom_verification_email_template(template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing custom verification email template.  For more information about custom
 verification email templates, see Using Custom Verification Email Templates in the Amazon
@@ -585,20 +462,9 @@ SES Developer Guide. You can execute this operation no more than once per second
 
 """
 function delete_custom_verification_email_template(
-    TemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteCustomVerificationEmailTemplate",
-        Dict{String,Any}("TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_custom_verification_email_template(
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteCustomVerificationEmailTemplate",
         Dict{String,Any}(
@@ -610,8 +476,7 @@ function delete_custom_verification_email_template(
 end
 
 """
-    delete_identity(identity)
-    delete_identity(identity, params::Dict{String,<:Any})
+    delete_identity(identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified identity (an email address or a domain) from the list of verified
 identities. You can execute this operation no more than once per second.
@@ -620,19 +485,10 @@ identities. You can execute this operation no more than once per second.
 - `identity`: The identity to be removed from the list of identities for the AWS Account.
 
 """
-function delete_identity(Identity; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "DeleteIdentity",
-        Dict{String,Any}("Identity" => Identity);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_identity(
-    Identity,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteIdentity",
         Dict{String,Any}(
@@ -644,8 +500,7 @@ function delete_identity(
 end
 
 """
-    delete_identity_policy(identity, policy_name)
-    delete_identity_policy(identity, policy_name, params::Dict{String,<:Any})
+    delete_identity_policy(identity, policy_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified sending authorization policy for the given identity (an email address
 or a domain). This API returns successfully even if a policy with the specified name does
@@ -665,21 +520,9 @@ than once per second.
 
 """
 function delete_identity_policy(
-    Identity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    Identity, PolicyName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteIdentityPolicy",
-        Dict{String,Any}("Identity" => Identity, "PolicyName" => PolicyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_identity_policy(
-    Identity,
-    PolicyName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteIdentityPolicy",
         Dict{String,Any}(
@@ -695,8 +538,7 @@ function delete_identity_policy(
 end
 
 """
-    delete_receipt_filter(filter_name)
-    delete_receipt_filter(filter_name, params::Dict{String,<:Any})
+    delete_receipt_filter(filter_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified IP address filter. For information about managing IP address filters,
 see the Amazon SES Developer Guide. You can execute this operation no more than once per
@@ -707,20 +549,9 @@ second.
 
 """
 function delete_receipt_filter(
-    FilterName; aws_config::AbstractAWSConfig=global_aws_config()
+    FilterName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteReceiptFilter",
-        Dict{String,Any}("FilterName" => FilterName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_receipt_filter(
-    FilterName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteReceiptFilter",
         Dict{String,Any}(
@@ -732,8 +563,7 @@ function delete_receipt_filter(
 end
 
 """
-    delete_receipt_rule(rule_name, rule_set_name)
-    delete_receipt_rule(rule_name, rule_set_name, params::Dict{String,<:Any})
+    delete_receipt_rule(rule_name, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified receipt rule. For information about managing receipt rules, see the
 Amazon SES Developer Guide. You can execute this operation no more than once per second.
@@ -745,21 +575,9 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function delete_receipt_rule(
-    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteReceiptRule",
-        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_receipt_rule(
-    RuleName,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteReceiptRule",
         Dict{String,Any}(
@@ -775,8 +593,7 @@ function delete_receipt_rule(
 end
 
 """
-    delete_receipt_rule_set(rule_set_name)
-    delete_receipt_rule_set(rule_set_name, params::Dict{String,<:Any})
+    delete_receipt_rule_set(rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified receipt rule set and all of the receipt rules it contains.  The
 currently active rule set cannot be deleted.  For information about managing receipt rule
@@ -788,20 +605,9 @@ per second.
 
 """
 function delete_receipt_rule_set(
-    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteReceiptRuleSet",
-        Dict{String,Any}("RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_receipt_rule_set(
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteReceiptRuleSet",
         Dict{String,Any}(
@@ -813,8 +619,7 @@ function delete_receipt_rule_set(
 end
 
 """
-    delete_template(template_name)
-    delete_template(template_name, params::Dict{String,<:Any})
+    delete_template(template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an email template. You can execute this operation no more than once per second.
 
@@ -822,19 +627,10 @@ Deletes an email template. You can execute this operation no more than once per 
 - `template_name`: The name of the template to be deleted.
 
 """
-function delete_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "DeleteTemplate",
-        Dict{String,Any}("TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_template(
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteTemplate",
         Dict{String,Any}(
@@ -846,8 +642,7 @@ function delete_template(
 end
 
 """
-    delete_verified_email_address(email_address)
-    delete_verified_email_address(email_address, params::Dict{String,<:Any})
+    delete_verified_email_address(email_address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use the DeleteIdentity operation to delete email addresses and domains.
 
@@ -856,20 +651,9 @@ Deprecated. Use the DeleteIdentity operation to delete email addresses and domai
 
 """
 function delete_verified_email_address(
-    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DeleteVerifiedEmailAddress",
-        Dict{String,Any}("EmailAddress" => EmailAddress);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_verified_email_address(
-    EmailAddress,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DeleteVerifiedEmailAddress",
         Dict{String,Any}(
@@ -881,8 +665,7 @@ function delete_verified_email_address(
 end
 
 """
-    describe_active_receipt_rule_set()
-    describe_active_receipt_rule_set(params::Dict{String,<:Any})
+    describe_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the metadata and receipt rules for the receipt rule set that is currently active.
 For information about setting up receipt rule sets, see the Amazon SES Developer Guide. You
@@ -890,17 +673,9 @@ can execute this operation no more than once per second.
 
 """
 function describe_active_receipt_rule_set(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DescribeActiveReceiptRuleSet";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_active_receipt_rule_set(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DescribeActiveReceiptRuleSet",
         params;
@@ -910,8 +685,7 @@ function describe_active_receipt_rule_set(
 end
 
 """
-    describe_configuration_set(configuration_set_name)
-    describe_configuration_set(configuration_set_name, params::Dict{String,<:Any})
+    describe_configuration_set(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of the specified configuration set. For information about using
 configuration sets, see the Amazon SES Developer Guide. You can execute this operation no
@@ -921,24 +695,13 @@ more than once per second.
 - `configuration_set_name`: The name of the configuration set to describe.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetAttributeNames"`: A list of configuration set attributes to return.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_attribute_names"`: A list of configuration set attributes to return.
 """
 function describe_configuration_set(
-    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DescribeConfigurationSet",
-        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configuration_set(
-    ConfigurationSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DescribeConfigurationSet",
         Dict{String,Any}(
@@ -954,8 +717,7 @@ function describe_configuration_set(
 end
 
 """
-    describe_receipt_rule(rule_name, rule_set_name)
-    describe_receipt_rule(rule_name, rule_set_name, params::Dict{String,<:Any})
+    describe_receipt_rule(rule_name, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of the specified receipt rule. For information about setting up receipt
 rules, see the Amazon SES Developer Guide. You can execute this operation no more than once
@@ -967,21 +729,9 @@ per second.
 
 """
 function describe_receipt_rule(
-    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DescribeReceiptRule",
-        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_receipt_rule(
-    RuleName,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DescribeReceiptRule",
         Dict{String,Any}(
@@ -997,8 +747,7 @@ function describe_receipt_rule(
 end
 
 """
-    describe_receipt_rule_set(rule_set_name)
-    describe_receipt_rule_set(rule_set_name, params::Dict{String,<:Any})
+    describe_receipt_rule_set(rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the details of the specified receipt rule set. For information about managing
 receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no
@@ -1009,20 +758,9 @@ more than once per second.
 
 """
 function describe_receipt_rule_set(
-    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "DescribeReceiptRuleSet",
-        Dict{String,Any}("RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_receipt_rule_set(
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "DescribeReceiptRuleSet",
         Dict{String,Any}(
@@ -1034,21 +772,16 @@ function describe_receipt_rule_set(
 end
 
 """
-    get_account_sending_enabled()
-    get_account_sending_enabled(params::Dict{String,<:Any})
+    get_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the email sending status of the Amazon SES account for the current region. You can
 execute this operation no more than once per second.
 
 """
-function get_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "GetAccountSendingEnabled"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_account_sending_enabled(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_account_sending_enabled(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetAccountSendingEnabled",
         params;
@@ -1058,8 +791,7 @@ function get_account_sending_enabled(
 end
 
 """
-    get_custom_verification_email_template(template_name)
-    get_custom_verification_email_template(template_name, params::Dict{String,<:Any})
+    get_custom_verification_email_template(template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the custom email verification template for the template name you specify. For more
 information about custom verification email templates, see Using Custom Verification Email
@@ -1072,20 +804,9 @@ once per second.
 
 """
 function get_custom_verification_email_template(
-    TemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetCustomVerificationEmailTemplate",
-        Dict{String,Any}("TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_custom_verification_email_template(
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetCustomVerificationEmailTemplate",
         Dict{String,Any}(
@@ -1097,8 +818,7 @@ function get_custom_verification_email_template(
 end
 
 """
-    get_identity_dkim_attributes(identities)
-    get_identity_dkim_attributes(identities, params::Dict{String,<:Any})
+    get_identity_dkim_attributes(identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current status of Easy DKIM signing for an entity. For domain name identities,
 this operation also returns the DKIM tokens that are required for Easy DKIM signing, and
@@ -1119,20 +839,9 @@ Guide.
 
 """
 function get_identity_dkim_attributes(
-    Identities; aws_config::AbstractAWSConfig=global_aws_config()
+    Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetIdentityDkimAttributes",
-        Dict{String,Any}("Identities" => Identities);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_identity_dkim_attributes(
-    Identities,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetIdentityDkimAttributes",
         Dict{String,Any}(
@@ -1144,8 +853,7 @@ function get_identity_dkim_attributes(
 end
 
 """
-    get_identity_mail_from_domain_attributes(identities)
-    get_identity_mail_from_domain_attributes(identities, params::Dict{String,<:Any})
+    get_identity_mail_from_domain_attributes(identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the custom MAIL FROM attributes for a list of identities (email addresses :
 domains). This operation is throttled at one request per second and can only get custom
@@ -1156,20 +864,9 @@ MAIL FROM attributes for up to 100 identities at a time.
 
 """
 function get_identity_mail_from_domain_attributes(
-    Identities; aws_config::AbstractAWSConfig=global_aws_config()
+    Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetIdentityMailFromDomainAttributes",
-        Dict{String,Any}("Identities" => Identities);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_identity_mail_from_domain_attributes(
-    Identities,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetIdentityMailFromDomainAttributes",
         Dict{String,Any}(
@@ -1181,8 +878,7 @@ function get_identity_mail_from_domain_attributes(
 end
 
 """
-    get_identity_notification_attributes(identities)
-    get_identity_notification_attributes(identities, params::Dict{String,<:Any})
+    get_identity_notification_attributes(identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a list of verified identities (email addresses and/or domains), returns a structure
 describing identity notification attributes. This operation is throttled at one request per
@@ -1197,20 +893,9 @@ Guide.
 
 """
 function get_identity_notification_attributes(
-    Identities; aws_config::AbstractAWSConfig=global_aws_config()
+    Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetIdentityNotificationAttributes",
-        Dict{String,Any}("Identities" => Identities);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_identity_notification_attributes(
-    Identities,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetIdentityNotificationAttributes",
         Dict{String,Any}(
@@ -1222,8 +907,7 @@ function get_identity_notification_attributes(
 end
 
 """
-    get_identity_policies(identity, policy_names)
-    get_identity_policies(identity, policy_names, params::Dict{String,<:Any})
+    get_identity_policies(identity, policy_names; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the requested sending authorization policies for the given identity (an email
 address or a domain). The policies are returned as a map of policy names to policy
@@ -1244,21 +928,9 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
 
 """
 function get_identity_policies(
-    Identity, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config()
+    Identity, PolicyNames; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetIdentityPolicies",
-        Dict{String,Any}("Identity" => Identity, "PolicyNames" => PolicyNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_identity_policies(
-    Identity,
-    PolicyNames,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetIdentityPolicies",
         Dict{String,Any}(
@@ -1274,8 +946,7 @@ function get_identity_policies(
 end
 
 """
-    get_identity_verification_attributes(identities)
-    get_identity_verification_attributes(identities, params::Dict{String,<:Any})
+    get_identity_verification_attributes(identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given a list of identities (email addresses and/or domains), returns the verification
 status and (for domain identities) the verification token for each identity. The
@@ -1298,20 +969,9 @@ verification attributes for up to 100 identities at a time.
 
 """
 function get_identity_verification_attributes(
-    Identities; aws_config::AbstractAWSConfig=global_aws_config()
+    Identities; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "GetIdentityVerificationAttributes",
-        Dict{String,Any}("Identities" => Identities);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_identity_verification_attributes(
-    Identities,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetIdentityVerificationAttributes",
         Dict{String,Any}(
@@ -1323,27 +983,21 @@ function get_identity_verification_attributes(
 end
 
 """
-    get_send_quota()
-    get_send_quota(params::Dict{String,<:Any})
+    get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides the sending limits for the Amazon SES account.  You can execute this operation no
 more than once per second.
 
 """
-function get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("GetSendQuota"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_send_quota(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_send_quota(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetSendQuota", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_send_statistics()
-    get_send_statistics(params::Dict{String,<:Any})
+    get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides sending statistics for the current AWS Region. The result is a list of data
 points, representing the last two weeks of sending activity. Each data point in the list
@@ -1351,20 +1005,15 @@ contains statistics for a 15-minute period of time. You can execute this operati
 than once per second.
 
 """
-function get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("GetSendStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function get_send_statistics(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetSendStatistics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    get_template(template_name)
-    get_template(template_name, params::Dict{String,<:Any})
+    get_template(template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays the template object (which includes the Subject line, HTML part and text part) for
 the template you specify. You can execute this operation no more than once per second.
@@ -1373,19 +1022,10 @@ the template you specify. You can execute this operation no more than once per s
 - `template_name`: The name of the template you want to retrieve.
 
 """
-function get_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "GetTemplate",
-        Dict{String,Any}("TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_template(
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "GetTemplate",
         Dict{String,Any}(
@@ -1397,8 +1037,7 @@ function get_template(
 end
 
 """
-    list_configuration_sets()
-    list_configuration_sets(params::Dict{String,<:Any})
+    list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Provides a list of the configuration sets associated with your Amazon SES account in the
 current AWS Region. For information about using configuration sets, see Monitoring Your
@@ -1410,19 +1049,15 @@ execute the ListConfigurationSets operation again, passing the NextToken paramet
 value of the NextToken element to retrieve additional results.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxItems"`: The number of configuration sets to return.
-- `"NextToken"`: A token returned from a previous call to ListConfigurationSets to indicate
-  the position of the configuration set in the configuration set list.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_items"`: The number of configuration sets to return.
+- `"next_token"`: A token returned from a previous call to ListConfigurationSets to
+  indicate the position of the configuration set in the configuration set list.
 """
-function list_configuration_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "ListConfigurationSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_configuration_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_configuration_sets(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListConfigurationSets",
         params;
@@ -1432,8 +1067,7 @@ function list_configuration_sets(
 end
 
 """
-    list_custom_verification_email_templates()
-    list_custom_verification_email_templates(params::Dict{String,<:Any})
+    list_custom_verification_email_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the existing custom verification email templates for your account in the current AWS
 Region. For more information about custom verification email templates, see Using Custom
@@ -1441,26 +1075,18 @@ Verification Email Templates in the Amazon SES Developer Guide. You can execute 
 operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of custom verification email templates to return. This
-  value must be at least 1 and less than or equal to 50. If you do not specify a value, or if
-  you specify a value less than 1 or greater than 50, the operation will return up to 50
-  results.
-- `"NextToken"`: An array the contains the name and creation time stamp for each template
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of custom verification email templates to return.
+  This value must be at least 1 and less than or equal to 50. If you do not specify a value,
+  or if you specify a value less than 1 or greater than 50, the operation will return up to
+  50 results.
+- `"next_token"`: An array the contains the name and creation time stamp for each template
   in your Amazon SES account.
 """
 function list_custom_verification_email_templates(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "ListCustomVerificationEmailTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_custom_verification_email_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListCustomVerificationEmailTemplates",
         params;
@@ -1470,36 +1096,30 @@ function list_custom_verification_email_templates(
 end
 
 """
-    list_identities()
-    list_identities(params::Dict{String,<:Any})
+    list_identities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list containing all of the identities (email addresses and domains) for your AWS
 account in the current AWS Region, regardless of verification status. You can execute this
 operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdentityType"`: The type of the identities to list. Possible values are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"identity_type"`: The type of the identities to list. Possible values are
   \"EmailAddress\" and \"Domain\". If this parameter is omitted, then all identities will be
   listed.
-- `"MaxItems"`: The maximum number of identities per page. Possible values are 1-1000
+- `"max_items"`: The maximum number of identities per page. Possible values are 1-1000
   inclusive.
-- `"NextToken"`: The token to use for pagination.
+- `"next_token"`: The token to use for pagination.
 """
-function list_identities(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListIdentities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_identities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_identities(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListIdentities", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_identity_policies(identity)
-    list_identity_policies(identity, params::Dict{String,<:Any})
+    list_identity_policies(identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of sending authorization policies that are attached to the given identity
 (an email address or a domain). This API returns only a list. If you want the actual policy
@@ -1517,19 +1137,10 @@ can execute this operation no more than once per second.
   must own the identity.
 
 """
-function list_identity_policies(Identity; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "ListIdentityPolicies",
-        Dict{String,Any}("Identity" => Identity);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_identity_policies(
-    Identity,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListIdentityPolicies",
         Dict{String,Any}(
@@ -1541,28 +1152,24 @@ function list_identity_policies(
 end
 
 """
-    list_receipt_filters()
-    list_receipt_filters(params::Dict{String,<:Any})
+    list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the IP address filters associated with your AWS account in the current AWS Region.
 For information about managing IP address filters, see the Amazon SES Developer Guide. You
 can execute this operation no more than once per second.
 
 """
-function list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListReceiptFilters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_receipt_filters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_receipt_filters(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListReceiptFilters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_receipt_rule_sets()
-    list_receipt_rule_sets(params::Dict{String,<:Any})
+    list_receipt_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the receipt rule sets that exist under your AWS account in the current AWS Region. If
 there are additional receipt rule sets to be retrieved, you will receive a NextToken that
@@ -1571,18 +1178,14 @@ For information about managing receipt rule sets, see the Amazon SES Developer G
 can execute this operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: A token returned from a previous call to ListReceiptRuleSets to indicate
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: A token returned from a previous call to ListReceiptRuleSets to indicate
   the position in the receipt rule set list.
 """
-function list_receipt_rule_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "ListReceiptRuleSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_receipt_rule_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_receipt_rule_sets(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListReceiptRuleSets",
         params;
@@ -1592,47 +1195,37 @@ function list_receipt_rule_sets(
 end
 
 """
-    list_templates()
-    list_templates(params::Dict{String,<:Any})
+    list_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the email templates present in your Amazon SES account in the current AWS Region. You
 can execute this operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxItems"`: The maximum number of templates to return. This value must be at least 1
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_items"`: The maximum number of templates to return. This value must be at least 1
   and less than or equal to 10. If you do not specify a value, or if you specify a value less
   than 1 or greater than 10, the operation will return up to 10 results.
-- `"NextToken"`: A token returned from a previous call to ListTemplates to indicate the
+- `"next_token"`: A token returned from a previous call to ListTemplates to indicate the
   position in the list of email templates.
 """
-function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses("ListTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_templates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListTemplates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_verified_email_addresses()
-    list_verified_email_addresses(params::Dict{String,<:Any})
+    list_verified_email_addresses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use the ListIdentities operation to list the email addresses and domains
 associated with your account.
 
 """
-function list_verified_email_addresses(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "ListVerifiedEmailAddresses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_verified_email_addresses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_verified_email_addresses(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ListVerifiedEmailAddresses",
         params;
@@ -1642,8 +1235,7 @@ function list_verified_email_addresses(
 end
 
 """
-    put_configuration_set_delivery_options(configuration_set_name)
-    put_configuration_set_delivery_options(configuration_set_name, params::Dict{String,<:Any})
+    put_configuration_set_delivery_options(configuration_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates the delivery options for a configuration set.
 
@@ -1652,25 +1244,14 @@ Adds or updates the delivery options for a configuration set.
   delivery options for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeliveryOptions"`: Specifies whether messages that use the configuration set are
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"delivery_options"`: Specifies whether messages that use the configuration set are
   required to use Transport Layer Security (TLS).
 """
 function put_configuration_set_delivery_options(
-    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConfigurationSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "PutConfigurationSetDeliveryOptions",
-        Dict{String,Any}("ConfigurationSetName" => ConfigurationSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_configuration_set_delivery_options(
-    ConfigurationSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "PutConfigurationSetDeliveryOptions",
         Dict{String,Any}(
@@ -1686,8 +1267,7 @@ function put_configuration_set_delivery_options(
 end
 
 """
-    put_identity_policy(identity, policy, policy_name)
-    put_identity_policy(identity, policy, policy_name, params::Dict{String,<:Any})
+    put_identity_policy(identity, policy, policy_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates a sending authorization policy for the specified identity (an email address
 or a domain).  This API is for the identity owner only. If you have not verified the
@@ -1709,24 +1289,13 @@ operation no more than once per second.
 
 """
 function put_identity_policy(
-    Identity, Policy, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "PutIdentityPolicy",
-        Dict{String,Any}(
-            "Identity" => Identity, "Policy" => Policy, "PolicyName" => PolicyName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_identity_policy(
     Identity,
     Policy,
-    PolicyName,
-    params::AbstractDict{String};
+    PolicyName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "PutIdentityPolicy",
         Dict{String,Any}(
@@ -1744,8 +1313,7 @@ function put_identity_policy(
 end
 
 """
-    reorder_receipt_rule_set(rule_names, rule_set_name)
-    reorder_receipt_rule_set(rule_names, rule_set_name, params::Dict{String,<:Any})
+    reorder_receipt_rule_set(rule_names, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reorders the receipt rules within a receipt rule set.  All of the rules in the rule set
 must be represented in this request. That is, this API will return an error if the reorder
@@ -1760,21 +1328,9 @@ more than once per second.
 
 """
 function reorder_receipt_rule_set(
-    RuleNames, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleNames, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "ReorderReceiptRuleSet",
-        Dict{String,Any}("RuleNames" => RuleNames, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reorder_receipt_rule_set(
-    RuleNames,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "ReorderReceiptRuleSet",
         Dict{String,Any}(
@@ -1790,8 +1346,7 @@ function reorder_receipt_rule_set(
 end
 
 """
-    send_bounce(bounce_sender, bounced_recipient_info_list, original_message_id)
-    send_bounce(bounce_sender, bounced_recipient_info_list, original_message_id, params::Dict{String,<:Any})
+    send_bounce(bounce_sender, bounced_recipient_info_list, original_message_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Generates and sends a bounce message to the sender of an email you received through Amazon
 SES. You can only use this API on an email up to 24 hours after you receive it.  You cannot
@@ -1808,14 +1363,14 @@ You can execute this operation no more than once per second.
 - `original_message_id`: The message ID of the message to be bounced.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BounceSenderArn"`: This parameter is used only for sending authorization. It is the ARN
-  of the identity that is associated with the sending authorization policy that permits you
-  to use the address in the \"From\" header of the bounce. For more information about sending
-  authorization, see the Amazon SES Developer Guide.
-- `"Explanation"`: Human-readable text for the bounce message to explain the failure. If
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bounce_sender_arn"`: This parameter is used only for sending authorization. It is the
+  ARN of the identity that is associated with the sending authorization policy that permits
+  you to use the address in the \"From\" header of the bounce. For more information about
+  sending authorization, see the Amazon SES Developer Guide.
+- `"explanation"`: Human-readable text for the bounce message to explain the failure. If
   not specified, the text will be auto-generated based on the bounced recipient information.
-- `"MessageDsn"`: Message-related DSN fields. If not specified, Amazon SES will choose the
+- `"message_dsn"`: Message-related DSN fields. If not specified, Amazon SES will choose the
   values.
 """
 function send_bounce(
@@ -1823,25 +1378,9 @@ function send_bounce(
     BouncedRecipientInfoList,
     OriginalMessageId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "SendBounce",
-        Dict{String,Any}(
-            "BounceSender" => BounceSender,
-            "BouncedRecipientInfoList" => BouncedRecipientInfoList,
-            "OriginalMessageId" => OriginalMessageId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_bounce(
-    BounceSender,
-    BouncedRecipientInfoList,
-    OriginalMessageId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendBounce",
         Dict{String,Any}(
@@ -1861,8 +1400,7 @@ function send_bounce(
 end
 
 """
-    send_bulk_templated_email(destinations, source, template)
-    send_bulk_templated_email(destinations, source, template, params::Dict{String,<:Any})
+    send_bulk_templated_email(destinations, source, template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Composes an email message to multiple destinations. The message body is created using an
 email template. In order to send email using the SendBulkTemplatedEmail operation, your
@@ -1904,25 +1442,25 @@ be limited by your account's maximum sending rate.
 - `template`: The template to use when sending this email.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
-  using SendBulkTemplatedEmail.
-- `"DefaultTags"`: A list of tags, in the form of name/value pairs, to apply to an email
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_name"`: The name of the configuration set to use when you send an
+  email using SendBulkTemplatedEmail.
+- `"default_tags"`: A list of tags, in the form of name/value pairs, to apply to an email
   that you send to a destination using SendBulkTemplatedEmail.
-- `"DefaultTemplateData"`: A list of replacement values to apply to the template when
+- `"default_template_data"`: A list of replacement values to apply to the template when
   replacement data is not specified in a Destination object. These values act as a default or
   fallback option when no other data is available. The template data is a JSON object,
   typically consisting of key-value pairs in which the keys correspond to replacement tags in
   the email template.
-- `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
+- `"reply_to_addresses"`: The reply-to email address(es) for the message. If the recipient
   replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+- `"return_path"`: The email address that bounces and complaints will be forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
   an error message will be returned from the recipient's ISP; this message will then be
   forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
   parameter is never overwritten. This email address must be either individually verified
   with Amazon SES, or from a domain that has been verified with Amazon SES.
-- `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
+- `"return_path_arn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
   of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -1930,7 +1468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com,
   and the ReturnPath to be feedback@example.com. For more information about sending
   authorization, see the Amazon SES Developer Guide.
-- `"SourceArn"`: This parameter is used only for sending authorization. It is the ARN of
+- `"source_arn"`: This parameter is used only for sending authorization. It is the ARN of
   the identity that is associated with the sending authorization policy that permits you to
   send for the email address specified in the Source parameter. For example, if the owner of
   example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -1938,27 +1476,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and
   the Source to be user@example.com. For more information about sending authorization, see
   the Amazon SES Developer Guide.
-- `"TemplateArn"`: The ARN of the template to use when sending this email.
+- `"template_arn"`: The ARN of the template to use when sending this email.
 """
-function send_bulk_templated_email(
-    Destinations, Source, Template; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "SendBulkTemplatedEmail",
-        Dict{String,Any}(
-            "Destinations" => Destinations, "Source" => Source, "Template" => Template
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_bulk_templated_email(
     Destinations,
     Source,
-    Template,
-    params::AbstractDict{String};
+    Template;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendBulkTemplatedEmail",
         Dict{String,Any}(
@@ -1978,8 +1505,7 @@ function send_bulk_templated_email(
 end
 
 """
-    send_custom_verification_email(email_address, template_name)
-    send_custom_verification_email(email_address, template_name, params::Dict{String,<:Any})
+    send_custom_verification_email(email_address, template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an email address to the list of identities for your Amazon SES account in the current
 AWS Region and attempts to verify it. As a result of executing this operation, a customized
@@ -1994,26 +1520,14 @@ Amazon SES Developer Guide. You can execute this operation no more than once per
   the verification email.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: Name of a configuration set to use when sending the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_name"`: Name of a configuration set to use when sending the
   verification email.
 """
 function send_custom_verification_email(
-    EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailAddress, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "SendCustomVerificationEmail",
-        Dict{String,Any}("EmailAddress" => EmailAddress, "TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_custom_verification_email(
-    EmailAddress,
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendCustomVerificationEmail",
         Dict{String,Any}(
@@ -2031,8 +1545,7 @@ function send_custom_verification_email(
 end
 
 """
-    send_email(destination, message, source)
-    send_email(destination, message, source, params::Dict{String,<:Any})
+    send_email(destination, message, source; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Composes an email message and immediately queues it for sending. In order to send email
 using the SendEmail operation, your message must meet the following requirements:   The
@@ -2074,18 +1587,18 @@ Developer Guide.
   =?charset?encoding?encoded-text?=.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
-  using SendEmail.
-- `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_name"`: The name of the configuration set to use when you send an
+  email using SendEmail.
+- `"reply_to_addresses"`: The reply-to email address(es) for the message. If the recipient
   replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+- `"return_path"`: The email address that bounces and complaints will be forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
   an error message will be returned from the recipient's ISP; this message will then be
   forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
   parameter is never overwritten. This email address must be either individually verified
   with Amazon SES, or from a domain that has been verified with Amazon SES.
-- `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
+- `"return_path_arn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
   of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2093,7 +1606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com,
   and the ReturnPath to be feedback@example.com. For more information about sending
   authorization, see the Amazon SES Developer Guide.
-- `"SourceArn"`: This parameter is used only for sending authorization. It is the ARN of
+- `"source_arn"`: This parameter is used only for sending authorization. It is the ARN of
   the identity that is associated with the sending authorization policy that permits you to
   send for the email address specified in the Source parameter. For example, if the owner of
   example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2101,29 +1614,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and
   the Source to be user@example.com. For more information about sending authorization, see
   the Amazon SES Developer Guide.
-- `"Tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
+- `"tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
   send using SendEmail. Tags correspond to characteristics of the email that you define, so
   that you can publish email sending events.
 """
 function send_email(
-    Destination, Message, Source; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "SendEmail",
-        Dict{String,Any}(
-            "Destination" => Destination, "Message" => Message, "Source" => Source
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_email(
     Destination,
     Message,
-    Source,
-    params::AbstractDict{String};
+    Source;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendEmail",
         Dict{String,Any}(
@@ -2141,8 +1643,7 @@ function send_email(
 end
 
 """
-    send_raw_email(raw_message)
-    send_raw_email(raw_message, params::Dict{String,<:Any})
+    send_raw_email(raw_message; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Composes an email message and immediately queues it for sending. This operation is more
 flexible than the SendEmail API operation. When you use the SendRawEmail operation, you can
@@ -2200,19 +1701,19 @@ SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Gui
   characters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
-  using SendRawEmail.
-- `"Destinations"`: A list of destinations for the message, consisting of To:, CC:, and
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_name"`: The name of the configuration set to use when you send an
+  email using SendRawEmail.
+- `"destinations"`: A list of destinations for the message, consisting of To:, CC:, and
   BCC: addresses.
-- `"FromArn"`: This parameter is used only for sending authorization. It is the ARN of the
+- `"from_arn"`: This parameter is used only for sending authorization. It is the ARN of the
   identity that is associated with the sending authorization policy that permits you to
   specify a particular \"From\" address in the header of the raw email. Instead of using this
   parameter, you can use the X-header X-SES-FROM-ARN in the raw message of the email. If you
   use both the FromArn parameter and the corresponding X-header, Amazon SES uses the value of
   the FromArn parameter.  For information about when to use this parameter, see the
   description of SendRawEmail in this guide, or see the Amazon SES Developer Guide.
-- `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
+- `"return_path_arn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
   of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2223,7 +1724,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ReturnPathArn parameter and the corresponding X-header, Amazon SES uses the value of the
   ReturnPathArn parameter.  For information about when to use this parameter, see the
   description of SendRawEmail in this guide, or see the Amazon SES Developer Guide.
-- `"Source"`: The identity's email address. If you do not provide a value for this
+- `"source"`: The identity's email address. If you do not provide a value for this
   parameter, you must specify a \"From\" address in the raw text of the message. (You can
   also specify both.)  Amazon SES does not support the SMTPUTF8 extension, as described
   inRFC6531. For this reason, the local part of a source email address (the part of the email
@@ -2236,7 +1737,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have feedback forwarding enabled, then bounces and complaints will be sent to this email
   address. This takes precedence over any Return-Path header that you might include in the
   raw text of the message.
-- `"SourceArn"`: This parameter is used only for sending authorization. It is the ARN of
+- `"source_arn"`: This parameter is used only for sending authorization. It is the ARN of
   the identity that is associated with the sending authorization policy that permits you to
   send for the email address specified in the Source parameter. For example, if the owner of
   example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2247,23 +1748,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter and the corresponding X-header, Amazon SES uses the value of the SourceArn
   parameter.  For information about when to use this parameter, see the description of
   SendRawEmail in this guide, or see the Amazon SES Developer Guide.
-- `"Tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
+- `"tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
   send using SendRawEmail. Tags correspond to characteristics of the email that you define,
   so that you can publish email sending events.
 """
-function send_raw_email(RawMessage; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "SendRawEmail",
-        Dict{String,Any}("RawMessage" => RawMessage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_raw_email(
-    RawMessage,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    RawMessage; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendRawEmail",
         Dict{String,Any}(
@@ -2275,8 +1767,7 @@ function send_raw_email(
 end
 
 """
-    send_templated_email(destination, source, template, template_data)
-    send_templated_email(destination, source, template, template_data, params::Dict{String,<:Any})
+    send_templated_email(destination, source, template, template_data; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Composes an email message using an email template and immediately queues it for sending. In
 order to send email using the SendTemplatedEmail operation, your call to the API must meet
@@ -2326,18 +1817,18 @@ Guide.
   replacement tags in the email template.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
-  using SendTemplatedEmail.
-- `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"configuration_set_name"`: The name of the configuration set to use when you send an
+  email using SendTemplatedEmail.
+- `"reply_to_addresses"`: The reply-to email address(es) for the message. If the recipient
   replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+- `"return_path"`: The email address that bounces and complaints will be forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
   an error message will be returned from the recipient's ISP; this message will then be
   forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
   parameter is never overwritten. This email address must be either individually verified
   with Amazon SES, or from a domain that has been verified with Amazon SES.
-- `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
+- `"return_path_arn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
   of example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2345,7 +1836,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the ReturnPathArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com,
   and the ReturnPath to be feedback@example.com. For more information about sending
   authorization, see the Amazon SES Developer Guide.
-- `"SourceArn"`: This parameter is used only for sending authorization. It is the ARN of
+- `"source_arn"`: This parameter is used only for sending authorization. It is the ARN of
   the identity that is associated with the sending authorization policy that permits you to
   send for the email address specified in the Source parameter. For example, if the owner of
   example.com (which has ARN arn:aws:ses:us-east-1:123456789012:identity/example.com)
@@ -2353,10 +1844,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify the SourceArn to be arn:aws:ses:us-east-1:123456789012:identity/example.com, and
   the Source to be user@example.com. For more information about sending authorization, see
   the Amazon SES Developer Guide.
-- `"Tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
+- `"tags"`: A list of tags, in the form of name/value pairs, to apply to an email that you
   send using SendTemplatedEmail. Tags correspond to characteristics of the email that you
   define, so that you can publish email sending events.
-- `"TemplateArn"`: The ARN of the template to use when sending this email.
+- `"template_arn"`: The ARN of the template to use when sending this email.
 """
 function send_templated_email(
     Destination,
@@ -2364,27 +1855,9 @@ function send_templated_email(
     Template,
     TemplateData;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "SendTemplatedEmail",
-        Dict{String,Any}(
-            "Destination" => Destination,
-            "Source" => Source,
-            "Template" => Template,
-            "TemplateData" => TemplateData,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_templated_email(
-    Destination,
-    Source,
-    Template,
-    TemplateData,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SendTemplatedEmail",
         Dict{String,Any}(
@@ -2405,8 +1878,7 @@ function send_templated_email(
 end
 
 """
-    set_active_receipt_rule_set()
-    set_active_receipt_rule_set(params::Dict{String,<:Any})
+    set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets the specified receipt rule set as the active receipt rule set.  To disable your
 email-receiving through Amazon SES completely, you can call this API with RuleSetName set
@@ -2414,18 +1886,14 @@ to null.  For information about managing receipt rule sets, see the Amazon SES D
 Guide. You can execute this operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RuleSetName"`: The name of the receipt rule set to make active. Setting this value to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"rule_set_name"`: The name of the receipt rule set to make active. Setting this value to
   null disables all email receiving.
 """
-function set_active_receipt_rule_set(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "SetActiveReceiptRuleSet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function set_active_receipt_rule_set(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function set_active_receipt_rule_set(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetActiveReceiptRuleSet",
         params;
@@ -2435,8 +1903,7 @@ function set_active_receipt_rule_set(
 end
 
 """
-    set_identity_dkim_enabled(dkim_enabled, identity)
-    set_identity_dkim_enabled(dkim_enabled, identity, params::Dict{String,<:Any})
+    set_identity_dkim_enabled(dkim_enabled, identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables or disables Easy DKIM signing of email sent from an identity. If Easy DKIM signing
 is enabled for a domain, then Amazon SES uses DKIM to sign all email that it sends from
@@ -2456,21 +1923,9 @@ Developer Guide.
 
 """
 function set_identity_dkim_enabled(
-    DkimEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config()
+    DkimEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "SetIdentityDkimEnabled",
-        Dict{String,Any}("DkimEnabled" => DkimEnabled, "Identity" => Identity);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_identity_dkim_enabled(
-    DkimEnabled,
-    Identity,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetIdentityDkimEnabled",
         Dict{String,Any}(
@@ -2486,8 +1941,7 @@ function set_identity_dkim_enabled(
 end
 
 """
-    set_identity_feedback_forwarding_enabled(forwarding_enabled, identity)
-    set_identity_feedback_forwarding_enabled(forwarding_enabled, identity, params::Dict{String,<:Any})
+    set_identity_feedback_forwarding_enabled(forwarding_enabled, identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given an identity (an email address or a domain), enables or disables whether Amazon SES
 forwards bounce and complaint notifications as email. Feedback forwarding can only be
@@ -2509,21 +1963,12 @@ Amazon SES, see the Amazon SES Developer Guide.
 
 """
 function set_identity_feedback_forwarding_enabled(
-    ForwardingEnabled, Identity; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "SetIdentityFeedbackForwardingEnabled",
-        Dict{String,Any}("ForwardingEnabled" => ForwardingEnabled, "Identity" => Identity);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_identity_feedback_forwarding_enabled(
     ForwardingEnabled,
-    Identity,
-    params::AbstractDict{String};
+    Identity;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetIdentityFeedbackForwardingEnabled",
         Dict{String,Any}(
@@ -2541,8 +1986,7 @@ function set_identity_feedback_forwarding_enabled(
 end
 
 """
-    set_identity_headers_in_notifications_enabled(enabled, identity, notification_type)
-    set_identity_headers_in_notifications_enabled(enabled, identity, notification_type, params::Dict{String,<:Any})
+    set_identity_headers_in_notifications_enabled(enabled, identity, notification_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Given an identity (an email address or a domain), sets whether Amazon SES includes the
 original email headers in the Amazon Simple Notification Service (Amazon SNS) notifications
@@ -2562,26 +2006,13 @@ information about using notifications with Amazon SES, see the Amazon SES Develo
 
 """
 function set_identity_headers_in_notifications_enabled(
-    Enabled, Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "SetIdentityHeadersInNotificationsEnabled",
-        Dict{String,Any}(
-            "Enabled" => Enabled,
-            "Identity" => Identity,
-            "NotificationType" => NotificationType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_identity_headers_in_notifications_enabled(
     Enabled,
     Identity,
-    NotificationType,
-    params::AbstractDict{String};
+    NotificationType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetIdentityHeadersInNotificationsEnabled",
         Dict{String,Any}(
@@ -2601,8 +2032,7 @@ function set_identity_headers_in_notifications_enabled(
 end
 
 """
-    set_identity_mail_from_domain(identity)
-    set_identity_mail_from_domain(identity, params::Dict{String,<:Any})
+    set_identity_mail_from_domain(identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables or disables the custom MAIL FROM domain setup for a verified identity (an email
 address or a domain).  To send emails using the specified MAIL FROM domain, you must add an
@@ -2616,35 +2046,24 @@ than once per second.
   custom MAIL FROM domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BehaviorOnMXFailure"`: The action that you want Amazon SES to take if it cannot
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"behavior_on_mxfailure"`: The action that you want Amazon SES to take if it cannot
   successfully read the required MX record when you send an email. If you choose
   UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL
   FROM domain. If you choose RejectMessage, Amazon SES will return a
   MailFromDomainNotVerified error and not send the email. The action specified in
   BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending,
   Failed, and TemporaryFailure states.
-- `"MailFromDomain"`: The custom MAIL FROM domain that you want the verified identity to
+- `"mail_from_domain"`: The custom MAIL FROM domain that you want the verified identity to
   use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used
   in a \"From\" address if the MAIL FROM domain is the destination of email feedback
   forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used
   to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
 """
 function set_identity_mail_from_domain(
-    Identity; aws_config::AbstractAWSConfig=global_aws_config()
+    Identity; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "SetIdentityMailFromDomain",
-        Dict{String,Any}("Identity" => Identity);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_identity_mail_from_domain(
-    Identity,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetIdentityMailFromDomain",
         Dict{String,Any}(
@@ -2656,8 +2075,7 @@ function set_identity_mail_from_domain(
 end
 
 """
-    set_identity_notification_topic(identity, notification_type)
-    set_identity_notification_topic(identity, notification_type, params::Dict{String,<:Any})
+    set_identity_notification_topic(identity, notification_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets an Amazon Simple Notification Service (Amazon SNS) topic to use when delivering
 notifications. When you use this operation, you specify a verified identity, such as an
@@ -2677,27 +2095,15 @@ more information about feedback notification, see the Amazon SES Developer Guide
   Amazon SNS topic.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SnsTopic"`: The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter is
-  omitted from the request or a null value is passed, SnsTopic is cleared and publishing is
-  disabled.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"sns_topic"`: The Amazon Resource Name (ARN) of the Amazon SNS topic. If the parameter
+  is omitted from the request or a null value is passed, SnsTopic is cleared and publishing
+  is disabled.
 """
 function set_identity_notification_topic(
-    Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config()
+    Identity, NotificationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "SetIdentityNotificationTopic",
-        Dict{String,Any}("Identity" => Identity, "NotificationType" => NotificationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_identity_notification_topic(
-    Identity,
-    NotificationType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetIdentityNotificationTopic",
         Dict{String,Any}(
@@ -2715,8 +2121,7 @@ function set_identity_notification_topic(
 end
 
 """
-    set_receipt_rule_position(rule_name, rule_set_name)
-    set_receipt_rule_position(rule_name, rule_set_name, params::Dict{String,<:Any})
+    set_receipt_rule_position(rule_name, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets the position of the specified receipt rule in the receipt rule set. For information
 about managing receipt rules, see the Amazon SES Developer Guide. You can execute this
@@ -2728,25 +2133,13 @@ operation no more than once per second.
   reposition.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"After"`: The name of the receipt rule after which to place the specified receipt rule.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after"`: The name of the receipt rule after which to place the specified receipt rule.
 """
 function set_receipt_rule_position(
-    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleName, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "SetReceiptRulePosition",
-        Dict{String,Any}("RuleName" => RuleName, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function set_receipt_rule_position(
-    RuleName,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "SetReceiptRulePosition",
         Dict{String,Any}(
@@ -2762,8 +2155,7 @@ function set_receipt_rule_position(
 end
 
 """
-    test_render_template(template_data, template_name)
-    test_render_template(template_data, template_name, params::Dict{String,<:Any})
+    test_render_template(template_data, template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a preview of the MIME content of an email when provided with a template and a set
 of replacement data. You can execute this operation no more than once per second.
@@ -2776,21 +2168,9 @@ of replacement data. You can execute this operation no more than once per second
 
 """
 function test_render_template(
-    TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    TemplateData, TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "TestRenderTemplate",
-        Dict{String,Any}("TemplateData" => TemplateData, "TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function test_render_template(
-    TemplateData,
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "TestRenderTemplate",
         Dict{String,Any}(
@@ -2808,8 +2188,7 @@ function test_render_template(
 end
 
 """
-    update_account_sending_enabled()
-    update_account_sending_enabled(params::Dict{String,<:Any})
+    update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables or disables email sending across your entire Amazon SES account in the current AWS
 Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
@@ -2818,20 +2197,14 @@ reputation metrics (such as your bounce or complaint rates) reach certain thresh
 can execute this operation no more than once per second.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Enabled"`: Describes whether email sending is enabled or disabled for your Amazon SES
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"enabled"`: Describes whether email sending is enabled or disabled for your Amazon SES
   account in the current AWS Region.
 """
-function update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "UpdateAccountSendingEnabled";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_account_sending_enabled(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function update_account_sending_enabled(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateAccountSendingEnabled",
         params;
@@ -2841,8 +2214,7 @@ function update_account_sending_enabled(
 end
 
 """
-    update_configuration_set_event_destination(configuration_set_name, event_destination)
-    update_configuration_set_event_destination(configuration_set_name, event_destination, params::Dict{String,<:Any})
+    update_configuration_set_event_destination(configuration_set_name, event_destination; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the event destination of a configuration set. Event destinations are associated
 with configuration sets, which enable you to publish email sending events to Amazon
@@ -2864,23 +2236,9 @@ function update_configuration_set_event_destination(
     ConfigurationSetName,
     EventDestination;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return ses(
-        "UpdateConfigurationSetEventDestination",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName,
-            "EventDestination" => EventDestination,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_configuration_set_event_destination(
-    ConfigurationSetName,
-    EventDestination,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateConfigurationSetEventDestination",
         Dict{String,Any}(
@@ -2899,8 +2257,7 @@ function update_configuration_set_event_destination(
 end
 
 """
-    update_configuration_set_reputation_metrics_enabled(configuration_set_name, enabled)
-    update_configuration_set_reputation_metrics_enabled(configuration_set_name, enabled, params::Dict{String,<:Any})
+    update_configuration_set_reputation_metrics_enabled(configuration_set_name, enabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables or disables the publishing of reputation metrics for emails sent using a specific
 configuration set in a given AWS Region. Reputation metrics include bounce and complaint
@@ -2915,23 +2272,12 @@ this operation no more than once per second.
 
 """
 function update_configuration_set_reputation_metrics_enabled(
-    ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "UpdateConfigurationSetReputationMetricsEnabled",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_configuration_set_reputation_metrics_enabled(
     ConfigurationSetName,
-    Enabled,
-    params::AbstractDict{String};
+    Enabled;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateConfigurationSetReputationMetricsEnabled",
         Dict{String,Any}(
@@ -2949,8 +2295,7 @@ function update_configuration_set_reputation_metrics_enabled(
 end
 
 """
-    update_configuration_set_sending_enabled(configuration_set_name, enabled)
-    update_configuration_set_sending_enabled(configuration_set_name, enabled, params::Dict{String,<:Any})
+    update_configuration_set_sending_enabled(configuration_set_name, enabled; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables or disables email sending for messages sent using a specific configuration set in a
 given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms
@@ -2965,23 +2310,12 @@ You can execute this operation no more than once per second.
 
 """
 function update_configuration_set_sending_enabled(
-    ConfigurationSetName, Enabled; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "UpdateConfigurationSetSendingEnabled",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName, "Enabled" => Enabled
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_configuration_set_sending_enabled(
     ConfigurationSetName,
-    Enabled,
-    params::AbstractDict{String};
+    Enabled;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateConfigurationSetSendingEnabled",
         Dict{String,Any}(
@@ -2999,8 +2333,7 @@ function update_configuration_set_sending_enabled(
 end
 
 """
-    update_configuration_set_tracking_options(configuration_set_name, tracking_options)
-    update_configuration_set_tracking_options(configuration_set_name, tracking_options, params::Dict{String,<:Any})
+    update_configuration_set_tracking_options(configuration_set_name, tracking_options; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies an association between a configuration set and a custom domain for open and click
 event tracking.  By default, images and links used for tracking open and click events are
@@ -3015,24 +2348,12 @@ Developer Guide.
 
 """
 function update_configuration_set_tracking_options(
-    ConfigurationSetName, TrackingOptions; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ses(
-        "UpdateConfigurationSetTrackingOptions",
-        Dict{String,Any}(
-            "ConfigurationSetName" => ConfigurationSetName,
-            "TrackingOptions" => TrackingOptions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_configuration_set_tracking_options(
     ConfigurationSetName,
-    TrackingOptions,
-    params::AbstractDict{String};
+    TrackingOptions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateConfigurationSetTrackingOptions",
         Dict{String,Any}(
@@ -3051,8 +2372,7 @@ function update_configuration_set_tracking_options(
 end
 
 """
-    update_custom_verification_email_template(template_name)
-    update_custom_verification_email_template(template_name, params::Dict{String,<:Any})
+    update_custom_verification_email_template(template_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing custom verification email template. For more information about custom
 verification email templates, see Using Custom Verification Email Templates in the Amazon
@@ -3063,33 +2383,22 @@ SES Developer Guide. You can execute this operation no more than once per second
   update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FailureRedirectionURL"`: The URL that the recipient of the verification email is sent
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"failure_redirection_url"`: The URL that the recipient of the verification email is sent
   to if his or her address is not successfully verified.
-- `"FromEmailAddress"`: The email address that the custom verification email is sent from.
-- `"SuccessRedirectionURL"`: The URL that the recipient of the verification email is sent
+- `"from_email_address"`: The email address that the custom verification email is sent from.
+- `"success_redirection_url"`: The URL that the recipient of the verification email is sent
   to if his or her address is successfully verified.
-- `"TemplateContent"`: The content of the custom verification email. The total size of the
+- `"template_content"`: The content of the custom verification email. The total size of the
   email must be less than 10 MB. The message body may contain HTML, with some limitations.
   For more information, see Custom Verification Email Frequently Asked Questions in the
   Amazon SES Developer Guide.
-- `"TemplateSubject"`: The subject line of the custom verification email.
+- `"template_subject"`: The subject line of the custom verification email.
 """
 function update_custom_verification_email_template(
-    TemplateName; aws_config::AbstractAWSConfig=global_aws_config()
+    TemplateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "UpdateCustomVerificationEmailTemplate",
-        Dict{String,Any}("TemplateName" => TemplateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_custom_verification_email_template(
-    TemplateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateCustomVerificationEmailTemplate",
         Dict{String,Any}(
@@ -3101,8 +2410,7 @@ function update_custom_verification_email_template(
 end
 
 """
-    update_receipt_rule(rule, rule_set_name)
-    update_receipt_rule(rule, rule_set_name, params::Dict{String,<:Any})
+    update_receipt_rule(rule, rule_set_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a receipt rule. For information about managing receipt rules, see the Amazon SES
 Developer Guide. You can execute this operation no more than once per second.
@@ -3113,21 +2421,9 @@ Developer Guide. You can execute this operation no more than once per second.
 
 """
 function update_receipt_rule(
-    Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
+    Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "UpdateReceiptRule",
-        Dict{String,Any}("Rule" => Rule, "RuleSetName" => RuleSetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_receipt_rule(
-    Rule,
-    RuleSetName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateReceiptRule",
         Dict{String,Any}(
@@ -3143,8 +2439,7 @@ function update_receipt_rule(
 end
 
 """
-    update_template(template)
-    update_template(template, params::Dict{String,<:Any})
+    update_template(template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an email template. Email templates enable you to send personalized email to one or
 more destinations in a single API operation. For more information, see the Amazon SES
@@ -3154,19 +2449,10 @@ Developer Guide. You can execute this operation no more than once per second.
 - `template`:
 
 """
-function update_template(Template; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "UpdateTemplate",
-        Dict{String,Any}("Template" => Template);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_template(
-    Template,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Template; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "UpdateTemplate",
         Dict{String,Any}(
@@ -3178,8 +2464,7 @@ function update_template(
 end
 
 """
-    verify_domain_dkim(domain)
-    verify_domain_dkim(domain, params::Dict{String,<:Any})
+    verify_domain_dkim(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a set of DKIM tokens for a domain identity.  When you execute the VerifyDomainDkim
 operation, the domain that you specify is added to the list of identities that are
@@ -3202,17 +2487,10 @@ operation no more than once per second.
 - `domain`: The name of the domain to be verified for Easy DKIM signing.
 
 """
-function verify_domain_dkim(Domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "VerifyDomainDkim",
-        Dict{String,Any}("Domain" => Domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function verify_domain_dkim(
-    Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "VerifyDomainDkim",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Domain" => Domain), params));
@@ -3222,8 +2500,7 @@ function verify_domain_dkim(
 end
 
 """
-    verify_domain_identity(domain)
-    verify_domain_identity(domain, params::Dict{String,<:Any})
+    verify_domain_identity(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds a domain to the list of identities for your Amazon SES account in the current AWS
 Region and attempts to verify it. For more information about verifying domains, see
@@ -3234,17 +2511,10 @@ this operation no more than once per second.
 - `domain`: The domain to be verified.
 
 """
-function verify_domain_identity(Domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return ses(
-        "VerifyDomainIdentity",
-        Dict{String,Any}("Domain" => Domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function verify_domain_identity(
-    Domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "VerifyDomainIdentity",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Domain" => Domain), params));
@@ -3254,8 +2524,7 @@ function verify_domain_identity(
 end
 
 """
-    verify_email_address(email_address)
-    verify_email_address(email_address, params::Dict{String,<:Any})
+    verify_email_address(email_address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
@@ -3264,20 +2533,9 @@ Deprecated. Use the VerifyEmailIdentity operation to verify a new email address.
 
 """
 function verify_email_address(
-    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "VerifyEmailAddress",
-        Dict{String,Any}("EmailAddress" => EmailAddress);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function verify_email_address(
-    EmailAddress,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "VerifyEmailAddress",
         Dict{String,Any}(
@@ -3289,8 +2547,7 @@ function verify_email_address(
 end
 
 """
-    verify_email_identity(email_address)
-    verify_email_identity(email_address, params::Dict{String,<:Any})
+    verify_email_identity(email_address; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an email address to the list of identities for your Amazon SES account in the current
 AWS region and attempts to verify it. As a result of executing this operation, a
@@ -3302,20 +2559,9 @@ than once per second.
 
 """
 function verify_email_identity(
-    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailAddress; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return ses(
-        "VerifyEmailIdentity",
-        Dict{String,Any}("EmailAddress" => EmailAddress);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function verify_email_identity(
-    EmailAddress,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return ses(
         "VerifyEmailIdentity",
         Dict{String,Any}(

@@ -4,9 +4,18 @@ using AWS.AWSServices: auto_scaling_plans
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "scaling_plan_names" => "ScalingPlanNames",
+    "application_source" => "ApplicationSource",
+    "scaling_plan_version" => "ScalingPlanVersion",
+    "scaling_instructions" => "ScalingInstructions",
+    "application_sources" => "ApplicationSources",
+    "next_token" => "NextToken",
+    "max_results" => "MaxResults",
+)
+
 """
-    create_scaling_plan(application_source, scaling_instructions, scaling_plan_name)
-    create_scaling_plan(application_source, scaling_instructions, scaling_plan_name, params::Dict{String,<:Any})
+    create_scaling_plan(application_source, scaling_instructions, scaling_plan_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a scaling plan.
 
@@ -25,25 +34,9 @@ function create_scaling_plan(
     ScalingInstructions,
     ScalingPlanName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return auto_scaling_plans(
-        "CreateScalingPlan",
-        Dict{String,Any}(
-            "ApplicationSource" => ApplicationSource,
-            "ScalingInstructions" => ScalingInstructions,
-            "ScalingPlanName" => ScalingPlanName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_scaling_plan(
-    ApplicationSource,
-    ScalingInstructions,
-    ScalingPlanName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "CreateScalingPlan",
         Dict{String,Any}(
@@ -63,8 +56,7 @@ function create_scaling_plan(
 end
 
 """
-    delete_scaling_plan(scaling_plan_name, scaling_plan_version)
-    delete_scaling_plan(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
+    delete_scaling_plan(scaling_plan_name, scaling_plan_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified scaling plan. Deleting a scaling plan deletes the underlying
 ScalingInstruction for all of the scalable resources that are covered by the plan. If the
@@ -78,23 +70,12 @@ resources separately.
 
 """
 function delete_scaling_plan(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return auto_scaling_plans(
-        "DeleteScalingPlan",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_scaling_plan(
     ScalingPlanName,
-    ScalingPlanVersion,
-    params::AbstractDict{String};
+    ScalingPlanVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "DeleteScalingPlan",
         Dict{String,Any}(
@@ -113,8 +94,7 @@ function delete_scaling_plan(
 end
 
 """
-    describe_scaling_plan_resources(scaling_plan_name, scaling_plan_version)
-    describe_scaling_plan_resources(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
+    describe_scaling_plan_resources(scaling_plan_name, scaling_plan_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes the scalable resources in the specified scaling plan.
 
@@ -124,29 +104,18 @@ Describes the scalable resources in the specified scaling plan.
   value is 1.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of scalable resources to return. The value must be
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of scalable resources to return. The value must be
   between 1 and 50. The default value is 50.
-- `"NextToken"`: The token for the next set of results.
+- `"next_token"`: The token for the next set of results.
 """
 function describe_scaling_plan_resources(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return auto_scaling_plans(
-        "DescribeScalingPlanResources",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_scaling_plan_resources(
     ScalingPlanName,
-    ScalingPlanVersion,
-    params::AbstractDict{String};
+    ScalingPlanVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "DescribeScalingPlanResources",
         Dict{String,Any}(
@@ -165,32 +134,27 @@ function describe_scaling_plan_resources(
 end
 
 """
-    describe_scaling_plans()
-    describe_scaling_plans(params::Dict{String,<:Any})
+    describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Describes one or more of your scaling plans.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationSources"`: The sources for the applications (up to 10). If you specify
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_sources"`: The sources for the applications (up to 10). If you specify
   scaling plan names, you cannot specify application sources.
-- `"MaxResults"`: The maximum number of scalable resources to return. This value can be
+- `"max_results"`: The maximum number of scalable resources to return. This value can be
   between 1 and 50. The default value is 50.
-- `"NextToken"`: The token for the next set of results.
-- `"ScalingPlanNames"`: The names of the scaling plans (up to 10). If you specify
+- `"next_token"`: The token for the next set of results.
+- `"scaling_plan_names"`: The names of the scaling plans (up to 10). If you specify
   application sources, you cannot specify scaling plan names.
-- `"ScalingPlanVersion"`: The version number of the scaling plan. Currently, the only valid
-  value is 1.  If you specify a scaling plan version, you must also specify a scaling plan
-  name.
+- `"scaling_plan_version"`: The version number of the scaling plan. Currently, the only
+  valid value is 1.  If you specify a scaling plan version, you must also specify a scaling
+  plan name.
 """
-function describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return auto_scaling_plans(
-        "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_scaling_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_scaling_plans(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "DescribeScalingPlans",
         params;
@@ -200,8 +164,7 @@ function describe_scaling_plans(
 end
 
 """
-    get_scaling_plan_resource_forecast_data(end_time, forecast_data_type, resource_id, scalable_dimension, scaling_plan_name, scaling_plan_version, service_namespace, start_time)
-    get_scaling_plan_resource_forecast_data(end_time, forecast_data_type, resource_id, scalable_dimension, scaling_plan_name, scaling_plan_version, service_namespace, start_time, params::Dict{String,<:Any})
+    get_scaling_plan_resource_forecast_data(end_time, forecast_data_type, resource_id, scalable_dimension, scaling_plan_name, scaling_plan_version, service_namespace, start_time; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the forecast data for a scalable resource. Capacity forecasts are represented as
 predicted values, or data points, that are calculated using historical data points from a
@@ -244,35 +207,9 @@ function get_scaling_plan_resource_forecast_data(
     ServiceNamespace,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return auto_scaling_plans(
-        "GetScalingPlanResourceForecastData",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "ForecastDataType" => ForecastDataType,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScalingPlanName" => ScalingPlanName,
-            "ScalingPlanVersion" => ScalingPlanVersion,
-            "ServiceNamespace" => ServiceNamespace,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_scaling_plan_resource_forecast_data(
-    EndTime,
-    ForecastDataType,
-    ResourceId,
-    ScalableDimension,
-    ScalingPlanName,
-    ScalingPlanVersion,
-    ServiceNamespace,
-    StartTime,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "GetScalingPlanResourceForecastData",
         Dict{String,Any}(
@@ -297,8 +234,7 @@ function get_scaling_plan_resource_forecast_data(
 end
 
 """
-    update_scaling_plan(scaling_plan_name, scaling_plan_version)
-    update_scaling_plan(scaling_plan_name, scaling_plan_version, params::Dict{String,<:Any})
+    update_scaling_plan(scaling_plan_name, scaling_plan_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified scaling plan. You cannot update a scaling plan if it is in the
 process of being created, updated, or deleted.
@@ -309,30 +245,19 @@ process of being created, updated, or deleted.
   1. Currently, you cannot have multiple scaling plan versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationSource"`: A CloudFormation stack or set of tags. For more information, see
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_source"`: A CloudFormation stack or set of tags. For more information, see
   ApplicationSource in the AWS Auto Scaling API Reference.
-- `"ScalingInstructions"`: The scaling instructions. For more information, see
+- `"scaling_instructions"`: The scaling instructions. For more information, see
   ScalingInstruction in the AWS Auto Scaling API Reference.
 """
 function update_scaling_plan(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return auto_scaling_plans(
-        "UpdateScalingPlan",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_scaling_plan(
     ScalingPlanName,
-    ScalingPlanVersion,
-    params::AbstractDict{String};
+    ScalingPlanVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return auto_scaling_plans(
         "UpdateScalingPlan",
         Dict{String,Any}(

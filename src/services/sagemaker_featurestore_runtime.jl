@@ -4,9 +4,10 @@ using AWS.AWSServices: sagemaker_featurestore_runtime
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("feature_names" => "FeatureName")
+
 """
-    batch_get_record(identifiers)
-    batch_get_record(identifiers, params::Dict{String,<:Any})
+    batch_get_record(identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a batch of Records from a FeatureGroup.
 
@@ -15,20 +16,10 @@ Retrieves a batch of Records from a FeatureGroup.
   value, and Feature name that have been requested to be retrieved in batch.
 
 """
-function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker_featurestore_runtime(
-        "POST",
-        "/BatchGetRecord",
-        Dict{String,Any}("Identifiers" => Identifiers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_record(
-    Identifiers,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Identifiers; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_featurestore_runtime(
         "POST",
         "/BatchGetRecord",
@@ -41,8 +32,7 @@ function batch_get_record(
 end
 
 """
-    delete_record(event_time, feature_group_name, record_identifier_value_as_string)
-    delete_record(event_time, feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
+    delete_record(event_time, feature_group_name, record_identifier_value_as_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when
 the DeleteRecord API is called. This record will have a value of True in the is_deleted
@@ -61,25 +51,9 @@ function delete_record(
     FeatureGroupName,
     RecordIdentifierValueAsString;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sagemaker_featurestore_runtime(
-        "DELETE",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}(
-            "EventTime" => EventTime,
-            "RecordIdentifierValueAsString" => RecordIdentifierValueAsString,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_record(
-    EventTime,
-    FeatureGroupName,
-    RecordIdentifierValueAsString,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_featurestore_runtime(
         "DELETE",
         "/FeatureGroup/$(FeatureGroupName)",
@@ -99,8 +73,7 @@ function delete_record(
 end
 
 """
-    get_record(feature_group_name, record_identifier_value_as_string)
-    get_record(feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
+    get_record(feature_group_name, record_identifier_value_as_string; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the
 OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an
@@ -112,29 +85,17 @@ empty result is returned.
   and uniquely identifies the record in the FeatureGroup.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FeatureName"`: List of names of Features to be retrieved. If not specified, the latest
-  value for all the Features are returned.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"feature_names"`: List of names of Features to be retrieved. If not specified, the
+  latest value for all the Features are returned.
 """
 function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sagemaker_featurestore_runtime(
-        "GET",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}("RecordIdentifierValueAsString" => RecordIdentifierValueAsString);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_record(
-    FeatureGroupName,
-    RecordIdentifierValueAsString,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_featurestore_runtime(
         "GET",
         "/FeatureGroup/$(FeatureGroupName)",
@@ -153,8 +114,7 @@ function get_record(
 end
 
 """
-    put_record(feature_group_name, record)
-    put_record(feature_group_name, record, params::Dict{String,<:Any})
+    put_record(feature_group_name, record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used for data ingestion into the FeatureStore. The PutRecord API writes to both the
 OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier,
@@ -171,22 +131,9 @@ record, it is written only to the OfflineStore.
 
 """
 function put_record(
-    FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()
+    FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return sagemaker_featurestore_runtime(
-        "PUT",
-        "/FeatureGroup/$(FeatureGroupName)",
-        Dict{String,Any}("Record" => Record);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_record(
-    FeatureGroupName,
-    Record,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_featurestore_runtime(
         "PUT",
         "/FeatureGroup/$(FeatureGroupName)",

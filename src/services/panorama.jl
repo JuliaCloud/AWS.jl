@@ -4,9 +4,32 @@ using AWS.AWSServices: panorama
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "networking_configuration" => "NetworkingConfiguration",
+    "job_tags" => "JobTags",
+    "status_filter" => "statusFilter",
+    "next_token" => "nextToken",
+    "mark_latest" => "MarkLatest",
+    "application_instance_id_to_replace" => "ApplicationInstanceIdToReplace",
+    "name" => "Name",
+    "device_id" => "DeviceId",
+    "force_delete" => "ForceDelete",
+    "description" => "Description",
+    "max_results" => "maxResults",
+    "runtime_role_arn" => "RuntimeRoleArn",
+    "owner_account" => "OwnerAccount",
+    "package_name" => "packageName",
+    "node_description" => "NodeDescription",
+    "category" => "category",
+    "patch_version" => "PatchVersion",
+    "manifest_overrides_payload" => "ManifestOverridesPayload",
+    "updated_latest_patch_version" => "UpdatedLatestPatchVersion",
+    "package_version" => "packageVersion",
+    "tags" => "Tags",
+)
+
 """
-    create_application_instance(default_runtime_context_device, manifest_payload)
-    create_application_instance(default_runtime_context_device, manifest_payload, params::Dict{String,<:Any})
+    create_application_instance(default_runtime_context_device, manifest_payload; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an application instance and deploys it to a device.
 
@@ -15,37 +38,22 @@ Creates an application instance and deploys it to a device.
 - `manifest_payload`: The application's manifest document.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplicationInstanceIdToReplace"`: The ID of an application instance to replace with the
-  new instance.
-- `"Description"`: A description for the application instance.
-- `"ManifestOverridesPayload"`: Setting overrides for the application manifest.
-- `"Name"`: A name for the application instance.
-- `"RuntimeRoleArn"`: The ARN of a runtime role for the application instance.
-- `"Tags"`: Tags for the application instance.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"application_instance_id_to_replace"`: The ID of an application instance to replace with
+  the new instance.
+- `"description"`: A description for the application instance.
+- `"manifest_overrides_payload"`: Setting overrides for the application manifest.
+- `"name"`: A name for the application instance.
+- `"runtime_role_arn"`: The ARN of a runtime role for the application instance.
+- `"tags"`: Tags for the application instance.
 """
 function create_application_instance(
     DefaultRuntimeContextDevice,
     ManifestPayload;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return panorama(
-        "POST",
-        "/application-instances",
-        Dict{String,Any}(
-            "DefaultRuntimeContextDevice" => DefaultRuntimeContextDevice,
-            "ManifestPayload" => ManifestPayload,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_application_instance(
-    DefaultRuntimeContextDevice,
-    ManifestPayload,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/application-instances",
@@ -65,8 +73,7 @@ function create_application_instance(
 end
 
 """
-    create_job_for_devices(device_ids, device_job_config, job_type)
-    create_job_for_devices(device_ids, device_job_config, job_type, params::Dict{String,<:Any})
+    create_job_for_devices(device_ids, device_job_config, job_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a job to run on one or more devices.
 
@@ -77,27 +84,13 @@ Creates a job to run on one or more devices.
 
 """
 function create_job_for_devices(
-    DeviceIds, DeviceJobConfig, JobType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return panorama(
-        "POST",
-        "/jobs",
-        Dict{String,Any}(
-            "DeviceIds" => DeviceIds,
-            "DeviceJobConfig" => DeviceJobConfig,
-            "JobType" => JobType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_job_for_devices(
     DeviceIds,
     DeviceJobConfig,
-    JobType,
-    params::AbstractDict{String};
+    JobType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/jobs",
@@ -118,8 +111,7 @@ function create_job_for_devices(
 end
 
 """
-    create_node_from_template_job(node_name, output_package_name, output_package_version, template_parameters, template_type)
-    create_node_from_template_job(node_name, output_package_name, output_package_version, template_parameters, template_type, params::Dict{String,<:Any})
+    create_node_from_template_job(node_name, output_package_name, output_package_version, template_parameters, template_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a camera stream node.
 
@@ -131,9 +123,9 @@ Creates a camera stream node.
 - `template_type`: The type of node.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobTags"`: Tags for the job.
-- `"NodeDescription"`: A description for the node.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_tags"`: Tags for the job.
+- `"node_description"`: A description for the node.
 """
 function create_node_from_template_job(
     NodeName,
@@ -142,30 +134,9 @@ function create_node_from_template_job(
     TemplateParameters,
     TemplateType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return panorama(
-        "POST",
-        "/packages/template-job",
-        Dict{String,Any}(
-            "NodeName" => NodeName,
-            "OutputPackageName" => OutputPackageName,
-            "OutputPackageVersion" => OutputPackageVersion,
-            "TemplateParameters" => TemplateParameters,
-            "TemplateType" => TemplateType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_node_from_template_job(
-    NodeName,
-    OutputPackageName,
-    OutputPackageVersion,
-    TemplateParameters,
-    TemplateType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/packages/template-job",
@@ -188,8 +159,7 @@ function create_node_from_template_job(
 end
 
 """
-    create_package(package_name)
-    create_package(package_name, params::Dict{String,<:Any})
+    create_package(package_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a package and storage location in an Amazon S3 access point.
 
@@ -197,23 +167,13 @@ Creates a package and storage location in an Amazon S3 access point.
 - `package_name`: A name for the package.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: Tags for the package.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: Tags for the package.
 """
-function create_package(PackageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "POST",
-        "/packages",
-        Dict{String,Any}("PackageName" => PackageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_package(
-    PackageName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PackageName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/packages",
@@ -226,8 +186,7 @@ function create_package(
 end
 
 """
-    create_package_import_job(client_token, input_config, job_type, output_config)
-    create_package_import_job(client_token, input_config, job_type, output_config, params::Dict{String,<:Any})
+    create_package_import_job(client_token, input_config, job_type, output_config; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Imports a node package.
 
@@ -238,8 +197,8 @@ Imports a node package.
 - `output_config`: An output config for the package import job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"JobTags"`: Tags for the package import job.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_tags"`: Tags for the package import job.
 """
 function create_package_import_job(
     ClientToken,
@@ -247,28 +206,9 @@ function create_package_import_job(
     JobType,
     OutputConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return panorama(
-        "POST",
-        "/packages/import-jobs",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "InputConfig" => InputConfig,
-            "JobType" => JobType,
-            "OutputConfig" => OutputConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_package_import_job(
-    ClientToken,
-    InputConfig,
-    JobType,
-    OutputConfig,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/packages/import-jobs",
@@ -290,8 +230,7 @@ function create_package_import_job(
 end
 
 """
-    delete_device(device_id)
-    delete_device(device_id, params::Dict{String,<:Any})
+    delete_device(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a device.
 
@@ -299,19 +238,10 @@ Deletes a device.
 - `device_id`: The device's ID.
 
 """
-function delete_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "DELETE",
-        "/devices/$(DeviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_device(
-    DeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "DELETE",
         "/devices/$(DeviceId)",
@@ -322,8 +252,7 @@ function delete_device(
 end
 
 """
-    delete_package(package_id)
-    delete_package(package_id, params::Dict{String,<:Any})
+    delete_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a package.
 
@@ -331,23 +260,14 @@ Deletes a package.
 - `package_id`: The package's ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ForceDelete"`: Delete the package even if it has artifacts stored in its access point.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"force_delete"`: Delete the package even if it has artifacts stored in its access point.
   Deletes the package's artifacts from Amazon S3.
 """
-function delete_package(PackageId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "DELETE",
-        "/packages/$(PackageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_package(
-    PackageId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PackageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "DELETE",
         "/packages/$(PackageId)",
@@ -358,8 +278,7 @@ function delete_package(
 end
 
 """
-    deregister_package_version(package_id, package_version, patch_version)
-    deregister_package_version(package_id, package_version, patch_version, params::Dict{String,<:Any})
+    deregister_package_version(package_id, package_version, patch_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deregisters a package version.
 
@@ -369,31 +288,19 @@ Deregisters a package version.
 - `patch_version`: A patch version.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OwnerAccount"`: An owner account.
-- `"UpdatedLatestPatchVersion"`: If the version was marked latest, the new version to maker
-  as latest.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"owner_account"`: An owner account.
+- `"updated_latest_patch_version"`: If the version was marked latest, the new version to
+  maker as latest.
 """
 function deregister_package_version(
     PackageId,
     PackageVersion,
     PatchVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return panorama(
-        "DELETE",
-        "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function deregister_package_version(
-    PackageId,
-    PackageVersion,
-    PatchVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "DELETE",
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
@@ -404,8 +311,7 @@ function deregister_package_version(
 end
 
 """
-    describe_application_instance(application_instance_id)
-    describe_application_instance(application_instance_id, params::Dict{String,<:Any})
+    describe_application_instance(application_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about an application instance on a device.
 
@@ -414,20 +320,9 @@ Returns information about an application instance on a device.
 
 """
 function describe_application_instance(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/application-instances/$(applicationInstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application_instance(
-    applicationInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/application-instances/$(applicationInstanceId)",
@@ -438,8 +333,7 @@ function describe_application_instance(
 end
 
 """
-    describe_application_instance_details(application_instance_id)
-    describe_application_instance_details(application_instance_id, params::Dict{String,<:Any})
+    describe_application_instance_details(application_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about an application instance's configuration manifest.
 
@@ -448,20 +342,9 @@ Returns information about an application instance's configuration manifest.
 
 """
 function describe_application_instance_details(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/application-instances/$(applicationInstanceId)/details";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_application_instance_details(
-    applicationInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/application-instances/$(applicationInstanceId)/details",
@@ -472,8 +355,7 @@ function describe_application_instance_details(
 end
 
 """
-    describe_device(device_id)
-    describe_device(device_id, params::Dict{String,<:Any})
+    describe_device(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a device.
 
@@ -481,19 +363,10 @@ Returns information about a device.
 - `device_id`: The device's ID.
 
 """
-function describe_device(DeviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET",
-        "/devices/$(DeviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_device(
-    DeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/devices/$(DeviceId)",
@@ -504,8 +377,7 @@ function describe_device(
 end
 
 """
-    describe_device_job(job_id)
-    describe_device_job(job_id, params::Dict{String,<:Any})
+    describe_device_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a device job.
 
@@ -513,14 +385,10 @@ Returns information about a device job.
 - `job_id`: The job's ID.
 
 """
-function describe_device_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET", "/jobs/$(JobId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_device_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/jobs/$(JobId)",
@@ -531,8 +399,7 @@ function describe_device_job(
 end
 
 """
-    describe_node(node_id)
-    describe_node(node_id, params::Dict{String,<:Any})
+    describe_node(node_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a node.
 
@@ -540,17 +407,11 @@ Returns information about a node.
 - `node_id`: The node's ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OwnerAccount"`: The account ID of the node's owner.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"owner_account"`: The account ID of the node's owner.
 """
-function describe_node(NodeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET", "/nodes/$(NodeId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_node(
-    NodeId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_node(NodeId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/nodes/$(NodeId)",
@@ -561,8 +422,7 @@ function describe_node(
 end
 
 """
-    describe_node_from_template_job(job_id)
-    describe_node_from_template_job(job_id, params::Dict{String,<:Any})
+    describe_node_from_template_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a job to create a camera stream node.
 
@@ -571,18 +431,9 @@ Returns information about a job to create a camera stream node.
 
 """
 function describe_node_from_template_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/packages/template-job/$(JobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_node_from_template_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/template-job/$(JobId)",
@@ -593,8 +444,7 @@ function describe_node_from_template_job(
 end
 
 """
-    describe_package(package_id)
-    describe_package(package_id, params::Dict{String,<:Any})
+    describe_package(package_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a package.
 
@@ -602,19 +452,10 @@ Returns information about a package.
 - `package_id`: The package's ID.
 
 """
-function describe_package(PackageId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET",
-        "/packages/metadata/$(PackageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_package(
-    PackageId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    PackageId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/metadata/$(PackageId)",
@@ -625,8 +466,7 @@ function describe_package(
 end
 
 """
-    describe_package_import_job(job_id)
-    describe_package_import_job(job_id, params::Dict{String,<:Any})
+    describe_package_import_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a package import job.
 
@@ -635,18 +475,9 @@ Returns information about a package import job.
 
 """
 function describe_package_import_job(
-    JobId; aws_config::AbstractAWSConfig=global_aws_config()
+    JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/packages/import-jobs/$(JobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package_import_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/import-jobs/$(JobId)",
@@ -657,8 +488,7 @@ function describe_package_import_job(
 end
 
 """
-    describe_package_version(package_id, package_version)
-    describe_package_version(package_id, package_version, params::Dict{String,<:Any})
+    describe_package_version(package_id, package_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a package version.
 
@@ -667,26 +497,14 @@ Returns information about a package version.
 - `package_version`: The version's version.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OwnerAccount"`: The version's owner account.
-- `"PatchVersion"`: The version's patch version.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"owner_account"`: The version's owner account.
+- `"patch_version"`: The version's patch version.
 """
 function describe_package_version(
-    PackageId, PackageVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    PackageId, PackageVersion; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/packages/metadata/$(PackageId)/versions/$(PackageVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package_version(
-    PackageId,
-    PackageVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/metadata/$(PackageId)/versions/$(PackageVersion)",
@@ -697,8 +515,7 @@ function describe_package_version(
 end
 
 """
-    list_application_instance_dependencies(application_instance_id)
-    list_application_instance_dependencies(application_instance_id, params::Dict{String,<:Any})
+    list_application_instance_dependencies(application_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of application instance dependencies.
 
@@ -706,27 +523,16 @@ Returns a list of application instance dependencies.
 - `application_instance_id`: The application instance's ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of application instance dependencies to return in one
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of application instance dependencies to return in one
   page of results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
 function list_application_instance_dependencies(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/application-instances/$(applicationInstanceId)/package-dependencies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_application_instance_dependencies(
-    applicationInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/application-instances/$(applicationInstanceId)/package-dependencies",
@@ -737,8 +543,7 @@ function list_application_instance_dependencies(
 end
 
 """
-    list_application_instance_node_instances(application_instance_id)
-    list_application_instance_node_instances(application_instance_id, params::Dict{String,<:Any})
+    list_application_instance_node_instances(application_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of application node instances.
 
@@ -746,26 +551,15 @@ Returns a list of application node instances.
 - `application_instance_id`: The node instances' application instance ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of node instances to return in one page of results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of node instances to return in one page of results.
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
 function list_application_instance_node_instances(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/application-instances/$(applicationInstanceId)/node-instances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_application_instance_node_instances(
-    applicationInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/application-instances/$(applicationInstanceId)/node-instances",
@@ -776,31 +570,23 @@ function list_application_instance_node_instances(
 end
 
 """
-    list_application_instances()
-    list_application_instances(params::Dict{String,<:Any})
+    list_application_instances(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of application instances.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deviceId"`: The application instances' device ID.
-- `"maxResults"`: The maximum number of application instances to return in one page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"device_id"`: The application instances' device ID.
+- `"max_results"`: The maximum number of application instances to return in one page of
   results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
-- `"statusFilter"`: Only include instances with a specific status.
+- `"status_filter"`: Only include instances with a specific status.
 """
-function list_application_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET",
-        "/application-instances";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_application_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_application_instances(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/application-instances",
@@ -811,78 +597,58 @@ function list_application_instances(
 end
 
 """
-    list_devices()
-    list_devices(params::Dict{String,<:Any})
+    list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of devices.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of devices to return in one page of results.
-- `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of devices to return in one page of results.
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET", "/devices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_devices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_devices(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET", "/devices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_devices_jobs()
-    list_devices_jobs(params::Dict{String,<:Any})
+    list_devices_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeviceId"`: Filter results by the job's target device ID.
-- `"MaxResults"`: The maximum number of device jobs to return in one page of results.
-- `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"device_id"`: Filter results by the job's target device ID.
+- `"max_results"`: The maximum number of device jobs to return in one page of results.
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_devices_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama("GET", "/jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_devices_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_devices_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET", "/jobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_node_from_template_jobs()
-    list_node_from_template_jobs(params::Dict{String,<:Any})
+    list_node_from_template_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of camera stream node jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of node from template jobs to return in one page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of node from template jobs to return in one page of
   results.
-- `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_node_from_template_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET",
-        "/packages/template-job";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_node_from_template_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_node_from_template_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/template-job",
@@ -893,57 +659,44 @@ function list_node_from_template_jobs(
 end
 
 """
-    list_nodes()
-    list_nodes(params::Dict{String,<:Any})
+    list_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of nodes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"category"`: Search for nodes by category.
-- `"maxResults"`: The maximum number of nodes to return in one page of results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+- `"max_results"`: The maximum number of nodes to return in one page of results.
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
-- `"ownerAccount"`: Search for nodes by the account ID of the nodes' owner.
-- `"packageName"`: Search for nodes by name.
-- `"packageVersion"`: Search for nodes by version.
-- `"patchVersion"`: Search for nodes by patch version.
+- `"owner_account"`: Search for nodes by the account ID of the nodes' owner.
+- `"package_name"`: Search for nodes by name.
+- `"package_version"`: Search for nodes by version.
+- `"patch_version"`: Search for nodes by patch version.
 """
-function list_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama("GET", "/nodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_nodes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET", "/nodes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_package_import_jobs()
-    list_package_import_jobs(params::Dict{String,<:Any})
+    list_package_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of package import jobs.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of package import jobs to return in one page of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of package import jobs to return in one page of
   results.
-- `"NextToken"`: Specify the pagination token from a previous request to retrieve the next
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_package_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET",
-        "/packages/import-jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_import_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_package_import_jobs(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/packages/import-jobs",
@@ -954,33 +707,25 @@ function list_package_import_jobs(
 end
 
 """
-    list_packages()
-    list_packages(params::Dict{String,<:Any})
+    list_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of packages.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of packages to return in one page of results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of packages to return in one page of results.
+- `"next_token"`: Specify the pagination token from a previous request to retrieve the next
   page of results.
 """
-function list_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_packages(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_packages(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of tags for a resource.
 
@@ -989,20 +734,9 @@ Returns a list of tags for a resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "GET",
         "/tags/$(ResourceArn)",
@@ -1013,8 +747,7 @@ function list_tags_for_resource(
 end
 
 """
-    provision_device(name)
-    provision_device(name, params::Dict{String,<:Any})
+    provision_device(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a device and returns a configuration archive. The configuration archive is a ZIP
 file that contains a provisioning certificate that is valid for 5 minutes. Transfer the
@@ -1024,23 +757,15 @@ configuration archive to the device with the included USB storage device within 
 - `name`: A name for the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the device.
-- `"NetworkingConfiguration"`: A networking configuration for the device.
-- `"Tags"`: Tags for the device.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the device.
+- `"networking_configuration"`: A networking configuration for the device.
+- `"tags"`: Tags for the device.
 """
-function provision_device(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "POST",
-        "/devices",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function provision_device(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/devices",
@@ -1051,8 +776,7 @@ function provision_device(
 end
 
 """
-    register_package_version(package_id, package_version, patch_version)
-    register_package_version(package_id, package_version, patch_version, params::Dict{String,<:Any})
+    register_package_version(package_id, package_version, patch_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Registers a package version.
 
@@ -1062,30 +786,18 @@ Registers a package version.
 - `patch_version`: A patch version.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MarkLatest"`: Whether to mark the new version as the latest version.
-- `"OwnerAccount"`: An owner account.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"mark_latest"`: Whether to mark the new version as the latest version.
+- `"owner_account"`: An owner account.
 """
 function register_package_version(
     PackageId,
     PackageVersion,
     PatchVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return panorama(
-        "PUT",
-        "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function register_package_version(
-    PackageId,
-    PackageVersion,
-    PatchVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "PUT",
         "/packages/$(PackageId)/versions/$(PackageVersion)/patch/$(PatchVersion)",
@@ -1096,8 +808,7 @@ function register_package_version(
 end
 
 """
-    remove_application_instance(application_instance_id)
-    remove_application_instance(application_instance_id, params::Dict{String,<:Any})
+    remove_application_instance(application_instance_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes an application instance.
 
@@ -1106,20 +817,9 @@ Removes an application instance.
 
 """
 function remove_application_instance(
-    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    applicationInstanceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "DELETE",
-        "/application-instances/$(applicationInstanceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_application_instance(
-    applicationInstanceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "DELETE",
         "/application-instances/$(applicationInstanceId)",
@@ -1130,8 +830,7 @@ function remove_application_instance(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Tags a resource.
 
@@ -1140,21 +839,10 @@ Tags a resource.
 - `tags`: Tags for the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1165,8 +853,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from a resource.
 
@@ -1176,22 +863,9 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return panorama(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "DELETE",
         "/tags/$(ResourceArn)",
@@ -1202,8 +876,7 @@ function untag_resource(
 end
 
 """
-    update_device_metadata(device_id)
-    update_device_metadata(device_id, params::Dict{String,<:Any})
+    update_device_metadata(device_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates a device's metadata.
 
@@ -1211,22 +884,13 @@ Updates a device's metadata.
 - `device_id`: The device's ID.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: A description for the device.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: A description for the device.
 """
-function update_device_metadata(DeviceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return panorama(
-        "PUT",
-        "/devices/$(DeviceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_device_metadata(
-    DeviceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DeviceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return panorama(
         "PUT",
         "/devices/$(DeviceId)",

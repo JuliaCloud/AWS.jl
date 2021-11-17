@@ -4,9 +4,10 @@ using AWS.AWSServices: sagemaker_edge
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("agent_metrics" => "AgentMetrics", "models" => "Models")
+
 """
-    get_device_registration(device_fleet_name, device_name)
-    get_device_registration(device_fleet_name, device_name, params::Dict{String,<:Any})
+    get_device_registration(device_fleet_name, device_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use to check if a device is registered with SageMaker Edge Manager.
 
@@ -16,22 +17,12 @@ Use to check if a device is registered with SageMaker Edge Manager.
 
 """
 function get_device_registration(
-    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker_edge(
-        "POST",
-        "/GetDeviceRegistration",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_device_registration(
     DeviceFleetName,
-    DeviceName,
-    params::AbstractDict{String};
+    DeviceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_edge(
         "POST",
         "/GetDeviceRegistration",
@@ -50,8 +41,7 @@ function get_device_registration(
 end
 
 """
-    send_heartbeat(agent_version, device_fleet_name, device_name)
-    send_heartbeat(agent_version, device_fleet_name, device_name, params::Dict{String,<:Any})
+    send_heartbeat(agent_version, device_fleet_name, device_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use to get the current status of devices registered on SageMaker Edge Manager.
 
@@ -61,36 +51,19 @@ Use to get the current status of devices registered on SageMaker Edge Manager.
 - `device_name`: The unique name of the device.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AgentMetrics"`: For internal use. Returns a list of SageMaker Edge Manager agent
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"agent_metrics"`: For internal use. Returns a list of SageMaker Edge Manager agent
   operating metrics.
-- `"Models"`: Returns a list of models deployed on the the device.
+- `"models"`: Returns a list of models deployed on the the device.
 """
 function send_heartbeat(
     AgentVersion,
     DeviceFleetName,
     DeviceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return sagemaker_edge(
-        "POST",
-        "/SendHeartbeat",
-        Dict{String,Any}(
-            "AgentVersion" => AgentVersion,
-            "DeviceFleetName" => DeviceFleetName,
-            "DeviceName" => DeviceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_heartbeat(
-    AgentVersion,
-    DeviceFleetName,
-    DeviceName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return sagemaker_edge(
         "POST",
         "/SendHeartbeat",

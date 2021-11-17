@@ -4,9 +4,17 @@ using AWS.AWSServices: personalize_runtime
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "filter_values" => "filterValues",
+    "item_id" => "itemId",
+    "user_id" => "userId",
+    "context" => "context",
+    "filter_arn" => "filterArn",
+    "num_results" => "numResults",
+)
+
 """
-    get_personalized_ranking(campaign_arn, input_list, user_id)
-    get_personalized_ranking(campaign_arn, input_list, user_id, params::Dict{String,<:Any})
+    get_personalized_ranking(campaign_arn, input_list, user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Re-ranks a list of recommended items for the given user. The first item in the list is
 deemed the most likely item to be of interest to the user.  The solution backing the
@@ -20,14 +28,14 @@ campaign must have been created using a recipe of type PERSONALIZED_RANKING.
 - `user_id`: The user for which you want the campaign to provide a personalized ranking.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"context"`: The contextual metadata to use when getting recommendations. Contextual
   metadata includes any interaction information that might be relevant when getting a user's
   recommendations, such as the user's current location or device type.
-- `"filterArn"`: The Amazon Resource Name (ARN) of a filter you created to include items or
-  exclude items from recommendations for a given user. For more information, see Filtering
+- `"filter_arn"`: The Amazon Resource Name (ARN) of a filter you created to include items
+  or exclude items from recommendations for a given user. For more information, see Filtering
   Recommendations.
-- `"filterValues"`: The values to use when filtering recommendations. For each placeholder
+- `"filter_values"`: The values to use when filtering recommendations. For each placeholder
   parameter in your filter expression, provide the parameter name (in matching case) as a key
   and the filter value(s) as the corresponding value. Separate multiple values for one
   parameter with a comma.  For filter expressions that use an INCLUDE element to include
@@ -37,25 +45,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to filter recommendations. For more information, see Filtering Recommendations.
 """
 function get_personalized_ranking(
-    campaignArn, inputList, userId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return personalize_runtime(
-        "POST",
-        "/personalize-ranking",
-        Dict{String,Any}(
-            "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_personalized_ranking(
     campaignArn,
     inputList,
-    userId,
-    params::AbstractDict{String};
+    userId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return personalize_runtime(
         "POST",
         "/personalize-ranking",
@@ -76,8 +72,7 @@ function get_personalized_ranking(
 end
 
 """
-    get_recommendations(campaign_arn)
-    get_recommendations(campaign_arn, params::Dict{String,<:Any})
+    get_recommendations(campaign_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of recommended items. The required input depends on the recipe type used to
 create the solution backing the campaign, as follows:   RELATED_ITEMS - itemId required,
@@ -89,14 +84,14 @@ are backed by a solution created using a recipe of type PERSONALIZED_RANKING use
   recommendations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"context"`: The contextual metadata to use when getting recommendations. Contextual
   metadata includes any interaction information that might be relevant when getting a user's
   recommendations, such as the user's current location or device type.
-- `"filterArn"`: The ARN of the filter to apply to the returned recommendations. For more
+- `"filter_arn"`: The ARN of the filter to apply to the returned recommendations. For more
   information, see Filtering Recommendations. When using this parameter, be sure the filter
   resource is ACTIVE.
-- `"filterValues"`: The values to use when filtering recommendations. For each placeholder
+- `"filter_values"`: The values to use when filtering recommendations. For each placeholder
   parameter in your filter expression, provide the parameter name (in matching case) as a key
   and the filter value(s) as the corresponding value. Separate multiple values for one
   parameter with a comma.  For filter expressions that use an INCLUDE element to include
@@ -104,26 +99,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filters with expressions that use an EXCLUDE element to exclude items, you can omit the
   filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
   to filter recommendations. For more information, see Filtering Recommendations.
-- `"itemId"`: The item ID to provide recommendations for. Required for RELATED_ITEMS recipe
-  type.
-- `"numResults"`: The number of results to return. The default is 25. The maximum is 500.
-- `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
+- `"item_id"`: The item ID to provide recommendations for. Required for RELATED_ITEMS
   recipe type.
+- `"num_results"`: The number of results to return. The default is 25. The maximum is 500.
+- `"user_id"`: The user ID to provide recommendations for. Required for
+  USER_PERSONALIZATION recipe type.
 """
-function get_recommendations(campaignArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize_runtime(
-        "POST",
-        "/recommendations",
-        Dict{String,Any}("campaignArn" => campaignArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_recommendations(
-    campaignArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    campaignArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return personalize_runtime(
         "POST",
         "/recommendations",

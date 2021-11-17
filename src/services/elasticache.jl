@@ -4,9 +4,118 @@ using AWS.AWSServices: elasticache
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "passwords" => "Passwords",
+    "offering_type" => "OfferingType",
+    "user_ids_to_remove" => "UserIdsToRemove",
+    "update_action_status" => "UpdateActionStatus",
+    "user_group_ids" => "UserGroupIds",
+    "service_update_name" => "ServiceUpdateName",
+    "service_update_status" => "ServiceUpdateStatus",
+    "node_group_id" => "NodeGroupId",
+    "force" => "Force",
+    "cache_subnet_group_name" => "CacheSubnetGroupName",
+    "preferred_availability_zone" => "PreferredAvailabilityZone",
+    "cache_node_count" => "CacheNodeCount",
+    "user_group_ids_to_remove" => "UserGroupIdsToRemove",
+    "default_only" => "DefaultOnly",
+    "node_groups_to_remove" => "NodeGroupToRemove",
+    "show_member_info" => "ShowMemberInfo",
+    "cache_cluster_id" => "CacheClusterId",
+    "reserved_cache_nodes_offering_id" => "ReservedCacheNodesOfferingId",
+    "max_records" => "MaxRecords",
+    "preferred_outpost_arns" => "PreferredOutpostArn",
+    "transit_encryption_enabled" => "TransitEncryptionEnabled",
+    "snapshot_name" => "SnapshotName",
+    "cache_node_ids_to_remove" => "CacheNodeId",
+    "outpost_mode" => "OutpostMode",
+    "kms_key_id" => "KmsKeyId",
+    "regional_configurations" => "RegionalConfiguration",
+    "user_id" => "UserId",
+    "log_delivery_configurations" => "LogDeliveryConfigurationRequest",
+    "start_time" => "StartTime",
+    "reserved_cache_node_id" => "ReservedCacheNodeId",
+    "notification_topic_status" => "NotificationTopicStatus",
+    "show_node_level_update_status" => "ShowNodeLevelUpdateStatus",
+    "cache_subnet_group_description" => "CacheSubnetGroupDescription",
+    "global_replication_group_description" => "GlobalReplicationGroupDescription",
+    "reset_all_parameters" => "ResetAllParameters",
+    "preferred_outpost_arn" => "PreferredOutpostArn",
+    "append_access_string" => "AppendAccessString",
+    "num_cache_nodes" => "NumCacheNodes",
+    "auth_token" => "AuthToken",
+    "service_update_time_range" => "ServiceUpdateTimeRange",
+    "port" => "Port",
+    "snapshotting_cluster_id" => "SnapshottingClusterId",
+    "user_group_ids_to_add" => "UserGroupIdsToAdd",
+    "access_string" => "AccessString",
+    "cache_security_group_names" => "CacheSecurityGroupName",
+    "multi_azenabled" => "MultiAZEnabled",
+    "notification_topic_arn" => "NotificationTopicArn",
+    "snapshot_window" => "SnapshotWindow",
+    "automatic_failover_enabled" => "AutomaticFailoverEnabled",
+    "subnet_ids" => "SubnetIdentifier",
+    "retain_primary_cluster" => "RetainPrimaryCluster",
+    "at_rest_encryption_enabled" => "AtRestEncryptionEnabled",
+    "global_replication_group_id" => "GlobalReplicationGroupId",
+    "parameter_name_values" => "ParameterNameValue",
+    "apply_immediately" => "ApplyImmediately",
+    "num_node_groups" => "NumNodeGroups",
+    "snapshot_arns" => "SnapshotArn",
+    "auth_token_update_strategy" => "AuthTokenUpdateStrategy",
+    "new_availability_zones" => "PreferredAvailabilityZone",
+    "global_node_groups_to_retain" => "GlobalNodeGroupId",
+    "engine_version" => "EngineVersion",
+    "replication_group_description" => "ReplicationGroupDescription",
+    "snapshot_retention_limit" => "SnapshotRetentionLimit",
+    "target_bucket" => "TargetBucket",
+    "azmode" => "AZMode",
+    "user_ids_to_add" => "UserIdsToAdd",
+    "node_groups_to_retain" => "NodeGroupToRetain",
+    "primary_cluster_id" => "PrimaryClusterId",
+    "show_cache_node_info" => "ShowCacheNodeInfo",
+    "replica_configuration" => "ConfigureShard",
+    "cache_node_type" => "CacheNodeType",
+    "global_node_groups_to_remove" => "GlobalNodeGroupId",
+    "security_group_ids" => "SecurityGroupId",
+    "cache_parameter_group_family" => "CacheParameterGroupFamily",
+    "source" => "Source",
+    "marker" => "Marker",
+    "preferred_cache_cluster_azs" => "AvailabilityZone",
+    "tags" => "Tag",
+    "show_node_group_config" => "ShowNodeGroupConfig",
+    "node_group_configuration" => "NodeGroupConfiguration",
+    "replication_group_ids" => "ReplicationGroupIds",
+    "replication_group_id" => "ReplicationGroupId",
+    "auto_minor_version_upgrade" => "AutoMinorVersionUpgrade",
+    "cache_parameter_group_name" => "CacheParameterGroupName",
+    "cache_security_group_name" => "CacheSecurityGroupName",
+    "end_time" => "EndTime",
+    "product_description" => "ProductDescription",
+    "new_replica_count" => "NewReplicaCount",
+    "resharding_configuration" => "ReshardingConfiguration",
+    "source_type" => "SourceType",
+    "replicas_to_remove" => "ReplicasToRemove",
+    "duration" => "Duration",
+    "show_cache_clusters_not_in_replication_groups" => "ShowCacheClustersNotInReplicationGroups",
+    "num_cache_clusters" => "NumCacheClusters",
+    "preferred_maintenance_window" => "PreferredMaintenanceWindow",
+    "user_group_id" => "UserGroupId",
+    "cache_cluster_ids" => "CacheClusterIds",
+    "user_ids" => "UserIds",
+    "preferred_availability_zones" => "PreferredAvailabilityZone",
+    "engine" => "Engine",
+    "snapshot_source" => "SnapshotSource",
+    "filters" => "Filters",
+    "no_password_required" => "NoPasswordRequired",
+    "replicas_per_node_group" => "ReplicasPerNodeGroup",
+    "final_snapshot_identifier" => "FinalSnapshotIdentifier",
+    "source_identifier" => "SourceIdentifier",
+    "remove_user_groups" => "RemoveUserGroups",
+)
+
 """
-    add_tags_to_resource(resource_name, tag)
-    add_tags_to_resource(resource_name, tag, params::Dict{String,<:Any})
+    add_tags_to_resource(resource_name, tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A tag is a key-value pair where the key and value are case-sensitive. You can use tags to
 categorize and track all your ElastiCache resources, with the exception of global
@@ -28,27 +137,11 @@ ElastiCache in the ElastiCache User Guide.
 - `tag`: A list of tags to be added to this resource. A tag is a key-value pair. A tag key
   must be accompanied by a tag value, although null is accepted.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
-  key must be accompanied by a tag value, although null is accepted.
 """
 function add_tags_to_resource(
-    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, Tag; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "AddTagsToResource",
-        Dict{String,Any}("ResourceName" => ResourceName, "Tag" => Tag);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_tags_to_resource(
-    ResourceName,
-    Tag,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "AddTagsToResource",
         Dict{String,Any}(
@@ -64,8 +157,7 @@ function add_tags_to_resource(
 end
 
 """
-    authorize_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id)
-    authorize_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id, params::Dict{String,<:Any})
+    authorize_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows network ingress to a cache security group. Applications using ElastiCache must be
 running on Amazon EC2, and Amazon EC2 security groups are used as the authorization
@@ -86,25 +178,9 @@ function authorize_cache_security_group_ingress(
     EC2SecurityGroupName,
     EC2SecurityGroupOwnerId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "AuthorizeCacheSecurityGroupIngress",
-        Dict{String,Any}(
-            "CacheSecurityGroupName" => CacheSecurityGroupName,
-            "EC2SecurityGroupName" => EC2SecurityGroupName,
-            "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function authorize_cache_security_group_ingress(
-    CacheSecurityGroupName,
-    EC2SecurityGroupName,
-    EC2SecurityGroupOwnerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "AuthorizeCacheSecurityGroupIngress",
         Dict{String,Any}(
@@ -124,8 +200,7 @@ function authorize_cache_security_group_ingress(
 end
 
 """
-    batch_apply_update_action(service_update_name)
-    batch_apply_update_action(service_update_name, params::Dict{String,<:Any})
+    batch_apply_update_action(service_update_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Apply the service update. For more information on service updates and applying them, see
 Applying Service Updates.
@@ -134,25 +209,14 @@ Applying Service Updates.
 - `service_update_name`: The unique ID of the service update
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterIds"`: The cache cluster IDs
-- `"ReplicationGroupIds"`: The replication group IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_ids"`: The cache cluster IDs
+- `"replication_group_ids"`: The replication group IDs
 """
 function batch_apply_update_action(
-    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "BatchApplyUpdateAction",
-        Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_apply_update_action(
-    ServiceUpdateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "BatchApplyUpdateAction",
         Dict{String,Any}(
@@ -166,8 +230,7 @@ function batch_apply_update_action(
 end
 
 """
-    batch_stop_update_action(service_update_name)
-    batch_stop_update_action(service_update_name, params::Dict{String,<:Any})
+    batch_stop_update_action(service_update_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stop the service update. For more information on service updates and stopping them, see
 Stopping Service Updates.
@@ -176,25 +239,14 @@ Stopping Service Updates.
 - `service_update_name`: The unique ID of the service update
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterIds"`: The cache cluster IDs
-- `"ReplicationGroupIds"`: The replication group IDs
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_ids"`: The cache cluster IDs
+- `"replication_group_ids"`: The replication group IDs
 """
 function batch_stop_update_action(
-    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceUpdateName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "BatchStopUpdateAction",
-        Dict{String,Any}("ServiceUpdateName" => ServiceUpdateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_stop_update_action(
-    ServiceUpdateName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "BatchStopUpdateAction",
         Dict{String,Any}(
@@ -208,8 +260,7 @@ function batch_stop_update_action(
 end
 
 """
-    complete_migration(replication_group_id)
-    complete_migration(replication_group_id, params::Dict{String,<:Any})
+    complete_migration(replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Complete the migration of data.
 
@@ -217,26 +268,15 @@ Complete the migration of data.
 - `replication_group_id`: The ID of the replication group to which data is being migrated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Force"`: Forces the migration to stop without ensuring that data is in sync. It is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"force"`: Forces the migration to stop without ensuring that data is in sync. It is
   recommended to use this option only to abort the migration and not recommended when
   application wants to continue migration to ElastiCache.
 """
 function complete_migration(
-    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "CompleteMigration",
-        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function complete_migration(
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CompleteMigration",
         Dict{String,Any}(
@@ -250,8 +290,7 @@ function complete_migration(
 end
 
 """
-    copy_snapshot(source_snapshot_name, target_snapshot_name)
-    copy_snapshot(source_snapshot_name, target_snapshot_name, params::Dict{String,<:Any})
+    copy_snapshot(source_snapshot_name, target_snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Makes a copy of an existing snapshot.  This operation is valid for Redis only.   Users or
 groups that have permissions to use the CopySnapshot operation can create their own Amazon
@@ -289,11 +328,11 @@ ElastiCache Access to Your Amazon S3 Bucket in the ElastiCache User Guide.
   or an Amazon S3 bucket if exporting.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"KmsKeyId"`: The ID of the KMS key used to encrypt the target snapshot.
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"kms_key_id"`: The ID of the KMS key used to encrypt the target snapshot.
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
-- `"TargetBucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
+- `"target_bucket"`: The Amazon S3 bucket to which the snapshot is exported. This parameter
   is used only when exporting a snapshot for external access. When using this parameter to
   export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket.
   For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the
@@ -304,23 +343,9 @@ function copy_snapshot(
     SourceSnapshotName,
     TargetSnapshotName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CopySnapshot",
-        Dict{String,Any}(
-            "SourceSnapshotName" => SourceSnapshotName,
-            "TargetSnapshotName" => TargetSnapshotName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_snapshot(
-    SourceSnapshotName,
-    TargetSnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CopySnapshot",
         Dict{String,Any}(
@@ -339,8 +364,7 @@ function copy_snapshot(
 end
 
 """
-    create_cache_cluster(cache_cluster_id)
-    create_cache_cluster(cache_cluster_id, params::Dict{String,<:Any})
+    create_cache_cluster(cache_cluster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a cluster. All nodes in the cluster run the same protocol-compliant cache engine
 software, either Memcached or Redis. This operation is not supported for Redis (cluster
@@ -353,19 +377,19 @@ mode enabled) clusters.
   contain two consecutive hyphens.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AZMode"`: Specifies whether the nodes in this Memcached cluster are created in a single
-  Availability Zone or created across multiple Availability Zones in the cluster's region.
-  This parameter is only supported for Memcached clusters. If the AZMode and
-  PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
-- `"AuthToken"`:  Reserved parameter. The password used to access a password protected
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auth_token"`:  Reserved parameter. The password used to access a password protected
   server. Password constraints:   Must be only printable ASCII characters.   Must be at least
   16 characters and no more than 128 characters in length.   The only permitted printable
   special characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special
   characters cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
-- `"CacheNodeType"`: The compute and memory capacity of the nodes in the node group
+- `"auto_minor_version_upgrade"`: This parameter is currently disabled.
+- `"azmode"`: Specifies whether the nodes in this Memcached cluster are created in a single
+  Availability Zone or created across multiple Availability Zones in the cluster's region.
+  This parameter is only supported for Memcached clusters. If the AZMode and
+  PreferredAvailabilityZones are not specified, ElastiCache assumes single-az mode.
+- `"cache_node_type"`: The compute and memory capacity of the nodes in the node group
   (shard). The following node types are supported by ElastiCache. Generally speaking, the
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
@@ -395,100 +419,89 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
   not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
   are not supported on Redis version 2.8.22 and later.
-- `"CacheParameterGroupName"`: The name of the parameter group to associate with this
+- `"cache_parameter_group_name"`: The name of the parameter group to associate with this
   cluster. If this argument is omitted, the default parameter group for the specified engine
   is used. You cannot use any parameter group which has cluster-enabled='yes' when creating a
   cluster.
-- `"CacheSecurityGroupNames"`: A list of security group names to associate with this
+- `"cache_security_group_names"`: A list of security group names to associate with this
   cluster. Use this parameter only when you are creating a cluster outside of an Amazon
   Virtual Private Cloud (Amazon VPC).
-- `"CacheSubnetGroupName"`: The name of the subnet group to be used for the cluster. Use
+- `"cache_subnet_group_name"`: The name of the subnet group to be used for the cluster. Use
   this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud
   (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create
   a subnet group before you start creating a cluster. For more information, see Subnets and
   Subnet Groups.
-- `"Engine"`: The name of the cache engine to be used for this cluster. Valid values for
+- `"engine"`: The name of the cache engine to be used for this cluster. Valid values for
   this parameter are: memcached | redis
-- `"EngineVersion"`: The version number of the cache engine to be used for this cluster. To
-  view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
-  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and
+- `"engine_version"`: The version number of the cache engine to be used for this cluster.
+  To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
+   Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and
   Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster or replication group and
   create it anew with the earlier engine version.
-- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
-- `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple
+- `"log_delivery_configurations"`: Specifies the destination, format and type of the logs.
+- `"notification_topic_arn"`: The Amazon Resource Name (ARN) of the Amazon Simple
   Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic
   owner must be the same as the cluster owner.
-- `"NumCacheNodes"`: The initial number of cache nodes that the cluster has. For clusters
+- `"num_cache_nodes"`: The initial number of cache nodes that the cluster has. For clusters
   running Redis, this value must be 1. For clusters running Memcached, this value must be
   between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill
   out the ElastiCache Limit Increase Request form at
   http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
-- `"OutpostMode"`: Specifies whether the nodes in the cluster are created in a single
+- `"outpost_mode"`: Specifies whether the nodes in the cluster are created in a single
   outpost or across multiple outposts.
-- `"Port"`: The port number on which each of the cache nodes accepts connections.
-- `"PreferredAvailabilityZone"`: The EC2 Availability Zone in which the cluster is created.
-  All nodes belonging to this cluster are placed in the preferred Availability Zone. If you
-  want to create your nodes across multiple Availability Zones, use
+- `"port"`: The port number on which each of the cache nodes accepts connections.
+- `"preferred_availability_zone"`: The EC2 Availability Zone in which the cluster is
+  created. All nodes belonging to this cluster are placed in the preferred Availability Zone.
+  If you want to create your nodes across multiple Availability Zones, use
   PreferredAvailabilityZones. Default: System chosen Availability Zone.
-- `"PreferredAvailabilityZones"`: A list of the Availability Zones in which cache nodes are
-  created. The order of the zones in the list is not important. This option is only supported
-  on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only
-  locate nodes in Availability Zones that are associated with the subnets in the selected
-  subnet group. The number of Availability Zones listed must equal the value of
+- `"preferred_availability_zones"`: A list of the Availability Zones in which cache nodes
+  are created. The order of the zones in the list is not important. This option is only
+  supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended)
+  you can only locate nodes in Availability Zones that are associated with the subnets in the
+  selected subnet group. The number of Availability Zones listed must equal the value of
   NumCacheNodes.  If you want all the nodes in the same Availability Zone, use
   PreferredAvailabilityZone instead, or repeat the Availability Zone multiple times in the
   list. Default: System chosen Availability Zones.
-- `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
-  on the cluster is performed. It is specified as a range in the format
+- `"preferred_maintenance_window"`: Specifies the weekly time range during which
+  maintenance on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are:
-- `"PreferredOutpostArn"`: The outpost ARN in which the cache cluster is created.
-- `"PreferredOutpostArns"`: The outpost ARNs in which the cache cluster is created.
-- `"ReplicationGroupId"`: The ID of the replication group to which this cluster should
+- `"preferred_outpost_arn"`: The outpost ARN in which the cache cluster is created.
+- `"preferred_outpost_arns"`: The outpost ARNs in which the cache cluster is created.
+- `"replication_group_id"`: The ID of the replication group to which this cluster should
   belong. If this parameter is specified, the cluster is added to the specified replication
   group as a read replica; otherwise, the cluster is a standalone primary that is not part of
   any replication group. If the specified replication group is Multi-AZ enabled and the
   Availability Zone is not specified, the cluster is created in Availability Zones that
   provide the best spread of read replicas across Availability Zones.  This parameter is only
   valid if the Engine parameter is redis.
-- `"SecurityGroupIds"`: One or more VPC security groups associated with the cluster. Use
+- `"security_group_ids"`: One or more VPC security groups associated with the cluster. Use
   this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud
   (Amazon VPC).
-- `"SnapshotArns"`: A single-element string list containing an Amazon Resource Name (ARN)
+- `"snapshot_arns"`: A single-element string list containing an Amazon Resource Name (ARN)
   that uniquely identifies a Redis RDB snapshot file stored in Amazon S3. The snapshot file
   is used to populate the node group (shard). The Amazon S3 object name in the ARN cannot
   contain any commas.  This parameter is only valid if the Engine parameter is redis.
   Example of an Amazon S3 ARN: arn:aws:s3:::my_bucket/snapshot1.rdb
-- `"SnapshotName"`: The name of a Redis snapshot from which to restore data into the new
+- `"snapshot_name"`: The name of a Redis snapshot from which to restore data into the new
   node group (shard). The snapshot status changes to restoring while the new node group
   (shard) is being created.  This parameter is only valid if the Engine parameter is redis.
-- `"SnapshotRetentionLimit"`: The number of days for which ElastiCache retains automatic
+- `"snapshot_retention_limit"`: The number of days for which ElastiCache retains automatic
   snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a
   snapshot taken today is retained for 5 days before being deleted.  This parameter is only
   valid if the Engine parameter is redis.  Default: 0 (i.e., automatic backups are disabled
   for this cache cluster).
-- `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
+- `"snapshot_window"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify
   this parameter, ElastiCache automatically chooses an appropriate time range.  This
   parameter is only valid if the Engine parameter is redis.
-- `"Tags"`: A list of tags to be added to this resource.
+- `"tags"`: A list of tags to be added to this resource.
 """
 function create_cache_cluster(
-    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "CreateCacheCluster",
-        Dict{String,Any}("CacheClusterId" => CacheClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cache_cluster(
-    CacheClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateCacheCluster",
         Dict{String,Any}(
@@ -500,8 +513,7 @@ function create_cache_cluster(
 end
 
 """
-    create_cache_parameter_group(cache_parameter_group_family, cache_parameter_group_name, description)
-    create_cache_parameter_group(cache_parameter_group_family, cache_parameter_group_name, description, params::Dict{String,<:Any})
+    create_cache_parameter_group(cache_parameter_group_family, cache_parameter_group_name, description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter
 group is a collection of parameters and their values that are applied to all of the nodes
@@ -520,8 +532,8 @@ Groups in the ElastiCache User Guide.
 - `description`: A user-specified description for the cache parameter group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_parameter_group(
@@ -529,25 +541,9 @@ function create_cache_parameter_group(
     CacheParameterGroupName,
     Description;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CreateCacheParameterGroup",
-        Dict{String,Any}(
-            "CacheParameterGroupFamily" => CacheParameterGroupFamily,
-            "CacheParameterGroupName" => CacheParameterGroupName,
-            "Description" => Description,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cache_parameter_group(
-    CacheParameterGroupFamily,
-    CacheParameterGroupName,
-    Description,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateCacheParameterGroup",
         Dict{String,Any}(
@@ -567,8 +563,7 @@ function create_cache_parameter_group(
 end
 
 """
-    create_cache_security_group(cache_security_group_name, description)
-    create_cache_security_group(cache_security_group_name, description, params::Dict{String,<:Any})
+    create_cache_security_group(cache_security_group_name, description; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new cache security group. Use a cache security group to control access to one or
 more clusters. Cache security groups are only used when you are creating a cluster outside
@@ -582,28 +577,17 @@ VPC, use a cache subnet group instead. For more information, see CreateCacheSubn
 - `description`: A description for the cache security group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_security_group(
-    CacheSecurityGroupName, Description; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "CreateCacheSecurityGroup",
-        Dict{String,Any}(
-            "CacheSecurityGroupName" => CacheSecurityGroupName, "Description" => Description
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cache_security_group(
     CacheSecurityGroupName,
-    Description,
-    params::AbstractDict{String};
+    Description;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateCacheSecurityGroup",
         Dict{String,Any}(
@@ -622,8 +606,7 @@ function create_cache_security_group(
 end
 
 """
-    create_cache_subnet_group(cache_subnet_group_description, cache_subnet_group_name, subnet_identifier)
-    create_cache_subnet_group(cache_subnet_group_description, cache_subnet_group_name, subnet_identifier, params::Dict{String,<:Any})
+    create_cache_subnet_group(cache_subnet_group_description, cache_subnet_group_name, subnet_identifier; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new cache subnet group. Use this parameter only when you are creating a cluster
 in an Amazon Virtual Private Cloud (Amazon VPC).
@@ -636,9 +619,8 @@ in an Amazon Virtual Private Cloud (Amazon VPC).
 - `subnet_identifier`: A list of VPC subnet IDs for the cache subnet group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SubnetIds"`: A list of VPC subnet IDs for the cache subnet group.
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function create_cache_subnet_group(
@@ -646,25 +628,9 @@ function create_cache_subnet_group(
     CacheSubnetGroupName,
     SubnetIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CreateCacheSubnetGroup",
-        Dict{String,Any}(
-            "CacheSubnetGroupDescription" => CacheSubnetGroupDescription,
-            "CacheSubnetGroupName" => CacheSubnetGroupName,
-            "SubnetIdentifier" => SubnetIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_cache_subnet_group(
-    CacheSubnetGroupDescription,
-    CacheSubnetGroupName,
-    SubnetIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateCacheSubnetGroup",
         Dict{String,Any}(
@@ -684,8 +650,7 @@ function create_cache_subnet_group(
 end
 
 """
-    create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id)
-    create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id, params::Dict{String,<:Any})
+    create_global_replication_group(global_replication_group_id_suffix, primary_replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Global Datastore for Redis offers fully managed, fast, reliable and secure cross-region
 replication. Using Global Datastore for Redis, you can create cross-region read replica
@@ -707,30 +672,16 @@ and will replicate updates to the secondary cluster.
   will replicate updates to the secondary cluster.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalReplicationGroupDescription"`: Provides details of the Global datastore
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_replication_group_description"`: Provides details of the Global datastore
 """
 function create_global_replication_group(
     GlobalReplicationGroupIdSuffix,
     PrimaryReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CreateGlobalReplicationGroup",
-        Dict{String,Any}(
-            "GlobalReplicationGroupIdSuffix" => GlobalReplicationGroupIdSuffix,
-            "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_global_replication_group(
-    GlobalReplicationGroupIdSuffix,
-    PrimaryReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateGlobalReplicationGroup",
         Dict{String,Any}(
@@ -749,8 +700,7 @@ function create_global_replication_group(
 end
 
 """
-    create_replication_group(replication_group_description, replication_group_id)
-    create_replication_group(replication_group_description, replication_group_id, params::Dict{String,<:Any})
+    create_replication_group(replication_group_description, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Redis (cluster mode disabled) or a Redis (cluster mode enabled) replication
 group. This API can be used to create a standalone regional replication group or a
@@ -784,13 +734,14 @@ Redis only.
   contain two consecutive hyphens.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AtRestEncryptionEnabled"`: A flag that enables encryption at rest when set to true. You
-  cannot modify the value of AtRestEncryptionEnabled after the replication group is created.
-  To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to
-  true when you create the replication group.   Required: Only available when creating a
-  replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
-- `"AuthToken"`:  Reserved parameter. The password used to access a password protected
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"at_rest_encryption_enabled"`: A flag that enables encryption at rest when set to true.
+  You cannot modify the value of AtRestEncryptionEnabled after the replication group is
+  created. To enable encryption at rest on a replication group you must set
+  AtRestEncryptionEnabled to true when you create the replication group.   Required: Only
+  available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x
+  or later. Default: false
+- `"auth_token"`:  Reserved parameter. The password used to access a password protected
   server.  AuthToken can be specified only on replication groups where
   TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify
   TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password
@@ -799,11 +750,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters are !, &amp;, #, , ^, &lt;, &gt;, and -. Other printable special characters
   cannot be used in the AUTH token.   For more information, see AUTH password at
   http://redis.io/commands/AUTH.
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
-- `"AutomaticFailoverEnabled"`: Specifies whether a read-only replica is automatically
+- `"auto_minor_version_upgrade"`: This parameter is currently disabled.
+- `"automatic_failover_enabled"`: Specifies whether a read-only replica is automatically
   promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled
   must be enabled for Redis (cluster mode enabled) replication groups. Default: false
-- `"CacheNodeType"`: The compute and memory capacity of the nodes in the node group
+- `"cache_node_type"`: The compute and memory capacity of the nodes in the node group
   (shard). The following node types are supported by ElastiCache. Generally speaking, the
   current generation types provide more memory and computational power at lower cost when
   compared to their equivalent previous generation counterparts.   General purpose:   Current
@@ -833,133 +784,119 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
   not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
   are not supported on Redis version 2.8.22 and later.
-- `"CacheParameterGroupName"`: The name of the parameter group to associate with this
+- `"cache_parameter_group_name"`: The name of the parameter group to associate with this
   replication group. If this argument is omitted, the default cache parameter group for the
   specified engine is used. If you are running Redis version 3.2.4 or later, only one node
   group (shard), and want to use a default parameter group, we recommend that you specify the
   parameter group by name.    To create a Redis (cluster mode disabled) replication group,
   use CacheParameterGroupName=default.redis3.2.   To create a Redis (cluster mode enabled)
   replication group, use CacheParameterGroupName=default.redis3.2.cluster.on.
-- `"CacheSecurityGroupNames"`: A list of cache security group names to associate with this
-  replication group.
-- `"CacheSubnetGroupName"`: The name of the cache subnet group to be used for the
+- `"cache_security_group_names"`: A list of cache security group names to associate with
+  this replication group.
+- `"cache_subnet_group_name"`: The name of the cache subnet group to be used for the
   replication group.  If you're going to launch your cluster in an Amazon VPC, you need to
   create a subnet group before you start creating a cluster. For more information, see
   Subnets and Subnet Groups.
-- `"Engine"`: The name of the cache engine to be used for the clusters in this replication
+- `"engine"`: The name of the cache engine to be used for the clusters in this replication
   group. Must be Redis.
-- `"EngineVersion"`: The version number of the cache engine to be used for the clusters in
+- `"engine_version"`: The version number of the cache engine to be used for the clusters in
   this replication group. To view the supported cache engine versions, use the
   DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine
   version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you
   cannot downgrade to an earlier engine version. If you want to use an earlier engine
   version, you must delete the existing cluster or replication group and create it anew with
   the earlier engine version.
-- `"GlobalReplicationGroupId"`: The name of the Global datastore
-- `"KmsKeyId"`: The ID of the KMS key used to encrypt the disk in the cluster.
-- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
-- `"MultiAZEnabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
+- `"global_replication_group_id"`: The name of the Global datastore
+- `"kms_key_id"`: The ID of the KMS key used to encrypt the disk in the cluster.
+- `"log_delivery_configurations"`: Specifies the destination, format and type of the logs.
+- `"multi_azenabled"`: A flag indicating if you have Multi-AZ enabled to enhance fault
   tolerance. For more information, see Minimizing Downtime: Multi-AZ.
-- `"NodeGroupConfiguration"`: A list of node group (shard) configuration options. Each node
-  group (shard) configuration has the following members: PrimaryAvailabilityZone,
+- `"node_group_configuration"`: A list of node group (shard) configuration options. Each
+  node group (shard) configuration has the following members: PrimaryAvailabilityZone,
   ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Redis (cluster mode
   disabled) or a Redis (cluster mode enabled) replication group, you can use this parameter
   to individually configure each node group (shard), or you can omit this parameter. However,
   it is required when seeding a Redis (cluster mode enabled) cluster from a S3 rdb file. You
   must configure each node group (shard) using this parameter because you must specify the
   slots for each node group.
-- `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon Simple
+- `"notification_topic_arn"`: The Amazon Resource Name (ARN) of the Amazon Simple
   Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic
   owner must be the same as the cluster owner.
-- `"NumCacheClusters"`: The number of clusters this replication group initially has. This
+- `"num_cache_clusters"`: The number of clusters this replication group initially has. This
   parameter is not used if there is more than one node group (shard). You should use
   ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this
   parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this
   parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6.
   The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
-- `"NumNodeGroups"`: An optional parameter that specifies the number of node groups
+- `"num_node_groups"`: An optional parameter that specifies the number of node groups
   (shards) for this Redis (cluster mode enabled) replication group. For Redis (cluster mode
   disabled) either omit this parameter or set it to 1. Default: 1
-- `"Port"`: The port number on which each member of the replication group accepts
+- `"port"`: The port number on which each member of the replication group accepts
   connections.
-- `"PreferredCacheClusterAZs"`: A list of EC2 Availability Zones in which the replication
-  group's clusters are created. The order of the Availability Zones in the list is the order
-  in which clusters are allocated. The primary cluster is created in the first AZ in the
-  list. This parameter is not used if there is more than one node group (shard). You should
-  use NodeGroupConfiguration instead.  If you are creating your replication group in an
-  Amazon VPC (recommended), you can only locate clusters in Availability Zones associated
-  with the subnets in the selected subnet group. The number of Availability Zones listed must
-  equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
-- `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
-  on the cluster is performed. It is specified as a range in the format
+- `"preferred_cache_cluster_azs"`: A list of EC2 Availability Zones in which the
+  replication group's clusters are created. The order of the Availability Zones in the list
+  is the order in which clusters are allocated. The primary cluster is created in the first
+  AZ in the list. This parameter is not used if there is more than one node group (shard).
+  You should use NodeGroupConfiguration instead.  If you are creating your replication group
+  in an Amazon VPC (recommended), you can only locate clusters in Availability Zones
+  associated with the subnets in the selected subnet group. The number of Availability Zones
+  listed must equal the value of NumCacheClusters.  Default: system chosen Availability Zones.
+- `"preferred_maintenance_window"`: Specifies the weekly time range during which
+  maintenance on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are: Specifies the weekly time range during which maintenance
   on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat
   Example: sun:23:00-mon:01:30
-- `"PrimaryClusterId"`: The identifier of the cluster that serves as the primary for this
+- `"primary_cluster_id"`: The identifier of the cluster that serves as the primary for this
   replication group. This cluster must already exist and have a status of available. This
   parameter is not required if NumCacheClusters, NumNodeGroups, or ReplicasPerNodeGroup is
   specified.
-- `"ReplicasPerNodeGroup"`: An optional parameter that specifies the number of replica
+- `"replicas_per_node_group"`: An optional parameter that specifies the number of replica
   nodes in each node group (shard). Valid values are 0 to 5.
-- `"SecurityGroupIds"`: One or more Amazon VPC security groups associated with this
+- `"security_group_ids"`: One or more Amazon VPC security groups associated with this
   replication group. Use this parameter only when you are creating a replication group in an
   Amazon Virtual Private Cloud (Amazon VPC).
-- `"SnapshotArns"`: A list of Amazon Resource Names (ARN) that uniquely identify the Redis
+- `"snapshot_arns"`: A list of Amazon Resource Names (ARN) that uniquely identify the Redis
   RDB snapshot files stored in Amazon S3. The snapshot files are used to populate the new
   replication group. The Amazon S3 object name in the ARN cannot contain any commas. The new
   replication group will have the number of node groups (console: shards) specified by the
   parameter NumNodeGroups or the number of node groups configured by NodeGroupConfiguration
   regardless of the number of ARNs specified here. Example of an Amazon S3 ARN:
   arn:aws:s3:::my_bucket/snapshot1.rdb
-- `"SnapshotName"`: The name of a snapshot from which to restore data into the new
+- `"snapshot_name"`: The name of a snapshot from which to restore data into the new
   replication group. The snapshot status changes to restoring while the new replication group
   is being created.
-- `"SnapshotRetentionLimit"`: The number of days for which ElastiCache retains automatic
+- `"snapshot_retention_limit"`: The number of days for which ElastiCache retains automatic
   snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a
   snapshot that was taken today is retained for 5 days before being deleted. Default: 0
   (i.e., automatic backups are disabled for this cluster).
-- `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
+- `"snapshot_window"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of your node group (shard). Example: 05:00-09:00  If you do not specify
   this parameter, ElastiCache automatically chooses an appropriate time range.
-- `"Tags"`: A list of tags to be added to this resource. Tags are comma-separated key,value
+- `"tags"`: A list of tags to be added to this resource. Tags are comma-separated key,value
   pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following:
   Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication
   groups will be replicated to all nodes.
-- `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
-  You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To
-  enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
+- `"transit_encryption_enabled"`: A flag that enables in-transit encryption when set to
+  true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created.
+  To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true
   when you create a cluster. This parameter is valid only if the Engine parameter is redis,
   the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an
   Amazon VPC. If you enable in-transit encryption, you must also specify a value for
   CacheSubnetGroup.  Required: Only available when creating a replication group in an Amazon
   VPC using redis version 3.2.6, 4.x or later. Default: false   For HIPAA compliance, you
   must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
-- `"UserGroupIds"`: The user group to associate with the replication group.
+- `"user_group_ids"`: The user group to associate with the replication group.
 """
 function create_replication_group(
     ReplicationGroupDescription,
     ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CreateReplicationGroup",
-        Dict{String,Any}(
-            "ReplicationGroupDescription" => ReplicationGroupDescription,
-            "ReplicationGroupId" => ReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_replication_group(
-    ReplicationGroupDescription,
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateReplicationGroup",
         Dict{String,Any}(
@@ -978,8 +915,7 @@ function create_replication_group(
 end
 
 """
-    create_snapshot(snapshot_name)
-    create_snapshot(snapshot_name, params::Dict{String,<:Any})
+    create_snapshot(snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a copy of an entire cluster or replication group at a specific moment in time.
 This operation is valid for Redis only.
@@ -988,28 +924,19 @@ This operation is valid for Redis only.
 - `snapshot_name`: A name for the snapshot being created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterId"`: The identifier of an existing cluster. The snapshot is created from
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_id"`: The identifier of an existing cluster. The snapshot is created from
   this cluster.
-- `"KmsKeyId"`: The ID of the KMS key used to encrypt the snapshot.
-- `"ReplicationGroupId"`: The identifier of an existing replication group. The snapshot is
-  created from this replication group.
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+- `"kms_key_id"`: The ID of the KMS key used to encrypt the snapshot.
+- `"replication_group_id"`: The identifier of an existing replication group. The snapshot
+  is created from this replication group.
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
-function create_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "CreateSnapshot",
-        Dict{String,Any}("SnapshotName" => SnapshotName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_snapshot(
-    SnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateSnapshot",
         Dict{String,Any}(
@@ -1021,8 +948,7 @@ function create_snapshot(
 end
 
 """
-    create_user(access_string, engine, user_id, user_name)
-    create_user(access_string, engine, user_id, user_name, params::Dict{String,<:Any})
+    create_user(access_string, engine, user_id, user_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For Redis engine version 6.x onwards: Creates a Redis user. For more information, see Using
 Role Based Access Control (RBAC).
@@ -1034,11 +960,11 @@ Role Based Access Control (RBAC).
 - `user_name`: The username of the user.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NoPasswordRequired"`: Indicates a password is not required for this user.
-- `"Passwords"`: Passwords used for this user. You can create up to two passwords for each
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"no_password_required"`: Indicates a password is not required for this user.
+- `"passwords"`: Passwords used for this user. You can create up to two passwords for each
   user.
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function create_user(
@@ -1047,27 +973,9 @@ function create_user(
     UserId,
     UserName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "CreateUser",
-        Dict{String,Any}(
-            "AccessString" => AccessString,
-            "Engine" => Engine,
-            "UserId" => UserId,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user(
-    AccessString,
-    Engine,
-    UserId,
-    UserName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateUser",
         Dict{String,Any}(
@@ -1088,8 +996,7 @@ function create_user(
 end
 
 """
-    create_user_group(engine, user_group_id)
-    create_user_group(engine, user_group_id, params::Dict{String,<:Any})
+    create_user_group(engine, user_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For Redis engine version 6.x onwards: Creates a Redis user group. For more information, see
 Using Role Based Access Control (RBAC)
@@ -1099,27 +1006,15 @@ Using Role Based Access Control (RBAC)
 - `user_group_id`: The ID of the user group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
-- `"UserIds"`: The list of user IDs that belong to the user group.
+- `"user_ids"`: The list of user IDs that belong to the user group.
 """
 function create_user_group(
-    Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    Engine, UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "CreateUserGroup",
-        Dict{String,Any}("Engine" => Engine, "UserGroupId" => UserGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_user_group(
-    Engine,
-    UserGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "CreateUserGroup",
         Dict{String,Any}(
@@ -1135,8 +1030,7 @@ function create_user_group(
 end
 
 """
-    decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
-    decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count, params::Dict{String,<:Any})
+    decrease_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Decreases the number of node groups in a Global datastore
 
@@ -1148,13 +1042,13 @@ Decreases the number of node groups in a Global datastore
   of the shard configuration
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalNodeGroupsToRemove"`: If the value of NodeGroupCount is less than the current
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_node_groups_to_remove"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster.
   ElastiCache for Redis will attempt to remove all node groups listed by
   GlobalNodeGroupsToRemove from the cluster.
-- `"GlobalNodeGroupsToRetain"`: If the value of NodeGroupCount is less than the current
+- `"global_node_groups_to_retain"`: If the value of NodeGroupCount is less than the current
   number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is
   required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster.
   ElastiCache for Redis will attempt to retain all node groups listed by
@@ -1165,25 +1059,9 @@ function decrease_node_groups_in_global_replication_group(
     GlobalReplicationGroupId,
     NodeGroupCount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "DecreaseNodeGroupsInGlobalReplicationGroup",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-            "NodeGroupCount" => NodeGroupCount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function decrease_node_groups_in_global_replication_group(
-    ApplyImmediately,
-    GlobalReplicationGroupId,
-    NodeGroupCount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DecreaseNodeGroupsInGlobalReplicationGroup",
         Dict{String,Any}(
@@ -1203,8 +1081,7 @@ function decrease_node_groups_in_global_replication_group(
 end
 
 """
-    decrease_replica_count(apply_immediately, replication_group_id)
-    decrease_replica_count(apply_immediately, replication_group_id, params::Dict{String,<:Any})
+    decrease_replica_count(apply_immediately, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Dynamically decreases the number of replicas in a Redis (cluster mode disabled) replication
 group or the number of replica nodes in one or more node groups (shards) of a Redis
@@ -1218,40 +1095,28 @@ time.
   replica nodes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NewReplicaCount"`: The number of read replica nodes you want at the completion of this
-  operation. For Redis (cluster mode disabled) replication groups, this is the number of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"new_replica_count"`: The number of read replica nodes you want at the completion of
+  this operation. For Redis (cluster mode disabled) replication groups, this is the number of
   replica nodes in the replication group. For Redis (cluster mode enabled) replication
   groups, this is the number of replica nodes in each of the replication group's node groups.
   The minimum number of replicas in a shard or replication group is:   Redis (cluster mode
   disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Redis (cluster
   mode enabled): 0 (though you will not be able to failover to a replica if your primary node
   fails)
-- `"ReplicaConfiguration"`: A list of ConfigureShard objects that can be used to configure
+- `"replica_configuration"`: A list of ConfigureShard objects that can be used to configure
   each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has
   three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
-- `"ReplicasToRemove"`: A list of the node ids to remove from the replication group or node
-  group (shard).
+- `"replicas_to_remove"`: A list of the node ids to remove from the replication group or
+  node group (shard).
 """
 function decrease_replica_count(
-    ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "DecreaseReplicaCount",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "ReplicationGroupId" => ReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function decrease_replica_count(
     ApplyImmediately,
-    ReplicationGroupId,
-    params::AbstractDict{String};
+    ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DecreaseReplicaCount",
         Dict{String,Any}(
@@ -1270,8 +1135,7 @@ function decrease_replica_count(
 end
 
 """
-    delete_cache_cluster(cache_cluster_id)
-    delete_cache_cluster(cache_cluster_id, params::Dict{String,<:Any})
+    delete_cache_cluster(cache_cluster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a previously provisioned cluster. DeleteCacheCluster deletes all associated cache
 nodes, node endpoints and the cluster itself. When you receive a successful response from
@@ -1287,26 +1151,15 @@ group   A node group (shard) that has Multi-AZ mode enabled   A cluster from a R
   is not case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FinalSnapshotIdentifier"`: The user-supplied name of a final cluster snapshot. This is
-  the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"final_snapshot_identifier"`: The user-supplied name of a final cluster snapshot. This
+  is the unique name that identifies the snapshot. ElastiCache creates the snapshot, and then
   deletes the cluster immediately afterward.
 """
 function delete_cache_cluster(
-    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DeleteCacheCluster",
-        Dict{String,Any}("CacheClusterId" => CacheClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cache_cluster(
-    CacheClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteCacheCluster",
         Dict{String,Any}(
@@ -1318,8 +1171,7 @@ function delete_cache_cluster(
 end
 
 """
-    delete_cache_parameter_group(cache_parameter_group_name)
-    delete_cache_parameter_group(cache_parameter_group_name, params::Dict{String,<:Any})
+    delete_cache_parameter_group(cache_parameter_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified cache parameter group. You cannot delete a cache parameter group if
 it is associated with any cache clusters. You cannot delete the default cache parameter
@@ -1331,20 +1183,9 @@ groups in your account.
 
 """
 function delete_cache_parameter_group(
-    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DeleteCacheParameterGroup",
-        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cache_parameter_group(
-    CacheParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteCacheParameterGroup",
         Dict{String,Any}(
@@ -1360,8 +1201,7 @@ function delete_cache_parameter_group(
 end
 
 """
-    delete_cache_security_group(cache_security_group_name)
-    delete_cache_security_group(cache_security_group_name, params::Dict{String,<:Any})
+    delete_cache_security_group(cache_security_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a cache security group.  You cannot delete a cache security group if it is
 associated with any clusters.
@@ -1372,20 +1212,9 @@ associated with any clusters.
 
 """
 function delete_cache_security_group(
-    CacheSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheSecurityGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DeleteCacheSecurityGroup",
-        Dict{String,Any}("CacheSecurityGroupName" => CacheSecurityGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cache_security_group(
-    CacheSecurityGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteCacheSecurityGroup",
         Dict{String,Any}(
@@ -1401,8 +1230,7 @@ function delete_cache_security_group(
 end
 
 """
-    delete_cache_subnet_group(cache_subnet_group_name)
-    delete_cache_subnet_group(cache_subnet_group_name, params::Dict{String,<:Any})
+    delete_cache_subnet_group(cache_subnet_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a cache subnet group.  You cannot delete a default cache subnet group or one that
 is associated with any clusters.
@@ -1413,20 +1241,9 @@ is associated with any clusters.
 
 """
 function delete_cache_subnet_group(
-    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DeleteCacheSubnetGroup",
-        Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_cache_subnet_group(
-    CacheSubnetGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteCacheSubnetGroup",
         Dict{String,Any}(
@@ -1442,8 +1259,7 @@ function delete_cache_subnet_group(
 end
 
 """
-    delete_global_replication_group(global_replication_group_id, retain_primary_replication_group)
-    delete_global_replication_group(global_replication_group_id, retain_primary_replication_group, params::Dict{String,<:Any})
+    delete_global_replication_group(global_replication_group_id, retain_primary_replication_group; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deleting a Global datastore is a two-step process:    First, you must
 DisassociateGlobalReplicationGroup to remove the secondary clusters in the Global
@@ -1467,23 +1283,9 @@ function delete_global_replication_group(
     GlobalReplicationGroupId,
     RetainPrimaryReplicationGroup;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "DeleteGlobalReplicationGroup",
-        Dict{String,Any}(
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-            "RetainPrimaryReplicationGroup" => RetainPrimaryReplicationGroup,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_global_replication_group(
-    GlobalReplicationGroupId,
-    RetainPrimaryReplicationGroup,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteGlobalReplicationGroup",
         Dict{String,Any}(
@@ -1502,8 +1304,7 @@ function delete_global_replication_group(
 end
 
 """
-    delete_replication_group(replication_group_id)
-    delete_replication_group(replication_group_id, params::Dict{String,<:Any})
+    delete_replication_group(replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing replication group. By default, this operation deletes the entire
 replication group, including the primary/primaries and all of the read replicas. If the
@@ -1518,29 +1319,18 @@ for Redis only.
   not case sensitive.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FinalSnapshotIdentifier"`: The name of a final node group (shard) snapshot. ElastiCache
-  creates the snapshot from the primary node in the cluster, rather than one of the replicas;
-  this is to ensure that it captures the freshest data. After the final snapshot is taken,
-  the replication group is immediately deleted.
-- `"RetainPrimaryCluster"`: If set to true, all of the read replicas are deleted, but the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"final_snapshot_identifier"`: The name of a final node group (shard) snapshot.
+  ElastiCache creates the snapshot from the primary node in the cluster, rather than one of
+  the replicas; this is to ensure that it captures the freshest data. After the final
+  snapshot is taken, the replication group is immediately deleted.
+- `"retain_primary_cluster"`: If set to true, all of the read replicas are deleted, but the
   primary node is retained.
 """
 function delete_replication_group(
-    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DeleteReplicationGroup",
-        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_replication_group(
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteReplicationGroup",
         Dict{String,Any}(
@@ -1554,8 +1344,7 @@ function delete_replication_group(
 end
 
 """
-    delete_snapshot(snapshot_name)
-    delete_snapshot(snapshot_name, params::Dict{String,<:Any})
+    delete_snapshot(snapshot_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an existing snapshot. When you receive a successful response from this operation,
 ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this
@@ -1565,19 +1354,10 @@ operation.  This operation is valid for Redis only.
 - `snapshot_name`: The name of the snapshot to be deleted.
 
 """
-function delete_snapshot(SnapshotName; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DeleteSnapshot",
-        Dict{String,Any}("SnapshotName" => SnapshotName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_snapshot(
-    SnapshotName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    SnapshotName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteSnapshot",
         Dict{String,Any}(
@@ -1589,8 +1369,7 @@ function delete_snapshot(
 end
 
 """
-    delete_user(user_id)
-    delete_user(user_id, params::Dict{String,<:Any})
+    delete_user(user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For Redis engine version 6.x onwards: Deletes a user. The user will be removed from all
 user groups and in turn removed from all replication groups. For more information, see
@@ -1600,17 +1379,8 @@ Using Role Based Access Control (RBAC).
 - `user_id`: The ID of the user.
 
 """
-function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DeleteUser",
-        Dict{String,Any}("UserId" => UserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_user(
-    UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_user(UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteUser",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("UserId" => UserId), params));
@@ -1620,8 +1390,7 @@ function delete_user(
 end
 
 """
-    delete_user_group(user_group_id)
-    delete_user_group(user_group_id, params::Dict{String,<:Any})
+    delete_user_group(user_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 For Redis engine version 6.x onwards: Deletes a user group. The user group must first be
 disassociated from the replication group before it can be deleted. For more information,
@@ -1631,19 +1400,10 @@ see Using Role Based Access Control (RBAC).
 - `user_group_id`: The ID of the user group.
 
 """
-function delete_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DeleteUserGroup",
-        Dict{String,Any}("UserGroupId" => UserGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_group(
-    UserGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DeleteUserGroup",
         Dict{String,Any}(
@@ -1655,8 +1415,7 @@ function delete_user_group(
 end
 
 """
-    describe_cache_clusters()
-    describe_cache_clusters(params::Dict{String,<:Any})
+    describe_cache_clusters(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about all provisioned clusters if no cluster identifier is specified,
 or about a specific cache cluster if a cluster identifier is supplied. By default,
@@ -1672,30 +1431,28 @@ available, the cluster is ready for use. If cache nodes are currently being remo
 the cluster, no endpoint information for the removed nodes is displayed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterId"`: The user-supplied cluster identifier. If this parameter is specified,
-  only information about that specific cluster is returned. This parameter isn't case
-  sensitive.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_id"`: The user-supplied cluster identifier. If this parameter is
+  specified, only information about that specific cluster is returned. This parameter isn't
+  case sensitive.
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"ShowCacheClustersNotInReplicationGroups"`: An optional flag that can be included in the
-  DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not members of
-  a replication group. In practice, this mean Memcached and single node Redis clusters.
-- `"ShowCacheNodeInfo"`: An optional flag that can be included in the DescribeCacheCluster
-  request to retrieve information about the individual cache nodes.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"show_cache_clusters_not_in_replication_groups"`: An optional flag that can be included
+  in the DescribeCacheCluster request to show only nodes (API/CLI: clusters) that are not
+  members of a replication group. In practice, this mean Memcached and single node Redis
+  clusters.
+- `"show_cache_node_info"`: An optional flag that can be included in the
+  DescribeCacheCluster request to retrieve information about the individual cache nodes.
 """
-function describe_cache_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeCacheClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_cache_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_cache_clusters(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheClusters",
         params;
@@ -1705,39 +1462,33 @@ function describe_cache_clusters(
 end
 
 """
-    describe_cache_engine_versions()
-    describe_cache_engine_versions(params::Dict{String,<:Any})
+    describe_cache_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the available cache engines and their versions.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheParameterGroupFamily"`: The name of a specific cache parameter group family to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_parameter_group_family"`: The name of a specific cache parameter group family to
   return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6
   | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x |  Constraints:   Must be 1 to 255
   alphanumeric characters   First character must be a letter   Cannot end with a hyphen or
   contain two consecutive hyphens
-- `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
-  or engine and major version combination is to be returned.
-- `"Engine"`: The cache engine to return. Valid values: memcached | redis
-- `"EngineVersion"`: The cache engine version to return. Example: 1.4.14
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"default_only"`: If true, specifies that only the default version of the specified
+  engine or engine and major version combination is to be returned.
+- `"engine"`: The cache engine to return. Valid values: memcached | redis
+- `"engine_version"`: The cache engine version to return. Example: 1.4.14
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
 """
-function describe_cache_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeCacheEngineVersions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_cache_engine_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_cache_engine_versions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheEngineVersions",
         params;
@@ -1747,35 +1498,27 @@ function describe_cache_engine_versions(
 end
 
 """
-    describe_cache_parameter_groups()
-    describe_cache_parameter_groups(params::Dict{String,<:Any})
+    describe_cache_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of cache parameter group descriptions. If a cache parameter group name is
 specified, the list contains only the descriptions for that group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheParameterGroupName"`: The name of a specific cache parameter group to return
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_parameter_group_name"`: The name of a specific cache parameter group to return
   details for.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
 """
 function describe_cache_parameter_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DescribeCacheParameterGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_cache_parameter_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheParameterGroups",
         params;
@@ -1785,8 +1528,7 @@ function describe_cache_parameter_groups(
 end
 
 """
-    describe_cache_parameters(cache_parameter_group_name)
-    describe_cache_parameters(cache_parameter_group_name, params::Dict{String,<:Any})
+    describe_cache_parameters(cache_parameter_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the detailed parameter list for a particular cache parameter group.
 
@@ -1795,30 +1537,20 @@ Returns the detailed parameter list for a particular cache parameter group.
   details for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"Source"`: The parameter types to return. Valid values: user | system | engine-default
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"source"`: The parameter types to return. Valid values: user | system | engine-default
 """
 function describe_cache_parameters(
-    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DescribeCacheParameters",
-        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_cache_parameters(
-    CacheParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheParameters",
         Dict{String,Any}(
@@ -1834,33 +1566,27 @@ function describe_cache_parameters(
 end
 
 """
-    describe_cache_security_groups()
-    describe_cache_security_groups(params::Dict{String,<:Any})
+    describe_cache_security_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of cache security group descriptions. If a cache security group name is
 specified, the list contains only the description of that group. This applicable only when
 you have ElastiCache in Classic setup
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheSecurityGroupName"`: The name of the cache security group to return details for.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_security_group_name"`: The name of the cache security group to return details for.
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
 """
-function describe_cache_security_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeCacheSecurityGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_cache_security_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_cache_security_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheSecurityGroups",
         params;
@@ -1870,31 +1596,27 @@ function describe_cache_security_groups(
 end
 
 """
-    describe_cache_subnet_groups()
-    describe_cache_subnet_groups(params::Dict{String,<:Any})
+    describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of cache subnet group descriptions. If a subnet group name is specified, the
 list contains only the description of that group. This is applicable only when you have
 ElastiCache in VPC setup. All ElastiCache clusters now launch in VPC by default.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheSubnetGroupName"`: The name of the cache subnet group to return details for.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_subnet_group_name"`: The name of the cache subnet group to return details for.
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
 """
-function describe_cache_subnet_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeCacheSubnetGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_cache_subnet_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_cache_subnet_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeCacheSubnetGroups",
         params;
@@ -1904,8 +1626,7 @@ function describe_cache_subnet_groups(
 end
 
 """
-    describe_engine_default_parameters(cache_parameter_group_family)
-    describe_engine_default_parameters(cache_parameter_group_family, params::Dict{String,<:Any})
+    describe_engine_default_parameters(cache_parameter_group_family; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the default engine and system parameter information for the specified cache engine.
 
@@ -1915,29 +1636,19 @@ Returns the default engine and system parameter information for the specified ca
   redis4.0 | redis5.0 | redis6.x |
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
 """
 function describe_engine_default_parameters(
-    CacheParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheParameterGroupFamily; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DescribeEngineDefaultParameters",
-        Dict{String,Any}("CacheParameterGroupFamily" => CacheParameterGroupFamily);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_engine_default_parameters(
-    CacheParameterGroupFamily,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeEngineDefaultParameters",
         Dict{String,Any}(
@@ -1953,8 +1664,7 @@ function describe_engine_default_parameters(
 end
 
 """
-    describe_events()
-    describe_events(params::Dict{String,<:Any})
+    describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns events related to clusters, cache security groups, and cache parameter groups. You
 can obtain events specific to a particular cluster, cache security group, or cache
@@ -1963,66 +1673,52 @@ within the last hour are returned; however, you can retrieve up to 14 days' wort
 if necessary.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Duration"`: The number of minutes worth of events to retrieve.
-- `"EndTime"`: The end of the time interval for which to retrieve events, specified in ISO
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"duration"`: The number of minutes worth of events to retrieve.
+- `"end_time"`: The end of the time interval for which to retrieve events, specified in ISO
   8601 format.  Example: 2017-03-30T07:03:49.555Z
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"SourceIdentifier"`: The identifier of the event source for which events are returned.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"source_identifier"`: The identifier of the event source for which events are returned.
   If not specified, all sources are included in the response.
-- `"SourceType"`: The event source to retrieve events for. If no value is specified, all
+- `"source_type"`: The event source to retrieve events for. If no value is specified, all
   events are returned.
-- `"StartTime"`: The beginning of the time interval to retrieve events for, specified in
+- `"start_time"`: The beginning of the time interval to retrieve events for, specified in
   ISO 8601 format.  Example: 2017-03-30T07:03:49.555Z
 """
-function describe_events(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeEvents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_events(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_global_replication_groups()
-    describe_global_replication_groups(params::Dict{String,<:Any})
+    describe_global_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a particular global replication group. If no identifier is
 specified, returns information about all Global datastores.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"GlobalReplicationGroupId"`: The name of the Global datastore
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"global_replication_group_id"`: The name of the Global datastore
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved.
-- `"ShowMemberInfo"`: Returns the list of members that comprise the Global datastore.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved.
+- `"show_member_info"`: Returns the list of members that comprise the Global datastore.
 """
 function describe_global_replication_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DescribeGlobalReplicationGroups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_global_replication_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeGlobalReplicationGroups",
         params;
@@ -2032,33 +1728,29 @@ function describe_global_replication_groups(
 end
 
 """
-    describe_replication_groups()
-    describe_replication_groups(params::Dict{String,<:Any})
+    describe_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about a particular replication group. If no identifier is specified,
 DescribeReplicationGroups returns information about all replication groups.  This operation
 is valid for Redis only.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"ReplicationGroupId"`: The identifier for the replication group to be described. This
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"replication_group_id"`: The identifier for the replication group to be described. This
   parameter is not case sensitive. If you do not specify this parameter, information about
   all replication groups is returned.
 """
-function describe_replication_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeReplicationGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_replication_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_replication_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeReplicationGroups",
         params;
@@ -2068,15 +1760,14 @@ function describe_replication_groups(
 end
 
 """
-    describe_reserved_cache_nodes()
-    describe_reserved_cache_nodes(params::Dict{String,<:Any})
+    describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about reserved cache nodes for this account, or about a specified
 reserved cache node.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheNodeType"`: The cache node type filter value. Use this parameter to show only
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_node_type"`: The cache node type filter value. Use this parameter to show only
   those reservations matching the specified cache node type. The following node types are
   supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
@@ -2106,34 +1797,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
   not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
   are not supported on Redis version 2.8.22 and later.
-- `"Duration"`: The duration filter value, specified in years or seconds. Use this
+- `"duration"`: The duration filter value, specified in years or seconds. Use this
   parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 |
   94608000
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"offering_type"`: The offering type filter value. Use this parameter to show only the
   available offerings matching the specified offering type. Valid values: \"Light
   Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\"|\"All Upfront\"|\"Partial
   Upfront\"| \"No Upfront\"
-- `"ProductDescription"`: The product description filter value. Use this parameter to show
+- `"product_description"`: The product description filter value. Use this parameter to show
   only those reservations matching the specified product description.
-- `"ReservedCacheNodeId"`: The reserved cache node identifier filter value. Use this
+- `"reserved_cache_node_id"`: The reserved cache node identifier filter value. Use this
   parameter to show only the reservation that matches the specified reservation ID.
-- `"ReservedCacheNodesOfferingId"`: The offering identifier filter value. Use this
+- `"reserved_cache_nodes_offering_id"`: The offering identifier filter value. Use this
   parameter to show only purchased reservations matching the specified offering identifier.
 """
-function describe_reserved_cache_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeReservedCacheNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_reserved_cache_nodes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_reserved_cache_nodes(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeReservedCacheNodes",
         params;
@@ -2143,16 +1831,15 @@ function describe_reserved_cache_nodes(
 end
 
 """
-    describe_reserved_cache_nodes_offerings()
-    describe_reserved_cache_nodes_offerings(params::Dict{String,<:Any})
+    describe_reserved_cache_nodes_offerings(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists available reserved cache node offerings.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheNodeType"`: The cache node type filter value. Use this parameter to show only the
-  available offerings matching the specified cache node type. The following node types are
-  supported by ElastiCache. Generally speaking, the current generation types provide more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_node_type"`: The cache node type filter value. Use this parameter to show only
+  the available offerings matching the specified cache node type. The following node types
+  are supported by ElastiCache. Generally speaking, the current generation types provide more
   memory and computational power at lower cost when compared to their equivalent previous
   generation counterparts.   General purpose:   Current generation:   M6g node types
   (available only for Redis engine version 5.0.6 onward and for Memcached engine version
@@ -2180,36 +1867,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (AOF) are not supported for T1 or T2 instances.   Redis Multi-AZ with automatic failover is
   not supported on T1 instances.   Redis configuration variables appendonly and appendfsync
   are not supported on Redis version 2.8.22 and later.
-- `"Duration"`: Duration filter value, specified in years or seconds. Use this parameter to
+- `"duration"`: Duration filter value, specified in years or seconds. Use this parameter to
   show only reservations for a given duration. Valid Values: 1 | 3 | 31536000 | 94608000
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum 100.
-- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 100 Constraints: minimum 20; maximum
+  100.
+- `"offering_type"`: The offering type filter value. Use this parameter to show only the
   available offerings matching the specified offering type. Valid Values: \"Light
   Utilization\"|\"Medium Utilization\"|\"Heavy Utilization\" |\"All Upfront\"|\"Partial
   Upfront\"| \"No Upfront\"
-- `"ProductDescription"`: The product description filter value. Use this parameter to show
+- `"product_description"`: The product description filter value. Use this parameter to show
   only the available offerings matching the specified product description.
-- `"ReservedCacheNodesOfferingId"`: The offering identifier filter value. Use this
+- `"reserved_cache_nodes_offering_id"`: The offering identifier filter value. Use this
   parameter to show only the available offering that matches the specified reservation
   identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
 """
 function describe_reserved_cache_nodes_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "DescribeReservedCacheNodesOfferings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_reserved_cache_nodes_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeReservedCacheNodesOfferings",
         params;
@@ -2219,28 +1899,23 @@ function describe_reserved_cache_nodes_offerings(
 end
 
 """
-    describe_service_updates()
-    describe_service_updates(params::Dict{String,<:Any})
+    describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details of the service updates
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response
-- `"ServiceUpdateName"`: The unique ID of the service update
-- `"ServiceUpdateStatus"`: The status of the service update
+- `"max_records"`: The maximum number of records to include in the response
+- `"service_update_name"`: The unique ID of the service update
+- `"service_update_status"`: The status of the service update
 """
-function describe_service_updates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeServiceUpdates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_service_updates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_service_updates(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeServiceUpdates",
         params;
@@ -2250,8 +1925,7 @@ function describe_service_updates(
 end
 
 """
-    describe_snapshots()
-    describe_snapshots(params::Dict{String,<:Any})
+    describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about cluster or replication group snapshots. By default,
 DescribeSnapshots lists all of your snapshots; it can optionally describe a single
@@ -2259,69 +1933,59 @@ snapshot, or just the snapshots associated with a particular cache cluster.  Thi
 is valid for Redis only.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterId"`: A user-supplied cluster identifier. If this parameter is specified,
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_id"`: A user-supplied cluster identifier. If this parameter is specified,
   only snapshots associated with that specific cluster are described.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum 50.
-- `"ReplicationGroupId"`: A user-supplied replication group identifier. If this parameter
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved. Default: 50 Constraints: minimum 20; maximum
+  50.
+- `"replication_group_id"`: A user-supplied replication group identifier. If this parameter
   is specified, only snapshots associated with that specific replication group are described.
-- `"ShowNodeGroupConfig"`: A Boolean value which if true, the node group (shard)
+- `"show_node_group_config"`: A Boolean value which if true, the node group (shard)
   configuration is included in the snapshot description.
-- `"SnapshotName"`: A user-supplied name of the snapshot. If this parameter is specified,
+- `"snapshot_name"`: A user-supplied name of the snapshot. If this parameter is specified,
   only this snapshot are described.
-- `"SnapshotSource"`: If set to system, the output shows snapshots that were automatically
+- `"snapshot_source"`: If set to system, the output shows snapshots that were automatically
   created by ElastiCache. If set to user the output shows snapshots that were manually
   created. If omitted, the output shows both automatically and manually created snapshots.
 """
-function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_snapshots(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeSnapshots", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_update_actions()
-    describe_update_actions(params::Dict{String,<:Any})
+    describe_update_actions(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns details of the update actions
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterIds"`: The cache cluster IDs
-- `"Engine"`: The Elasticache engine to which the update applies. Either Redis or Memcached
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_ids"`: The cache cluster IDs
+- `"engine"`: The Elasticache engine to which the update applies. Either Redis or Memcached
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords.
-- `"MaxRecords"`: The maximum number of records to include in the response
-- `"ReplicationGroupIds"`: The replication group IDs
-- `"ServiceUpdateName"`: The unique ID of the service update
-- `"ServiceUpdateStatus"`: The status of the service update
-- `"ServiceUpdateTimeRange"`: The range of time specified to search for service updates
+- `"max_records"`: The maximum number of records to include in the response
+- `"replication_group_ids"`: The replication group IDs
+- `"service_update_name"`: The unique ID of the service update
+- `"service_update_status"`: The status of the service update
+- `"service_update_time_range"`: The range of time specified to search for service updates
   that are in available status
-- `"ShowNodeLevelUpdateStatus"`: Dictates whether to include node level update status in
-  the response
-- `"UpdateActionStatus"`: The status of the update action.
+- `"show_node_level_update_status"`: Dictates whether to include node level update status
+  in the response
+- `"update_action_status"`: The status of the update action.
 """
-function describe_update_actions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeUpdateActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_update_actions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_update_actions(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeUpdateActions",
         params;
@@ -2331,68 +1995,55 @@ function describe_update_actions(
 end
 
 """
-    describe_user_groups()
-    describe_user_groups(params::Dict{String,<:Any})
+    describe_user_groups(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of user groups.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords. &gt;
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved.
-- `"UserGroupId"`: The ID of the user group.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved.
+- `"user_group_id"`: The ID of the user group.
 """
-function describe_user_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeUserGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_user_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_user_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeUserGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_users()
-    describe_users(params::Dict{String,<:Any})
+    describe_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of users.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Engine"`: The Redis engine.
-- `"Filters"`: Filter to determine the list of User IDs to return.
-- `"Marker"`: An optional marker returned from a prior request. Use this marker for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"engine"`: The Redis engine.
+- `"filters"`: Filter to determine the list of User IDs to return.
+- `"marker"`: An optional marker returned from a prior request. Use this marker for
   pagination of results from this operation. If this parameter is specified, the response
   includes only records beyond the marker, up to the value specified by MaxRecords. &gt;
-- `"MaxRecords"`: The maximum number of records to include in the response. If more records
-  exist than the specified MaxRecords value, a marker is included in the response so that the
-  remaining results can be retrieved.
-- `"UserId"`: The ID of the user.
+- `"max_records"`: The maximum number of records to include in the response. If more
+  records exist than the specified MaxRecords value, a marker is included in the response so
+  that the remaining results can be retrieved.
+- `"user_id"`: The ID of the user.
 """
-function describe_users(; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "DescribeUsers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_users(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_users(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DescribeUsers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region)
-    disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region, params::Dict{String,<:Any})
+    disassociate_global_replication_group(global_replication_group_id, replication_group_id, replication_group_region; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Remove a secondary cluster from the Global datastore using the Global datastore name. The
 secondary cluster will no longer receive updates from the primary cluster, but will remain
@@ -2411,25 +2062,9 @@ function disassociate_global_replication_group(
     ReplicationGroupId,
     ReplicationGroupRegion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "DisassociateGlobalReplicationGroup",
-        Dict{String,Any}(
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-            "ReplicationGroupId" => ReplicationGroupId,
-            "ReplicationGroupRegion" => ReplicationGroupRegion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_global_replication_group(
-    GlobalReplicationGroupId,
-    ReplicationGroupId,
-    ReplicationGroupRegion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "DisassociateGlobalReplicationGroup",
         Dict{String,Any}(
@@ -2449,8 +2084,7 @@ function disassociate_global_replication_group(
 end
 
 """
-    failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id)
-    failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id, params::Dict{String,<:Any})
+    failover_global_replication_group(global_replication_group_id, primary_region, primary_replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Used to failover the primary region to a selected secondary region. The selected secondary
 region will become primary, and all other clusters will become secondary.
@@ -2466,25 +2100,9 @@ function failover_global_replication_group(
     PrimaryRegion,
     PrimaryReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "FailoverGlobalReplicationGroup",
-        Dict{String,Any}(
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-            "PrimaryRegion" => PrimaryRegion,
-            "PrimaryReplicationGroupId" => PrimaryReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function failover_global_replication_group(
-    GlobalReplicationGroupId,
-    PrimaryRegion,
-    PrimaryReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "FailoverGlobalReplicationGroup",
         Dict{String,Any}(
@@ -2504,8 +2122,7 @@ function failover_global_replication_group(
 end
 
 """
-    increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count)
-    increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count, params::Dict{String,<:Any})
+    increase_node_groups_in_global_replication_group(apply_immediately, global_replication_group_id, node_group_count; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Increase the number of node groups in the Global datastore
 
@@ -2516,34 +2133,19 @@ Increase the number of node groups in the Global datastore
 - `node_group_count`: The number of node groups you wish to add
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"RegionalConfigurations"`: Describes the replication group IDs, the Amazon regions where
-  they are stored and the shard configuration for each that comprise the Global datastore
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"regional_configurations"`: Describes the replication group IDs, the Amazon regions
+  where they are stored and the shard configuration for each that comprise the Global
+  datastore
 """
 function increase_node_groups_in_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId,
     NodeGroupCount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "IncreaseNodeGroupsInGlobalReplicationGroup",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-            "NodeGroupCount" => NodeGroupCount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function increase_node_groups_in_global_replication_group(
-    ApplyImmediately,
-    GlobalReplicationGroupId,
-    NodeGroupCount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "IncreaseNodeGroupsInGlobalReplicationGroup",
         Dict{String,Any}(
@@ -2563,8 +2165,7 @@ function increase_node_groups_in_global_replication_group(
 end
 
 """
-    increase_replica_count(apply_immediately, replication_group_id)
-    increase_replica_count(apply_immediately, replication_group_id, params::Dict{String,<:Any})
+    increase_replica_count(apply_immediately, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Dynamically increases the number of replicas in a Redis (cluster mode disabled) replication
 group or the number of replica nodes in one or more node groups (shards) of a Redis
@@ -2578,34 +2179,22 @@ time.
   nodes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NewReplicaCount"`: The number of read replica nodes you want at the completion of this
-  operation. For Redis (cluster mode disabled) replication groups, this is the number of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"new_replica_count"`: The number of read replica nodes you want at the completion of
+  this operation. For Redis (cluster mode disabled) replication groups, this is the number of
   replica nodes in the replication group. For Redis (cluster mode enabled) replication
   groups, this is the number of replica nodes in each of the replication group's node groups.
-- `"ReplicaConfiguration"`: A list of ConfigureShard objects that can be used to configure
+- `"replica_configuration"`: A list of ConfigureShard objects that can be used to configure
   each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has
   three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
 """
 function increase_replica_count(
-    ApplyImmediately, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "IncreaseReplicaCount",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "ReplicationGroupId" => ReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function increase_replica_count(
     ApplyImmediately,
-    ReplicationGroupId,
-    params::AbstractDict{String};
+    ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "IncreaseReplicaCount",
         Dict{String,Any}(
@@ -2624,8 +2213,7 @@ function increase_replica_count(
 end
 
 """
-    list_allowed_node_type_modifications()
-    list_allowed_node_type_modifications(params::Dict{String,<:Any})
+    list_allowed_node_type_modifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all available node types that you can scale your Redis cluster's or replication
 group's current node type. When you use the ModifyCacheCluster or ModifyReplicationGroup
@@ -2633,29 +2221,21 @@ operations to scale your cluster or replication group, the value of the CacheNod
 parameter must be one of the node types returned by this operation.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheClusterId"`: The name of the cluster you want to scale up to a larger node
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_cluster_id"`: The name of the cluster you want to scale up to a larger node
   instanced type. ElastiCache uses the cluster id to identify the current node type of this
   cluster and from that to create a list of node types you can scale up to.  You must provide
   a value for either the CacheClusterId or the ReplicationGroupId.
-- `"ReplicationGroupId"`: The name of the replication group want to scale up to a larger
+- `"replication_group_id"`: The name of the replication group want to scale up to a larger
   node type. ElastiCache uses the replication group id to identify the current node type
   being used by this replication group, and from that to create a list of node types you can
   scale up to.  You must provide a value for either the CacheClusterId or the
   ReplicationGroupId.
 """
 function list_allowed_node_type_modifications(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ListAllowedNodeTypeModifications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_allowed_node_type_modifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ListAllowedNodeTypeModifications",
         params;
@@ -2665,8 +2245,7 @@ function list_allowed_node_type_modifications(
 end
 
 """
-    list_tags_for_resource(resource_name)
-    list_tags_for_resource(resource_name, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists all tags currently on a named resource.  A tag is a key-value pair where the key and
 value are case-sensitive. You can use tags to categorize and track all your ElastiCache
@@ -2683,20 +2262,9 @@ available state, ListTagsForResource returns an error.
 
 """
 function list_tags_for_resource(
-    ResourceName; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceName" => ResourceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -2708,8 +2276,7 @@ function list_tags_for_resource(
 end
 
 """
-    modify_cache_cluster(cache_cluster_id)
-    modify_cache_cluster(cache_cluster_id, params::Dict{String,<:Any})
+    modify_cache_cluster(cache_cluster_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the settings for a cluster. You can use this operation to change one or more
 cluster configuration parameters by specifying the parameters and the new values.
@@ -2718,56 +2285,56 @@ cluster configuration parameters by specifying the parameters and the new values
 - `cache_cluster_id`: The cluster identifier. This value is stored as a lowercase string.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AZMode"`: Specifies whether the new nodes in this Memcached cluster are all created in
-  a single Availability Zone or created across multiple Availability Zones. Valid values:
-  single-az | cross-az. This option is only supported for Memcached clusters.  You cannot
-  specify single-az if the Memcached cluster already has cache nodes in different
-  Availability Zones. If cross-az is specified, existing Memcached nodes remain in their
-  current Availability Zone. Only newly created nodes are located in different Availability
-  Zones.
-- `"ApplyImmediately"`: If true, this parameter causes the modifications in this request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apply_immediately"`: If true, this parameter causes the modifications in this request
   and any pending modifications to be applied, asynchronously and as soon as possible,
   regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to
   the cluster are applied on the next maintenance reboot, or the next failure reboot,
   whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification
   is applied, the pending modification is replaced by the newer modification.  Valid values:
   true | false  Default: false
-- `"AuthToken"`: Reserved parameter. The password used to access a password protected
+- `"auth_token"`: Reserved parameter. The password used to access a password protected
   server. This parameter must be specified with the auth-token-update parameter. Password
   constraints:   Must be only printable ASCII characters   Must be at least 16 characters and
   no more than 128 characters in length   Cannot contain any of the following characters:
   '/', '\"', or '@', '%'    For more information, see AUTH password at AUTH.
-- `"AuthTokenUpdateStrategy"`: Specifies the strategy to use to update the AUTH token. This
-  parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set
-    For more information, see Authenticating Users with Redis AUTH
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
-- `"CacheNodeIdsToRemove"`: A list of cache node IDs to be removed. A node ID is a numeric
-  identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is less than
-  the existing number of cache nodes. The number of cache node IDs supplied in this parameter
-  must match the difference between the existing number of cache nodes in the cluster or
-  pending cache nodes, whichever is greater, and the value of NumCacheNodes in the request.
-  For example: If you have 3 active cache nodes, 7 pending cache nodes, and the number of
-  cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache node IDs to
-  remove.
-- `"CacheNodeType"`: A valid cache node type that you want to scale this cluster up to.
-- `"CacheParameterGroupName"`: The name of the cache parameter group to apply to this
+- `"auth_token_update_strategy"`: Specifies the strategy to use to update the AUTH token.
+  This parameter must be specified with the auth-token parameter. Possible values:   Rotate
+  Set    For more information, see Authenticating Users with Redis AUTH
+- `"auto_minor_version_upgrade"`: This parameter is currently disabled.
+- `"azmode"`: Specifies whether the new nodes in this Memcached cluster are all created in
+  a single Availability Zone or created across multiple Availability Zones. Valid values:
+  single-az | cross-az. This option is only supported for Memcached clusters.  You cannot
+  specify single-az if the Memcached cluster already has cache nodes in different
+  Availability Zones. If cross-az is specified, existing Memcached nodes remain in their
+  current Availability Zone. Only newly created nodes are located in different Availability
+  Zones.
+- `"cache_node_ids_to_remove"`: A list of cache node IDs to be removed. A node ID is a
+  numeric identifier (0001, 0002, etc.). This parameter is only valid when NumCacheNodes is
+  less than the existing number of cache nodes. The number of cache node IDs supplied in this
+  parameter must match the difference between the existing number of cache nodes in the
+  cluster or pending cache nodes, whichever is greater, and the value of NumCacheNodes in the
+  request. For example: If you have 3 active cache nodes, 7 pending cache nodes, and the
+  number of cache nodes in this ModifyCacheCluster call is 5, you must list 2 (7 - 5) cache
+  node IDs to remove.
+- `"cache_node_type"`: A valid cache node type that you want to scale this cluster up to.
+- `"cache_parameter_group_name"`: The name of the cache parameter group to apply to this
   cluster. This change is asynchronously applied as soon as possible for parameters when the
   ApplyImmediately parameter is specified as true for this request.
-- `"CacheSecurityGroupNames"`: A list of cache security group names to authorize on this
+- `"cache_security_group_names"`: A list of cache security group names to authorize on this
   cluster. This change is asynchronously applied as soon as possible. You can use this
   parameter only with clusters that are created outside of an Amazon Virtual Private Cloud
   (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not
   be \"Default\".
-- `"EngineVersion"`: The upgraded version of the cache engine to be run on the cache nodes.
-   Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and
-  Version), but you cannot downgrade to an earlier engine version. If you want to use an
+- `"engine_version"`: The upgraded version of the cache engine to be run on the cache
+  nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine
+  and Version), but you cannot downgrade to an earlier engine version. If you want to use an
   earlier engine version, you must delete the existing cluster and create it anew with the
   earlier engine version.
-- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
-- `"NewAvailabilityZones"`:  This option is only supported on Memcached clusters.  The list
-  of Availability Zones where the new Memcached cache nodes are created. This parameter is
-  only valid when NumCacheNodes in the request is greater than the sum of the number of
+- `"log_delivery_configurations"`: Specifies the destination, format and type of the logs.
+- `"new_availability_zones"`:  This option is only supported on Memcached clusters.  The
+  list of Availability Zones where the new Memcached cache nodes are created. This parameter
+  is only valid when NumCacheNodes in the request is greater than the sum of the number of
   active cache nodes and the number of cache nodes pending creation (which may be zero). The
   number of Availability Zones supplied in this list must match the cache nodes being added
   in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes.
@@ -2791,11 +2358,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Result: The new create is added to the pending create.   Important: If the new create
   request is Apply Immediately - Yes, all creates are performed immediately. If the new
   create request is Apply Immediately - No, all creates are pending.
-- `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
-  notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
-- `"NotificationTopicStatus"`: The status of the Amazon SNS notification topic.
+- `"notification_topic_arn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to
+  which notifications are sent.  The Amazon SNS topic owner must be same as the cluster
+  owner.
+- `"notification_topic_status"`: The status of the Amazon SNS notification topic.
   Notifications are sent only if the status is active. Valid values: active | inactive
-- `"NumCacheNodes"`: The number of cache nodes that the cluster should have. If the value
+- `"num_cache_nodes"`: The number of cache nodes that the cluster should have. If the value
   for NumCacheNodes is greater than the sum of the number of current cache nodes and the
   number of cache nodes pending creation (which may be zero), more nodes are added. If the
   value is less than the number of existing cache nodes, nodes are removed. If the value is
@@ -2818,36 +2386,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cancel pending operations to modify the number of cache nodes in a cluster, use the
   ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes
   currently in the cluster.
-- `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
-  on the cluster is performed. It is specified as a range in the format
+- `"preferred_maintenance_window"`: Specifies the weekly time range during which
+  maintenance on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat
   Example: sun:23:00-mon:01:30
-- `"SecurityGroupIds"`: Specifies the VPC Security Groups associated with the cluster. This
-  parameter can be used only with clusters that are created in an Amazon Virtual Private
+- `"security_group_ids"`: Specifies the VPC Security Groups associated with the cluster.
+  This parameter can be used only with clusters that are created in an Amazon Virtual Private
   Cloud (Amazon VPC).
-- `"SnapshotRetentionLimit"`: The number of days for which ElastiCache retains automatic
+- `"snapshot_retention_limit"`: The number of days for which ElastiCache retains automatic
   cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to
   5, a snapshot that was taken today is retained for 5 days before being deleted.  If the
   value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
-- `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
+- `"snapshot_window"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of your cluster.
 """
 function modify_cache_cluster(
-    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ModifyCacheCluster",
-        Dict{String,Any}("CacheClusterId" => CacheClusterId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_cache_cluster(
-    CacheClusterId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyCacheCluster",
         Dict{String,Any}(
@@ -2859,8 +2416,7 @@ function modify_cache_cluster(
 end
 
 """
-    modify_cache_parameter_group(cache_parameter_group_name, parameter_name_value)
-    modify_cache_parameter_group(cache_parameter_group_name, parameter_name_value, params::Dict{String,<:Any})
+    modify_cache_parameter_group(cache_parameter_group_name, parameter_name_value; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the parameters of a cache parameter group. You can modify up to 20 parameters in a
 single request by submitting a list parameter name and value pairs.
@@ -2871,33 +2427,14 @@ single request by submitting a list parameter name and value pairs.
   You must supply at least one parameter name and value; subsequent arguments are optional. A
   maximum of 20 parameters may be modified per request.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ParameterNameValues"`: An array of parameter names and values for the parameter update.
-  You must supply at least one parameter name and value; subsequent arguments are optional. A
-  maximum of 20 parameters may be modified per request.
 """
 function modify_cache_parameter_group(
     CacheParameterGroupName,
     ParameterNameValue;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "ModifyCacheParameterGroup",
-        Dict{String,Any}(
-            "CacheParameterGroupName" => CacheParameterGroupName,
-            "ParameterNameValue" => ParameterNameValue,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_cache_parameter_group(
-    CacheParameterGroupName,
-    ParameterNameValue,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyCacheParameterGroup",
         Dict{String,Any}(
@@ -2916,8 +2453,7 @@ function modify_cache_parameter_group(
 end
 
 """
-    modify_cache_subnet_group(cache_subnet_group_name)
-    modify_cache_subnet_group(cache_subnet_group_name, params::Dict{String,<:Any})
+    modify_cache_subnet_group(cache_subnet_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies an existing cache subnet group.
 
@@ -2927,25 +2463,14 @@ Modifies an existing cache subnet group.
   hyphens. Example: mysubnetgroup
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheSubnetGroupDescription"`: A description of the cache subnet group.
-- `"SubnetIds"`: The EC2 subnet IDs for the cache subnet group.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_subnet_group_description"`: A description of the cache subnet group.
+- `"subnet_ids"`: The EC2 subnet IDs for the cache subnet group.
 """
 function modify_cache_subnet_group(
-    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheSubnetGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ModifyCacheSubnetGroup",
-        Dict{String,Any}("CacheSubnetGroupName" => CacheSubnetGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_cache_subnet_group(
-    CacheSubnetGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyCacheSubnetGroup",
         Dict{String,Any}(
@@ -2961,8 +2486,7 @@ function modify_cache_subnet_group(
 end
 
 """
-    modify_global_replication_group(apply_immediately, global_replication_group_id)
-    modify_global_replication_group(apply_immediately, global_replication_group_id, params::Dict{String,<:Any})
+    modify_global_replication_group(apply_immediately, global_replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the settings for a Global datastore.
 
@@ -2973,38 +2497,25 @@ Modifies the settings for a Global datastore.
 - `global_replication_group_id`: The name of the Global datastore
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutomaticFailoverEnabled"`: Determines whether a read replica is automatically promoted
-  to read/write primary if the existing primary encounters a failure.
-- `"CacheNodeType"`: A valid cache node type that you want to scale this Global datastore
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"automatic_failover_enabled"`: Determines whether a read replica is automatically
+  promoted to read/write primary if the existing primary encounters a failure.
+- `"cache_node_type"`: A valid cache node type that you want to scale this Global datastore
   to.
-- `"CacheParameterGroupName"`: The name of the cache parameter group to use with the Global
-  datastore. It must be compatible with the major engine version used by the Global datastore.
-- `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
+- `"cache_parameter_group_name"`: The name of the cache parameter group to use with the
+  Global datastore. It must be compatible with the major engine version used by the Global
+  datastore.
+- `"engine_version"`: The upgraded version of the cache engine to be run on the clusters in
   the Global datastore.
-- `"GlobalReplicationGroupDescription"`: A description of the Global datastore
+- `"global_replication_group_description"`: A description of the Global datastore
 """
 function modify_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "ModifyGlobalReplicationGroup",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_global_replication_group(
-    ApplyImmediately,
-    GlobalReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyGlobalReplicationGroup",
         Dict{String,Any}(
@@ -3023,8 +2534,7 @@ function modify_global_replication_group(
 end
 
 """
-    modify_replication_group(replication_group_id)
-    modify_replication_group(replication_group_id, params::Dict{String,<:Any})
+    modify_replication_group(replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the settings for a replication group.    Scaling for Amazon ElastiCache for Redis
 (cluster mode enabled) in the ElastiCache User Guide
@@ -3035,97 +2545,87 @@ is valid for Redis only.
 - `replication_group_id`: The identifier of the replication group to modify.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApplyImmediately"`: If true, this parameter causes the modifications in this request
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apply_immediately"`: If true, this parameter causes the modifications in this request
   and any pending modifications to be applied, asynchronously and as soon as possible,
   regardless of the PreferredMaintenanceWindow setting for the replication group. If false,
   changes to the nodes in the replication group are applied on the next maintenance reboot,
   or the next failure reboot, whichever occurs first. Valid values: true | false  Default:
   false
-- `"AuthToken"`: Reserved parameter. The password used to access a password protected
+- `"auth_token"`: Reserved parameter. The password used to access a password protected
   server. This parameter must be specified with the auth-token-update-strategy  parameter.
   Password constraints:   Must be only printable ASCII characters   Must be at least 16
   characters and no more than 128 characters in length   Cannot contain any of the following
   characters: '/', '\"', or '@', '%'    For more information, see AUTH password at AUTH.
-- `"AuthTokenUpdateStrategy"`: Specifies the strategy to use to update the AUTH token. This
-  parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set
-    For more information, see Authenticating Users with Redis AUTH
-- `"AutoMinorVersionUpgrade"`: This parameter is currently disabled.
-- `"AutomaticFailoverEnabled"`: Determines whether a read replica is automatically promoted
-  to read/write primary if the existing primary encounters a failure. Valid values: true |
-  false
-- `"CacheNodeType"`: A valid cache node type that you want to scale this replication group
-  to.
-- `"CacheParameterGroupName"`: The name of the cache parameter group to apply to all of the
-  clusters in this replication group. This change is asynchronously applied as soon as
+- `"auth_token_update_strategy"`: Specifies the strategy to use to update the AUTH token.
+  This parameter must be specified with the auth-token parameter. Possible values:   Rotate
+  Set    For more information, see Authenticating Users with Redis AUTH
+- `"auto_minor_version_upgrade"`: This parameter is currently disabled.
+- `"automatic_failover_enabled"`: Determines whether a read replica is automatically
+  promoted to read/write primary if the existing primary encounters a failure. Valid values:
+  true | false
+- `"cache_node_type"`: A valid cache node type that you want to scale this replication
+  group to.
+- `"cache_parameter_group_name"`: The name of the cache parameter group to apply to all of
+  the clusters in this replication group. This change is asynchronously applied as soon as
   possible for parameters when the ApplyImmediately parameter is specified as true for this
   request.
-- `"CacheSecurityGroupNames"`: A list of cache security group names to authorize for the
+- `"cache_security_group_names"`: A list of cache security group names to authorize for the
   clusters in this replication group. This change is asynchronously applied as soon as
   possible. This parameter can be used only with replication group containing clusters
   running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain
   no more than 255 alphanumeric characters. Must not be Default.
-- `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
+- `"engine_version"`: The upgraded version of the cache engine to be run on the clusters in
   the replication group.  Important: You can upgrade to a newer engine version (see Selecting
   a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you
   want to use an earlier engine version, you must delete the existing replication group and
   create it anew with the earlier engine version.
-- `"LogDeliveryConfigurations"`: Specifies the destination, format and type of the logs.
-- `"MultiAZEnabled"`: A flag to indicate MultiAZ is enabled.
-- `"NodeGroupId"`: Deprecated. This parameter is not used.
-- `"NotificationTopicArn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to which
-  notifications are sent.  The Amazon SNS topic owner must be same as the replication group
-  owner.
-- `"NotificationTopicStatus"`: The status of the Amazon SNS notification topic for the
+- `"log_delivery_configurations"`: Specifies the destination, format and type of the logs.
+- `"multi_azenabled"`: A flag to indicate MultiAZ is enabled.
+- `"node_group_id"`: Deprecated. This parameter is not used.
+- `"notification_topic_arn"`: The Amazon Resource Name (ARN) of the Amazon SNS topic to
+  which notifications are sent.  The Amazon SNS topic owner must be same as the replication
+  group owner.
+- `"notification_topic_status"`: The status of the Amazon SNS notification topic for the
   replication group. Notifications are sent only if the status is active. Valid values:
   active | inactive
-- `"PreferredMaintenanceWindow"`: Specifies the weekly time range during which maintenance
-  on the cluster is performed. It is specified as a range in the format
+- `"preferred_maintenance_window"`: Specifies the weekly time range during which
+  maintenance on the cluster is performed. It is specified as a range in the format
   ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute
   period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat
   Example: sun:23:00-mon:01:30
-- `"PrimaryClusterId"`: For replication groups with a single primary, if this parameter is
-  specified, ElastiCache promotes the specified cluster in the specified replication group to
-  the primary role. The nodes of all other clusters in the replication group are read
+- `"primary_cluster_id"`: For replication groups with a single primary, if this parameter
+  is specified, ElastiCache promotes the specified cluster in the specified replication group
+  to the primary role. The nodes of all other clusters in the replication group are read
   replicas.
-- `"RemoveUserGroups"`: Removes the user group associated with this replication group.
-- `"ReplicationGroupDescription"`: A description for the replication group. Maximum length
-  is 255 characters.
-- `"SecurityGroupIds"`: Specifies the VPC Security Groups associated with the clusters in
+- `"remove_user_groups"`: Removes the user group associated with this replication group.
+- `"replication_group_description"`: A description for the replication group. Maximum
+  length is 255 characters.
+- `"security_group_ids"`: Specifies the VPC Security Groups associated with the clusters in
   the replication group. This parameter can be used only with replication group containing
   clusters running in an Amazon Virtual Private Cloud (Amazon VPC).
-- `"SnapshotRetentionLimit"`: The number of days for which ElastiCache retains automatic
+- `"snapshot_retention_limit"`: The number of days for which ElastiCache retains automatic
   node group (shard) snapshots before deleting them. For example, if you set
   SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before
   being deleted.  Important If the value of SnapshotRetentionLimit is set to zero (0),
   backups are turned off.
-- `"SnapshotWindow"`: The daily time range (in UTC) during which ElastiCache begins taking
+- `"snapshot_window"`: The daily time range (in UTC) during which ElastiCache begins taking
   a daily snapshot of the node group (shard) specified by SnapshottingClusterId. Example:
   05:00-09:00  If you do not specify this parameter, ElastiCache automatically chooses an
   appropriate time range.
-- `"SnapshottingClusterId"`: The cluster ID that is used as the daily snapshot source for
+- `"snapshotting_cluster_id"`: The cluster ID that is used as the daily snapshot source for
   the replication group. This parameter cannot be set for Redis (cluster mode enabled)
   replication groups.
-- `"UserGroupIdsToAdd"`: The ID of the user group you are associating with the replication
+- `"user_group_ids_to_add"`: The ID of the user group you are associating with the
+  replication group.
+- `"user_group_ids_to_remove"`: The ID of the user group to disassociate from the
+  replication group, meaning the users in the group no longer can access the replication
   group.
-- `"UserGroupIdsToRemove"`: The ID of the user group to disassociate from the replication
-  group, meaning the users in the group no longer can access the replication group.
 """
 function modify_replication_group(
-    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ModifyReplicationGroup",
-        Dict{String,Any}("ReplicationGroupId" => ReplicationGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_replication_group(
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyReplicationGroup",
         Dict{String,Any}(
@@ -3139,8 +2639,7 @@ function modify_replication_group(
 end
 
 """
-    modify_replication_group_shard_configuration(apply_immediately, node_group_count, replication_group_id)
-    modify_replication_group_shard_configuration(apply_immediately, node_group_count, replication_group_id, params::Dict{String,<:Any})
+    modify_replication_group_shard_configuration(apply_immediately, node_group_count, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies a replication group's shards (node groups) by allowing you to add shards, remove
 shards, or rebalance the keyspaces among existing shards.
@@ -3154,17 +2653,17 @@ shards, or rebalance the keyspaces among existing shards.
   group) on which the shards are to be configured.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NodeGroupsToRemove"`: If the value of NodeGroupCount is less than the current number of
-  node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"node_groups_to_remove"`: If the value of NodeGroupCount is less than the current number
+  of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required.
   NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for
   Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
-- `"NodeGroupsToRetain"`: If the value of NodeGroupCount is less than the current number of
-  node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required.
+- `"node_groups_to_retain"`: If the value of NodeGroupCount is less than the current number
+  of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required.
   NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for
   Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from
   the cluster.
-- `"ReshardingConfiguration"`: Specifies the preferred availability zones for each node
+- `"resharding_configuration"`: Specifies the preferred availability zones for each node
   group in the cluster. If the value of NodeGroupCount is greater than the current number of
   node groups (shards), you can use this parameter to specify the preferred availability
   zones of the cluster's shards. If you omit this parameter ElastiCache selects availability
@@ -3176,25 +2675,9 @@ function modify_replication_group_shard_configuration(
     NodeGroupCount,
     ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "ModifyReplicationGroupShardConfiguration",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "NodeGroupCount" => NodeGroupCount,
-            "ReplicationGroupId" => ReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_replication_group_shard_configuration(
-    ApplyImmediately,
-    NodeGroupCount,
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyReplicationGroupShardConfiguration",
         Dict{String,Any}(
@@ -3214,8 +2697,7 @@ function modify_replication_group_shard_configuration(
 end
 
 """
-    modify_user(user_id)
-    modify_user(user_id, params::Dict{String,<:Any})
+    modify_user(user_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes user password(s) and/or access string.
 
@@ -3223,23 +2705,14 @@ Changes user password(s) and/or access string.
 - `user_id`: The ID of the user.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessString"`: Access permissions string used for this user.
-- `"AppendAccessString"`: Adds additional user permissions to the access string.
-- `"NoPasswordRequired"`: Indicates no password is required for the user.
-- `"Passwords"`: The passwords belonging to the user. You are allowed up to two.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"access_string"`: Access permissions string used for this user.
+- `"append_access_string"`: Adds additional user permissions to the access string.
+- `"no_password_required"`: Indicates no password is required for the user.
+- `"passwords"`: The passwords belonging to the user. You are allowed up to two.
 """
-function modify_user(UserId; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "ModifyUser",
-        Dict{String,Any}("UserId" => UserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function modify_user(
-    UserId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function modify_user(UserId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyUser",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("UserId" => UserId), params));
@@ -3249,8 +2722,7 @@ function modify_user(
 end
 
 """
-    modify_user_group(user_group_id)
-    modify_user_group(user_group_id, params::Dict{String,<:Any})
+    modify_user_group(user_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes the list of users that belong to the user group.
 
@@ -3258,23 +2730,14 @@ Changes the list of users that belong to the user group.
 - `user_group_id`: The ID of the user group.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"UserIdsToAdd"`: The list of user IDs to add to the user group.
-- `"UserIdsToRemove"`: The list of user IDs to remove from the user group.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"user_ids_to_add"`: The list of user IDs to add to the user group.
+- `"user_ids_to_remove"`: The list of user IDs to remove from the user group.
 """
-function modify_user_group(UserGroupId; aws_config::AbstractAWSConfig=global_aws_config())
-    return elasticache(
-        "ModifyUserGroup",
-        Dict{String,Any}("UserGroupId" => UserGroupId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function modify_user_group(
-    UserGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    UserGroupId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ModifyUserGroup",
         Dict{String,Any}(
@@ -3286,8 +2749,7 @@ function modify_user_group(
 end
 
 """
-    purchase_reserved_cache_nodes_offering(reserved_cache_nodes_offering_id)
-    purchase_reserved_cache_nodes_offering(reserved_cache_nodes_offering_id, params::Dict{String,<:Any})
+    purchase_reserved_cache_nodes_offering(reserved_cache_nodes_offering_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Allows you to purchase a reserved cache node offering. Reserved nodes are not eligible for
 cancellation and are non-refundable. For more information, see Managing Costs with Reserved
@@ -3298,30 +2760,21 @@ Nodes for Redis or Managing Costs with Reserved Nodes for Memcached.
   purchase. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheNodeCount"`: The number of cache node instances to reserve. Default: 1
-- `"ReservedCacheNodeId"`: A customer-specified identifier to track this reservation.  The
-  Reserved Cache Node ID is an unique customer-specified identifier to track this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"cache_node_count"`: The number of cache node instances to reserve. Default: 1
+- `"reserved_cache_node_id"`: A customer-specified identifier to track this reservation.
+  The Reserved Cache Node ID is an unique customer-specified identifier to track this
   reservation. If this parameter is not specified, ElastiCache automatically generates an
   identifier for the reservation.  Example: myreservationID
-- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+- `"tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
   key must be accompanied by a tag value, although null is accepted.
 """
 function purchase_reserved_cache_nodes_offering(
-    ReservedCacheNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "PurchaseReservedCacheNodesOffering",
-        Dict{String,Any}("ReservedCacheNodesOfferingId" => ReservedCacheNodesOfferingId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function purchase_reserved_cache_nodes_offering(
-    ReservedCacheNodesOfferingId,
-    params::AbstractDict{String};
+    ReservedCacheNodesOfferingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "PurchaseReservedCacheNodesOffering",
         Dict{String,Any}(
@@ -3339,8 +2792,7 @@ function purchase_reserved_cache_nodes_offering(
 end
 
 """
-    rebalance_slots_in_global_replication_group(apply_immediately, global_replication_group_id)
-    rebalance_slots_in_global_replication_group(apply_immediately, global_replication_group_id, params::Dict{String,<:Any})
+    rebalance_slots_in_global_replication_group(apply_immediately, global_replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Redistribute slots to ensure uniform distribution across existing shards in the cluster.
 
@@ -3353,23 +2805,9 @@ function rebalance_slots_in_global_replication_group(
     ApplyImmediately,
     GlobalReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "RebalanceSlotsInGlobalReplicationGroup",
-        Dict{String,Any}(
-            "ApplyImmediately" => ApplyImmediately,
-            "GlobalReplicationGroupId" => GlobalReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function rebalance_slots_in_global_replication_group(
-    ApplyImmediately,
-    GlobalReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "RebalanceSlotsInGlobalReplicationGroup",
         Dict{String,Any}(
@@ -3388,8 +2826,7 @@ function rebalance_slots_in_global_replication_group(
 end
 
 """
-    reboot_cache_cluster(cache_cluster_id, cache_node_id)
-    reboot_cache_cluster(cache_cluster_id, cache_node_id, params::Dict{String,<:Any})
+    reboot_cache_cluster(cache_cluster_id, cache_node_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reboots some, or all, of the cache nodes within a provisioned cluster. This operation
 applies any modified cache parameter groups to the cluster. The reboot operation takes
@@ -3408,28 +2845,14 @@ alternate process.
 - `cache_node_id`: A list of cache node IDs to reboot. A node ID is a numeric identifier
   (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node IDs.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CacheNodeIdsToReboot"`: A list of cache node IDs to reboot. A node ID is a numeric
-  identifier (0001, 0002, etc.). To reboot an entire cluster, specify all of the cache node
-  IDs.
 """
 function reboot_cache_cluster(
-    CacheClusterId, CacheNodeId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "RebootCacheCluster",
-        Dict{String,Any}("CacheClusterId" => CacheClusterId, "CacheNodeId" => CacheNodeId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reboot_cache_cluster(
     CacheClusterId,
-    CacheNodeId,
-    params::AbstractDict{String};
+    CacheNodeId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "RebootCacheCluster",
         Dict{String,Any}(
@@ -3447,8 +2870,7 @@ function reboot_cache_cluster(
 end
 
 """
-    remove_tags_from_resource(resource_name, tag_keys)
-    remove_tags_from_resource(resource_name, tag_keys, params::Dict{String,<:Any})
+    remove_tags_from_resource(resource_name, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the tags identified by the TagKeys list from the named resource. A tag is a
 key-value pair where the key and value are case-sensitive. You can use tags to categorize
@@ -3466,21 +2888,9 @@ nodes in the replication group. For more information, see Resource-level permiss
 
 """
 function remove_tags_from_resource(
-    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "RemoveTagsFromResource",
-        Dict{String,Any}("ResourceName" => ResourceName, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function remove_tags_from_resource(
-    ResourceName,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "RemoveTagsFromResource",
         Dict{String,Any}(
@@ -3496,8 +2906,7 @@ function remove_tags_from_resource(
 end
 
 """
-    reset_cache_parameter_group(cache_parameter_group_name)
-    reset_cache_parameter_group(cache_parameter_group_name, params::Dict{String,<:Any})
+    reset_cache_parameter_group(cache_parameter_group_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies the parameters of a cache parameter group to the engine or system default value.
 You can reset specific parameters by submitting a list of parameter names. To reset the
@@ -3508,29 +2917,18 @@ parameters.
 - `cache_parameter_group_name`: The name of the cache parameter group to reset.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ParameterNameValues"`: An array of parameter names to reset to their default values. If
-  ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false,
-  you must specify the name of at least one parameter to reset.
-- `"ResetAllParameters"`: If true, all parameters in the cache parameter group are reset to
-  their default values. If false, only the parameters listed by ParameterNameValues are reset
-  to their default values. Valid values: true | false
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"parameter_name_values"`: An array of parameter names to reset to their default values.
+  If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is
+  false, you must specify the name of at least one parameter to reset.
+- `"reset_all_parameters"`: If true, all parameters in the cache parameter group are reset
+  to their default values. If false, only the parameters listed by ParameterNameValues are
+  reset to their default values. Valid values: true | false
 """
 function reset_cache_parameter_group(
-    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    CacheParameterGroupName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return elasticache(
-        "ResetCacheParameterGroup",
-        Dict{String,Any}("CacheParameterGroupName" => CacheParameterGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function reset_cache_parameter_group(
-    CacheParameterGroupName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "ResetCacheParameterGroup",
         Dict{String,Any}(
@@ -3546,8 +2944,7 @@ function reset_cache_parameter_group(
 end
 
 """
-    revoke_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id)
-    revoke_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id, params::Dict{String,<:Any})
+    revoke_cache_security_group_ingress(cache_security_group_name, ec2_security_group_name, ec2_security_group_owner_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Revokes ingress from a cache security group. Use this operation to disallow access from an
 Amazon EC2 security group that had been previously authorized.
@@ -3566,25 +2963,9 @@ function revoke_cache_security_group_ingress(
     EC2SecurityGroupName,
     EC2SecurityGroupOwnerId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "RevokeCacheSecurityGroupIngress",
-        Dict{String,Any}(
-            "CacheSecurityGroupName" => CacheSecurityGroupName,
-            "EC2SecurityGroupName" => EC2SecurityGroupName,
-            "EC2SecurityGroupOwnerId" => EC2SecurityGroupOwnerId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function revoke_cache_security_group_ingress(
-    CacheSecurityGroupName,
-    EC2SecurityGroupName,
-    EC2SecurityGroupOwnerId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "RevokeCacheSecurityGroupIngress",
         Dict{String,Any}(
@@ -3604,8 +2985,7 @@ function revoke_cache_security_group_ingress(
 end
 
 """
-    start_migration(customer_node_endpoint_list, replication_group_id)
-    start_migration(customer_node_endpoint_list, replication_group_id, params::Dict{String,<:Any})
+    start_migration(customer_node_endpoint_list, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Start the migration of data.
 
@@ -3619,23 +2999,9 @@ function start_migration(
     CustomerNodeEndpointList,
     ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return elasticache(
-        "StartMigration",
-        Dict{String,Any}(
-            "CustomerNodeEndpointList" => CustomerNodeEndpointList,
-            "ReplicationGroupId" => ReplicationGroupId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_migration(
-    CustomerNodeEndpointList,
-    ReplicationGroupId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "StartMigration",
         Dict{String,Any}(
@@ -3654,8 +3020,7 @@ function start_migration(
 end
 
 """
-    test_failover(node_group_id, replication_group_id)
-    test_failover(node_group_id, replication_group_id, params::Dict{String,<:Any})
+    test_failover(node_group_id, replication_group_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Represents the input of a TestFailover operation which test automatic failover on a
 specified node group (called shard in the console) in a replication group (called cluster
@@ -3686,23 +3051,12 @@ see, Testing Multi-AZ  in the ElastiCache User Guide.
 
 """
 function test_failover(
-    NodeGroupId, ReplicationGroupId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return elasticache(
-        "TestFailover",
-        Dict{String,Any}(
-            "NodeGroupId" => NodeGroupId, "ReplicationGroupId" => ReplicationGroupId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function test_failover(
     NodeGroupId,
-    ReplicationGroupId,
-    params::AbstractDict{String};
+    ReplicationGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return elasticache(
         "TestFailover",
         Dict{String,Any}(

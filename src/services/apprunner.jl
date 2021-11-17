@@ -4,9 +4,26 @@ using AWS.AWSServices: apprunner
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "max_concurrency" => "MaxConcurrency",
+    "instance_configuration" => "InstanceConfiguration",
+    "source_configuration" => "SourceConfiguration",
+    "auto_scaling_configuration_arn" => "AutoScalingConfigurationArn",
+    "next_token" => "NextToken",
+    "encryption_configuration" => "EncryptionConfiguration",
+    "connection_name" => "ConnectionName",
+    "min_size" => "MinSize",
+    "latest_only" => "LatestOnly",
+    "max_results" => "MaxResults",
+    "max_size" => "MaxSize",
+    "health_check_configuration" => "HealthCheckConfiguration",
+    "auto_scaling_configuration_name" => "AutoScalingConfigurationName",
+    "enable_wwwsubdomain" => "EnableWWWSubdomain",
+    "tags" => "Tags",
+)
+
 """
-    associate_custom_domain(domain_name, service_arn)
-    associate_custom_domain(domain_name, service_arn, params::Dict{String,<:Any})
+    associate_custom_domain(domain_name, service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associate your own domain name with the App Runner subdomain URL of your App Runner
 service. After you call AssociateCustomDomain and receive a successful response, use the
@@ -24,26 +41,14 @@ Runner tracks domain validity in a certificate stored in AWS Certificate Manager
   associate a custom domain name with.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EnableWWWSubdomain"`: Set to true to associate the subdomain www.DomainName  with the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"enable_wwwsubdomain"`: Set to true to associate the subdomain www.DomainName  with the
   App Runner service in addition to the base domain. Default: true
 """
 function associate_custom_domain(
-    DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "AssociateCustomDomain",
-        Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_custom_domain(
-    DomainName,
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "AssociateCustomDomain",
         Dict{String,Any}(
@@ -59,8 +64,7 @@ function associate_custom_domain(
 end
 
 """
-    create_auto_scaling_configuration(auto_scaling_configuration_name)
-    create_auto_scaling_configuration(auto_scaling_configuration_name, params::Dict{String,<:Any})
+    create_auto_scaling_configuration(auto_scaling_configuration_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create an App Runner automatic scaling configuration resource. App Runner requires this
 resource when you create App Runner services that require non-default auto scaling
@@ -80,37 +84,28 @@ during peak demand.
   incremental revisions of the configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxConcurrency"`: The maximum number of concurrent requests that you want an instance
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_concurrency"`: The maximum number of concurrent requests that you want an instance
   to process. If the number of concurrent requests exceeds this limit, App Runner scales up
   your service. Default: 100
-- `"MaxSize"`: The maximum number of instances that your service scales up to. At most
+- `"max_size"`: The maximum number of instances that your service scales up to. At most
   MaxSize instances actively serve traffic for your service. Default: 25
-- `"MinSize"`: The minimum number of instances that App Runner provisions for your service.
-  The service always has at least MinSize provisioned instances. Some of them actively serve
-  traffic. The rest of them (provisioned and inactive instances) are a cost-effective compute
-  capacity reserve and are ready to be quickly activated. You pay for memory usage of all the
-  provisioned instances. You pay for CPU usage of only the active subset. App Runner
-  temporarily doubles the number of provisioned instances during deployments, to maintain the
-  same capacity for both old and new code. Default: 1
-- `"Tags"`: A list of metadata items that you can associate with your auto scaling
+- `"min_size"`: The minimum number of instances that App Runner provisions for your
+  service. The service always has at least MinSize provisioned instances. Some of them
+  actively serve traffic. The rest of them (provisioned and inactive instances) are a
+  cost-effective compute capacity reserve and are ready to be quickly activated. You pay for
+  memory usage of all the provisioned instances. You pay for CPU usage of only the active
+  subset. App Runner temporarily doubles the number of provisioned instances during
+  deployments, to maintain the same capacity for both old and new code. Default: 1
+- `"tags"`: A list of metadata items that you can associate with your auto scaling
   configuration resource. A tag is a key-value pair.
 """
 function create_auto_scaling_configuration(
-    AutoScalingConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apprunner(
-        "CreateAutoScalingConfiguration",
-        Dict{String,Any}("AutoScalingConfigurationName" => AutoScalingConfigurationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_auto_scaling_configuration(
-    AutoScalingConfigurationName,
-    params::AbstractDict{String};
+    AutoScalingConfigurationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "CreateAutoScalingConfiguration",
         Dict{String,Any}(
@@ -128,8 +123,7 @@ function create_auto_scaling_configuration(
 end
 
 """
-    create_connection(connection_name, provider_type)
-    create_connection(connection_name, provider_type, params::Dict{String,<:Any})
+    create_connection(connection_name, provider_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create an App Runner connection resource. App Runner requires a connection resource when
 you create App Runner services that access private repositories from certain third-party
@@ -143,28 +137,17 @@ through the App Runner console before you can use the connection.
 - `provider_type`: The source repository provider.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of metadata items that you can associate with your connection resource.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: A list of metadata items that you can associate with your connection resource.
   A tag is a key-value pair.
 """
 function create_connection(
-    ConnectionName, ProviderType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apprunner(
-        "CreateConnection",
-        Dict{String,Any}(
-            "ConnectionName" => ConnectionName, "ProviderType" => ProviderType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_connection(
     ConnectionName,
-    ProviderType,
-    params::AbstractDict{String};
+    ProviderType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "CreateConnection",
         Dict{String,Any}(
@@ -182,8 +165,7 @@ function create_connection(
 end
 
 """
-    create_service(service_name, source_configuration)
-    create_service(service_name, source_configuration, params::Dict{String,<:Any})
+    create_service(service_name, source_configuration; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create an App Runner service. After the service is created, the action also automatically
 starts a deployment. This is an asynchronous operation. On a successful call, you can use
@@ -196,39 +178,28 @@ the returned OperationId and the ListOperations call to track the operation's pr
   or an image repository.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoScalingConfigurationArn"`: The Amazon Resource Name (ARN) of an App Runner
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_scaling_configuration_arn"`: The Amazon Resource Name (ARN) of an App Runner
   automatic scaling configuration resource that you want to associate with your service. If
   not provided, App Runner associates the latest revision of a default auto scaling
   configuration.
-- `"EncryptionConfiguration"`: An optional custom encryption key that App Runner uses to
+- `"encryption_configuration"`: An optional custom encryption key that App Runner uses to
   encrypt the copy of your source repository that it maintains and your service logs. By
   default, App Runner uses an Amazon Web Services managed CMK.
-- `"HealthCheckConfiguration"`: The settings for the health check that App Runner performs
-  to monitor the health of your service.
-- `"InstanceConfiguration"`: The runtime configuration of instances (scaling units) of the
+- `"health_check_configuration"`: The settings for the health check that App Runner
+  performs to monitor the health of your service.
+- `"instance_configuration"`: The runtime configuration of instances (scaling units) of the
   App Runner service.
-- `"Tags"`: An optional list of metadata items that you can associate with your service
+- `"tags"`: An optional list of metadata items that you can associate with your service
   resource. A tag is a key-value pair.
 """
 function create_service(
-    ServiceName, SourceConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apprunner(
-        "CreateService",
-        Dict{String,Any}(
-            "ServiceName" => ServiceName, "SourceConfiguration" => SourceConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_service(
     ServiceName,
-    SourceConfiguration,
-    params::AbstractDict{String};
+    SourceConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "CreateService",
         Dict{String,Any}(
@@ -247,8 +218,7 @@ function create_service(
 end
 
 """
-    delete_auto_scaling_configuration(auto_scaling_configuration_arn)
-    delete_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
+    delete_auto_scaling_configuration(auto_scaling_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an App Runner automatic scaling configuration resource. You can delete a specific
 revision or the latest active revision. You can't delete a configuration that's used by one
@@ -262,20 +232,11 @@ or more App Runner services.
 
 """
 function delete_auto_scaling_configuration(
-    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apprunner(
-        "DeleteAutoScalingConfiguration",
-        Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_auto_scaling_configuration(
-    AutoScalingConfigurationArn,
-    params::AbstractDict{String};
+    AutoScalingConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DeleteAutoScalingConfiguration",
         Dict{String,Any}(
@@ -293,8 +254,7 @@ function delete_auto_scaling_configuration(
 end
 
 """
-    delete_connection(connection_arn)
-    delete_connection(connection_arn, params::Dict{String,<:Any})
+    delete_connection(connection_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an App Runner connection. You must first ensure that there are no running App Runner
 services that use this connection. If there are any, the DeleteConnection action fails.
@@ -304,19 +264,10 @@ services that use this connection. If there are any, the DeleteConnection action
   want to delete.
 
 """
-function delete_connection(ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "DeleteConnection",
-        Dict{String,Any}("ConnectionArn" => ConnectionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connection(
-    ConnectionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ConnectionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DeleteConnection",
         Dict{String,Any}(
@@ -328,8 +279,7 @@ function delete_connection(
 end
 
 """
-    delete_service(service_arn)
-    delete_service(service_arn, params::Dict{String,<:Any})
+    delete_service(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an App Runner service. This is an asynchronous operation. On a successful call, you
 can use the returned OperationId and the ListOperations call to track the operation's
@@ -340,19 +290,10 @@ progress.
   delete.
 
 """
-function delete_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "DeleteService",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_service(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DeleteService",
         Dict{String,Any}(
@@ -364,8 +305,7 @@ function delete_service(
 end
 
 """
-    describe_auto_scaling_configuration(auto_scaling_configuration_arn)
-    describe_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
+    describe_auto_scaling_configuration(auto_scaling_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Return a full description of an App Runner automatic scaling configuration resource.
 
@@ -377,20 +317,11 @@ Return a full description of an App Runner automatic scaling configuration resou
 
 """
 function describe_auto_scaling_configuration(
-    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apprunner(
-        "DescribeAutoScalingConfiguration",
-        Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_auto_scaling_configuration(
-    AutoScalingConfigurationArn,
-    params::AbstractDict{String};
+    AutoScalingConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DescribeAutoScalingConfiguration",
         Dict{String,Any}(
@@ -408,8 +339,7 @@ function describe_auto_scaling_configuration(
 end
 
 """
-    describe_custom_domains(service_arn)
-    describe_custom_domains(service_arn, params::Dict{String,<:Any})
+    describe_custom_domains(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Return a description of custom domain names that are associated with an App Runner service.
 
@@ -418,30 +348,19 @@ Return a description of custom domain names that are associated with an App Runn
   associated custom domain names to be described for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results that each response (result page) can
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results that each response (result page) can
   include. It's used for a paginated request. If you don't specify MaxResults, the request
   retrieves all available results in a single response.
-- `"NextToken"`: A token from a previous result page. It's used for a paginated request.
+- `"next_token"`: A token from a previous result page. It's used for a paginated request.
   The request retrieves the next result page. All other parameter values must be identical to
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
 function describe_custom_domains(
-    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "DescribeCustomDomains",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_custom_domains(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DescribeCustomDomains",
         Dict{String,Any}(
@@ -453,8 +372,7 @@ function describe_custom_domains(
 end
 
 """
-    describe_service(service_arn)
-    describe_service(service_arn, params::Dict{String,<:Any})
+    describe_service(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Return a full description of an App Runner service.
 
@@ -463,19 +381,10 @@ Return a full description of an App Runner service.
   description for.
 
 """
-function describe_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "DescribeService",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_service(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DescribeService",
         Dict{String,Any}(
@@ -487,8 +396,7 @@ function describe_service(
 end
 
 """
-    disassociate_custom_domain(domain_name, service_arn)
-    disassociate_custom_domain(domain_name, service_arn, params::Dict{String,<:Any})
+    disassociate_custom_domain(domain_name, service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociate a custom domain name from an App Runner service. Certificates tracking domain
 validity are associated with a custom domain and are stored in AWS Certificate Manager
@@ -502,21 +410,9 @@ certificate deletion for 30 days after a domain is disassociated from your servi
 
 """
 function disassociate_custom_domain(
-    DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    DomainName, ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "DisassociateCustomDomain",
-        Dict{String,Any}("DomainName" => DomainName, "ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_custom_domain(
-    DomainName,
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "DisassociateCustomDomain",
         Dict{String,Any}(
@@ -532,8 +428,7 @@ function disassociate_custom_domain(
 end
 
 """
-    list_auto_scaling_configurations()
-    list_auto_scaling_configurations(params::Dict{String,<:Any})
+    list_auto_scaling_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of App Runner automatic scaling configurations in your Amazon Web Services
 account. You can query the revisions for a specific configuration name or the revisions for
@@ -541,33 +436,25 @@ all configurations in your account. You can optionally query only the latest rev
 each requested name.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoScalingConfigurationName"`: The name of the App Runner auto scaling configuration
-  that you want to list. If specified, App Runner lists revisions that share this name. If
-  not specified, App Runner returns revisions of all configurations.
-- `"LatestOnly"`: Set to true to list only the latest revision for each requested
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_scaling_configuration_name"`: The name of the App Runner auto scaling
+  configuration that you want to list. If specified, App Runner lists revisions that share
+  this name. If not specified, App Runner returns revisions of all configurations.
+- `"latest_only"`: Set to true to list only the latest revision for each requested
   configuration name. Keep as false to list all revisions for each requested configuration
   name. Default: false
-- `"MaxResults"`: The maximum number of results to include in each response (result page).
+- `"max_results"`: The maximum number of results to include in each response (result page).
   It's used for a paginated request. If you don't specify MaxResults, the request retrieves
   all available results in a single response.
-- `"NextToken"`: A token from a previous result page. It's used for a paginated request.
+- `"next_token"`: A token from a previous result page. It's used for a paginated request.
   The request retrieves the next result page. All other parameter values must be identical to
   the ones that are specified in the initial request. If you don't specify NextToken, the
   request retrieves the first result page.
 """
 function list_auto_scaling_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "ListAutoScalingConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_auto_scaling_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ListAutoScalingConfigurations",
         params;
@@ -577,40 +464,32 @@ function list_auto_scaling_configurations(
 end
 
 """
-    list_connections()
-    list_connections(params::Dict{String,<:Any})
+    list_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of App Runner connections that are associated with your Amazon Web Services
 account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConnectionName"`: If specified, only this connection is returned. If not specified, the
-  result isn't filtered by name.
-- `"MaxResults"`: The maximum number of results to include in each response (result page).
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"connection_name"`: If specified, only this connection is returned. If not specified,
+  the result isn't filtered by name.
+- `"max_results"`: The maximum number of results to include in each response (result page).
   Used for a paginated request. If you don't specify MaxResults, the request retrieves all
   available results in a single response.
-- `"NextToken"`: A token from a previous result page. Used for a paginated request. The
+- `"next_token"`: A token from a previous result page. Used for a paginated request. The
   request retrieves the next result page. All other parameter values must be identical to the
   ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_connections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_operations(service_arn)
-    list_operations(service_arn, params::Dict{String,<:Any})
+    list_operations(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Return a list of operations that occurred on an App Runner service. The resulting list of
 OperationSummary objects is sorted in reverse chronological order. The first object on the
@@ -621,28 +500,19 @@ list represents the last started operation.
   list of operations for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to include in each response (result page).
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in each response (result page).
   It's used for a paginated request. If you don't specify MaxResults, the request retrieves
   all available results in a single response.
-- `"NextToken"`: A token from a previous result page. It's used for a paginated request.
+- `"next_token"`: A token from a previous result page. It's used for a paginated request.
   The request retrieves the next result page. All other parameter values must be identical to
   the ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
-function list_operations(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "ListOperations",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_operations(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ListOperations",
         Dict{String,Any}(
@@ -654,35 +524,29 @@ function list_operations(
 end
 
 """
-    list_services()
-    list_services(params::Dict{String,<:Any})
+    list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of running App Runner services in your Amazon Web Services account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to include in each response (result page).
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to include in each response (result page).
   It's used for a paginated request. If you don't specify MaxResults, the request retrieves
   all available results in a single response.
-- `"NextToken"`: A token from a previous result page. Used for a paginated request. The
+- `"next_token"`: A token from a previous result page. Used for a paginated request. The
   request retrieves the next result page. All other parameter values must be identical to the
   ones specified in the initial request. If you don't specify NextToken, the request
   retrieves the first result page.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ListServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List tags that are associated with for an App Runner resource. The response contains a list
 of tag key-value pairs.
@@ -693,20 +557,9 @@ of tag key-value pairs.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "ListTagsForResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ListTagsForResource",
         Dict{String,Any}(
@@ -718,8 +571,7 @@ function list_tags_for_resource(
 end
 
 """
-    pause_service(service_arn)
-    pause_service(service_arn, params::Dict{String,<:Any})
+    pause_service(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Pause an active App Runner service. App Runner reduces compute capacity for the service to
 zero and loses state (for example, ephemeral storage is removed). This is an asynchronous
@@ -731,19 +583,10 @@ ListOperations call to track the operation's progress.
   pause.
 
 """
-function pause_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "PauseService",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function pause_service(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "PauseService",
         Dict{String,Any}(
@@ -755,8 +598,7 @@ function pause_service(
 end
 
 """
-    resume_service(service_arn)
-    resume_service(service_arn, params::Dict{String,<:Any})
+    resume_service(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Resume an active App Runner service. App Runner provisions compute capacity for the
 service. This is an asynchronous operation. On a successful call, you can use the returned
@@ -767,19 +609,10 @@ OperationId and the ListOperations call to track the operation's progress.
   resume.
 
 """
-function resume_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "ResumeService",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_service(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "ResumeService",
         Dict{String,Any}(
@@ -791,8 +624,7 @@ function resume_service(
 end
 
 """
-    start_deployment(service_arn)
-    start_deployment(service_arn, params::Dict{String,<:Any})
+    start_deployment(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Initiate a manual deployment of the latest commit in a source code repository or the latest
 image in a source image repository to an App Runner service. For a source code repository,
@@ -807,19 +639,10 @@ ListOperations call to track the operation's progress.
   manually deploy to.
 
 """
-function start_deployment(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "StartDeployment",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_deployment(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "StartDeployment",
         Dict{String,Any}(
@@ -831,8 +654,7 @@ function start_deployment(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
 
@@ -844,20 +666,10 @@ Add tags to, or update the tag values of, an App Runner resource. A tag is a key
   the value of the tag is updated.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "TagResource",
         Dict{String,Any}(
@@ -873,8 +685,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Remove tags from an App Runner resource.
 
@@ -885,21 +696,9 @@ Remove tags from an App Runner resource.
 
 """
 function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return apprunner(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    TagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "UntagResource",
         Dict{String,Any}(
@@ -915,8 +714,7 @@ function untag_resource(
 end
 
 """
-    update_service(service_arn)
-    update_service(service_arn, params::Dict{String,<:Any})
+    update_service(service_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update an App Runner service. You can update the source configuration and instance
 configuration of the service. You can also update the ARN of the auto scaling configuration
@@ -931,34 +729,25 @@ returned OperationId and the ListOperations call to track the operation's progre
   update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoScalingConfigurationArn"`: The Amazon Resource Name (ARN) of an App Runner
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"auto_scaling_configuration_arn"`: The Amazon Resource Name (ARN) of an App Runner
   automatic scaling configuration resource that you want to associate with your service.
-- `"HealthCheckConfiguration"`: The settings for the health check that App Runner performs
-  to monitor the health of your service.
-- `"InstanceConfiguration"`: The runtime configuration to apply to instances (scaling
+- `"health_check_configuration"`: The settings for the health check that App Runner
+  performs to monitor the health of your service.
+- `"instance_configuration"`: The runtime configuration to apply to instances (scaling
   units) of the App Runner service.
-- `"SourceConfiguration"`: The source configuration to apply to the App Runner service. You
-  can change the configuration of the code or image repository that the service uses.
+- `"source_configuration"`: The source configuration to apply to the App Runner service.
+  You can change the configuration of the code or image repository that the service uses.
   However, you can't switch from code to image or the other way around. This means that you
   must provide the same structure member of SourceConfiguration that you originally included
   when you created the service. Specifically, you can include either CodeRepository or
   ImageRepository. To update the source configuration, set the values to members of the
   structure that you include.
 """
-function update_service(ServiceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return apprunner(
-        "UpdateService",
-        Dict{String,Any}("ServiceArn" => ServiceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service(
-    ServiceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ServiceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return apprunner(
         "UpdateService",
         Dict{String,Any}(

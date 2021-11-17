@@ -4,9 +4,40 @@ using AWS.AWSServices: wellarchitected
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "pillar_notes" => "PillarNotes",
+    "review_owner" => "ReviewOwner",
+    "architectural_design" => "ArchitecturalDesign",
+    "shared_with_prefix" => "SharedWithPrefix",
+    "workload_name" => "WorkloadName",
+    "lens_notes" => "LensNotes",
+    "selected_choices" => "SelectedChoices",
+    "is_applicable" => "IsApplicable",
+    "next_token" => "NextToken",
+    "environment" => "Environment",
+    "pillar_priorities" => "PillarPriorities",
+    "client_request_token" => "ClientRequestToken",
+    "workload_name_prefix" => "WorkloadNamePrefix",
+    "notes" => "Notes",
+    "account_ids" => "AccountIds",
+    "choice_updates" => "ChoiceUpdates",
+    "aws_regions" => "AwsRegions",
+    "reason" => "Reason",
+    "max_results" => "MaxResults",
+    "workload_id" => "WorkloadId",
+    "industry" => "Industry",
+    "description" => "Description",
+    "pillar_id" => "PillarId",
+    "industry_type" => "IndustryType",
+    "is_review_owner_update_acknowledged" => "IsReviewOwnerUpdateAcknowledged",
+    "non_aws_regions" => "NonAwsRegions",
+    "improvement_status" => "ImprovementStatus",
+    "tags" => "Tags",
+    "milestone_number" => "MilestoneNumber",
+)
+
 """
-    associate_lenses(lens_aliases, workload_id)
-    associate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
+    associate_lenses(lens_aliases, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associate a lens to a workload.
 
@@ -16,22 +47,9 @@ Associate a lens to a workload.
 
 """
 function associate_lenses(
-    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/associateLenses",
-        Dict{String,Any}("LensAliases" => LensAliases);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_lenses(
-    LensAliases,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/associateLenses",
@@ -44,8 +62,7 @@ function associate_lenses(
 end
 
 """
-    create_milestone(client_request_token, milestone_name, workload_id)
-    create_milestone(client_request_token, milestone_name, workload_id, params::Dict{String,<:Any})
+    create_milestone(client_request_token, milestone_name, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a milestone for an existing workload.
 
@@ -60,24 +77,9 @@ function create_milestone(
     MilestoneName,
     WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestones",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "MilestoneName" => MilestoneName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_milestone(
-    ClientRequestToken,
-    MilestoneName,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/workloads/$(WorkloadId)/milestones",
@@ -97,8 +99,7 @@ function create_milestone(
 end
 
 """
-    create_workload(client_request_token, description, environment, lenses, review_owner, workload_name)
-    create_workload(client_request_token, description, environment, lenses, review_owner, workload_name, params::Dict{String,<:Any})
+    create_workload(client_request_token, description, environment, lenses, review_owner, workload_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a new workload. The owner of a workload can share the workload with other AWS
 accounts and IAM users in the same AWS Region. Only the owner of a workload can delete it.
@@ -113,16 +114,16 @@ For more information, see Defining a Workload in the AWS Well-Architected Tool U
 - `workload_name`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountIds"`:
-- `"ArchitecturalDesign"`:
-- `"AwsRegions"`:
-- `"Industry"`:
-- `"IndustryType"`:
-- `"NonAwsRegions"`:
-- `"Notes"`:
-- `"PillarPriorities"`:
-- `"Tags"`: The tags to be associated with the workload.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`:
+- `"architectural_design"`:
+- `"aws_regions"`:
+- `"industry"`:
+- `"industry_type"`:
+- `"non_aws_regions"`:
+- `"notes"`:
+- `"pillar_priorities"`:
+- `"tags"`: The tags to be associated with the workload.
 """
 function create_workload(
     ClientRequestToken,
@@ -132,32 +133,9 @@ function create_workload(
     ReviewOwner,
     WorkloadName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wellarchitected(
-        "POST",
-        "/workloads",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Description" => Description,
-            "Environment" => Environment,
-            "Lenses" => Lenses,
-            "ReviewOwner" => ReviewOwner,
-            "WorkloadName" => WorkloadName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workload(
-    ClientRequestToken,
-    Description,
-    Environment,
-    Lenses,
-    ReviewOwner,
-    WorkloadName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/workloads",
@@ -181,8 +159,7 @@ function create_workload(
 end
 
 """
-    create_workload_share(client_request_token, permission_type, shared_with, workload_id)
-    create_workload_share(client_request_token, permission_type, shared_with, workload_id, params::Dict{String,<:Any})
+    create_workload_share(client_request_token, permission_type, shared_with, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Create a workload share. The owner of a workload can share it with other AWS accounts and
 IAM users in the same AWS Region. Shared access to a workload is not removed until the
@@ -202,27 +179,9 @@ function create_workload_share(
     SharedWith,
     WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/shares",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "PermissionType" => PermissionType,
-            "SharedWith" => SharedWith,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workload_share(
-    ClientRequestToken,
-    PermissionType,
-    SharedWith,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/workloads/$(WorkloadId)/shares",
@@ -243,8 +202,7 @@ function create_workload_share(
 end
 
 """
-    delete_workload(client_request_token, workload_id)
-    delete_workload(client_request_token, workload_id, params::Dict{String,<:Any})
+    delete_workload(client_request_token, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete an existing workload.
 
@@ -254,22 +212,12 @@ Delete an existing workload.
 
 """
 function delete_workload(
-    ClientRequestToken, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_workload(
     ClientRequestToken,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "DELETE",
         "/workloads/$(WorkloadId)",
@@ -284,8 +232,7 @@ function delete_workload(
 end
 
 """
-    delete_workload_share(client_request_token, share_id, workload_id)
-    delete_workload_share(client_request_token, share_id, workload_id, params::Dict{String,<:Any})
+    delete_workload_share(client_request_token, share_id, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Delete a workload share.
 
@@ -300,22 +247,9 @@ function delete_workload_share(
     ShareId,
     WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wellarchitected(
-        "DELETE",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_workload_share(
-    ClientRequestToken,
-    ShareId,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "DELETE",
         "/workloads/$(WorkloadId)/shares/$(ShareId)",
@@ -330,8 +264,7 @@ function delete_workload_share(
 end
 
 """
-    disassociate_lenses(lens_aliases, workload_id)
-    disassociate_lenses(lens_aliases, workload_id, params::Dict{String,<:Any})
+    disassociate_lenses(lens_aliases, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociate a lens from a workload.  The AWS Well-Architected Framework lens
 (wellarchitected) cannot be removed from a workload.
@@ -342,22 +275,9 @@ Disassociate a lens from a workload.  The AWS Well-Architected Framework lens
 
 """
 function disassociate_lenses(
-    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAliases, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/disassociateLenses",
-        Dict{String,Any}("LensAliases" => LensAliases);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_lenses(
-    LensAliases,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/disassociateLenses",
@@ -370,8 +290,7 @@ function disassociate_lenses(
 end
 
 """
-    get_answer(lens_alias, question_id, workload_id)
-    get_answer(lens_alias, question_id, workload_id, params::Dict{String,<:Any})
+    get_answer(lens_alias, question_id, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the answer to a specific question in a workload review.
 
@@ -381,26 +300,17 @@ Get the answer to a specific question in a workload review.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MilestoneNumber"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"milestone_number"`:
 """
-function get_answer(
-    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_answer(
     LensAlias,
     QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
@@ -411,8 +321,7 @@ function get_answer(
 end
 
 """
-    get_lens_review(lens_alias, workload_id)
-    get_lens_review(lens_alias, workload_id, params::Dict{String,<:Any})
+    get_lens_review(lens_alias, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get lens review.
 
@@ -421,25 +330,13 @@ Get lens review.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MilestoneNumber"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"milestone_number"`:
 """
 function get_lens_review(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_review(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
@@ -450,8 +347,7 @@ function get_lens_review(
 end
 
 """
-    get_lens_review_report(lens_alias, workload_id)
-    get_lens_review_report(lens_alias, workload_id, params::Dict{String,<:Any})
+    get_lens_review_report(lens_alias, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get lens review report.
 
@@ -460,25 +356,13 @@ Get lens review report.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MilestoneNumber"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"milestone_number"`:
 """
 function get_lens_review_report(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_review_report(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/report",
@@ -489,8 +373,7 @@ function get_lens_review_report(
 end
 
 """
-    get_lens_version_difference(base_lens_version, lens_alias)
-    get_lens_version_difference(base_lens_version, lens_alias, params::Dict{String,<:Any})
+    get_lens_version_difference(base_lens_version, lens_alias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get lens version differences.
 
@@ -500,22 +383,9 @@ Get lens version differences.
 
 """
 function get_lens_version_difference(
-    BaseLensVersion, LensAlias; aws_config::AbstractAWSConfig=global_aws_config()
+    BaseLensVersion, LensAlias; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/lenses/$(LensAlias)/versionDifference",
-        Dict{String,Any}("BaseLensVersion" => BaseLensVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_lens_version_difference(
-    BaseLensVersion,
-    LensAlias,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/lenses/$(LensAlias)/versionDifference",
@@ -530,8 +400,7 @@ function get_lens_version_difference(
 end
 
 """
-    get_milestone(milestone_number, workload_id)
-    get_milestone(milestone_number, workload_id, params::Dict{String,<:Any})
+    get_milestone(milestone_number, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get a milestone for an existing workload.
 
@@ -541,21 +410,12 @@ Get a milestone for an existing workload.
 
 """
 function get_milestone(
-    MilestoneNumber, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_milestone(
     MilestoneNumber,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/milestones/$(MilestoneNumber)",
@@ -566,8 +426,7 @@ function get_milestone(
 end
 
 """
-    get_workload(workload_id)
-    get_workload(workload_id, params::Dict{String,<:Any})
+    get_workload(workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get an existing workload.
 
@@ -575,19 +434,10 @@ Get an existing workload.
 - `workload_id`:
 
 """
-function get_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_workload(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)",
@@ -598,8 +448,7 @@ function get_workload(
 end
 
 """
-    list_answers(lens_alias, workload_id)
-    list_answers(lens_alias, workload_id, params::Dict{String,<:Any})
+    list_answers(lens_alias, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List of answers.
 
@@ -608,28 +457,16 @@ List of answers.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"MilestoneNumber"`:
-- `"NextToken"`:
-- `"PillarId"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"milestone_number"`:
+- `"next_token"`:
+- `"pillar_id"`:
 """
 function list_answers(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_answers(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers",
@@ -640,8 +477,7 @@ function list_answers(
 end
 
 """
-    list_lens_review_improvements(lens_alias, workload_id)
-    list_lens_review_improvements(lens_alias, workload_id, params::Dict{String,<:Any})
+    list_lens_review_improvements(lens_alias, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List lens review improvements.
 
@@ -650,28 +486,16 @@ List lens review improvements.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"MilestoneNumber"`:
-- `"NextToken"`:
-- `"PillarId"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"milestone_number"`:
+- `"next_token"`:
+- `"pillar_id"`:
 """
 function list_lens_review_improvements(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_lens_review_improvements(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/improvements",
@@ -682,8 +506,7 @@ function list_lens_review_improvements(
 end
 
 """
-    list_lens_reviews(workload_id)
-    list_lens_reviews(workload_id, params::Dict{String,<:Any})
+    list_lens_reviews(workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List lens reviews.
 
@@ -691,24 +514,15 @@ List lens reviews.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"MilestoneNumber"`:
-- `"NextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"milestone_number"`:
+- `"next_token"`:
 """
-function list_lens_reviews(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/lensReviews";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_lens_reviews(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/lensReviews",
@@ -719,32 +533,24 @@ function list_lens_reviews(
 end
 
 """
-    list_lenses()
-    list_lenses(params::Dict{String,<:Any})
+    list_lenses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the available lenses.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"NextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_lenses(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "GET", "/lenses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_lenses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_lenses(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET", "/lenses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    list_milestones(workload_id)
-    list_milestones(workload_id, params::Dict{String,<:Any})
+    list_milestones(workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List all milestones for an existing workload.
 
@@ -752,23 +558,14 @@ List all milestones for an existing workload.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:
-- `"NextToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
 """
-function list_milestones(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "POST",
-        "/workloads/$(WorkloadId)/milestonesSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_milestones(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/workloads/$(WorkloadId)/milestonesSummaries",
@@ -779,25 +576,18 @@ function list_milestones(
 end
 
 """
-    list_notifications()
-    list_notifications(params::Dict{String,<:Any})
+    list_notifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List lens notifications.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"NextToken"`:
-- `"WorkloadId"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"next_token"`:
+- `"workload_id"`:
 """
-function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "POST", "/notifications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_notifications(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/notifications",
@@ -808,25 +598,20 @@ function list_notifications(
 end
 
 """
-    list_share_invitations()
-    list_share_invitations(params::Dict{String,<:Any})
+    list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the workload invitations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"NextToken"`:
-- `"WorkloadNamePrefix"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"next_token"`:
+- `"workload_name_prefix"`:
 """
-function list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "GET", "/shareInvitations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_share_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_share_invitations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/shareInvitations",
@@ -837,8 +622,7 @@ function list_share_invitations(
 end
 
 """
-    list_tags_for_resource(workload_arn)
-    list_tags_for_resource(workload_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(workload_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the tags for a resource.
 
@@ -847,20 +631,9 @@ List the tags for a resource.
 
 """
 function list_tags_for_resource(
-    WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "GET",
-        "/tags/$(WorkloadArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    WorkloadArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/tags/$(WorkloadArn)",
@@ -871,8 +644,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_workload_shares(workload_id)
-    list_workload_shares(workload_id, params::Dict{String,<:Any})
+    list_workload_shares(workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the workload shares associated with the workload.
 
@@ -880,24 +652,15 @@ List the workload shares associated with the workload.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"NextToken"`:
-- `"SharedWithPrefix"`: The AWS account ID or IAM role with which the workload is shared.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"next_token"`:
+- `"shared_with_prefix"`: The AWS account ID or IAM role with which the workload is shared.
 """
-function list_workload_shares(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "GET",
-        "/workloads/$(WorkloadId)/shares";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_workload_shares(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "GET",
         "/workloads/$(WorkloadId)/shares",
@@ -908,28 +671,18 @@ function list_workload_shares(
 end
 
 """
-    list_workloads()
-    list_workloads(params::Dict{String,<:Any})
+    list_workloads(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List workloads. Paginated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: The maximum number of results to return for this request.
-- `"NextToken"`:
-- `"WorkloadNamePrefix"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to return for this request.
+- `"next_token"`:
+- `"workload_name_prefix"`:
 """
-function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "POST",
-        "/workloadsSummaries";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_workloads(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_workloads(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/workloadsSummaries",
@@ -940,8 +693,7 @@ function list_workloads(
 end
 
 """
-    tag_resource(tags, workload_arn)
-    tag_resource(tags, workload_arn, params::Dict{String,<:Any})
+    tag_resource(tags, workload_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more tags to the specified resource.
 
@@ -950,21 +702,10 @@ Adds one or more tags to the specified resource.
 - `workload_arn`:
 
 """
-function tag_resource(Tags, WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "POST",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    Tags,
-    WorkloadArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Tags, WorkloadArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "POST",
         "/tags/$(WorkloadArn)",
@@ -975,8 +716,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(workload_arn, tag_keys)
-    untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(workload_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes specified tags from a resource. To specify multiple tags, use separate tagKeys
 parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
@@ -988,22 +728,9 @@ parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
 
 """
 function untag_resource(
-    WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkloadArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "DELETE",
-        "/tags/$(WorkloadArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    WorkloadArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "DELETE",
         "/tags/$(WorkloadArn)",
@@ -1014,8 +741,7 @@ function untag_resource(
 end
 
 """
-    update_answer(lens_alias, question_id, workload_id)
-    update_answer(lens_alias, question_id, workload_id, params::Dict{String,<:Any})
+    update_answer(lens_alias, question_id, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update the answer to a specific question in a workload review.
 
@@ -1025,31 +751,22 @@ Update the answer to a specific question in a workload review.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ChoiceUpdates"`: A list of choices to update on a question in your workload. The String
-  key corresponds to the choice ID to be updated.
-- `"IsApplicable"`:
-- `"Notes"`:
-- `"Reason"`: The reason why a question is not applicable to your workload.
-- `"SelectedChoices"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"choice_updates"`: A list of choices to update on a question in your workload. The
+  String key corresponds to the choice ID to be updated.
+- `"is_applicable"`:
+- `"notes"`:
+- `"reason"`: The reason why a question is not applicable to your workload.
+- `"selected_choices"`:
 """
-function update_answer(
-    LensAlias, QuestionId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_answer(
     LensAlias,
     QuestionId,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
@@ -1060,8 +777,7 @@ function update_answer(
 end
 
 """
-    update_lens_review(lens_alias, workload_id)
-    update_lens_review(lens_alias, workload_id, params::Dict{String,<:Any})
+    update_lens_review(lens_alias, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update lens review.
 
@@ -1070,26 +786,14 @@ Update lens review.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LensNotes"`:
-- `"PillarNotes"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lens_notes"`:
+- `"pillar_notes"`:
 """
 function update_lens_review(
-    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+    LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_lens_review(
-    LensAlias,
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
@@ -1100,8 +804,7 @@ function update_lens_review(
 end
 
 """
-    update_share_invitation(share_invitation_action, share_invitation_id)
-    update_share_invitation(share_invitation_action, share_invitation_id, params::Dict{String,<:Any})
+    update_share_invitation(share_invitation_action, share_invitation_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a workload invitation.
 
@@ -1114,21 +817,9 @@ function update_share_invitation(
     ShareInvitationAction,
     ShareInvitationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return wellarchitected(
-        "PATCH",
-        "/shareInvitations/$(ShareInvitationId)",
-        Dict{String,Any}("ShareInvitationAction" => ShareInvitationAction);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_share_invitation(
-    ShareInvitationAction,
-    ShareInvitationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/shareInvitations/$(ShareInvitationId)",
@@ -1145,8 +836,7 @@ function update_share_invitation(
 end
 
 """
-    update_workload(workload_id)
-    update_workload(workload_id, params::Dict{String,<:Any})
+    update_workload(workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update an existing workload.
 
@@ -1154,38 +844,29 @@ Update an existing workload.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountIds"`:
-- `"ArchitecturalDesign"`:
-- `"AwsRegions"`:
-- `"Description"`:
-- `"Environment"`:
-- `"ImprovementStatus"`:
-- `"Industry"`:
-- `"IndustryType"`:
-- `"IsReviewOwnerUpdateAcknowledged"`: Flag indicating whether the workload owner has
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_ids"`:
+- `"architectural_design"`:
+- `"aws_regions"`:
+- `"description"`:
+- `"environment"`:
+- `"improvement_status"`:
+- `"industry"`:
+- `"industry_type"`:
+- `"is_review_owner_update_acknowledged"`: Flag indicating whether the workload owner has
   acknowledged that the Review owner field is required. If a Review owner is not added to the
   workload within 60 days of acknowledgement, access to the workload is restricted until an
   owner is added.
-- `"NonAwsRegions"`:
-- `"Notes"`:
-- `"PillarPriorities"`:
-- `"ReviewOwner"`:
-- `"WorkloadName"`:
+- `"non_aws_regions"`:
+- `"notes"`:
+- `"pillar_priorities"`:
+- `"review_owner"`:
+- `"workload_name"`:
 """
-function update_workload(WorkloadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_workload(
-    WorkloadId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    WorkloadId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)",
@@ -1196,8 +877,7 @@ function update_workload(
 end
 
 """
-    update_workload_share(permission_type, share_id, workload_id)
-    update_workload_share(permission_type, share_id, workload_id, params::Dict{String,<:Any})
+    update_workload_share(permission_type, share_id, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Update a workload share.
 
@@ -1208,23 +888,13 @@ Update a workload share.
 
 """
 function update_workload_share(
-    PermissionType, ShareId, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "PATCH",
-        "/workloads/$(WorkloadId)/shares/$(ShareId)",
-        Dict{String,Any}("PermissionType" => PermissionType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workload_share(
     PermissionType,
     ShareId,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/shares/$(ShareId)",
@@ -1237,8 +907,7 @@ function update_workload_share(
 end
 
 """
-    upgrade_lens_review(lens_alias, milestone_name, workload_id)
-    upgrade_lens_review(lens_alias, milestone_name, workload_id, params::Dict{String,<:Any})
+    upgrade_lens_review(lens_alias, milestone_name, workload_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Upgrade lens review.
 
@@ -1248,27 +917,17 @@ Upgrade lens review.
 - `workload_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`:
 """
-function upgrade_lens_review(
-    LensAlias, MilestoneName, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wellarchitected(
-        "PUT",
-        "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
-        Dict{String,Any}("MilestoneName" => MilestoneName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function upgrade_lens_review(
     LensAlias,
     MilestoneName,
-    WorkloadId,
-    params::AbstractDict{String};
+    WorkloadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return wellarchitected(
         "PUT",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",

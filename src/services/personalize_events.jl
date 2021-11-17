@@ -4,9 +4,10 @@ using AWS.AWSServices: personalize_events
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("user_id" => "userId")
+
 """
-    put_events(event_list, session_id, tracking_id)
-    put_events(event_list, session_id, tracking_id, params::Dict{String,<:Any})
+    put_events(event_list, session_id, tracking_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Records user interaction event data. For more information see Recording Events.
 
@@ -20,29 +21,17 @@ Records user interaction event data. For more information see Recording Events.
   CreateEventTracker API.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"userId"`: The user associated with the event.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"user_id"`: The user associated with the event.
 """
-function put_events(
-    eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return personalize_events(
-        "POST",
-        "/events",
-        Dict{String,Any}(
-            "eventList" => eventList, "sessionId" => sessionId, "trackingId" => trackingId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_events(
     eventList,
     sessionId,
-    trackingId,
-    params::AbstractDict{String};
+    trackingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return personalize_events(
         "POST",
         "/events",
@@ -63,8 +52,7 @@ function put_events(
 end
 
 """
-    put_items(dataset_arn, items)
-    put_items(dataset_arn, items, params::Dict{String,<:Any})
+    put_items(dataset_arn, items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more items to an Items dataset. For more information see Importing Items
 Incrementally.
@@ -75,21 +63,10 @@ Incrementally.
 - `items`: A list of item data.
 
 """
-function put_items(datasetArn, items; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize_events(
-        "POST",
-        "/items",
-        Dict{String,Any}("datasetArn" => datasetArn, "items" => items);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_items(
-    datasetArn,
-    items,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    datasetArn, items; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return personalize_events(
         "POST",
         "/items",
@@ -106,8 +83,7 @@ function put_items(
 end
 
 """
-    put_users(dataset_arn, users)
-    put_users(dataset_arn, users, params::Dict{String,<:Any})
+    put_users(dataset_arn, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more users to a Users dataset. For more information see Importing Users
 Incrementally.
@@ -118,21 +94,10 @@ Incrementally.
 - `users`: A list of user data.
 
 """
-function put_users(datasetArn, users; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize_events(
-        "POST",
-        "/users",
-        Dict{String,Any}("datasetArn" => datasetArn, "users" => users);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_users(
-    datasetArn,
-    users,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    datasetArn, users; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return personalize_events(
         "POST",
         "/users",

@@ -4,9 +4,26 @@ using AWS.AWSServices: kinesis_video_archived_media
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "container_format" => "ContainerFormat",
+    "next_token" => "NextToken",
+    "max_media_playlist_fragment_results" => "MaxMediaPlaylistFragmentResults",
+    "discontinuity_mode" => "DiscontinuityMode",
+    "stream_arn" => "StreamARN",
+    "expires" => "Expires",
+    "max_results" => "MaxResults",
+    "playback_mode" => "PlaybackMode",
+    "display_fragment_timestamp" => "DisplayFragmentTimestamp",
+    "stream_name" => "StreamName",
+    "dashfragment_selector" => "DASHFragmentSelector",
+    "fragment_selector" => "FragmentSelector",
+    "max_manifest_fragment_results" => "MaxManifestFragmentResults",
+    "hlsfragment_selector" => "HLSFragmentSelector",
+    "display_fragment_number" => "DisplayFragmentNumber",
+)
+
 """
-    get_clip(clip_fragment_selector)
-    get_clip(clip_fragment_selector, params::Dict{String,<:Any})
+    get_clip(clip_fragment_selector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Downloads an MP4 file (clip) containing the archived, on-demand media from the specified
 video stream over the specified time range.  Both the StreamName and the StreamARN
@@ -33,26 +50,16 @@ Pricing and AWS Pricing. Charges for outgoing AWS data apply.
   timestamps.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
   media clip.  You must specify either the StreamName or the StreamARN.
-- `"StreamName"`: The name of the stream for which to retrieve the media clip.  You must
+- `"stream_name"`: The name of the stream for which to retrieve the media clip.  You must
   specify either the StreamName or the StreamARN.
 """
-function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
-        "POST",
-        "/getClip",
-        Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_clip(
-    ClipFragmentSelector,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_archived_media(
         "POST",
         "/getClip",
@@ -69,8 +76,7 @@ function get_clip(
 end
 
 """
-    get_dashstreaming_session_url()
-    get_dashstreaming_session_url(params::Dict{String,<:Any})
+    get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream. You can
 then open the URL in a media player to view the stream contents. Both the StreamName and
@@ -138,19 +144,19 @@ client programmer might need to take in order to successfully try again. For mor
 information, see the Errors section at the bottom of this topic, as well as Common Errors.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DASHFragmentSelector"`: The time range of the requested fragment and the source of the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"dashfragment_selector"`: The time range of the requested fragment and the source of the
   timestamps. This parameter is required if PlaybackMode is ON_DEMAND or LIVE_REPLAY. This
   parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the
   FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode
   is ON_DEMAND or LIVE_REPLAY, both FragmentSelectorType and TimestampRange must be set.
-- `"DisplayFragmentNumber"`: Fragments are identified in the manifest file based on their
+- `"display_fragment_number"`: Fragments are identified in the manifest file based on their
   sequence number in the session. If DisplayFragmentNumber is set to ALWAYS, the Kinesis
   Video Streams fragment number is added to each S element in the manifest file with the
   attribute name “kvs:fn”. These fragment numbers can be used for logging or for use with
   other APIs (e.g. GetMedia and GetMediaForFragmentList). A custom MPEG-DASH media player is
   necessary to leverage these this custom attribute. The default value is NEVER.
-- `"DisplayFragmentTimestamp"`: Per the MPEG-DASH specification, the wall-clock time of
+- `"display_fragment_timestamp"`: Per the MPEG-DASH specification, the wall-clock time of
   fragments in the manifest file can be derived using attributes in the manifest itself.
   However, typically, MPEG-DASH compatible media players do not properly handle gaps in the
   media timeline. Kinesis Video Streams adjusts the media timeline in the manifest file to
@@ -162,22 +168,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when
   DASHFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start
   timestamps.
-- `"Expires"`: The time in seconds until the requested session expires. This value can be
+- `"expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to
   GetDashManifest, GetMP4InitFragment, or GetMP4MediaFragment can be made for that session.
   The default is 300 (5 minutes).
-- `"MaxManifestFragmentResults"`: The maximum number of fragments that are returned in the
-  MPEG-DASH manifest. When the PlaybackMode is LIVE, the most recent fragments are returned
-  up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are returned, up
-  to this maximum number. When there are a higher number of fragments available in a live
-  MPEG-DASH manifest, video players often buffer content before starting playback. Increasing
-  the buffer size increases the playback latency, but it decreases the likelihood that
-  rebuffering will occur during playback. We recommend that a live MPEG-DASH manifest have a
-  minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if
+- `"max_manifest_fragment_results"`: The maximum number of fragments that are returned in
+  the MPEG-DASH manifest. When the PlaybackMode is LIVE, the most recent fragments are
+  returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are
+  returned, up to this maximum number. When there are a higher number of fragments available
+  in a live MPEG-DASH manifest, video players often buffer content before starting playback.
+  Increasing the buffer size increases the playback latency, but it decreases the likelihood
+  that rebuffering will occur during playback. We recommend that a live MPEG-DASH manifest
+  have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if
   PlaybackMode is LIVE or LIVE_REPLAY, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum
   value of 1,000 fragments corresponds to more than 16 minutes of video on streams with
   1-second fragments, and more than 2 1/2 hours of video on streams with 10-second fragments.
-- `"PlaybackMode"`: Whether to retrieve live, live replay, or archived, on-demand data.
+- `"playback_mode"`: Whether to retrieve live, live replay, or archived, on-demand data.
   Features of the three types of sessions include the following:     LIVE : For sessions of
   this type, the MPEG-DASH manifest is continually updated with the latest fragments as they
   become available. We recommend that the media player retrieve a new manifest on a
@@ -209,22 +215,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Fragments that have different timestamps but have overlapping durations are still included
   in the MPEG-DASH manifest. This can lead to unexpected behavior in the media player. The
   default is LIVE.
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
   MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
-- `"StreamName"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
+- `"stream_name"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
   You must specify either the StreamName or the StreamARN.
 """
-function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
-        "POST",
-        "/getDASHStreamingSessionURL";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_dashstreaming_session_url(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_dashstreaming_session_url(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_archived_media(
         "POST",
         "/getDASHStreamingSessionURL",
@@ -235,8 +234,7 @@ function get_dashstreaming_session_url(
 end
 
 """
-    get_hlsstreaming_session_url()
-    get_hlsstreaming_session_url(params::Dict{String,<:Any})
+    get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the URL in a
 browser or media player to view the stream contents. Both the StreamName and the StreamARN
@@ -321,18 +319,18 @@ order to successfully try again. For more information, see the Errors section at
 of this topic, as well as Common Errors.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ContainerFormat"`: Specifies which format should be used for packaging the media.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"container_format"`: Specifies which format should be used for packaging the media.
   Specifying the FRAGMENTED_MP4 container format packages the media into MP4 fragments (fMP4
   or CMAF). This is the recommended packaging because there is minimal packaging overhead.
   The other container format option is MPEG_TS. HLS has supported MPEG TS chunks since it was
   released and is sometimes the only supported packaging on older HLS players. MPEG TS
   typically has a 5-25 percent packaging overhead. This means MPEG TS typically requires 5-25
   percent more bandwidth and cost than fMP4. The default is FRAGMENTED_MP4.
-- `"DiscontinuityMode"`: Specifies when flags marking discontinuities between fragments are
-  added to the media playlists. Media players typically build a timeline of media content to
-  play, based on the timestamps of each fragment. This means that if there is any overlap or
-  gap between fragments (as is typical if HLSFragmentSelector is set to SERVER_TIMESTAMP),
+- `"discontinuity_mode"`: Specifies when flags marking discontinuities between fragments
+  are added to the media playlists. Media players typically build a timeline of media content
+  to play, based on the timestamps of each fragment. This means that if there is any overlap
+  or gap between fragments (as is typical if HLSFragmentSelector is set to SERVER_TIMESTAMP),
   the media player timeline will also have small gaps between fragments in some places, and
   will overwrite frames in other places. Gaps in the media player timeline can cause playback
   to stall and overlaps can cause playback to be jittery. When there are discontinuity flags
@@ -348,7 +346,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeline is only reset when there is a significant issue with the media timeline (e.g. a
   missing fragment).   The default is ALWAYS when HLSFragmentSelector is set to
   SERVER_TIMESTAMP, and NEVER when it is set to PRODUCER_TIMESTAMP.
-- `"DisplayFragmentTimestamp"`: Specifies when the fragment start timestamps should be
+- `"display_fragment_timestamp"`: Specifies when the fragment start timestamps should be
   included in the HLS media playlist. Typically, media players report the playhead position
   as a time relative to the start of the first fragment in the playback session. However,
   when the start timestamps are included in the HLS media playlist, some media players might
@@ -357,27 +355,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   media. The default is NEVER. When HLSFragmentSelector is SERVER_TIMESTAMP, the timestamps
   will be the server start timestamps. Similarly, when HLSFragmentSelector is
   PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps.
-- `"Expires"`: The time in seconds until the requested session expires. This value can be
+- `"expires"`: The time in seconds until the requested session expires. This value can be
   between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to
   GetHLSMasterPlaylist, GetHLSMediaPlaylist, GetMP4InitFragment, GetMP4MediaFragment, or
   GetTSFragment can be made for that session. The default is 300 (5 minutes).
-- `"HLSFragmentSelector"`: The time range of the requested fragment and the source of the
+- `"hlsfragment_selector"`: The time range of the requested fragment and the source of the
   timestamps. This parameter is required if PlaybackMode is ON_DEMAND or LIVE_REPLAY. This
   parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the
   FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode
   is ON_DEMAND or LIVE_REPLAY, both FragmentSelectorType and TimestampRange must be set.
-- `"MaxMediaPlaylistFragmentResults"`: The maximum number of fragments that are returned in
-  the HLS media playlists. When the PlaybackMode is LIVE, the most recent fragments are
-  returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest fragments are
-  returned, up to this maximum number. When there are a higher number of fragments available
-  in a live HLS media playlist, video players often buffer content before starting playback.
-  Increasing the buffer size increases the playback latency, but it decreases the likelihood
-  that rebuffering will occur during playback. We recommend that a live HLS media playlist
-  have a minimum of 3 fragments and a maximum of 10 fragments. The default is 5 fragments if
-  PlaybackMode is LIVE or LIVE_REPLAY, and 1,000 if PlaybackMode is ON_DEMAND.  The maximum
-  value of 5,000 fragments corresponds to more than 80 minutes of video on streams with
-  1-second fragments, and more than 13 hours of video on streams with 10-second fragments.
-- `"PlaybackMode"`: Whether to retrieve live, live replay, or archived, on-demand data.
+- `"max_media_playlist_fragment_results"`: The maximum number of fragments that are
+  returned in the HLS media playlists. When the PlaybackMode is LIVE, the most recent
+  fragments are returned up to this value. When the PlaybackMode is ON_DEMAND, the oldest
+  fragments are returned, up to this maximum number. When there are a higher number of
+  fragments available in a live HLS media playlist, video players often buffer content before
+  starting playback. Increasing the buffer size increases the playback latency, but it
+  decreases the likelihood that rebuffering will occur during playback. We recommend that a
+  live HLS media playlist have a minimum of 3 fragments and a maximum of 10 fragments. The
+  default is 5 fragments if PlaybackMode is LIVE or LIVE_REPLAY, and 1,000 if PlaybackMode is
+  ON_DEMAND.  The maximum value of 5,000 fragments corresponds to more than 80 minutes of
+  video on streams with 1-second fragments, and more than 13 hours of video on streams with
+  10-second fragments.
+- `"playback_mode"`: Whether to retrieve live, live replay, or archived, on-demand data.
   Features of the three types of sessions include the following:     LIVE : For sessions of
   this type, the HLS media playlist is continually updated with the latest fragments as they
   become available. We recommend that the media player retrieve a new playlist on a
@@ -409,22 +408,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   other fragments are not included. Fragments that have different timestamps but have
   overlapping durations are still included in the HLS media playlist. This can lead to
   unexpected behavior in the media player. The default is LIVE.
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS
-  master playlist URL. You must specify either the StreamName or the StreamARN.
-- `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
-  You must specify either the StreamName or the StreamARN.
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream for which to retrieve the
+  HLS master playlist URL. You must specify either the StreamName or the StreamARN.
+- `"stream_name"`: The name of the stream for which to retrieve the HLS master playlist
+  URL. You must specify either the StreamName or the StreamARN.
 """
-function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
-        "POST",
-        "/getHLSStreamingSessionURL";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_hlsstreaming_session_url(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_hlsstreaming_session_url(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_archived_media(
         "POST",
         "/getHLSStreamingSessionURL",
@@ -435,8 +427,7 @@ function get_hlsstreaming_session_url(
 end
 
 """
-    get_media_for_fragment_list(fragments)
-    get_media_for_fragment_list(fragments, params::Dict{String,<:Any})
+    get_media_for_fragment_list(fragments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets media for a list of fragments (specified by fragment number) from the archived data in
 an Amazon Kinesis video stream.  You must first call the GetDataEndpoint API to get an
@@ -458,28 +449,16 @@ topic, as well as Common Errors.
   these values with ListFragments.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream from which to retrieve
   fragment media. Specify either this parameter or the StreamName parameter.
-- `"StreamName"`: The name of the stream from which to retrieve fragment media. Specify
+- `"stream_name"`: The name of the stream from which to retrieve fragment media. Specify
   either this parameter or the StreamARN parameter.
 """
 function get_media_for_fragment_list(
-    Fragments; aws_config::AbstractAWSConfig=global_aws_config()
+    Fragments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video_archived_media(
-        "POST",
-        "/getMediaForFragmentList",
-        Dict{String,Any}("Fragments" => Fragments);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_media_for_fragment_list(
-    Fragments,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_archived_media(
         "POST",
         "/getMediaForFragmentList",
@@ -492,8 +471,7 @@ function get_media_for_fragment_list(
 end
 
 """
-    list_fragments()
-    list_fragments(params::Dict{String,<:Any})
+    list_fragments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Fragment objects from the specified stream and timestamp range within the
 archived data. Listing fragments is eventually consistent. This means that even if the
@@ -513,28 +491,22 @@ to take in order to successfully try again. For more information, see the Errors
 the bottom of this topic, as well as Common Errors.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"FragmentSelector"`: Describes the timestamp range and timestamp origin for the range of
-  fragments to return.
-- `"MaxResults"`: The total number of fragments to return. If the total number of fragments
-  available is more than the value specified in max-results, then a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"fragment_selector"`: Describes the timestamp range and timestamp origin for the range
+  of fragments to return.
+- `"max_results"`: The total number of fragments to return. If the total number of
+  fragments available is more than the value specified in max-results, then a
   ListFragmentsOutputNextToken is provided in the output that you can use to resume
   pagination.
-- `"NextToken"`: A token to specify where to start paginating. This is the
+- `"next_token"`: A token to specify where to start paginating. This is the
   ListFragmentsOutputNextToken from a previously truncated response.
-- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve a
+- `"stream_arn"`: The Amazon Resource Name (ARN) of the stream from which to retrieve a
   fragment list. Specify either this parameter or the StreamName parameter.
-- `"StreamName"`: The name of the stream from which to retrieve a fragment list. Specify
+- `"stream_name"`: The name of the stream from which to retrieve a fragment list. Specify
   either this parameter or the StreamARN parameter.
 """
-function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
-        "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_fragments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_archived_media(
         "POST",
         "/listFragments",

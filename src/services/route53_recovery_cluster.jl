@@ -4,9 +4,10 @@ using AWS.AWSServices: route53_recovery_cluster
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict{String,String}()
+
 """
-    get_routing_control_state(routing_control_arn)
-    get_routing_control_state(routing_control_arn, params::Dict{String,<:Any})
+    get_routing_control_state(routing_control_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Get the state for a routing control. A routing control is a simple on/off switch that you
 can use to route traffic to cells. When the state is On, traffic flows to a cell. When it's
@@ -22,20 +23,9 @@ For more information about working with routing controls, see Routing control in
 
 """
 function get_routing_control_state(
-    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return route53_recovery_cluster(
-        "GetRoutingControlState",
-        Dict{String,Any}("RoutingControlArn" => RoutingControlArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_routing_control_state(
-    RoutingControlArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_cluster(
         "GetRoutingControlState",
         Dict{String,Any}(
@@ -49,8 +39,7 @@ function get_routing_control_state(
 end
 
 """
-    update_routing_control_state(routing_control_arn, routing_control_state)
-    update_routing_control_state(routing_control_arn, routing_control_state, params::Dict{String,<:Any})
+    update_routing_control_state(routing_control_arn, routing_control_state; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Set the state of the routing control to reroute traffic. You can set the value to be On or
 Off. When the state is On, traffic flows to a cell. When it's off, traffic does not flow.
@@ -68,23 +57,9 @@ function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return route53_recovery_cluster(
-        "UpdateRoutingControlState",
-        Dict{String,Any}(
-            "RoutingControlArn" => RoutingControlArn,
-            "RoutingControlState" => RoutingControlState,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_control_state(
-    RoutingControlArn,
-    RoutingControlState,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_cluster(
         "UpdateRoutingControlState",
         Dict{String,Any}(
@@ -103,8 +78,7 @@ function update_routing_control_state(
 end
 
 """
-    update_routing_control_states(update_routing_control_state_entries)
-    update_routing_control_states(update_routing_control_state_entries, params::Dict{String,<:Any})
+    update_routing_control_states(update_routing_control_state_entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Set multiple routing control states. You can set the value for each state to be On or Off.
 When the state is On, traffic flows to a cell. When it's off, traffic does not flow. For
@@ -117,22 +91,11 @@ Application Recovery Controller Developer Guide.
 
 """
 function update_routing_control_states(
-    UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route53_recovery_cluster(
-        "UpdateRoutingControlStates",
-        Dict{String,Any}(
-            "UpdateRoutingControlStateEntries" => UpdateRoutingControlStateEntries
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_routing_control_states(
-    UpdateRoutingControlStateEntries,
-    params::AbstractDict{String};
+    UpdateRoutingControlStateEntries;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return route53_recovery_cluster(
         "UpdateRoutingControlStates",
         Dict{String,Any}(

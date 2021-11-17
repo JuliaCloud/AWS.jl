@@ -4,9 +4,28 @@ using AWS.AWSServices: support
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "cc_email_addresses" => "ccEmailAddresses",
+    "service_code_list" => "serviceCodeList",
+    "issue_type" => "issueType",
+    "attachment_set_id" => "attachmentSetId",
+    "language" => "language",
+    "case_id_list" => "caseIdList",
+    "include_resolved_cases" => "includeResolvedCases",
+    "include_communications" => "includeCommunications",
+    "next_token" => "nextToken",
+    "service_code" => "serviceCode",
+    "before_time" => "beforeTime",
+    "max_results" => "maxResults",
+    "after_time" => "afterTime",
+    "severity_code" => "severityCode",
+    "case_id" => "caseId",
+    "display_id" => "displayId",
+    "category_code" => "categoryCode",
+)
+
 """
-    add_attachments_to_set(attachments)
-    add_attachments_to_set(attachments, params::Dict{String,<:Any})
+    add_attachments_to_set(attachments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds one or more attachments to an attachment set.  An attachment set is a temporary
 container for attachments that you add to a case or case communication. The set is
@@ -24,27 +43,16 @@ appears. For information about changing your support plan, see AWS Support.
   The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"attachmentSetId"`: The ID of the attachment set. If an attachmentSetId is not
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attachment_set_id"`: The ID of the attachment set. If an attachmentSetId is not
   specified, a new attachment set is created, and the ID of the set is returned in the
   response. If an attachmentSetId is specified, the attachments are added to the specified
   set, if it exists.
 """
 function add_attachments_to_set(
-    attachments; aws_config::AbstractAWSConfig=global_aws_config()
+    attachments; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "AddAttachmentsToSet",
-        Dict{String,Any}("attachments" => attachments);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_attachments_to_set(
-    attachments,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "AddAttachmentsToSet",
         Dict{String,Any}(
@@ -56,8 +64,7 @@ function add_attachments_to_set(
 end
 
 """
-    add_communication_to_case(communication_body)
-    add_communication_to_case(communication_body, params::Dict{String,<:Any})
+    add_communication_to_case(communication_body; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds additional customer communication to an AWS Support case. Use the caseId parameter to
 identify the case to which to add communication. You can list a set of email addresses to
@@ -71,30 +78,19 @@ error message appears. For information about changing your support plan, see AWS
 - `communication_body`: The body of an email communication to add to the support case.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"attachmentSetId"`: The ID of a set of one or more attachments for the communication to
-  add to the case. Create the set by calling AddAttachmentsToSet
-- `"caseId"`: The support case ID requested or returned in the call. The case ID is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attachment_set_id"`: The ID of a set of one or more attachments for the communication
+  to add to the case. Create the set by calling AddAttachmentsToSet
+- `"case_id"`: The support case ID requested or returned in the call. The case ID is an
   alphanumeric string formatted as shown in this example:
   case-12345678910-2013-c4c1d2bf33c5cf47
-- `"ccEmailAddresses"`: The email addresses in the CC line of an email to be added to the
+- `"cc_email_addresses"`: The email addresses in the CC line of an email to be added to the
   support case.
 """
 function add_communication_to_case(
-    communicationBody; aws_config::AbstractAWSConfig=global_aws_config()
+    communicationBody; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "AddCommunicationToCase",
-        Dict{String,Any}("communicationBody" => communicationBody);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function add_communication_to_case(
-    communicationBody,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "AddCommunicationToCase",
         Dict{String,Any}(
@@ -108,8 +104,7 @@ function add_communication_to_case(
 end
 
 """
-    create_case(communication_body, subject)
-    create_case(communication_body, subject, params::Dict{String,<:Any})
+    create_case(communication_body, subject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a case in the AWS Support Center. This operation is similar to how you create a
 case in the AWS Support Center Create Case page. The AWS Support API doesn't support
@@ -133,44 +128,32 @@ support plan, see AWS Support.
   AWS Support Center Create Case page.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"attachmentSetId"`: The ID of a set of one or more attachments for the case. Create the
-  set by using the AddAttachmentsToSet operation.
-- `"categoryCode"`: The category of problem for the support case. You also use the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"attachment_set_id"`: The ID of a set of one or more attachments for the case. Create
+  the set by using the AddAttachmentsToSet operation.
+- `"category_code"`: The category of problem for the support case. You also use the
   DescribeServices operation to get the category code for a service. Each AWS service defines
   its own set of category codes.
-- `"ccEmailAddresses"`: A list of email addresses that AWS Support copies on case
+- `"cc_email_addresses"`: A list of email addresses that AWS Support copies on case
   correspondence. AWS Support identifies the account that creates the case when you specify
   your AWS credentials in an HTTP POST method or use the AWS SDKs.
-- `"issueType"`: The type of issue for the case. You can specify customer-service or
+- `"issue_type"`: The type of issue for the case. You can specify customer-service or
   technical. If you don't specify a value, the default is technical.
 - `"language"`: The language in which AWS Support handles the case. You must specify the
   ISO 639-1 code for the language parameter if you want support in that language. Currently,
   English (\"en\") and Japanese (\"ja\") are supported.
-- `"serviceCode"`: The code for the AWS service. You can use the DescribeServices operation
-  to get the possible serviceCode values.
-- `"severityCode"`: A value that indicates the urgency of the case. This value determines
+- `"service_code"`: The code for the AWS service. You can use the DescribeServices
+  operation to get the possible serviceCode values.
+- `"severity_code"`: A value that indicates the urgency of the case. This value determines
   the response time according to your service level agreement with AWS Support. You can use
   the DescribeSeverityLevels operation to get the possible values for severityCode.  For more
   information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The
   availability of severity levels depends on the support plan for the AWS account.
 """
 function create_case(
-    communicationBody, subject; aws_config::AbstractAWSConfig=global_aws_config()
+    communicationBody, subject; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "CreateCase",
-        Dict{String,Any}("communicationBody" => communicationBody, "subject" => subject);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_case(
-    communicationBody,
-    subject,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "CreateCase",
         Dict{String,Any}(
@@ -188,8 +171,7 @@ function create_case(
 end
 
 """
-    describe_attachment(attachment_id)
-    describe_attachment(attachment_id, params::Dict{String,<:Any})
+    describe_attachment(attachment_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the attachment that has the specified ID. Attachments can include screenshots,
 error logs, or other files that describe your issue. Attachment IDs are generated by the
@@ -206,20 +188,9 @@ appears. For information about changing your support plan, see AWS Support.
 
 """
 function describe_attachment(
-    attachmentId; aws_config::AbstractAWSConfig=global_aws_config()
+    attachmentId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "DescribeAttachment",
-        Dict{String,Any}("attachmentId" => attachmentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_attachment(
-    attachmentId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeAttachment",
         Dict{String,Any}(
@@ -231,8 +202,7 @@ function describe_attachment(
 end
 
 """
-    describe_cases()
-    describe_cases(params::Dict{String,<:Any})
+    describe_cases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of cases that you specify by passing one or more case IDs. You can use the
 afterTime and beforeTime parameters to filter the cases by date. You can set values for the
@@ -247,38 +217,33 @@ Enterprise Support plan, the SubscriptionRequiredException error message appears
 information about changing your support plan, see AWS Support.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"afterTime"`: The start date for a filtered date search on support case communications.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after_time"`: The start date for a filtered date search on support case communications.
   Case communications are available for 12 months after creation.
-- `"beforeTime"`: The end date for a filtered date search on support case communications.
+- `"before_time"`: The end date for a filtered date search on support case communications.
   Case communications are available for 12 months after creation.
-- `"caseIdList"`: A list of ID numbers of the support cases you want returned. The maximum
-  number of cases is 100.
-- `"displayId"`: The ID displayed for a case in the AWS Support Center user interface.
-- `"includeCommunications"`: Specifies whether to include communications in the
+- `"case_id_list"`: A list of ID numbers of the support cases you want returned. The
+  maximum number of cases is 100.
+- `"display_id"`: The ID displayed for a case in the AWS Support Center user interface.
+- `"include_communications"`: Specifies whether to include communications in the
   DescribeCases response. By default, communications are included.
-- `"includeResolvedCases"`: Specifies whether to include resolved support cases in the
+- `"include_resolved_cases"`: Specifies whether to include resolved support cases in the
   DescribeCases response. By default, resolved cases aren't included.
 - `"language"`: The ISO 639-1 code for the language in which AWS provides support. AWS
   Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must
   be passed explicitly for operations that take them.
-- `"maxResults"`: The maximum number of results to return before paginating.
-- `"nextToken"`: A resumption point for pagination.
+- `"max_results"`: The maximum number of results to return before paginating.
+- `"next_token"`: A resumption point for pagination.
 """
-function describe_cases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("DescribeCases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function describe_cases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_cases(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeCases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_communications(case_id)
-    describe_communications(case_id, params::Dict{String,<:Any})
+    describe_communications(case_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns communications and attachments for one or more support cases. Use the afterTime and
 beforeTime parameters to filter by date. You can use the caseId parameter to restrict the
@@ -297,25 +262,18 @@ error message appears. For information about changing your support plan, see AWS
   case-12345678910-2013-c4c1d2bf33c5cf47
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"afterTime"`: The start date for a filtered date search on support case communications.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"after_time"`: The start date for a filtered date search on support case communications.
   Case communications are available for 12 months after creation.
-- `"beforeTime"`: The end date for a filtered date search on support case communications.
+- `"before_time"`: The end date for a filtered date search on support case communications.
   Case communications are available for 12 months after creation.
-- `"maxResults"`: The maximum number of results to return before paginating.
-- `"nextToken"`: A resumption point for pagination.
+- `"max_results"`: The maximum number of results to return before paginating.
+- `"next_token"`: A resumption point for pagination.
 """
-function describe_communications(caseId; aws_config::AbstractAWSConfig=global_aws_config())
-    return support(
-        "DescribeCommunications",
-        Dict{String,Any}("caseId" => caseId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_communications(
-    caseId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    caseId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeCommunications",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("caseId" => caseId), params));
@@ -325,8 +283,7 @@ function describe_communications(
 end
 
 """
-    describe_services()
-    describe_services(params::Dict{String,<:Any})
+    describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the current list of AWS services and a list of service categories for each service.
 You then use service names and categories in your CreateCase requests. Each AWS service has
@@ -341,28 +298,21 @@ a Business or Enterprise Support plan, the SubscriptionRequiredException error m
 appears. For information about changing your support plan, see AWS Support.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"language"`: The ISO 639-1 code for the language in which AWS provides support. AWS
   Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must
   be passed explicitly for operations that take them.
-- `"serviceCodeList"`: A JSON-formatted list of service codes available for AWS services.
+- `"service_code_list"`: A JSON-formatted list of service codes available for AWS services.
 """
-function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support(
-        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_services(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_services(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeServices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_severity_levels()
-    describe_severity_levels(params::Dict{String,<:Any})
+    describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the list of severity levels that you can assign to a support case. The severity
 level for a case is also a field in the CaseDetails data type that you include for a
@@ -372,19 +322,15 @@ Business or Enterprise Support plan, the SubscriptionRequiredException error mes
 appears. For information about changing your support plan, see AWS Support.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"language"`: The ISO 639-1 code for the language in which AWS provides support. AWS
   Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must
   be passed explicitly for operations that take them.
 """
-function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support(
-        "DescribeSeverityLevels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_severity_levels(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_severity_levels(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeSeverityLevels",
         params;
@@ -394,8 +340,7 @@ function describe_severity_levels(
 end
 
 """
-    describe_trusted_advisor_check_refresh_statuses(check_ids)
-    describe_trusted_advisor_check_refresh_statuses(check_ids, params::Dict{String,<:Any})
+    describe_trusted_advisor_check_refresh_statuses(check_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the refresh status of the AWS Trusted Advisor checks that have the specified check
 IDs. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. Some
@@ -414,20 +359,9 @@ support plan, see AWS Support.
 
 """
 function describe_trusted_advisor_check_refresh_statuses(
-    checkIds; aws_config::AbstractAWSConfig=global_aws_config()
+    checkIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "DescribeTrustedAdvisorCheckRefreshStatuses",
-        Dict{String,Any}("checkIds" => checkIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_trusted_advisor_check_refresh_statuses(
-    checkIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeTrustedAdvisorCheckRefreshStatuses",
         Dict{String,Any}(
@@ -439,8 +373,7 @@ function describe_trusted_advisor_check_refresh_statuses(
 end
 
 """
-    describe_trusted_advisor_check_result(check_id)
-    describe_trusted_advisor_check_result(check_id, params::Dict{String,<:Any})
+    describe_trusted_advisor_check_result(check_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the results of the AWS Trusted Advisor check that has the specified check ID. You
 can get the check IDs by calling the DescribeTrustedAdvisorChecks operation. The response
@@ -458,24 +391,15 @@ message appears. For information about changing your support plan, see AWS Suppo
 - `check_id`: The unique identifier for the Trusted Advisor check.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"language"`: The ISO 639-1 code for the language in which AWS provides support. AWS
   Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must
   be passed explicitly for operations that take them.
 """
 function describe_trusted_advisor_check_result(
-    checkId; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "DescribeTrustedAdvisorCheckResult",
-        Dict{String,Any}("checkId" => checkId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_trusted_advisor_check_result(
-    checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeTrustedAdvisorCheckResult",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("checkId" => checkId), params));
@@ -485,8 +409,7 @@ function describe_trusted_advisor_check_result(
 end
 
 """
-    describe_trusted_advisor_check_summaries(check_ids)
-    describe_trusted_advisor_check_summaries(check_ids, params::Dict{String,<:Any})
+    describe_trusted_advisor_check_summaries(check_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the results for the AWS Trusted Advisor check summaries for the check IDs that you
 specified. You can get the check IDs by calling the DescribeTrustedAdvisorChecks operation.
@@ -501,20 +424,9 @@ support plan, see AWS Support.
 
 """
 function describe_trusted_advisor_check_summaries(
-    checkIds; aws_config::AbstractAWSConfig=global_aws_config()
+    checkIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "DescribeTrustedAdvisorCheckSummaries",
-        Dict{String,Any}("checkIds" => checkIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_trusted_advisor_check_summaries(
-    checkIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeTrustedAdvisorCheckSummaries",
         Dict{String,Any}(
@@ -526,8 +438,7 @@ function describe_trusted_advisor_check_summaries(
 end
 
 """
-    describe_trusted_advisor_checks(language)
-    describe_trusted_advisor_checks(language, params::Dict{String,<:Any})
+    describe_trusted_advisor_checks(language; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about all available AWS Trusted Advisor checks, including the name, ID,
 category, description, and metadata. You must specify a language code. The AWS Support API
@@ -547,20 +458,9 @@ ID in your code to uniquely identify a check.
 
 """
 function describe_trusted_advisor_checks(
-    language; aws_config::AbstractAWSConfig=global_aws_config()
+    language; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "DescribeTrustedAdvisorChecks",
-        Dict{String,Any}("language" => language);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_trusted_advisor_checks(
-    language,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "DescribeTrustedAdvisorChecks",
         Dict{String,Any}(
@@ -572,8 +472,7 @@ function describe_trusted_advisor_checks(
 end
 
 """
-    refresh_trusted_advisor_check(check_id)
-    refresh_trusted_advisor_check(check_id, params::Dict{String,<:Any})
+    refresh_trusted_advisor_check(check_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Refreshes the AWS Trusted Advisor check that you specify using the check ID. You can get
 the check IDs by calling the DescribeTrustedAdvisorChecks operation.  Some checks are
@@ -591,18 +490,9 @@ error message appears. For information about changing your support plan, see AWS
 
 """
 function refresh_trusted_advisor_check(
-    checkId; aws_config::AbstractAWSConfig=global_aws_config()
+    checkId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return support(
-        "RefreshTrustedAdvisorCheck",
-        Dict{String,Any}("checkId" => checkId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function refresh_trusted_advisor_check(
-    checkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "RefreshTrustedAdvisorCheck",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("checkId" => checkId), params));
@@ -612,8 +502,7 @@ function refresh_trusted_advisor_check(
 end
 
 """
-    resolve_case()
-    resolve_case(params::Dict{String,<:Any})
+    resolve_case(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Resolves a support case. This operation takes a caseId and returns the initial and final
 state of the case.    You must have a Business or Enterprise Support plan to use the AWS
@@ -622,17 +511,13 @@ Business or Enterprise Support plan, the SubscriptionRequiredException error mes
 appears. For information about changing your support plan, see AWS Support.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"caseId"`: The support case ID requested or returned in the call. The case ID is an
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"case_id"`: The support case ID requested or returned in the call. The case ID is an
   alphanumeric string formatted as shown in this example:
   case-12345678910-2013-c4c1d2bf33c5cf47
 """
-function resolve_case(; aws_config::AbstractAWSConfig=global_aws_config())
-    return support("ResolveCase"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function resolve_case(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function resolve_case(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return support(
         "ResolveCase", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )

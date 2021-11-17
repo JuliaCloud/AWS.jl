@@ -4,9 +4,32 @@ using AWS.AWSServices: s3_control
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "lifecycle_configuration" => "LifecycleConfiguration",
+    "vpc_configuration" => "VpcConfiguration",
+    "grant_read_acp" => "x-amz-grant-read-acp",
+    "next_token" => "nextToken",
+    "confirm_remove_self_bucket_access" => "x-amz-confirm-remove-self-bucket-access",
+    "public_access_block_configuration" => "PublicAccessBlockConfiguration",
+    "status_update_reason" => "statusUpdateReason",
+    "confirmation_required" => "ConfirmationRequired",
+    "outpost_id" => "x-amz-outpost-id",
+    "bucket" => "bucket",
+    "job_statuses" => "jobStatuses",
+    "description" => "Description",
+    "max_results" => "maxResults",
+    "acl" => "x-amz-acl",
+    "grant_full_control" => "x-amz-grant-full-control",
+    "grant_write_acp" => "x-amz-grant-write-acp",
+    "create_bucket_configuration" => "CreateBucketConfiguration",
+    "grant_write" => "x-amz-grant-write",
+    "object_lock_enabled_for_bucket" => "x-amz-bucket-object-lock-enabled",
+    "tags" => "Tag",
+    "grant_read" => "x-amz-grant-read",
+)
+
 """
-    create_access_point(bucket, name, x-amz-account-id)
-    create_access_point(bucket, name, x-amz-account-id, params::Dict{String,<:Any})
+    create_access_point(bucket, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an access point and associates it with the specified bucket. For more information,
 see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on
@@ -36,34 +59,21 @@ following actions are related to CreateAccessPoint:    GetAccessPoint     Delete
   which you want to create an access point.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"PublicAccessBlockConfiguration"`:  The PublicAccessBlock configuration that you want to
-  apply to the access point.
-- `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"public_access_block_configuration"`:  The PublicAccessBlock configuration that you want
+  to apply to the access point.
+- `"vpc_configuration"`: If you include this field, Amazon S3 restricts access to this
   access point to requests from the specified virtual private cloud (VPC).  This is required
   for creating an access point for Amazon S3 on Outposts buckets.
 """
 function create_access_point(
-    Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "Bucket" => Bucket,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_access_point(
     Bucket,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/accesspoint/$(name)",
@@ -83,8 +93,7 @@ function create_access_point(
 end
 
 """
-    create_access_point_for_object_lambda(configuration, name, x-amz-account-id)
-    create_access_point_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
+    create_access_point_for_object_lambda(configuration, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an Object Lambda Access Point. For more information, see Transforming objects with
 Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related
@@ -99,26 +108,13 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 """
 function create_access_point_for_object_lambda(
-    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_access_point_for_object_lambda(
     Configuration,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/accesspointforobjectlambda/$(name)",
@@ -138,8 +134,7 @@ function create_access_point_for_object_lambda(
 end
 
 """
-    create_bucket(name)
-    create_bucket(name, params::Dict{String,<:Any})
+    create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action creates an Amazon S3 on Outposts bucket. To create an S3 bucket, see Create
 Bucket in the Amazon S3 API Reference.   Creates a new Outposts bucket. By creating the
@@ -159,37 +154,28 @@ CreateAccessPoint     PutAccessPointPolicy
 - `name`: The name of the bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CreateBucketConfiguration"`: The configuration information for the bucket.  This is not
-  supported by Amazon S3 on Outposts buckets.
-- `"x-amz-acl"`: The canned ACL to apply to the bucket.  This is not supported by Amazon S3
-  on Outposts buckets.
-- `"x-amz-bucket-object-lock-enabled"`: Specifies whether you want S3 Object Lock to be
-  enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"acl"`: The canned ACL to apply to the bucket.  This is not supported by Amazon S3 on
+  Outposts buckets.
+- `"create_bucket_configuration"`: The configuration information for the bucket.  This is
+  not supported by Amazon S3 on Outposts buckets.
+- `"grant_full_control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.  This is not
-  supported by Amazon S3 on Outposts buckets.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.  This is not supported
+- `"grant_read"`: Allows grantee to list the objects in the bucket.  This is not supported
   by Amazon S3 on Outposts buckets.
-- `"x-amz-grant-write"`: Allows grantee to create, overwrite, and delete any object in the
+- `"grant_read_acp"`: Allows grantee to read the bucket ACL.  This is not supported by
+  Amazon S3 on Outposts buckets.
+- `"grant_write"`: Allows grantee to create, overwrite, and delete any object in the
   bucket.  This is not supported by Amazon S3 on Outposts buckets.
-- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
-  This is not supported by Amazon S3 on Outposts buckets.
-- `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This is
+- `"grant_write_acp"`: Allows grantee to write the ACL for the applicable bucket.  This is
+  not supported by Amazon S3 on Outposts buckets.
+- `"object_lock_enabled_for_bucket"`: Specifies whether you want S3 Object Lock to be
+  enabled for the new bucket.  This is not supported by Amazon S3 on Outposts buckets.
+- `"outpost_id"`: The ID of the Outposts where the bucket is being created.  This is
   required by Amazon S3 on Outposts buckets.
 """
-function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_bucket(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/bucket/$(name)",
@@ -200,8 +186,7 @@ function create_bucket(
 end
 
 """
-    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id)
-    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id, params::Dict{String,<:Any})
+    create_job(client_request_token, manifest, operation, priority, report, role_arn, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects.
 Batch Operations can run a single action on lists of Amazon S3 objects that you specify.
@@ -224,12 +209,12 @@ creates a S3 Batch Operations job.  Related actions include:    DescribeJob     
 - `x-amz-account-id`: The Amazon Web Services account ID that creates the job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConfirmationRequired"`: Indicates whether confirmation is required before Amazon S3
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"confirmation_required"`: Indicates whether confirmation is required before Amazon S3
   runs the job. Confirmation is only required for jobs created through the Amazon S3 console.
-- `"Description"`: A description for this job. You can use any string within the permitted
+- `"description"`: A description for this job. You can use any string within the permitted
   length. Descriptions don't need to be unique and can be used for multiple jobs.
-- `"Tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
+- `"tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
   optional parameter.
 """
 function create_job(
@@ -241,34 +226,9 @@ function create_job(
     RoleArn,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/jobs",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Manifest" => Manifest,
-            "Operation" => Operation,
-            "Priority" => Priority,
-            "Report" => Report,
-            "RoleArn" => RoleArn,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_job(
-    ClientRequestToken,
-    Manifest,
-    Operation,
-    Priority,
-    Report,
-    RoleArn,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/jobs",
@@ -293,8 +253,7 @@ function create_job(
 end
 
 """
-    create_multi_region_access_point(client_token, details, x-amz-account-id)
-    create_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+    create_multi_region_access_point(client_token, details, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a Multi-Region Access Point and associates it with the specified buckets. For more
 information about creating Multi-Region Access Points, see Creating Multi-Region Access
@@ -322,26 +281,9 @@ function create_multi_region_access_point(
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/create",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_multi_region_access_point(
-    ClientToken,
-    Details,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/async-requests/mrap/create",
@@ -362,8 +304,7 @@ function create_multi_region_access_point(
 end
 
 """
-    delete_access_point(name, x-amz-account-id)
-    delete_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_access_point(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this
 action require an additional parameter of x-amz-outpost-id to be passed with the request
@@ -387,24 +328,9 @@ GetAccessPoint     ListAccessPoints
 
 """
 function delete_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access_point(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/accesspoint/$(name)",
@@ -423,8 +349,7 @@ function delete_access_point(
 end
 
 """
-    delete_access_point_for_object_lambda(name, x-amz-account-id)
-    delete_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_access_point_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the specified Object Lambda Access Point. The following actions are related to
 DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda
@@ -437,24 +362,9 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 """
 function delete_access_point_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access_point_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/accesspointforobjectlambda/$(name)",
@@ -473,8 +383,7 @@ function delete_access_point_for_object_lambda(
 end
 
 """
-    delete_access_point_policy(name, x-amz-account-id)
-    delete_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_access_point_policy(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts
 REST API requests for this action require an additional parameter of x-amz-outpost-id to be
@@ -498,24 +407,9 @@ DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
 
 """
 function delete_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access_point_policy(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/accesspoint/$(name)/policy",
@@ -534,8 +428,7 @@ function delete_access_point_policy(
 end
 
 """
-    delete_access_point_policy_for_object_lambda(name, x-amz-account-id)
-    delete_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_access_point_policy_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the resource policy for an Object Lambda Access Point. The following actions are
 related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda
@@ -548,24 +441,9 @@ related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObj
 
 """
 function delete_access_point_policy_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_access_point_policy_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/accesspointforobjectlambda/$(name)/policy",
@@ -584,8 +462,7 @@ function delete_access_point_policy_for_object_lambda(
 end
 
 """
-    delete_bucket(name, x-amz-account-id)
-    delete_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_bucket(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see
 DeleteBucket in the Amazon S3 API Reference.   Deletes the Amazon S3 on Outposts bucket.
@@ -612,24 +489,9 @@ section.  Related Resources     CreateBucket     GetBucket     DeleteObject
 
 """
 function delete_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bucket(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/bucket/$(name)",
@@ -648,8 +510,7 @@ function delete_bucket(
 end
 
 """
-    delete_bucket_lifecycle_configuration(name, x-amz-account-id)
-    delete_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_bucket_lifecycle_configuration(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action deletes an Amazon S3 on Outposts bucket's lifecycle configuration. To delete
 an S3 bucket's lifecycle configuration, see DeleteBucketLifecycle in the Amazon S3 API
@@ -683,24 +544,9 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 
 """
 function delete_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bucket_lifecycle_configuration(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/bucket/$(name)/lifecycleconfiguration",
@@ -719,8 +565,7 @@ function delete_bucket_lifecycle_configuration(
 end
 
 """
-    delete_bucket_policy(name, x-amz-account-id)
-    delete_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_bucket_policy(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action deletes an Amazon S3 on Outposts bucket policy. To delete an S3 bucket policy,
 see DeleteBucketPolicy in the Amazon S3 API Reference.   This implementation of the DELETE
@@ -757,24 +602,9 @@ related to DeleteBucketPolicy:    GetBucketPolicy     PutBucketPolicy
 
 """
 function delete_bucket_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bucket_policy(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/bucket/$(name)/policy",
@@ -793,8 +623,7 @@ function delete_bucket_policy(
 end
 
 """
-    delete_bucket_tagging(name, x-amz-account-id)
-    delete_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
+    delete_bucket_tagging(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action deletes an Amazon S3 on Outposts bucket's tags. To delete an S3 bucket tags,
 see DeleteBucketTagging in the Amazon S3 API Reference.   Deletes the tags from the
@@ -823,24 +652,9 @@ related to DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 
 """
 function delete_bucket_tagging(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_bucket_tagging(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/bucket/$(name)/tagging",
@@ -859,8 +673,7 @@ function delete_bucket_tagging(
 end
 
 """
-    delete_job_tagging(id, x-amz-account-id)
-    delete_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
+    delete_job_tagging(id, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the entire tag set from the specified S3 Batch Operations job. To use this
 operation, you must have permission to perform the s3:DeleteJobTagging action. For more
@@ -874,24 +687,9 @@ Guide.  Related actions include:    CreateJob     GetJobTagging     PutJobTaggin
 
 """
 function delete_job_tagging(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/jobs/$(id)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_job_tagging(
-    id,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/jobs/$(id)/tagging",
@@ -910,8 +708,7 @@ function delete_job_tagging(
 end
 
 """
-    delete_multi_region_access_point(client_token, details, x-amz-account-id)
-    delete_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+    delete_multi_region_access_point(client_token, details, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a Multi-Region Access Point. This action does not delete the buckets associated
 with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action
@@ -938,26 +735,9 @@ function delete_multi_region_access_point(
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/delete",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_multi_region_access_point(
-    ClientToken,
-    Details,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/async-requests/mrap/delete",
@@ -978,8 +758,7 @@ function delete_multi_region_access_point(
 end
 
 """
-    delete_public_access_block(x-amz-account-id)
-    delete_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
+    delete_public_access_block(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more
 information, see  Using Amazon S3 block public access. Related actions include:
@@ -991,23 +770,9 @@ GetPublicAccessBlock     PutPublicAccessBlock
 
 """
 function delete_public_access_block(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_public_access_block(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/configuration/publicAccessBlock",
@@ -1026,8 +791,7 @@ function delete_public_access_block(
 end
 
 """
-    delete_storage_lens_configuration(storagelensid, x-amz-account-id)
-    delete_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    delete_storage_lens_configuration(storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
@@ -1041,24 +805,12 @@ use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 """
 function delete_storage_lens_configuration(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "DELETE",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_storage_lens_configuration(
     storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/storagelens/$(storagelensid)",
@@ -1077,8 +829,7 @@ function delete_storage_lens_configuration(
 end
 
 """
-    delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
-    delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
@@ -1092,24 +843,12 @@ permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 """
 function delete_storage_lens_configuration_tagging(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "DELETE",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_storage_lens_configuration_tagging(
     storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "DELETE",
         "/v20180820/storagelens/$(storagelensid)/tagging",
@@ -1128,8 +867,7 @@ function delete_storage_lens_configuration_tagging(
 end
 
 """
-    describe_job(id, x-amz-account-id)
-    describe_job(id, x-amz-account-id, params::Dict{String,<:Any})
+    describe_job(id, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the configuration parameters and status for a Batch Operations job. For more
 information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actions include:
@@ -1142,24 +880,9 @@ information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actio
 
 """
 function describe_job(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/jobs/$(id)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_job(
-    id,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/jobs/$(id)",
@@ -1178,8 +901,7 @@ function describe_job(
 end
 
 """
-    describe_multi_region_access_point_operation(request_token, x-amz-account-id)
-    describe_multi_region_access_point_operation(request_token, x-amz-account-id, params::Dict{String,<:Any})
+    describe_multi_region_access_point_operation(request_token, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For
 more information about managing Multi-Region Access Points and how asynchronous requests
@@ -1197,24 +919,12 @@ DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAc
 
 """
 function describe_multi_region_access_point_operation(
-    request_token, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "GET",
-        "/v20180820/async-requests/mrap/$(request_token)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_multi_region_access_point_operation(
     request_token,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/async-requests/mrap/$(request_token)",
@@ -1233,8 +943,7 @@ function describe_multi_region_access_point_operation(
 end
 
 """
-    get_access_point(name, x-amz-account-id)
-    get_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns configuration information about the specified access point.  All Amazon S3 on
 Outposts REST API requests for this action require an additional parameter of
@@ -1260,24 +969,9 @@ related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAc
 
 """
 function get_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspoint/$(name)",
@@ -1296,8 +990,7 @@ function get_access_point(
 end
 
 """
-    get_access_point_configuration_for_object_lambda(name, x-amz-account-id)
-    get_access_point_configuration_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_configuration_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns configuration for an Object Lambda Access Point. The following actions are related
 to GetAccessPointConfigurationForObjectLambda:
@@ -1311,24 +1004,9 @@ PutAccessPointConfigurationForObjectLambda
 
 """
 function get_access_point_configuration_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/configuration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_configuration_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda/$(name)/configuration",
@@ -1347,8 +1025,7 @@ function get_access_point_configuration_for_object_lambda(
 end
 
 """
-    get_access_point_for_object_lambda(name, x-amz-account-id)
-    get_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns configuration information about the specified Object Lambda Access Point The
 following actions are related to GetAccessPointForObjectLambda:
@@ -1362,24 +1039,9 @@ ListAccessPointsForObjectLambda
 
 """
 function get_access_point_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda/$(name)",
@@ -1398,8 +1060,7 @@ function get_access_point_for_object_lambda(
 end
 
 """
-    get_access_point_policy(name, x-amz-account-id)
-    get_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_policy(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the access point policy associated with the specified access point. The following
 actions are related to GetAccessPointPolicy:    PutAccessPointPolicy
@@ -1419,24 +1080,9 @@ DeleteAccessPointPolicy
 
 """
 function get_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_policy(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspoint/$(name)/policy",
@@ -1455,8 +1101,7 @@ function get_access_point_policy(
 end
 
 """
-    get_access_point_policy_for_object_lambda(name, x-amz-account-id)
-    get_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_policy_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the resource policy for an Object Lambda Access Point. The following actions are
 related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda
@@ -1469,24 +1114,9 @@ related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObj
 
 """
 function get_access_point_policy_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_policy_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda/$(name)/policy",
@@ -1505,8 +1135,7 @@ function get_access_point_policy_for_object_lambda(
 end
 
 """
-    get_access_point_policy_status(name, x-amz-account-id)
-    get_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_policy_status(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Indicates whether the specified access point currently has a policy that allows public
 access. For more information about public access through access points, see Managing Data
@@ -1518,24 +1147,9 @@ Access with Amazon S3 access points in the Amazon S3 User Guide.
 
 """
 function get_access_point_policy_status(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)/policyStatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_policy_status(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspoint/$(name)/policyStatus",
@@ -1554,8 +1168,7 @@ function get_access_point_policy_status(
 end
 
 """
-    get_access_point_policy_status_for_object_lambda(name, x-amz-account-id)
-    get_access_point_policy_status_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_access_point_policy_status_for_object_lambda(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the status of the resource policy associated with an Object Lambda Access Point.
 
@@ -1566,24 +1179,9 @@ Returns the status of the resource policy associated with an Object Lambda Acces
 
 """
 function get_access_point_policy_status_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/policyStatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_access_point_policy_status_for_object_lambda(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda/$(name)/policyStatus",
@@ -1602,8 +1200,7 @@ function get_access_point_policy_status_for_object_lambda(
 end
 
 """
-    get_bucket(name, x-amz-account-id)
-    get_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_bucket(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
 Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user
@@ -1635,24 +1232,9 @@ derived using the access point ARN, see the Examples section.    PutObject     C
 
 """
 function get_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_bucket(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/bucket/$(name)",
@@ -1671,8 +1253,7 @@ function get_bucket(
 end
 
 """
-    get_bucket_lifecycle_configuration(name, x-amz-account-id)
-    get_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_bucket_lifecycle_configuration(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action gets an Amazon S3 on Outposts bucket's lifecycle configuration. To get an S3
 bucket's lifecycle configuration, see GetBucketLifecycleConfiguration in the Amazon S3 API
@@ -1708,24 +1289,9 @@ DeleteBucketLifecycleConfiguration
 
 """
 function get_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_bucket_lifecycle_configuration(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/bucket/$(name)/lifecycleconfiguration",
@@ -1744,8 +1310,7 @@ function get_bucket_lifecycle_configuration(
 end
 
 """
-    get_bucket_policy(name, x-amz-account-id)
-    get_bucket_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_bucket_policy(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action gets a bucket policy for an Amazon S3 on Outposts bucket. To get a policy for
 an S3 bucket, see GetBucketPolicy in the Amazon S3 API Reference.   Returns the policy of a
@@ -1782,24 +1347,9 @@ DeleteBucketPolicy
 
 """
 function get_bucket_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_bucket_policy(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/bucket/$(name)/policy",
@@ -1818,8 +1368,7 @@ function get_bucket_policy(
 end
 
 """
-    get_bucket_tagging(name, x-amz-account-id)
-    get_bucket_tagging(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_bucket_tagging(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action gets an Amazon S3 on Outposts bucket's tags. To get an S3 bucket tags, see
 GetBucketTagging in the Amazon S3 API Reference.   Returns the tag set associated with the
@@ -1849,24 +1398,9 @@ related to GetBucketTagging:    PutBucketTagging     DeleteBucketTagging
 
 """
 function get_bucket_tagging(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_bucket_tagging(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/bucket/$(name)/tagging",
@@ -1885,8 +1419,7 @@ function get_bucket_tagging(
 end
 
 """
-    get_job_tagging(id, x-amz-account-id)
-    get_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
+    get_job_tagging(id, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the tags on an S3 Batch Operations job. To use this operation, you must have
 permission to perform the s3:GetJobTagging action. For more information, see Controlling
@@ -1900,24 +1433,9 @@ access and labeling jobs using tags in the Amazon S3 User Guide.  Related action
 
 """
 function get_job_tagging(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/jobs/$(id)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_job_tagging(
-    id,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/jobs/$(id)/tagging",
@@ -1936,8 +1454,7 @@ function get_job_tagging(
 end
 
 """
-    get_multi_region_access_point(name, x-amz-account-id)
-    get_multi_region_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_multi_region_access_point(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns configuration information about the specified Multi-Region Access Point. This
 action will always be routed to the US West (Oregon) Region. For more information about the
@@ -1956,24 +1473,9 @@ GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegion
 
 """
 function get_multi_region_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_multi_region_access_point(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/mrap/instances/$(name)",
@@ -1992,8 +1494,7 @@ function get_multi_region_access_point(
 end
 
 """
-    get_multi_region_access_point_policy(name, x-amz-account-id)
-    get_multi_region_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_multi_region_access_point_policy(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the access control policy of the specified Multi-Region Access Point. This action
 will always be routed to the US West (Oregon) Region. For more information about the
@@ -2012,24 +1513,9 @@ PutMultiRegionAccessPointPolicy
 
 """
 function get_multi_region_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_multi_region_access_point_policy(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/mrap/instances/$(name)/policy",
@@ -2048,8 +1534,7 @@ function get_multi_region_access_point_policy(
 end
 
 """
-    get_multi_region_access_point_policy_status(name, x-amz-account-id)
-    get_multi_region_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
+    get_multi_region_access_point_policy_status(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Indicates whether the specified Multi-Region Access Point has an access control policy that
 allows public access. This action will always be routed to the US West (Oregon) Region. For
@@ -2068,24 +1553,9 @@ PutMultiRegionAccessPointPolicy
 
 """
 function get_multi_region_access_point_policy_status(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)/policystatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_multi_region_access_point_policy_status(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/mrap/instances/$(name)/policystatus",
@@ -2104,8 +1574,7 @@ function get_multi_region_access_point_policy_status(
 end
 
 """
-    get_public_access_block(x-amz-account-id)
-    get_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
+    get_public_access_block(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more
 information, see  Using Amazon S3 block public access. Related actions include:
@@ -2117,23 +1586,9 @@ DeletePublicAccessBlock     PutPublicAccessBlock
 
 """
 function get_public_access_block(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_public_access_block(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/configuration/publicAccessBlock",
@@ -2152,8 +1607,7 @@ function get_public_access_block(
 end
 
 """
-    get_storage_lens_configuration(storagelensid, x-amz-account-id)
-    get_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    get_storage_lens_configuration(storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your
 storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To
@@ -2167,24 +1621,12 @@ Amazon S3 User Guide.
 
 """
 function get_storage_lens_configuration(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_storage_lens_configuration(
     storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/storagelens/$(storagelensid)",
@@ -2203,8 +1645,7 @@ function get_storage_lens_configuration(
 end
 
 """
-    get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
-    get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3
 Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
@@ -2218,24 +1659,12 @@ to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 """
 function get_storage_lens_configuration_tagging(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_storage_lens_configuration_tagging(
     storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/storagelens/$(storagelensid)/tagging",
@@ -2254,8 +1683,7 @@ function get_storage_lens_configuration_tagging(
 end
 
 """
-    list_access_points(x-amz-account-id)
-    list_access_points(x-amz-account-id, params::Dict{String,<:Any})
+    list_access_points(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the access points currently associated with the specified bucket. You can
 retrieve up to 1000 access points per call. If the specified bucket has more than 1,000
@@ -2274,7 +1702,7 @@ related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetA
   access points you want to list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"bucket"`: The name of the bucket whose associated access points you want to list. For
   using this parameter with Amazon S3 on Outposts with the REST API, you must specify the
   name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with
@@ -2285,32 +1713,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
-- `"maxResults"`: The maximum number of access points that you want to include in the list.
-  If the specified bucket has more than this number of access points, then the response will
-  include a continuation token in the NextToken field that you can use to retrieve the next
-  page of access points.
-- `"nextToken"`: A continuation token. If a previous call to ListAccessPoints returned a
+- `"max_results"`: The maximum number of access points that you want to include in the
+  list. If the specified bucket has more than this number of access points, then the response
+  will include a continuation token in the NextToken field that you can use to retrieve the
+  next page of access points.
+- `"next_token"`: A continuation token. If a previous call to ListAccessPoints returned a
   continuation token in the NextToken field, then providing that value here causes Amazon S3
   to retrieve the next page of results.
 """
 function list_access_points(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_access_points(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspoint",
@@ -2329,8 +1743,7 @@ function list_access_points(
 end
 
 """
-    list_access_points_for_object_lambda(x-amz-account-id)
-    list_access_points_for_object_lambda(x-amz-account-id, params::Dict{String,<:Any})
+    list_access_points_for_object_lambda(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the access points associated with the Object Lambda Access Point. You can
 retrieve up to 1000 access points per call. If there are more than 1,000 access points (or
@@ -2344,33 +1757,19 @@ actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForO
   Access Point.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of access points that you want to include in the list.
-  If there are more than this number of access points, then the response will include a
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of access points that you want to include in the
+  list. If there are more than this number of access points, then the response will include a
   continuation token in the NextToken field that you can use to retrieve the next page of
   access points.
-- `"nextToken"`: If the list has more access points than can be returned in one call to
+- `"next_token"`: If the list has more access points than can be returned in one call to
   this API, this field contains a continuation token that you can provide in subsequent calls
   to this API to retrieve additional access points.
 """
 function list_access_points_for_object_lambda(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_access_points_for_object_lambda(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda",
@@ -2389,8 +1788,7 @@ function list_access_points_for_object_lambda(
 end
 
 """
-    list_jobs(x-amz-account-id)
-    list_jobs(x-amz-account-id, params::Dict{String,<:Any})
+    list_jobs(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for
 the Amazon Web Services account making the request. For more information, see S3 Batch
@@ -2402,32 +1800,20 @@ DescribeJob     UpdateJobPriority     UpdateJobStatus
   Operations job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"jobStatuses"`: The List Jobs request returns jobs that match the statuses listed in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"job_statuses"`: The List Jobs request returns jobs that match the statuses listed in
   this element.
-- `"maxResults"`: The maximum number of jobs that Amazon S3 will include in the List Jobs
+- `"max_results"`: The maximum number of jobs that Amazon S3 will include in the List Jobs
   response. If there are more jobs than this number, the response will include a pagination
   token in the NextToken field to enable you to retrieve the next page of results.
-- `"nextToken"`: A pagination token to request the next page of results. Use the token that
-  Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List
-  Jobs request.
+- `"next_token"`: A pagination token to request the next page of results. Use the token
+  that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous
+  List Jobs request.
 """
-function list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3_control(
-        "GET",
-        "/v20180820/jobs",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_jobs(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/jobs",
@@ -2446,8 +1832,7 @@ function list_jobs(
 end
 
 """
-    list_multi_region_access_points(x-amz-account-id)
-    list_multi_region_access_points(x-amz-account-id, params::Dict{String,<:Any})
+    list_multi_region_access_points(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of the Multi-Region Access Points currently associated with the specified
 Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the
@@ -2464,28 +1849,14 @@ GetMultiRegionAccessPoint
   Access Point.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Not currently used. Do not use this parameter.
-- `"nextToken"`: Not currently used. Do not use this parameter.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Not currently used. Do not use this parameter.
+- `"next_token"`: Not currently used. Do not use this parameter.
 """
 function list_multi_region_access_points(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_multi_region_access_points(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/mrap/instances",
@@ -2504,8 +1875,7 @@ function list_multi_region_access_points(
 end
 
 """
-    list_regional_buckets(x-amz-account-id)
-    list_regional_buckets(x-amz-account-id, params::Dict{String,<:Any})
+    list_regional_buckets(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated
 sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon
@@ -2517,30 +1887,16 @@ Examples section.
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:
-- `"nextToken"`:
-- `"x-amz-outpost-id"`: The ID of the Outposts.  This is required by Amazon S3 on Outposts
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:
+- `"next_token"`:
+- `"outpost_id"`: The ID of the Outposts.  This is required by Amazon S3 on Outposts
   buckets.
 """
 function list_regional_buckets(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_regional_buckets(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/bucket",
@@ -2559,8 +1915,7 @@ function list_regional_buckets(
 end
 
 """
-    list_storage_lens_configurations(x-amz-account-id)
-    list_storage_lens_configurations(x-amz-account-id, params::Dict{String,<:Any})
+    list_storage_lens_configurations(x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage
 Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
@@ -2572,27 +1927,13 @@ use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"nextToken"`: A pagination token to request the next page of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: A pagination token to request the next page of results.
 """
 function list_storage_lens_configurations(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_storage_lens_configurations(
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "GET",
         "/v20180820/storagelens",
@@ -2611,8 +1952,7 @@ function list_storage_lens_configurations(
 end
 
 """
-    put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id)
-    put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
+    put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Replaces configuration for an Object Lambda Access Point. The following actions are related
 to PutAccessPointConfigurationForObjectLambda:
@@ -2626,26 +1966,13 @@ GetAccessPointConfigurationForObjectLambda
 
 """
 function put_access_point_configuration_for_object_lambda(
-    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)/configuration",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_access_point_configuration_for_object_lambda(
     Configuration,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/accesspointforobjectlambda/$(name)/configuration",
@@ -2665,8 +1992,7 @@ function put_access_point_configuration_for_object_lambda(
 end
 
 """
-    put_access_point_policy(policy, name, x-amz-account-id)
-    put_access_point_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
+    put_access_point_policy(policy, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates an access policy with the specified access point. Each access point can have
 only one policy, so a request made to this API replaces any existing policy associated with
@@ -2697,26 +2023,13 @@ DeleteAccessPointPolicy
 
 """
 function put_access_point_policy(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_access_point_policy(
     Policy,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/accesspoint/$(name)/policy",
@@ -2736,8 +2049,7 @@ function put_access_point_policy(
 end
 
 """
-    put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id)
-    put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id, params::Dict{String,<:Any})
+    put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or replaces resource policy for an Object Lambda Access Point. For an example
 policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following
@@ -2752,26 +2064,13 @@ DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
 
 """
 function put_access_point_policy_for_object_lambda(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_access_point_policy_for_object_lambda(
     Policy,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/accesspointforobjectlambda/$(name)/policy",
@@ -2791,8 +2090,7 @@ function put_access_point_policy_for_object_lambda(
 end
 
 """
-    put_bucket_lifecycle_configuration(name, x-amz-account-id)
-    put_bucket_lifecycle_configuration(name, x-amz-account-id, params::Dict{String,<:Any})
+    put_bucket_lifecycle_configuration(name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a
 lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon
@@ -2812,29 +2110,14 @@ GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"lifecycle_configuration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 """
 function put_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_bucket_lifecycle_configuration(
-    name,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/bucket/$(name)/lifecycleconfiguration",
@@ -2853,8 +2136,7 @@ function put_bucket_lifecycle_configuration(
 end
 
 """
-    put_bucket_policy(policy, name, x-amz-account-id)
-    put_bucket_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
+    put_bucket_policy(policy, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action puts a bucket policy to an Amazon S3 on Outposts bucket. To put a policy on an
 S3 bucket, see PutBucketPolicy in the Amazon S3 API Reference.   Applies an Amazon S3
@@ -2890,32 +2172,19 @@ related to PutBucketPolicy:    GetBucketPolicy     DeleteBucketPolicy
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"x-amz-confirm-remove-self-bucket-access"`: Set this parameter to true to confirm that
-  you want to remove your permissions to change this bucket policy in the future.  This is
-  not supported by Amazon S3 on Outposts buckets.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"confirm_remove_self_bucket_access"`: Set this parameter to true to confirm that you
+  want to remove your permissions to change this bucket policy in the future.  This is not
+  supported by Amazon S3 on Outposts buckets.
 """
-function put_bucket_policy(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_policy(
     Policy,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/bucket/$(name)/policy",
@@ -2935,8 +2204,7 @@ function put_bucket_policy(
 end
 
 """
-    put_bucket_tagging(tagging, name, x-amz-account-id)
-    put_bucket_tagging(tagging, name, x-amz-account-id, params::Dict{String,<:Any})
+    put_bucket_tagging(tagging, name, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  This action puts tags on an Amazon S3 on Outposts bucket. To put tags on an S3 bucket, see
 PutBucketTagging in the Amazon S3 API Reference.   Sets the tags for an S3 on Outposts
@@ -2984,26 +2252,13 @@ DeleteBucketTagging
 
 """
 function put_bucket_tagging(
-    Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "Tagging" => Tagging,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_bucket_tagging(
     Tagging,
     name,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/bucket/$(name)/tagging",
@@ -3023,8 +2278,7 @@ function put_bucket_tagging(
 end
 
 """
-    put_job_tagging(tags, id, x-amz-account-id)
-    put_job_tagging(tags, id, x-amz-account-id, params::Dict{String,<:Any})
+    put_job_tagging(tags, id, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sets the supplied tag-set on an S3 Batch Operations job. A tag is a key-value pair. You can
 associate S3 Batch Operations tags with any job by sending a PUT request against the
@@ -3054,26 +2308,9 @@ actions include:    CreatJob     GetJobTagging     DeleteJobTagging
 
 """
 function put_job_tagging(
-    Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/jobs/$(id)/tagging",
-        Dict{String,Any}(
-            "Tags" => Tags,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_job_tagging(
-    Tags,
-    id,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/jobs/$(id)/tagging",
@@ -3093,8 +2330,7 @@ function put_job_tagging(
 end
 
 """
-    put_multi_region_access_point_policy(client_token, details, x-amz-account-id)
-    put_multi_region_access_point_policy(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
+    put_multi_region_access_point_policy(client_token, details, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates an access control policy with the specified Multi-Region Access Point. Each
 Multi-Region Access Point can have only one policy, so a request made to this action
@@ -3119,26 +2355,9 @@ function put_multi_region_access_point_policy(
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/put-policy",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_multi_region_access_point_policy(
-    ClientToken,
-    Details,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/async-requests/mrap/put-policy",
@@ -3159,8 +2378,7 @@ function put_multi_region_access_point_policy(
 end
 
 """
-    put_public_access_block(public_access_block_configuration, x-amz-account-id)
-    put_public_access_block(public_access_block_configuration, x-amz-account-id, params::Dict{String,<:Any})
+    put_public_access_block(public_access_block_configuration, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
 For more information, see  Using Amazon S3 block public access. Related actions include:
@@ -3177,24 +2395,9 @@ function put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_public_access_block(
-    PublicAccessBlockConfiguration,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/configuration/publicAccessBlock",
@@ -3214,8 +2417,7 @@ function put_public_access_block(
 end
 
 """
-    put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id)
-    put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens,
 see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide.  To use this action,
@@ -3229,8 +2431,8 @@ Guide.
 - `x-amz-account-id`: The account ID of the requester.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
   of 50 tags.
 """
 function put_storage_lens_configuration(
@@ -3238,25 +2440,9 @@ function put_storage_lens_configuration(
     storagelensid,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "StorageLensConfiguration" => StorageLensConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_storage_lens_configuration(
-    StorageLensConfiguration,
-    storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/storagelens/$(storagelensid)",
@@ -3276,8 +2462,7 @@ function put_storage_lens_configuration(
 end
 
 """
-    put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id)
-    put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
+    put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more
 information about S3 Storage Lens, see Assessing your storage activity and usage with
@@ -3292,32 +2477,15 @@ Guide.
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
-  of 50 tags.
 """
-function put_storage_lens_configuration_tagging(
-    Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "PUT",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "Tag" => Tag,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_storage_lens_configuration_tagging(
     Tag,
     storagelensid,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "PUT",
         "/v20180820/storagelens/$(storagelensid)/tagging",
@@ -3337,8 +2505,7 @@ function put_storage_lens_configuration_tagging(
 end
 
 """
-    update_job_priority(id, priority, x-amz-account-id)
-    update_job_priority(id, priority, x-amz-account-id, params::Dict{String,<:Any})
+    update_job_priority(id, priority, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch
 Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs
@@ -3352,26 +2519,13 @@ Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob  
 
 """
 function update_job_priority(
-    id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
-        "POST",
-        "/v20180820/jobs/$(id)/priority",
-        Dict{String,Any}(
-            "priority" => priority,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_job_priority(
     id,
     priority,
-    x_amz_account_id,
-    params::AbstractDict{String};
+    x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/jobs/$(id)/priority",
@@ -3391,8 +2545,7 @@ function update_job_priority(
 end
 
 """
-    update_job_status(id, requested_job_status, x-amz-account-id)
-    update_job_status(id, requested_job_status, x-amz-account-id, params::Dict{String,<:Any})
+    update_job_status(id, requested_job_status, x-amz-account-id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the status for the specified job. Use this action to confirm that you want to run a
 job or to cancel an existing job. For more information, see S3 Batch Operations in the
@@ -3406,34 +2559,18 @@ Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs     De
   Operations job.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"statusUpdateReason"`: A description of the reason why you want to change the specified
-  job's status. This field can be any string up to the maximum length.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"status_update_reason"`: A description of the reason why you want to change the
+  specified job's status. This field can be any string up to the maximum length.
 """
 function update_job_status(
     id,
     requestedJobStatus,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/jobs/$(id)/status",
-        Dict{String,Any}(
-            "requestedJobStatus" => requestedJobStatus,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_job_status(
-    id,
-    requestedJobStatus,
-    x_amz_account_id,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return s3_control(
         "POST",
         "/v20180820/jobs/$(id)/status",

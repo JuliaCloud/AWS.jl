@@ -4,9 +4,10 @@ using AWS.AWSServices: kinesis_video_signaling
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict("client_id" => "ClientId", "username" => "Username", "service" => "Service")
+
 """
-    get_ice_server_config(channel_arn)
-    get_ice_server_config(channel_arn, params::Dict{String,<:Any})
+    get_ice_server_config(channel_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets the Interactive Connectivity Establishment (ICE) server configuration information,
 including URIs, username, and password which can be used to configure the WebRTC
@@ -25,28 +26,16 @@ either a signaling channel ARN or the client ID in order to invoke this API.
   connection between configured peers.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientId"`: Unique identifier for the viewer. Must be unique within the signaling
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_id"`: Unique identifier for the viewer. Must be unique within the signaling
   channel.
-- `"Service"`: Specifies the desired service. Currently, TURN is the only valid value.
-- `"Username"`: An optional user ID to be associated with the credentials.
+- `"service"`: Specifies the desired service. Currently, TURN is the only valid value.
+- `"username"`: An optional user ID to be associated with the credentials.
 """
 function get_ice_server_config(
-    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ChannelARN; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/get-ice-server-config",
-        Dict{String,Any}("ChannelARN" => ChannelARN);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_ice_server_config(
-    ChannelARN,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_signaling(
         "POST",
         "/v1/get-ice-server-config",
@@ -59,8 +48,7 @@ function get_ice_server_config(
 end
 
 """
-    send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id)
-    send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id, params::Dict{String,<:Any})
+    send_alexa_offer_to_master(channel_arn, message_payload, sender_client_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This API allows you to connect WebRTC-enabled devices with Alexa display devices. When
 invoked, it sends the Alexa Session Description Protocol (SDP) offer to the master peer.
@@ -80,26 +68,9 @@ function send_alexa_offer_to_master(
     MessagePayload,
     SenderClientId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return kinesis_video_signaling(
-        "POST",
-        "/v1/send-alexa-offer-to-master",
-        Dict{String,Any}(
-            "ChannelARN" => ChannelARN,
-            "MessagePayload" => MessagePayload,
-            "SenderClientId" => SenderClientId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function send_alexa_offer_to_master(
-    ChannelARN,
-    MessagePayload,
-    SenderClientId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return kinesis_video_signaling(
         "POST",
         "/v1/send-alexa-offer-to-master",

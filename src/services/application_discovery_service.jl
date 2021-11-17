@@ -4,9 +4,26 @@ using AWS.AWSServices: application_discovery_service
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "end_time" => "endTime",
+    "agent_ids" => "agentIds",
+    "next_token" => "nextToken",
+    "client_request_token" => "clientRequestToken",
+    "start_time" => "startTime",
+    "name" => "name",
+    "export_ids" => "exportIds",
+    "description" => "description",
+    "max_results" => "maxResults",
+    "neighbor_configuration_ids" => "neighborConfigurationIds",
+    "order_by" => "orderBy",
+    "port_information_needed" => "portInformationNeeded",
+    "filters" => "filters",
+    "export_data_format" => "exportDataFormat",
+    "tags" => "tags",
+)
+
 """
-    associate_configuration_items_to_application(application_configuration_id, configuration_ids)
-    associate_configuration_items_to_application(application_configuration_id, configuration_ids, params::Dict{String,<:Any})
+    associate_configuration_items_to_application(application_configuration_id, configuration_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Associates one or more configuration items with an application.
 
@@ -21,23 +38,9 @@ function associate_configuration_items_to_application(
     applicationConfigurationId,
     configurationIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_discovery_service(
-        "AssociateConfigurationItemsToApplication",
-        Dict{String,Any}(
-            "applicationConfigurationId" => applicationConfigurationId,
-            "configurationIds" => configurationIds,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_configuration_items_to_application(
-    applicationConfigurationId,
-    configurationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "AssociateConfigurationItemsToApplication",
         Dict{String,Any}(
@@ -56,8 +59,7 @@ function associate_configuration_items_to_application(
 end
 
 """
-    batch_delete_import_data(import_task_ids)
-    batch_delete_import_data(import_task_ids, params::Dict{String,<:Any})
+    batch_delete_import_data(import_task_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes one or more import tasks, each identified by their import ID. Each import task has
 a number of records that can identify servers or applications.  AWS Application Discovery
@@ -72,20 +74,9 @@ the deleted records will also be deleted.
 
 """
 function batch_delete_import_data(
-    importTaskIds; aws_config::AbstractAWSConfig=global_aws_config()
+    importTaskIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "BatchDeleteImportData",
-        Dict{String,Any}("importTaskIds" => importTaskIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_import_data(
-    importTaskIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "BatchDeleteImportData",
         Dict{String,Any}(
@@ -97,8 +88,7 @@ function batch_delete_import_data(
 end
 
 """
-    create_application(name)
-    create_application(name, params::Dict{String,<:Any})
+    create_application(name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an application with the given name and description.
 
@@ -106,20 +96,13 @@ Creates an application with the given name and description.
 - `name`: Name of the application to be created.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: Description of the application to be created.
 """
-function create_application(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "CreateApplication",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "CreateApplication",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
@@ -129,8 +112,7 @@ function create_application(
 end
 
 """
-    create_tags(configuration_ids, tags)
-    create_tags(configuration_ids, tags, params::Dict{String,<:Any})
+    create_tags(configuration_ids, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates one or more tags for configuration items. Tags are metadata that help you
 categorize IT assets. This API accepts a list of multiple configuration items.
@@ -143,21 +125,9 @@ categorize IT assets. This API accepts a list of multiple configuration items.
 
 """
 function create_tags(
-    configurationIds, tags; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationIds, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "CreateTags",
-        Dict{String,Any}("configurationIds" => configurationIds, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_tags(
-    configurationIds,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "CreateTags",
         Dict{String,Any}(
@@ -173,8 +143,7 @@ function create_tags(
 end
 
 """
-    delete_applications(configuration_ids)
-    delete_applications(configuration_ids, params::Dict{String,<:Any})
+    delete_applications(configuration_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a list of applications and their associations with configuration items.
 
@@ -183,20 +152,9 @@ Deletes a list of applications and their associations with configuration items.
 
 """
 function delete_applications(
-    configurationIds; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "DeleteApplications",
-        Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_applications(
-    configurationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DeleteApplications",
         Dict{String,Any}(
@@ -210,8 +168,7 @@ function delete_applications(
 end
 
 """
-    delete_tags(configuration_ids)
-    delete_tags(configuration_ids, params::Dict{String,<:Any})
+    delete_tags(configuration_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the association between configuration items and one or more tags. This API accepts
 a list of multiple configuration items.
@@ -220,24 +177,15 @@ a list of multiple configuration items.
 - `configuration_ids`: A list of configuration items with tags that you want to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"tags"`: Tags that you want to delete from one or more configuration items. Specify the
   tags that you want to delete in a key-value format. For example:  {\"key\": \"serverType\",
   \"value\": \"webServer\"}
 """
-function delete_tags(configurationIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DeleteTags",
-        Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_tags(
-    configurationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    configurationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DeleteTags",
         Dict{String,Any}(
@@ -251,43 +199,35 @@ function delete_tags(
 end
 
 """
-    describe_agents()
-    describe_agents(params::Dict{String,<:Any})
+    describe_agents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists agents or connectors as specified by ID or other filters. All agents/connectors
 associated with your user account can be listed if you call DescribeAgents as is without
 passing any parameters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"agentIds"`: The agent or the Connector IDs for which you want information. If you
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"agent_ids"`: The agent or the Connector IDs for which you want information. If you
   specify no IDs, the system returns information about all agents/Connectors associated with
   your AWS user account.
 - `"filters"`: You can filter the request using various logical operators and a key-value
   format. For example:   {\"key\": \"collectionStatus\", \"value\": \"STARTED\"}
-- `"maxResults"`: The total number of agents/Connectors to return in a single page of
+- `"max_results"`: The total number of agents/Connectors to return in a single page of
   output. The maximum value is 100.
-- `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
+- `"next_token"`: Token to retrieve the next set of results. For example, if you previously
   specified 100 IDs for DescribeAgentsRequestagentIds but set DescribeAgentsRequestmaxResults
   to 10, you received a set of 10 results along with a token. Use that token in this query to
   get the next set of 10.
 """
-function describe_agents(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeAgents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_agents(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_agents(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    describe_configurations(configuration_ids)
-    describe_configurations(configuration_ids, params::Dict{String,<:Any})
+    describe_configurations(configuration_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves attributes for a list of configuration item IDs.  All of the supplied IDs must be
 for the same asset type from one of the following:   server   application   process
@@ -302,20 +242,9 @@ Application Discovery Service User Guide.
 
 """
 function describe_configurations(
-    configurationIds; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "DescribeConfigurations",
-        Dict{String,Any}("configurationIds" => configurationIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_configurations(
-    configurationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeConfigurations",
         Dict{String,Any}(
@@ -329,27 +258,22 @@ function describe_configurations(
 end
 
 """
-    describe_continuous_exports()
-    describe_continuous_exports(params::Dict{String,<:Any})
+    describe_continuous_exports(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists exports as specified by ID. All continuous exports associated with your user account
 can be listed if you call DescribeContinuousExports as is without passing any parameters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"exportIds"`: The unique IDs assigned to the exports.
-- `"maxResults"`: A number between 1 and 100 specifying the maximum number of continuous
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"export_ids"`: The unique IDs assigned to the exports.
+- `"max_results"`: A number between 1 and 100 specifying the maximum number of continuous
   export descriptions returned.
-- `"nextToken"`: The token from the previous call to DescribeExportTasks.
+- `"next_token"`: The token from the previous call to DescribeExportTasks.
 """
-function describe_continuous_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeContinuousExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_continuous_exports(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_continuous_exports(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeContinuousExports",
         params;
@@ -359,28 +283,21 @@ function describe_continuous_exports(
 end
 
 """
-    describe_export_configurations()
-    describe_export_configurations(params::Dict{String,<:Any})
+    describe_export_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  DescribeExportConfigurations is deprecated. Use DescribeImportTasks, instead.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"exportIds"`: A list of continuous export IDs to search for.
-- `"maxResults"`: A number between 1 and 100 specifying the maximum number of continuous
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"export_ids"`: A list of continuous export IDs to search for.
+- `"max_results"`: A number between 1 and 100 specifying the maximum number of continuous
   export descriptions returned.
-- `"nextToken"`: The token from the previous call to describe-export-tasks.
+- `"next_token"`: The token from the previous call to describe-export-tasks.
 """
-function describe_export_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeExportConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_export_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_export_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeExportConfigurations",
         params;
@@ -390,34 +307,29 @@ function describe_export_configurations(
 end
 
 """
-    describe_export_tasks()
-    describe_export_tasks(params::Dict{String,<:Any})
+    describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieve status of one or more export tasks. You can retrieve the status of up to 100
 export tasks.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"exportIds"`: One or more unique identifiers used to query the status of an export
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"export_ids"`: One or more unique identifiers used to query the status of an export
   request.
 - `"filters"`: One or more filters.    AgentId - ID of the agent whose collected data will
   be exported
-- `"maxResults"`: The maximum number of volume results returned by DescribeExportTasks in
+- `"max_results"`: The maximum number of volume results returned by DescribeExportTasks in
   paginated output. When this parameter is used, DescribeExportTasks only returns maxResults
   results in a single page along with a nextToken response element.
-- `"nextToken"`: The nextToken value returned from a previous paginated DescribeExportTasks
-  request where maxResults was used and the results exceeded the value of that parameter.
-  Pagination continues from the end of the previous results that returned the nextToken
-  value. This value is null when there are no more results to return.
+- `"next_token"`: The nextToken value returned from a previous paginated
+  DescribeExportTasks request where maxResults was used and the results exceeded the value of
+  that parameter. Pagination continues from the end of the previous results that returned the
+  nextToken value. This value is null when there are no more results to return.
 """
-function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeExportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_export_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_export_tasks(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeExportTasks",
         params;
@@ -427,29 +339,24 @@ function describe_export_tasks(
 end
 
 """
-    describe_import_tasks()
-    describe_import_tasks(params::Dict{String,<:Any})
+    describe_import_tasks(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns an array of import tasks for your account, including status information, times,
 IDs, the Amazon S3 Object URL for the import file, and more.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: An array of name-value pairs that you provide to filter the results for the
   DescribeImportTask request to a specific subset of results. Currently, wildcard values
   aren't supported for filters.
-- `"maxResults"`: The maximum number of results that you want this request to return, up to
-  100.
-- `"nextToken"`: The token to request a specific page of results.
+- `"max_results"`: The maximum number of results that you want this request to return, up
+  to 100.
+- `"next_token"`: The token to request a specific page of results.
 """
-function describe_import_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeImportTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_import_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_import_tasks(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeImportTasks",
         params;
@@ -459,8 +366,7 @@ function describe_import_tasks(
 end
 
 """
-    describe_tags()
-    describe_tags(params::Dict{String,<:Any})
+    describe_tags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of configuration items that have tags as specified by the key-value pairs,
 name and value, passed to the optional parameter filters. There are three valid tag filter
@@ -469,30 +375,23 @@ with your user account that have tags can be listed if you call DescribeTags as 
 passing any parameters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: You can filter the list using a key-value format. You can separate these
   items by using logical operators. Allowed filters include tagKey, tagValue, and
   configurationId.
-- `"maxResults"`: The total number of items to return in a single page of output. The
+- `"max_results"`: The total number of items to return in a single page of output. The
   maximum value is 100.
-- `"nextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"next_token"`: A token to start the list. Use this token to get the next set of results.
 """
-function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "DescribeTags"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function describe_tags(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_tags(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DescribeTags", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    disassociate_configuration_items_from_application(application_configuration_id, configuration_ids)
-    disassociate_configuration_items_from_application(application_configuration_id, configuration_ids, params::Dict{String,<:Any})
+    disassociate_configuration_items_from_application(application_configuration_id, configuration_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disassociates one or more configuration items from an application.
 
@@ -507,23 +406,9 @@ function disassociate_configuration_items_from_application(
     applicationConfigurationId,
     configurationIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return application_discovery_service(
-        "DisassociateConfigurationItemsFromApplication",
-        Dict{String,Any}(
-            "applicationConfigurationId" => applicationConfigurationId,
-            "configurationIds" => configurationIds,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_configuration_items_from_application(
-    applicationConfigurationId,
-    configurationIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "DisassociateConfigurationItemsFromApplication",
         Dict{String,Any}(
@@ -542,8 +427,7 @@ function disassociate_configuration_items_from_application(
 end
 
 """
-    export_configurations()
-    export_configurations(params::Dict{String,<:Any})
+    export_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deprecated. Use StartExportTask instead. Exports all discovered configuration data to an
 Amazon S3 bucket or an application that enables you to view and evaluate the data. Data
@@ -553,14 +437,10 @@ DescribeExportConfigurations API. The system imposes a limit of two configuratio
 in six hours.
 
 """
-function export_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "ExportConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function export_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function export_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "ExportConfigurations",
         params;
@@ -570,21 +450,16 @@ function export_configurations(
 end
 
 """
-    get_discovery_summary()
-    get_discovery_summary(params::Dict{String,<:Any})
+    get_discovery_summary(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a short summary of discovered assets. This API operation takes no request
 parameters and is called as is at the command prompt as shown in the example.
 
 """
-function get_discovery_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "GetDiscoverySummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_discovery_summary(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function get_discovery_summary(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "GetDiscoverySummary",
         params;
@@ -594,8 +469,7 @@ function get_discovery_summary(
 end
 
 """
-    list_configurations(configuration_type)
-    list_configurations(configuration_type, params::Dict{String,<:Any})
+    list_configurations(configuration_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of configuration items as specified by the value passed to the required
 parameter configurationType. Optional filtering may be applied to refine search results.
@@ -604,35 +478,24 @@ parameter configurationType. Optional filtering may be applied to refine search 
 - `configuration_type`: A valid configuration identified by Application Discovery Service.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: You can filter the request using various logical operators and a key-value
   format. For example:   {\"key\": \"serverType\", \"value\": \"webServer\"}  For a complete
   list of filter options and guidance about using them with this action, see Using the
   ListConfigurations Action in the AWS Application Discovery Service User Guide.
-- `"maxResults"`: The total number of items to return. The maximum value is 100.
-- `"nextToken"`: Token to retrieve the next set of results. For example, if a previous call
-  to ListConfigurations returned 100 items, but you set ListConfigurationsRequestmaxResults
-  to 10, you received a set of 10 results along with a token. Use that token in this query to
-  get the next set of 10.
-- `"orderBy"`: Certain filter criteria return output that can be sorted in ascending or
+- `"max_results"`: The total number of items to return. The maximum value is 100.
+- `"next_token"`: Token to retrieve the next set of results. For example, if a previous
+  call to ListConfigurations returned 100 items, but you set
+  ListConfigurationsRequestmaxResults to 10, you received a set of 10 results along with a
+  token. Use that token in this query to get the next set of 10.
+- `"order_by"`: Certain filter criteria return output that can be sorted in ascending or
   descending order. For a list of output characteristics for each filter, see Using the
   ListConfigurations Action in the AWS Application Discovery Service User Guide.
 """
 function list_configurations(
-    configurationType; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationType; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "ListConfigurations",
-        Dict{String,Any}("configurationType" => configurationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_configurations(
-    configurationType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "ListConfigurations",
         Dict{String,Any}(
@@ -646,8 +509,7 @@ function list_configurations(
 end
 
 """
-    list_server_neighbors(configuration_id)
-    list_server_neighbors(configuration_id, params::Dict{String,<:Any})
+    list_server_neighbors(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a list of servers that are one network hop away from a specified server.
 
@@ -655,31 +517,20 @@ Retrieves a list of servers that are one network hop away from a specified serve
 - `configuration_id`: Configuration ID of the server for which neighbors are being listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Maximum number of results to return in a single page of output.
-- `"neighborConfigurationIds"`: List of configuration IDs to test for one-hop-away.
-- `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: Maximum number of results to return in a single page of output.
+- `"neighbor_configuration_ids"`: List of configuration IDs to test for one-hop-away.
+- `"next_token"`: Token to retrieve the next set of results. For example, if you previously
   specified 100 IDs for ListServerNeighborsRequestneighborConfigurationIds but set
   ListServerNeighborsRequestmaxResults to 10, you received a set of 10 results along with a
   token. Use that token in this query to get the next set of 10.
-- `"portInformationNeeded"`: Flag to indicate if port and protocol information is needed as
-  part of the response.
+- `"port_information_needed"`: Flag to indicate if port and protocol information is needed
+  as part of the response.
 """
 function list_server_neighbors(
-    configurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "ListServerNeighbors",
-        Dict{String,Any}("configurationId" => configurationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_server_neighbors(
-    configurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "ListServerNeighbors",
         Dict{String,Any}(
@@ -693,20 +544,15 @@ function list_server_neighbors(
 end
 
 """
-    start_continuous_export()
-    start_continuous_export(params::Dict{String,<:Any})
+    start_continuous_export(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Start the continuous flow of agent's discovered data into Amazon Athena.
 
 """
-function start_continuous_export(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "StartContinuousExport"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function start_continuous_export(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function start_continuous_export(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StartContinuousExport",
         params;
@@ -716,8 +562,7 @@ function start_continuous_export(
 end
 
 """
-    start_data_collection_by_agent_ids(agent_ids)
-    start_data_collection_by_agent_ids(agent_ids, params::Dict{String,<:Any})
+    start_data_collection_by_agent_ids(agent_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Instructs the specified agents or connectors to start collecting data.
 
@@ -731,20 +576,9 @@ Instructs the specified agents or connectors to start collecting data.
 
 """
 function start_data_collection_by_agent_ids(
-    agentIds; aws_config::AbstractAWSConfig=global_aws_config()
+    agentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "StartDataCollectionByAgentIds",
-        Dict{String,Any}("agentIds" => agentIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_data_collection_by_agent_ids(
-    agentIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StartDataCollectionByAgentIds",
         Dict{String,Any}(
@@ -756,8 +590,7 @@ function start_data_collection_by_agent_ids(
 end
 
 """
-    start_export_task()
-    start_export_task(params::Dict{String,<:Any})
+    start_export_task(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a
 filter, the task exports up to 72 hours of detailed data collected by the identified
@@ -769,37 +602,30 @@ Connector data and summary data from AWS Discovery Agents. Export of summary dat
 limited to two exports per day.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"endTime"`: The end timestamp for exported data from the single Application Discovery
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time"`: The end timestamp for exported data from the single Application Discovery
   Agent selected in the filters. If no value is specified, exported data includes the most
   recent data collected by the agent.
-- `"exportDataFormat"`: The file format for the returned export data. Default value is CSV.
-  Note: The GRAPHML option has been deprecated.
+- `"export_data_format"`: The file format for the returned export data. Default value is
+  CSV. Note: The GRAPHML option has been deprecated.
 - `"filters"`: If a filter is present, it selects the single agentId of the Application
   Discovery Agent for which data is exported. The agentId can be found in the results of the
   DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and
   exported data includes both Agentless Discovery Connector data and summary data from
   Application Discovery agents.
-- `"startTime"`: The start timestamp for exported data from the single Application
+- `"start_time"`: The start timestamp for exported data from the single Application
   Discovery Agent selected in the filters. If no value is specified, data is exported
   starting from the first data collected by the agent.
 """
-function start_export_task(; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "StartExportTask"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function start_export_task(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function start_export_task(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StartExportTask", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    start_import_task(import_url, name)
-    start_import_task(import_url, name, params::Dict{String,<:Any})
+    start_import_task(import_url, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Starts an import task, which allows you to import details of your on-premises environment
 directly into AWS Migration Hub without having to use the Application Discovery Service
@@ -827,33 +653,17 @@ Service Limits in the AWS Application Discovery Service User Guide.
   import task.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientRequestToken"`: Optional. A unique token that you can provide to prevent the same
-  import request from occurring more than once. If you don't provide a token, a token is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_request_token"`: Optional. A unique token that you can provide to prevent the
+  same import request from occurring more than once. If you don't provide a token, a token is
   automatically generated. Sending more than one StartImportTask request with the same client
   request token will return information about the original import task with that client
   request token.
 """
 function start_import_task(
-    importUrl, name; aws_config::AbstractAWSConfig=global_aws_config()
+    importUrl, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "StartImportTask",
-        Dict{String,Any}(
-            "importUrl" => importUrl,
-            "name" => name,
-            "clientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_import_task(
-    importUrl,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StartImportTask",
         Dict{String,Any}(
@@ -862,7 +672,7 @@ function start_import_task(
                 Dict{String,Any}(
                     "importUrl" => importUrl,
                     "name" => name,
-                    "clientRequestToken" => string(uuid4()),
+                    "client_request_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -873,8 +683,7 @@ function start_import_task(
 end
 
 """
-    stop_continuous_export(export_id)
-    stop_continuous_export(export_id, params::Dict{String,<:Any})
+    stop_continuous_export(export_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stop the continuous flow of agent's discovered data into Amazon Athena.
 
@@ -882,19 +691,10 @@ Stop the continuous flow of agent's discovered data into Amazon Athena.
 - `export_id`: The unique ID assigned to this export.
 
 """
-function stop_continuous_export(exportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_discovery_service(
-        "StopContinuousExport",
-        Dict{String,Any}("exportId" => exportId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_continuous_export(
-    exportId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    exportId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StopContinuousExport",
         Dict{String,Any}(
@@ -906,8 +706,7 @@ function stop_continuous_export(
 end
 
 """
-    stop_data_collection_by_agent_ids(agent_ids)
-    stop_data_collection_by_agent_ids(agent_ids, params::Dict{String,<:Any})
+    stop_data_collection_by_agent_ids(agent_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Instructs the specified agents or connectors to stop collecting data.
 
@@ -916,20 +715,9 @@ Instructs the specified agents or connectors to stop collecting data.
 
 """
 function stop_data_collection_by_agent_ids(
-    agentIds; aws_config::AbstractAWSConfig=global_aws_config()
+    agentIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "StopDataCollectionByAgentIds",
-        Dict{String,Any}("agentIds" => agentIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function stop_data_collection_by_agent_ids(
-    agentIds,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "StopDataCollectionByAgentIds",
         Dict{String,Any}(
@@ -941,8 +729,7 @@ function stop_data_collection_by_agent_ids(
 end
 
 """
-    update_application(configuration_id)
-    update_application(configuration_id, params::Dict{String,<:Any})
+    update_application(configuration_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates metadata about an application.
 
@@ -950,25 +737,14 @@ Updates metadata about an application.
 - `configuration_id`: Configuration ID of the application to be updated.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: New description of the application to be updated.
 - `"name"`: New name of the application to be updated.
 """
 function update_application(
-    configurationId; aws_config::AbstractAWSConfig=global_aws_config()
+    configurationId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return application_discovery_service(
-        "UpdateApplication",
-        Dict{String,Any}("configurationId" => configurationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_application(
-    configurationId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return application_discovery_service(
         "UpdateApplication",
         Dict{String,Any}(

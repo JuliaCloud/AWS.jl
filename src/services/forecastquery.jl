@@ -4,9 +4,12 @@ using AWS.AWSServices: forecastquery
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "start_date" => "StartDate", "end_date" => "EndDate", "next_token" => "NextToken"
+)
+
 """
-    query_forecast(filters, forecast_arn)
-    query_forecast(filters, forecast_arn, params::Dict{String,<:Any})
+    query_forecast(filters, forecast_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a forecast for a single item, filtered by the supplied criteria. The criteria is
 a key-value pair. The key is either item_id (or the equivalent non-timestamp, non-target
@@ -24,31 +27,19 @@ Forecast are in the same timezone as the dataset that was used to create the pre
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast to query.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndDate"`: The end date for the forecast. Specify the date using this format:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_date"`: The end date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T20:00:00.
-- `"NextToken"`: If the result of the previous request was truncated, the response includes
-  a NextToken. To retrieve the next set of results, use the token in the next request. Tokens
-  expire after 24 hours.
-- `"StartDate"`: The start date for the forecast. Specify the date using this format:
+- `"next_token"`: If the result of the previous request was truncated, the response
+  includes a NextToken. To retrieve the next set of results, use the token in the next
+  request. Tokens expire after 24 hours.
+- `"start_date"`: The start date for the forecast. Specify the date using this format:
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
 function query_forecast(
-    Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return forecastquery(
-        "QueryForecast",
-        Dict{String,Any}("Filters" => Filters, "ForecastArn" => ForecastArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function query_forecast(
-    Filters,
-    ForecastArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return forecastquery(
         "QueryForecast",
         Dict{String,Any}(

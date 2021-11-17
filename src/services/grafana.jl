@@ -4,9 +4,28 @@ using AWS.AWSServices: grafana
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "workspace_data_sources" => "workspaceDataSources",
+    "user_id" => "userId",
+    "next_token" => "nextToken",
+    "workspace_notification_destinations" => "workspaceNotificationDestinations",
+    "permission_type" => "permissionType",
+    "group_id" => "groupId",
+    "workspace_name" => "workspaceName",
+    "max_results" => "maxResults",
+    "stack_set_name" => "stackSetName",
+    "workspace_organizational_units" => "workspaceOrganizationalUnits",
+    "client_token" => "clientToken",
+    "account_access_type" => "accountAccessType",
+    "organization_role_name" => "organizationRoleName",
+    "workspace_role_arn" => "workspaceRoleArn",
+    "user_type" => "userType",
+    "workspace_description" => "workspaceDescription",
+    "saml_configuration" => "samlConfiguration",
+)
+
 """
-    associate_license(license_type, workspace_id)
-    associate_license(license_type, workspace_id, params::Dict{String,<:Any})
+    associate_license(license_type, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs
 additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
@@ -17,21 +36,9 @@ additional fees. For more information, see Upgrade a workspace to Grafana Enterp
 
 """
 function associate_license(
-    licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return grafana(
-        "POST",
-        "/workspaces/$(workspaceId)/licenses/$(licenseType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_license(
-    licenseType,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "POST",
         "/workspaces/$(workspaceId)/licenses/$(licenseType)",
@@ -42,8 +49,7 @@ function associate_license(
 end
 
 """
-    create_workspace(account_access_type, authentication_providers, permission_type)
-    create_workspace(account_access_type, authentication_providers, permission_type, params::Dict{String,<:Any})
+    create_workspace(account_access_type, authentication_providers, permission_type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a workspace. In a workspace, you can create Grafana dashboards and visualizations
 to analyze your metrics, logs, and traces. You don't have to build, package, or deploy any
@@ -70,32 +76,32 @@ workspace. Instead, use UpdateWorkspace.
   channels
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A unique, case-sensitive, user-provided identifier to ensure the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"client_token"`: A unique, case-sensitive, user-provided identifier to ensure the
   idempotency of the request.
-- `"organizationRoleName"`: The name of an IAM role that already exists to use with
+- `"organization_role_name"`: The name of an IAM role that already exists to use with
   Organizations to access Amazon Web Services data sources and notification channels in other
   accounts in an organization.
-- `"stackSetName"`: The name of the CloudFormation stack set to use to generate IAM roles
+- `"stack_set_name"`: The name of the CloudFormation stack set to use to generate IAM roles
   to be used for this workspace.
-- `"workspaceDataSources"`: Specify the Amazon Web Services data sources that you want to
+- `"workspace_data_sources"`: Specify the Amazon Web Services data sources that you want to
   be queried in this workspace. Specifying these data sources here enables Amazon Managed
   Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data
   from these sources. You must still add them as data sources in the Grafana console in the
   workspace. If you don't specify a data source here, you can still add it as a data source
   in the workspace console later. However, you will then have to manually configure
   permissions for it.
-- `"workspaceDescription"`: A description for the workspace. This is used only to help you
+- `"workspace_description"`: A description for the workspace. This is used only to help you
   identify this workspace.
-- `"workspaceName"`: The name for the workspace. It does not have to be unique.
-- `"workspaceNotificationDestinations"`: Specify the Amazon Web Services notification
+- `"workspace_name"`: The name for the workspace. It does not have to be unique.
+- `"workspace_notification_destinations"`: Specify the Amazon Web Services notification
   channels that you plan to use in this workspace. Specifying these data sources here enables
   Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed
   Grafana to use these channels.
-- `"workspaceOrganizationalUnits"`: Specifies the organizational units that this workspace
-  is allowed to use data sources from, if this workspace is in an account that is part of an
-  organization.
-- `"workspaceRoleArn"`: The workspace needs an IAM role that grants permissions to the
+- `"workspace_organizational_units"`: Specifies the organizational units that this
+  workspace is allowed to use data sources from, if this workspace is in an account that is
+  part of an organization.
+- `"workspace_role_arn"`: The workspace needs an IAM role that grants permissions to the
   Amazon Web Services resources that the workspace will view data from. If you already have a
   role that you want to use, specify it here. If you omit this field and you specify some
   Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations,
@@ -106,27 +112,9 @@ function create_workspace(
     authenticationProviders,
     permissionType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return grafana(
-        "POST",
-        "/workspaces",
-        Dict{String,Any}(
-            "accountAccessType" => accountAccessType,
-            "authenticationProviders" => authenticationProviders,
-            "permissionType" => permissionType,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_workspace(
-    accountAccessType,
-    authenticationProviders,
-    permissionType,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "POST",
         "/workspaces",
@@ -137,7 +125,7 @@ function create_workspace(
                     "accountAccessType" => accountAccessType,
                     "authenticationProviders" => authenticationProviders,
                     "permissionType" => permissionType,
-                    "clientToken" => string(uuid4()),
+                    "client_token" => string(uuid4()),
                 ),
                 params,
             ),
@@ -148,8 +136,7 @@ function create_workspace(
 end
 
 """
-    delete_workspace(workspace_id)
-    delete_workspace(workspace_id, params::Dict{String,<:Any})
+    delete_workspace(workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Amazon Managed Grafana workspace.
 
@@ -157,19 +144,10 @@ Deletes an Amazon Managed Grafana workspace.
 - `workspace_id`: The ID of the workspace to delete.
 
 """
-function delete_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return grafana(
-        "DELETE",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "DELETE",
         "/workspaces/$(workspaceId)",
@@ -180,8 +158,7 @@ function delete_workspace(
 end
 
 """
-    describe_workspace(workspace_id)
-    describe_workspace(workspace_id, params::Dict{String,<:Any})
+    describe_workspace(workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays information about one Amazon Managed Grafana workspace.
 
@@ -189,19 +166,10 @@ Displays information about one Amazon Managed Grafana workspace.
 - `workspace_id`: The ID of the workspace to display information about.
 
 """
-function describe_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return grafana(
-        "GET",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "GET",
         "/workspaces/$(workspaceId)",
@@ -212,8 +180,7 @@ function describe_workspace(
 end
 
 """
-    describe_workspace_authentication(workspace_id)
-    describe_workspace_authentication(workspace_id, params::Dict{String,<:Any})
+    describe_workspace_authentication(workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Displays information about the authentication methods used in one Amazon Managed Grafana
 workspace.
@@ -223,20 +190,9 @@ workspace.
 
 """
 function describe_workspace_authentication(
-    workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return grafana(
-        "GET",
-        "/workspaces/$(workspaceId)/authentication";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_workspace_authentication(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "GET",
         "/workspaces/$(workspaceId)/authentication",
@@ -247,8 +203,7 @@ function describe_workspace_authentication(
 end
 
 """
-    disassociate_license(license_type, workspace_id)
-    disassociate_license(license_type, workspace_id, params::Dict{String,<:Any})
+    disassociate_license(license_type, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the Grafana Enterprise license from a workspace.
 
@@ -258,21 +213,9 @@ Removes the Grafana Enterprise license from a workspace.
 
 """
 function disassociate_license(
-    licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+    licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return grafana(
-        "DELETE",
-        "/workspaces/$(workspaceId)/licenses/$(licenseType)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_license(
-    licenseType,
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "DELETE",
         "/workspaces/$(workspaceId)/licenses/$(licenseType)",
@@ -283,8 +226,7 @@ function disassociate_license(
 end
 
 """
-    list_permissions(workspace_id)
-    list_permissions(workspace_id, params::Dict{String,<:Any})
+    list_permissions(workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the users and groups who have the Grafana Admin and Editor roles in this workspace.
 If you use this operation without specifying userId or groupId, the operation returns the
@@ -297,29 +239,20 @@ groupId.
   required.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"groupId"`: (Optional) Limits the results to only the group that matches this ID.
-- `"maxResults"`: The maximum number of results to include in the response.
-- `"nextToken"`: The token to use when requesting the next set of results. You received
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"group_id"`: (Optional) Limits the results to only the group that matches this ID.
+- `"max_results"`: The maximum number of results to include in the response.
+- `"next_token"`: The token to use when requesting the next set of results. You received
   this token from a previous ListPermissions operation.
-- `"userId"`: (Optional) Limits the results to only the user that matches this ID.
-- `"userType"`: (Optional) If you specify SSO_USER, then only the permissions of Amazon Web
-  Services SSO users are returned. If you specify SSO_GROUP, only the permissions of Amazon
-  Web Services SSO groups are returned.
+- `"user_id"`: (Optional) Limits the results to only the user that matches this ID.
+- `"user_type"`: (Optional) If you specify SSO_USER, then only the permissions of Amazon
+  Web Services SSO users are returned. If you specify SSO_GROUP, only the permissions of
+  Amazon Web Services SSO groups are returned.
 """
-function list_permissions(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return grafana(
-        "GET",
-        "/workspaces/$(workspaceId)/permissions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_permissions(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "GET",
         "/workspaces/$(workspaceId)/permissions",
@@ -330,35 +263,27 @@ function list_permissions(
 end
 
 """
-    list_workspaces()
-    list_workspaces(params::Dict{String,<:Any})
+    list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of Amazon Managed Grafana workspaces in the account, with some information
 about each workspace. For more complete information about one workspace, use
 DescribeWorkspace.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of workspaces to include in the results.
-- `"nextToken"`: The token for the next set of workspaces to return. (You receive this
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of workspaces to include in the results.
+- `"next_token"`: The token for the next set of workspaces to return. (You receive this
   token from a previous ListWorkspaces operation.)
 """
-function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return grafana(
-        "GET", "/workspaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_workspaces(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "GET", "/workspaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    update_permissions(update_instruction_batch, workspace_id)
-    update_permissions(update_instruction_batch, workspace_id, params::Dict{String,<:Any})
+    update_permissions(update_instruction_batch, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates which users in a workspace have the Grafana Admin or Editor roles.
 
@@ -369,22 +294,12 @@ Updates which users in a workspace have the Grafana Admin or Editor roles.
 
 """
 function update_permissions(
-    updateInstructionBatch, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return grafana(
-        "PATCH",
-        "/workspaces/$(workspaceId)/permissions",
-        Dict{String,Any}("updateInstructionBatch" => updateInstructionBatch);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_permissions(
     updateInstructionBatch,
-    workspaceId,
-    params::AbstractDict{String};
+    workspaceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "PATCH",
         "/workspaces/$(workspaceId)/permissions",
@@ -401,8 +316,7 @@ function update_permissions(
 end
 
 """
-    update_workspace(workspace_id)
-    update_workspace(workspace_id, params::Dict{String,<:Any})
+    update_workspace(workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Modifies an existing Amazon Managed Grafana workspace. If you use this operation and omit
 any optional parameters, the existing values of those parameters are not changed. To modify
@@ -414,15 +328,15 @@ have the Admin and Editor Grafana roles, use UpdatePermissions.
 - `workspace_id`: The ID of the workspace to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountAccessType"`: Specifies whether the workspace can access Amazon Web Services
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"account_access_type"`: Specifies whether the workspace can access Amazon Web Services
   resources in this Amazon Web Services account only, or whether it can also access Amazon
   Web Services resources in other accounts in the same organization. If you specify
   ORGANIZATION, you must specify which organizational units the workspace can access in the
   workspaceOrganizationalUnits parameter.
-- `"organizationRoleName"`: The name of an IAM role that already exists to use to access
+- `"organization_role_name"`: The name of an IAM role that already exists to use to access
   resources through Organizations.
-- `"permissionType"`: If you specify Service Managed, Amazon Managed Grafana automatically
+- `"permission_type"`: If you specify Service Managed, Amazon Managed Grafana automatically
   creates the IAM roles and provisions the permissions that the workspace needs to use Amazon
   Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you
   will manage those roles and permissions yourself. If you are creating this workspace in a
@@ -431,44 +345,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see
   Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and
   notification channels
-- `"stackSetName"`: The name of the CloudFormation stack set to use to generate IAM roles
+- `"stack_set_name"`: The name of the CloudFormation stack set to use to generate IAM roles
   to be used for this workspace.
-- `"workspaceDataSources"`: Specify the Amazon Web Services data sources that you want to
+- `"workspace_data_sources"`: Specify the Amazon Web Services data sources that you want to
   be queried in this workspace. Specifying these data sources here enables Amazon Managed
   Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data
   from these sources. You must still add them as data sources in the Grafana console in the
   workspace. If you don't specify a data source here, you can still add it as a data source
   later in the workspace console. However, you will then have to manually configure
   permissions for it.
-- `"workspaceDescription"`: A description for the workspace. This is used only to help you
+- `"workspace_description"`: A description for the workspace. This is used only to help you
   identify this workspace.
-- `"workspaceName"`: A new name for the workspace to update.
-- `"workspaceNotificationDestinations"`: Specify the Amazon Web Services notification
+- `"workspace_name"`: A new name for the workspace to update.
+- `"workspace_notification_destinations"`: Specify the Amazon Web Services notification
   channels that you plan to use in this workspace. Specifying these data sources here enables
   Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed
   Grafana to use these channels.
-- `"workspaceOrganizationalUnits"`: Specifies the organizational units that this workspace
-  is allowed to use data sources from, if this workspace is in an account that is part of an
-  organization.
-- `"workspaceRoleArn"`: The workspace needs an IAM role that grants permissions to the
+- `"workspace_organizational_units"`: Specifies the organizational units that this
+  workspace is allowed to use data sources from, if this workspace is in an account that is
+  part of an organization.
+- `"workspace_role_arn"`: The workspace needs an IAM role that grants permissions to the
   Amazon Web Services resources that the workspace will view data from. If you already have a
   role that you want to use, specify it here. If you omit this field and you specify some
   Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations,
   a new IAM role with the necessary permissions is automatically created.
 """
-function update_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
-    return grafana(
-        "PUT",
-        "/workspaces/$(workspaceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_workspace(
-    workspaceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "PUT",
         "/workspaces/$(workspaceId)",
@@ -479,8 +384,7 @@ function update_workspace(
 end
 
 """
-    update_workspace_authentication(authentication_providers, workspace_id)
-    update_workspace_authentication(authentication_providers, workspace_id, params::Dict{String,<:Any})
+    update_workspace_authentication(authentication_providers, workspace_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Use this operation to define the identity provider (IdP) that this workspace authenticates
 users from, using SAML. You can also map SAML assertion attributes to workspace user
@@ -494,28 +398,18 @@ Editor roles in the workspace.
 - `workspace_id`: The ID of the workspace to update the authentication for.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"samlConfiguration"`: If the workspace uses SAML, use this structure to map SAML
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"saml_configuration"`: If the workspace uses SAML, use this structure to map SAML
   assertion attributes to workspace user information and define which groups in the assertion
   attribute are to have the Admin and Editor roles in the workspace.
 """
 function update_workspace_authentication(
-    authenticationProviders, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return grafana(
-        "POST",
-        "/workspaces/$(workspaceId)/authentication",
-        Dict{String,Any}("authenticationProviders" => authenticationProviders);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_workspace_authentication(
     authenticationProviders,
-    workspaceId,
-    params::AbstractDict{String};
+    workspaceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return grafana(
         "POST",
         "/workspaces/$(workspaceId)/authentication",

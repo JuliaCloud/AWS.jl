@@ -4,9 +4,34 @@ using AWS.AWSServices: location
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "position_filtering" => "PositionFiltering",
+    "depart_now" => "DepartNow",
+    "kms_key_id" => "KmsKeyId",
+    "data_source_configuration" => "DataSourceConfiguration",
+    "departure_time" => "DepartureTime",
+    "language" => "Language",
+    "next_token" => "NextToken",
+    "pricing_plan_data_source" => "PricingPlanDataSource",
+    "include_leg_geometry" => "IncludeLegGeometry",
+    "pricing_plan" => "PricingPlan",
+    "travel_mode" => "TravelMode",
+    "distance_unit" => "DistanceUnit",
+    "truck_mode_options" => "TruckModeOptions",
+    "car_mode_options" => "CarModeOptions",
+    "description" => "Description",
+    "max_results" => "MaxResults",
+    "filter_bbox" => "FilterBBox",
+    "waypoint_positions" => "WaypointPositions",
+    "filter_countries" => "FilterCountries",
+    "end_time_exclusive" => "EndTimeExclusive",
+    "bias_position" => "BiasPosition",
+    "tags" => "Tags",
+    "start_time_inclusive" => "StartTimeInclusive",
+)
+
 """
-    associate_tracker_consumer(consumer_arn, tracker_name)
-    associate_tracker_consumer(consumer_arn, tracker_name, params::Dict{String,<:Any})
+    associate_tracker_consumer(consumer_arn, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates an association between a geofence collection and a tracker resource. This allows
 the tracker resource to communicate location data to the linked geofence collection.  You
@@ -24,22 +49,9 @@ resource in one account and a geofence collection in another account.
 
 """
 function associate_tracker_consumer(
-    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/consumers",
-        Dict{String,Any}("ConsumerArn" => ConsumerArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_tracker_consumer(
-    ConsumerArn,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/consumers",
@@ -52,8 +64,7 @@ function associate_tracker_consumer(
 end
 
 """
-    batch_delete_device_position_history(device_ids, tracker_name)
-    batch_delete_device_position_history(device_ids, tracker_name, params::Dict{String,<:Any})
+    batch_delete_device_position_history(device_ids, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes the position history of one or more devices from a tracker resource.
 
@@ -65,22 +76,9 @@ Deletes the position history of one or more devices from a tracker resource.
 
 """
 function batch_delete_device_position_history(
-    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/delete-positions",
-        Dict{String,Any}("DeviceIds" => DeviceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_device_position_history(
-    DeviceIds,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/delete-positions",
@@ -93,8 +91,7 @@ function batch_delete_device_position_history(
 end
 
 """
-    batch_delete_geofence(collection_name, geofence_ids)
-    batch_delete_geofence(collection_name, geofence_ids, params::Dict{String,<:Any})
+    batch_delete_geofence(collection_name, geofence_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a batch of geofences from a geofence collection.  This operation deletes the
 resource permanently.
@@ -105,22 +102,12 @@ resource permanently.
 
 """
 function batch_delete_geofence(
-    CollectionName, GeofenceIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "POST",
-        "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
-        Dict{String,Any}("GeofenceIds" => GeofenceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_delete_geofence(
     CollectionName,
-    GeofenceIds,
-    params::AbstractDict{String};
+    GeofenceIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/collections/$(CollectionName)/delete-geofences",
@@ -133,8 +120,7 @@ function batch_delete_geofence(
 end
 
 """
-    batch_evaluate_geofences(collection_name, device_position_updates)
-    batch_evaluate_geofences(collection_name, device_position_updates, params::Dict{String,<:Any})
+    batch_evaluate_geofences(collection_name, device_position_updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Evaluates device positions against the geofence geometries from a given geofence
 collection. This operation always returns an empty response because geofences are
@@ -153,22 +139,12 @@ recent device position update.
 
 """
 function batch_evaluate_geofences(
-    CollectionName, DevicePositionUpdates; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "POST",
-        "/geofencing/v0/collections/$(CollectionName)/positions",
-        Dict{String,Any}("DevicePositionUpdates" => DevicePositionUpdates);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_evaluate_geofences(
     CollectionName,
-    DevicePositionUpdates,
-    params::AbstractDict{String};
+    DevicePositionUpdates;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/collections/$(CollectionName)/positions",
@@ -185,8 +161,7 @@ function batch_evaluate_geofences(
 end
 
 """
-    batch_get_device_position(device_ids, tracker_name)
-    batch_get_device_position(device_ids, tracker_name, params::Dict{String,<:Any})
+    batch_get_device_position(device_ids, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists the latest device positions for requested devices.
 
@@ -197,22 +172,9 @@ Lists the latest device positions for requested devices.
 
 """
 function batch_get_device_position(
-    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceIds, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/get-positions",
-        Dict{String,Any}("DeviceIds" => DeviceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_get_device_position(
-    DeviceIds,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/get-positions",
@@ -225,8 +187,7 @@ function batch_get_device_position(
 end
 
 """
-    batch_put_geofence(collection_name, entries)
-    batch_put_geofence(collection_name, entries, params::Dict{String,<:Any})
+    batch_put_geofence(collection_name, entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A batch request for storing geofence geometries into a given geofence collection, or
 updates the geometry of an existing geofence if a geofence ID is included in the request.
@@ -237,22 +198,9 @@ updates the geometry of an existing geofence if a geofence ID is included in the
 
 """
 function batch_put_geofence(
-    CollectionName, Entries; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName, Entries; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/geofencing/v0/collections/$(CollectionName)/put-geofences",
-        Dict{String,Any}("Entries" => Entries);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_put_geofence(
-    CollectionName,
-    Entries,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/collections/$(CollectionName)/put-geofences",
@@ -263,8 +211,7 @@ function batch_put_geofence(
 end
 
 """
-    batch_update_device_position(tracker_name, updates)
-    batch_update_device_position(tracker_name, updates, params::Dict{String,<:Any})
+    batch_update_device_position(tracker_name, updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Uploads position update data for one or more devices to a tracker resource. Amazon Location
 uses the data when it reports the last known device position and position history. Amazon
@@ -282,22 +229,9 @@ against linked geofence collections only if the device has moved more than 30 m 
 
 """
 function batch_update_device_position(
-    TrackerName, Updates; aws_config::AbstractAWSConfig=global_aws_config()
+    TrackerName, Updates; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/positions",
-        Dict{String,Any}("Updates" => Updates);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_update_device_position(
-    TrackerName,
-    Updates,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/positions",
@@ -308,23 +242,22 @@ function batch_update_device_position(
 end
 
 """
-    calculate_route(calculator_name, departure_position, destination_position)
-    calculate_route(calculator_name, departure_position, destination_position, params::Dict{String,<:Any})
+    calculate_route(calculator_name, departure_position, destination_position; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Calculates a route given the following required parameters: DeparturePostiton and
-DestinationPosition. Requires that you first create a route calculator resource  By
+DestinationPosition. Requires that you first create a route calculator resource. By
 default, a request that doesn't specify a departure time uses the best time of day to
 travel with the best traffic conditions when calculating the route. Additional options
 include:    Specifying a departure time using either DepartureTime or DepartureNow. This
 calculates a route based on predictive traffic data at the given time.   You can't specify
 both DepartureTime and DepartureNow in a single request. Specifying both parameters returns
-an error message.     Specifying a travel mode using TravelMode. This lets you specify an
+a validation error.     Specifying a travel mode using TravelMode. This lets you specify an
 additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions
 if traveling by Truck.
 
 # Arguments
 - `calculator_name`: The name of the route calculator resource that you want to use to
-  calculate a route.
+  calculate the route.
 - `departure_position`: The start position for the route. Defined in WGS 84 format:
   [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure
   that's not located on a road, Amazon Location moves the position to the nearest road. If
@@ -336,28 +269,28 @@ if traveling by Truck.
   Valid Values: [-180 to 180,-90 to 90]
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"CarModeOptions"`: Specifies route preferences when traveling by Car, such as avoiding
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"car_mode_options"`: Specifies route preferences when traveling by Car, such as avoiding
   routes that use ferries or tolls. Requirements: TravelMode must be specified as Car.
-- `"DepartNow"`: Sets the time of departure as the current time. Uses the current time to
+- `"depart_now"`: Sets the time of departure as the current time. Uses the current time to
   calculate a route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route. Default Value: false  Valid Values: false | true
-- `"DepartureTime"`: Specifies the desired time of departure. Uses the given time to
-  calculate a route. Otherwise, the best time of day to travel with the best traffic
+- `"departure_time"`: Specifies the desired time of departure. Uses the given time to
+  calculate the route. Otherwise, the best time of day to travel with the best traffic
   conditions is used to calculate the route.  Setting a departure time in the past returns a
   400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For
   example, 2020–07-2T12:15:20.000Z+01:00
-- `"DistanceUnit"`: Set the unit system to specify the distance. Default Value: Kilometers
-- `"IncludeLegGeometry"`: Set to include the geometry details in the result for each path
+- `"distance_unit"`: Set the unit system to specify the distance. Default Value: Kilometers
+- `"include_leg_geometry"`: Set to include the geometry details in the result for each path
   between a pair of positions. Default Value: false  Valid Values: false | true
-- `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
+- `"travel_mode"`: Specifies the mode of transport when calculating a route. Used in
   estimating the speed of travel and road compatibility. The TravelMode you specify
   determines how you specify route preferences:    If traveling by Car use the CarModeOptions
   parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
-- `"TruckModeOptions"`: Specifies route preferences when traveling by Truck, such as
+- `"truck_mode_options"`: Specifies route preferences when traveling by Truck, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road. Requirements: TravelMode must be specified as Truck.
-- `"WaypointPositions"`: Specifies an ordered list of up to 23 intermediate positions to
+- `"waypoint_positions"`: Specifies an ordered list of up to 23 intermediate positions to
   include along a route between the departure position and destination position.    For
   example, from the DeparturePosition [-123.115, 49.285], the route follows the order that
   the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you
@@ -372,25 +305,9 @@ function calculate_route(
     DeparturePosition,
     DestinationPosition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return location(
-        "POST",
-        "/routes/v0/calculators/$(CalculatorName)/calculate/route",
-        Dict{String,Any}(
-            "DeparturePosition" => DeparturePosition,
-            "DestinationPosition" => DestinationPosition,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function calculate_route(
-    CalculatorName,
-    DeparturePosition,
-    DestinationPosition,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/routes/v0/calculators/$(CalculatorName)/calculate/route",
@@ -410,8 +327,7 @@ function calculate_route(
 end
 
 """
-    create_geofence_collection(collection_name, pricing_plan)
-    create_geofence_collection(collection_name, pricing_plan, params::Dict{String,<:Any})
+    create_geofence_collection(collection_name, pricing_plan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a geofence collection, which manages and stores geofences.
 
@@ -425,40 +341,31 @@ Creates a geofence collection, which manages and stores geofences.
   pricing page.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: An optional description for the geofence collection.
-- `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: An optional description for the geofence collection.
+- `"kms_key_id"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
   ARN, alias name, or alias ARN.
-- `"PricingPlanDataSource"`: Specifies the data provider for the geofence collection.
+- `"pricing_plan_data_source"`: Specifies the data provider for the geofence collection.
   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement
      For more information about Data Providers, and Pricing plans, see the Amazon Location
   Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate
   billing for your geofence collection. Your data won't be shared with the data provider, and
   will remain in your AWS account or Region unless you move it.  Valid Values: Esri | Here
-- `"Tags"`: Applies one or more tags to the geofence collection. A tag is a key-value pair
+- `"tags"`: Applies one or more tags to the geofence collection. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them. Format:
   \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
   be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
+  use \"aws:\" as a prefix for a key.
 """
 function create_geofence_collection(
-    CollectionName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "POST",
-        "/geofencing/v0/collections",
-        Dict{String,Any}("CollectionName" => CollectionName, "PricingPlan" => PricingPlan);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_geofence_collection(
     CollectionName,
-    PricingPlan,
-    params::AbstractDict{String};
+    PricingPlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/collections",
@@ -477,8 +384,7 @@ function create_geofence_collection(
 end
 
 """
-    create_map(configuration, map_name, pricing_plan)
-    create_map(configuration, map_name, pricing_plan, params::Dict{String,<:Any})
+    create_map(configuration, map_name, pricing_plan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a map resource in your AWS account, which provides map tiles of different styles
 sourced from global location data providers.
@@ -492,37 +398,24 @@ sourced from global location data providers.
   and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: An optional description for the map resource.
-- `"Tags"`: Applies one or more tags to the map resource. A tag is a key-value pair helps
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: An optional description for the map resource.
+- `"tags"`: Applies one or more tags to the map resource. A tag is a key-value pair helps
   manage, identify, search, and filter your resources by labelling them. Format: \"key\" :
   \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique
   with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8
   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters
-  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use
+  \"aws:\" as a prefix for a key.
 """
-function create_map(
-    Configuration, MapName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "POST",
-        "/maps/v0/maps",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "MapName" => MapName,
-            "PricingPlan" => PricingPlan,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_map(
     Configuration,
     MapName,
-    PricingPlan,
-    params::AbstractDict{String};
+    PricingPlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/maps/v0/maps",
@@ -543,22 +436,22 @@ function create_map(
 end
 
 """
-    create_place_index(data_source, index_name, pricing_plan)
-    create_place_index(data_source, index_name, pricing_plan, params::Dict{String,<:Any})
+    create_place_index(data_source, index_name, pricing_plan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
-Creates a place index resource in your AWS account, which supports functions with
-geospatial data sourced from your chosen data provider.
+Creates a place index resource in your AWS account. Use a place index resource to geocode
+addresses and other text queries by using the SearchPlaceIndexForText operation, and
+reverse geocode coordinates by using the SearchPlaceIndexForPosition operation.
 
 # Arguments
-- `data_source`: Specifies the data provider of geospatial data.  This field is
-  case-sensitive. Enter the valid values as shown. For example, entering HERE returns an
-  error.  Valid values include:    Esri – For additional information about Esri's coverage
-  in your region of interest, see Esri details on geocoding coverage.    Here – For
-  additional information about HERE Technologies' coverage in your region of interest, see
-  HERE details on goecoding coverage.  Place index resources using HERE Technologies as a
-  data provider can't store results for locations in Japan. For more information, see the AWS
-  Service Terms for Amazon Location Service.    For additional information , see Data
-  providers on the Amazon Location Service Developer Guide.
+- `data_source`: Specifies the geospatial data provider for the new place index.  This
+  field is case-sensitive. Enter the valid values as shown. For example, entering HERE
+  returns an error.  Valid values include:    Esri – For additional information about
+  Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Here
+  – For additional information about HERE Technologies' coverage in your region of
+  interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here)
+  as the data provider, you may not store results for locations in Japan. For more
+  information, see the AWS Service Terms for Amazon Location Service.    For additional
+  information , see Data providers on the Amazon Location Service Developer Guide.
 - `index_name`: The name of the place index resource.  Requirements:   Contain only
   alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores
   (_).   Must be a unique place index resource name.   No spaces allowed. For example,
@@ -567,38 +460,25 @@ geospatial data sourced from your chosen data provider.
   details and restrictions on each pricing plan option, see Amazon Location Service pricing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceConfiguration"`: Specifies the data storage option requesting Places.
-- `"Description"`: The optional description for the place index resource.
-- `"Tags"`: Applies one or more tags to the place index resource. A tag is a key-value pair
-  helps manage, identify, search, and filter your resources by labelling them. Format:
-  \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
-  be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
-  UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_configuration"`: Specifies the data storage option requesting Places.
+- `"description"`: The optional description for the place index resource.
+- `"tags"`: Applies one or more tags to the place index resource. A tag is a key-value pair
+  that helps you manage, identify, search, and filter your resources. Format: \"key\" :
+  \"value\"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and
+  must have exactly one associated value.   Maximum key length: 128 Unicode characters in
+  UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot
+  use \"aws:\" as a prefix for a key.
 """
-function create_place_index(
-    DataSource, IndexName, PricingPlan; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "POST",
-        "/places/v0/indexes",
-        Dict{String,Any}(
-            "DataSource" => DataSource,
-            "IndexName" => IndexName,
-            "PricingPlan" => PricingPlan,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_place_index(
     DataSource,
     IndexName,
-    PricingPlan,
-    params::AbstractDict{String};
+    PricingPlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/places/v0/indexes",
@@ -619,8 +499,7 @@ function create_place_index(
 end
 
 """
-    create_route_calculator(calculator_name, data_source, pricing_plan)
-    create_route_calculator(calculator_name, data_source, pricing_plan, params::Dict{String,<:Any})
+    create_route_calculator(calculator_name, data_source, pricing_plan; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a route calculator resource in your AWS account. You can send requests to a route
 calculator resource to estimate travel time, distance, and get directions. A route
@@ -644,41 +523,25 @@ calculator sources traffic and road network data from your chosen data provider.
   Service pricing.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The optional description for the route calculator resource.
-- `"Tags"`: Applies one or more tags to the route calculator resource. A tag is a key-value
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: The optional description for the route calculator resource.
+- `"tags"`: Applies one or more tags to the route calculator resource. A tag is a key-value
   pair helps manage, identify, search, and filter your resources by labelling them.   For
   example: { \"tag1\" : \"value1\", \"tag2\" : \"value2\"}   Format: \"key\" : \"value\"
   Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a
   maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value
   length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z,
-  0–9), and the following characters: + - = . _ : / @.
+  0–9), and the following characters: + - = . _ : / @.    Cannot use \"aws:\" as a prefix
+  for a key.
 """
 function create_route_calculator(
     CalculatorName,
     DataSource,
     PricingPlan;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return location(
-        "POST",
-        "/routes/v0/calculators",
-        Dict{String,Any}(
-            "CalculatorName" => CalculatorName,
-            "DataSource" => DataSource,
-            "PricingPlan" => PricingPlan,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_route_calculator(
-    CalculatorName,
-    DataSource,
-    PricingPlan,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/routes/v0/calculators",
@@ -699,8 +562,7 @@ function create_route_calculator(
 end
 
 """
-    create_tracker(pricing_plan, tracker_name)
-    create_tracker(pricing_plan, tracker_name, params::Dict{String,<:Any})
+    create_tracker(pricing_plan, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a tracker resource in your AWS account, which lets you retrieve current and
 historical location of devices.
@@ -713,50 +575,38 @@ historical location of devices.
   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: An optional description for the tracker resource.
-- `"KmsKeyId"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: An optional description for the tracker resource.
+- `"kms_key_id"`: A key identifier for an AWS KMS customer managed key. Enter a key ID, key
   ARN, alias name, or alias ARN.
-- `"PositionFiltering"`: Specifies the position filtering for the tracker resource. Valid
+- `"position_filtering"`: Specifies the position filtering for the tracker resource. Valid
   values:    TimeBased - Location updates are evaluated against linked geofence collections,
   but not every location update is stored. If your update frequency is more often than 30
   seconds, only one update per 30 seconds is stored for each unique device ID.
   DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are
-  ignored. Location updates within this distance are neither evaluated against linked
-  geofence collections, nor stored. This helps control costs by reducing the number of
-  geofence evaluations and device positions to retrieve. Distance-based filtering can also
-  reduce the jitter effect when displaying device trajectory on a map.    This field is
-  optional. If not specified, the default value is TimeBased.
-- `"PricingPlanDataSource"`: Specifies the data provider for the tracker resource.
+  ignored. Location updates within this area are neither evaluated against linked geofence
+  collections, nor stored. This helps control costs by reducing the number of geofence
+  evaluations and historical device positions to paginate through. Distance-based filtering
+  can also reduce the effects of GPS noise when displaying device trajectories on a map.
+  This field is optional. If not specified, the default value is TimeBased.
+- `"pricing_plan_data_source"`: Specifies the data provider for the tracker resource.
   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement
      For more information about Data Providers, and Pricing plans, see the Amazon Location
   Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate
   billing for your tracker resource. Your data will not be shared with the data provider, and
   will remain in your AWS account or Region unless you move it.  Valid values: Esri | Here
-- `"Tags"`: Applies one or more tags to the tracker resource. A tag is a key-value pair
+- `"tags"`: Applies one or more tags to the tracker resource. A tag is a key-value pair
   helps manage, identify, search, and filter your resources by labelling them. Format:
   \"key\" : \"value\"  Restrictions:   Maximum 50 tags per resource   Each resource tag must
   be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in
   UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric
-  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+  characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot
+  use \"aws:\" as a prefix for a key.
 """
 function create_tracker(
-    PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    PricingPlan, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers",
-        Dict{String,Any}("PricingPlan" => PricingPlan, "TrackerName" => TrackerName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_tracker(
-    PricingPlan,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers",
@@ -775,8 +625,7 @@ function create_tracker(
 end
 
 """
-    delete_geofence_collection(collection_name)
-    delete_geofence_collection(collection_name, params::Dict{String,<:Any})
+    delete_geofence_collection(collection_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a geofence collection from your AWS account.  This operation deletes the resource
 permanently. If the geofence collection is the target of a tracker resource, the devices
@@ -787,20 +636,9 @@ will no longer be monitored.
 
 """
 function delete_geofence_collection(
-    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "DELETE",
-        "/geofencing/v0/collections/$(CollectionName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_geofence_collection(
-    CollectionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/geofencing/v0/collections/$(CollectionName)",
@@ -811,8 +649,7 @@ function delete_geofence_collection(
 end
 
 """
-    delete_map(map_name)
-    delete_map(map_name, params::Dict{String,<:Any})
+    delete_map(map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a map resource from your AWS account.  This operation deletes the resource
 permanently. If the map is being used in an application, the map may not render.
@@ -821,17 +658,8 @@ permanently. If the map is being used in an application, the map may not render.
 - `map_name`: The name of the map resource to be deleted.
 
 """
-function delete_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "DELETE",
-        "/maps/v0/maps/$(MapName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_map(
-    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/maps/v0/maps/$(MapName)",
@@ -842,8 +670,7 @@ function delete_map(
 end
 
 """
-    delete_place_index(index_name)
-    delete_place_index(index_name, params::Dict{String,<:Any})
+    delete_place_index(index_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a place index resource from your AWS account.  This operation deletes the resource
 permanently.
@@ -852,19 +679,10 @@ permanently.
 - `index_name`: The name of the place index resource to be deleted.
 
 """
-function delete_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "DELETE",
-        "/places/v0/indexes/$(IndexName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_place_index(
-    IndexName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/places/v0/indexes/$(IndexName)",
@@ -875,8 +693,7 @@ function delete_place_index(
 end
 
 """
-    delete_route_calculator(calculator_name)
-    delete_route_calculator(calculator_name, params::Dict{String,<:Any})
+    delete_route_calculator(calculator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a route calculator resource from your AWS account.  This operation deletes the
 resource permanently.
@@ -886,20 +703,9 @@ resource permanently.
 
 """
 function delete_route_calculator(
-    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "DELETE",
-        "/routes/v0/calculators/$(CalculatorName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_route_calculator(
-    CalculatorName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/routes/v0/calculators/$(CalculatorName)",
@@ -910,8 +716,7 @@ function delete_route_calculator(
 end
 
 """
-    delete_tracker(tracker_name)
-    delete_tracker(tracker_name, params::Dict{String,<:Any})
+    delete_tracker(tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a tracker resource from your AWS account.  This operation deletes the resource
 permanently. If the tracker resource is in use, you may encounter an error. Make sure that
@@ -921,19 +726,10 @@ the target resource isn't a dependency for your applications.
 - `tracker_name`: The name of the tracker resource to be deleted.
 
 """
-function delete_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "DELETE",
-        "/tracking/v0/trackers/$(TrackerName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_tracker(
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/tracking/v0/trackers/$(TrackerName)",
@@ -944,8 +740,7 @@ function delete_tracker(
 end
 
 """
-    describe_geofence_collection(collection_name)
-    describe_geofence_collection(collection_name, params::Dict{String,<:Any})
+    describe_geofence_collection(collection_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the geofence collection details.
 
@@ -954,20 +749,9 @@ Retrieves the geofence collection details.
 
 """
 function describe_geofence_collection(
-    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/geofencing/v0/collections/$(CollectionName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_geofence_collection(
-    CollectionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/geofencing/v0/collections/$(CollectionName)",
@@ -978,8 +762,7 @@ function describe_geofence_collection(
 end
 
 """
-    describe_map(map_name)
-    describe_map(map_name, params::Dict{String,<:Any})
+    describe_map(map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the map resource details.
 
@@ -987,17 +770,8 @@ Retrieves the map resource details.
 - `map_name`: The name of the map resource.
 
 """
-function describe_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "GET",
-        "/maps/v0/maps/$(MapName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_map(
-    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function describe_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)",
@@ -1008,8 +782,7 @@ function describe_map(
 end
 
 """
-    describe_place_index(index_name)
-    describe_place_index(index_name, params::Dict{String,<:Any})
+    describe_place_index(index_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the place index resource details.
 
@@ -1017,19 +790,10 @@ Retrieves the place index resource details.
 - `index_name`: The name of the place index resource.
 
 """
-function describe_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "GET",
-        "/places/v0/indexes/$(IndexName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_place_index(
-    IndexName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/places/v0/indexes/$(IndexName)",
@@ -1040,8 +804,7 @@ function describe_place_index(
 end
 
 """
-    describe_route_calculator(calculator_name)
-    describe_route_calculator(calculator_name, params::Dict{String,<:Any})
+    describe_route_calculator(calculator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the route calculator resource details.
 
@@ -1050,20 +813,9 @@ Retrieves the route calculator resource details.
 
 """
 function describe_route_calculator(
-    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/routes/v0/calculators/$(CalculatorName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_route_calculator(
-    CalculatorName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/routes/v0/calculators/$(CalculatorName)",
@@ -1074,8 +826,7 @@ function describe_route_calculator(
 end
 
 """
-    describe_tracker(tracker_name)
-    describe_tracker(tracker_name, params::Dict{String,<:Any})
+    describe_tracker(tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the tracker resource details.
 
@@ -1083,19 +834,10 @@ Retrieves the tracker resource details.
 - `tracker_name`: The name of the tracker resource.
 
 """
-function describe_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "GET",
-        "/tracking/v0/trackers/$(TrackerName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_tracker(
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/tracking/v0/trackers/$(TrackerName)",
@@ -1106,8 +848,7 @@ function describe_tracker(
 end
 
 """
-    disassociate_tracker_consumer(consumer_arn, tracker_name)
-    disassociate_tracker_consumer(consumer_arn, tracker_name, params::Dict{String,<:Any})
+    disassociate_tracker_consumer(consumer_arn, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes the association between a tracker resource and a geofence collection.  Once you
 unlink a tracker resource from a geofence collection, the tracker positions will no longer
@@ -1122,21 +863,9 @@ be automatically evaluated against geofences.
 
 """
 function disassociate_tracker_consumer(
-    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    ConsumerArn, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "DELETE",
-        "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_tracker_consumer(
-    ConsumerArn,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/tracking/v0/trackers/$(TrackerName)/consumers/$(ConsumerArn)",
@@ -1147,8 +876,7 @@ function disassociate_tracker_consumer(
 end
 
 """
-    get_device_position(device_id, tracker_name)
-    get_device_position(device_id, tracker_name, params::Dict{String,<:Any})
+    get_device_position(device_id, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a device's most recent position according to its sample time.  Device positions
 are deleted after 30 days.
@@ -1159,21 +887,9 @@ are deleted after 30 days.
 
 """
 function get_device_position(
-    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_device_position(
-    DeviceId,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/positions/latest",
@@ -1184,8 +900,7 @@ function get_device_position(
 end
 
 """
-    get_device_position_history(device_id, tracker_name)
-    get_device_position_history(device_id, tracker_name, params::Dict{String,<:Any})
+    get_device_position_history(device_id, tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the device position history from a tracker resource within a specified range of
 time.  Device positions are deleted after 30 days.
@@ -1196,34 +911,22 @@ time.  Device positions are deleted after 30 days.
   history.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"EndTimeExclusive"`: Specify the end time for the position history in  ISO 8601 format:
-  YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request is made.
-  Requirement:   The time specified for EndTimeExclusive must be after the time for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"end_time_exclusive"`: Specify the end time for the position history in  ISO 8601
+  format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be the time that the request
+  is made. Requirement:   The time specified for EndTimeExclusive must be after the time for
   StartTimeInclusive.
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
-- `"StartTimeInclusive"`: Specify the start time for the position history in  ISO 8601
+- `"start_time_inclusive"`: Specify the start time for the position history in  ISO 8601
   format: YYYY-MM-DDThh:mm:ss.sssZ. By default, the value will be 24 hours prior to the time
   that the request is made. Requirement:   The time specified for StartTimeInclusive must be
   before EndTimeExclusive.
 """
 function get_device_position_history(
-    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceId, TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_device_position_history(
-    DeviceId,
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/devices/$(DeviceId)/list-positions",
@@ -1234,8 +937,7 @@ function get_device_position_history(
 end
 
 """
-    get_geofence(collection_name, geofence_id)
-    get_geofence(collection_name, geofence_id, params::Dict{String,<:Any})
+    get_geofence(collection_name, geofence_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the geofence details from a geofence collection.
 
@@ -1245,21 +947,9 @@ Retrieves the geofence details from a geofence collection.
 
 """
 function get_geofence(
-    CollectionName, GeofenceId; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName, GeofenceId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_geofence(
-    CollectionName,
-    GeofenceId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
@@ -1270,8 +960,7 @@ function get_geofence(
 end
 
 """
-    get_map_glyphs(font_stack, font_unicode_range, map_name)
-    get_map_glyphs(font_stack, font_unicode_range, map_name, params::Dict{String,<:Any})
+    get_map_glyphs(font_stack, font_unicode_range, map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves glyphs used to display labels on a map.
 
@@ -1292,22 +981,13 @@ Retrieves glyphs used to display labels on a map.
 
 """
 function get_map_glyphs(
-    FontStack, FontUnicodeRange, MapName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "GET",
-        "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_map_glyphs(
     FontStack,
     FontUnicodeRange,
-    MapName,
-    params::AbstractDict{String};
+    MapName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)/glyphs/$(FontStack)/$(FontUnicodeRange)",
@@ -1318,8 +998,7 @@ function get_map_glyphs(
 end
 
 """
-    get_map_sprites(file_name, map_name)
-    get_map_sprites(file_name, map_name, params::Dict{String,<:Any})
+    get_map_sprites(file_name, map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image
 paired with a JSON document describing the offsets of individual icons that will be
@@ -1334,21 +1013,9 @@ displayed on a rendered map.
 
 """
 function get_map_sprites(
-    FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config()
+    FileName, MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/maps/v0/maps/$(MapName)/sprites/$(FileName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_map_sprites(
-    FileName,
-    MapName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)/sprites/$(FileName)",
@@ -1359,8 +1026,7 @@ function get_map_sprites(
 end
 
 """
-    get_map_style_descriptor(map_name)
-    get_map_style_descriptor(map_name, params::Dict{String,<:Any})
+    get_map_style_descriptor(map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the map style descriptor from a map resource.  The style descriptor contains
 speciﬁcations on how features render on a map. For example, what data to display, what
@@ -1372,18 +1038,9 @@ Mapbox Style Specification.
 
 """
 function get_map_style_descriptor(
-    MapName; aws_config::AbstractAWSConfig=global_aws_config()
+    MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/maps/v0/maps/$(MapName)/style-descriptor";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_map_style_descriptor(
-    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)/style-descriptor",
@@ -1394,8 +1051,7 @@ function get_map_style_descriptor(
 end
 
 """
-    get_map_tile(map_name, x, y, z)
-    get_map_tile(map_name, x, y, z, params::Dict{String,<:Any})
+    get_map_tile(map_name, x, y, z; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a vector data tile from the map resource. Map tiles are used by clients to render
 a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z
@@ -1410,22 +1066,10 @@ doubles both the X and Y dimensions, so a tile containing data for the entire wo
 - `z`: The zoom value for the map tile.
 
 """
-function get_map_tile(MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "GET",
-        "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_map_tile(
-    MapName,
-    X,
-    Y,
-    Z,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    MapName, X, Y, Z; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/maps/v0/maps/$(MapName)/tiles/$(Z)/$(X)/$(Y)",
@@ -1436,8 +1080,7 @@ function get_map_tile(
 end
 
 """
-    list_device_positions(tracker_name)
-    list_device_positions(tracker_name, params::Dict{String,<:Any})
+    list_device_positions(tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 A batch request to retrieve all device positions.
 
@@ -1445,27 +1088,16 @@ A batch request to retrieve all device positions.
 - `tracker_name`: The tracker resource containing the requested devices.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the number of entries returned in a single call.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the number of entries returned in a single call.
   Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
 function list_device_positions(
-    TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/list-positions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_device_positions(
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/list-positions",
@@ -1476,29 +1108,21 @@ function list_device_positions(
 end
 
 """
-    list_geofence_collections()
-    list_geofence_collections(params::Dict{String,<:Any})
+    list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists geofence collections in your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
-  Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the number of resources returned in a single call.
+   Default value: 100
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-function list_geofence_collections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/geofencing/v0/list-collections";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_geofence_collections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_geofence_collections(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/list-collections",
@@ -1509,8 +1133,7 @@ function list_geofence_collections(
 end
 
 """
-    list_geofences(collection_name)
-    list_geofences(collection_name, params::Dict{String,<:Any})
+    list_geofences(collection_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists geofences stored in a given geofence collection.
 
@@ -1518,23 +1141,14 @@ Lists geofences stored in a given geofence collection.
 - `collection_name`: The name of the geofence collection storing the list of geofences.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-function list_geofences(CollectionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/geofencing/v0/collections/$(CollectionName)/list-geofences";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_geofences(
-    CollectionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/geofencing/v0/collections/$(CollectionName)/list-geofences",
@@ -1545,26 +1159,19 @@ function list_geofences(
 end
 
 """
-    list_maps()
-    list_maps(params::Dict{String,<:Any})
+    list_maps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists map resources in your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
-  Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the number of resources returned in a single call.
+   Default value: 100
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
-function list_maps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST", "/maps/v0/list-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_maps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_maps(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/maps/v0/list-maps",
@@ -1575,29 +1182,19 @@ function list_maps(
 end
 
 """
-    list_place_indexes()
-    list_place_indexes(params::Dict{String,<:Any})
+    list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists place index resources in your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the maximum number of results returned in a single
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the maximum number of results returned in a single
   call. Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default value: null
 """
-function list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/places/v0/list-indexes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_place_indexes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_place_indexes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/places/v0/list-indexes",
@@ -1608,29 +1205,21 @@ function list_place_indexes(
 end
 
 """
-    list_route_calculators()
-    list_route_calculators(params::Dict{String,<:Any})
+    list_route_calculators(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists route calculator resources in your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional maximum number of results returned in a single call. Default
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional maximum number of results returned in a single call. Default
   Value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page. Default Value: null
 """
-function list_route_calculators(; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/routes/v0/list-calculators";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_route_calculators(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_route_calculators(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/routes/v0/list-calculators",
@@ -1641,8 +1230,7 @@ function list_route_calculators(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of tags that are applied to the specified Amazon Location resource.
 
@@ -1652,20 +1240,9 @@ Returns a list of tags that are applied to the specified Amazon Location resourc
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "GET",
-        "/tags/$(ResourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    ResourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "GET",
         "/tags/$(ResourceArn)",
@@ -1676,8 +1253,7 @@ function list_tags_for_resource(
 end
 
 """
-    list_tracker_consumers(tracker_name)
-    list_tracker_consumers(tracker_name, params::Dict{String,<:Any})
+    list_tracker_consumers(tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists geofence collections currently associated to the given tracker resource.
 
@@ -1686,27 +1262,16 @@ Lists geofence collections currently associated to the given tracker resource.
   list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
-  Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the number of resources returned in a single call.
+   Default value: 100
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
 function list_tracker_consumers(
-    TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/tracking/v0/trackers/$(TrackerName)/list-consumers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tracker_consumers(
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/trackers/$(TrackerName)/list-consumers",
@@ -1717,29 +1282,19 @@ function list_tracker_consumers(
 end
 
 """
-    list_trackers()
-    list_trackers(params::Dict{String,<:Any})
+    list_trackers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists tracker resources in your AWS account.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
-  Default value: 100
-- `"NextToken"`: The pagination token specifying which page of results to return in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: An optional limit for the number of resources returned in a single call.
+   Default value: 100
+- `"next_token"`: The pagination token specifying which page of results to return in the
   response. If no token is provided, the default page is the first page.  Default value: null
 """
-function list_trackers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/tracking/v0/list-trackers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_trackers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_trackers(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tracking/v0/list-trackers",
@@ -1750,8 +1305,7 @@ function list_trackers(
 end
 
 """
-    put_geofence(collection_name, geofence_id, geometry)
-    put_geofence(collection_name, geofence_id, geometry, params::Dict{String,<:Any})
+    put_geofence(collection_name, geofence_id, geometry; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Stores a geofence geometry in a given geofence collection, or updates the geometry of an
 existing geofence if a geofence ID is included in the request.
@@ -1764,23 +1318,13 @@ existing geofence if a geofence ID is included in the request.
 
 """
 function put_geofence(
-    CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return location(
-        "PUT",
-        "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
-        Dict{String,Any}("Geometry" => Geometry);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_geofence(
     CollectionName,
     GeofenceId,
-    Geometry,
-    params::AbstractDict{String};
+    Geometry;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PUT",
         "/geofencing/v0/collections/$(CollectionName)/geofences/$(GeofenceId)",
@@ -1793,40 +1337,32 @@ function put_geofence(
 end
 
 """
-    search_place_index_for_position(index_name, position)
-    search_place_index_for_position(index_name, position, params::Dict{String,<:Any})
+    search_place_index_for_position(index_name, position; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Reverse geocodes a given coordinate and returns a legible address. Allows you to search for
 Places or points of interest near a given position.
 
 # Arguments
 - `index_name`: The name of the place index resource you want to use for the search.
-- `position`: Specifies a coordinate for the query defined by a longitude, and latitude.
-  The first position is the X coordinate, or longitude.   The second position is the Y
-  coordinate, or latitude.    For example, position=xLongitude&amp;position=yLatitude .
+- `position`: Specifies the longitude and latitude of the position to query.  This
+  parameter must contain a pair of numbers. The first number represents the X coordinate, or
+  longitude; the second number represents the Y coordinate, or latitude. For example,
+  [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional paramer. The maximum number of results returned per request.
-  Default value: 50
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results. It does not change which results are returned. If the language is not
+  specified, or not supported for a particular result, the partner automatically chooses a
+  language for the result.
+- `"max_results"`: An optional parameter. The maximum number of results returned per
+  request. Default value: 50
 """
 function search_place_index_for_position(
-    IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/places/v0/indexes/$(IndexName)/search/position",
-        Dict{String,Any}("Position" => Position);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_place_index_for_position(
-    IndexName,
-    Position,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/places/v0/indexes/$(IndexName)/search/position",
@@ -1839,58 +1375,53 @@ function search_place_index_for_position(
 end
 
 """
-    search_place_index_for_text(index_name, text)
-    search_place_index_for_text(index_name, text, params::Dict{String,<:Any})
+    search_place_index_for_text(index_name, text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Geocodes free-form text, such as an address, name, city, or region to allow you to search
-for Places or points of interest.  Includes the option to apply additional parameters to
-narrow your list of results.  You can search for places near a given position using
-BiasPosition, or filter results within a bounding box using FilterBBox. Providing both
-parameters simultaneously returns an error.
+for Places or points of interest.  Optional parameters let you narrow your search results
+by bounding box or country, or bias your search toward a specific position on the globe.
+You can search for places near a given position using BiasPosition, or filter results
+within a bounding box using FilterBBox. Providing both parameters simultaneously returns an
+error.  Search results are returned in order of highest to lowest relevance.
 
 # Arguments
 - `index_name`: The name of the place index resource you want to use for the search.
-- `text`: The address, name, city, or region to be used in the search. In free-form text
+- `text`: The address, name, city, or region to be used in the search in free-form text
   format. For example, 123 Any Street.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BiasPosition"`: Searches for results closest to the given position. An optional
-  parameter defined by longitude, and latitude.   The first bias position is the X
-  coordinate, or longitude.   The second bias position is the Y coordinate, or latitude.
-  For example, bias=xLongitude&amp;bias=yLatitude.
-- `"FilterBBox"`: Filters the results by returning only Places within the provided bounding
-  box. An optional parameter. The first 2 bbox parameters describe the lower southwest
-  corner:   The first bbox position is the X coordinate or longitude of the lower southwest
-  corner.   The second bbox position is the Y coordinate or latitude of the lower southwest
-  corner.   For example, bbox=xLongitudeSW&amp;bbox=yLatitudeSW. The next bbox parameters
-  describe the upper northeast corner:   The third bbox position is the X coordinate, or
-  longitude of the upper northeast corner.   The fourth bbox position is the Y coordinate, or
-  longitude of the upper northeast corner.   For example,
-  bbox=xLongitudeNE&amp;bbox=yLatitudeNE
-- `"FilterCountries"`: Limits the search to the given a list of countries/regions. An
-  optional parameter.   Use the ISO 3166 3-digit country code. For example, Australia uses
-  three upper-case characters: AUS.
-- `"MaxResults"`: An optional parameter. The maximum number of results returned per
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"bias_position"`: An optional parameter that indicates a preference for places that are
+  closer to a specified position.  If provided, this parameter must contain a pair of
+  numbers. The first number represents the X coordinate, or longitude; the second number
+  represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the
+  position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are
+  mutually exclusive. Specifying both options results in an error.
+- `"filter_bbox"`: An optional parameter that limits the search results by returning only
+  places that are within the provided bounding box.  If provided, this parameter must contain
+  a total of four consecutive numbers in two pairs. The first pair of numbers represents the
+  X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the
+  bounding box; the second pair of numbers represents the X and Y coordinates (longitude and
+  latitude, respectively) of the northeast corner of the bounding box. For example,
+  [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest
+  corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude
+  -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive.
+  Specifying both options results in an error.
+- `"filter_countries"`: An optional parameter that limits the search results by returning
+  only places that are in a specified list of countries.   Valid values include ISO 3166
+  3-digit country codes. For example, Australia uses three upper-case characters: AUS.
+- `"language"`: The preferred language used to return results. The value must be a valid
+  BCP 47 language tag, for example, en for English. This setting affects the languages used
+  in the results. It does not change which results are returned. If the language is not
+  specified, or not supported for a particular result, the partner automatically chooses a
+  language for the result.
+- `"max_results"`: An optional parameter. The maximum number of results returned per
   request.  The default: 50
 """
 function search_place_index_for_text(
-    IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()
+    IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "POST",
-        "/places/v0/indexes/$(IndexName)/search/text",
-        Dict{String,Any}("Text" => Text);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function search_place_index_for_text(
-    IndexName,
-    Text,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/places/v0/indexes/$(IndexName)/search/text",
@@ -1901,8 +1432,7 @@ function search_place_index_for_text(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Assigns one or more tags (key-value pairs) to the specified Amazon Location Service
 resource.  &lt;p&gt;Tags can help you organize and categorize your resources. You can also
@@ -1918,26 +1448,19 @@ resource.&lt;/p&gt;
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
   update.   Format example: arn:aws:geo:region:account-id:resourcetype/ExampleResource
-- `tags`: Tags that have been applied to the specified resource. Tags are mapped from the
-  tag key to the tag value: \"TagKey\" : \"TagValue\".   Format example: {\"tag1\" :
-  \"value1\", \"tag2\" : \"value2\"}
+- `tags`: Applies one or more tags to specific resource. A tag is a key-value pair that
+  helps you manage, identify, search, and filter your resources. Format: \"key\" : \"value\"
+  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have
+  exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.
+  Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters
+  (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use \"aws:\"
+  as a prefix for a key.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "POST",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    ResourceArn,
-    Tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "POST",
         "/tags/$(ResourceArn)",
@@ -1948,8 +1471,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes one or more tags from the specified Amazon Location resource.
 
@@ -1960,22 +1482,9 @@ Removes one or more tags from the specified Amazon Location resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "DELETE",
-        "/tags/$(ResourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    ResourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "DELETE",
         "/tags/$(ResourceArn)",
@@ -1986,8 +1495,7 @@ function untag_resource(
 end
 
 """
-    update_geofence_collection(collection_name)
-    update_geofence_collection(collection_name, params::Dict{String,<:Any})
+    update_geofence_collection(collection_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified properties of a given geofence collection.
 
@@ -1995,12 +1503,12 @@ Updates the specified properties of a given geofence collection.
 - `collection_name`: The name of the geofence collection to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Updates the description for the geofence collection.
-- `"PricingPlan"`: Updates the pricing plan for the geofence collection. For more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: Updates the description for the geofence collection.
+- `"pricing_plan"`: Updates the pricing plan for the geofence collection. For more
   information about each pricing plan option restrictions, see Amazon Location Service
   pricing.
-- `"PricingPlanDataSource"`: Updates the data provider for the geofence collection.  A
+- `"pricing_plan_data_source"`: Updates the data provider for the geofence collection.  A
   required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement
   For more information about data providers and pricing plans, see the Amazon Location
   Service product page.  This can only be updated when updating the PricingPlan in the same
@@ -2009,20 +1517,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your AWS account and Region unless you move it.
 """
 function update_geofence_collection(
-    CollectionName; aws_config::AbstractAWSConfig=global_aws_config()
+    CollectionName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "PATCH",
-        "/geofencing/v0/collections/$(CollectionName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_geofence_collection(
-    CollectionName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PATCH",
         "/geofencing/v0/collections/$(CollectionName)",
@@ -2033,8 +1530,7 @@ function update_geofence_collection(
 end
 
 """
-    update_map(map_name)
-    update_map(map_name, params::Dict{String,<:Any})
+    update_map(map_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified properties of a given map resource.
 
@@ -2042,22 +1538,13 @@ Updates the specified properties of a given map resource.
 - `map_name`: The name of the map resource to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Updates the description for the map resource.
-- `"PricingPlan"`: Updates the pricing plan for the map resource. For more information
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: Updates the description for the map resource.
+- `"pricing_plan"`: Updates the pricing plan for the map resource. For more information
   about each pricing plan option restrictions, see Amazon Location Service pricing.
 """
-function update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "PATCH",
-        "/maps/v0/maps/$(MapName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_map(
-    MapName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_map(MapName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PATCH",
         "/maps/v0/maps/$(MapName)",
@@ -2068,8 +1555,7 @@ function update_map(
 end
 
 """
-    update_place_index(index_name)
-    update_place_index(index_name, params::Dict{String,<:Any})
+    update_place_index(index_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified properties of a given place index resource.
 
@@ -2077,26 +1563,18 @@ Updates the specified properties of a given place index resource.
 - `index_name`: The name of the place index resource to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataSourceConfiguration"`: Updates the data storage option for the place index resource.
-- `"Description"`: Updates the description for the place index resource.
-- `"PricingPlan"`: Updates the pricing plan for the place index resource. For more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"data_source_configuration"`: Updates the data storage option for the place index
+  resource.
+- `"description"`: Updates the description for the place index resource.
+- `"pricing_plan"`: Updates the pricing plan for the place index resource. For more
   information about each pricing plan option restrictions, see Amazon Location Service
   pricing.
 """
-function update_place_index(IndexName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "PATCH",
-        "/places/v0/indexes/$(IndexName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_place_index(
-    IndexName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    IndexName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PATCH",
         "/places/v0/indexes/$(IndexName)",
@@ -2107,8 +1585,7 @@ function update_place_index(
 end
 
 """
-    update_route_calculator(calculator_name)
-    update_route_calculator(calculator_name, params::Dict{String,<:Any})
+    update_route_calculator(calculator_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified properties for a given route calculator resource.
 
@@ -2116,27 +1593,16 @@ Updates the specified properties for a given route calculator resource.
 - `calculator_name`: The name of the route calculator resource to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Updates the description for the route calculator resource.
-- `"PricingPlan"`: Updates the pricing plan for the route calculator resource. For more
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: Updates the description for the route calculator resource.
+- `"pricing_plan"`: Updates the pricing plan for the route calculator resource. For more
   information about each pricing plan option restrictions, see Amazon Location Service
   pricing.
 """
 function update_route_calculator(
-    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculatorName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return location(
-        "PATCH",
-        "/routes/v0/calculators/$(CalculatorName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_route_calculator(
-    CalculatorName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PATCH",
         "/routes/v0/calculators/$(CalculatorName)",
@@ -2147,8 +1613,7 @@ function update_route_calculator(
 end
 
 """
-    update_tracker(tracker_name)
-    update_tracker(tracker_name, params::Dict{String,<:Any})
+    update_tracker(tracker_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the specified properties of a given tracker resource.
 
@@ -2156,9 +1621,9 @@ Updates the specified properties of a given tracker resource.
 - `tracker_name`: The name of the tracker resource to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: Updates the description for the tracker resource.
-- `"PositionFiltering"`: Updates the position filtering for the tracker resource. Valid
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"description"`: Updates the description for the tracker resource.
+- `"position_filtering"`: Updates the position filtering for the tracker resource. Valid
   values:    TimeBased - Location updates are evaluated against linked geofence collections,
   but not every location update is stored. If your update frequency is more often than 30
   seconds, only one update per 30 seconds is stored for each unique device ID.
@@ -2167,9 +1632,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   geofence collections, nor stored. This helps control costs by reducing the number of
   geofence evaluations and device positions to retrieve. Distance-based filtering can also
   reduce the jitter effect when displaying device trajectory on a map.
-- `"PricingPlan"`: Updates the pricing plan for the tracker resource. For more information
+- `"pricing_plan"`: Updates the pricing plan for the tracker resource. For more information
   about each pricing plan option restrictions, see Amazon Location Service pricing.
-- `"PricingPlanDataSource"`: Updates the data provider for the tracker resource.  A
+- `"pricing_plan_data_source"`: Updates the data provider for the tracker resource.  A
   required value for the following pricing plans: MobileAssetTracking| MobileAssetManagement
   For more information about data providers and pricing plans, see the Amazon Location
   Service product page  This can only be updated when updating the PricingPlan in the same
@@ -2177,19 +1642,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tracker resource. Your data won't be shared with the data provider, and will remain in your
   AWS account and Region unless you move it.
 """
-function update_tracker(TrackerName; aws_config::AbstractAWSConfig=global_aws_config())
-    return location(
-        "PATCH",
-        "/tracking/v0/trackers/$(TrackerName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_tracker(
-    TrackerName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    TrackerName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return location(
         "PATCH",
         "/tracking/v0/trackers/$(TrackerName)",

@@ -4,9 +4,33 @@ using AWS.AWSServices: codeartifact
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "namespace" => "namespace",
+    "duration_seconds" => "duration",
+    "allow_overwrite" => "allowOverwrite",
+    "next_token" => "next-token",
+    "encryption_key" => "encryptionKey",
+    "repository_prefix" => "repository-prefix",
+    "domain_owner" => "domain-owner",
+    "format" => "format",
+    "status" => "status",
+    "sort_by" => "sortBy",
+    "expected_status" => "expectedStatus",
+    "package_prefix" => "package-prefix",
+    "description" => "description",
+    "max_results" => "max-results",
+    "versions" => "versions",
+    "administrator_account" => "administrator-account",
+    "policy_revision" => "policy-revision",
+    "package_version_revision" => "revision",
+    "include_from_upstream" => "includeFromUpstream",
+    "version_revisions" => "versionRevisions",
+    "tags" => "tags",
+    "upstreams" => "upstreams",
+)
+
 """
-    associate_external_connection(domain, external-connection, repository)
-    associate_external_connection(domain, external-connection, repository, params::Dict{String,<:Any})
+    associate_external_connection(domain, external-connection, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds an existing external connection to a repository. One external connection is allowed
 per repository.  A repository can have one or more upstream repositories, or an external
@@ -23,8 +47,8 @@ connection.
 - `repository`:  The name of the repository to which the external connection is added.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function associate_external_connection(
@@ -32,26 +56,9 @@ function associate_external_connection(
     external_connection,
     repository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            "domain" => domain,
-            "external-connection" => external_connection,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function associate_external_connection(
-    domain,
-    external_connection,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/repository/external-connection",
@@ -72,8 +79,7 @@ function associate_external_connection(
 end
 
 """
-    copy_package_versions(destination-repository, domain, format, package, source-repository)
-    copy_package_versions(destination-repository, domain, format, package, source-repository, params::Dict{String,<:Any})
+    copy_package_versions(destination-repository, domain, format, package, source-repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Copies package versions from one repository to another repository in the same domain.
 You must specify versions or versionRevisions. You cannot specify both.
@@ -91,21 +97,21 @@ You must specify versions or versionRevisions. You cannot specify both.
   copy.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"allowOverwrite"`:  Set to true to overwrite a package version that already exists in
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"allow_overwrite"`:  Set to true to overwrite a package version that already exists in
   the destination repository. If set to false and the package version already exists in the
   destination repository, the package version is returned in the failedVersions field of the
   response with an ALREADY_EXISTS error code.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"includeFromUpstream"`:  Set to true to copy packages from repositories that are
+- `"include_from_upstream"`:  Set to true to copy packages from repositories that are
   upstream from the source repository to the destination repository. The default setting is
   false. For more information, see Working with upstream repositories.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"versionRevisions"`:  A list of key-value pairs. The keys are package versions and the
+- `"version_revisions"`:  A list of key-value pairs. The keys are package versions and the
   values are package version revisions. A CopyPackageVersion operation succeeds if the
   specified versions in the source repository match the specified package version revision.
    You must specify versions or versionRevisions. You cannot specify both.
@@ -119,30 +125,9 @@ function copy_package_versions(
     package,
     source_repository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/copy",
-        Dict{String,Any}(
-            "destination-repository" => destination_repository,
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "source-repository" => source_repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function copy_package_versions(
-    destination_repository,
-    domain,
-    format,
-    package,
-    source_repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/versions/copy",
@@ -165,8 +150,7 @@ function copy_package_versions(
 end
 
 """
-    create_domain(domain)
-    create_domain(domain, params::Dict{String,<:Any})
+    create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a domain. CodeArtifact domains make it easier to manage multiple repositories
 across an organization. You can use a domain to apply permissions across many repositories
@@ -183,8 +167,8 @@ production domain configuration.
   discoverable.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"encryptionKey"`:  The encryption key for the domain. This is used to encrypt content
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"encryption_key"`:  The encryption key for the domain. This is used to encrypt content
   stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a
   key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have
   kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For
@@ -195,18 +179,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Management Service Developer Guide.
 - `"tags"`: One or more tag key-value pairs for the domain.
 """
-function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/domain",
@@ -217,8 +191,7 @@ function create_domain(
 end
 
 """
-    create_repository(domain, repository)
-    create_repository(domain, repository, params::Dict{String,<:Any})
+    create_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a repository.
 
@@ -227,9 +200,9 @@ end
 - `repository`:  The name of the repository to create.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`:  A description of the created repository.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"tags"`: One or more tag key-value pairs for the repository.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
@@ -238,22 +211,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function create_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "POST",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/repository",
@@ -270,8 +230,7 @@ function create_repository(
 end
 
 """
-    delete_domain(domain)
-    delete_domain(domain, params::Dict{String,<:Any})
+    delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes a domain. You cannot delete a domain that contains repositories. If you want to
 delete a domain with repositories, first delete its repositories.
@@ -280,22 +239,12 @@ delete a domain with repositories, first delete its repositories.
 - `domain`:  The name of the domain to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
-function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "DELETE",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "DELETE",
         "/v1/domain",
@@ -306,8 +255,7 @@ function delete_domain(
 end
 
 """
-    delete_domain_permissions_policy(domain)
-    delete_domain_permissions_policy(domain, params::Dict{String,<:Any})
+    delete_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes the resource policy set on a domain.
 
@@ -315,27 +263,17 @@ end
 - `domain`:  The name of the domain associated with the resource policy to be deleted.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"policy-revision"`:  The current revision of the resource policy to be deleted. This
+- `"policy_revision"`:  The current revision of the resource policy to be deleted. This
   revision is used for optimistic locking, which prevents others from overwriting your
   changes to the domain's resource policy.
 """
 function delete_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "DELETE",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "DELETE",
         "/v1/domain/permissions/policy",
@@ -346,8 +284,7 @@ function delete_domain_permissions_policy(
 end
 
 """
-    delete_package_versions(domain, format, package, repository, versions)
-    delete_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
+    delete_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes one or more versions of a package. A deleted package version cannot be restored in
 your repository. If you want to remove a package version from your repository and be able
@@ -364,10 +301,10 @@ ListackageVersions), but you can restore them using UpdatePackageVersionsStatus.
 - `versions`:  An array of strings that specify the versions of the package to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"expectedStatus"`:  The expected status of the package version to delete. Valid values
+- `"expected_status"`:  The expected status of the package version to delete. Valid values
   are:     Published     Unfinished     Unlisted     Archived     Disposed
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
@@ -381,30 +318,9 @@ function delete_package_versions(
     repository,
     versions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/delete",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/versions/delete",
@@ -427,8 +343,7 @@ function delete_package_versions(
 end
 
 """
-    delete_repository(domain, repository)
-    delete_repository(domain, repository, params::Dict{String,<:Any})
+    delete_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes a repository.
 
@@ -437,27 +352,14 @@ end
 - `repository`:  The name of the repository to delete.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function delete_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "DELETE",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "DELETE",
         "/v1/repository",
@@ -474,8 +376,7 @@ function delete_repository(
 end
 
 """
-    delete_repository_permissions_policy(domain, repository)
-    delete_repository_permissions_policy(domain, repository, params::Dict{String,<:Any})
+    delete_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes the resource policy that is set on a repository. After a resource policy is
 deleted, the permissions allowed and denied by the deleted policy are removed. The effect
@@ -491,30 +392,17 @@ deleted policy.
   be deleted
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"policy-revision"`:  The revision of the repository's resource policy to be deleted.
+- `"policy_revision"`:  The revision of the repository's resource policy to be deleted.
   This revision is used for optimistic locking, which prevents others from accidentally
   overwriting your changes to the repository's resource policy.
 """
 function delete_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/permissions/policies",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_repository_permissions_policy(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "DELETE",
         "/v1/repository/permissions/policies",
@@ -531,8 +419,7 @@ function delete_repository_permissions_policy(
 end
 
 """
-    describe_domain(domain)
-    describe_domain(domain, params::Dict{String,<:Any})
+    describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a DomainDescription object that contains information about the requested domain.
 
@@ -540,22 +427,14 @@ end
 - `domain`:  A string that specifies the name of the requested domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
-function describe_domain(domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "GET",
-        "/v1/domain",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/domain",
@@ -566,8 +445,7 @@ function describe_domain(
 end
 
 """
-    describe_package_version(domain, format, package, repository, version)
-    describe_package_version(domain, format, package, repository, version, params::Dict{String,<:Any})
+    describe_package_version(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a PackageVersionDescription object that contains information about the requested
 package version.
@@ -582,8 +460,8 @@ package version.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
@@ -597,30 +475,9 @@ function describe_package_version(
     repository,
     version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "GET",
-        "/v1/package/version",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_package_version(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/package/version",
@@ -643,8 +500,7 @@ function describe_package_version(
 end
 
 """
-    describe_repository(domain, repository)
-    describe_repository(domain, repository, params::Dict{String,<:Any})
+    describe_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a RepositoryDescription object that contains detailed information about the
 requested repository.
@@ -654,27 +510,14 @@ requested repository.
 - `repository`:  A string that specifies the name of the requested repository.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function describe_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "GET",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/repository",
@@ -691,8 +534,7 @@ function describe_repository(
 end
 
 """
-    disassociate_external_connection(domain, external-connection, repository)
-    disassociate_external_connection(domain, external-connection, repository, params::Dict{String,<:Any})
+    disassociate_external_connection(domain, external-connection, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Removes an existing external connection from a repository.
 
@@ -705,8 +547,8 @@ end
   removed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function disassociate_external_connection(
@@ -714,26 +556,9 @@ function disassociate_external_connection(
     external_connection,
     repository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "DELETE",
-        "/v1/repository/external-connection",
-        Dict{String,Any}(
-            "domain" => domain,
-            "external-connection" => external_connection,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function disassociate_external_connection(
-    domain,
-    external_connection,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "DELETE",
         "/v1/repository/external-connection",
@@ -754,8 +579,7 @@ function disassociate_external_connection(
 end
 
 """
-    dispose_package_versions(domain, format, package, repository, versions)
-    dispose_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
+    dispose_package_versions(domain, format, package, repository, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes the assets in package versions and sets the package versions' status to Disposed.
 A disposed package version cannot be restored in your repository because its assets are
@@ -773,16 +597,16 @@ version, use DescribePackageVersion.
 - `versions`:  The versions of the package you want to dispose.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"expectedStatus"`:  The expected status of the package version to dispose. Valid values
+- `"expected_status"`:  The expected status of the package version to dispose. Valid values
   are:     Published     Unfinished     Unlisted     Archived     Disposed
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"versionRevisions"`:  The revisions of the package versions you want to dispose.
+- `"version_revisions"`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions(
     domain,
@@ -791,30 +615,9 @@ function dispose_package_versions(
     repository,
     versions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/dispose",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function dispose_package_versions(
-    domain,
-    format,
-    package,
-    repository,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/versions/dispose",
@@ -837,8 +640,7 @@ function dispose_package_versions(
 end
 
 """
-    get_authorization_token(domain)
-    get_authorization_token(domain, params::Dict{String,<:Any})
+    get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Generates a temporary authorization token for accessing repositories in the domain. This
 API requires the codeartifact:GetAuthorizationToken and sts:GetServiceBearerToken
@@ -859,26 +661,18 @@ information on controlling session duration.
 - `domain`:  The name of the domain that is in scope for the generated authorization token.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"duration"`: The time, in seconds, that the generated authorization token is valid.
-  Valid values are 0 and any number between 900 (15 minutes) and 43200 (12 hours). A value of
-  0 will set the expiration of the authorization token to the same expiration of the user's
-  role's temporary credentials.
+- `"duration_seconds"`: The time, in seconds, that the generated authorization token is
+  valid. Valid values are 0 and any number between 900 (15 minutes) and 43200 (12 hours). A
+  value of 0 will set the expiration of the authorization token to the same expiration of the
+  user's role's temporary credentials.
 """
-function get_authorization_token(domain; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/authorization-token",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_authorization_token(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/authorization-token",
@@ -889,8 +683,7 @@ function get_authorization_token(
 end
 
 """
-    get_domain_permissions_policy(domain)
-    get_domain_permissions_policy(domain, params::Dict{String,<:Any})
+    get_domain_permissions_policy(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the resource policy attached to the specified domain.    The policy is a
 resource-based policy, not an identity-based policy. For more information, see
@@ -901,24 +694,14 @@ Management User Guide.
 - `domain`:  The name of the domain to which the resource policy is attached.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function get_domain_permissions_policy(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "GET",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_domain_permissions_policy(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/domain/permissions/policy",
@@ -929,8 +712,7 @@ function get_domain_permissions_policy(
 end
 
 """
-    get_package_version_asset(asset, domain, format, package, repository, version)
-    get_package_version_asset(asset, domain, format, package, repository, version, params::Dict{String,<:Any})
+    get_package_version_asset(asset, domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns an asset (or file) that is in a package. For example, for a Maven package version,
 use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the
@@ -947,15 +729,15 @@ package version.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"revision"`:  The name of the package version revision that contains the requested
-  asset.
+- `"package_version_revision"`:  The name of the package version revision that contains the
+  requested asset.
 """
 function get_package_version_asset(
     asset,
@@ -965,32 +747,9 @@ function get_package_version_asset(
     repository,
     version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "GET",
-        "/v1/package/version/asset",
-        Dict{String,Any}(
-            "asset" => asset,
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_asset(
-    asset,
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/package/version/asset",
@@ -1014,8 +773,7 @@ function get_package_version_asset(
 end
 
 """
-    get_package_version_readme(domain, format, package, repository, version)
-    get_package_version_readme(domain, format, package, repository, version, params::Dict{String,<:Any})
+    get_package_version_readme(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets the readme file or descriptive text for a package version. For packages that do not
 contain a readme file, CodeArtifact extracts a description from a metadata file. For
@@ -1033,8 +791,8 @@ Markdown or reStructuredText.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
@@ -1048,30 +806,9 @@ function get_package_version_readme(
     repository,
     version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "GET",
-        "/v1/package/version/readme",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_package_version_readme(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/package/version/readme",
@@ -1094,8 +831,7 @@ function get_package_version_readme(
 end
 
 """
-    get_repository_endpoint(domain, format, repository)
-    get_repository_endpoint(domain, format, repository, params::Dict{String,<:Any})
+    get_repository_endpoint(domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the endpoint of a repository for a specific package format. A repository has one
 endpoint for each package format:     npm     pypi     maven
@@ -1107,30 +843,14 @@ endpoint for each package format:     npm     pypi     maven
 - `repository`:  The name of the repository.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain
   that contains the repository. It does not include dashes or spaces.
 """
 function get_repository_endpoint(
-    domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, format, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "GET",
-        "/v1/repository/endpoint",
-        Dict{String,Any}(
-            "domain" => domain, "format" => format, "repository" => repository
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_repository_endpoint(
-    domain,
-    format,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/repository/endpoint",
@@ -1149,8 +869,7 @@ function get_repository_endpoint(
 end
 
 """
-    get_repository_permissions_policy(domain, repository)
-    get_repository_permissions_policy(domain, repository, params::Dict{String,<:Any})
+    get_repository_permissions_policy(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the resource policy that is set on a repository.
 
@@ -1161,27 +880,14 @@ end
   retrieved.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 """
 function get_repository_permissions_policy(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "GET",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_repository_permissions_policy(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "GET",
         "/v1/repository/permissions/policy",
@@ -1198,26 +904,19 @@ function get_repository_permissions_policy(
 end
 
 """
-    list_domains()
-    list_domains(params::Dict{String,<:Any})
+    list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of DomainSummary objects for all domains owned by the AWS account that
 makes this call. Each returned DomainSummary object contains information about a domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The maximum number of results to return per page.
-- `"nextToken"`:  The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of results to return per page.
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "POST", "/v1/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_domains(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/domains",
@@ -1228,8 +927,7 @@ function list_domains(
 end
 
 """
-    list_package_version_assets(domain, format, package, repository, version)
-    list_package_version_assets(domain, format, package, repository, version, params::Dict{String,<:Any})
+    list_package_version_assets(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of AssetSummary objects for assets in a package version.
 
@@ -1246,15 +944,15 @@ end
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"max-results"`:  The maximum number of results to return per page.
+- `"max_results"`:  The maximum number of results to return per page.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_assets(
@@ -1264,30 +962,9 @@ function list_package_version_assets(
     repository,
     version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/version/assets",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_version_assets(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/version/assets",
@@ -1310,8 +987,7 @@ function list_package_version_assets(
 end
 
 """
-    list_package_version_dependencies(domain, format, package, repository, version)
-    list_package_version_dependencies(domain, format, package, repository, version, params::Dict{String,<:Any})
+    list_package_version_dependencies(domain, format, package, repository, version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the direct dependencies for a package version. The dependencies are returned as
 PackageDependency objects. CodeArtifact extracts the dependencies for a package version
@@ -1331,14 +1007,14 @@ listed in the configuration file are not returned.
 - `version`:  A string that contains the package version (for example, 3.5.2).
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
 function list_package_version_dependencies(
@@ -1348,30 +1024,9 @@ function list_package_version_dependencies(
     repository,
     version;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/version/dependencies",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "version" => version,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_version_dependencies(
-    domain,
-    format,
-    package,
-    repository,
-    version,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/version/dependencies",
@@ -1394,8 +1049,7 @@ function list_package_version_dependencies(
 end
 
 """
-    list_package_versions(domain, format, package, repository)
-    list_package_versions(domain, format, package, repository, params::Dict{String,<:Any})
+    list_package_versions(domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of PackageVersionSummary objects for package versions in a repository that
 match the request parameters.
@@ -1412,45 +1066,30 @@ match the request parameters.
 - `repository`:  The name of the repository that contains the package.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"max-results"`:  The maximum number of results to return per page.
+- `"max_results"`:  The maximum number of results to return per page.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"sortBy"`:  How to sort the returned list of package versions.
+- `"sort_by"`:  How to sort the returned list of package versions.
 - `"status"`:  A string that specifies the status of the package versions to include in the
   returned list. It can be one of the following:     Published     Unfinished     Unlisted
    Archived     Disposed
 """
 function list_package_versions(
-    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeartifact(
-        "POST",
-        "/v1/package/versions",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_package_versions(
     domain,
     format,
     package,
-    repository,
-    params::AbstractDict{String};
+    repository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/versions",
@@ -1472,8 +1111,7 @@ function list_package_versions(
 end
 
 """
-    list_packages(domain, repository)
-    list_packages(domain, repository, params::Dict{String,<:Any})
+    list_packages(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of PackageSummary objects for packages in a repository that match the
 request parameters.
@@ -1484,40 +1122,27 @@ request parameters.
 - `repository`:  The name of the repository from which packages are to be listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"format"`:  The format of the packages. The valid package types are:     npm: A Node
   Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven:
   A Maven package that contains compiled code in a distributable format, such as a JAR file.
   
-- `"max-results"`:  The maximum number of results to return per page.
+- `"max_results"`:  The maximum number of results to return per page.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"package-prefix"`:  A prefix used to filter returned packages. Only packages with names
+- `"package_prefix"`:  A prefix used to filter returned packages. Only packages with names
   that start with packagePrefix are returned.
 """
 function list_packages(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "POST",
-        "/v1/packages",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_packages(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/packages",
@@ -1534,28 +1159,21 @@ function list_packages(
 end
 
 """
-    list_repositories()
-    list_repositories(params::Dict{String,<:Any})
+    list_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of RepositorySummary objects. Each RepositorySummary contains information
 about a repository in the specified AWS account and that matches the input parameters.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"max-results"`:  The maximum number of results to return per page.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`:  The maximum number of results to return per page.
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"repository-prefix"`:  A prefix used to filter returned repositories. Only repositories
+- `"repository_prefix"`:  A prefix used to filter returned repositories. Only repositories
   with names that start with repositoryPrefix are returned.
 """
-function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "POST", "/v1/repositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_repositories(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/repositories",
@@ -1566,8 +1184,7 @@ function list_repositories(
 end
 
 """
-    list_repositories_in_domain(domain)
-    list_repositories_in_domain(domain, params::Dict{String,<:Any})
+    list_repositories_in_domain(domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of RepositorySummary objects. Each RepositorySummary contains information
 about a repository in the specified domain and that matches the input parameters.
@@ -1576,31 +1193,21 @@ about a repository in the specified domain and that matches the input parameters
 - `domain`:  The name of the domain that contains the returned list of repositories.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"administrator-account"`:  Filter the list of repositories to only include those that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"administrator_account"`:  Filter the list of repositories to only include those that
   are managed by the AWS account ID.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"max-results"`:  The maximum number of results to return per page.
-- `"next-token"`:  The token for the next set of results. Use the value returned in the
+- `"max_results"`:  The maximum number of results to return per page.
+- `"next_token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
-- `"repository-prefix"`:  A prefix used to filter returned repositories. Only repositories
+- `"repository_prefix"`:  A prefix used to filter returned repositories. Only repositories
   with names that start with repositoryPrefix are returned.
 """
 function list_repositories_in_domain(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
+    domain; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "POST",
-        "/v1/domain/repositories",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_repositories_in_domain(
-    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/domain/repositories",
@@ -1611,8 +1218,7 @@ function list_repositories_in_domain(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS
 CodeArtifact.
@@ -1622,21 +1228,9 @@ CodeArtifact.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "POST",
-        "/v1/tags",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/tags",
@@ -1649,8 +1243,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_domain_permissions_policy(domain, policy_document)
-    put_domain_permissions_policy(domain, policy_document, params::Dict{String,<:Any})
+    put_domain_permissions_policy(domain, policy_document; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Sets a resource policy on a domain that specifies permissions to access it.   When you
 call PutDomainPermissionsPolicy, the resource policy on the domain is ignored when
@@ -1663,30 +1256,17 @@ of the domain, which would prevent them from being able to update the resource p
   control resource policy on the provided domain.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainOwner"`:  The 12-digit account number of the AWS account that owns the domain. It
-  does not include dashes or spaces.
-- `"policyRevision"`:  The current revision of the resource policy to be set. This revision
-  is used for optimistic locking, which prevents others from overwriting your changes to the
-  domain's resource policy.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
+  It does not include dashes or spaces.
+- `"policy_revision"`:  The current revision of the resource policy to be set. This
+  revision is used for optimistic locking, which prevents others from overwriting your
+  changes to the domain's resource policy.
 """
 function put_domain_permissions_policy(
-    domain, policyDocument; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, policyDocument; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "PUT",
-        "/v1/domain/permissions/policy",
-        Dict{String,Any}("domain" => domain, "policyDocument" => policyDocument);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_domain_permissions_policy(
-    domain,
-    policyDocument,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "PUT",
         "/v1/domain/permissions/policy",
@@ -1703,8 +1283,7 @@ function put_domain_permissions_policy(
 end
 
 """
-    put_repository_permissions_policy(domain, policy_document, repository)
-    put_repository_permissions_policy(domain, policy_document, repository, params::Dict{String,<:Any})
+    put_repository_permissions_policy(domain, policy_document, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Sets the resource policy on a repository that specifies permissions to access it.   When
 you call PutRepositoryPermissionsPolicy, the resource policy on the repository is ignored
@@ -1720,35 +1299,21 @@ resource policy.
 - `repository`:  The name of the repository to set the resource policy on.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"policyRevision"`:  Sets the revision of the resource policy that specifies permissions
+- `"policy_revision"`:  Sets the revision of the resource policy that specifies permissions
   to access the repository. This revision is used for optimistic locking, which prevents
   others from overwriting your changes to the repository's resource policy.
 """
 function put_repository_permissions_policy(
-    domain, policyDocument, repository; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codeartifact(
-        "PUT",
-        "/v1/repository/permissions/policy",
-        Dict{String,Any}(
-            "domain" => domain,
-            "policyDocument" => policyDocument,
-            "repository" => repository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_repository_permissions_policy(
     domain,
     policyDocument,
-    repository,
-    params::AbstractDict{String};
+    repository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "PUT",
         "/v1/repository/permissions/policy",
@@ -1769,8 +1334,7 @@ function put_repository_permissions_policy(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Adds or updates tags for a resource in AWS CodeArtifact.
 
@@ -1780,21 +1344,10 @@ Adds or updates tags for a resource in AWS CodeArtifact.
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codeartifact(
-        "POST",
-        "/v1/tag",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/tag",
@@ -1811,8 +1364,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Removes tags from a resource in AWS CodeArtifact.
 
@@ -1823,22 +1375,9 @@ Removes tags from a resource in AWS CodeArtifact.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "POST",
-        "/v1/untag",
-        Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/untag",
@@ -1855,8 +1394,7 @@ function untag_resource(
 end
 
 """
-    update_package_versions_status(domain, format, package, repository, target_status, versions)
-    update_package_versions_status(domain, format, package, repository, target_status, versions, params::Dict{String,<:Any})
+    update_package_versions_status(domain, format, package, repository, target_status, versions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Updates the status of one or more versions of a package.
 
@@ -1873,17 +1411,17 @@ end
   statuses to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
-- `"expectedStatus"`:  The package version’s expected status before it is updated. If
+- `"expected_status"`:  The package version’s expected status before it is updated. If
   expectedStatus is provided, the package version's status is updated only if its status at
   the time UpdatePackageVersionsStatus is called matches expectedStatus.
 - `"namespace"`:  The namespace of the package. The package component that specifies its
   namespace depends on its type. For example:     The namespace of a Maven package is its
   groupId.     The namespace of an npm package is its scope.     A Python package does not
   contain a corresponding component, so Python packages do not have a namespace.
-- `"versionRevisions"`:  A map of package versions and package version revisions. The map
+- `"version_revisions"`:  A map of package versions and package version revisions. The map
   key is the package version (for example, 3.5.2), and the map value is the package version
   revision.
 """
@@ -1895,32 +1433,9 @@ function update_package_versions_status(
     targetStatus,
     versions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return codeartifact(
-        "POST",
-        "/v1/package/versions/update_status",
-        Dict{String,Any}(
-            "domain" => domain,
-            "format" => format,
-            "package" => package,
-            "repository" => repository,
-            "targetStatus" => targetStatus,
-            "versions" => versions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_package_versions_status(
-    domain,
-    format,
-    package,
-    repository,
-    targetStatus,
-    versions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "POST",
         "/v1/package/versions/update_status",
@@ -1944,8 +1459,7 @@ function update_package_versions_status(
 end
 
 """
-    update_repository(domain, repository)
-    update_repository(domain, repository, params::Dict{String,<:Any})
+    update_repository(domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Update the properties of a repository.
 
@@ -1954,9 +1468,9 @@ end
 - `repository`:  The name of the repository to update.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`:  An updated repository description.
-- `"domain-owner"`:  The 12-digit account number of the AWS account that owns the domain.
+- `"domain_owner"`:  The 12-digit account number of the AWS account that owns the domain.
   It does not include dashes or spaces.
 - `"upstreams"`:  A list of upstream repositories to associate with the repository. The
   order of the upstream repositories in the list determines their priority order when AWS
@@ -1964,22 +1478,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upstream repositories.
 """
 function update_repository(
-    domain, repository; aws_config::AbstractAWSConfig=global_aws_config()
+    domain, repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return codeartifact(
-        "PUT",
-        "/v1/repository",
-        Dict{String,Any}("domain" => domain, "repository" => repository);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_repository(
-    domain,
-    repository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return codeartifact(
         "PUT",
         "/v1/repository",

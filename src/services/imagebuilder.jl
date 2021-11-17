@@ -4,9 +4,48 @@ using AWS.AWSServices: imagebuilder
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "instance_configuration" => "instanceConfiguration",
+    "additional_instance_configuration" => "additionalInstanceConfiguration",
+    "image_os_version_override" => "imageOsVersionOverride",
+    "working_directory" => "workingDirectory",
+    "kms_key_id" => "kmsKeyId",
+    "instance_metadata_options" => "instanceMetadataOptions",
+    "data" => "data",
+    "next_token" => "nextToken",
+    "image_recipe_arn" => "imageRecipeArn",
+    "schedule" => "schedule",
+    "include_deprecated" => "includeDeprecated",
+    "dockerfile_template_uri" => "dockerfileTemplateUri",
+    "status" => "status",
+    "distribution_configuration_arn" => "distributionConfigurationArn",
+    "key_pair" => "keyPair",
+    "owner" => "owner",
+    "image_tests_configuration" => "imageTestsConfiguration",
+    "supported_os_versions" => "supportedOsVersions",
+    "description" => "description",
+    "max_results" => "maxResults",
+    "container_recipe_arn" => "containerRecipeArn",
+    "terminate_instance_on_failure" => "terminateInstanceOnFailure",
+    "dockerfile_template_data" => "dockerfileTemplateData",
+    "platform_override" => "platformOverride",
+    "security_group_ids" => "securityGroupIds",
+    "filters" => "filters",
+    "subnet_id" => "subnetId",
+    "uri" => "uri",
+    "logging" => "logging",
+    "sns_topic_arn" => "snsTopicArn",
+    "change_description" => "changeDescription",
+    "resource_tags" => "resourceTags",
+    "instance_types" => "instanceTypes",
+    "block_device_mappings" => "blockDeviceMappings",
+    "tags" => "tags",
+    "by_name" => "byName",
+    "enhanced_image_metadata_enabled" => "enhancedImageMetadataEnabled",
+)
+
 """
-    cancel_image_creation(client_token, image_build_version_arn)
-    cancel_image_creation(client_token, image_build_version_arn, params::Dict{String,<:Any})
+    cancel_image_creation(client_token, image_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 CancelImageCreation cancels the creation of Image. This operation can only be used on
 images in a non-terminal state.
@@ -18,24 +57,12 @@ images in a non-terminal state.
 
 """
 function cancel_image_creation(
-    clientToken, imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "PUT",
-        "/CancelImageCreation",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "imageBuildVersionArn" => imageBuildVersionArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_image_creation(
     clientToken,
-    imageBuildVersionArn,
-    params::AbstractDict{String};
+    imageBuildVersionArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CancelImageCreation",
@@ -55,8 +82,7 @@ function cancel_image_creation(
 end
 
 """
-    create_component(client_token, name, platform, semantic_version)
-    create_component(client_token, name, platform, semantic_version, params::Dict{String,<:Any})
+    create_component(client_token, name, platform, semantic_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new component that can be used to build, validate, test, and assess your image.
 
@@ -75,16 +101,16 @@ Creates a new component that can be used to build, validate, test, and assess yo
   version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"changeDescription"`: The change description of the component. Describes what change has
-  been made in this version, or what makes this version different from other versions of this
-  component.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"change_description"`: The change description of the component. Describes what change
+  has been made in this version, or what makes this version different from other versions of
+  this component.
 - `"data"`: The data of the component. Used to specify the data inline. Either data or uri
   can be used to specify the data within the component.
 - `"description"`: The description of the component. Describes the contents of the
   component.
-- `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
-- `"supportedOsVersions"`:  The operating system (OS) version supported by the component.
+- `"kms_key_id"`: The ID of the KMS key that should be used to encrypt this component.
+- `"supported_os_versions"`:  The operating system (OS) version supported by the component.
   If the OS information is available, a prefix match is performed against the base image OS
   version during image recipe creation.
 - `"tags"`: The tags of the component.
@@ -99,28 +125,9 @@ function create_component(
     platform,
     semanticVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateComponent",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "name" => name,
-            "platform" => platform,
-            "semanticVersion" => semanticVersion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_component(
-    clientToken,
-    name,
-    platform,
-    semanticVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateComponent",
@@ -142,8 +149,7 @@ function create_component(
 end
 
 """
-    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository)
-    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository, params::Dict{String,<:Any})
+    create_container_recipe(client_token, components, container_type, name, parent_image, semantic_version, target_repository; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new container recipe. Container recipes define how images are configured, tested,
 and assessed.
@@ -166,20 +172,20 @@ and assessed.
 - `target_repository`: The destination repository for the container image.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The description of the container recipe.
-- `"dockerfileTemplateData"`: The Dockerfile template used to build your image as an inline
-  data blob.
-- `"dockerfileTemplateUri"`: The Amazon S3 URI for the Dockerfile that will be used to
+- `"dockerfile_template_data"`: The Dockerfile template used to build your image as an
+  inline data blob.
+- `"dockerfile_template_uri"`: The Amazon S3 URI for the Dockerfile that will be used to
   build your container image.
-- `"imageOsVersionOverride"`: Specifies the operating system version for the base image.
-- `"instanceConfiguration"`: A group of options that can be used to configure an instance
+- `"image_os_version_override"`: Specifies the operating system version for the base image.
+- `"instance_configuration"`: A group of options that can be used to configure an instance
   for building and testing container images.
-- `"kmsKeyId"`: Identifies which KMS key is used to encrypt the container image.
-- `"platformOverride"`: Specifies the operating system platform when you use a custom base
+- `"kms_key_id"`: Identifies which KMS key is used to encrypt the container image.
+- `"platform_override"`: Specifies the operating system platform when you use a custom base
   image.
 - `"tags"`: Tags that are attached to the container recipe.
-- `"workingDirectory"`: The working directory for use during build and test workflows.
+- `"working_directory"`: The working directory for use during build and test workflows.
 """
 function create_container_recipe(
     clientToken,
@@ -190,34 +196,9 @@ function create_container_recipe(
     semanticVersion,
     targetRepository;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateContainerRecipe",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "components" => components,
-            "containerType" => containerType,
-            "name" => name,
-            "parentImage" => parentImage,
-            "semanticVersion" => semanticVersion,
-            "targetRepository" => targetRepository,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_container_recipe(
-    clientToken,
-    components,
-    containerType,
-    name,
-    parentImage,
-    semanticVersion,
-    targetRepository,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateContainerRecipe",
@@ -242,8 +223,7 @@ function create_container_recipe(
 end
 
 """
-    create_distribution_configuration(client_token, distributions, name)
-    create_distribution_configuration(client_token, distributions, name, params::Dict{String,<:Any})
+    create_distribution_configuration(client_token, distributions, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Creates a new distribution configuration. Distribution configurations define and configure
 the outputs of your pipeline.
@@ -254,30 +234,18 @@ the outputs of your pipeline.
 - `name`:  The name of the distribution configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`:  The description of the distribution configuration.
 - `"tags"`:  The tags of the distribution configuration.
 """
 function create_distribution_configuration(
-    clientToken, distributions, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "PUT",
-        "/CreateDistributionConfiguration",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "distributions" => distributions, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_distribution_configuration(
     clientToken,
     distributions,
-    name,
-    params::AbstractDict{String};
+    name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateDistributionConfiguration",
@@ -298,8 +266,7 @@ function create_distribution_configuration(
 end
 
 """
-    create_image(client_token, infrastructure_configuration_arn)
-    create_image(client_token, infrastructure_configuration_arn, params::Dict{String,<:Any})
+    create_image(client_token, infrastructure_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new image. This request will create a new image along with all of the configured
 output resources defined in the distribution configuration. You must specify exactly one
@@ -311,41 +278,27 @@ recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
   configuration that defines the environment in which your image will be built and tested.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"containerRecipeArn"`: The Amazon Resource Name (ARN) of the container recipe that
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"container_recipe_arn"`: The Amazon Resource Name (ARN) of the container recipe that
   defines how images are configured and tested.
-- `"distributionConfigurationArn"`:  The Amazon Resource Name (ARN) of the distribution
+- `"distribution_configuration_arn"`:  The Amazon Resource Name (ARN) of the distribution
   configuration that defines and configures the outputs of your pipeline.
-- `"enhancedImageMetadataEnabled"`:  Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information is
-  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
-- `"imageRecipeArn"`:  The Amazon Resource Name (ARN) of the image recipe that defines how
-  images are configured, tested, and assessed.
-- `"imageTestsConfiguration"`:  The image tests configuration of the image.
+- `"enhanced_image_metadata_enabled"`:  Collects additional information about the image
+  being created, including the operating system (OS) version and package list. This
+  information is used to enhance the overall experience of using EC2 Image Builder. Enabled
+  by default.
+- `"image_recipe_arn"`:  The Amazon Resource Name (ARN) of the image recipe that defines
+  how images are configured, tested, and assessed.
+- `"image_tests_configuration"`:  The image tests configuration of the image.
 - `"tags"`:  The tags of the image.
 """
 function create_image(
     clientToken,
     infrastructureConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateImage",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_image(
-    clientToken,
-    infrastructureConfigurationArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateImage",
@@ -365,8 +318,7 @@ function create_image(
 end
 
 """
-    create_image_pipeline(client_token, infrastructure_configuration_arn, name)
-    create_image_pipeline(client_token, infrastructure_configuration_arn, name, params::Dict{String,<:Any})
+    create_image_pipeline(client_token, infrastructure_configuration_arn, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new image pipeline. Image pipelines enable you to automate the creation and
 distribution of images.
@@ -378,19 +330,20 @@ distribution of images.
 - `name`:  The name of the image pipeline.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"containerRecipeArn"`: The Amazon Resource Name (ARN) of the container recipe that is
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"container_recipe_arn"`: The Amazon Resource Name (ARN) of the container recipe that is
   used to configure images created by this container pipeline.
 - `"description"`:  The description of the image pipeline.
-- `"distributionConfigurationArn"`:  The Amazon Resource Name (ARN) of the distribution
+- `"distribution_configuration_arn"`:  The Amazon Resource Name (ARN) of the distribution
   configuration that will be used to configure and distribute images created by this image
   pipeline.
-- `"enhancedImageMetadataEnabled"`:  Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information is
-  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
-- `"imageRecipeArn"`:  The Amazon Resource Name (ARN) of the image recipe that will be used
-  to configure images created by this image pipeline.
-- `"imageTestsConfiguration"`:  The image test configuration of the image pipeline.
+- `"enhanced_image_metadata_enabled"`:  Collects additional information about the image
+  being created, including the operating system (OS) version and package list. This
+  information is used to enhance the overall experience of using EC2 Image Builder. Enabled
+  by default.
+- `"image_recipe_arn"`:  The Amazon Resource Name (ARN) of the image recipe that will be
+  used to configure images created by this image pipeline.
+- `"image_tests_configuration"`:  The image test configuration of the image pipeline.
 - `"schedule"`:  The schedule of the image pipeline.
 - `"status"`:  The status of the image pipeline.
 - `"tags"`:  The tags of the image pipeline.
@@ -400,26 +353,9 @@ function create_image_pipeline(
     infrastructureConfigurationArn,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateImagePipeline",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_image_pipeline(
-    clientToken,
-    infrastructureConfigurationArn,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateImagePipeline",
@@ -440,8 +376,7 @@ function create_image_pipeline(
 end
 
 """
-    create_image_recipe(client_token, components, name, parent_image, semantic_version)
-    create_image_recipe(client_token, components, name, parent_image, semantic_version, params::Dict{String,<:Any})
+    create_image_recipe(client_token, components, name, parent_image, semantic_version; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new image recipe. Image recipes define how images are configured, tested, and
 assessed.
@@ -467,13 +402,13 @@ assessed.
   version pattern, such as 1.0.0, or a date, such as 2021.01.01.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"additionalInstanceConfiguration"`: Specify additional settings and launch scripts for
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"additional_instance_configuration"`: Specify additional settings and launch scripts for
   your build instances.
-- `"blockDeviceMappings"`: The block device mappings of the image recipe.
+- `"block_device_mappings"`: The block device mappings of the image recipe.
 - `"description"`:  The description of the image recipe.
 - `"tags"`:  The tags of the image recipe.
-- `"workingDirectory"`: The working directory used during build and test workflows.
+- `"working_directory"`: The working directory used during build and test workflows.
 """
 function create_image_recipe(
     clientToken,
@@ -482,30 +417,9 @@ function create_image_recipe(
     parentImage,
     semanticVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateImageRecipe",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "components" => components,
-            "name" => name,
-            "parentImage" => parentImage,
-            "semanticVersion" => semanticVersion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_image_recipe(
-    clientToken,
-    components,
-    name,
-    parentImage,
-    semanticVersion,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateImageRecipe",
@@ -528,8 +442,7 @@ function create_image_recipe(
 end
 
 """
-    create_infrastructure_configuration(client_token, instance_profile_name, name)
-    create_infrastructure_configuration(client_token, instance_profile_name, name, params::Dict{String,<:Any})
+    create_infrastructure_configuration(client_token, instance_profile_name, name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Creates a new infrastructure configuration. An infrastructure configuration defines the
 environment in which your image will be built and tested.
@@ -541,24 +454,24 @@ environment in which your image will be built and tested.
 - `name`: The name of the infrastructure configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The description of the infrastructure configuration.
-- `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
-  requests that pipeline builds use to launch EC2 build and test instances.
-- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
+- `"instance_metadata_options"`: The instance metadata options that you can set for the
+  HTTP requests that pipeline builds use to launch EC2 build and test instances.
+- `"instance_types"`: The instance types of the infrastructure configuration. You can
   specify one or more instance types to use for this build. The service will pick one of
   these instance types based on availability.
-- `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
-  to and debug the instance used to create your image.
+- `"key_pair"`: The key pair of the infrastructure configuration. You can use this to log
+  on to and debug the instance used to create your image.
 - `"logging"`: The logging configuration of the infrastructure configuration.
-- `"resourceTags"`: The tags attached to the resource created by Image Builder.
-- `"securityGroupIds"`: The security group IDs to associate with the instance used to
+- `"resource_tags"`: The tags attached to the resource created by Image Builder.
+- `"security_group_ids"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
-- `"snsTopicArn"`: The SNS topic on which to send image build events.
-- `"subnetId"`: The subnet ID in which to place the instance used to customize your Amazon
+- `"sns_topic_arn"`: The SNS topic on which to send image build events.
+- `"subnet_id"`: The subnet ID in which to place the instance used to customize your Amazon
   EC2 AMI.
 - `"tags"`: The tags of the infrastructure configuration.
-- `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
+- `"terminate_instance_on_failure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
   used to configure your AMI if the build or test phase of your workflow fails.
 """
@@ -567,26 +480,9 @@ function create_infrastructure_configuration(
     instanceProfileName,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/CreateInfrastructureConfiguration",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "instanceProfileName" => instanceProfileName,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_infrastructure_configuration(
-    clientToken,
-    instanceProfileName,
-    name,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/CreateInfrastructureConfiguration",
@@ -607,8 +503,7 @@ function create_infrastructure_configuration(
 end
 
 """
-    delete_component(component_build_version_arn)
-    delete_component(component_build_version_arn, params::Dict{String,<:Any})
+    delete_component(component_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes a component build version.
 
@@ -618,21 +513,9 @@ end
 
 """
 function delete_component(
-    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/DeleteComponent",
-        Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_component(
-    componentBuildVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteComponent",
@@ -649,8 +532,7 @@ function delete_component(
 end
 
 """
-    delete_container_recipe(container_recipe_arn)
-    delete_container_recipe(container_recipe_arn, params::Dict{String,<:Any})
+    delete_container_recipe(container_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes a container recipe.
 
@@ -659,21 +541,9 @@ Deletes a container recipe.
 
 """
 function delete_container_recipe(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/DeleteContainerRecipe",
-        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_container_recipe(
-    containerRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteContainerRecipe",
@@ -688,8 +558,7 @@ function delete_container_recipe(
 end
 
 """
-    delete_distribution_configuration(distribution_configuration_arn)
-    delete_distribution_configuration(distribution_configuration_arn, params::Dict{String,<:Any})
+    delete_distribution_configuration(distribution_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes a distribution configuration.
 
@@ -699,21 +568,11 @@ end
 
 """
 function delete_distribution_configuration(
-    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "DELETE",
-        "/DeleteDistributionConfiguration",
-        Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_distribution_configuration(
-    distributionConfigurationArn,
-    params::AbstractDict{String};
+    distributionConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteDistributionConfiguration",
@@ -732,8 +591,7 @@ function delete_distribution_configuration(
 end
 
 """
-    delete_image(image_build_version_arn)
-    delete_image(image_build_version_arn, params::Dict{String,<:Any})
+    delete_image(image_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Deletes an Image Builder image resource. This does not delete any EC2 AMIs or ECR container
 images that are created during the image build process. You must clean those up separately,
@@ -749,21 +607,9 @@ Amazon ECR User Guide.
 
 """
 function delete_image(
-    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/DeleteImage",
-        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_image(
-    imageBuildVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteImage",
@@ -780,8 +626,7 @@ function delete_image(
 end
 
 """
-    delete_image_pipeline(image_pipeline_arn)
-    delete_image_pipeline(image_pipeline_arn, params::Dict{String,<:Any})
+    delete_image_pipeline(image_pipeline_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes an image pipeline.
 
@@ -790,21 +635,9 @@ end
 
 """
 function delete_image_pipeline(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/DeleteImagePipeline",
-        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_image_pipeline(
-    imagePipelineArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteImagePipeline",
@@ -819,8 +652,7 @@ function delete_image_pipeline(
 end
 
 """
-    delete_image_recipe(image_recipe_arn)
-    delete_image_recipe(image_recipe_arn, params::Dict{String,<:Any})
+    delete_image_recipe(image_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes an image recipe.
 
@@ -829,21 +661,9 @@ end
 
 """
 function delete_image_recipe(
-    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/DeleteImageRecipe",
-        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_image_recipe(
-    imageRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteImageRecipe",
@@ -856,8 +676,7 @@ function delete_image_recipe(
 end
 
 """
-    delete_infrastructure_configuration(infrastructure_configuration_arn)
-    delete_infrastructure_configuration(infrastructure_configuration_arn, params::Dict{String,<:Any})
+    delete_infrastructure_configuration(infrastructure_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Deletes an infrastructure configuration.
 
@@ -867,23 +686,11 @@ end
 
 """
 function delete_infrastructure_configuration(
-    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "DELETE",
-        "/DeleteInfrastructureConfiguration",
-        Dict{String,Any}(
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_infrastructure_configuration(
-    infrastructureConfigurationArn,
-    params::AbstractDict{String};
+    infrastructureConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/DeleteInfrastructureConfiguration",
@@ -902,8 +709,7 @@ function delete_infrastructure_configuration(
 end
 
 """
-    get_component(component_build_version_arn)
-    get_component(component_build_version_arn, params::Dict{String,<:Any})
+    get_component(component_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets a component object.
 
@@ -913,21 +719,9 @@ end
 
 """
 function get_component(
-    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetComponent",
-        Dict{String,Any}("componentBuildVersionArn" => componentBuildVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_component(
-    componentBuildVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetComponent",
@@ -944,8 +738,7 @@ function get_component(
 end
 
 """
-    get_component_policy(component_arn)
-    get_component_policy(component_arn, params::Dict{String,<:Any})
+    get_component_policy(component_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets a component policy.
 
@@ -955,21 +748,9 @@ end
 
 """
 function get_component_policy(
-    componentArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetComponentPolicy",
-        Dict{String,Any}("componentArn" => componentArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_component_policy(
-    componentArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetComponentPolicy",
@@ -982,8 +763,7 @@ function get_component_policy(
 end
 
 """
-    get_container_recipe(container_recipe_arn)
-    get_container_recipe(container_recipe_arn, params::Dict{String,<:Any})
+    get_container_recipe(container_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves a container recipe.
 
@@ -993,21 +773,9 @@ Retrieves a container recipe.
 
 """
 function get_container_recipe(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetContainerRecipe",
-        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_container_recipe(
-    containerRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetContainerRecipe",
@@ -1022,8 +790,7 @@ function get_container_recipe(
 end
 
 """
-    get_container_recipe_policy(container_recipe_arn)
-    get_container_recipe_policy(container_recipe_arn, params::Dict{String,<:Any})
+    get_container_recipe_policy(container_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves the policy for a container recipe.
 
@@ -1033,21 +800,9 @@ Retrieves the policy for a container recipe.
 
 """
 function get_container_recipe_policy(
-    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetContainerRecipePolicy",
-        Dict{String,Any}("containerRecipeArn" => containerRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_container_recipe_policy(
-    containerRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetContainerRecipePolicy",
@@ -1062,8 +817,7 @@ function get_container_recipe_policy(
 end
 
 """
-    get_distribution_configuration(distribution_configuration_arn)
-    get_distribution_configuration(distribution_configuration_arn, params::Dict{String,<:Any})
+    get_distribution_configuration(distribution_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets a distribution configuration.
 
@@ -1073,21 +827,11 @@ end
 
 """
 function get_distribution_configuration(
-    distributionConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "GET",
-        "/GetDistributionConfiguration",
-        Dict{String,Any}("distributionConfigurationArn" => distributionConfigurationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_distribution_configuration(
-    distributionConfigurationArn,
-    params::AbstractDict{String};
+    distributionConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetDistributionConfiguration",
@@ -1106,8 +850,7 @@ function get_distribution_configuration(
 end
 
 """
-    get_image(image_build_version_arn)
-    get_image(image_build_version_arn, params::Dict{String,<:Any})
+    get_image(image_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an image.
 
@@ -1116,20 +859,10 @@ end
   retrieve.
 
 """
-function get_image(imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "GET",
-        "/GetImage",
-        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_image(
-    imageBuildVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetImage",
@@ -1146,8 +879,7 @@ function get_image(
 end
 
 """
-    get_image_pipeline(image_pipeline_arn)
-    get_image_pipeline(image_pipeline_arn, params::Dict{String,<:Any})
+    get_image_pipeline(image_pipeline_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an image pipeline.
 
@@ -1157,21 +889,9 @@ end
 
 """
 function get_image_pipeline(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetImagePipeline",
-        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_image_pipeline(
-    imagePipelineArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetImagePipeline",
@@ -1186,8 +906,7 @@ function get_image_pipeline(
 end
 
 """
-    get_image_policy(image_arn)
-    get_image_policy(image_arn, params::Dict{String,<:Any})
+    get_image_policy(image_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an image policy.
 
@@ -1196,20 +915,10 @@ end
   retrieve.
 
 """
-function get_image_policy(imageArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "GET",
-        "/GetImagePolicy",
-        Dict{String,Any}("imageArn" => imageArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_image_policy(
-    imageArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    imageArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetImagePolicy",
@@ -1222,8 +931,7 @@ function get_image_policy(
 end
 
 """
-    get_image_recipe(image_recipe_arn)
-    get_image_recipe(image_recipe_arn, params::Dict{String,<:Any})
+    get_image_recipe(image_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an image recipe.
 
@@ -1232,20 +940,10 @@ end
   retrieve.
 
 """
-function get_image_recipe(imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "GET",
-        "/GetImageRecipe",
-        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_image_recipe(
-    imageRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetImageRecipe",
@@ -1258,8 +956,7 @@ function get_image_recipe(
 end
 
 """
-    get_image_recipe_policy(image_recipe_arn)
-    get_image_recipe_policy(image_recipe_arn, params::Dict{String,<:Any})
+    get_image_recipe_policy(image_recipe_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an image recipe policy.
 
@@ -1269,21 +966,9 @@ end
 
 """
 function get_image_recipe_policy(
-    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/GetImageRecipePolicy",
-        Dict{String,Any}("imageRecipeArn" => imageRecipeArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_image_recipe_policy(
-    imageRecipeArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetImageRecipePolicy",
@@ -1296,8 +981,7 @@ function get_image_recipe_policy(
 end
 
 """
-    get_infrastructure_configuration(infrastructure_configuration_arn)
-    get_infrastructure_configuration(infrastructure_configuration_arn, params::Dict{String,<:Any})
+    get_infrastructure_configuration(infrastructure_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Gets an infrastructure configuration.
 
@@ -1307,23 +991,11 @@ end
 
 """
 function get_infrastructure_configuration(
-    infrastructureConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "GET",
-        "/GetInfrastructureConfiguration",
-        Dict{String,Any}(
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_infrastructure_configuration(
-    infrastructureConfigurationArn,
-    params::AbstractDict{String};
+    infrastructureConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/GetInfrastructureConfiguration",
@@ -1342,8 +1014,7 @@ function get_infrastructure_configuration(
 end
 
 """
-    import_component(client_token, format, name, platform, semantic_version, type)
-    import_component(client_token, format, name, platform, semantic_version, type, params::Dict{String,<:Any})
+    import_component(client_token, format, name, platform, semantic_version, type; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Imports a component and transforms its data into a component document.
 
@@ -1363,15 +1034,15 @@ Imports a component and transforms its data into a component document.
   image, or only to test it.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"changeDescription"`: The change description of the component. Describes what change has
-  been made in this version, or what makes this version different from other versions of this
-  component.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"change_description"`: The change description of the component. Describes what change
+  has been made in this version, or what makes this version different from other versions of
+  this component.
 - `"data"`: The data of the component. Used to specify the data inline. Either data or uri
   can be used to specify the data within the component.
 - `"description"`: The description of the component. Describes the contents of the
   component.
-- `"kmsKeyId"`: The ID of the KMS key that should be used to encrypt this component.
+- `"kms_key_id"`: The ID of the KMS key that should be used to encrypt this component.
 - `"tags"`: The tags of the component.
 - `"uri"`: The uri of the component. Must be an Amazon S3 URL and the requester must have
   permission to access the Amazon S3 bucket. If you use Amazon S3, you can specify component
@@ -1386,32 +1057,9 @@ function import_component(
     semanticVersion,
     type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/ImportComponent",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "format" => format,
-            "name" => name,
-            "platform" => platform,
-            "semanticVersion" => semanticVersion,
-            "type" => type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function import_component(
-    clientToken,
-    format,
-    name,
-    platform,
-    semanticVersion,
-    type,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/ImportComponent",
@@ -1435,8 +1083,7 @@ function import_component(
 end
 
 """
-    list_component_build_versions(component_version_arn)
-    list_component_build_versions(component_version_arn, params::Dict{String,<:Any})
+    list_component_build_versions(component_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the list of component build versions for the specified semantic version.  The
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
@@ -1451,27 +1098,15 @@ wildcards.
   you want to list.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_component_build_versions(
-    componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    componentVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListComponentBuildVersions",
-        Dict{String,Any}("componentVersionArn" => componentVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_component_build_versions(
-    componentVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListComponentBuildVersions",
@@ -1488,8 +1123,7 @@ function list_component_build_versions(
 end
 
 """
-    list_components()
-    list_components(params::Dict{String,<:Any})
+    list_components(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns the list of component build versions for the specified semantic version.  The
 semantic version has four nodes: &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;.
@@ -1500,26 +1134,20 @@ you use a wildcard in any node, all nodes to the right of the first wildcard mus
 wildcards.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"byName"`: Returns the list of component build versions for the specified name.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_name"`: Returns the list of component build versions for the specified name.
 - `"filters"`: Use the following filters to streamline results:    description     name
   platform     supportedOsVersion     type     version
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 - `"owner"`: The owner defines which components you want to list. By default, this request
   will only show components owned by your account. You can use this field to specify if you
   want to view components owned by yourself, by Amazon, or those components that have been
   shared with you by other customers.
 """
-function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST", "/ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_components(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_components(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListComponents",
@@ -1530,33 +1158,25 @@ function list_components(
 end
 
 """
-    list_container_recipes()
-    list_container_recipes(params::Dict{String,<:Any})
+    list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of container recipes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    containerType     name
     parentImage     platform
-- `"maxResults"`: The maximum number of results to return in the list.
-- `"nextToken"`: Provides a token for pagination, which determines where to begin the next
+- `"max_results"`: The maximum number of results to return in the list.
+- `"next_token"`: Provides a token for pagination, which determines where to begin the next
   set of results when the current set reaches the maximum for one request.
 - `"owner"`: Returns container recipes belonging to the specified owner, that have been
   shared with you. You can omit this field to return container recipes belonging to your
   account.
 """
-function list_container_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST",
-        "/ListContainerRecipes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_container_recipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_container_recipes(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListContainerRecipes",
@@ -1567,31 +1187,21 @@ function list_container_recipes(
 end
 
 """
-    list_distribution_configurations()
-    list_distribution_configurations(params::Dict{String,<:Any})
+    list_distribution_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of distribution configurations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: You can filter on name to streamline results.
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_distribution_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListDistributionConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_distribution_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListDistributionConfigurations",
@@ -1602,8 +1212,7 @@ function list_distribution_configurations(
 end
 
 """
-    list_image_build_versions(image_version_arn)
-    list_image_build_versions(image_version_arn, params::Dict{String,<:Any})
+    list_image_build_versions(image_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of image build versions.
 
@@ -1612,29 +1221,17 @@ end
   want to retrieve.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    name     osVersion
   platform     type     version
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_image_build_versions(
-    imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListImageBuildVersions",
-        Dict{String,Any}("imageVersionArn" => imageVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_image_build_versions(
-    imageVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImageBuildVersions",
@@ -1649,8 +1246,7 @@ function list_image_build_versions(
 end
 
 """
-    list_image_packages(image_build_version_arn)
-    list_image_packages(image_build_version_arn, params::Dict{String,<:Any})
+    list_image_packages(image_build_version_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 List the Packages that are associated with an Image Build Version, as determined by Amazon
 Web Services Systems Manager Inventory at build time.
@@ -1660,28 +1256,16 @@ Web Services Systems Manager Inventory at build time.
   Build Version ARN
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maxiumum number of results to return from the ListImagePackages
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maxiumum number of results to return from the ListImagePackages
   request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_image_packages(
-    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imageBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListImagePackages",
-        Dict{String,Any}("imageBuildVersionArn" => imageBuildVersionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_image_packages(
-    imageBuildVersionArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImagePackages",
@@ -1698,8 +1282,7 @@ function list_image_packages(
 end
 
 """
-    list_image_pipeline_images(image_pipeline_arn)
-    list_image_pipeline_images(image_pipeline_arn, params::Dict{String,<:Any})
+    list_image_pipeline_images(image_pipeline_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of images created by the specified pipeline.
 
@@ -1708,28 +1291,16 @@ end
   you want to view.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    name     version
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_image_pipeline_images(
-    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
+    imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListImagePipelineImages",
-        Dict{String,Any}("imagePipelineArn" => imagePipelineArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_image_pipeline_images(
-    imagePipelineArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImagePipelineImages",
@@ -1744,31 +1315,23 @@ function list_image_pipeline_images(
 end
 
 """
-    list_image_pipelines()
-    list_image_pipelines(params::Dict{String,<:Any})
+    list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns a list of image pipelines.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    description
   distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name
       status
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
-function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST",
-        "/ListImagePipelines";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_image_pipelines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function list_image_pipelines(;
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImagePipelines",
@@ -1779,31 +1342,24 @@ function list_image_pipelines(
 end
 
 """
-    list_image_recipes()
-    list_image_recipes(params::Dict{String,<:Any})
+    list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of image recipes.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    name     parentImage
   platform
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 - `"owner"`: The owner defines which image recipes you want to list. By default, this
   request will only show image recipes owned by your account. You can use this field to
   specify if you want to view image recipes owned by yourself, by Amazon, or those image
   recipes that have been shared with you by other customers.
 """
-function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST", "/ListImageRecipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_image_recipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_image_recipes(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImageRecipes",
@@ -1814,33 +1370,26 @@ function list_image_recipes(
 end
 
 """
-    list_images()
-    list_images(params::Dict{String,<:Any})
+    list_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the list of images that you have access to.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"byName"`: Requests a list of images with a specific recipe name.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"by_name"`: Requests a list of images with a specific recipe name.
 - `"filters"`: Use the following filters to streamline results:    name     osVersion
   platform     type     version
-- `"includeDeprecated"`: Includes deprecated images in the response list.
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"include_deprecated"`: Includes deprecated images in the response list.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 - `"owner"`: The owner defines which images you want to list. By default, this request will
   only show images owned by your account. You can use this field to specify if you want to
   view images owned by yourself, by Amazon, or those images that have been shared with you by
   other customers.
 """
-function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST", "/ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function list_images(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_images(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListImages",
@@ -1851,31 +1400,21 @@ function list_images(
 end
 
 """
-    list_infrastructure_configurations()
-    list_infrastructure_configurations(params::Dict{String,<:Any})
+    list_infrastructure_configurations(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns a list of infrastructure configurations.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"filters"`: You can filter on name to streamline results.
-- `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
-  previously truncated response.
+- `"max_results"`: The maximum items to return in a request.
+- `"next_token"`: A token to specify where to start paginating. This is the NextToken from
+  a previously truncated response.
 """
 function list_infrastructure_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "POST",
-        "/ListInfrastructureConfigurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_infrastructure_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/ListInfrastructureConfigurations",
@@ -1886,8 +1425,7 @@ function list_infrastructure_configurations(
 end
 
 """
-    list_tags_for_resource(resource_arn)
-    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Returns the list of tags for the specified resource.
 
@@ -1897,20 +1435,9 @@ end
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "GET",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_tags_for_resource(
-    resourceArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "GET",
         "/tags/$(resourceArn)",
@@ -1921,8 +1448,7 @@ function list_tags_for_resource(
 end
 
 """
-    put_component_policy(component_arn, policy)
-    put_component_policy(component_arn, policy, params::Dict{String,<:Any})
+    put_component_policy(component_arn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Applies a policy to a component. We recommend that you call the RAM API
 CreateResourceShare to share resources. If you call the Image Builder API
@@ -1936,22 +1462,9 @@ order for the resource to be visible to all principals with whom the resource is
 
 """
 function put_component_policy(
-    componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    componentArn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "PUT",
-        "/PutComponentPolicy",
-        Dict{String,Any}("componentArn" => componentArn, "policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_component_policy(
-    componentArn,
-    policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/PutComponentPolicy",
@@ -1968,8 +1481,7 @@ function put_component_policy(
 end
 
 """
-    put_container_recipe_policy(container_recipe_arn, policy)
-    put_container_recipe_policy(container_recipe_arn, policy, params::Dict{String,<:Any})
+    put_container_recipe_policy(container_recipe_arn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies a policy to a container image. We recommend that you call the RAM API
 CreateResourceShare
@@ -1987,22 +1499,9 @@ is shared.
 
 """
 function put_container_recipe_policy(
-    containerRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    containerRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "PUT",
-        "/PutContainerRecipePolicy",
-        Dict{String,Any}("containerRecipeArn" => containerRecipeArn, "policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_container_recipe_policy(
-    containerRecipeArn,
-    policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/PutContainerRecipePolicy",
@@ -2021,8 +1520,7 @@ function put_container_recipe_policy(
 end
 
 """
-    put_image_policy(image_arn, policy)
-    put_image_policy(image_arn, policy, params::Dict{String,<:Any})
+    put_image_policy(image_arn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Applies a policy to an image. We recommend that you call the RAM API CreateResourceShare to
 share resources. If you call the Image Builder API PutImagePolicy, you must also call the
@@ -2036,22 +1534,9 @@ all principals with whom the resource is shared.
 
 """
 function put_image_policy(
-    imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    imageArn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "PUT",
-        "/PutImagePolicy",
-        Dict{String,Any}("imageArn" => imageArn, "policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_image_policy(
-    imageArn,
-    policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/PutImagePolicy",
@@ -2066,8 +1551,7 @@ function put_image_policy(
 end
 
 """
-    put_image_recipe_policy(image_recipe_arn, policy)
-    put_image_recipe_policy(image_recipe_arn, policy, params::Dict{String,<:Any})
+    put_image_recipe_policy(image_recipe_arn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Applies a policy to an image recipe. We recommend that you call the RAM API
 CreateResourceShare to share resources. If you call the Image Builder API
@@ -2081,22 +1565,9 @@ in order for the resource to be visible to all principals with whom the resource
 
 """
 function put_image_recipe_policy(
-    imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+    imageRecipeArn, policy; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "PUT",
-        "/PutImageRecipePolicy",
-        Dict{String,Any}("imageRecipeArn" => imageRecipeArn, "policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function put_image_recipe_policy(
-    imageRecipeArn,
-    policy,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/PutImageRecipePolicy",
@@ -2113,8 +1584,7 @@ function put_image_recipe_policy(
 end
 
 """
-    start_image_pipeline_execution(client_token, image_pipeline_arn)
-    start_image_pipeline_execution(client_token, image_pipeline_arn, params::Dict{String,<:Any})
+    start_image_pipeline_execution(client_token, image_pipeline_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Manually triggers a pipeline to create an image.
 
@@ -2125,24 +1595,12 @@ end
 
 """
 function start_image_pipeline_execution(
-    clientToken, imagePipelineArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return imagebuilder(
-        "PUT",
-        "/StartImagePipelineExecution",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function start_image_pipeline_execution(
     clientToken,
-    imagePipelineArn,
-    params::AbstractDict{String};
+    imagePipelineArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/StartImagePipelineExecution",
@@ -2161,8 +1619,7 @@ function start_image_pipeline_execution(
 end
 
 """
-    tag_resource(resource_arn, tags)
-    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Adds a tag to a resource.
 
@@ -2171,21 +1628,10 @@ end
 - `tags`: The tags to apply to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return imagebuilder(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
-    resourceArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "POST",
         "/tags/$(resourceArn)",
@@ -2196,8 +1642,7 @@ function tag_resource(
 end
 
 """
-    untag_resource(resource_arn, tag_keys)
-    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Removes a tag from a resource.
 
@@ -2207,22 +1652,9 @@ end
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return imagebuilder(
-        "DELETE",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceArn,
-    tagKeys,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "DELETE",
         "/tags/$(resourceArn)",
@@ -2233,8 +1665,7 @@ function untag_resource(
 end
 
 """
-    update_distribution_configuration(client_token, distribution_configuration_arn, distributions)
-    update_distribution_configuration(client_token, distribution_configuration_arn, distributions, params::Dict{String,<:Any})
+    update_distribution_configuration(client_token, distribution_configuration_arn, distributions; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Updates a new distribution configuration. Distribution configurations define and configure
 the outputs of your pipeline.
@@ -2246,7 +1677,7 @@ the outputs of your pipeline.
 - `distributions`: The distributions of the distribution configuration.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The description of the distribution configuration.
 """
 function update_distribution_configuration(
@@ -2254,26 +1685,9 @@ function update_distribution_configuration(
     distributionConfigurationArn,
     distributions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/UpdateDistributionConfiguration",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "distributionConfigurationArn" => distributionConfigurationArn,
-            "distributions" => distributions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_distribution_configuration(
-    clientToken,
-    distributionConfigurationArn,
-    distributions,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/UpdateDistributionConfiguration",
@@ -2294,8 +1708,7 @@ function update_distribution_configuration(
 end
 
 """
-    update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn)
-    update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn, params::Dict{String,<:Any})
+    update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Updates an image pipeline. Image pipelines enable you to automate the creation and
 distribution of images.  UpdateImagePipeline does not support selective updates for the
@@ -2310,19 +1723,20 @@ the properties that have changed.
   configuration that will be used to build images updated by this image pipeline.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"containerRecipeArn"`: The Amazon Resource Name (ARN) of the container pipeline to
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"container_recipe_arn"`: The Amazon Resource Name (ARN) of the container pipeline to
   update.
 - `"description"`: The description of the image pipeline.
-- `"distributionConfigurationArn"`: The Amazon Resource Name (ARN) of the distribution
+- `"distribution_configuration_arn"`: The Amazon Resource Name (ARN) of the distribution
   configuration that will be used to configure and distribute images updated by this image
   pipeline.
-- `"enhancedImageMetadataEnabled"`:  Collects additional information about the image being
-  created, including the operating system (OS) version and package list. This information is
-  used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
-- `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that will be used
-  to configure images updated by this image pipeline.
-- `"imageTestsConfiguration"`: The image test configuration of the image pipeline.
+- `"enhanced_image_metadata_enabled"`:  Collects additional information about the image
+  being created, including the operating system (OS) version and package list. This
+  information is used to enhance the overall experience of using EC2 Image Builder. Enabled
+  by default.
+- `"image_recipe_arn"`: The Amazon Resource Name (ARN) of the image recipe that will be
+  used to configure images updated by this image pipeline.
+- `"image_tests_configuration"`: The image test configuration of the image pipeline.
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
 """
@@ -2331,26 +1745,9 @@ function update_image_pipeline(
     imagePipelineArn,
     infrastructureConfigurationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/UpdateImagePipeline",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "imagePipelineArn" => imagePipelineArn,
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_image_pipeline(
-    clientToken,
-    imagePipelineArn,
-    infrastructureConfigurationArn,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/UpdateImagePipeline",
@@ -2371,8 +1768,7 @@ function update_image_pipeline(
 end
 
 """
-    update_infrastructure_configuration(client_token, infrastructure_configuration_arn, instance_profile_name)
-    update_infrastructure_configuration(client_token, infrastructure_configuration_arn, instance_profile_name, params::Dict{String,<:Any})
+    update_infrastructure_configuration(client_token, infrastructure_configuration_arn, instance_profile_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
  Updates a new infrastructure configuration. An infrastructure configuration defines the
 environment in which your image will be built and tested.
@@ -2385,27 +1781,27 @@ environment in which your image will be built and tested.
   customize your Amazon EC2 AMI.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+Optional parameters can be passed as a keyword argument. Valid keys are:
 - `"description"`: The description of the infrastructure configuration.
-- `"instanceMetadataOptions"`: The instance metadata options that you can set for the HTTP
-  requests that pipeline builds use to launch EC2 build and test instances. For more
+- `"instance_metadata_options"`: The instance metadata options that you can set for the
+  HTTP requests that pipeline builds use to launch EC2 build and test instances. For more
   information about instance metadata options, see one of the following links:    Configure
   the instance metadata options in the  Amazon EC2 User Guide  for Linux instances.
   Configure the instance metadata options in the  Amazon EC2 Windows Guide  for Windows
   instances.
-- `"instanceTypes"`: The instance types of the infrastructure configuration. You can
+- `"instance_types"`: The instance types of the infrastructure configuration. You can
   specify one or more instance types to use for this build. The service will pick one of
   these instance types based on availability.
-- `"keyPair"`: The key pair of the infrastructure configuration. You can use this to log on
-  to and debug the instance used to create your image.
+- `"key_pair"`: The key pair of the infrastructure configuration. You can use this to log
+  on to and debug the instance used to create your image.
 - `"logging"`: The logging configuration of the infrastructure configuration.
-- `"resourceTags"`: The tags attached to the resource created by Image Builder.
-- `"securityGroupIds"`: The security group IDs to associate with the instance used to
+- `"resource_tags"`: The tags attached to the resource created by Image Builder.
+- `"security_group_ids"`: The security group IDs to associate with the instance used to
   customize your Amazon EC2 AMI.
-- `"snsTopicArn"`: The SNS topic on which to send image build events.
-- `"subnetId"`: The subnet ID to place the instance used to customize your Amazon EC2 AMI
+- `"sns_topic_arn"`: The SNS topic on which to send image build events.
+- `"subnet_id"`: The subnet ID to place the instance used to customize your Amazon EC2 AMI
   in.
-- `"terminateInstanceOnFailure"`: The terminate instance on failure setting of the
+- `"terminate_instance_on_failure"`: The terminate instance on failure setting of the
   infrastructure configuration. Set to false if you want Image Builder to retain the instance
   used to configure your AMI if the build or test phase of your workflow fails.
 """
@@ -2414,26 +1810,9 @@ function update_infrastructure_configuration(
     infrastructureConfigurationArn,
     instanceProfileName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return imagebuilder(
-        "PUT",
-        "/UpdateInfrastructureConfiguration",
-        Dict{String,Any}(
-            "clientToken" => clientToken,
-            "infrastructureConfigurationArn" => infrastructureConfigurationArn,
-            "instanceProfileName" => instanceProfileName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_infrastructure_configuration(
-    clientToken,
-    infrastructureConfigurationArn,
-    instanceProfileName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return imagebuilder(
         "PUT",
         "/UpdateInfrastructureConfiguration",

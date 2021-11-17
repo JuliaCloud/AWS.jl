@@ -4,9 +4,25 @@ using AWS.AWSServices: importexport
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "street3" => "street3",
+    "postal_code" => "postalCode",
+    "max_jobs" => "MaxJobs",
+    "name" => "name",
+    "manifest_addendum" => "ManifestAddendum",
+    "state_or_province" => "stateOrProvince",
+    "country" => "country",
+    "apiversion" => "APIVersion",
+    "street2" => "street2",
+    "company" => "company",
+    "marker" => "Marker",
+    "city" => "city",
+    "street1" => "street1",
+    "phone_number" => "phoneNumber",
+)
+
 """
-    cancel_job(job_id)
-    cancel_job(job_id, params::Dict{String,<:Any})
+    cancel_job(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation cancels a specified job. Only the job owner can cancel it. The operation
 fails if the job has already started or is complete.
@@ -15,20 +31,11 @@ fails if the job has already started or is complete.
 - `job_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
 """
-function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return importexport(
-        "CancelJob",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function cancel_job(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function cancel_job(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "CancelJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
@@ -38,8 +45,7 @@ function cancel_job(
 end
 
 """
-    create_job(job_type, manifest, validate_only)
-    create_job(job_type, manifest, validate_only, params::Dict{String,<:Any})
+    create_job(job_type, manifest, validate_only; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation initiates the process of scheduling an upload or download of your data. You
 include in the request a manifest that describes the data transfer specifics. The response
@@ -53,29 +59,18 @@ device.
 - `validate_only`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
-- `"ManifestAddendum"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
+- `"manifest_addendum"`:
 """
-function create_job(
-    JobType, Manifest, ValidateOnly; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return importexport(
-        "CreateJob",
-        Dict{String,Any}(
-            "JobType" => JobType, "Manifest" => Manifest, "ValidateOnly" => ValidateOnly
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_job(
     JobType,
     Manifest,
-    ValidateOnly,
-    params::AbstractDict{String};
+    ValidateOnly;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "CreateJob",
         Dict{String,Any}(
@@ -95,8 +90,7 @@ function create_job(
 end
 
 """
-    get_shipping_label(job_ids)
-    get_shipping_label(job_ids, params::Dict{String,<:Any})
+    get_shipping_label(job_ids; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation generates a pre-paid UPS shipping label that you will use to ship your
 device to AWS for processing.
@@ -105,30 +99,23 @@ device to AWS for processing.
 - `job_ids`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
 - `"city"`:
 - `"company"`:
 - `"country"`:
 - `"name"`:
-- `"phoneNumber"`:
-- `"postalCode"`:
-- `"stateOrProvince"`:
+- `"phone_number"`:
+- `"postal_code"`:
+- `"state_or_province"`:
 - `"street1"`:
 - `"street2"`:
 - `"street3"`:
 """
-function get_shipping_label(jobIds; aws_config::AbstractAWSConfig=global_aws_config())
-    return importexport(
-        "GetShippingLabel",
-        Dict{String,Any}("jobIds" => jobIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_shipping_label(
-    jobIds, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIds; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "GetShippingLabel",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobIds" => jobIds), params));
@@ -138,8 +125,7 @@ function get_shipping_label(
 end
 
 """
-    get_status(job_id)
-    get_status(job_id, params::Dict{String,<:Any})
+    get_status(job_id; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation returns information about a job, including where the job is in the
 processing pipeline, the status of the results, and the signature value associated with the
@@ -149,20 +135,11 @@ job. You can only return information about jobs you own.
 - `job_id`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
 """
-function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return importexport(
-        "GetStatus",
-        Dict{String,Any}("JobId" => JobId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_status(
-    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_status(JobId; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "GetStatus",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("JobId" => JobId), params));
@@ -172,8 +149,7 @@ function get_status(
 end
 
 """
-    list_jobs()
-    list_jobs(params::Dict{String,<:Any})
+    list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 This operation returns the jobs associated with the requester. AWS Import/Export lists the
 jobs in reverse chronological order based on the date of creation. For example if Job Test1
@@ -181,25 +157,20 @@ was created 2009Dec30 and Test2 was created 2010Feb05, the ListJobs operation wo
 Test2 followed by Test1.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
-- `"Marker"`:
-- `"MaxJobs"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
+- `"marker"`:
+- `"max_jobs"`:
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return importexport("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
-function list_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "ListJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
 """
-    update_job(job_id, job_type, manifest, validate_only)
-    update_job(job_id, job_type, manifest, validate_only, params::Dict{String,<:Any})
+    update_job(job_id, job_type, manifest, validate_only; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 You use this operation to change the parameters specified in the original manifest file by
 supplying a new manifest file. The manifest file attached to this request replaces the
@@ -213,8 +184,8 @@ the data transfer starts and you can only use it on jobs you own.
 - `validate_only`:
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"APIVersion"`:
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"apiversion"`:
 """
 function update_job(
     JobId,
@@ -222,27 +193,9 @@ function update_job(
     Manifest,
     ValidateOnly;
     aws_config::AbstractAWSConfig=global_aws_config(),
+    kwargs...,
 )
-    return importexport(
-        "UpdateJob",
-        Dict{String,Any}(
-            "JobId" => JobId,
-            "JobType" => JobType,
-            "Manifest" => Manifest,
-            "ValidateOnly" => ValidateOnly,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_job(
-    JobId,
-    JobType,
-    Manifest,
-    ValidateOnly,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return importexport(
         "UpdateJob",
         Dict{String,Any}(

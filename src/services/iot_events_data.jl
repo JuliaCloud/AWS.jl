@@ -4,9 +4,15 @@ using AWS.AWSServices: iot_events_data
 using AWS.Compat
 using AWS.UUIDs
 
+MAPPING = Dict(
+    "key_value" => "keyValue",
+    "state_name" => "stateName",
+    "next_token" => "nextToken",
+    "max_results" => "maxResults",
+)
+
 """
-    batch_acknowledge_alarm(acknowledge_action_requests)
-    batch_acknowledge_alarm(acknowledge_action_requests, params::Dict{String,<:Any})
+    batch_acknowledge_alarm(acknowledge_action_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Acknowledges one or more alarms. The alarms change to the ACKNOWLEDGED state after you
 acknowledge them.
@@ -17,21 +23,9 @@ acknowledge them.
 
 """
 function batch_acknowledge_alarm(
-    acknowledgeActionRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    acknowledgeActionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "POST",
-        "/alarms/acknowledge",
-        Dict{String,Any}("acknowledgeActionRequests" => acknowledgeActionRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_acknowledge_alarm(
-    acknowledgeActionRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/alarms/acknowledge",
@@ -48,8 +42,7 @@ function batch_acknowledge_alarm(
 end
 
 """
-    batch_disable_alarm(disable_action_requests)
-    batch_disable_alarm(disable_action_requests, params::Dict{String,<:Any})
+    batch_disable_alarm(disable_action_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
 
@@ -59,21 +52,9 @@ Disables one or more alarms. The alarms change to the DISABLED state after you d
 
 """
 function batch_disable_alarm(
-    disableActionRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    disableActionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "POST",
-        "/alarms/disable",
-        Dict{String,Any}("disableActionRequests" => disableActionRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_disable_alarm(
-    disableActionRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/alarms/disable",
@@ -90,8 +71,7 @@ function batch_disable_alarm(
 end
 
 """
-    batch_enable_alarm(enable_action_requests)
-    batch_enable_alarm(enable_action_requests, params::Dict{String,<:Any})
+    batch_enable_alarm(enable_action_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Enables one or more alarms. The alarms change to the NORMAL state after you enable them.
 
@@ -101,21 +81,9 @@ Enables one or more alarms. The alarms change to the NORMAL state after you enab
 
 """
 function batch_enable_alarm(
-    enableActionRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    enableActionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "POST",
-        "/alarms/enable",
-        Dict{String,Any}("enableActionRequests" => enableActionRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_enable_alarm(
-    enableActionRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/alarms/enable",
@@ -132,8 +100,7 @@ function batch_enable_alarm(
 end
 
 """
-    batch_put_message(messages)
-    batch_put_message(messages, params::Dict{String,<:Any})
+    batch_put_message(messages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Sends a set of messages to the AWS IoT Events system. Each message payload is transformed
 into the input you specify (\"inputName\") and ingested into any detectors that monitor
@@ -146,20 +113,10 @@ a successful response.
   \"messageId\": \"string\", \"inputName\": \"string\", \"payload\": \"string\"}'
 
 """
-function batch_put_message(messages; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events_data(
-        "POST",
-        "/inputs/messages",
-        Dict{String,Any}("messages" => messages);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_put_message(
-    messages,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    messages; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/inputs/messages",
@@ -172,8 +129,7 @@ function batch_put_message(
 end
 
 """
-    batch_reset_alarm(reset_action_requests)
-    batch_reset_alarm(reset_action_requests, params::Dict{String,<:Any})
+    batch_reset_alarm(reset_action_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Resets one or more alarms. The alarms return to the NORMAL state after you reset them.
 
@@ -183,21 +139,9 @@ Resets one or more alarms. The alarms return to the NORMAL state after you reset
 
 """
 function batch_reset_alarm(
-    resetActionRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    resetActionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "POST",
-        "/alarms/reset",
-        Dict{String,Any}("resetActionRequests" => resetActionRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_reset_alarm(
-    resetActionRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/alarms/reset",
@@ -214,8 +158,7 @@ function batch_reset_alarm(
 end
 
 """
-    batch_snooze_alarm(snooze_action_requests)
-    batch_snooze_alarm(snooze_action_requests, params::Dict{String,<:Any})
+    batch_snooze_alarm(snooze_action_requests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Changes one or more alarms to the snooze mode. The alarms change to the SNOOZE_DISABLED
 state after you set them to the snooze mode.
@@ -226,21 +169,9 @@ state after you set them to the snooze mode.
 
 """
 function batch_snooze_alarm(
-    snoozeActionRequests; aws_config::AbstractAWSConfig=global_aws_config()
+    snoozeActionRequests; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "POST",
-        "/alarms/snooze",
-        Dict{String,Any}("snoozeActionRequests" => snoozeActionRequests);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function batch_snooze_alarm(
-    snoozeActionRequests,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/alarms/snooze",
@@ -257,8 +188,7 @@ function batch_snooze_alarm(
 end
 
 """
-    batch_update_detector(detectors)
-    batch_update_detector(detectors, params::Dict{String,<:Any})
+    batch_update_detector(detectors; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Updates the state, variable values, and timer settings of one or more detectors (instances)
 of a specified detector model.
@@ -267,20 +197,10 @@ of a specified detector model.
 - `detectors`: The list of detectors (instances) to update, along with the values to update.
 
 """
-function batch_update_detector(detectors; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events_data(
-        "POST",
-        "/detectors",
-        Dict{String,Any}("detectors" => detectors);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_detector(
-    detectors,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    detectors; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "POST",
         "/detectors",
@@ -293,8 +213,7 @@ function batch_update_detector(
 end
 
 """
-    describe_alarm(alarm_model_name)
-    describe_alarm(alarm_model_name, params::Dict{String,<:Any})
+    describe_alarm(alarm_model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Retrieves information about an alarm.
 
@@ -302,23 +221,14 @@ Retrieves information about an alarm.
 - `alarm_model_name`: The name of the alarm model.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"keyValue"`: The value of the key used as a filter to select only the alarms associated
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"key_value"`: The value of the key used as a filter to select only the alarms associated
   with the key.
 """
-function describe_alarm(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events_data(
-        "GET",
-        "/alarms/$(alarmModelName)/keyValues/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_alarm(
-    alarmModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    alarmModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "GET",
         "/alarms/$(alarmModelName)/keyValues/",
@@ -329,8 +239,7 @@ function describe_alarm(
 end
 
 """
-    describe_detector(detector_model_name)
-    describe_detector(detector_model_name, params::Dict{String,<:Any})
+    describe_detector(detector_model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Returns information about the specified detector (instance).
 
@@ -339,25 +248,14 @@ Returns information about the specified detector (instance).
   want information about.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"keyValue"`: A filter used to limit results to detectors (instances) created because of
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"key_value"`: A filter used to limit results to detectors (instances) created because of
   the given key ID.
 """
 function describe_detector(
-    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "GET",
-        "/detectors/$(detectorModelName)/keyValues/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function describe_detector(
-    detectorModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "GET",
         "/detectors/$(detectorModelName)/keyValues/",
@@ -368,8 +266,7 @@ function describe_detector(
 end
 
 """
-    list_alarms(alarm_model_name)
-    list_alarms(alarm_model_name, params::Dict{String,<:Any})
+    list_alarms(alarm_model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists one or more alarms. The operation returns only the metadata associated with each
 alarm.
@@ -378,23 +275,14 @@ alarm.
 - `alarm_model_name`: The name of the alarm model.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token that you can use to return the next set of results.
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned per request.
+- `"next_token"`: The token that you can use to return the next set of results.
 """
-function list_alarms(alarmModelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return iot_events_data(
-        "GET",
-        "/alarms/$(alarmModelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_alarms(
-    alarmModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    alarmModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "GET",
         "/alarms/$(alarmModelName)",
@@ -405,8 +293,7 @@ function list_alarms(
 end
 
 """
-    list_detectors(detector_model_name)
-    list_detectors(detector_model_name, params::Dict{String,<:Any})
+    list_detectors(detector_model_name; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...)
 
 Lists detectors (the instances of a detector model).
 
@@ -415,27 +302,16 @@ Lists detectors (the instances of a detector model).
   listed.
 
 # Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to be returned per request.
-- `"nextToken"`: The token that you can use to return the next set of results.
-- `"stateName"`: A filter that limits results to those detectors (instances) in the given
+Optional parameters can be passed as a keyword argument. Valid keys are:
+- `"max_results"`: The maximum number of results to be returned per request.
+- `"next_token"`: The token that you can use to return the next set of results.
+- `"state_name"`: A filter that limits results to those detectors (instances) in the given
   state.
 """
 function list_detectors(
-    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorModelName; aws_config::AbstractAWSConfig=global_aws_config(), kwargs...
 )
-    return iot_events_data(
-        "GET",
-        "/detectors/$(detectorModelName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function list_detectors(
-    detectorModelName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
+    params = amazonify(MAPPING, kwargs)
     return iot_events_data(
         "GET",
         "/detectors/$(detectorModelName)",
