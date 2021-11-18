@@ -168,10 +168,7 @@ try
                 else
                     write(response_stream, data)
                 end
-                headers = [
-                    "Content-Length" => string(length(data)),
-                ]
-                return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")  # Made up region
+                return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
             end
             config = AWSConfig(; creds=nothing)
             apply(patch) do
