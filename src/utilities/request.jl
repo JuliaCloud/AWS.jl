@@ -169,7 +169,7 @@ function _http_request(http_backend::HTTPBackend, request::Request, response_str
                 http_options...,
             )
         catch e
-            if e isa EOFError
+            if e isa HTTP.IOError && e.e isa EOFError
                 # EOFErrors indicate a broken connection, so don't pass the buffer forward
                 should_write = false
             end
