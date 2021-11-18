@@ -155,6 +155,26 @@ try
         end
     end
 
+    @testset "issue 515" begin
+        # https://github.com/JuliaCloud/AWS.jl/issues/515
+        i == 1
+        data = rand(UInt8, 100)
+        patch = @patch function HTTP.request(args...; response_stream, kwargs...)
+            if i == 1
+                i += 1
+                write(response_stream, rand(UInt8, 34)) # an incomplete stream that shouldn't be retained
+                throw(EOFError())
+            else
+                write(response_stream, data)
+            end
+        end
+        config = AWSConfig(; creds=nothing)
+        apply(patch) do
+            resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+            @test resp == data
+        end
+    end
+
 finally
     S3.delete_bucket(BUCKET_NAME)
 end
