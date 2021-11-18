@@ -1,6 +1,7 @@
 @service S3
 
 BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
+ATTEMPT_NUM = 1 # global for counting retry attempts etc. Should be reset before use for safety
 
 try
     S3.create_bucket(BUCKET_NAME)
@@ -157,11 +158,12 @@ try
 
     @testset "issue 515" begin
         # https://github.com/JuliaCloud/AWS.jl/issues/515
-        i == 1
         data = rand(UInt8, 100)
+        ATTEMPT_NUM = 1 # reset
         patch = @patch function HTTP.request(args...; response_stream, kwargs...)
-            if i == 1
-                i += 1
+            global ATTEMPT_NUM
+            if ATTEMPT_NUM == 1
+                ATTEMPT_NUM += 1
                 write(response_stream, rand(UInt8, 34)) # an incomplete stream that shouldn't be retained
                 throw(EOFError())
             else
