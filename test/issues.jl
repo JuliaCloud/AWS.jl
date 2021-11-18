@@ -1,7 +1,6 @@
 @service S3
 
 BUCKET_NAME = "aws-jl-test-issues---" * _now_formatted()
-ATTEMPT_NUM = 1 # global for counting retry attempts etc. Should be reset before use for safety
 
 try
     S3.create_bucket(BUCKET_NAME)
@@ -156,25 +155,29 @@ try
         end
     end
 
-    @testset "issue 515" begin
-        # https://github.com/JuliaCloud/AWS.jl/issues/515
-        data = rand(UInt8, 100)
-        ATTEMPT_NUM = 0 # reset
-        patch = @patch function HTTP.request(args...; response_stream, kwargs...)
-            global ATTEMPT_NUM
-            ATTEMPT_NUM += 1
-            if ATTEMPT_NUM == 1
-                write(response_stream, rand(UInt8, 34)) # an incomplete stream that shouldn't be retained
-                throw(EOFError())
-            else
-                write(response_stream, data)
+    if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+        @testset "issue 515" begin
+            # https://github.com/JuliaCloud/AWS.jl/issues/515
+            data = rand(UInt8, 100)
+            ATTEMPT_NUM = 0 # reset
+            patch = @patch function HTTP.request(args...; response_stream, kwargs...)
+                @show ATTEMPT_NUM += 1
+                if ATTEMPT_NUM == 1
+                    write(response_stream, rand(UInt8, 34)) # an incomplete stream that shouldn't be retained
+                    throw(HTTP.IOError(EOFError(), "msg"))
+                else
+                    write(response_stream, data)
+                end
+                headers = [
+                    "Content-Length" => string(length(data)),
+                ]
+                return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")  # Made up region
             end
-            return HTTP.Response("")
-        end
-        config = AWSConfig(; creds=nothing)
-        apply(patch) do
-            resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
-            @test resp == data
+            config = AWSConfig(; creds=nothing)
+            apply(patch) do
+                resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+                @test resp == data
+            end
         end
     end
 
