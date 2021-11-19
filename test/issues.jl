@@ -155,26 +155,38 @@ try
         end
     end
 
-    if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
-        @testset "issue 515" begin
-            # https://github.com/JuliaCloud/AWS.jl/issues/515
-            data = rand(UInt8, 100)
-            ATTEMPT_NUM = 0 # reset
-            patch = @patch function HTTP.request(args...; response_stream, kwargs...)
-                @show ATTEMPT_NUM += 1
+    @testset "issue 515" begin
+        # https://github.com/JuliaCloud/AWS.jl/issues/515
+        data = rand(UInt8, 100)
+        ATTEMPT_NUM = 0 # reset
+        patch = if AWS.DEFAULT_BACKEND[] isa AWS.HTTPBackend
+            @patch function HTTP.request(args...; response_stream, kwargs...)
+                ATTEMPT_NUM += 1
                 if ATTEMPT_NUM == 1
-                    write(response_stream, rand(UInt8, 34)) # an incomplete stream that shouldn't be retained
+                    write(response_stream, data[1:end-1]) # an incomplete stream that shouldn't be retained
                     throw(HTTP.IOError(EOFError(), "msg"))
                 else
                     write(response_stream, data)
+                    return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
                 end
-                return HTTP.Response(200, "{\"Location\": \"us-east-1\"}")
             end
-            config = AWSConfig(; creds=nothing)
-            apply(patch) do
-                resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
-                @test resp == data
+        elseif AWS.DEFAULT_BACKEND[] isa AWS.DownloadsBackend
+            @patch function Downloads.request(args...; output, kwargs...)
+                ATTEMPT_NUM += 1
+                if ATTEMPT_NUM == 1
+                    write(output, data[1:end-1]) # an incomplete stream that shouldn't be retained
+                    throw(Downloads.RequestError("", 18, "transfer closed with 1 bytes remaining to read", Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])))
+                else
+                    write(output, data)
+                    return Downloads.Response("http", "", 200, "HTTP/1.1 200 OK", ["content-length" => "64"])
+                end
             end
+        end
+        config = AWSConfig(; creds=nothing)
+        apply(patch) do
+            resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config) # use public bucket as dummy
+            @test length(resp) == length(data)
+            @test resp == data
         end
     end
 
