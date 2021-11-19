@@ -219,7 +219,7 @@ set the `ignored_codes` parameter to prevent exceptions being raised for certain
 function ec2_instance_metadata(path::AbstractString, ignored_codes::Tuple{Vararg{<:Integer}}=())
     uri = HTTP.URI(; scheme="http", host="169.254.169.254", path=path)
     request = try
-        Mocking.@mock HTTP.request("GET", uri; connect_timeout=1)
+        @mock HTTP.request("GET", uri; connect_timeout=1)
     catch e
         if e isa HTTP.ConnectionPool.ConnectTimeout
             nothing
