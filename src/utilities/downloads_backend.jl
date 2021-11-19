@@ -79,16 +79,36 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         # but the first will send an empty payload.
         input !== nothing && seekstart(input)
 
-        response = @mock Downloads.request(
-            request.url;
-            input=input,
-            output=output,
-            method=request.request_method,
-            headers=request.headers,
-            verbose=false,
-            throw=true,
-            downloader=downloader,
-        )
+        # Because Downloads will write incomplete stream failures to the provided output buffer
+        # a sacrificial buffer is needed so that incomplete data can be disgarded
+        buffer = isnothing(output) ? nothing : Base.BufferStream()
+        should_write = true
+        response = try
+            @mock Downloads.request(
+                request.url;
+                input=input,
+                output=buffer,
+                method=request.request_method,
+                headers=request.headers,
+                verbose=false,
+                throw=true,
+                downloader=downloader,
+            )
+        catch e
+            if e isa Downloads.RequestError
+                # EOFErrors indicate a broken connection, so don't pass the buffer forward
+                should_write = false
+            end
+            rethrow()
+        finally
+            if !isnothing(output)
+                close(buffer)
+                # Transfer the contents of the `BufferStream` into `response_stream` variable.
+                # but only if no EOFError error because of a broken connection.
+                # i.e. Multiple EOFError retries shouldn't be passed to the `response_stream`
+                should_write && write(response_stream, buffer)
+            end
+        end
 
         http_response = HTTP.Response(
             response.status, response.headers; body=body_was_streamed, request=nothing
