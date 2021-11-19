@@ -66,7 +66,17 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
     # Record stream state so incomplete writes can be disgarded
-    pos_before = isnothing(output) ? nothing : position(output)
+    before_state, output_seekable = if output !== nothing
+        try
+            pos = position(output)
+            seek(output, pos)
+            pos, true
+        catch
+            bytesavailable(output), false
+        end
+    else
+        nothing, false
+    end
 
     @repeat 4 try
         downloader = @something(backend.downloader, get_downloader())
@@ -82,7 +92,13 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         # but the first will send an empty payload.
         input !== nothing && seekstart(input)
         # Disgard possible incomplete data from previous attempts
-        output !== nothing && seek(output, pos_before)
+        if output !== nothing
+            if output_seekable
+                seek(output, before_state)
+            else
+                read(output, bytesavailable(output) - before_state)
+            end
+        end
 
         response = @mock Downloads.request(
             request.url;
