@@ -65,9 +65,6 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
     # We pass an `input` only when we have content we wish to send.
     input = !isempty(request.content) ? IOBuffer(request.content) : nothing
 
-    # Record stream state so incomplete writes can be disgarded
-    pos_before = isnothing(output) ? nothing : position(output)
-
     @repeat 4 try
         downloader = @something(backend.downloader, get_downloader())
         # set the hook so that we don't follow redirects. Only
@@ -81,8 +78,6 @@ function _http_request(backend::DownloadsBackend, request::Request, response_str
         # We seekstart on every attempt, otherwise every attempt
         # but the first will send an empty payload.
         input !== nothing && seekstart(input)
-        # Disgard possible incomplete data from previous attempts
-        output !== nothing && seek(output, pos_before)
 
         response = @mock Downloads.request(
             request.url;
